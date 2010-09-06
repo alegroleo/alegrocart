@@ -1,0 +1,32 @@
+# Uncomment this to ensure that register_globals is Off
+#php_flag register_globals Off
+
+# URL Alias - see install.txt
+# Prevent access to .tpl
+<Files ~ "\.tpl$">
+Order allow,deny
+Deny from all
+</Files> 
+
+Options +FollowSymlinks
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Uncomment this if your URL is not directly related to the physical file paths.
+# RewriteBase /store/   if store is directory cart is in, eg: www/store/cart
+RewriteBase /
+
+#AlegroCart REWRITES START
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*) index.php/$1 [L,QSA]
+#AlegroCart REWRITES END
+
+</IfModule>
+#Try if you have problems with url alias
+#RewriteRule ^(.*) index.php [L,QSA]
+
+# Focus on one domain - Uncomment to use
+#RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]
+#RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]

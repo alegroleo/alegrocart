@@ -1,0 +1,30 @@
+#download {
+	margin-top: 0px;
+	padding: 10px 5px 0px 5px;
+}
+ 
+#download .a {
+	padding-bottom: 3px;
+}
+
+#download .b {
+	float: left;
+	text-align: left;
+	padding-bottom: 3px;
+}
+
+#download .c {
+	float: right;
+	text-align: right;
+	padding-bottom: 3px;
+}
+
+#download .d {
+	clear: both;
+	border: 1px solid #EEEEEE;
+	margin-bottom: 10px;
+}
+
+#download table {
+	width: 100%;
+}

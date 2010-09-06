@@ -1,0 +1,45 @@
+#contact {
+	margin-top: 0px;
+	padding-top: 10px;
+}
+
+#contact .a {
+	border: 1px solid #EEEEEE;
+	padding: 5px;
+	min-height: 50px; 
+}
+
+#contact > .a  {
+	overflow: auto;
+}
+
+#contact .b {
+	float: left;
+	width: 45%;
+}
+
+#contact .c {
+	float: right;
+	width: 45%;
+}
+
+#contact .c a {
+	color: #000000;
+}
+
+#contact .d {
+	margin-top: 10px;
+	border: 1px solid #EEEEEE;
+	padding: 5px; 
+	clear: both; 
+}
+
+#contact .d table {
+	width: 100%;
+}
+
+#contact .d table textarea {
+	width: 99%; 
+	height: 150px;
+	overflow: auto;
+}

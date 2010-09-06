@@ -1,0 +1,39 @@
+#login .a, #login .g {
+	width: 285px;
+}
+
+#login .a {
+	float: left;
+}
+
+#login .g {
+	float: right;
+}
+
+#login .b, #login .h {
+	font-weight: bold;
+	color: #000000;
+	margin-bottom: 2px;
+}
+
+#login .c, #login .i {
+	border: 1px solid #EEEEEE;
+	padding: 10px;
+	height: 140px;
+}
+
+#login .d, #login .j {
+	margin-top: 12px;
+	_margin-top: 20px;
+}
+
+#login .e, #login .k {
+	margin-top: 20px;
+	_margin-top: 20px;
+}
+
+#login .f, #login .l {
+	margin-top: 12px;
+	_margin-top: 20px;
+	text-align: right;
+}

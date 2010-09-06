@@ -1,0 +1,26 @@
+/* HomePage CSS*/
+.homepage{
+	width: 600px;
+	min-height: 100px;
+}
+.flash{
+	width: 550px;
+	margin-left: 15px;
+
+}
+.home_image{
+	width: 570px;
+	margin-left: 5px;
+	padding: 5px 0px 5px 0px;
+	border: 10px ridge #999999;
+}
+.welcome{
+	width: 550px;
+	margin-left: 15px;
+	padding: 5px 0px 5px 0px;
+}
+.homepage_desc{
+	width: 550px;
+	margin-left: 15px;
+	padding: 5px 0px 5px 0px;
+}

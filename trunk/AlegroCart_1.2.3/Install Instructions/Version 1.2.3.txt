@@ -1,0 +1,17 @@
+Alegro Cart version 1.2.3 (Released under GNU GENERAL PUBLIC LICENSE)
+
+Added 2 column page layout
+New catalog/styles folder layout:
+catalog/styles/yourdirectory
+		/css                     (New for version 1.2.3)  
+		/colors2/  (Color CSS for color specific layout 2 column)
+		/colors3/  (Color CSS for color specific layout 3 column)
+		/css2/		(CSS files for 2 column page layout)
+		/css3/		(CSS files for 3 column page layout)
+	/image/                   
+		/image/colore2/  color folders (color images for 2 column layout)
+		/image/colore3/  color folders (color images for 3 column layout)
+		
+Admin/setting
+	Added page columns. Css and color now dependent on page columns setting.
+	

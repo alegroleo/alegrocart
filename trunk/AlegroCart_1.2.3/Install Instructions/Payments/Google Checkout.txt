@@ -1,0 +1,117 @@
+Google Checkout payment module
+=================================================
+
+The Google Checkout module is a payment extension module.
+
+This payment module sends the order total and order reference to the
+Google Checkout payment gateway, and AlegroCart sets the order status to
+'Paid Unconfirmed'.
+
+Once Google receives the order successfully, it sends
+a 'new-order-notification' message to the AlegroCart web service.
+This event causes AlegroCart to create a new database entry for storing
+AlegroCart's order reference and Google's corresponding order number, so as
+to be able to find the correct order whenever Google posts more
+messages to the AlegroCart web service.
+
+After Google has successfully processed the payment,
+it sends a 'charge-amount-notification' message
+to AlegroCart, which then causes AlegroCart to change the order status from
+'Paid Unconfirmed' to 'pending'.
+
+If Google cancels the order, it sends a 'order-state-change-notification' 
+message, with a new fincancial order state of 'Cancelled', 
+This causes AlegroCart to set its order_status to 'Canceled' and to remove 
+the Google order number from its database.
+
+Make sure the /logs directory is not publicly accessable by using e.g. the following
+access rights:
+
+                                 user    group   other
+
+    /logs                        rwx     r-x     ---
+    /logs/googleerror.log        rw-     r--     ---
+    /logs/googlemessage.log      rw-     r--     ---
+
+
+Use your FTP-client's remote 'chmod' command to change these access rights.
+
+The extensions payment list now includes the new 'Google Checkout' entry.
+Click on the configure-icon (a tool symbol) on the right side.
+
+Enter your configuration values for your Google Checkout details:
+
+	Status: Enabled
+
+	Geo Zone: The name of a geo zone which includes the countries
+	          where customer's are to be given the Google Checkout
+	          payment option during AlegroCart's checkout process.
+
+	Merchant ID:  Google Checkout Merchant ID.
+	              You can find it by logging into your Google Checkout
+	              seller account (http://checkout.google.com/sell/)
+	              and looking it up at Setting > Integration
+
+	Merchant Key: Google Checkout Merchant Key.
+	              You can find it by logging into your Google Checkout
+	              seller account (http://checkout.google.com/sell/)
+	              and looking it up at Setting > Integration
+
+	Sandbox: Yes or No
+	         Choose Yes if your merchant ID and Key refer to a Google
+	         sandbox account, No if it is live merchant account.
+
+	Currency: Select the currency which you selected when you
+	          signed up your Google Checkout seller account.
+	          (Only USD or GBP are available at the time
+	           of writing this document, but Google may extend
+	           its merchant services to other countries in the 
+	           future)
+
+	Sort Order: The position in the list of payment options
+	            AlegroCart presents during the checkout process.
+
+Google Checkout merchant account requirements
+=============================================
+
+In order for AlegroCart to pass on the order total to the
+Google Checkout payment gateway, the store owner has to
+sign up a Google Checkout merchant account and use among others
+the following important settings:
+
+
+Settings > Profile 
+
+Make sure to use the correct entries and URLs pointing to your AlegroCart store for:
+
+	General store information
+	Customer service information
+	Return/Cancellation policy
+	Shipping policy
+
+Settings > Tax setup
+
+This can remain empty, as this AlegroCart payment module will always send
+its own tax table along with the order total to the Google Checkout
+payment gateway. It uses a zero percent tax rate, because the total
+already includes all possible sales taxes as calculated by AlegroCart.
+
+Setting > Integration
+
+This page shows the merchant ID and merchant key which are to be copied
+into AlegroCart's Google Checkout payment extension configuration. 
+
+
+
+Setting > Integration > Shopping cart post security
+
+Turned off
+
+Setting > Integration > API callback URL
+
+http://www.example.com/shop/index.php?controller=checkout_process&action=callback&payment=google
+(assuming your shop is located 'www.example.com/shop', change it to your actual URL)
+
+Setting > Integration > Callback method
+
+HTML

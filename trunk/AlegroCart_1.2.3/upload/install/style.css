@@ -1,0 +1,80 @@
+html, body, form {
+  margin: 0;
+  padding: 0;
+}
+
+body, td, th, input, select, textarea {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #000000;
+}
+
+p,div {
+	padding: 2px 0;
+}
+
+h1 {
+	font-size: 28px;
+	text-align: center;
+	padding: 10px 0;
+}
+
+#container {
+	width: 600px;
+	margin: 0 auto;
+	border: 1px dashed #CCCCCC;
+	padding: 15px;
+}
+
+#header { 
+	padding: 5px;
+	margin: 5px;
+	height: 30px;
+	border: 1px dashed #CCCCCC;
+	font-size: 24px;
+}
+
+#content {
+	padding: 5px;
+	margin: 5px;
+	border: 1px dashed #CCCCCC;	
+}
+
+#footer {
+	padding: 5px;
+	margin: 5px;
+	border: 1px dashed #CCCCCC;
+	text-align: center;
+}
+
+.required {
+	color: #FF0000;
+	margin-right: 5px;
+}
+
+.error {
+	color: #FF0000;
+	display: block;
+	clear: both;
+	line-height: 18px;
+}
+
+.warning {
+	background-color: #FFB3B5;
+	padding: 3px;
+	line-height: 18px;
+}
+
+.good {
+	color: #669900;
+	font-weight: bold;
+}
+
+.bad {
+	color: #FF0000;
+	font-weight: bold;	
+}
+.center {
+	text-align: center;
+	margin: 0 auto;
+}

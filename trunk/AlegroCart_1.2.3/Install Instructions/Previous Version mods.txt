@@ -1,0 +1,246 @@
+Patch 1.0.1 files for AlegroCart V 1.0  Dec 29, 2009
+No database changes or updates
+Just copy files as is.
+
+library/envirionment/generateseo.php
+	Modified generate_url_alias to include optional path
+
+admin/controller/generate_url_alias.php
+	Modified to allow optional path, check setting to ensure URL alias is set
+	
+				category.php
+	Included SEO if url alias is set. SEO is generated for insert, updated, and deleted if category is deleted.
+	
+				manufacturer.php
+	Included SEO if url alias is set. SEO is generated for insert, updated, and deleted if manufacturer is deleted.
+	
+				product.php
+	Included SEO if url alias is set. SEO is generated for insert, updated, and deleted if product is deleted.
+	Included check for unique product name on insert or update with appropriate error messages.
+	
+				home.php
+	Set unique people online value.
+	
+				report_online.php
+	Included individual cart products.
+	Set to show unique IP addresses to eliminate duplication.
+	
+admin/language/english/controller/product.php
+	Error messages for unique product name.
+	
+catalog/controller/product.php
+	added manufacturer breadcrumb code
+
+				  manufacturer.php
+	added breadcrumb code and request code to path
+	
+catalog/extension/module/categoryoptions.php
+						manufactureroptions.php
+						searchoptions.php
+	Added status check and cleaned some code
+	
+language/english/controller/manufacturer.php
+	added support for breadcrumbs
+	
+template/default/content/manufacturer.tpl
+	added breadcrumb code
+	
+Alegro Cart version 1.1 (Released under GNU GENERAL PUBLIC LICENSE)
+
+Modify Mini Cart to display Product and Item totals, added javascript to hide and show cart.
+Files modified
+	javascript/ajax/jqueryadd2cart.js
+	catalog/controller/addtocart.php
+	catalog/extension/module/cart.php
+	calalog/language/english/extension/module/cart.php
+	catalog/template/module/cart.tpl
+	catalog/template/css/default.css
+
+Authorize Net AIM   (Created by Qphoria)
+New files. This is installed, but not enabled.
+	admin/controller/payment_authnetaim.php
+	admin/language/english/controller/payment_authnetaim.php
+	admin/template/default/content/payment_authnetaim.tpl
+	catalog/extension/payment/authnetaim.php
+	catalog/language/english/extension/payment/authnetaim.php
+
+Google Checkout payment module (Created by Juergen Neuhoff)
+New files. This is installed, but not enabled. Read Docs for set up.
+	/admin/controller/payment_google.php
+	/admin/language/english/controller/payment_google.php
+	/admin/template/default/content/payment_google.tpl
+	/catalog/extension/payment/google.php
+	/catalog/language/english/extension/payment/google.php
+	/library/google/library/googlecart.php
+	/library/google/library/googleitem.php
+	/library/google/library/googlelog.php
+	/library/google/library/googlemerchantcalculations.php
+	/library/google/library/googlerequest.php
+	/library/google/library/googleresponse.php
+	/library/google/library/googleresult.php
+	/library/google/library/googleshipping.php
+	/library/google/library/googletax.php
+	/library/google/library/xml-processing/gc_xmlbuilder.php
+	/library/google/library/xml-processing/gc_xmlparser.php
+	/logs/googleerror.log
+	/logs/googlemessage.log
+
+Add Validation for PostCode and Valid MX eMail Host in Account Create
+Files Updated or added
+	catalog/contoller/account_create.php
+	catalog/language/english/controller/account_create.php
+	catalog/template/default/content/account_create.tpl
+	library/mail/mail_check_mx.php
+
+Added RSS Feed link to Header
+Files Updated or Added
+	image/rss.png
+	rss.php
+	catalog/extension/module/header.php
+	catalog/template/default/module/header.tpl
+	catalog/template/default/css/default.css
+
+Modified Country with Enable/Disable all countries
+Files Modified
+	admin/controller/country.php
+	admin/language/english/controller/country.php
+
+Complete upgrade of Homepage module. Adds configurable size for Flash and Flash upload.
+Files Modified
+	common.php
+	admin/controller/homepage.php
+	admin/language/english/controller/homepage.php
+	admin/template/default/content/homepage.tpl
+	catalog/extension/module/homepage.php
+	catalog/template/default/module/homepage.tpl
+
+Modified Install to Include MySQL Error Reporting and proper handeling of Add Columns on duplicate and Drop column if not exist.
+Files Modified
+	install/common.php
+
+Add Model Number
+Files Modified
+	admin/controller/product.php
+					/order.php
+					/report_purchased.php
+		/language/english/controller/product.php
+									/order.php
+									/report_purchased.php
+		/template/default/content/product.tpl
+								 /order.tpl
+								 /report_purchased.tpl
+	catalog/extension/payment/paypal.php
+		   /controller/account_invoice.php
+					 /cart.php
+					 /checkout_confirm.php
+		   /language/english/controller/account_invoice.php
+									   /cart.php
+									   /checkout_confirm.php
+		   /template/default/content/account_invoice.tpl
+									/cart.tpl
+									/checkout.tpl
+									/checkout_email.tpl
+	library/cart/cart.php
+				/order.php
+
+Create Product Options Radio/Select Option for Product Detail and any single column display.
+files Modified
+	admin/controller/setting.php
+					/module_extra_manufacturer.php
+		 /language/english/controller/setting.php
+									 /module_extra_manufacturer.php
+		 /template/default/content/setting.tpl
+								  /module_extra_manufacturer.tpl
+	catalog/javascript/ajax/jqueryadd2cart.js
+		   /controller/product.php
+					  /category.php
+					  /manufacturer.php
+					  /search.php
+		   /template/default/shared/product_options_radio.tpl
+								   /product_options.tpl
+								   /single_column.tpl
+							/content/product.tpl
+
+Fixed permission handeling
+		admin/controller/generate_url_alias.php
+		 /language/english/controller/generate_url_alias.php
+
+Modified SQL to not return if Manufacturer is 0
+	catalog/extension/module/searchoptions.php
+							/categoryoptions.php
+							
+Modified index.php and locator.php to be compatible with PHP5.3
+
+Alegro Cart version 1.2 (Released under GNU GENERAL PUBLIC LICENSE)
+
+This version modifies the catalog template structure.
+	The template now includes the content folder for main controller .tpl files, the module folder for module .tpl files, and
+the shared fored for shared .tpl files.
+	New is the styles folder. This folder contains the css folder and the image folder the were previously in the template folder.
+	
+	The template and styles folders have separate settings in admin allowing you to chose a specific template and a different style.
+	
+MODEL
+The complete catalog has been converted to a true MVC design. You will find models located in folders in the catalog/model folder.
+All controllers in the catalog/controller and catalog/extension/module have been converted to use model database access.
+
+New Security Features
+
+The admin login now has serialized input form that only allows login from that form to prevent CSFR and brute force attacks.
+If a request is made that does now validate from the on site form, a validation error occurs. Login requests are limited to 
+5 attempts before being redirected from login page.
+
+Sensitive data is protected by serizlizing input forms to ensure the form is submited from the local site. This is enabled for all user 
+data in admin and catalog.
+
+There are many display modifications in the catalog system, most notably in the customer account files and product reviews.
+
+Version 1.2.1
+
+The styles folder Now includes a new folder, colors. This folder contains a color.css file for each color
+style available.
+In the image folder there are coresponding color folders that contain images to reflect the color chosen.
+In admin/setting you now have a choice of which template, style and color.
+This reduces the amount of duplicated code and makes things like color change available with one setting.
+CSS is cleaned up to allow easier changes and modifications by the developer.
+
+SEO is completed to now include the review pages.
+
+Alegro Cart version 1.2.2 (Released under GNU GENERAL PUBLIC LICENSE)
+
+Some of the new features in 1.2.2
+PHP 5.3 compatible
+I have replaced all deprciated functions I have found. Common now turns off E_DEPRECATED function.
+For those who wish to test further, you can disable this. I test in stict mode.
+
+Countries and zone sql upgraded thanks to gob33
+
+Admin: 70% of admin is complete re-write.
+
+admin/product: currency formated as per default currency.
+			   automatic SEO modified
+Product options now include weight.
+
+Display modules: latest, featured, specials, related, popular
+		New settings to control description output  for main or alternate description for all displays, 1, 2, 3, 4, and 5 column.
+			(Note: 5 columns will only be usable with 2 column page display.)
+		New settings for image display: image link, link with thickbox enlarge, or link with fancybox enlarge.
+		All modules have setting for default number of columns.
+Setting: New settings for image display: image link, link with thickbox enlarge, or link with fancybox enlarge.
+
+Additional security for backup.
+Zones: zones now sorted by country then by zone. Zone search now searches country as well.
+       This allow searching by country and listing all zones for that country.
+	   
+Catalog:
+All product display modules now support all displays, 1, 2, 3, 4, or 5 column similar to category. (Note 5 column will only work with wider content)
+Display modules are relocatable. At present, modules can be relocated by changing the $location variable in the controller to either content or column.
+    Then the appropriate code in layout can be moved to where you want the display. The next version, 1.2.3 will have a complete template manager that will allow this to be done in admin, as well as other features.
+	
+Products with options will now have the weight modified to reflect options weight, if any exist.
+
+All produuct images can be displyed as a link to product, a link with thickbox enlarge, or a link using fancybox enlarge.
+
+Flash display code is modified.
+
+Payment modules have depreiated funtions replaced and now reflect Quantity discounts and special pricing.

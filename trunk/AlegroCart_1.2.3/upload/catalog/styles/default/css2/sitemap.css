@@ -1,0 +1,18 @@
+/* sitemap */
+#sitemap{
+	min-height: 500px;
+	padding: 5px;
+}
+#sitemap a {
+	text-decoration: none;
+}
+
+#sitemap .a {
+	left: 0px;
+	width: 45%;
+}
+
+#sitemap .b {
+	float: right;
+	width: 45%;
+}

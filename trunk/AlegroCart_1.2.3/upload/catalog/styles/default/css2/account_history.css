@@ -1,0 +1,25 @@
+#history {
+	margin-top: 0px;
+	padding: 10px 5px 5px 5px;
+}
+#history .a {
+	padding-bottom: 3px;
+} 
+#history .b {
+	float: left;
+	text-align: left;
+	padding-bottom: 3px;
+} 
+#history .c {
+	float: right;
+	text-align: right;
+	padding-bottom: 3px;
+}
+#history .d {
+	clear: both;
+	border: 1px solid #EEEEEE;
+	margin-bottom: 10px;
+}
+#history table {
+	width: 100%;
+}

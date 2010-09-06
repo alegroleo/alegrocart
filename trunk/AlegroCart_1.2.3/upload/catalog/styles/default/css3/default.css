@@ -583,7 +583,7 @@ a:hover {
 #success {
 	background: url('../image/success.png') no-repeat;
 	padding-left: 148px;
-	height: 128px;
+	min-height: 128px;
 	padding-top: 15px;
 }
 /* failure */

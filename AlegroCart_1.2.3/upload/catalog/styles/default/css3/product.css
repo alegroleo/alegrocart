@@ -1,0 +1,139 @@
+/* product */
+#product {
+	top: 30px;
+	width: 584px;
+	min-height:280px;
+	padding-bottom: 5px;
+}
+#product .a {
+	float: left;
+	margin-left: 5px;
+	font-size: 10px;
+	text-align: center;
+	cursor: pointer;
+	width: 260px;
+	min-height: 260px;
+	top: 1px;
+}
+#product .b {
+	margin-bottom: 5px;
+}
+/* Options */
+.product_options{
+	padding-top:2px;
+}
+.product_options select{
+	margin-top: 3px;
+}
+
+/* review */
+.review {
+	padding-top: 10px;
+	width: 100%;
+}
+
+.review .a {
+	clear: both;
+	/*border: 1px solid #EEEEEE; 	*/
+	background-color: #FCFCFE;
+}
+
+.review .b {
+	float: left;
+	margin-bottom: 5px;
+}
+
+.review .b a {
+	font-weight: bold;
+	text-decoration: underline;
+	color: #000000;
+}
+
+.review .c {
+	float: right;
+	text-align: right;
+	margin-bottom: 5px;
+}
+
+.review table {
+	text-align: left;
+	width: 100%;
+	margin-bottom: 10px;
+	clear: both;
+}
+.review_write {
+	text-align: center;
+	width: 100%;
+}
+
+.pbox{
+	top: 20px;
+	position:relative;
+	float: right;
+	vertical-align: top;	
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	width: 310px;
+	min-height: 280px;
+	text-align: left;
+}
+
+.buttons select {
+	height: 20px;
+	margin: 3px;
+	padding-bottom: 2px;
+}
+.buttons {
+	left: 0px;
+	border: 0px ;
+	padding-right: 10px;	
+}
+.ponhand{
+	text-align: left;
+	font-size: 11px;
+	padding-top: 5px;
+	padding-bottom: 2px;
+	color: #0000FF;
+	font-weight: bold;
+}
+.price_regular {
+	color: #FF0000;
+	font-size: 12px;
+	text-align: left;
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+.price_new{
+	padding-bottom: 5px;
+}
+.pheading {
+	font-size: 12px;
+	font-weight: 600;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000000;
+	padding-bottom: 2px;
+	clear: both;
+	margin-bottom: 5px;	
+	height: 16px;
+}
+
+.pheading .left {
+	left: 2px;
+	text-align: left;
+}
+.product_total{
+	left: 10px;
+	font-size: 12px;
+	text-align: left;
+	padding-bottom: 5px;
+	font-weight: bold;
+	color: #0000FF;
+}
+.product_total input{
+	text-align: left;
+	font-size: 12px;
+	color: #0000FF;
+	background-color: #FFFFFF;
+	border: 0px;
+	font-weight: bold;
+}

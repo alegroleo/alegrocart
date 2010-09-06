@@ -1,0 +1,132 @@
+/////////////////////////////////
+///      AlegroCart V1.2.3     ///
+///    Install Instruction    ///
+///  http://www.alegrocart.com  ///
+/////////////////////////////////
+
+REQUIREMENTS: 
+
+PHP 5.0 or greater (5.2 recommended))
+Apache Server 2.2 or greater
+MySql Server 5.0 or greater
+
+=============================================================================================
+*** NEW INSTALL  ********
+=============================================================================================
+
+**WARNING** THIS IS FOR FRESH INSTALLS ONLY! YOUR DATABASE WILL BE REMOVED!
+
+INSTALL INSTRUCTIONS:
+
+1. Upload all the entire CONTENTS of the "upload" directory to your web directory.
+   e.g. public_html or public_html/shop/ (see attached Install.jpg)
+
+2. Make sure the following folders and files are writable. For Linux/Unix use the following:
+   chmod a+w image/
+   chmod a+w image/cache/
+   chmod a+w image/flash/
+   chmod a+w cache/
+   chmod a+w download/
+   chmod a+w config.php
+
+3. Make sure you have access to a MySQL server (remember the login name and the password)
+   DO NOT USE YOUR ROOT USERNAME AND ROOT PASSWORD
+
+4. You must create a MySql database called "something" CHARSET=utf8 COLLATE=utf8_unicode_ci.Remember the name.
+
+5. Visit your shop in your web browser and follow the on-screen instructions.
+   e.g. http://www.example.com/ or http://www.example.com/shop/
+
+6. After completting the install process make sure config.php is not writable anymore (just for the owner). 
+   For Linux/Unix use the following: chmod go-w ../config.php
+
+7. Delete the install directory.
+
+===================================================================================================
+****   UPGRADE **********
+===================================================================================================
+
+1. Take a backup of ALL your files and database.
+   For version 1.2.2 or earlier: Make copies of any changes to your modified Template files. These will be deleted in step 3.
+   Login in to admin/settings. Change your template and or styles to default.
+   
+2. Rename config.php to myconfig.php
+   (This is your backup of this file. You can also copy to your local computer for backup.)
+
+3. For upgrade to Version 1.2.3: Delete Admin, Catalog, and library folders. These will be completely replaced.
+   Upload all the entire contents of the "upload" directory to your web directory except config.php and the hidden .htaccess file.
+   The most common problem is the common.php was not uploaded.
+
+4. Restore a copy of config.php if you uploaded empty config.php from distribution.
+
+5. Make sure config.php is writable. 
+   For Linux/Unix use the following: chmod a+w config.php
+
+6. Run install/upgrade.php in your web browser and follow the on-screen instructions.
+   Alternatively, if you login to admin, upgrade will run automatically.The index.php checks the database version against the VERSION in common.php. 
+   If they don’t match, you are redirected to the upgrade.php located in the install directory and the upgrade begins. 
+   When the upgrade is finished, you will receive a message on screen that you have successfully upgraded and to delete the install directory. 
+   If you do not get this message, the upgrade did not complete.
+
+7. After finishing the ungrade process make sure config.php is not writable. 
+   For Linux/Unix use the following: chmod go-w ../config.php
+
+7. Delete the install directory.
+
+You can now include your modified template and Styles to your upgraded site.
+You will have to create your own personal directories.
+
+The new structure is:
+
+catalog/template/yourdirectory/content
+							  /module
+							  /shared
+							  layout.tpl
+							  layout_maintenance.tpl
+catalog/styles/yourdirectory/css                     (New for version 1.2.3)  
+							/colors2/  (Color CSS for color specific layout 2 column)
+							/colors3/  (Color CSS for color specific layout 3 column)
+							/css2/     (CSS files for 2 column page layout)
+							/css3/     (CSS files for 3 column page layout)
+							/image/                   
+							/image/colore2/  color folders (color images for 2 column layout)
+							/image/colore3/  color folders (color images for 3 column layout)
+
+You will have to merge your modifications into the new .tpl files because of structure changes.
+
+=====================
+FURTHER CONFIGURATION
+=====================
+
+URL Alias
+---------
+
+1. To use URL Alias you need to be running apache with mod_rewrite enabled.
+   It is turned off in the download. I would suggest browsing some pages first to ensure .htaccess is set up correctly 
+   before enabling URL Alias.   
+
+2. Ensure you have permissions to use .htaccess, and that it is setup correctly.
+   If you are installing in a sub-directory such as www/shop/ , you need to reflect this path in the .htaccess,
+   so change RewriteBase / to RewriteBase /shop/    
+   This will set your cart root as http://www.example.com/shop/
+
+3. If you have problems loading pages where the file has an underscore such as user_group, this is not a cart problem,
+   but a server security setting. Contact your host to have this reconfigured.
+   
+For any support issues please visit: http://www.alegrocart.com/
+Please join our Community Forum: http://forum.alegrocart.com/
+
+Don't use note pad for editing. Get Note Pad++   http://notepad-plus.sourceforge.net/uk/site.htm 
+
+
+Admin settings.
+--------------
+
+Login to admin/settings.
+Put in your store, email, and local settings.
+
+HomePage
+--------
+
+Home page MODULE should be enabled to allow default meta title and descriptions.
+You can now disable homepage or set number of times to run in admin/HOMEPAGE

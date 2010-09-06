@@ -1,0 +1,91 @@
+#cart .a {
+	width: 100%;
+	clear: both;
+}
+#cart .i {
+	text-align: center;
+	width: 60px;
+	vertical-align: middle;
+}
+#cart .c  {
+	text-align: center;
+	width: 60px;
+	vertical-align: top;
+}
+#cart .b {
+	text-align: center;
+	width: 50px;
+	vertical-align: top;	
+}
+#cart .h {
+	text-align: center;
+	width: 50px;
+	vertical-align: middle;
+}
+#cart .d {
+	text-align: left;
+	vertical-align: top;
+	width: 140px;
+}
+#cart .j {
+	text-align: left;
+	vertical-align: middle;
+	width: 140px; 
+}
+#cart .l{
+	text-align: center;
+	vertical-align: middle;
+}
+#cart .k {
+	text-align: right;
+	color: #FF0000;
+	vertical-align: middle;
+}
+
+#cart .j span {
+	color: #FF0000;
+}
+#cart .f{
+	text-align: center;
+	vertical-align: top;	
+}
+#cart .g,  #cart .e { 
+	padding-left: 5px;
+	text-align: right;
+	vertical-align: top;
+	width: 65px;
+}
+#cart .m {
+	text-align: right;
+	vertical-align: middle;
+}
+#cart .n {
+	right: 0px;
+	text-align: right;
+	clear: both;
+}
+
+#cart .n table {
+	display: inline;
+}
+
+#cart .o {
+	color: #FF0000;
+	clear: both;
+	font-size: 9px;
+	text-align: center;
+}
+.cartprice_old {
+	text-decoration: line-through;
+	text-align: right;
+	font-weight: 200;
+	font-size: 10px;
+}
+
+.cartprice_new {
+	color: #FF0000;
+	font-size: 10px;
+	text-align: right;
+	font-weight: 200;
+	padding-left: 0px;
+}

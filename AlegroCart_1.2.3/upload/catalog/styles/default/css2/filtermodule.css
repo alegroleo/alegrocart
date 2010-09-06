@@ -1,0 +1,20 @@
+@import "../forms/niceforms-default.css";
+
+.left_withpad {
+	float: left;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.filters {
+	clear: both;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 45px;
+	padding-top: 5px;
+	background-color: #EEEEEE;
+	border-top: 1px solid #C6C4C4;
+	border-bottom: 1px solid #C6C4C4;
+}

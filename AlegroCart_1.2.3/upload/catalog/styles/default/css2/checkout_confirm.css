@@ -1,0 +1,57 @@
+#checkout .a, #checkout .b, #checkout .e {
+  border: 1px solid #EEEEEE;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+#checkout .a td {
+  width: 33.3%;
+  vertical-align: top;
+}
+
+#checkout .d {
+  padding-bottom: 3px;
+}
+
+#checkout .a table, #checkout .c {
+  width: 100%;
+}
+
+#checkout .c td {
+  vertical-align: top;
+}
+
+#checkout .f {
+  text-align: right;
+}
+
+#checkout .f table {
+	width: 100%;
+}
+
+#checkout .left {
+  text-align: left;
+}
+
+#checkout .right {
+  text-align: right;
+}
+
+#checkout .center {
+  text-align: center;
+}
+
+.checkout_price_old {
+	text-decoration: line-through;
+	text-align: right;
+	font-weight: 200;
+	font-size: 10px;
+}
+
+.checkout_price_new {
+	color: #FF0000;
+	font-size: 10px;
+	text-align: right;
+	font-weight: 200;
+	padding-left: 0px;
+}

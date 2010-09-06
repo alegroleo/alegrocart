@@ -1,0 +1,434 @@
+html {
+	overflow: -moz-scrollbars-vertical;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body, td, th, input, select, textarea {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+}
+
+img {
+	border: none;
+}
+
+.png {
+	behavior: url('javascript/png/iepngfix.htc');
+}
+
+a:visited {
+	color: #000000;
+}
+
+#header {
+	height: 40px;
+	background-color: #000000;
+	border-bottom: 5px solid #30559C;
+}
+
+#header h1 {
+	font-size: 20px;
+	font-weight: normal;
+	color: #FFFFFF;
+	margin: 0px;
+	position: absolute;
+	top: 6px;
+	left: 15px; 
+}
+
+#header .a {
+	color: #FFFFFF;
+	margin: 12px 25px 0px 0px;
+	float: right;
+}
+
+.task {
+	height: 61px;  
+	clear: both;
+	border-top: 1px solid #FFFFFF; 
+	border-bottom: 1px solid #D5D5D5; 
+	background: #F1F3F5;  
+	padding-left: 2px;
+	_padding-left: 0px;	
+}
+
+.task div {
+	padding: 1px; 
+}
+
+.task div img {
+	display: block;
+	margin: 2px;
+	margin-left: auto;
+	margin-right: auto;
+	clear: both;
+}
+
+.task .enabled, .task .disabled, .hover {
+	float: left;
+	width: 50px;
+	height: 50px;
+	margin: 3px 2px;
+	text-align: center;
+}
+
+.task .enabled {
+	cursor: pointer;
+	border: 1px solid #D5D5D5;
+	color: #333333;
+}
+
+.task .disabled {
+	border: 1px solid #D5D5D5;
+	color: #999999;
+}
+
+.task .hover {
+	cursor: pointer;
+	border: 1px solid #30559C;
+	background-color: #EBF1FC;
+	color: #333333;
+}
+
+#footer {
+	text-align: center;
+	margin: 20px;
+	clear: both;
+	padding-bottom: 10px;
+}
+
+#footer a, #footer a:visited {
+	color: #000000;
+}
+
+#login {
+	background: #EFEFEF;
+}
+
+#login {
+	width: 260px;
+	height: 130px;
+	margin-top: 40px;
+	margin-left: -130px;
+	position: relative;
+	left: 50%;
+	border: 1px solid #D5D5D5;
+}
+
+#login td {
+	vertical-align: top;
+}
+
+#login_form {
+	vertical-align: middle;
+	width: 60%;
+}
+
+form {
+	margin: 0px;
+}
+
+#login_button {
+	background-color: #E0E0E0;
+	border: 1px solid #BBBBBB;
+	font-weight: bold;
+	padding: 3px;
+	margin-top: 5px;
+}
+
+.button {
+	background-color: #E0E0E0;
+	border: 1px solid #BBBBBB;
+	height: 19px;
+}
+
+.home {
+	border: 1px solid #D5D5D5;
+	text-align: center;
+	display: inline;
+	margin: 5px;
+	padding: 3px;
+	background-color: #FFFFFF;
+}
+
+#time {
+	color: #CCCCCC;
+	text-align: center;
+}
+
+.heading {
+	color: #BF3313;
+	font-size: 18px;
+	margin: 10px 0px 0px 20px;
+}
+
+.description {
+	color: #333333;
+	margin: 0px 0px 5px 20px;
+}
+
+#list {
+	padding: 10px;
+}
+
+#list .a {
+	margin-bottom: 5px;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#list .c {
+	text-align: left;	
+}
+
+#list .d {
+	text-align: center;
+}
+
+#list .e {
+	text-align: right;
+}
+
+.list {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.list th {	
+	height: 28px;
+	padding: 0px 4px;
+	border-bottom: 3px solid #30559C;
+	cursor: pointer;
+}
+
+.list td {
+	height: 32px;
+	padding: 0px 4px;
+	vertical-align: middle;	
+	overflow: auto;
+}
+
+.list a {
+	color: #000000;
+	text-decoration: underline;
+}
+
+.list img {
+	border: 0px;
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+.center {
+	text-align: center;
+}
+
+.row1 td, .row2 td, .highlight td, .previous td  {
+	border-bottom: 1px solid #EEEEEE;
+}
+
+.highlight {
+	background-color: #EBF1FC;
+}
+
+.row1 {
+	background-color: #FFFFFF;
+}
+ 
+.row2 {
+	background-color: #F9F9F9;	
+}
+
+.previous {
+	cursor: pointer;
+	background-color: #EBF1FC;	
+}
+
+.rating {
+	color: #FF0000;
+	text-transform: uppercase;
+	font-size: 10px;
+}
+ 
+.box {
+	border: 1px solid #A7A6AA;
+	background: #FFFFFF;
+	overflow: auto;
+	height: 148px;
+	display: block;
+}
+ 
+.box table {
+	width: 100%;
+}
+
+.box table tr td {
+	border-bottom: 1px solid #EEEEEE;
+	cursor: pointer;
+}
+
+.error {
+	color: #FF0000;
+	font-size: 10px;
+	display: block;
+	clear: both;
+}
+
+.required {
+	margin: 0;
+	color: #FF0000;
+	display: inline;
+}
+
+.warning {
+	color: #000000;
+	text-align: center;
+	font-size: 10px;  
+	background-color: #FFB3B5;
+	padding: 3px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.message {
+	color: #000000;
+	text-align: center;
+	font-size: 10px;
+	background-color: #99FF00;
+	padding: 3px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.price_old {
+	text-decoration: line-through;
+}
+
+.price_new {
+	color: #FF0000;
+}
+
+#phpinfo .a, #phpinfo .b {
+	margin: 20px;
+	border: 1px solid #EEEEEE;
+	padding: 10px;
+}
+
+#home .a {
+	float: left;
+	width: 325px;
+	margin-left: 10px;
+}
+
+#home .a table {
+	width: 100%;
+	border-collapse: collapse;  
+}
+
+#home .a table td {
+	text-align: center;
+	cursor: pointer;
+	padding: 10px;
+}
+
+#home .a table img {
+	margin-bottom: 3px;
+}
+
+#home .b {
+	float: left;
+	width: 430px; 
+	margin-left: 10px; 
+}
+
+#home .b table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#home .b table th {
+	border-bottom: 3px solid #30559C;
+	padding: 4px;
+}
+
+#home .b table td {
+	padding: 4px;
+	cursor: pointer;
+}
+
+#home legend {
+	border: 1px solid #EEEEEE;
+	padding: 5px;
+}
+
+#home fieldset {
+	border: 1px solid #EEEEEE;
+	padding: 10px;
+}
+
+#home > .b  > fieldset {
+	margin-bottom: 10px;
+}
+
+#image img {
+	border: 1px solid #CCCCCC;
+}
+
+#mail {
+	margin: 20px 0px 0px 40px;
+}
+
+/* invoice */
+#report_sale {
+	margin-top: 20px;
+	width: 600px;
+	position: relative;
+	left: 50%;
+	margin-left: -300px;
+}
+
+#bar {
+    background-color: #EEEEEE;
+    border-top: 1px solid #CCCCCC; 
+    border-bottom: 1px solid #CCCCCC;
+    padding: 3px 3px 0px 10px;
+    height: 24px;
+}
+.version{
+	float: left;
+	height: 30px;
+	margin-top: 0px;
+	padding-top: 12px;
+	padding-left: 200px;
+	width: 200px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+/* box language */
+.language {
+    float: right;
+    margin-top: 12px;
+    padding-right: 10px;
+}
+
+.language div {
+    display: inline;
+}
+
+.language form {
+    padding: 0;
+    margin: 0;
+    display: inline;
+}

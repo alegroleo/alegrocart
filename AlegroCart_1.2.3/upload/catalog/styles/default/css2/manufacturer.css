@@ -1,0 +1,149 @@
+.manufacturer_module {
+	left: 0px;
+    width: 194px;
+	font-size: 10px;
+	text-align: center;
+	padding-top: 10px;
+	margin-top: 0px;
+	min-height: 20px;
+}
+.manufacturer_module .manufacturer_list{
+	position: relative;
+}
+.manufacturer_filter{
+	left: 0px;
+	width: 780px;
+	min-height: 40px;
+	font-size: 12px;
+	margin: 0px 0px 0px 5px;
+	padding: 0px;	
+}
+.manufacturer_filter .top_entry{
+	left: 0px;
+	min-height: 40px;
+	display: inline;
+	width: 780px;
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+}
+.manufacturer_filter .entry{
+	position: relative;
+	width: 50px;
+	float: left;
+	/*text-align: right;*/
+	margin-right: 20px;
+	top: 10px;
+}
+.manufacturer_filter .left{
+	position: relative;
+	width: 180px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	vertical-align: middle;
+	display: inline;
+	border-right: 1px solid #EEEEEE;
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+}
+.manufacturer_filter .left .data{
+	position: absolute;
+	left: 58px;
+	top: 0px;
+	min-height: 40px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 0px;	
+}
+.manufacturer_filter .floatleft{
+	position: relative;
+	width: 180px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+
+	font-weight: bold;
+	border-right: 1px solid #EEEEEE;
+	margin: 0px;
+	padding: 0px 0px 0px 2px;
+}
+.manufacturer_filter .floatleft .data{
+	position: absolute;
+	left: 54px;
+	min-height: 40px;	
+	top: 0px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 0px;
+}
+.manufacturer_filter .right{
+	position: relative;
+	width: 300px;
+	min-height: 40px;	
+	float: left;
+	top: 0px;
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+}
+/*.manufacturer_filter .right .data{
+	position: absolute;
+	left: 50px;
+	min-height: 30px;	
+	top: 0px;
+	margin: 0px;
+	padding: 0px;
+}*/
+.manufacturer_filter .lowerright{
+	position: relative;
+	width: 200px;
+	float: right;
+	padding-left: 5px;
+}
+.manufacturer_filter .lowerright .data{
+	position: absolute;
+	left: 130px;
+	min-height: 30px;	
+	top: 0px;
+}
+.manufacturer_filter .lowerleft{
+	position: relative;
+	width: 200px;
+	min-height: 40px;
+	float: left;
+	top: 10px;
+	padding-left: 5px;
+	border-right: 1px solid #EEEEEE;	
+}
+.manufacturer_filter .lowerleft .data{
+	position: absolute;
+	left: 130px;
+	top: 0px;
+}
+/* Options */
+.product_options{
+	margin-top:2px;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;	
+}
+.product_options select{
+	margin-top: 2px;
+}
+.product_total{
+	left: 10px;
+	font-size: 12px;
+	text-align: left;
+	padding-bottom: 5px;
+	font-weight: bold;
+	color: #0000FF;
+}
+.product_total input{
+	text-align: left;
+	font-size: 12px;
+	color: #0000FF;
+	background-color: #FFFFFF;
+	border: 0px;
+	font-weight: bold;
+}

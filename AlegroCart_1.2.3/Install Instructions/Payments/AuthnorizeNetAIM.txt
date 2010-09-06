@@ -1,0 +1,23 @@
+AUTHORIZE.NET (AIM) PAYMENT MODULE
+
+What does it do:
+================
+This contrib adds the ability to process credit cards real-time with Authorize.net. It uses the 'Advanced Integration Method', which means your customer never leaves your site during checkout. This is the first official OpenCart module to use the checkout confirmation page with an integrated payment module instead of 3rd party.
+
+
+Requirements:
+==============
+  * You will of course need to have an Authorize.net account for taking credit card payments online.
+  * Since 'Advanced Integration Method' is done at your store, you "should" use an SSL Certificate.
+
+
+Main features:
+==============
+  * All credit card processing is done on your site. Customer never leaves.
+  * Uses creditcard algorithms to verify numbers and dates are valid before processing.
+  * Uses the new error handler on the checkout_confirm page to show any errors
+  * Works Internationally.
+  * Automatically converts all currencies to USD (as that is all that is Authorize.net AIM supports).
+  * Configurable for test and production accounts simultaneously for easy mode switching.
+
+Click the wrench/spanner icon to config.

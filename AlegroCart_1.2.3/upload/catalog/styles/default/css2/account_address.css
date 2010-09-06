@@ -1,0 +1,12 @@
+#address .c, #address .f {
+	border: 1px solid #EEEEEE;
+	padding: 5px;
+	margin-bottom: 10px;
+} 
+
+#address .b, #address .e {
+	margin-bottom: 2px;
+	font-weight: bold;
+	color: #000000;
+	padding: 5px 0px 5px 5px;
+}

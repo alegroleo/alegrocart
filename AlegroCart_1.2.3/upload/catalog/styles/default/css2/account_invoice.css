@@ -1,0 +1,46 @@
+#invoice .a, #invoice .b, #invoice .e {
+	border: 1px solid #EEEEEE;
+	margin-bottom: 10px;
+	padding: 0px 5px 5px 5px;
+}
+ 
+#invoice .a td {
+	width: 33.3%;
+	vertical-align: top;
+}
+
+#invoice .d {
+	padding: 0px 0px 3px 5px;
+}
+
+#invoice .a table, #invoice .c {
+	width: 100%;
+}
+
+#invoice .c td {
+	vertical-align: top;
+}
+
+#invoice .f, #invoice .f table {
+	width: 100%;
+	text-align: right;
+}
+#invoice .f td{
+	width: 80px;
+}
+
+#invoice .left {
+	text-align: left;
+}
+
+#invoice .right {
+	text-align: right;
+}
+
+#invoice .center {
+	text-align: center;
+}
+
+#invoice .g {
+	width: 100%;
+}

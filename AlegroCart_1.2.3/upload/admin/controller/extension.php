@@ -4,6 +4,7 @@ class ControllerExtension extends Controller {
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
+		$this->config 		=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->request 	 	=& $locator->get('request');
@@ -76,6 +77,8 @@ class ControllerExtension extends Controller {
 			$this->session->delete('extension.search');
 		}
 		$this->session->set('extension_type', $this->request->gethtml('type'));
+		$extension_types = array('calculate','payment','shipping');
+		$sort_status = in_array($this->request->gethtml('type'),$extension_types) ? TRUE : FALSE;
 		$cols = array();
 		$cols[] = array(
 			'name'  => $this->language->get('column_name'),
@@ -92,6 +95,12 @@ class ControllerExtension extends Controller {
 			'sort'  => 'e.code',
 			'align' => 'left'
 		);
+		if ($sort_status){
+			$cols[] = array(
+				'name'  => $this->language->get('column_sort_order'),
+				'align' => 'right'
+			);
+		}
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
       		'align' => 'right'
@@ -115,6 +124,13 @@ class ControllerExtension extends Controller {
 				'value' => $result['code'],
 				'align' => 'left'
 			);
+			if ($sort_status){
+				$module_sort = str_replace($this->request->gethtml('type') . '_','' ,$result['controller']);
+				$cell[] = array(
+					'value' => $this->config->get($module_sort . '_sort_order') ? $this->config->get($module_sort . '_sort_order') : '0',
+					'align' => 'right'
+				);
+			}
 			$query = array(
 				'type'         => $this->request->gethtml('type'),
 				'extension_id' => $result['extension_id']

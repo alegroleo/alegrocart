@@ -26,6 +26,12 @@ class Model_Payment extends Model{
 		$result = $this->database->getRows("select * from zone_to_geo_zone where geo_zone_id = '" . (int)$this->config->get('cod_geo_zone_id') . "' and country_id = '" . (int)$this->address->getCountryId($this->session->get('payment_address_id')) . "' and (zone_id = '" . (int)$this->address->getZoneId($this->session->get('payment_address_id')) . "' or zone_id = '0')");
 		return $result;
 	}
+
+	function get_chequestatus(){
+		$result = $this->database->getRows("select * from zone_to_geo_zone where geo_zone_id = '" . (int)$this->config->get('cheque_geo_zone_id') . "' and country_id = '" . (int)$this->address->getCountryId($this->session->get('payment_address_id')) . "' and (zone_id = '" . (int)$this->address->getZoneId($this->session->get('payment_address_id')) . "' or zone_id = '0')");
+		return $result;
+	}
+
 	function get_currency($currency){
 		$result = $this->database->getRow("select value from currency where code = '" . $currency . "'");
 		return $result;

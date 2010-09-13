@@ -7,6 +7,10 @@ class Model_Products extends Model {
 		$this->currency =& $locator->get('currency');
 		$this->config   =& $locator->get('config');
 	}
+	function get_bestseller($bestseller_total){
+		$results = $this->database->getRows("SELECT product.*, order_product.order_product_id, order_product.order_id, SUM(order_product.quantity) as TotalOrdered, product_description.*, image.* FROM product, order_product, order_history, product_description, image WHERE product.product_id = product_description.product_id AND product_description.name = order_product.name AND product.image_id = image.image_id AND product.status ='1' AND product_description.language_id = '" . (int)$this->language->getId() . "' GROUP BY order_product.name ORDER BY TotalOrdered DESC". $bestseller_total);
+		return $results;
+	}
 	function get_popular($popular_total){
 		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available <= now() order by viewed DESC" . $popular_total);
 		return $results;

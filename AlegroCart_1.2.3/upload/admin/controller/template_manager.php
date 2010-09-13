@@ -330,18 +330,18 @@ class ControllerTemplateManager extends Controller {
 				$modules = array('cart', 'language','currency', 'homepage', 'information', 'search','navigation');
 				break;
 			case 'column';
-				$modules = array('cart', 'category', 'currency', 'featured', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'review', 'search', 'specials');
+				$modules = array('bestseller', 'cart', 'category', 'currency', 'featured', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'review', 'search', 'specials');
 				if ($columns ==2){
 					if ($controller == 'search'){$modules[] = 'searchoptions';}
 					if ($controller == 'category'){$modules[] = 'categoryoptions';}
 				}
 				break;
 			case 'content';
-				$modules = array('content', 'featured', 'homepage', 'latest', 'popular', 'specials');
+				$modules = array('content', 'bestseller', 'featured', 'homepage', 'latest', 'popular', 'specials');
 				if ($controller == 'product'){ $modules[] = 'related';}
 				break;
 			case 'columnright';
-				$modules = array('cart', 'currency', 'featured', 'information', 'language', 'latest', 'manufacturer', 'navigation', 'popular', 'review', 'search', 'specials');
+				$modules = array('bestseller', 'cart', 'currency', 'featured', 'information', 'language', 'latest', 'manufacturer', 'navigation', 'popular', 'review', 'search', 'specials');
 				if ($controller == 'product'){ $modules[] = 'related';}
 				if ($controller == 'search'){$modules[] = 'searchoptions';}
 				if ($controller == 'category'){$modules[] = 'categoryoptions';}

@@ -369,7 +369,7 @@ SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'developer' and `key` = 'developer_status';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'developer', 'developer_status', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
-# Start of version 1.2.4
+# Start of version 1.2.4 **************
 # Extension Cheque
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_cheque';
@@ -377,3 +377,13 @@ INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_cheque';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Cheque Payment', 'Offline Payment by Cheque') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#Best Seller Module 
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_bestseller';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(NULL, 'bestseller', 'module', 'module', 'bestseller.php', 'module_extra_bestseller') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_bestseller';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog bestseller', 'Display Best Seller Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;

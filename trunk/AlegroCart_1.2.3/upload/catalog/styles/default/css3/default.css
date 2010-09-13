@@ -296,15 +296,14 @@ a:hover {
 }
 .price_old {
 	text-decoration: line-through;
-	text-align: left;
+	text-align: center; /*left; */
 	font-weight: bold;
 	font-size: 10px;
 }
 .price_new {
 	color: #FF0000;
 	font-size: 11px;
-	text-align: left;
-	padding-left: 2px;
+	text-align: center; /*left; */
 	font-weight: bold;
 }
 .column_row{

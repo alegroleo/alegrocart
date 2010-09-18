@@ -37,6 +37,7 @@ class ControllerShippingZone extends Controller {
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 		$view->set('text_instruction',$this->language->get('text_instruction'));
 		
+		$view->set('entry_module_status', $this->language->get('entry_module_status'));
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_cost', $this->language->get('entry_cost'));
 		$view->set('entry_tax', $this->language->get('entry_tax'));
@@ -92,6 +93,7 @@ class ControllerShippingZone extends Controller {
 		
 		$view->set('geo_zones', $geo_zone_data);
 		
+		
 		if ($this->request->has('global_zone_tax_class_id', 'post')) {
 			$view->set('global_zone_tax_class_id', $this->request->gethtml('global_zone_tax_class_id', 'post'));
 		} else {
@@ -102,6 +104,12 @@ class ControllerShippingZone extends Controller {
 			$view->set('global_zone_sort_order', $this->request->gethtml('global_zone_sort_order', 'post'));
 		} else {
 			$view->set('global_zone_sort_order', @$setting_info['global']['zone_sort_order']);
+		}
+		
+		if ($this->request->has('global_zone_status', 'post')) {
+			$view->set('global_zone_status', $this->request->gethtml('global_zone_status', 'post'));
+		} else {
+			$view->set('global_zone_status', @$setting_info['global']['zone_status']);
 		}	
 
 		$view->set('tax_classes', $this->modelZone->get_tax_classes());

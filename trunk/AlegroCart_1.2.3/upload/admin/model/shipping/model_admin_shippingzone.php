@@ -11,6 +11,7 @@ class Model_Admin_ShippingZone extends Model {
 		$this->database->query("delete from setting where `group` = 'zone'");
 	}
 	function install_zone(){
+		$this->database->query("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_status', value = '0'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_tax_class_id', value = '0'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_sort_order', value = '0'");
 	}
@@ -21,6 +22,7 @@ class Model_Admin_ShippingZone extends Model {
 		foreach ($this->request->gethtml('geo_zone', 'post') as $key => $value) {
 			$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_" . (int)$key . "_status', `value` = '?'", $value['status']));
 		}
+		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_status', `value` = '?'", (int)$this->request->gethtml('global_zone_status', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_tax_class_id', `value` = '?'", (int)$this->request->gethtml('global_zone_tax_class_id', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_sort_order', `value` = '?'", (int)$this->request->gethtml('global_zone_sort_order', 'post')));
 	}

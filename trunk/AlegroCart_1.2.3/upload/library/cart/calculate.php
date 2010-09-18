@@ -6,13 +6,15 @@ class Calculate
 	function __construct(&$locator)
 	{
 		$this->database =& $locator->get('database');
+		$this->config   =& $locator->get('config');
+		
 		$results = $this->database->getRows("select * from extension where type = 'calculate'");
 		foreach ($results as $result)
 		{
 			$file  = DIR_EXTENSION . $result['directory'] . '/' . $result['filename'];
 			$class = 'Calculate' . str_replace('_', '', $result['code']);
 
-			if (file_exists($file))
+			if (file_exists($file) && $this->config->get($result['code'] . '_status'))
 			{
 				require_once($file);
 				$this->data[$result['code']] = new $class($locator);

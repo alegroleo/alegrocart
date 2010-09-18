@@ -10,6 +10,7 @@ $_['text_message']        = 'Success: You have updated extensions!';
 $_['column_name']         = 'Extension Name';
 $_['column_description']  = 'Description';
 $_['column_code']         = 'Code';
+$_['column_status']       = 'Status';
 $_['column_sort_order']   = 'Sort Order';
 $_['column_action']       = 'Action';
 

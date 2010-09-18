@@ -1,11 +1,29 @@
 <?php //AdminModelExtension AlegroCart
 class Model_Admin_Extension extends Model {
+	var $module_status;
 	function __construct(&$locator) {	
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
 		$this->language =& $locator->get('language');
 		$this->request 	=& $locator->get('request');
 		$this->session 	=& $locator->get('session');
+	}
+	function get_module_statuses(){
+		$extensions = $this->database->getRows("select * from extension where type = 'module'");
+		foreach($extensions as $extension){
+			$module = explode('_',$extension['controller']);
+			$module[1] = $module[1] == 'extra' ? 'catalog' : $module[1];
+			$module[1] = $module[2] == 'developer' ? 'global' : $module[1];
+			if (strstr($module[2], 'options')){
+				$start = substr($module[2],0,strpos($module[2],'options'));
+				$module[2] = $start . '_options';
+			}
+			$status = $this->database->getRow("select setting.value from setting where type = '" . $module[1] . "' and `key` = '" . $module[2] . '_status' . "'");
+		    $this->module_status[$extension['controller']] = $status['value'];
+		}
+	}
+	function get_status($controller){
+		return $this->module_status[$controller];
 	}
 	function insert_extension(){
 		$sql = "insert into extension set code = '?', type = '?', directory = '?', filename = '?', controller = '?'";

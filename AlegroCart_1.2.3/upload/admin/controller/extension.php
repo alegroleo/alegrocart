@@ -73,12 +73,18 @@ class ControllerExtension extends Controller {
  
 	function getList() {
 		$this->session->set('extension_validation', md5(time()));
-		if($this->session->get('extension_type') != $this->request->gethtml('type')){
-			$this->session->delete('extension.search');
+        if($this->session->get('extension_type') != $this->request->gethtml('type')){
+            $this->session->delete('extension.search');
+            $this->session->delete('extension.page');
+            $this->session->delete('extension.order');
+            $this->session->delete('extension.sort');
+        }
+        $this->session->set('extension_type', $this->request->gethtml('type'));
+        $extension_types = array('calculate','payment','shipping');
+        $sort_status = in_array($this->request->gethtml('type'),$extension_types) ? TRUE : FALSE;
+		if($sort_status == FALSE){
+			$this->modelExtension->get_module_statuses();
 		}
-		$this->session->set('extension_type', $this->request->gethtml('type'));
-		$extension_types = array('calculate','payment','shipping');
-		$sort_status = in_array($this->request->gethtml('type'),$extension_types) ? TRUE : FALSE;
 		$cols = array();
 		$cols[] = array(
 			'name'  => $this->language->get('column_name'),
@@ -94,6 +100,10 @@ class ControllerExtension extends Controller {
 			'name'  => $this->language->get('column_code'),
 			'sort'  => 'e.code',
 			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_status'),
+			'align' => 'center'
 		);
 		if ($sort_status){
 			$cols[] = array(
@@ -126,6 +136,15 @@ class ControllerExtension extends Controller {
 			);
 			if ($sort_status){
 				$module_sort = str_replace($this->request->gethtml('type') . '_','' ,$result['controller']);
+				$extension_status = $this->config->get($module_sort . '_status');
+			} else {
+			  $extension_status = $this->modelExtension->get_status($result['controller']);
+			}
+			$cell[] = array(
+				'icon'  => ($extension_status ? 'enabled.png' : 'disabled.png'),
+				'align' => 'center'
+			);
+			if ($sort_status){
 				$cell[] = array(
 					'value' => $this->config->get($module_sort . '_sort_order') ? $this->config->get($module_sort . '_sort_order') : '0',
 					'align' => 'right'

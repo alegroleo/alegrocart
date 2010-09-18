@@ -6,7 +6,7 @@ class Model_Admin_Backup extends Model {
 		$this->language =& $locator->get('language');
 	}
 	function import_file($name){
-		$this->database->import($file['tmp_name']);
+		$this->database->import($name);
 	}
 	function export_file(){
 		$result = $this->database->export();

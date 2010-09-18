@@ -387,3 +387,7 @@ SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_bestseller';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
 (@id, @lid, 'Catalog bestseller', 'Display Best Seller Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+# Zone shipping Status
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'zone' and `key` = 'zone_status';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'zone', 'zone_status', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;

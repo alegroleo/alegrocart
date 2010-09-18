@@ -20,6 +20,13 @@
       <div class="page">
         <div class="pad">
           <table>
+		    <tr>
+			  <td><?php echo $entry_module_status;?></td>
+			  <td><select name="global_zone_status">
+			    <option value="1"<?php if($global_zone_status){echo ' selected';}?>><?php echo $text_enabled; ?></option>
+				<option value="0"<?php if(!$global_zone_status){echo ' selected';}?>><?php echo $text_disabled; ?></option>
+			  </select></td>
+			</tr>
             <?php foreach ($geo_zones as $geo_zone) { ?>
             <tr>
               <td><?php echo $geo_zone['name']; ?> <?php echo $entry_status; ?></td>

@@ -300,6 +300,9 @@ class ControllerCountry extends Controller {
         if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,32)) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
+		if ($this->config->get('config_country_id') == $this->request->gethtml('country_id') && $this->request->gethtml('country_status', 'post') == FALSE) {
+			$this->error['message'] = $this->language->get('error_default');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {

@@ -95,7 +95,7 @@ class Model_Admin_Setting extends Model {
 		return $results;
 	}
 	function get_countries(){
-		$results = $this->database->cache('country', "select country_id, name from country order by name");
+		$results = $this->database->cache('country', "select country_id, name from country where country_status = '1' order by name");
 		return $results;
 	}
 	function get_zones(){
@@ -119,7 +119,7 @@ class Model_Admin_Setting extends Model {
 		return $results;
 	}
 	function get_country_zones(){
-		$results = $this->database->cache('zone-' . (int)$this->request->gethtml('country_id'), "select zone_id, name from zone where country_id = '" . (int)$this->request->gethtml('country_id') . "' order by name");
+		$results = $this->database->cache('zone-' . (int)$this->request->gethtml('country_id'), "select zone_id, name from zone where country_id = '" . (int)$this->request->gethtml('country_id') . "' and zone_status = '1' order by name");
 		return $results;
 	}
 }

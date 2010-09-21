@@ -400,3 +400,11 @@ INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_moneyorder';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Money Order Payment', 'Offline Payment by Money Order') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#extension Paymate
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_paymate';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'paymate', 'payment', 'payment', 'paymate.php', 'payment_paymate') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_paymate';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Paymate', 'Paymate Gateway') ON DUPLICATE KEY UPDATE extension_id=extension_id;

@@ -12,7 +12,7 @@ class Model_Admin_PaymentAuthnetaim extends Model {
 	}
 	function install_AIM(){
 		// Add Order status 99 "Needs Payment Review" if not exist.
-        $this->database->query("replace into order_status(order_status_id, language_id, name) values ('99', '1', 'Paid Unconfirmed')");
+        //$this->database->query("replace into order_status(order_status_id, language_id, name) values ('99', '1', 'Paid Unconfirmed')");
         $this->database->query("insert into setting set type = 'global', `group` = 'authnetaim', `key` = 'authnetaim_status', value = '0'");
         $this->database->query("insert into setting set type = 'global', `group` = 'authnetaim', `key` = 'authnetaim_geo_zone_id', value = '0'");
         $this->database->query("insert into setting set type = 'global', `group` = 'authnetaim', `key` = 'authnetaim_sendemail', value = 'FALSE'");

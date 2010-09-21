@@ -18,7 +18,6 @@ SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_authnetaim
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Authorize.Net (AIM)', 'Authorize.Net (AIM)') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 
 #Settings AuthorizeNet
-REPLACE INTO `order_status` (`order_status_id`, `language_id`, `name`) VALUES ('99', @lid, 'Paid Unconfirmed');
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'authnetaim' and `key` = 'authnetaim_status';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'authnetaim', 'authnetaim_status', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
@@ -408,3 +407,6 @@ INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_paymate';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Paymate', 'Paymate Gateway') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#Remove Orderstatus 99
+DELETE FROM `order_status` WHERE `order_status_id` = '99' AND `language_id` = '1';

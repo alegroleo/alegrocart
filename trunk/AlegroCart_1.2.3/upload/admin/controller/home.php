@@ -8,6 +8,7 @@ class ControllerHome extends Controller {
 		$this->module		=& $locator->get('module');
 		$this->response 	=& $locator->get('response');
 		$this->template 	=& $locator->get('template');
+		$this->session		=& $locator->get('session');
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelHome = $model->get('model_admin_home');
@@ -92,6 +93,7 @@ class ControllerHome extends Controller {
         		'href'       => $this->url->ssl('order', 'update', array('order_id' => $result['order_id']))
       		);
     	}
+		if($results){ $this->session->set('order_validation', md5(time()));}
     	$view->set('latest_orders', $order_data);
 
     	$review_data = array();
@@ -105,6 +107,7 @@ class ControllerHome extends Controller {
         		'href'    => $this->url->ssl('review', 'update', array('review_id' => $result['review_id'])),
       		);
     	}
+		if($results){ $this->session->set('review_validation', md5(time()));}
     	$view->set('latest_reviews', $review_data);
 
 		$this->template->set('content', $view->fetch('content/home.tpl')); 

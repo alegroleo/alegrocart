@@ -117,9 +117,15 @@ class ControllerCategory extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-
+  
 	function getList() {
 		$this->session->set('category_validation', md5(time()));
+		if($this->session->get('category_path') != $this->request->gethtml('path')){
+			$this->session->delete('category.search');
+			$this->session->delete('category.order');
+			$this->session->delete('category.sort');
+		}	
+		$this->session->set('category_path',$this->request->gethtml('path'));
 		$cols = array();
 		$cols[] = array(
 			'name'  => $this->language->get('column_category'),
@@ -419,24 +425,7 @@ class ControllerCategory extends Controller {
 			return FALSE;
 		}
 	}
-		
-  	function page() {
-		$this->session->delete('category.search');
-		if ($this->request->has('search', 'post') && $this->request->gethtml('search','post') != '') {
-	  		$this->session->set('category.search', $this->request->gethtml('search', 'post'));
-		}
-		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
-			$this->session->set(($this->request->has('path') ? 'category.' . $this->request->gethtml('path') . '.page' : 'category.page'), $this->request->gethtml('page', 'post'));
-		}
-		if ($this->request->has('sort', 'post')) {
-			$this->session->set('category.order', (($this->session->get('category.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('category.order') == 'asc') ? 'desc' : 'asc'));
-		}
-		if ($this->request->has('sort', 'post')) {
-			$this->session->set('category.sort', $this->request->gethtml('sort', 'post'));
-		} 
-		
-		$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
-  	} 
+	
 	function category_seo($category_id, $path){
 		$this->language_id = (int)$this->language->getId();
 		$categories = explode('_', $path);
@@ -455,5 +444,23 @@ class ControllerCategory extends Controller {
 		$query_path = 'controller=category&path=' . $path;
 		$this->modelCategory->delete_SEO($query_path);
 	}
+	
+	  	function page() {
+		$this->session->delete('category.search');
+		if ($this->request->has('search', 'post') && $this->request->gethtml('search','post') != '') {
+	  		$this->session->set('category.search', $this->request->gethtml('search', 'post'));
+		}
+		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
+			$this->session->set(($this->request->has('path') ? 'category.' . $this->request->gethtml('path') . '.page' : 'category.page'), $this->request->gethtml('page', 'post'));
+		}
+		if ($this->request->has('sort', 'post')) {
+			$this->session->set('category.order', (($this->session->get('category.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('category.order') == 'asc') ? 'desc' : 'asc'));
+		}
+		if ($this->request->has('sort', 'post')) {
+			$this->session->set('category.sort', $this->request->gethtml('sort', 'post'));
+		} 
+		
+		$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
+  	} 
 }
 ?>

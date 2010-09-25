@@ -2,8 +2,6 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="home">
   <div class="a">
-    <fieldset>
-    <legend><?php echo $text_stats; ?></legend>
     <table>
       <tr>
         <td onclick="location='<?php echo $online; ?>'"><img src="template/<?php echo $this->directory?>/image/online.png" class="png"><br>
@@ -15,8 +13,6 @@
         <td onclick="location='<?php echo $order; ?>'"><img src="template/<?php echo $this->directory?>/image/order.png" class="png"><br>
           <?php echo $text_order; ?><br>
           <?php echo $orders; ?></td>
-      </tr>
-      <tr>
         <td onclick="location='<?php echo $product; ?>'"><img src="template/<?php echo $this->directory?>/image/product.png" class="png"><br>
           <?php echo $text_product; ?><br>
           <?php echo $products; ?></td>
@@ -26,8 +22,6 @@
         <td onclick="location='<?php echo $review; ?>'"><img src="template/<?php echo $this->directory?>/image/review.png" class="png"><br>
           <?php echo $text_review; ?><br>
           <?php echo $reviews; ?></td>
-      </tr>
-      <tr>
         <td onclick="location='<?php echo $language; ?>'"><img src="template/<?php echo $this->directory?>/image/language.png" class="png"><br>
           <?php echo $text_language; ?><br>
           <?php echo $languages; ?></td>
@@ -39,7 +33,6 @@
           <?php echo $countries; ?></td>
       </tr>
     </table>
-    </fieldset>
   </div>
   <div class="b">
     <fieldset>

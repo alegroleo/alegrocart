@@ -63,7 +63,7 @@ class Model_Admin_Tpl_Manager extends Model {
 		} else {
 			$sql = "select tpl_manager_id, tpl_controller, tpl_columns, tpl_color, tpl_status from tpl_manager where tpl_controller like '?'";
 		}
-		$sort = array('tpl_controller', 'tpl_columns', 'tpl_status');
+		$sort = array('tpl_controller', 'tpl_columns', 'tpl_color', 'tpl_status');
 		if(in_array($this->session->get('tpl.sort'), $sort)){
 			$sql .= " order by " . $this->session->get('tpl.sort') . " " . (($this->session->get('tpl.order') == 'desc') ? 'desc' : 'asc');
 		} else {

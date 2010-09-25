@@ -204,7 +204,23 @@ class ControllerExtension extends Controller {
 		$view = $this->locator->create('template');
 
 		$view->set('heading_title', $this->language->get('heading_title'));
-		$view->set('heading_description', $this->language->get('heading_description'));
+		switch ($this->request->gethtml('type')){
+			case 'payment':
+				$view->set('heading_description', $this->language->get('heading_payment'));
+				break;
+			case 'shipping':
+				$view->set('heading_description', $this->language->get('heading_shipping'));
+				break;
+			case 'calculate':
+				$view->set('heading_description', $this->language->get('heading_calculate'));
+				break;
+			case 'module':
+				$view->set('heading_description', $this->language->get('heading_module'));
+				break;
+			default:
+				$view->set('heading_description', $this->language->get('heading_description'));
+				break;
+			}
 
 		$view->set('text_results', $this->modelExtension->get_text_results());
 

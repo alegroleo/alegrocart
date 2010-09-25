@@ -86,7 +86,7 @@ class ControllerTemplateManager extends Controller {
 		$cols = array();
 		$cols[] = array(
 			'name'	=> $this->language->get('column_controller'),
-			'sort'  => 'controller',
+			'sort'  => 'tpl_controller',
 			'align' => 'left'
 		);
 		$cols[] = array(
@@ -507,12 +507,16 @@ class ControllerTemplateManager extends Controller {
 		if ($this->request->has('search', 'post')) {
 	  		$this->session->set('tpl.search', $this->request->gethtml('search', 'post'));
 		}
-	 
 		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
 	  		$this->session->set('tpl.page', $this->request->gethtml('page', 'post'));
-		} 
-
-		$response->redirect($url->ssl('template_manager'));	
+		}
+		if ($this->request->has('sort', 'post')) {
+	  		$this->session->set('tpl.order', (($this->session->get('tpl.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('tpl.order') == 'asc') ? 'desc' : 'asc'));
+		}
+		if ($this->request->has('sort', 'post')) {
+			$this->session->set('tpl.sort', $this->request->gethtml('sort', 'post'));
+		}
+		$this->response->redirect($this->url->ssl('template_manager'));	
 	
 	}
 

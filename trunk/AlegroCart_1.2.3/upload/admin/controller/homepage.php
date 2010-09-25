@@ -101,24 +101,7 @@ class ControllerHomepage extends Controller {
       		'align' => 'right'
     	);
 		
-		if (!$this->session->get('homepage.search')){
-			$sql = "select h.home_id, h.name, h.status, hd.title, i.filename from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on (hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "'";
-		} else {
-			$sql = "select h.home_id, h.name, h.status, hd.title, i.filename from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on (hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "' and h.name like '?'";
-		}
-		$sort = array(
-			'h.name',
-			'h.status',
-			'hd.title',
-			'i.filename'
-		);
-		if(in_array($this->session->get('home.sort'), $sort)){
-			$sql .= " order by " . $this->session->get('home.sort'). " " . (($this->session->get('home.order') == 'desc') ? 'desc' : 'asc');
-		} else {
-			$sql .= " order by h.name asc";
-		}
-		
-		$results = $this->modelAdminHomepage->get_page($sql);
+		$results = $this->modelAdminHomepage->get_page();
 		
 		$rows = array();
     	foreach ($results as $result) {
@@ -186,7 +169,7 @@ class ControllerHomepage extends Controller {
 		$view->set('action_delete', $this->url->ssl('homepage', 'enableDelete'));
 		
     	$view->set('search', $this->session->get('homepage.search'));
-		$view->set('sort', $this->session->get('home.sort'));
+		$view->set('sort', $this->session->get('homepage.sort'));
     	$view->set('order', $this->session->get('homepage.order'));
     	$view->set('page', $this->session->get('homepage.page'));
     	$view->set('cols', $cols);
@@ -404,18 +387,7 @@ class ControllerHomepage extends Controller {
 	  		return FALSE;
 		}
 	}
-  	function page() {
-
-		if ($this->request->has('search', 'post')) {
-	  		$this->session->set('homepage.search', $this->request->gethtml('search', 'post'));
-		}
-	 
-		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
-	  		$this->session->set('homepage.page', (int)$this->request->gethtml('page', 'post'));
-		} 
-
-		$response->redirect($url->ssl('homepage'));	
-	}
+  	
 	function flash_upload(){
 
 		if ($this->user->hasPermission('modify', 'homepage')) {
@@ -442,6 +414,22 @@ class ControllerHomepage extends Controller {
 		}
 		$output .= '</select>';
 		$this->response->set($output);
+	}
+	function page() {
+
+		if ($this->request->has('search', 'post')) {
+	  		$this->session->set('homepage.search', $this->request->gethtml('search', 'post'));
+		}
+		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
+	  		$this->session->set('homepage.page', (int)$this->request->gethtml('page', 'post'));
+		} 
+		if ($this->request->has('sort', 'post')) {
+	  		$this->session->set('homepage.order', (($this->session->get('homepage.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('homepage.order') == 'asc') ? 'desc' : 'asc'));
+		}
+		if ($this->request->has('sort', 'post')) {
+			$this->session->set('homepage.sort', $this->request->gethtml('sort', 'post'));
+		}
+		$this->response->redirect($this->url->ssl('homepage'));	
 	}
 }
 ?>

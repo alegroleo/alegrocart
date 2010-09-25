@@ -104,7 +104,7 @@ class ControllerHome extends Controller {
         		'author'  => $result['author'],
         		'rating'  => $result['rating'],
         		'status'  => $result['status'],
-        		'href'    => $this->url->ssl('review', 'update', array('review_id' => $result['review_id'])),
+        		'href'    => $this->url->ssl('review', 'update', array('review_id' => $result['review_id']))
       		);
     	}
 		if($results){ $this->session->set('review_validation', md5(time()));}

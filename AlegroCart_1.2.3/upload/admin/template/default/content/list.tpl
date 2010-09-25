@@ -59,6 +59,7 @@
         <?php } ?>
         <?php } else { ?>
         <?php if (isset($col['sort'])) { ?>
+		<span style="color: #0099FF;">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" onclick="this.submit();">
           <?php echo $col['name']; ?>
           <?php if ($sort == $col['sort']) { ?>
@@ -70,6 +71,7 @@
           <?php } ?>
           <input type="hidden" name="sort" value="<?php echo $col['sort']; ?>">
         </form>
+		</span>
         <?php } ?>
         <?php } ?>
       </th>

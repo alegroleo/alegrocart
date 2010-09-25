@@ -63,7 +63,7 @@ class Model_Admin_Coupon extends Model {
 		if (!$this->session->get('coupon.search')) {
       		$sql = "select c.coupon_id, cd.name, c.code, c.discount, c.prefix, c.date_start, c.date_end, c.status from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '" . (int)$this->language->getId() . "'";
     	} else {
-      		$sql = "select c.coupon_id, cd.name, c.code, c.discount, c.prefix, c.date_start, c.date_end, c.status from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '" . (int)$this->language->getId() . "' and (cd.name like '?' or c.code or like = '?')";
+      		$sql = "select c.coupon_id, cd.name, c.code, c.discount, c.prefix, c.date_start, c.date_end, c.status from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '" . (int)$this->language->getId() . "' and (cd.name like '?' or c.code like '?')";
     	}
 		$sort = array('cd.name', 'c.code', 'c.discount', 		'c.prefix', 'c.date_start', 'c.date_end', 'c.status');
     	if (in_array($this->session->get('coupon.sort'), $sort)) {

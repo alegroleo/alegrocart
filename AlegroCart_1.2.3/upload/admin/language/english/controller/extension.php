@@ -1,6 +1,10 @@
 <?php
 // Heading
 $_['heading_title']       = 'Extensions';
+$_['heading_calculate'] = 'You can add / remove calculate extensions here.';
+$_['heading_payment'] = 'You can add / remove payment extensions here.';
+$_['heading_shipping'] = 'You can add / remove shipping extenions here.';
+$_['heading_module'] = 'You can add / remove modules here.';
 $_['heading_description'] = 'You can add / remove extensions here.';
 
 // Text

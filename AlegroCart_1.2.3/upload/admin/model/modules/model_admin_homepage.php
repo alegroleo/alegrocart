@@ -71,7 +71,18 @@ class Model_Admin_Homepage extends Model {
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
 	}
-	function get_page($sql){
+	function get_page(){
+		if (!$this->session->get('homepage.search')){
+			$sql = "select h.home_id, h.name, h.status, hd.title, i.filename from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on (hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "'";
+		} else {
+			$sql = "select h.home_id, h.name, h.status, hd.title, i.filename from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on (hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "' and h.name like '?'";
+		}
+		$sort = array('h.name',	'h.status',	'hd.title',	'i.filename');
+		if(in_array($this->session->get('homepage.sort'), $sort)){
+			$sql .= " order by " . $this->session->get('homepage.sort'). " " . (($this->session->get('homepage.order') == 'desc') ? 'desc' : 'asc');
+		} else {
+			$sql .= " order by h.name asc";
+		}
 		$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('homepage.search') . '%'), $this->session->get('homepage.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}

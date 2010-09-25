@@ -230,7 +230,6 @@ class ControllerProduct extends Controller {
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_featured'),
-			'sort'  => 'p.featured',
 			'align' => 'center'
 		);		
     	$cols[] = array(
@@ -290,6 +289,7 @@ class ControllerProduct extends Controller {
 			$featured_special = "";
 			$featured_special .= $result['featured'] ? " F " : "";
 			$featured_special .= $result['special_offer'] ? " S " : "";
+			$featured_special .= $result['related'] ? " R " : "";
 			$cell[] = array(
 				'value' => $featured_special,
 				'align' => 'center'

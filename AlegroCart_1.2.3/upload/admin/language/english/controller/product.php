@@ -15,13 +15,13 @@ $_['text_unique']          = 'The Item or Product Name must be unique';
 $_['column_options']       = 'Options';
 $_['column_name']          = 'Product Name';
 $_['column_price']         = 'Price'; // New
-$_['column_dated_special'] = 'Dated Special'; //New
+$_['column_dated_special'] = 'Dated<br>Special'; //New
 $_['column_stock']         = 'Stock'; // New
 $_['column_weight']        = 'Weight'; // New
 $_['column_image']         = 'Image'; // New
 $_['column_model']         = 'Model';
-$_['column_featured']      = 'Featured Specials'; // New 
-$_['column_sort_order']    = 'Sort Order';
+$_['column_featured']      = 'Featured<br>Specials'; // New 
+$_['column_sort_order']    = 'Sort<br>Order';
 $_['column_status']        = 'Status';
 $_['column_action']        = 'Action';
 

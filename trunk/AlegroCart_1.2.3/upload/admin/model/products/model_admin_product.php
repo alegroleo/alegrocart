@@ -97,9 +97,9 @@ class Model_Admin_Product extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('product.search')) {
-            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, pd.model, p.sort_order, p.status, p.special_price, p.featured, p.special_offer, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "'";
+            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, pd.model, p.sort_order, p.status, p.special_price, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "'";
        } else {
-            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, pd.model, p.sort_order, p.status, p.special_price, p.featured, p.special_offer, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and pd.name like '?'";
+            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, pd.model, p.sort_order, p.status, p.special_price, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and pd.name like '?'";
        }
 		$sort = array('pd.name', 'p.price', 'p.quantity', 'p.weight', 'pd.model', 'p.sort_order', 'p.featured', 'p.status',	'p.special_price', 'i.filename');
     	if (in_array($this->session->get('product.sort'), $sort)) {

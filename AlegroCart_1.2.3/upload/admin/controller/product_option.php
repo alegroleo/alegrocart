@@ -97,7 +97,7 @@ class ControllerProductOption extends Controller {
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_weight'),
-			'sort'  => 'p2o.weight',
+			'sort'  => 'p2o.option_weight',
 			'align' => 'right'
 		);
 		$cols[] = array(

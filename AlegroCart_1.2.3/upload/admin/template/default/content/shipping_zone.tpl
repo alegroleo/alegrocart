@@ -42,7 +42,7 @@
             </tr>
             <tr>
               <td width="185"><?php echo $geo_zone['name']; ?> <?php echo $entry_cost; ?></td>
-              <td><input size="120" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][cost]" value="<?php echo $geo_zone['cost']; ?>"></td>
+              <td><input size="100" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][cost]" value="<?php echo $geo_zone['cost']; ?>"></td>
             </tr>
             <?php } ?>
             <tr>

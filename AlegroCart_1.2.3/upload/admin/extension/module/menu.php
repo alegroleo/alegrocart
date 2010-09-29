@@ -11,7 +11,7 @@ class ModuleMenu extends Controller {
        	
 	  		$view = $this->locator->create('template');
 
-      		$view->set('text_admin', $language->get('text_admin'));
+      		$view->set('text_system', $language->get('text_system'));
     	  	$view->set('text_configuration', $language->get('text_configuration'));
       		$view->set('text_users', $language->get('text_users'));
       		$view->set('text_localisation', $language->get('text_localisation'));

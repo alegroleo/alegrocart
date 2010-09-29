@@ -4,7 +4,7 @@ $_['heading_title']       = 'Menu';
 $_['heading_description'] = 'Administration Menu';
 
 // Text
-$_['text_admin']          = 'Admin';
+$_['text_system']         = 'System';
 $_['text_home']           = 'Home';
 $_['text_homepage']       = 'HomePage';
 $_['text_tpl_manager']	  = 'Templates';

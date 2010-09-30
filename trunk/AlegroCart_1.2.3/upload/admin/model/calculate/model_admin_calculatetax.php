@@ -12,7 +12,7 @@ class Model_Admin_CalculateTax extends Model {
 	}
 	function install_tax(){
 		$this->database->query("insert into setting set type = 'global', `group` = 'tax', `key` = 'tax_status', value = '1'");
-		$this->database->query("insert into setting set type = 'global', `group` = 'tax', `key` = 'tax_sort_order', value = '4'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'tax', `key` = 'tax_sort_order', value = '5'");
 	}
 	function update_tax(){
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'tax', `key` = 'tax_status', `value` = '?'", (int)$this->request->gethtml('global_tax_status', 'post')));

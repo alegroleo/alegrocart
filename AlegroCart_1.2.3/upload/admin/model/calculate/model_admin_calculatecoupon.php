@@ -12,7 +12,7 @@ class Model_Admin_CalculateCoupon extends Model {
 	}
 	function install_coupon(){
 		$this->database->query("insert into setting set type = 'global', `group` = 'coupon', `key` = 'coupon_status', value = '1'");
-		$this->database->query("insert into setting set type = 'global', `group` = 'coupon', `key` = 'coupon_sort_order', value = '3'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'coupon', `key` = 'coupon_sort_order', value = '4'");
 	}
 	function update_coupon(){
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'coupon', `key` = 'coupon_status', `value` = '?'", (int)$this->request->gethtml('global_coupon_status', 'post')));

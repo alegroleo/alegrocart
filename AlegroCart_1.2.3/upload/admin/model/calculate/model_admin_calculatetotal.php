@@ -12,7 +12,7 @@ class Model_Admin_CalculateTotal extends Model {
 	}
 	function install_total(){
 		$this->database->query("insert into setting set type = 'global', `group` = 'total', `key` = 'total_status', value = '1'");
-		$this->database->query("insert into setting set type = 'global', `group` = 'total', `key` = 'total_sort_order', value = '5'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'total', `key` = 'total_sort_order', value = '6'");
 	}
 	function update_total(){
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'total', `key` = 'total_status', `value` = '?'", (int)$this->request->gethtml('global_total_status', 'post')));

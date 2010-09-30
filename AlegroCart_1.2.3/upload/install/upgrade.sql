@@ -410,3 +410,11 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 
 #Remove Orderstatus 99
 DELETE FROM `order_status` WHERE `order_status_id` = '99' AND `language_id` = '1';
+
+# Calculate General Discount
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'calculate_discount';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'discount', 'calculate', 'calculate', 'discount.php', 'calculate_discount') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'calculate_discount';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Calculate Discount', 'Calculate Discount') ON DUPLICATE KEY UPDATE extension_id=extension_id;

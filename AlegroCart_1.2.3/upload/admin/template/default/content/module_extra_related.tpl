@@ -56,6 +56,18 @@
 			  <td><?php echo $entry_width; ?></td>
 			  <td><input type="text" name="catalog_related_image_width" value="<?php echo $catalog_related_image_width; ?>" size="3"></td>
 			</tr>
+			<tr>
+			  <td><?php echo $entry_image_display;?></td>
+				<td><select name="catalog_specials_image_display">
+				<?php foreach($image_displays as $image_display){?>
+				  <?php if($image_display == $catalog_related_image_display){?>
+				    <option value="<?php echo $image_display;?>" selected><?php echo $image_display;?></option>
+				  <?php } else {?>
+				    <option value="<?php echo $image_display;?>"><?php echo $image_display;?></option>
+			      <?php }?>
+				<?php }?> 
+			  </select></td>
+			</tr>
             <tr>
               <td><?php echo $entry_addtocart; ?></td>
               <td><select name="catalog_related_addtocart">

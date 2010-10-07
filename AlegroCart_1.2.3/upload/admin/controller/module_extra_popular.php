@@ -73,7 +73,7 @@ class ControllerModuleExtraPopular extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 		
 		$view->set('column_data', array(1,2,3,4,5));
-		$view->set('image_displays',array('image_link', 'thickbox', 'fancybox'));
+		$view->set('image_displays',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 
 		if (!$this->request->isPost()) {
 			$results = $this->modelPopular->get_popular();

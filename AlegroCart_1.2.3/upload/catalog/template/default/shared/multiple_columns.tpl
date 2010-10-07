@@ -29,13 +29,22 @@
 	 <div class="img">
 	  <?php 
 	  if(!isset($image_display)){$image_display = 'image_link';}
-	  if ($image_display == 'fancybox'){
-	    include $shared_path . 'product_image_fancybox.tpl';
-	  } else if ($image_display == 'thickbox') {
-		include $shared_path . 'product_image_thickbox.tpl';
-	  } else {
-	    include $shared_path . 'product_image_link.tpl';
-	  }?>
+	  switch ($image_display){
+		case 'fancybox':
+			include $shared_path . 'product_image_fancybox.tpl';
+			break;
+		case 'thickbox':
+			include $shared_path . 'product_image_thickbox.tpl';
+			break;
+		case 'image_link':
+			include $shared_path . 'product_image_link.tpl';
+			break;
+		case 'lightbox':
+			include $shared_path . 'product_image_lightbox.tpl';
+			break;
+		case 'no_image':
+			break;
+	  }?> 
 	 </div>
 	</div>
     <b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>

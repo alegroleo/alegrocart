@@ -8,16 +8,29 @@
   } else if ($image_display == 'fancybox'){
 	$head_def->setcss($this->style . "/css/jquery.fancybox-1.3.1.css\" media=\"screen" ); 
 	$head_def->set_javascript("fancybox/jquery.fancybox-1.3.1.js");
-  }
+  } else if ($image_display == 'lightbox'){
+    $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
+	$head_def->set_javascript("lightbox/lightbox.js");
+  ?>
+  <script>
+	$(document).ready(function(){
+		$(".lightbox").lightbox({
+			fitToScreen: true,
+			imageClickClose: true
+		});
+	});
+  </script>
+  <?php }
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
   $columns = 0;
 ?>
+
 <div class="headingcolumn"><h1><?php echo $heading_title; ?></h1></div>
 <div class="module_column">
 <?php if (isset($products)) { ?>
  <?php foreach ($products as $key =>$product) { ?>
   <div class="img">
-   <?php 
+    <?php 
 	  if(!isset($image_display)){$image_display = 'image_link';}
 	  switch ($image_display){
 		case 'fancybox':
@@ -29,9 +42,12 @@
 		case 'image_link':
 			include $shared_path . 'product_image_link.tpl';
 			break;
+		case 'lightbox':
+			include $shared_path . 'product_image_lightbox.tpl';
+			break;
 		case 'no_image':
 			break;
-	  }?>
+	  }?> 
   </div>
   <b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
   <?php echo $product['description']; ?><br>	

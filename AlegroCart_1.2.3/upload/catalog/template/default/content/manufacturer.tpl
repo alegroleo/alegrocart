@@ -10,7 +10,19 @@
   } else if ($image_display == 'fancybox'){
 	$head_def->setcss($this->style . "/css/jquery.fancybox-1.3.1.css\" media=\"screen" ); 
 	$head_def->set_javascript("fancybox/jquery.fancybox-1.3.1.js");
-  }
+  } else if ($image_display == 'lightbox'){
+    $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
+	$head_def->set_javascript("lightbox/lightbox.js");
+  ?>
+  <script>
+	$(document).ready(function(){
+		$(".lightbox").lightbox({
+			fitToScreen: true,
+			imageClickClose: true
+		});
+	});
+  </script>
+  <?php }
   $head_def->set_MetaTitle("Products by Manufacturer");
   $head_def->set_MetaDescription("Sort Products by Manufacturer");
   $head_def->set_MetaKeywords("products, manufacturer, brands");

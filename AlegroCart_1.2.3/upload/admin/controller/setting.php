@@ -102,8 +102,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
-		$view->set('image_displays_product',array('thickbox', 'fancybox'));
-		$view->set('image_displays_content',array('image_link', 'thickbox', 'fancybox'));
+		$view->set('image_displays_product',array('thickbox', 'fancybox', 'lightbox'));
+		$view->set('image_displays_content',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 		$view->set('page_columns', array('2', '3'));
 		$view->set('entry_email_orders',$this->language->get('entry_email_orders'));
 		$view->set('entry_email_accounts',$this->language->get('entry_email_accounts'));

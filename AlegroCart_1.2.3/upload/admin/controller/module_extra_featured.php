@@ -67,7 +67,7 @@ class ControllerModuleExtraFeatured extends Controller {
 		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));	
 		$view->set('column_data', array(1,2,3,4,5));
-		$view->set('image_displays',array('image_link', 'thickbox', 'fancybox'));
+		$view->set('image_displays',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 		
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));

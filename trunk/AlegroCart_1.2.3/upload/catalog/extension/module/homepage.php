@@ -50,6 +50,8 @@ class ModuleHomePage extends Controller {
 			$view->set('flash', $image->href('flash/' . $home_data['flash']));
 			$view->set('flash_width', $home_data['flash_width']>0 ? $home_data['flash_width'] : 550);
 			$view->set('flash_height', $home_data['flash_height'] >0? $home_data['flash_height'] : 250);
+			$view->set('flash_loop', ($home_data['flash_loop'] ? 'true' : 'false'));
+			
 		}
 		if(strlen($home_data['filename']) > 3){
 			$view->set('image', $image->href($home_data['filename']));

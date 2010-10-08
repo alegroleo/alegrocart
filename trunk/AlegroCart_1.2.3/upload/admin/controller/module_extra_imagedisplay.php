@@ -1,5 +1,5 @@
-<?php  //Home Page Module
-class ControllerModuleExtraHomepage extends Controller {
+<?php  //ImageDisplay Page Module
+class ControllerModuleExtraImageDisplay extends Controller {
 	var $error = array();
 	// All References change to module_extra_ due to new module loader
 	function __construct(&$locator){
@@ -13,28 +13,25 @@ class ControllerModuleExtraHomepage extends Controller {
 		$this->session  	=& $locator->get('session');
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
-		$this->modelHomePage = $model->get('model_admin_homepagemodule');
+		$this->modelImageDisplay = $model->get('model_admin_displaymodule');
 		
-		$this->language->load('controller/module_extra_homepage.php');
+		$this->language->load('controller/module_extra_imagedisplay.php');
 	}
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 	
 		if (($this->request->isPost()) && ($this->validate())) {
-			$this->modelHomePage->delete_homepage();
-			$this->modelHomePage->update_homepage();
+			$this->modelImageDisplay->delete_imagedisplay();
+			$this->modelImageDisplay->update_imagedisplay();
 			$this->session->set('message', $this->language->get('text_message'));
-			
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 		}
-		
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
-		
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
-		$view->set('text_homepage', $this->language->get('text_homepage'));
+		$view->set('text_imagedisplay', $this->language->get('text_imagedisplay'));
 		$view->set('text_save', $this->language->get('text_save'));
 		
 		$view->set('button_list', $this->language->get('button_list'));
@@ -44,15 +41,12 @@ class ControllerModuleExtraHomepage extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_home', $this->language->get('button_home'));
-		
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('tab_module', $this->language->get('tab_module'));
-		$view->set('tab_homepage', $this->language->get('tab_homepage'));
 		
 		$view->set('error', @$this->error['message']);
-		
-		$view->set('action', $this->url->ssl('module_extra_homepage'));
-		$view->set('action_home', $this->url->ssl('homepage'));
+		$view->set('action', $this->url->ssl('module_extra_imagedisplay'));
+		$view->set('action_home', $this->url->ssl('image_display'));
 		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 		
@@ -60,23 +54,23 @@ class ControllerModuleExtraHomepage extends Controller {
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
 		if (!$this->request->isPost()) {
-			$results = $this->modelHomePage->get_homepage();
+			$results = $this->modelImageDisplay->get_imagedisplay();
 			foreach ($results as $result) {
 				$setting_info[$result['type']][$result['key']] = $result['value'];
 			}
 		}
-		if ($this->request->has('catalog_homepage_status', 'post')) {
-			$view->set('catalog_homepage_status', $this->request->get('catalog_homepage_status', 'post'));
+	
+		if ($this->request->has('catalog_imagedisplay_status', 'post')) {
+			$view->set('catalog_imagedisplay_status', $this->request->gethtml('catalog_imagedisplay_status', 'post'));
 		} else {
-			$view->set('catalog_homepage_status', @$setting_info['catalog']['homepage_status']);
+			$view->set('catalog_imagedisplay_status', @$setting_info['catalog']['imagedisplay_status']);
 		}
-		
-		$this->template->set('content', $view->fetch('content/module_extra_homepage.tpl'));
+
+		$this->template->set('content', $view->fetch('content/module_extra_imagedisplay.tpl'));
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
-		
 	}
 	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
@@ -84,7 +78,7 @@ class ControllerModuleExtraHomepage extends Controller {
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-		if (!$this->user->hasPermission('modify', 'module_extra_homepage')) {
+		if (!$this->user->hasPermission('modify', 'module_extra_imagedisplay')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
 		if (!$this->error) {
@@ -94,9 +88,9 @@ class ControllerModuleExtraHomepage extends Controller {
 		}
 	}
 	function install() {
-		if ($this->user->hasPermission('modify', 'module_extra_homepage')) {
-			$this->modelHomePage->delete_homepage();
-			$this->modelHomePage->install_homepage();
+		if ($this->user->hasPermission('modify', 'module_extra_imagedisplay')) {
+			$this->modelImageDisplay->delete_imagedisplay();
+			$this->modelImageDisplay->install_imagedisplay();
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
@@ -105,8 +99,8 @@ class ControllerModuleExtraHomepage extends Controller {
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));		
 	}
 	function uninstall() {
-		if ($this->user->hasPermission('modify', 'module_extra_homepage')) {
-			$this->modelHomePage->delete_homepage();
+		if ($this->user->hasPermission('modify', 'module_extra_imagedisplay')) {
+			$this->modelImageDisplay->delete_imagedisplay();		
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));

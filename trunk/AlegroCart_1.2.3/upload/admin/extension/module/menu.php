@@ -41,6 +41,7 @@ class ModuleMenu extends Controller {
       		$view->set('text_option', $language->get('text_option'));
 			$view->set('text_manufacturer', $language->get('text_manufacturer'));
       		$view->set('text_image', $language->get('text_image'));
+			$view->set('text_image_display', $language->get('text_image_display'));
       		$view->set('text_download', $language->get('text_download'));
       		$view->set('text_review', $language->get('text_review'));
       		$view->set('text_information', $language->get('text_information'));
@@ -85,6 +86,7 @@ class ModuleMenu extends Controller {
      		$view->set('option', $url->rawssl('option'));
       		$view->set('manufacturer', $url->rawssl('manufacturer'));
 			$view->set('image', $url->rawssl('image'));
+			$view->set('image_display', $url->rawssl('image_display'));
       		$view->set('download', $url->rawssl('download'));
      	 	$view->set('review', $url->rawssl('review'));
     	  	$view->set('information', $url->rawssl('information'));

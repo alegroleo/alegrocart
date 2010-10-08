@@ -418,3 +418,57 @@ INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'calculate_discount';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Calculate Discount', 'Calculate Discount') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+# Change Settings
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `type` = 'global' and `group` = 'coupon' and `key` = 'coupon_sort_order';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'coupon', 'coupon_sort_order', '4') ON DUPLICATE KEY UPDATE value='4';
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `type` = 'global' and `group` = 'tax' and `key` = 'tax_sort_order';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'tax', 'tax_sort_order', '5') ON DUPLICATE KEY UPDATE value='5';
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `type` = 'global' and `group` = 'total' and `key` = 'total_sort_order';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'total', 'total_sort_order', '6') ON DUPLICATE KEY UPDATE value='6';
+
+
+#Extension Image Display
+SET @id=NULL;
+SELECT @id:=extension_id FROM `extension` WHERE `code` = 'imagedisplay' and `controller` = 'module_extra_imagedisplay';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'imagedisplay', 'module', 'module', 'imagedisplay.php', 'module_extra_imagedisplay') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SELECT @id:=extension_id FROM `extension` WHERE `code` = 'imagedisplay' and `controller` = 'module_extra_imagedisplay';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Image Display', 'Image Display Module') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+# Setting ImageDisplay
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'imagedisplay' and `key` = 'imagedisplay_status';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'imagedisplay', 'imagedisplay_status', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#
+# TABLE STRUCTURE FOR: `image_display`
+#
+
+CREATE TABLE IF NOT EXISTS `image_display` (
+ `image_display_id` int(11) NOT NULL auto_increment,
+ `name` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+ `location_id` int(11) NOT NULL default '0',
+ `status` int(1) NOT NULL default '0',
+ `sort_order` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`image_display_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `image_display_description` (
+ `image_display_id` int(11) NOT NULL auto_increment,
+ `language_id` int(11) NOT NULL default '1',
+ `flash` varchar(128) collate utf8_unicode_ci default NULL,
+ `flash_width` int(11) NOT NULL default '0',
+ `flash_height` int(11) NOT NULL default '0',
+ `flash_loop` int(11) NOT NULL default '0',
+ `image_id` int(11) default NULL,
+ `image_width` int(11) NOT NULL default '0',
+ `image_height` int(11) NOT NULL default '0',
+ PRIMARY KEY  (`image_display_id`,`language_id`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ 
+# Add Loop to Home Description
+ALTER TABLE `home_description`
+ADD `flash_loop` int(11) After `flash_height`;

@@ -161,7 +161,6 @@ class ControllerHomepage extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 
     	$view->set('error', @$this->error['message']);
- 
  		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 		
@@ -190,6 +189,10 @@ class ControllerHomepage extends Controller {
     	$view->set('text_enabled', $this->language->get('text_enabled'));
     	$view->set('text_disabled', $this->language->get('text_disabled'));
 		$view->set('text_runtimes', $this->language->get('text_runtimes'));
+		$view->set('text_continous', $this->language->get('text_continous'));
+		$view->set('text_noflash', $this->language->get('text_noflash'));
+		$view->set('text_noimage', $this->language->get('text_noimage'));
+		
 		$view->set('entry_name', $this->language->get('entry_name'));
 		$view->set('entry_title', $this->language->get('entry_title'));
 		$view->set('entry_status', $this->language->get('entry_status'));
@@ -203,6 +206,7 @@ class ControllerHomepage extends Controller {
 		$view->set('entry_flash', $this->language->get('entry_flash'));
 		$view->set('entry_flash_width', $this->language->get('entry_flash_width'));
 		$view->set('entry_flash_height', $this->language->get('entry_flash_height'));
+		$view->set('entry_flash_loop', $this->language->get('entry_flash_loop'));
 		$view->set('entry_filename', $this->language->get('entry_filename'));
 		
 		$view->set('button_upload', $this->language->get('button_upload'));
@@ -219,7 +223,8 @@ class ControllerHomepage extends Controller {
 		$view->set('tab_description', $this->language->get('tab_description'));
 		$view->set('tab_meta', $this->language->get('tab_meta'));
 		
-    	$view->set('error_title', @$this->error['title']);	
+    	$view->set('error_name', @$this->error['name']);	
+		$view->set('error_title', @$this->error['title']);	
     	$view->set('error', @$this->error['message']);
 		$view->set('error_file', "");
 
@@ -230,7 +235,7 @@ class ControllerHomepage extends Controller {
 		$view->set('action_flash', $this->url->ssl('homepage', 'flash_upload',array('home_id' => (int)$this->request->gethtml('home_id'))));
 		
 		if ($this->request->gethtml('home_id')) {
-     		$view->set('update', $this->url->ssl('homepage', 'update', array('home_id' => (int)$this->request->gethtml('home_id'))));
+     		$view->set('update', 'enabled');
       		$view->set('delete', $this->url->ssl('homepage', 'delete', array('home_id' => (int)$this->request->gethtml('home_id'),'home_validation' =>$this->session->get('home_validation'))));
     	}
 		$this->session->set('cdx',md5(mt_rand()));
@@ -240,7 +245,8 @@ class ControllerHomepage extends Controller {
 	
     	$home_description_data = array();	
 		$results = $this->modelAdminHomepage->get_languages();
-
+		$view->set('languages', $results);
+		
 		foreach ($results as $result) {
 			if (($this->request->gethtml('home_id')) && (!$this->request->isPost())) {
 				$home_description_info = $this->modelAdminHomepage->get_descriptions($this->request->gethtml('home_id'),$result['language_id']);
@@ -255,6 +261,7 @@ class ControllerHomepage extends Controller {
 			$flash			= $this->request->get('flash', 'post');
 			$flash_width    = $this->request->gethtml('flash_width', 'post');
 			$flash_height   = $this->request->gethtml('flash_height','post');
+			$flash_loop = $this->request->gethtml('flash_loop','post');
 			$image_id		= $this->request->gethtml('image_id', 'post');
 			$run_times		= $this->request->gethtml('run_times', 'post');
 			
@@ -270,6 +277,7 @@ class ControllerHomepage extends Controller {
 				'flash'			=> (isset($flash[$result['language_id']]) ? $flash[$result['language_id']] : @$home_description_info['flash']),
 				'flash_width'   => (isset($flash_width[$result['language_id']]) ? $flash_width[$result['language_id']] : @$home_description_info['flash_width']),
 				'flash_height'   => (isset($flash_height[$result['language_id']]) ? $flash_height[$result['language_id']] : @$home_description_info['flash_height']),
+				'flash_loop'	=> (isset($flash_loop[$result['language_id']]) ? $flash_loop[$result['language_id']] : @ $home_description_info['flash_loop']),
 				'image_id'		=> (isset($image_id[$result['language_id']]) ? $image_id[$result['language_id']] : @$home_description_info['image_id']),
 				'run_times'		=> (isset($run_times[$result['language_id']]) ? $run_times[$result['language_id']] : @$home_description_info['run_times'])
 			);
@@ -293,9 +301,7 @@ class ControllerHomepage extends Controller {
     	}
 		
     	$image_data = array();
-
     	$results = $this->modelAdminHomepage->get_images();
-		
 		foreach ($results as $result) {
 			$image_data[] = array(
         		'image_id'   => $result['image_id'],
@@ -340,7 +346,7 @@ class ControllerHomepage extends Controller {
                 $this->error['title'] = $this->language->get('error_title');
             }
     	}
-		
+
 		if (!$this->error) {
 	  		return TRUE;
 		} else {
@@ -404,17 +410,7 @@ class ControllerHomepage extends Controller {
 		$this->response->redirect($this->url->ssl('homepage', 'insert'));	
 		}
 	}
-	function flash_refresh(){
-		$lan_id = $this->request->gethtml('flash_id');
-		$flash_files = $this->checkFiles();
-		$output = '<select name="flash[' . $lan_id .']" id="flash' . $lan_id . '">';
-		$output.= '<option value=""> </option';
-		foreach($flash_files as $flash){
-		    $output .= '<option value="' . $flash['flash'] . '">' . $flash['flash'] . '</option>';
-		}
-		$output .= '</select>';
-		$this->response->set($output);
-	}
+
 	function page() {
 
 		if ($this->request->has('search', 'post')) {

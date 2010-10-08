@@ -7,7 +7,7 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
 <?php if (@$delete) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $delete; ?>'"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
@@ -74,35 +74,19 @@
 			  <div class="minipad">
 				<table>
 				  <tr>
-					<td style="width: 185px;"><?php echo $entry_run_times;?></td>
-					<td style="width: 185px;"><input size="10" name="run_times[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['run_times'];?>"></td>
+					<td style="width: 165px;"><?php echo $entry_run_times;?></td>
+					<td style="width: 200px;"><input size="10" name="run_times[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['run_times'];?>"></td>
 					<td><?php echo $text_runtimes;?></td>
 				  </tr>
 				 </table>
 			    <table>
 				  <tr>
-					<td style="width: 185px;"><span class="required">*</span><?php echo $entry_title; ?></td>
-					<td style="width: 265px;"><input size="32" maxlength="64" name="title[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['title']; ?>">
+					<td style="width: 165px;"><span class="required">*</span><?php echo $entry_title; ?></td>
+					<td style="width: 200px;"><input size="30" maxlength="64" name="title[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['title']; ?>">
                       <?php if ($error_title) { ?>
                       <span class="error"><?php echo $error_title; ?></span>
                       <?php } ?></td>
                   </tr> 
-				  <tr>
-				    <td><?php echo $entry_flash; ?></td>
-					<td id="f_upload<?php echo $home_description['language_id']; ?>">
-					  <select name="flash[<?php echo $home_description['language_id']; ?>]" id="flash<?php echo $home_description['language_id']; ?>">
-					      <option value="">  </option>
-				      <?php foreach($flash_files as $flash){?>
-						<?php if($flash['flash'] == $home_description['flash']) {?>
-						  <option value="<?php echo $flash['flash']; ?>" selected><?php echo $flash['flash']; ?></option>
-						<?php } else {?>
-						  <option value="<?php echo $flash['flash']; ?>"><?php echo $flash['flash']; ?></option>
-						<?php }?>
-					  <?php }?>
-				    </select></td>
-					<!--<td><input type="button" value="<?php //echo "Refresh";?>" onclick="$('#<?php //echo "f_upload".$home_description['language_id'];?>').load('index.php?controller=homepage&action=flash_refresh&flash_id=<?php //echo $home_description['language_id'];?>');">
-					</td>-->
-				  </tr>
 				  <tr>
 				    <td><?php echo $entry_flash_width; ?></td>
 					<td><input name="flash_width[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_width'];?>"></td>
@@ -111,23 +95,52 @@
 				    <td><?php echo $entry_flash_height; ?></td>
 					<td><input name="flash_height[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_height'];?>"></td>
 				  </tr>
-				  
+				  <tr>
+				    <td><?php echo $entry_flash_loop; ?></td>
+					<td><select name="flash_loop[<?php echo $home_description['language_id']; ?>]">
+					  <?php if ($home_description['flash_loop'] == '1') { ?>
+						<option value="1" selected><?php echo $text_enabled; ?></option>
+						<option value="0"><?php echo $text_disabled; ?></option>
+					  <?php } else { ?>
+						<option value="1"><?php echo $text_enabled; ?></option>
+					<option value="0" selected><?php echo $text_disabled; ?></option>
+					  <?php } ?>
+					</select></td>
+				    <td><?php echo $text_continous; ?></td>
+				  </tr>
+				  <tr>
+				    <td><?php echo $entry_flash; ?></td>
+					<td id="f_upload<?php echo $home_description['language_id']; ?>">
+					  <select name="flash[<?php echo $home_description['language_id']; ?>]" id="flash<?php echo $home_description['language_id']; ?>" onchange="$('#flash_name<?php echo $home_description['language_id']; ?>').load('index.php?controller=image_display&action=viewFlash&flash='+this.value);">
+					      <option value=""><?php echo $text_noflash;?></option>
+				      <?php foreach($flash_files as $flash){?>
+						<?php if($flash['flash'] == $home_description['flash']) {?>
+						  <option value="<?php echo $flash['flash']; ?>" selected><?php echo $flash['flash']; ?></option>
+						<?php } else {?>
+						  <option value="<?php echo $flash['flash']; ?>"><?php echo $flash['flash']; ?></option>
+						<?php }?>
+					  <?php }?>
+				    </select></td>
+					<td class="flash_image" id="flash_name<?php echo $home_description['language_id']; ?>"></td>
+				  </tr>
+				  </table>
+				  <table>
                   <tr>
-                    <td valign="top"><?php echo $entry_welcome; ?></td>
+                    <td style="vertical-align: top; width: 165px"><?php echo $entry_welcome; ?></td>
                     <td><textarea name="welcome[<?php echo $home_description['language_id']; ?>]" id="welcome<?php echo $home_description['language_id']; ?>"><?php echo $home_description['welcome']; ?></textarea>
                   </tr>
 				</table>
 				<table>
                   <tr>
-                    <td style="vertical-align: top; width: 185px"><?php echo $entry_description; ?></td>
+                    <td style="vertical-align: top; width: 165px"><?php echo $entry_description; ?></td>
                     <td><textarea name="description[<?php echo $home_description['language_id']; ?>]" id="description<?php echo $home_description['language_id']; ?>"><?php echo $home_description['description']; ?></textarea>
                   </tr>
 				</table>
 				<table>
 				  <tr>
-				    <td style="width: 185px"><?php echo $entry_image; ?></td>
-                    <td><select name="image_id[<?php echo $home_description['language_id']; ?>]" id="image_id<?php echo $home_description['language_id']; ?>" onchange="$('#image').load('index.php?controller=image&action=view&image_id='+this.value);">
-						  <option value="">  </option>
+				    <td style="width: 165px"><?php echo $entry_image; ?></td>
+                    <td><select name="image_id[<?php echo $home_description['language_id']; ?>]" id="image_id<?php echo $home_description['language_id']; ?>" onchange="$('#image<?php echo $home_description['language_id']; ?>').load('index.php?controller=image&action=view&image_id='+this.value);">
+						  <option value=""><?php echo $text_noimage;?></option>
                       <?php foreach ($images as $image) { ?>
                         <?php if ($image['image_id'] == $home_description['image_id']) { ?>
 						  <option value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
@@ -136,10 +149,8 @@
 					    <?php } ?>
 					  <?php } ?>
 				    </select></td>
-                  </tr>
-				  <tr>
 				    <td></td>
-				    <td id="image"></td>
+				    <td class="product_image" id="image<?php echo $home_description['language_id']; ?>"></td>
 				  </tr>
 				</table>
 		      </div>
@@ -207,9 +218,19 @@
 	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.Config['SkinPath'] = oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.BasePath + 'editor/skins/silver/' ;
 	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.ToolbarSet = 'Custom' ;
 	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.ReplaceTextarea();
-	
-    <?php } ?>	  
+    <?php } ?>	
   //--></script>
+  
+  <?php foreach($languages as $language){?>
+   <script type="text/javascript"><!--
+     if(document.getElementById('flash<?php echo $language['language_id'];?>').value){
+	 $('#flash_name<?php echo $language['language_id']; ?>').load('index.php?controller=image_display&action=viewFlash&flash='+document.getElementById('flash<?php echo $language['language_id'];?>').value);
+	 }
+	 if(document.getElementById('image_id<?php echo $language['language_id'];?>').value){
+     $('#image<?php echo $language['language_id'];?>').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id<?php echo $language['language_id'];?>').value);
+	 }
+    //--></script>
+  <?php } ?>
   <script type="text/javascript"><!--
   tabview_initialize('tab');
   //--></script>

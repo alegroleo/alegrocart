@@ -47,16 +47,17 @@ class Model_Admin_Homepage extends Model {
 		$flash = $this->request->get('flash', 'post');
 		$flash_width = $this->request->gethtml('flash_width', 'post');
 		$flash_height = $this->request->gethtml('flash_height','post');
+		$flash_loop = $this->request->gethtml('flash_loop','post');
 		$image_id = $this->request->gethtml('image_id', 'post');
 		$run_times = $this->request->gethtml('run_times', 'post');
 			
 		foreach($this->request->get('title', 'post', array()) as $key => $value){
-			$sql = "insert into home_description set home_id = '?', language_id = '?', title = '?', description = '?', welcome = '?', meta_title ='?', meta_description = '?', 	meta_keywords = '?', flash = '?', flash_width = '?', flash_height = '?', image_id = '?', run_times = '?'";
-			$this->database->query($this->database->parse($sql, $insert_id, $key, @htmlspecialchars($title[$key]), $description[$key], $welcome[$key], strip_tags($meta_title[$key]), strip_tags($meta_description[$key]), strip_tags($meta_keywords[$key]), $flash[$key], $flash_width[$key], $flash_height[$key], $image_id[$key], $run_times[$key]));
+			$sql = "insert into home_description set home_id = '?', language_id = '?', title = '?', description = '?', welcome = '?', meta_title ='?', meta_description = '?', 	meta_keywords = '?', flash = '?', flash_width = '?', flash_height = '?', flash_loop = '?', image_id = '?', run_times = '?'";
+			$this->database->query($this->database->parse($sql, $insert_id, $key, @htmlspecialchars($title[$key]), $description[$key], $welcome[$key], strip_tags($meta_title[$key]), strip_tags($meta_description[$key]), strip_tags($meta_keywords[$key]), $flash[$key], $flash_width[$key], $flash_height[$key], $flash_loop[$key], $image_id[$key], $run_times[$key]));
 		}
 	}
 	function get_descriptions($home_id, $language_id){
-		$result = $this->database->getRow("select title, description, welcome, meta_title, meta_description, meta_keywords, flash, flash_width, flash_height, image_id, run_times from home_description where home_id = '" . (int)$home_id . "' and language_id = '" . (int)$language_id . "'");
+		$result = $this->database->getRow("select title, description, welcome, meta_title, meta_description, meta_keywords, flash, flash_width, flash_height, flash_loop, image_id, run_times from home_description where home_id = '" . (int)$home_id . "' and language_id = '" . (int)$language_id . "'");
 		return $result;
 	}
 	function getRow_homepage_info($home_id){ 

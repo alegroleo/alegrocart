@@ -184,6 +184,10 @@ class Model_Core extends Model {
 		
 		return $result;
 	}
+	function check_location_id($location){
+		
+		return $result;
+	}
 	function get_tpl_modules($tpl_manager_id){
 		$results = $this->database->getRows("select * from tpl_module mo left join tpl_location lo on(mo.location_id = lo.location_id) where mo.tpl_manager_id = '" . $tpl_manager_id . "'order by lo.location_id, mo.sort_order");
 		return $results;
@@ -201,7 +205,11 @@ class Model_Core extends Model {
 		}
 		return $location_id;
 	}
-
+	function get_image_display($location){
+		$location_id = $this->get_location_id();
+		$results = $this->database->getRows("select * from image_display id left join image_display_description idd on(id.image_display_id = idd.image_display_id) left join image i on(idd.image_id = i.image_id) where idd.language_id = '" . (int)$this->language->getId() . "' and id.status = '1' and id.location_id = '" . $location_id[$location]  . "' order by id.sort_order");
+		return $results;
+	}
 	function get_categories(){
 		$results = $this->database->getRows("select c.category_id, c.parent_id, c.path, c.sort_order, cd.name from category c left join category_description cd on (c.category_id = cd.category_id) where cd.language_id = '" . (int)$this->language->getId() . "' order by c.path");
 		return $results;

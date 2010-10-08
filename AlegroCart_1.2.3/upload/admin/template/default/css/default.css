@@ -438,3 +438,13 @@ form {
     margin: 0;
     display: inline;
 }
+.product_image{
+	border: 1px solid #999999;
+	width: 102px;
+	height: 102px;
+}
+.flash_image{
+	border: 1px solid #999999;
+	width: 304px;
+	height: 152px;
+}

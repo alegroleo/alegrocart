@@ -1,18 +1,19 @@
-/* HomePage CSS*/
+/* HomePage CSS3*/
 .homepage{
 	width: 600px;
 	min-height: 100px;
 }
 .flash{
-	width: 550px;
-	margin-left: 15px;
-
+	width: 100%;
+	text-align: center;
+	/*margin-left: 2px;*/
 }
 .home_image{
-	width: 570px;
+	width: 95%;
 	margin-left: 5px;
 	padding: 5px 0px 5px 0px;
 	border: 10px ridge #999999;
+	text-align: center;
 }
 .welcome{
 	width: 550px;
@@ -23,4 +24,12 @@
 	width: 550px;
 	margin-left: 15px;
 	padding: 5px 0px 5px 0px;
+}
+.image_display{
+	width: 100%;
+	text-align: center;
+}
+.image_display_img{
+	width: 99%;
+	text-align: center;
 }

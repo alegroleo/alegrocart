@@ -324,34 +324,34 @@ class ControllerTemplateManager extends Controller {
 	function getModules($location, $columns = 3, $controller = ''){
 		switch($location){
 			case 'header';
-				$modules = array('cart', 'language','currency', 'header', 'search', 'navigation');
+				$modules = array('cart', 'imagedisplay', 'language','currency', 'header', 'search', 'navigation');
 				break;	
 			case 'extra';
-				$modules = array('cart', 'language','currency', 'homepage', 'information', 'search','navigation');
+				$modules = array('cart', 'imagedisplay', 'language','currency', 'homepage', 'information', 'search','navigation');
 				break;
 			case 'column';
-				$modules = array('bestseller', 'cart', 'category', 'currency', 'featured', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'review', 'search', 'specials');
+				$modules = array('bestseller', 'cart', 'category', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'review', 'search', 'specials');
 				if ($columns ==2){
 					if ($controller == 'search'){$modules[] = 'searchoptions';}
 					if ($controller == 'category'){$modules[] = 'categoryoptions';}
 				}
 				break;
 			case 'content';
-				$modules = array('content', 'bestseller', 'featured', 'homepage', 'latest', 'popular', 'specials');
+				$modules = array('content', 'bestseller', 'featured', 'homepage', 'imagedisplay', 'latest', 'popular', 'specials');
 				if ($controller == 'product'){ $modules[] = 'related';}
 				break;
 			case 'columnright';
-				$modules = array('bestseller', 'cart', 'currency', 'featured', 'information', 'language', 'latest', 'manufacturer', 'navigation', 'popular', 'review', 'search', 'specials');
+				$modules = array('bestseller', 'cart', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation', 'popular', 'review', 'search', 'specials');
 				if ($controller == 'product'){ $modules[] = 'related';}
 				if ($controller == 'search'){$modules[] = 'searchoptions';}
 				if ($controller == 'category'){$modules[] = 'categoryoptions';}
 				if ($controller == 'manufacturer'){$modules[] = 'manufactureroptions';}
 				break;
 			case 'footer';
-				$modules = array('currency', 'footer', 'information', 'language');
+				$modules = array('currency', 'footer', 'imagedisplay', 'information', 'language');
 				break;
 			case 'pagebottom';
-				$modules = array('currency', 'developer', 'homepage', 'information', 'language', 'navigation');
+				$modules = array('currency', 'developer', 'homepage', 'imagedisplay', 'information', 'language', 'navigation');
 				break;
 			default:
 				$modules = "";

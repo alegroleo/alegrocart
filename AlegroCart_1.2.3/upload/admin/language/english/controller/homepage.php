@@ -7,10 +7,13 @@ $_['heading_description']  = 'You can edit homepage sessions here.';
 $_['text_message']        = 'Success: You have updated homepage!';
 $_['text_image']          = 'Recomended Image Size: 175 x 175';
 $_['text_runtimes']		  = 'Enter Zero (0) for no limit, or -1 to disable home page module';
+$_['text_continous']      = 'If disabled, Flash will only run once!';
+$_['text_noflash']		  = 'No Flash Selected';
+$_['text_noimage']        = 'No Image Selected';
 
 //Tabs
 $_['tab_name']		      = 'Name & Status';
-$_['tab_description']     = 'Description';
+$_['tab_description']     = 'Settings';
 $_['tab_meta']            = 'Meta Tags';
 
 // Column
@@ -34,6 +37,7 @@ $_['entry_run_times']	   = 'Number of times to run:';
 $_['entry_flash']          = 'Flash:';
 $_['entry_flash_width']    = 'Flash Width:';
 $_['entry_flash_height']   = 'Flash Height:';
+$_['entry_flash_loop']     = 'Run Flash Continuous:';
 $_['entry_filename']       = 'Upload Flash File:';
 
 // Button

@@ -3,7 +3,7 @@
 // REPORT ALL ERRORS
 
 if (phpversion() >= '5.3'){
-error_reporting(E_ALL ^ E_DEPRECATED);
+//error_reporting(E_ALL ^ E_DEPRECATED);
 } else {
 error_reporting(E_ALL);
 //error_reporting(-1);
@@ -25,9 +25,9 @@ define('PATH_CONTROLLER','controller');
 define('PATH_EXTENSION','extension');
 define('PATH_LANGUAGE','language');
 define('PATH_TEMPLATE','template');
-define('PATH_STYLES','styles');   
+define('PATH_STYLES','styles');
 define('PATH_INSTALL','install');
-define('D_S',DIRECTORY_SEPARATOR); 
+define('D_S',DIRECTORY_SEPARATOR);
 define('PATH_COMMON','common');
 
 // APP
@@ -56,6 +56,7 @@ if (!defined('HTTP_CATALOG')) define('HTTP_CATALOG', HTTP_BASE);
 if (!defined('HTTP_ADMIN')) define('HTTP_ADMIN', HTTP_BASE.PATH_ADMIN.'/');
 if (!defined('HTTP_SERVER')) define('HTTP_SERVER', constant('HTTP_'.APP));
 if (!defined('HTTP_IMAGE')) define('HTTP_IMAGE', HTTP_BASE.PATH_IMAGE.'/');
+if (!defined('HTTP_FLASH')) define('HTTP_FLASH', HTTP_BASE.PATH_IMAGE.'/'.PATH_FLASH.'/');  //New
 
 // HTTPS
 if (!defined('HTTPS_BASE')) define('HTTPS_BASE', '');

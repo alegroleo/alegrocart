@@ -34,7 +34,10 @@ $_['entry_image']          = 'Image:';
 $_['entry_image_width']    = 'Image Width:';
 $_['entry_image_height']   = 'Image Height:';
 
-
+// Button
+$_['button_add']           = 'Add';
+$_['button_remove']        = 'Remove';
+$_['button_upload']        = 'Upload File';
 // Error
 $_['error_name']            = '*Name must be between 1 and 64 characters!';
 $_['error_location']           = '* You must specify location module is to be displayed!';

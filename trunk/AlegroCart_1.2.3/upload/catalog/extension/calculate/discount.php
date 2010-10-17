@@ -16,11 +16,11 @@ class CalculateDiscount extends Calculate {
 		$total_data = array();
 		$disctot = 0;
         
-        // discount1
-		if (($this->config->get('discount_lprice') > 0) && ($this->cart->getSubtotal() > $this->config->get('discount_lprice')) && ($this->config->get('discount_lprice') > $this->config->get('discount_gprice'))) {
-			$dispercent = $this->config->get('discount_lprice_percent');
-			$disctot = ($dispercent/100) * ($this->cart->getSubtotal());
-		}
+       // discount1
+        if (($this->config->get('discount_lprice') > 0) && ($this->cart->getSubtotal() > $this->config->get('discount_lprice')) && ($this->config->get('discount_gprice') > 0 ? $this->cart->getSubtotal() < $this->config->get('discount_gprice') : True)) {
+            $dispercent = $this->config->get('discount_lprice_percent');
+            $disctot = ($dispercent/100) * ($this->cart->getSubtotal());
+        }
 
         // discount2
         if (($this->config->get('discount_gprice') > 0) && ($this->cart->getSubtotal() > $this->config->get('discount_gprice'))) { 

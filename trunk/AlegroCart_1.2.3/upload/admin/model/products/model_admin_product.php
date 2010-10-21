@@ -8,11 +8,11 @@ class Model_Admin_Product extends Model {
 		$this->session 	=& $locator->get('session');
 	}
 	function check_product_name($value){
-		$result = $this->database->getRow("select name from product_description where name = '". $value ."'");
+		$result = $this->database->getRow("select name from product_description where name = '". htmlspecialchars_deep($value) ."'");
 		return $result;
 	}
 	function check_product_id_name($value){
-		$result = $this->database->getRow("select name, product_id from product_description where name = '". $value ."' and product_id != '".(int)$this->request->gethtml('product_id') ."'");
+		$result = $this->database->getRow("select name, product_id from product_description where name = '". htmlspecialchars_deep($value) ."' and product_id != '".(int)$this->request->gethtml('product_id') ."'");
 		return $result;
 	}
 	function insert_product(){
@@ -43,7 +43,7 @@ class Model_Admin_Product extends Model {
 	}
 	function write_description($key, $insert_id, $name){
 		$sql = "insert into product_description set product_id = '?', language_id = '?', name = '?', description = '?', technical = '?', model = '?', model_number = '?', alt_description = '?', meta_title = '?', meta_description = '?', meta_keywords = '?'";
-		$this->database->query($this->database->parse($sql, $insert_id, $key, @htmlspecialchars($name), $this->description[$key], $this->technical[$key], @htmlspecialchars($this->model[$key]), @htmlspecialchars($this->model_number[$key]), $this->alt_description[$key], strip_tags($this->meta_title[$key]), strip_tags($this->meta_description[$key]), strip_tags($this->meta_keywords[$key])));
+		$this->database->query($this->database->parse($sql, $insert_id, $key, htmlspecialchars_deep($name), $this->description[$key], $this->technical[$key], htmlspecialchars_deep($this->model[$key]), htmlspecialchars_deep($this->model_number[$key]), $this->alt_description[$key], strip_tags($this->meta_title[$key]), strip_tags($this->meta_description[$key]), strip_tags($this->meta_keywords[$key])));
 	}
 	function write_discount($insert_id, $quantity, $discount){
 		$this->database->query("insert into product_discount set product_id = '" . $insert_id . "', quantity = '" . $quantity . "', discount = '" . $discount . "'");

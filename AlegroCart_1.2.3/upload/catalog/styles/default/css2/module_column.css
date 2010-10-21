@@ -8,15 +8,11 @@
 	font-size: 10px;
 	margin-bottom: 0px;	
 }
-/*.module_columnBottom{
-	background: url('../image/neutral/columnBottom.png') bottom left no-repeat;
-	padding-left: 0px;
-	margin-left: 0px;	
-	vertical-align: bottom;
-	height: 9px;
-	padding-bottom: 0px;
-	margin-bottom: 15px;
-}*/
+.module_column p{
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+} 
 .module_column .img{
 	text-align: center;
 }

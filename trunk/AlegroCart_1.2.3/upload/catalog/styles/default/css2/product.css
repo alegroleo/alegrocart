@@ -96,15 +96,20 @@
 	color: #0000FF;
 	font-weight: bold;
 }
-.price_regular {
+.pbox .price_regular {
 	color: #FF0000;
 	font-size: 12px;
 	text-align: left;
-	padding-bottom: 5px;
+	padding-bottom: 3px;
 	font-weight: bold;
 }
-.price_new{
+.pbox .price_old{
+	padding-bottom: 3px;
+	text-align: left;
+}
+.pbox .price_new{
 	padding-bottom: 5px;
+	text-align: left;
 }
 .pheading {
 	font-size: 12px;

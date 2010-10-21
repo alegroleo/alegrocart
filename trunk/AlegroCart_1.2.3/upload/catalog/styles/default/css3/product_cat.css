@@ -43,6 +43,12 @@
 	left: 1px;
 	padding-bottom: 5px;
 }
+.productcat .price_old {
+	text-align: left;
+}
+.productcat .price_new {
+	text-align: left;
+}
 .button{
 	font-weight: 500;
 }

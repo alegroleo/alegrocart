@@ -24,9 +24,11 @@ $_['text_shipping_yes']  = ' * This item can be shipped *';
 $_['text_shipping_no']   = ' * This item can not be shipped *';
 $_['text_weight']        = 'Weight: ';
 $_['price_with_options'] = 'Price with Options = ';
+$_['text_shippable']     = 'Shippable';
+$_['text_non_shippable'] = 'Non Shippable';
 
 // Review
-$_['text_write']		 = 'Write a review on this Product!';
+$_['text_write']	 = 'Write a review on this Product!';
 $_['text_empty']         = 'No product reviews!';
 $_['text_review']        = 'Review';
 $_['text_rating']        = 'Rating: ';

@@ -42,6 +42,35 @@
                 <span class="error"><?php echo $error_code; ?></span>
                 <?php } ?></td>
             </tr>
+			<tr>
+			  <td><?php echo $entry_status;?></td>
+			  <td><select name="status">
+			    <?php if($status) { ?>
+			    <option value="1" selected><?php echo $text_enabled; ?></option>
+                <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                <option value="1"><?php echo $text_enabled; ?></option>
+                <option value="0" selected><?php echo $text_disabled; ?></option>
+			    <?php } ?>
+			  </select>
+			  <?php if ($error_default) { ?>
+                <span class="error"><?php echo $error_default; ?></span>
+                <?php } ?>
+			  </td>
+			</tr>
+			<tr>
+			  <td><?php echo $entry_lock_rate;?></td>
+			  <td><select name="lock_rate">
+			    <?php if($lock_rate) { ?>
+			    <option value="1" selected><?php echo $text_enabled; ?></option>
+                <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                <option value="1"><?php echo $text_enabled; ?></option>
+                <option value="0" selected><?php echo $text_disabled; ?></option>
+			    <?php } ?>
+			  </select></td>
+			  <td><?php echo $text_lock_rate; ?></td>
+			</tr>
             <tr>
               <td><?php echo $entry_symbol_left; ?></td>
               <td><input type="text" name="symbol_left" value="<?php echo $symbol_left; ?>"></td>
@@ -57,6 +86,7 @@
             <tr>
               <td><?php echo $entry_value; ?></td>
               <td><input type="text" name="value" value="<?php echo $value; ?>"></td>
+			  <td><?php echo $text_default_rate ;?></td>
             </tr>
           </table>
         </div>

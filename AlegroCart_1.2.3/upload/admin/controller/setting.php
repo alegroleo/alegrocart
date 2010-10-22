@@ -44,6 +44,8 @@ class ControllerSetting extends Controller {
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 		$view->set('text_select', $this->language->get('text_select'));
 		$view->set('text_radio', $this->language->get('text_radio'));
+		$view->set('text_prices_tax', $this->language->get('text_prices_tax'));
+		$view->set('text_surcharge', $this->language->get('text_surcharge'));
 		$view->set('text_instruction', $this->language->get('text_instruction'));
 		$view->set('text_emails', $this->language->get('text_emails'));
 		$view->set('text_cart_quantity', $this->language->get('text_cart_quantity'));
@@ -66,6 +68,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_zone', $this->language->get('entry_zone'));
 		$view->set('entry_language', $this->language->get('entry_language'));
 		$view->set('entry_currency', $this->language->get('entry_currency'));
+		$view->set('entry_currency_surcharge', $this->language->get('entry_currency_surcharge'));
 		$view->set('entry_weight', $this->language->get('entry_weight'));
 		$view->set('entry_tax', $this->language->get('entry_tax'));
 		$view->set('entry_order_status', $this->language->get('entry_order_status'));
@@ -554,6 +557,12 @@ class ControllerSetting extends Controller {
 			$view->set('global_config_currency', @$setting_info['global']['config_currency']);
 		}
 
+		if ($this->request->has('global_config_currency_surcharge')) {
+			$view->set('global_config_currency_surcharge', $this->request->gethtml('global_config_currency_surcharge'));
+		} else {
+			$view->set('global_config_currency_surcharge', @$setting_info['global']['config_currency_surcharge']);
+		}
+		
 		$view->set('currencies', $this->modelSetting->get_currencies());
 
 		if ($this->request->has('global_config_weight_class_id')) {

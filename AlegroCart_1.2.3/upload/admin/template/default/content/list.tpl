@@ -34,6 +34,16 @@
 	    <td class="d">
 		  <form action="<?php echo $action_refresh; ?>" method="post" enctype="multipart/form-data">
 		  <input class="submit" type="submit" value="<?php echo $button_refresh; ?>">
+		  <?php if(isset($checkbox_name)){?>
+			<input type="checkbox" name="<?php echo $checkbox_name;?>" value="<?php echo $checkbox_value;?>"><?php echo $checkbox_value;?>
+		  <?php } ?>
+		  </form>
+		</td>
+	  <?php }?>
+	  <?php if(isset($action_enable_disable)){?>
+	    <td class="d">
+	      <form action="<?php echo $action_enable_disable; ?>" method="post" enctype="multipart/form-data">
+	        <input class="submit" type="submit" value="<?php echo $button_enable_disable; ?>">
 		  </form>
 		</td>
 	  <?php }?>

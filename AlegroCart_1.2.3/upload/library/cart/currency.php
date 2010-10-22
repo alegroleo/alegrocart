@@ -1,4 +1,4 @@
-<?php
+<?php //Library Currency AlegroCart
 class Currency {
   	var $code;
   	var $currencies = array();
@@ -12,7 +12,7 @@ class Currency {
 		$this->language =& $locator->get('language');
 		$this->cache    =& $locator->get('cache');
 			
-   		$results = $this->database->cache('currency', "select * from currency");
+   		$results = $this->database->cache('currency', "select * from currency where status = '1' order by title");
 
     	foreach ($results as $result) {
       		$this->currencies[$result['code']] = array(
@@ -22,6 +22,8 @@ class Currency {
         		'symbol_right'  => $result['symbol_right'],
         		'decimal_place' => $result['decimal_place'],
         		'value'         => $result['value'],
+				'status'        => $result['status'],
+				'lock_rate'     => $result['lock_rate'],
 				'date_modified' => $result['date_modified']
       		); 
     	}
@@ -51,8 +53,8 @@ class Currency {
   	}
 
 	function update_currency($currency){
-		If ($this->currencies[$currency]['date_modified'] < date('Y-m-d H:i:s', time() - 86400)){
-			$new_rate = $this->currency_converter($this->currencies[$this->config->get('config_currency')]['value'],$this->config->get('config_currency'),$currency);  // Format 1, From, To
+		If ($this->currencies[$currency]['date_modified'] < date('Y-m-d H:i:s', time() - 86400) && !$this->currencies[$currency]['lock_rate']){
+			$new_rate = $this->currency_converter(($this->currencies[$this->config->get('config_currency')]['value'] + $this->config->get('config_currency_surcharge')),$this->config->get('config_currency'),$currency);  // Format 1, From, To
 			If ($new_rate > 0){
 				$this->currencies[$currency]['value'] = $new_rate;
 				$this->cache->delete('currency');

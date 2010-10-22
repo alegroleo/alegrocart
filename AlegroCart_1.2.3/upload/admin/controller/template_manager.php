@@ -324,13 +324,13 @@ class ControllerTemplateManager extends Controller {
 	function getModules($location, $columns = 3, $controller = ''){
 		switch($location){
 			case 'header';
-				$modules = array('cart', 'imagedisplay', 'language','currency', 'header', 'search', 'navigation');
+				$modules = array('cart', 'converter', 'imagedisplay', 'language','currency', 'header', 'search', 'navigation');
 				break;	
 			case 'extra';
 				$modules = array('cart', 'imagedisplay', 'language','currency', 'homepage', 'information', 'search','navigation');
 				break;
 			case 'column';
-				$modules = array('bestseller', 'cart', 'category', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'review', 'search', 'specials');
+				$modules = array('bestseller', 'cart', 'category', 'converter', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'review', 'search', 'specials');
 				if ($columns ==2){
 					if ($controller == 'search'){$modules[] = 'searchoptions';}
 					if ($controller == 'category'){$modules[] = 'categoryoptions';}
@@ -341,7 +341,7 @@ class ControllerTemplateManager extends Controller {
 				if ($controller == 'product'){ $modules[] = 'related';}
 				break;
 			case 'columnright';
-				$modules = array('bestseller', 'cart', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation', 'popular', 'review', 'search', 'specials');
+				$modules = array('bestseller', 'cart', 'converter', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation', 'popular', 'review', 'search', 'specials');
 				if ($controller == 'product'){ $modules[] = 'related';}
 				if ($controller == 'search'){$modules[] = 'searchoptions';}
 				if ($controller == 'category'){$modules[] = 'categoryoptions';}
@@ -377,11 +377,12 @@ class ControllerTemplateManager extends Controller {
 		if(!in_array('default',$tpl_controllers)){
 			$controller_data[] = array('controller'   => 'default');
 		}
+		$exclusions = array('index', 'addtocart', 'maintenance', 'tools');
 		foreach ($files as $file) {
 			if (strstr($file,$ext)) {
 				$filename = str_replace('.php', '', basename($file));
 				if(!in_array($filename,$tpl_controllers)){
-					if ($filename != 'index' && $filename != 'addtocart' && $filename != 'maintenance'){
+					if(!in_array($filename, $exclusions)){
 						$controller_data[] = array(
 							'controller'   => $filename
 						);	

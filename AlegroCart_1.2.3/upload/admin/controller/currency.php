@@ -1,4 +1,4 @@
-<?php // Currenty AlegroCart
+<?php // Currency AlegroCart
 class ControllerCurrency extends Controller {
 	var $error = array();
  	function __construct(&$locator){
@@ -62,12 +62,25 @@ class ControllerCurrency extends Controller {
 	
 	function updateRates() {
 		if($this->validateUpdate()){
+			set_time_limit(90);
+			$start_time = microtime(true);
 			$from = $this->config->get('config_currency');
 			$results = $this->modelCurrency->get_codes();
+			$base_rate = 1.00 + $this->config->get('config_currency_surcharge');
+			
+			$status_all = ($this->request->gethtml('refresh_all','post') == 'All') ? TRUE : FALSE;
+				
 			foreach ($results as $to) {		
-				$rate = $this->currency->currency_converter('1.00', $from, $to['code']);
-				if ($rate > 0){
-					$this->modelCurrency->update_rates($rate, $to['code']);
+				if($status_all || $to['status']){
+					$rate = $this->currency->currency_converter($base_rate, $from, $to['code']);
+					if ($rate > 0 && $to['lock_rate'] == FALSE ){
+						$this->modelCurrency->update_rates($rate, $to['code']);
+					}
+				}
+				if((microtime(true)-$start_time)>88){
+					$this->session->set('message', $this->language->get('error_time'));
+					$this->cache->delete('currency');
+					$this->response->redirect($this->url->ssl('currency'));
 				}
 			}		
 			$this->cache->delete('currency');		
@@ -111,7 +124,16 @@ class ControllerCurrency extends Controller {
 		$cols[] = array(
 			'name'  => $this->language->get('column_value'),
 			'sort'  => 'value',
-			'align' => 'right'
+			'align' => 'center'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_status'),
+			'sort'  => 'status',
+			'align' => 'center'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_lock_rate'),
+			'align' => 'center'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_date_modified'),
@@ -138,7 +160,15 @@ class ControllerCurrency extends Controller {
 			);
 			$cell[] = array(
 				'value' => $result['value'],
-				'align' => 'right'
+				'align' => 'center'
+			);
+			$cell[] = array(
+				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+				'align'  => 'center'
+			);
+			$cell[] = array(
+				'icon'  => ($result['lock_rate'] ? 'disable_update.png' : 'enable_update.png'),
+				'align'  => 'center'
 			);
 			$cell[] = array(
 				'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_modified'])),
@@ -169,7 +199,7 @@ class ControllerCurrency extends Controller {
 		$view = $this->locator->create('template');
 
 		$view->set('heading_title', $this->language->get('heading_title'));
-		$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('heading_description', $this->language->get('heading_description', $this->config->get('config_currency_surcharge')));
 
 		$view->set('text_default', $this->language->get('text_default'));
 		$view->set('text_results', $this->modelCurrency->get_text_results());
@@ -184,6 +214,9 @@ class ControllerCurrency extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_refresh', $this->language->get('button_rate'));
+		$view->set('checkbox_name', $this->language->get('checkbox_name'));
+		$view->set('checkbox_value', $this->language->get('checkbox_value'));
+		$view->set('button_enable_disable', $this->language->get('button_enable_disable'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		
 		$view->set('error', @$this->error['message']);
@@ -192,6 +225,7 @@ class ControllerCurrency extends Controller {
 		$this->session->delete('message');
 		
 		$view->set('action', $this->url->ssl('currency', 'page'));
+		$view->set('action_enable_disable', $this->url->ssl('currency', 'enableDisable'));
 		$view->set('action_refresh', $this->url->ssl('currency', 'updateRates'));
 		$view->set('action_delete', $this->url->ssl('currency', 'enableDelete'));
 		
@@ -217,8 +251,15 @@ class ControllerCurrency extends Controller {
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
+		$view->set('text_lock_rate', $this->language->get('text_lock_rate'));
+		$view->set('text_enabled', $this->language->get('text_enabled'));
+		$view->set('text_disabled', $this->language->get('text_disabled'));
+		$view->set('text_default_rate', $this->language->get('text_default_rate'));
+		
 		$view->set('entry_title', $this->language->get('entry_title'));
 		$view->set('entry_code', $this->language->get('entry_code'));
+		$view->set('entry_status', $this->language->get('entry_status'));
+		$view->set('entry_lock_rate', $this->language->get('entry_lock_rate'));
 		$view->set('entry_value', $this->language->get('entry_value'));
 		$view->set('entry_symbol_left', $this->language->get('entry_symbol_left'));
 		$view->set('entry_symbol_right', $this->language->get('entry_symbol_right'));
@@ -236,6 +277,7 @@ class ControllerCurrency extends Controller {
 		$view->set('error', @$this->error['message']);
 		$view->set('error_title', @$this->error['title']);
 		$view->set('error_code', @$this->error['code']);
+		$view->set('error_default', @$this->error['default']);
 
 		$view->set('action', $this->url->ssl('currency', $this->request->gethtml('action'), array('currency_id' => $this->request->gethtml('currency_id'))));
 		$view->set('list', $this->url->ssl('currency'));
@@ -266,6 +308,18 @@ class ControllerCurrency extends Controller {
 		} else {
 			$view->set('code', @$currency_info['code']);
 		}
+		
+		if ($this->request->has('status', 'post')) {
+			$view->set('status', $this->request->gethtml('status', 'post'));
+		} else {
+			$view->set('status', @$currency_info['status']);
+		}
+		
+		if ($this->request->has('lock_rate', 'post')) {
+			$view->set('lock_rate', $this->request->gethtml('lock_rate', 'post'));
+		} else {
+			$view->set('lock_rate', @$currency_info['lock_rate']);
+		}
 
 		if ($this->request->has('symbol_left', 'post')) {
 			$view->set('symbol_left', $this->request->gethtml('symbol_left', 'post'));
@@ -293,6 +347,23 @@ class ControllerCurrency extends Controller {
 
 		return $view->fetch('content/currency.tpl');
 	}
+	
+	function enableDisable(){
+		if($this->validateUpdate()){
+			if($this->modelCurrency->check_status()){
+				$status = 0;
+			} else {
+				$status = 1;
+			}
+			$this->modelCurrency->set_status($status);
+			$this->cache->delete('currency');
+			$this->session->set('message', $this->language->get('text_message'));
+		} else {
+			$this->session->set('message', @$this->error['message']);
+		}
+		$this->response->redirect($this->url->ssl('currency'));
+	}
+	
 	function validateUpdate(){
 		if (!$this->user->hasPermission('modify', 'currency')) {
 			$this->error['message'] = $this->language->get('error_permission');
@@ -320,6 +391,10 @@ class ControllerCurrency extends Controller {
 
         if (!$this->validate->strlen($this->request->gethtml('code', 'post'),3,3)) {
 			$this->error['code'] = $this->language->get('error_code');
+		}
+		$result = $this->modelCurrency->check_default();
+		if ($this->config->get('config_currency') == $result['code'] && $this->request->gethtml('status', 'post') == FALSE){
+			$this->error['default'] = $this->language->get('error_default');
 		}
 
 		if (!$this->error) {

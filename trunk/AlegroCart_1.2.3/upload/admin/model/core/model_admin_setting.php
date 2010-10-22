@@ -30,6 +30,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_language', `value` = '" . $this->request->gethtml('catalog_config_language', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'admin', `group` = 'config', `key` = 'config_language', `value` = '" . $this->request->gethtml('admin_config_language', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_currency', `value` = '" . $this->request->gethtml('global_config_currency', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_currency_surcharge', `value` = '" . $this->request->gethtml('global_config_currency_surcharge', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_weight_class_id', `value` = '" . $this->request->gethtml('global_config_weight_class_id', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax', `value` = '" . $this->request->gethtml('global_config_tax', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_order_status_id', `value` = '" . $this->request->gethtml('global_config_order_status_id', 'post')  . "'");
@@ -95,7 +96,7 @@ class Model_Admin_Setting extends Model {
 		return $results;
 	}
 	function get_countries(){
-		$results = $this->database->cache('country', "select country_id, name from country where country_status = '1' order by name");
+		$results = $this->database->getRows("select country_id, name from country where country_status = '1' order by name");
 		return $results;
 	}
 	function get_zones(){
@@ -107,7 +108,7 @@ class Model_Admin_Setting extends Model {
 		return $results;
 	}
 	function get_currencies(){
-		$results = $this->database->cache('currency', "select * from currency");
+		$results = $this->database->getRows("select * from currency where status = '1'");
 		return $results;
 	}
 	function get_weight_classes(){

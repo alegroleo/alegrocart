@@ -1,0 +1,22 @@
+/* Currency Converter */
+.converter{
+	position: relative;
+	float: right;
+	width: 194px;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+	z-index: 1000;
+	min-height:25px;
+	margin-bottom: 0px;
+}
+.converter table tr td {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+.converter select{
+	padding: 0px;
+	margin: 0px;
+	width: 192px;
+}

@@ -281,6 +281,11 @@
                   <?php } ?>
                 </select></td>
             </tr>
+			<tr>
+			  <td><?php echo $entry_currency_surcharge;?></td>
+			  <td><input type="text" name="global_config_currency_surcharge" value="<?php echo $global_config_currency_surcharge;?>"></td>
+			  <td><?php echo $text_surcharge;?></td>
+			</tr>
             <tr>
               <td><?php echo $entry_weight; ?></td>
               <td><select name="global_config_weight_class_id">
@@ -306,6 +311,7 @@
                 <input type="radio" name="global_config_tax" value="0" checked>
                 <?php echo $text_no; ?>
                 <?php } ?></td>
+				<td><?php echo $text_prices_tax;?></td>
             </tr>
             <tr>
               <td><?php echo $entry_order_status; ?></td>

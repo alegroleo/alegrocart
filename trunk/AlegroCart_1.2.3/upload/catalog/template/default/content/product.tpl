@@ -48,6 +48,9 @@
   <div>
    <?php if(isset($alt_description)){ echo $alt_description;} ?>
   </div>
+  <div>
+    <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+  </div>
   <div class="ponhand"><?php echo $quantity_available.$stock_level; ?></div>	
    <?php include $shared_path . 'product_price.tpl' ;?>
    

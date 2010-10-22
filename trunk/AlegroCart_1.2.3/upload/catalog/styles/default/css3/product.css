@@ -126,6 +126,9 @@
 	left: 2px;
 	text-align: left;
 }
+.pbox img {
+	padding-top: 5px;
+}
 .product_total{
 	left: 10px;
 	font-size: 12px;

@@ -128,12 +128,14 @@ class Model_Core extends Model {
 					}
 					if($default){$this->module_location[$default] = $location['location'];}
 				}
-				foreach ($modules_extra[$location['location']] as $extra){
-					$modules[$location['location']][] = $extra;
-					if($this->default_override){
-						$this->set_tpl_modules($extra, $location['location']);
+				if(!$this->default_override){
+					foreach ($modules_extra[$location['location']] as $extra){
+						$modules[$location['location']][] = $extra;
+						if($this->default_override){
+							$this->set_tpl_modules($extra, $location['location']);
+						}
+						if($extra){$this->module_location[$extra] = $location['location'];}
 					}
-					if($extra){$this->module_location[$extra] = $location['location'];}
 				}
 				
 			}

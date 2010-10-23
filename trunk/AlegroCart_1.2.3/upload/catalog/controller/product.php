@@ -79,13 +79,13 @@ class ControllerProduct extends Controller {
 	  		$this->template->set('title', $product_info['name']);
       		$view = $this->locator->create('template');
       		$view->set('heading_title', $product_info['name']);
-		$view->set('breadcrumbs', $breadcrumb);
+			$view->set('breadcrumbs', $breadcrumb);
       		$view->set('text_enlarge', $language->get('text_enlarge'));
       		$view->set('text_images', $language->get('text_images'));
-		$view->set('text_shippable', $language->get('text_shippable'));
-		$view->set('text_non_shippable', $language->get('text_non_shippable'));
+			$view->set('text_shippable', $language->get('text_shippable'));
+			$view->set('text_non_shippable', $language->get('text_non_shippable'));
       		$view->set('text_options', $language->get('text_options'));
-		$view->set('text_min_qty', $language->get('text_min_qty'));
+            $view->set('text_min_qty', $language->get('text_min_qty'));
 			$view->set('text_manufacturer', $language->get('text_manufacturer'));
 			$view->set('text_quantity_discount', $language->get('text_quantity_discount'));
 			$view->set('text_qty_discount', $language->get('text_qty_discount'));
@@ -251,7 +251,7 @@ class ControllerProduct extends Controller {
 					if(in_array('related',$modules[$location['location']]) && @$this->has_related){
 							$this->template->set($this->module->load('related'));
 						break;
-					} else {
+					} else if($module != 'related'){
 						$this->template->set($this->module->load($module));
 					}	
 				}

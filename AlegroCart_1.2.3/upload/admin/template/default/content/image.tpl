@@ -55,13 +55,21 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_filename; ?></td>
+              <td style="width: 100px;"><?php echo $entry_filename; ?></td>
               <td><input type="file" name="image">
                 <?php if ($error_file) { ?>
                 <span class="error"><?php echo $error_file; ?></span>
                 <?php } ?></td>
             </tr>
-          </table>
+		  </table>
+		  <?php if(isset($image_data)){?>
+			<table>
+			  <tr>
+			    <td><?php echo $text_image_filename . '<b>' . $image_data[0]['filename'] . '</b>';?></td>
+				<td id="image"><img src="<?php echo $image_data[0]['thumb'];?>" alt="" title="" width="100" height="100"></td>
+			  </tr>
+			</table>
+		  <?php }?>
         </div>
       </div>
     </div>

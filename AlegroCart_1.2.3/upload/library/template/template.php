@@ -1,7 +1,7 @@
 <?php
 class Template {
   	var $data = array();
-
+	var $directory;
 	function __construct($directory, $styles, $color, $columns) {
 		$this->directory = $directory;
 		$this->set('template',$directory);

@@ -21,6 +21,7 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><?php echo $tab_general; ?></a></div>
@@ -54,10 +55,22 @@
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_image; ?></td>
-              <td><input type="text" name="image" maxlength="32" value="<?php echo $image; ?>">
+              <td><input type="text" id="flag_image" name="image" maxlength="32" value="<?php echo $image; ?>">
                 <?php if ($error_image) { ?>
                 <span class="error"><?php echo $error_image; ?></span>
                 <?php } ?></td>
+				<td>
+				  <select  name="flag_image" onchange="$('#image').load('index.php?controller=language&action=view_image&flag_image='+this.value), $('#flag_image').val(this.value);">
+				    <?php foreach($flags as $flag){?>
+				      <option value="<?php echo $flag['filename'];?>"<?php if($image == $flag['filename']){ echo ' selected';}?>><?php echo '(' . $flag['name'] . ') ' . $flag['country'];?></option>
+					<?php }?>
+				  </select>
+				<td>
+				<td id="image">
+				  <?php if(isset($image_thumb)){?>
+				    <img src="<?php echo $image_thumb;?>" alt="" title="Flag" width="32" height="22">
+				  <?php }?>
+				</td>
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_directory; ?></td>
@@ -97,3 +110,7 @@
   tabview_initialize('tab');
   //--></script>
 </form>
+<script type="text/javascript"><!--
+
+
+//--></script>

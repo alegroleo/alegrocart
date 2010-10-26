@@ -1,6 +1,8 @@
 <?php // Language AlegroCart
 class ControllerLanguage extends Controller {
 	var $error = array();
+	var $types = array('gif', 'jpg', 'png');
+	var $image_path;
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
@@ -17,6 +19,7 @@ class ControllerLanguage extends Controller {
 		$this->validate 	=& $locator->get('validate');
 		$this->modelLanguage = $model->get('model_admin_language');
 		$this->language->load('controller/language.php');
+		$this->image_path = HTTP_ADMIN . 'template' . '/'  . $this->template->directory . '/' . 'image' . '/' . 'language' . '/';
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
@@ -238,8 +241,10 @@ class ControllerLanguage extends Controller {
 
 		if ($this->request->has('image', 'post')) {
 			$view->set('image', $this->request->gethtml('image', 'post'));
+			$view->set('image_thumb', $this->image_path . $this->request->gethtml('image', 'post'));
 		} else {
 			$view->set('image', @$language_info['image']);
+			$view->set('image_thumb', $this->image_path . @$language_info['image']);
 		}
 
 		if ($this->request->has('directory', 'post')) {
@@ -259,8 +264,49 @@ class ControllerLanguage extends Controller {
 		} else {
 			$view->set('sort_order', @$language_info['sort_order']);
 		}
-
+		
+		$results = $this->checkFiles();
+		$flag_data = array();
+		foreach ($results as $result){
+			$flag_data[] = array(
+				'filename'	=> $result['filename'],
+				'name'		=> $result['name'],
+				'country'	=> $this->language->get('country_' . $result['name'])
+			);
+		}
+		$view->set('flags', $flag_data);
+		
 		return $view->fetch('content/language.tpl');
+	}
+	
+	function view_image(){
+		if($this->request->gethtml('flag_image')){
+			$output = '<img src="' . $this->image_path . $this->request->gethtml('flag_image') . '" ';
+			$output .= 'alt="" title="Flag" width="32" height="22">';
+		} else {
+			$output = '';
+		}
+		$this->response->set($output);
+	}
+	
+	function checkFiles() {
+		$flag_data = array();
+		$path = DIR_ADMIN . 'template' . D_S  . 'default' . D_S . 'image' . D_S . 'language' . D_S . '*.*';
+		$files=glob($path);
+		if (!$files) { return; }
+		foreach ($files as $file) {
+			$pattern='/\.('.implode('|',$this->types).')$/';
+			if (preg_match($pattern,$file)) {
+				$filename = basename($file);
+				$name = str_replace($this->types, '', $filename);
+				$name = str_replace('.', '', $name);
+				$flag_data[] = array(
+					'filename'   => $filename,
+					'name'       => $name
+				);	
+			}
+		}
+		return $flag_data;
 	}
 	
 	function validateForm() {

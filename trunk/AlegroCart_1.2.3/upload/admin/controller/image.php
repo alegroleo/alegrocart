@@ -63,7 +63,7 @@ class ControllerImage extends Controller {
 		$str=ucwords($str);
 		return $str;
 	}
-                   
+
   	function insert() {
 
     	$this->template->set('title', $this->language->get('heading_title'));
@@ -254,7 +254,9 @@ class ControllerImage extends Controller {
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 
-    	$view->set('entry_filename', $this->language->get('entry_filename'));
+    	$view->set('text_image_filename', $this->language->get('text_image_filename'));
+		
+		$view->set('entry_filename', $this->language->get('entry_filename'));
     	$view->set('entry_title', $this->language->get('entry_title'));
 	
     	$view->set('button_list', $this->language->get('button_list'));
@@ -302,6 +304,14 @@ class ControllerImage extends Controller {
 			);
     	}
     	$view->set('images', $image_data);
+		if (($this->request->gethtml('image_id')) && (!$this->request->isPost())) {
+			$result = $this->modelImage->get_image();
+			$image_photo[] = array(
+				'filename' => $result[0]['filename'],
+				'thumb'    => $this->image->resize($result[0]['filename'], $this->size, $this->size)
+			);
+			$view->set('image_data', $image_photo);
+		}
   
  		return $view->fetch('content/image.tpl');
   	}

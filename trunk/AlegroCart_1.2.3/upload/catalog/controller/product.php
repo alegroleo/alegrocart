@@ -244,20 +244,21 @@ class ControllerProduct extends Controller {
   	}
 
 	function load_modules(){ // Template Manager
-		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
-		foreach ($this->locations as $location){
-			if($modules[$location['location']]){
-				foreach($modules[$location['location']] as $module){
-					if(in_array('related',$modules[$location['location']]) && @$this->has_related){
-							$this->template->set($this->module->load('related'));
-						break;
-					} else if($module != 'related'){
-						$this->template->set($this->module->load($module));
-					}	
-				}
-			}
-		}
-	}
+        $modules = $this->modelCore->merge_modules($this->get_modules_extra());
+        foreach ($this->locations as $location){
+            if($modules[$location['location']]){
+                foreach($modules[$location['location']] as $module){
+                    if(in_array('related',$modules[$location['location']]) && @$this->has_related){
+                        if ($module != 'specials'){
+                            $this->template->set($this->module->load($module));
+                        }
+                    } else if($module != 'related'){
+                        $this->template->set($this->module->load($module));
+                    }
+                }
+            }
+        }
+    } 
 	
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){

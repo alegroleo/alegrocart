@@ -26,7 +26,7 @@ class ControllerCart extends Controller {
 	}
 	function index() {
 	
-    	if ($this->request->isPost()) {
+    	if ($this->request->isPost() && !$this->request->has('currency', 'post') && !$this->request->has('module_language', 'post')) { 
       		if ($this->request->gethtml('product_id', 'post')) {
         		$this->cart->add($this->request->gethtml('product_id', 'post'), '1', $this->request->gethtml('option', 'post'));
       		}

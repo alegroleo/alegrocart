@@ -41,15 +41,17 @@ class ControllerAccountCreate extends Controller {
 				$this->modelAccountAddress->insert_address($this->customer->getId());
 				$this->modelAccountCreate->set_default_address($this->customer->getId());
 
-				$this->mail->setTo($this->request->sanitize('email', 'post'));
-				$this->mail->setFrom($this->config->get('config_email'));
-				$this->mail->setSender($this->config->get('config_store'));
-				$this->mail->setSubject($this->language->get('email_subject', $this->config->get('config_store')));
-				$this->mail->setCharacterSet($this->language->get('charset'));
-				$this->mail->setText($this->language->get('email_message', $this->request->sanitize('firstname', 'post'), $this->config->get('config_store'), $this->url->ssl('account_login'), $this->config->get('config_store')));
-				$this->mail->send();
-				$this->mail->setTo($this->config->get('config_email_accounts') ? $this->config->get('config_email_accounts') : $this->config->get('config_email'));
-				$this->mail->send();
+				if ($this->config->get('config_email_send') ) {
+					$this->mail->setTo($this->request->sanitize('email', 'post'));
+					$this->mail->setFrom($this->config->get('config_email'));
+					$this->mail->setSender($this->config->get('config_store'));
+					$this->mail->setSubject($this->language->get('email_subject', $this->config->get('config_store')));
+					$this->mail->setCharacterSet($this->language->get('charset'));
+					$this->mail->setText($this->language->get('email_message', $this->request->sanitize('firstname', 'post'), $this->config->get('config_store'), $this->url->ssl('account_login'), $this->config->get('config_store')));
+					$this->mail->send();
+					$this->mail->setTo($this->config->get('config_email_accounts') ? $this->config->get('config_email_accounts') : $this->config->get('config_email'));
+					$this->mail->send();
+				}
 				
 				$this->session->delete('account_validation');
 				$this->response->redirect($this->url->ssl('account_success'));

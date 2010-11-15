@@ -100,7 +100,7 @@ a:hover {
 	cursor: pointer;
 }
 #extra {
-	width: 990px;
+	width: 100%;
 	text-align: center;
 }
 #content {
@@ -305,6 +305,14 @@ a:hover {
 	font-size: 11px;
 	text-align: center; /*left; */
 	font-weight: bold;
+}
+.price_old .tax{
+	font-weight: bold;
+	color: #CC0000;
+}
+.price_new  .tax{
+	font-weight: bold;
+	color: #000000;
 }
 .column_row{
     width: 100%;
@@ -557,6 +565,10 @@ a:hover {
     margin-top: 0px;
     width: 194px;
 }
+.information .tax{
+	font-weight: bold;
+	color: #CC0000;
+}
 .information a {
 	background: url('../image/bullet_1.png') no-repeat 10px 4px;
 	padding: 0px 0px 0px 25px;
@@ -664,4 +676,14 @@ a:hover {
 	width: 100%;
 	visibility: hidden;
 	clear: both;
+}
+.tooltip_white {
+   display:none;
+   background: url('../image/white.png'); 
+   font-size: 10px;
+   height:90px;
+   width:190px;
+   padding: 10px 10px 10px 10px;
+   color:#000000;                           
+   z-index: 1000;
 }

@@ -110,8 +110,9 @@
 			  </td>
             </tr>
             <tr>
-              <td><?php echo $entry_rows_per_page; ?></td>
+              <td><?php echo $entry_items_per_page; ?></td>
               <td><input type="text" name="catalog_config_max_rows" value="<?php echo $catalog_config_max_rows; ?>" size="2"></td>
+			  <td><?php echo $text_items_per_page;?></td>
             </tr>
             <tr>
               <td><?php echo $entry_url_alias; ?></td>
@@ -239,7 +240,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_country; ?></td>
+              <td width="220"><?php echo $entry_country; ?></td>
               <td><select name="global_config_country_id" onchange="$('#zone').load('index.php?controller=setting&action=zone&country_id='+this.value+'&zone_id=<?php echo $global_config_zone_id; ?>');">
                   <?php foreach ($countries as $country) { ?>
                   <?php if ($country['country_id'] == $global_config_country_id) { ?>
@@ -313,6 +314,21 @@
                 <?php } ?></td>
 				<td><?php echo $text_prices_tax;?></td>
             </tr>
+			<tr>
+              <td><?php echo $entry_tax_store; ?></td>
+              <td><?php if ($global_config_tax_store) { ?>
+                <input type="radio" name="global_config_tax_store" value="1" checked>
+                <?php echo $text_yes; ?>
+                <input type="radio" name="global_config_tax_store" value="0">
+                <?php echo $text_no; ?>
+                <?php } else { ?>
+                <input type="radio" name="global_config_tax_store" value="1">
+                <?php echo $text_yes; ?>
+                <input type="radio" name="global_config_tax_store" value="0" checked>
+                <?php echo $text_no; ?>
+                <?php } ?></td>
+				<td><?php echo $text_tax_products;?></td>
+            </tr>
             <tr>
               <td><?php echo $entry_order_status; ?></td>
               <td><select name="global_config_order_status_id">
@@ -325,6 +341,11 @@
                   <?php } ?>
                 </select></td>
             </tr>
+			<tr>
+			  <td><?php echo $entry_invoice_number; ?></td>
+			  <td><input type="text" name="global_invoice_number" value="<?php echo $global_invoice_number; ?>" size="16" maxlength="32"></td>
+			  <td><?php echo $text_invoice_number;?></td>
+			</tr>
           </table>
         </div>
       </div>
@@ -524,10 +545,14 @@
               <td><input type="text" name="global_config_image_height" value="<?php echo $global_config_image_height; ?>" size="3"></td>			  
 			</tr>
 			<tr bgcolor="#CCFFFF">   <!-- Product -->
+			  <td><?php echo $text_product; ?></td>
+			</tr>
+			<tr bgcolor="#CCFFFF">
 			  <td><?php echo $entry_product_width; ?></td>
 			  <td><input type="text" name="catalog_product_image_width" value="<?php echo $catalog_product_image_width; ?>" size="3"></td>
 			  <td><?php echo $entry_product_height; ?></td>
 			  <td><input type="text" name="catalog_product_image_height" value="<?php echo $catalog_product_image_height; ?>" size="3"></td>
+			</tr>
 			<tr bgcolor="#CCFFFF">
 			  <td><?php echo $entry_image_display;?></td>
 				<td><select name="catalog_product_image_display">
@@ -566,10 +591,19 @@
 			  <td><input type="text" name="catalog_additional_image_height" value="<?php echo $catalog_additional_image_height; ?>" size="3"></td>
 			<tr>
 			<tr bgcolor="#FFFF99">  <!-- Category -->
+			  <td><?php echo $text_category; ?></td>
+			</tr>
+			<tr bgcolor="#FFFF99">
 			  <td><?php echo $entry_category_width; ?></td>
 			  <td><input type="text" name="catalog_category_image_width" value="<?php echo $catalog_category_image_width; ?>" size="3"></td>
 			  <td><?php echo $entry_category_height; ?></td>
 			  <td><input type="text" name="catalog_category_image_height" value="<?php echo $catalog_category_image_height; ?>" size="3"></td>
+			</tr>
+			<tr bgcolor="#FFFF99">
+			  <td><?php echo $entry_items_per_page; ?></td>
+			  <td><input type="text" name="catalog_category_rows" value="<?php echo $catalog_category_rows; ?>" size="3"></td>
+			  <td><?php echo $text_default_rows; ?></td>
+			</tr>
 			<tr bgcolor="#FFFF99">
               <td><?php echo $entry_category_addtocart; ?></td>
               <td><select name="catalog_category_addtocart">
@@ -590,10 +624,19 @@
 			  </select></td>
 			</tr> 
 			<tr bgcolor="#CCFFCC">  <!-- Search -->
+			  <td><?php echo $text_search; ?></td>
+			</tr>
+			<tr bgcolor="#CCFFCC">
 			  <td><?php echo $entry_search_width; ?></td>
 			  <td><input type="text" name="catalog_search_image_width" value="<?php echo $catalog_search_image_width; ?>" size="3"></td>
 			  <td><?php echo $entry_search_height; ?></td>
 			  <td><input type="text" name="catalog_search_image_height" value="<?php echo $catalog_search_image_height; ?>" size="3"></td>
+			</tr>
+			<tr bgcolor="#CCFFCC">
+			  <td><?php echo $entry_items_per_page; ?></td>
+			  <td><input type="text" name="catalog_search_rows" value="<?php echo $catalog_search_rows; ?>" size="3"></td>
+			  <td><?php echo $text_default_rows; ?></td>
+			</tr>
 			<tr bgcolor="#CCFFCC">
               <td><?php echo $entry_search_addtocart; ?></td>
               <td><select name="catalog_search_addtocart">
@@ -617,6 +660,9 @@
               <td><?php echo $entry_search_limit; ?></td>
               <td><input type="text" name="catalog_search_limit" value="<?php echo $catalog_search_limit; ?>" size="3"></td>
             </tr>
+			<tr bgcolor="#CCFFFF"> <!-- Category + Search -->
+			  <td><?php echo $text_category_search;?></td>
+			</tr>
 			<tr bgcolor="#CCFFFF">
 			  <td><?php echo $entry_image_display;?></td>
 				<td><select name="catalog_content_image_display">
@@ -648,10 +694,12 @@
 			      <option value="<?php echo $quantity_select;?>" <?php if($quantity_select == $catalog_addtocart_quantity_box){ echo ' selected';}?>><?php echo $quantity_select;?></option>
 				<?php }?>
 			  </select></td>
+			  <td><?php echo $text_cart_wide; ?></td>
 			</tr>
 			<tr>
 			  <td><?php echo $entry_addtocart_maximum; ?></td>
 			  <td><input type="text" name="catalog_addtocart_quantity_max" value="<?php echo $catalog_addtocart_quantity_max;?>" size="4" /></td>
+			  <td><?php echo $text_cart_quantity; ?></td>
 			</tr>
           </table>
 		  <table>

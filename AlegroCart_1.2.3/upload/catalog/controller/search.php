@@ -36,6 +36,8 @@ class ControllerSearch extends Controller {
     	$view = $this->locator->create('template');
 
     	$view->set('heading_title', $language->get('heading_title'));
+		$tax_included = $this->config->get('config_tax_store');
+		$view->set('tax_included', $tax_included);
   
     	$view->set('text_critea', $language->get('text_critea'));
     	$view->set('text_search', $language->get('text_search'));
@@ -60,7 +62,7 @@ class ControllerSearch extends Controller {
 		if ($session->get('search.page_rows')){
 			$page_rows = (int)$session->get('search.page_rows');
 		} else {
-			$page_rows = $this->config->get('config_max_rows');
+			$page_rows = $this->config->get('search_rows') ? $this->config->get('search_rows') : $this->config->get('config_max_rows');
 		}
 		If ($columns > 1){
 			$page_rows = (ceil($page_rows/$columns))*$columns;
@@ -189,7 +191,7 @@ class ControllerSearch extends Controller {
 							$product_discounts[] = array(
 							  'discount_quantity' => $discount['quantity'],
 							  'discount_percent'  => round($discount['discount']),
-							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $this->config->get('config_tax')))
+							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $tax_included))
 							);
 						}
 					}  // End product Discounts
@@ -225,8 +227,8 @@ class ControllerSearch extends Controller {
             			'href'  => $url->href('product', FALSE, array('product_id' => $result['product_id'])),
 						'popup'     => $image->href($result['filename']),
             			'thumb' => $image->resize($result['filename'], $image_width, $image_height),
-						'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-            			'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
+						'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $tax_included)),
+            			'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $tax_included)),
 						'sale_start_date' => $result['sale_start_date'],
 						'sale_end_date'   => $result['sale_end_date'],
 						'options'         => $options

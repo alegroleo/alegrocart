@@ -66,6 +66,10 @@
 			  </td>				 
 			</tr>
 			<tr>
+			  <td><?php echo $entry_items_per_page; ?></td>
+			  <td><input type="text" name="catalog_manufacturer_rows" value="<?php echo $catalog_manufacturer_rows; ?>" size="3"></td>
+			  <td><?php echo $text_default_rows; ?></td>
+			<tr>
               <td><?php echo $entry_display_lock; ?></td>
               <td><select name="catalog_manufacturer_display_lock">
                   <?php if ($catalog_manufacturer_display_lock) { ?>

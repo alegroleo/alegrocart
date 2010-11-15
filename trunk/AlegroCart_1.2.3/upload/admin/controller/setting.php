@@ -45,10 +45,22 @@ class ControllerSetting extends Controller {
 		$view->set('text_select', $this->language->get('text_select'));
 		$view->set('text_radio', $this->language->get('text_radio'));
 		$view->set('text_prices_tax', $this->language->get('text_prices_tax'));
+		$view->set('text_tax_products', $this->language->get('text_tax_products'));
+		$view->set('text_invoice_number', $this->language->get('text_invoice_number'));
+		
 		$view->set('text_surcharge', $this->language->get('text_surcharge'));
 		$view->set('text_instruction', $this->language->get('text_instruction'));
 		$view->set('text_emails', $this->language->get('text_emails'));
+		$view->set('text_items_per_page', $this->language->get('text_items_per_page'));
+		$view->set('text_default_rows', $this->language->get('text_default_rows'));
 		$view->set('text_cart_quantity', $this->language->get('text_cart_quantity'));
+		$view->set('text_cart_wide', $this->language->get('text_cart_wide'));
+		
+		$view->set('text_product', $this->language->get('text_product'));
+		$view->set('text_category', $this->language->get('text_category'));
+		$view->set('text_search', $this->language->get('text_search'));
+		$view->set('text_category_search', $this->language->get('text_category_search'));
+		
 		
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
@@ -64,6 +76,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_parse_time', $this->language->get('entry_parse_time'));
 		$view->set('entry_ssl', $this->language->get('entry_ssl'));
 		$view->set('entry_rows_per_page', $this->language->get('entry_rows_per_page'));
+		$view->set('entry_items_per_page', $this->language->get('entry_items_per_page'));
 		$view->set('entry_country', $this->language->get('entry_country'));
 		$view->set('entry_zone', $this->language->get('entry_zone'));
 		$view->set('entry_language', $this->language->get('entry_language'));
@@ -71,6 +84,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_currency_surcharge', $this->language->get('entry_currency_surcharge'));
 		$view->set('entry_weight', $this->language->get('entry_weight'));
 		$view->set('entry_tax', $this->language->get('entry_tax'));
+		$view->set('entry_tax_store', $this->language->get('entry_tax_store'));
+		$view->set('entry_invoice_number', $this->language->get('entry_invoice_number'));
 		$view->set('entry_order_status', $this->language->get('entry_order_status'));
 		$view->set('entry_stock_check', $this->language->get('entry_stock_check'));
 		$view->set('entry_stock_checkout', $this->language->get('entry_stock_checkout'));
@@ -266,7 +281,19 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_tax', @$setting_info['global']['config_tax']);
 		}
+		
+		if ($this->request->has('global_config_tax_store', 'post')) {
+			$view->set('global_config_tax_store', $this->request->gethtml('global_config_tax_store', 'post'));
+		} else {
+			$view->set('global_config_tax_store', @$setting_info['global']['config_tax_store']);
+		}
 
+		if ($this->request->has('global_invoice_number', 'post')) {
+			$view->set('global_invoice_number', $this->request->gethtml('global_invoice_number', 'post'));
+		} else {
+			$view->set('global_invoice_number', @$setting_info['global']['invoice_number']);
+		}
+		
 		if ($this->request->has('global_config_email', 'post')) {
 			$view->set('global_config_email', $this->request->gethtml('global_config_email', 'post'));
 		} else {
@@ -496,29 +523,40 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_search_options_select', @$setting_info['catalog']['search_options_select']);
 		}
 		if ($this->request->has('catalog_product_image_display', 'post')) {
-			$view->set('catalog_product_image_display', $this->request->get('catalog_product_image_display', 'post'));
+			$view->set('catalog_product_image_display', $this->request->gethtml('catalog_product_image_display', 'post'));
 		} else {
 			$view->set('catalog_product_image_display', @$setting_info['catalog']['product_image_display']);
 		}
 		if ($this->request->has('catalog_content_image_display', 'post')) {
-			$view->set('catalog_content_image_display', $this->request->get('catalog_content_image_display', 'post'));
+			$view->set('catalog_content_image_display', $this->request->gethtml('catalog_content_image_display', 'post'));
 		} else {
 			$view->set('catalog_content_image_display', @$setting_info['catalog']['content_image_display']);
 		}
 		if ($this->request->has('catalog_content_lines_single', 'post')) {
-			$view->set('catalog_content_lines_single', $this->request->get('catalog_content_lines_single', 'post'));
+			$view->set('catalog_content_lines_single', $this->request->gethtml('catalog_content_lines_single', 'post'));
 		} else {
 			$view->set('catalog_content_lines_single', @$setting_info['catalog']['content_lines_single']);
 		}
 		if ($this->request->has('catalog_content_lines_multi', 'post')) {
-			$view->set('catalog_content_lines_multi', $this->request->get('catalog_content_lines_multi', 'post'));
+			$view->set('catalog_content_lines_multi', $this->request->gethtml('catalog_content_lines_multi', 'post'));
 		} else {
 			$view->set('catalog_content_lines_multi', @$setting_info['catalog']['content_lines_multi']);
 		}
 		if ($this->request->has('catalog_content_lines_char', 'post')) {
-			$view->set('catalog_content_lines_char', $this->request->get('catalog_content_lines_char', 'post'));
+			$view->set('catalog_content_lines_char', $this->request->gethtml('catalog_content_lines_char', 'post'));
 		} else {
 			$view->set('catalog_content_lines_char', @$setting_info['catalog']['content_lines_char']);
+		}
+		
+		if ($this->request->has('catalog_search_rows')) {
+			$view->set('catalog_search_rows', $this->request->gethtml('catalog_search_rows'));
+		} else {
+			$view->set('catalog_search_rows', @$setting_info['catalog']['search_rows']);
+		}
+		if ($this->request->has('catalog_category_rows')) {
+			$view->set('catalog_category_rows', $this->request->gethtml('catalog_category_rows'));
+		} else {
+			$view->set('catalog_category_rows', @$setting_info['catalog']['category_rows']);
 		}
 		//End of New Block
 		if ($this->request->has('global_config_country_id')) {

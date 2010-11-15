@@ -55,6 +55,8 @@ class ControllerReviewWrite extends controller {
 	  		$view = $this->locator->create('template');
     
 	  		$view->set('heading_title', $this->language->get('heading_title'));
+			$tax_included = $this->config->get('config_tax_store');
+			$view->set('tax_included', $tax_included);
 
       		$view->set('text_enlarge', $this->language->get('text_enlarge'));
       		$view->set('text_author', $this->language->get('text_author'));
@@ -79,8 +81,8 @@ class ControllerReviewWrite extends controller {
 	  		$view->set('action', $this->url->ssl('review_write', FALSE, $query));
       
 	  		$view->set('product', $product_info['name']);
-	  		$view->set('price', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))));
-			$view->set('special_price', $product_info['special_price']>0 ? $this->currency->format($this->tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))): ""); // New
+	  		$view->set('price', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $tax_included)));
+			$view->set('special_price', $product_info['special_price']>0 ? $this->currency->format($this->tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $tax_included)): ""); // New
 	  		$view->set('popup', $this->image->href($product_info['filename']));
 	  		$view->set('thumb', $this->image->resize($product_info['filename'], 160,160));
 	  		$view->set('author', $this->customer->getFirstName() . ' ' . $this->customer->getLastName());

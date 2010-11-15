@@ -27,7 +27,7 @@ $_['column_action']        = 'Action';
 
 // Entry
 $_['entry_name']           = 'Product Name (Item Number):';
-$_['entry_description']    = 'Description:';
+$_['entry_description']    = 'Description:<br><br><br>Use <b>SHIFT->ENTER</b> for<br>line feed or empty lines<br>for spacing.<br>ENTER only produces<br>Paragraph Tags which are<br>Stripped.';
 $_['entry_model']          = 'Model:';
 $_['entry_model_number']   = 'Model Number:';
 $_['entry_manufacturer']   = 'Manufacturer:';
@@ -50,7 +50,7 @@ $_['entry_min_qty']        = 'Minimum Order Quantity:';
 $_['entry_dated_special']  = 'Dated Special Price  %s '; // New
 $_['entry_start_date']     = 'Start Date:'; // New
 $_['entry_end_date']       = 'End Date:'; // New
-$_['entry_alt_description']= 'Alternate Short Description:'; // New
+$_['entry_alt_description']= 'Alternate Short Description:<br><br><br>Use <b>SHIFT->ENTER</b> for<br>line feed or empty lines<br>for spacing.<br>ENTER only produces<br>Paragraph Tags which are<br>Stripped.'; // New
 $_['entry_technical']      = 'Technical Specification Description:'; // New
 $_['entry_meta_title']     = 'Meta Title:'; // New
 $_['entry_meta_description'] = 'Meta Description:'; // New

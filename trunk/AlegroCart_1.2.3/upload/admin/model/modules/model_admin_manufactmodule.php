@@ -18,6 +18,7 @@ class Model_Admin_ManufactModule extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_image_width', value = '175'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_image_height', value = '175'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_options_select', value = 'select'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_rows', value = '0'");
 	}
 	function update_manufacturer(){
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_status', `value` = '?'", $this->request->gethtml('catalog_manufacturer_status', 'post')));
@@ -26,7 +27,8 @@ class Model_Admin_ManufactModule extends Model {
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_image_height', `value` = '?'", $this->request->gethtml('catalog_manufacturer_image_height', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_columns', `value` = '?'", $this->request->gethtml('catalog_manufacturer_columns', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_display_lock', `value` = '?'", $this->request->gethtml('catalog_manufacturer_display_lock', 'post')));
-			$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_options_select', `value` = '?'", $this->request->gethtml('catalog_manufacturer_options_select', 'post')));
+		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_options_select', `value` = '?'", $this->request->gethtml('catalog_manufacturer_options_select', 'post')));
+		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'manufacturer', `key` = 'manufacturer_rows', `value` = '?'", $this->request->gethtml('catalog_manufacturer_rows', 'post')));
 	}
 	function get_manufacturer(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'manufacturer'");

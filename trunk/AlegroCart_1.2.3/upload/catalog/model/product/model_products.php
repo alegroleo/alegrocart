@@ -76,7 +76,7 @@ class Model_Products extends Model {
             			'product_to_option_id' => $value['product_to_option_id'],
             			'option_value_id'      => $value['option_value_id'],
             			'name'                 => $option_value_info['name'],
-            			'price'                => (($value['price'] != '0.00') ? $this->currency->format($this->tax->calculate($value['price'], $tax_class_id, $this->config->get('config_tax'))) : null),
+            			'price'                => (($value['price'] != '0.00') ? $this->currency->format($this->tax->calculate($value['price'], $tax_class_id, $this->config->get('config_tax_store'))) : null),
             			'prefix'               => $value['prefix']
           			);
         		}

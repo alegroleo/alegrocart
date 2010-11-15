@@ -8,9 +8,9 @@
   <div class="left"><?php echo $heading_title; ?></div>
   <div class="right">
   <?php if($special_price){
-  echo '<div class="price_old" >'.$price.'</div> '.'<div class="price_new">'.$special_price.'</div>';
+  echo '<div class="price_old" >'. ($tax_included ? '<span class="tax">*</span>' : '')  .$price.'</div> '.'<div class="price_new">'. ($tax_included ? '<span class="tax">*</span>' : '') .$special_price.'</div>';
   } else {
-  echo '<div class="price_new">'.$price.'</div> '; 
+  echo '<div class="price_new">'. ($tax_included ? '<span class="tax">*</span>' : '') .$price.'</div> '; 
   }?>
   </div>
 </div>

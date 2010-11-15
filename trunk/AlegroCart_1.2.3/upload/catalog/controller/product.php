@@ -100,6 +100,7 @@ class ControllerProduct extends Controller {
       		$view->set('text_date_added', $language->get('text_date_added'));
       		$view->set('text_rating', $language->get('text_rating'));
       		$view->set('text_error', $language->get('text_empty'));	
+			
       		$view->set('button_reviews', $language->get('button_reviews'));
       		$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
 			$view->set('product_number', $language->get('product_number'));
@@ -111,8 +112,10 @@ class ControllerProduct extends Controller {
 			$view->set('tab_information', $language->get('tab_information'));
 			$view->set('tab_reviews', $language->get('tab_reviews'));
 			$view->set('tab_write', $language->get('tab_write'));
-		
-      		
+			$tax_included = $this->config->get('config_tax_store');
+			$view->set('tax_included', $tax_included);
+			$view->set('text_tax_rate', ($tax_included ? $language->get('text_tax_included') : '') . $language->get('text_tax_rate')); 
+			
       		$query = array(
         		'path'       => $request->gethtml('path'),
         		'product_id' => $request->gethtml('product_id')
@@ -136,6 +139,7 @@ class ControllerProduct extends Controller {
 			$view->set('meta_description', $product_info['meta_description']);
 			$view->set('meta_keywords', $product_info['meta_keywords']);
 			$view->set('product_options_select', $this->config->get('product_options_select'));
+			
             //  Product Discounts
 			$results = $this->modelProducts->get_product_discount((int)$request->gethtml('product_id'));
 			$product_discounts = array();
@@ -150,7 +154,7 @@ class ControllerProduct extends Controller {
 				$product_discounts[] = array(
 				  'discount_quantity' => $result['quantity'],
 				  'discount_percent' => (round($result['discount']*10))/10,
-				  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $product_info['tax_class_id'], $this->config->get('config_tax')))
+				  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $product_info['tax_class_id'], $tax_included))
 				);
 			  }
 			  $view->set('product_discounts',$product_discounts);
@@ -174,7 +178,8 @@ class ControllerProduct extends Controller {
 			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']);
 			$view->set('decimal_point', $language->get('decimal_point'));//********
 			$view->set('thousand_point', $language->get('thousand_point')); //*****************
-			
+			$view->set('tax_rate', round($tax->getRate($product_info['tax_class_id'], $currency->currencies[$currency_code]['decimal_place'])) . '%');
+
       		$image_data = array(); // Additional Images
 			$results = $this->modelProducts->get_additional_images((int)$request->gethtml('product_id'));
       		foreach ($results as $result) {
@@ -192,9 +197,9 @@ class ControllerProduct extends Controller {
 				'name'      => $product_info['name'],
 				'popup'     => $image->href($product_info['filename']),
 				'min_qty'   => isset($product_info['min_qty'])?$product_info['min_qty']:1,
-						'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
+						'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $tax_included)),
 
-            			'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
+            			'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $tax_included)),
 						'sale_start_date' => $product_info['sale_start_date'],
 						'sale_end_date'   => $product_info['sale_end_date'],
 				'options'         => $this->modelProducts->get_options($product_info['product_id'],$product_info['tax_class_id'])
@@ -245,20 +250,20 @@ class ControllerProduct extends Controller {
 
 	function load_modules(){ // Template Manager
         $modules = $this->modelCore->merge_modules($this->get_modules_extra());
-        foreach ($this->locations as $location){
-            if($modules[$location['location']]){
-                foreach($modules[$location['location']] as $module){
-                    if(in_array('related',$modules[$location['location']]) && @$this->has_related){
-                        if ($module != 'specials'){
-                            $this->template->set($this->module->load($module));
-                        }
-                    } else if($module != 'related'){
-                        $this->template->set($this->module->load($module));
-                    }
-                }
-            }
-        }
-    } 
+		foreach ($this->locations as $location){
+			if($modules[$location['location']]){
+				foreach($modules[$location['location']] as $module){
+					if(in_array('related',$modules[$location['location']]) && @$this->has_related){
+						if ($module != 'specials'){
+							$this->template->set($this->module->load($module));
+						}
+					} else if($module != 'related'){
+						$this->template->set($this->module->load($module));
+					}
+				}
+			}
+		}
+	} 
 	
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){

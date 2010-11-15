@@ -45,7 +45,7 @@ FCKConfig.ToolbarSets["Default"] = [
 	['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
+	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],  //'ImageButton',
 	'/',
 	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','CreateDiv'],
@@ -73,7 +73,7 @@ FCKConfig.ToolbarSets["Custom"] = [
 	['FontName','FontSize'],
 	['TextColor','BGColor'],
 	['Link','Unlink','Anchor'],
-	['Image','Rule','insertHtml'] 
+	['Rule','insertHtml']      //'Image',
 ];
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
@@ -103,7 +103,7 @@ FCKConfig.Keystrokes = [
 	[ SHIFT + 32 /*SPACE*/, 'Nbsp' ]
 ] ;
 
-FCKConfig.ContextMenu = ['Generic','Link','Anchor','Image','Flash','Select','Textarea','Checkbox','Radio','TextField','HiddenField','ImageButton','Button','BulletedList','NumberedList','Table','Form','DivContainer'] ;
+FCKConfig.ContextMenu = ['Generic','Link','Anchor','Select','Textarea','Checkbox','Radio','TextField','HiddenField','Button','BulletedList','NumberedList','Table','Form','DivContainer'] ;  //'ImageButton', 'Image','Flash',
 FCKConfig.BrowserContextMenuOnCtrl = false ;
 FCKConfig.BrowserContextMenu = false ;
 FCKConfig.EnableMoreFontColors = true ;

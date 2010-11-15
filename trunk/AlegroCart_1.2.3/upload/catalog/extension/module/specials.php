@@ -22,6 +22,8 @@ class ModuleSpecials extends Controller {
       		$view = $this->locator->create('template');
       		$view->set('heading_title', $language->get('heading_title'));
 			$view->set('onhand', $language->get('onhand'));
+			$tax_included = $config->get('config_tax_store');
+			$view->set('tax_included', $tax_included);
 
             if ($config->get('specials_limit') == '0') {
                 $limit = '';
@@ -62,7 +64,7 @@ class ModuleSpecials extends Controller {
 							$product_discounts[] = array(
 							  'discount_quantity' => $discount['quantity'],
 							  'discount_percent'  => round($discount['discount']),
-							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $config->get('config_tax')))
+							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $tax_included))
 							);
 						}
 					}  // End product Discounts	
@@ -94,8 +96,8 @@ class ModuleSpecials extends Controller {
     	  			'href'  => $url->href('product', FALSE, array('product_id' => $result['product_id'])),
 					'popup'     => $image->href($result['filename']),
 					'thumb' => $image->resize($result['filename'], $image_width, $image_height),
-				    'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
-                	'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
+				    'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $tax_included)),
+                	'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $tax_included)),
 					'sale_start_date' => $result['sale_start_date'],
 					'sale_end_date'   => $result['sale_end_date'],
 					'options'         => $options

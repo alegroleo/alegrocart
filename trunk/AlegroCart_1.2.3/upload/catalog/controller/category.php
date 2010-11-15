@@ -68,7 +68,9 @@ class ControllerCategory extends Controller {
 			$view->set('heading_title', $category_info['name']);
 			$view->set('meta_title', $category_info['meta_title']);
 			$view->set('meta_description', $category_info['meta_description']);			
-			$view->set('meta_keywords', $category_info['meta_keywords']);			
+			$view->set('meta_keywords', $category_info['meta_keywords']);
+			$tax_included = $this->config->get('config_tax_store');
+			$view->set('tax_included', $tax_included);
 
       		$breadcrumb = array();
 
@@ -114,7 +116,7 @@ class ControllerCategory extends Controller {
 				if ($session->get('category.page_rows')){
 					$page_rows = (int)$session->get('category.page_rows');
 				} else {
-					$page_rows = $this->config->get('config_max_rows');
+					$page_rows = $this->config->get('category_rows') ? $this->config->get('category_rows') : $this->config->get('config_max_rows');
 				}
 				If ($columns > 1){
 				$page_rows = (ceil($page_rows/$columns))*$columns;
@@ -225,7 +227,7 @@ class ControllerCategory extends Controller {
 							$product_discounts[] = array(
 							  'discount_quantity' => $discount['quantity'],
 							  'discount_percent'  => round($discount['discount']),
-							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $this->config->get('config_tax')))
+							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $tax_included))
 							);
 						}
 					}  // End product Discounts
@@ -261,8 +263,8 @@ class ControllerCategory extends Controller {
             			'href'  => $url->href('product', FALSE, $query),
 						'popup'     => $image->href($result['filename']),
             			'thumb' => $image->resize($result['filename'], $image_width, $image_height),
-						'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-            			'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
+						'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $tax_included)),
+            			'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $tax_included)),
 						'sale_start_date' => $result['sale_start_date'],
 						'sale_end_date'   => $result['sale_end_date'],
 						'options'         => $options						

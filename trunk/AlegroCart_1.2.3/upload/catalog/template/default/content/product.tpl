@@ -124,6 +124,7 @@
 	    <?php if ($product['min_qty'] >= '1') { ?>
           <?php echo $text_min_qty; ?><?php echo $product['min_qty']; ?><br>
         <?php } ?>
+		<?php echo $text_tax_rate . $tax_rate;?><br>
 		<?php if (isset($product_discounts)){ ?><br>
 		  <?php echo "<b>".$text_quantity_discount."</b><br>"; ?>
 		  <?php foreach ($product_discounts as $product_discount){ ?>

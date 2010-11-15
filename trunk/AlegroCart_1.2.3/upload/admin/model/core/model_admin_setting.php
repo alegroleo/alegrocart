@@ -33,6 +33,8 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_currency_surcharge', `value` = '" . $this->request->gethtml('global_config_currency_surcharge', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_weight_class_id', `value` = '" . $this->request->gethtml('global_config_weight_class_id', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax', `value` = '" . $this->request->gethtml('global_config_tax', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax_store', `value` = '" . $this->request->gethtml('global_config_tax_store', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'invoice_number', `value` = '" . $this->request->gethtml('global_invoice_number', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_order_status_id', `value` = '" . $this->request->gethtml('global_config_order_status_id', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_stock_check', `value` = '" . $this->request->gethtml('catalog_config_stock_check', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_stock_checkout', `value` = '" . $this->request->gethtml('catalog_config_stock_checkout', 'post')  . "'");
@@ -79,11 +81,13 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_colors', `value` = '" . $this->request->gethtml('catalog_config_colors', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_columns', `value` = '" . $this->request->gethtml('catalog_config_columns', 'post')  . "'");
 		//New
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'product_image_display', `value` = '" . $this->request->get('catalog_product_image_display', 'post') . "'");
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'content_image_display', `value` = '" . $this->request->get('catalog_content_image_display', 'post') . "'");
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'content_lines_single', `value` = '" . $this->request->get('catalog_content_lines_single', 'post') . "'");
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'content_lines_multi', `value` = '" . $this->request->get('catalog_content_lines_multi', 'post') . "'");
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'content_lines_char', `value` = '" . $this->request->get('catalog_content_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'product_image_display', `value` = '" . $this->request->gethtml('catalog_product_image_display', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'content_image_display', `value` = '" . $this->request->gethtml('catalog_content_image_display', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'content_lines_single', `value` = '" . $this->request->gethtml('catalog_content_lines_single', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'content_lines_multi', `value` = '" . $this->request->gethtml('catalog_content_lines_multi', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'content_lines_char', `value` = '" . $this->request->gethtml('catalog_content_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'search_rows', `value` = '" . $this->request->gethtml('catalog_search_rows', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'category_rows', `value` = '" . $this->request->gethtml('catalog_category_rows', 'post') . "'");
 		
 		//$this->database->query();
 	}

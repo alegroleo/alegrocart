@@ -34,6 +34,7 @@ class ControllerModuleExtraManufacturer extends Controller {
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 		$view->set('text_select', $this->language->get('text_select'));
 		$view->set('text_radio', $this->language->get('text_radio'));
+		$view->set('text_default_rows', $this->language->get('text_default_rows'));
 		
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_addtocart', $this->language->get('entry_addtocart')); 
@@ -43,6 +44,8 @@ class ControllerModuleExtraManufacturer extends Controller {
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_display_lock', $this->language->get('entry_display_lock'));
 		$view->set('entry_options_select',$this->language->get('entry_options_select'));
+		$view->set('entry_items_per_page', $this->language->get('entry_items_per_page'));
+		
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -93,6 +96,11 @@ class ControllerModuleExtraManufacturer extends Controller {
 			$view->set('catalog_manufacturer_columns', $this->request->gethtml('catalog_manufacturer_columns', 'post'));
 		} else {
 			$view->set('catalog_manufacturer_columns', @$setting_info['catalog']['manufacturer_columns']);
+		}
+		if ($this->request->has('catalog_manufacturer_rows', 'post')) {
+			$view->set('catalog_manufacturer_rows', $this->request->gethtml('catalog_manufacturer_rows', 'post'));
+		} else {
+			$view->set('catalog_manufacturer_rows', @$setting_info['catalog']['manufacturer_rows']);
 		}
 		if ($this->request->has('catalog_manufacturer_display_lock', 'post')) {
 			$view->set('catalog_manufacturer_display_lock', $this->request->gethtml('catalog_manufacturer_display_lock', 'post'));

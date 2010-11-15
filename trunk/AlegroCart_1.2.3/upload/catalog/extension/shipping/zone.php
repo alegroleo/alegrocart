@@ -34,15 +34,20 @@ class ShippingZone extends Shipping {
 				$cost = 0;
 				
 				$rates = explode(',', $this->config->get('zone_' . $result['geo_zone_id'] . '_cost'));
-
-				foreach ($rates as $rate) {
-  					$array = explode(':', $rate);
+				$top_rate = explode(':', end($rates));
+				
+				if ($top_rate[0] >= $this->cart->getWeight()){
+					foreach ($rates as $rate) {
+						$array = explode(':', $rate);
   					
-					if ($this->cart->getWeight() <= $array[0]) {
-    					$cost = @$array[1];
+						if ($this->cart->getWeight() <= $array[0]) {
+							$cost = @$array[1];
 						
-   						break;
-  					}
+							break;
+						}
+					}
+				} else {
+					$weight_error = $this->language->get('error_weight', $this->cart->formatWeight($top_rate[0]));
 				}
 			
       			$quote_data[$result['geo_zone_id']] = array(
@@ -63,7 +68,7 @@ class ShippingZone extends Shipping {
         		'quote'        => $quote_data,
         		'tax_class_id' => $this->config->get('zone_tax_class_id'),
 				'sort_order'   => $this->config->get('zone_sort_order'),
-        		'error'        => false
+        		'error'        => isset($weight_error) ? $weight_error : false
       		);
 		}
 	

@@ -15,10 +15,11 @@
 
 #checkout .a table, #checkout .c {
   width: 100%;
+
 }
 
 #checkout .c td {
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 #checkout .f {
@@ -39,6 +40,10 @@
 
 #checkout .center {
   text-align: center;
+}
+.tax{
+	font-weight: bold;
+	color: #CC0000;
 }
 
 .checkout_price_old {

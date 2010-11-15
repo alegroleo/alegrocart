@@ -30,6 +30,10 @@ class ShippingItem extends Shipping {
 		$method_data = array();
 	
 		if ($status) {
+		
+			if($this->config->get('item_max') < $this->cart->getWeight() && $this->config->get('item_max') > 0){
+				$error_weight = $this->language->get('error_weight', $this->cart->formatWeight($this->config->get('item_max')));
+			}
 			$quote_data = array();
 			
       		$quote_data['item'] = array(
@@ -45,7 +49,7 @@ class ShippingItem extends Shipping {
         		'quote'        => $quote_data,
         		'tax_class_id' => $this->config->get('item_tax_class_id'),
 				'sort_order'   => $this->config->get('item_sort_order'),
-        		'error'        => false
+        		'error'        => isset($error_weight) ? $error_weight : false
       		);
 		}
 	

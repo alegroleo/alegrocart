@@ -73,17 +73,29 @@ class Order {
 			$this->database->query($this->database->parse($sql, serialize($this->data), time() + $this->expire, $reference));
 		}
 	}
+	
+	function get_invoice_number(){
+		$result = $this->database->getRow("select value from setting where `key` = 'invoice_number'");
+		return $result['value'];
+	}
+	
+	private function update_invoice_number($invoice_number){
+		$next_invoice = increment_number($invoice_number);
+		$this->database->query("update `setting` set value='" . $next_invoice . "' where `key` = 'invoice_number'");
+	}
 
 	function process($order_status_id = NULL) {
 		if ($this->data) {
-			$sql = "insert into `order` set customer_id = '?', reference = '?', firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?',  order_status_id = '?', total = '?', currency = '?', value = '?', ip = '?', shipping_firstname = '?', shipping_lastname = '?', shipping_company = '?', shipping_address_1 = '?', shipping_address_2 = '?', shipping_city = '?', shipping_postcode = '?', shipping_zone = '?', shipping_country = '?', shipping_address_format = '?', shipping_method = '?', payment_firstname = '?', payment_lastname = '?', payment_company = '?', payment_address_1 = '?', payment_address_2 = '?', payment_city = '?', payment_postcode = '?', payment_zone = '?', payment_country = '?', payment_address_format = '?', payment_method = '?', date_modified = now(), date_added = now()";
-			$this->database->query($this->database->parse($sql, $this->data['customer_id'], $this->reference, $this->data['firstname'], $this->data['lastname'], $this->data['email'], $this->data['telephone'], $this->data['fax'], ($order_status_id ? $order_status_id : $this->data['order_status_id']), $this->data['total'], $this->data['currency'], $this->data['value'], $this->data['ip'], $this->data['shipping_firstname'], $this->data['shipping_lastname'], $this->data['shipping_company'], $this->data['shipping_address_1'], $this->data['shipping_address_2'], $this->data['shipping_city'], $this->data['shipping_postcode'], $this->data['shipping_zone'], $this->data['shipping_country'], $this->data['shipping_address_format'], $this->data['shipping_method'], $this->data['payment_firstname'], $this->data['payment_lastname'], $this->data['payment_company'], $this->data['payment_address_1'], $this->data['payment_address_2'], $this->data['payment_city'], $this->data['payment_postcode'], $this->data['payment_zone'], $this->data['payment_country'], $this->data['payment_address_format'], $this->data['payment_method']));
+			$invoice_number = $this->get_invoice_number();
+			$this->update_invoice_number($invoice_number);
+			$sql = "insert into `order` set customer_id = '?', reference = '?', invoice_number = '?', firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', taxed = '?', coupon_sort_order = '?', discount_sort_order = '?', order_status_id = '?', total = '?', currency = '?', value = '?', ip = '?', shipping_firstname = '?', shipping_lastname = '?', shipping_company = '?', shipping_address_1 = '?', shipping_address_2 = '?', shipping_city = '?', shipping_postcode = '?', shipping_zone = '?', shipping_country = '?', shipping_address_format = '?', shipping_method = '?', shipping_net = '?', shipping_tax_rate = '?', freeshipping_net = '?', payment_firstname = '?', payment_lastname = '?', payment_company = '?', payment_address_1 = '?', payment_address_2 = '?', payment_city = '?', payment_postcode = '?', payment_zone = '?', payment_country = '?', payment_address_format = '?', payment_method = '?', date_modified = now(), date_added = now()";
+			$this->database->query($this->database->parse($sql, $this->data['customer_id'], $this->reference, $invoice_number, $this->data['firstname'], $this->data['lastname'], $this->data['email'], $this->data['telephone'], $this->data['fax'], $this->data['taxed'], $this->data['coupon_sort_order'], $this->data['discount_sort_order'], ($order_status_id ? $order_status_id : $this->data['order_status_id']), $this->data['total'], $this->data['currency'], $this->data['value'], $this->data['ip'], $this->data['shipping_firstname'], $this->data['shipping_lastname'], $this->data['shipping_company'], $this->data['shipping_address_1'], $this->data['shipping_address_2'], $this->data['shipping_city'], $this->data['shipping_postcode'], $this->data['shipping_zone'], $this->data['shipping_country'], $this->data['shipping_address_format'], $this->data['shipping_method'], $this->data['shipping_net'], $this->data['shipping_tax_rate'], $this->data['freeshipping_net'], $this->data['payment_firstname'], $this->data['payment_lastname'], $this->data['payment_company'], $this->data['payment_address_1'], $this->data['payment_address_2'], $this->data['payment_city'], $this->data['payment_postcode'], $this->data['payment_zone'], $this->data['payment_country'], $this->data['payment_address_format'], $this->data['payment_method']));
 
 			$order_id = $this->database->getLastId();
 
 			foreach ($this->data['products'] as $product) {
-				$sql = "insert into order_product set order_id = '?', name = '?', model_number = '?', price = '?', discount = '?', total = '?', tax = '?', quantity = '?'";
-				$this->database->query($this->database->parse($sql, $order_id, $product['name'], $product['model_number'], $product['price'], $product['discount'], $product['total'], $product['tax'], $product['quantity']));
+				$sql = "insert into order_product set order_id = '?', name = '?', model_number = '?', price = '?', discount = '?', special_price = '?', coupon = '?', general_discount = '?', total = '?', tax = '?', quantity = '?', shipping = '?'";
+				$this->database->query($this->database->parse($sql, $order_id, $product['name'], $product['model_number'], $product['price'], $product['discount'], $product['special_price'], $product['coupon'], $product['general_discount'], $product['total'], $product['tax'], $product['quantity'],  $product['shipping']));
  
 				$order_product_id = $this->database->getLastId();
 
@@ -124,14 +136,14 @@ class Order {
 				    $this->mail->setFrom($this->config->get('config_email_orders') ? $this->config->get('config_email_orders') : $this->config->get('config_email'));
 				    $this->mail->setSender($this->config->get('config_store'));
 				    $this->mail->setSubject($this->data['email_subject']);
-				    $this->mail->setText($this->data['email_text']);
-				    $this->mail->setHtml(html_entity_decode($this->data['email_html']));
+					$this->mail->setText(str_replace('#XXXZZZ#', $invoice_number, $this->data['email_text']));
+				    $this->mail->setHtml(html_entity_decode(str_replace('#XXXZZZ#', $invoice_number, $this->data['email_html'])));
 				    $this->mail->send();
 					$this->mail->setTo($this->config->get('config_email_orders') ? $this->config->get('config_email_orders') : $this->config->get('config_email'));
 					$this->mail->send();
 			    }
 			}
-            
+
             $this->data = array();
             
 			$sql = "delete from order_data where reference = '?'";

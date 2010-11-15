@@ -8,8 +8,13 @@
 <div id="history">
   <?php foreach ($orders as $order) { ?>
   <div class="a">
-    <div class="b"><b><?php echo $text_order; ?></b> <?php echo $order['reference']; ?></div>
-    <div class="c"><b><?php echo $text_status; ?></b> <?php echo $order['status']; ?></div>
+    <table>
+      <tr>
+	<td><b><?php echo $text_order; ?></b> <?php echo $order['reference']; ?></b></td>
+      	<td rowspan="2" align="right"><b><?php echo $text_status; ?></b> <?php echo $order['status']; ?></td> 
+      </tr>
+	<tr><td><b><?php echo $text_invoice_number; ?></b> <?php echo $order['invoice_number']; ?></td></tr>
+    </table>
   </div>
   <div class="d">
     <table>

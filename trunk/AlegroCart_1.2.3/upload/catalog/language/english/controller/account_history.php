@@ -4,6 +4,7 @@ $_['heading_title']   = 'My Order History';
 
 // Text
 $_['text_order']      = 'Order ID:';
+$_['text_invoice_number'] = 'Invoice Number:';
 $_['text_status']     = 'Status:';
 $_['text_date_added'] = 'Date Added:';
 $_['text_customer']   = 'Customer:';

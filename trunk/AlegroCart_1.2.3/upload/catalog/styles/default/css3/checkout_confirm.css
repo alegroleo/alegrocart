@@ -40,7 +40,10 @@
 #checkout .center {
   text-align: center;
 }
-
+.tax{
+	font-weight: bold;
+	color: #CC0000;
+}
 .checkout_price_old {
 	text-decoration: line-through;
 	text-align: right;

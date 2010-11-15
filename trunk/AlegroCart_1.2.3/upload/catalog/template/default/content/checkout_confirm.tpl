@@ -1,5 +1,6 @@
 <?php 
   $head_def->setcss($this->style . "/css/checkout_confirm.css");
+  $head_def->set_javascript("ajax/jquery.js");
 ?>
 <div class="headingbody"><?php echo $heading_title; ?></div>
 <div class="contentBody">
@@ -34,16 +35,39 @@
       </tr>
     </table>
   </div>
+  <div style="padding-left: 5px;">
+    <table class="c">
+      <tr>
+		<th class="left" width="80px"><?php echo $text_currency;?></th>
+		<td class="left"><?php echo $currency['code'] . ' - ' . $currency['title'];?></td>
+	  </tr>
+    </table> 
+  </div>  
   <div class="b">
     <table class="c">
       <tr>
         <th class="left"><?php echo $text_product; ?></th>
 
-        <th class="left"><?php echo $text_quantity; ?></th>
+        <th class="center"><?php echo $text_quantity; ?></th>
         <th class="right"><?php echo $text_price; ?></th>
         <th class="right"><?php echo $text_special; ?></th>
+		<?php if($columns == 2){?>
+		  <th class="right"><?php echo $text_extended; ?></th>
+		  <?php if($coupon_sort_order < $discount_sort_order){ ?>
+		    <th class="right"><?php echo $text_coupon_value; ?></th>
+		    <th class="right"><?php echo $text_discount_value; ?></th>
+		  <?php } else { ?>
+		    <th class="right"><?php echo $text_discount_value; ?></th>
+		    <th class="right"><?php echo $text_coupon_value; ?></th>
+		  <?php }?>
+		  <th class="right"><?php echo $text_net; ?></th>
+		  <th class="right"><?php echo $text_tax_rate; ?></th>
+		  <th class="right"><?php echo $text_tax_amount; ?></th>
+		<?php }?>
+		<th class="right"><?php echo $text_shipping; ?></th>
         <th class="right"><?php echo $text_total; ?></th>
       </tr>
+	  <tr><td colspan="12"><hr></td></tr>
       <?php foreach ($products as $product) { ?>
       <tr>
         <td class="left"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
@@ -53,31 +77,114 @@
           <?php } ?>
         </td>
 
-        <td class="left"><?php echo $product['quantity']; ?></td>
+        <td class="center"><?php echo $product['quantity']; ?></td>
         <td class="right"><?php if (!$product['discount']) { ?>
-          <?php echo $product['price']; ?>
+          <?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['price']; ?>
           <?php } else { ?>
-          <span class="checkout_price_old "><?php echo $product['price']; ?></span><br>
-          <span class="checkout_price_new "><?php echo $product['discount']; ?></span>
+          <span class="checkout_price_old "><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['price']; ?></span><br>
+          <span class="checkout_price_new "><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['discount']; ?></span>
           <?php } ?>
         </td>
 		<td class="right"><span class="checkout_price_new ">
-		  <?php if ($product['special_price'] > "$0.00"){echo $product['special_price'];} ?>
+		  <?php if ($product['special_price'] > "$0.00"){echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['special_price'];} ?>
 		</span></td>
-        <td class="right"><?php echo $product['total']; ?></td>
+		<?php if($columns == 2){?>
+		  <td class="right"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['total'];?></td>
+		  <?php if($coupon_sort_order < $discount_sort_order){ ?>
+		    <td class="right"><?php echo ($tax_included && $product['coupon'] ? '<span class="tax">*</span>' : '') . $product['coupon'];?></td>
+		    <td class="right"><?php echo ($tax_included && $product['general_discount'] ? '<span class="tax">*</span>' : '') . $product['general_discount'];?></td>
+		  <?php } else { ?>
+		    <td class="right"><?php echo ($tax_included && $product['general_discount'] ? '<span class="tax">*</span>' : '') . $product['general_discount'];?></td>
+		    <td class="right"><?php echo ($tax_included && $product['coupon'] ? '<span class="tax">*</span>' : '') . $product['coupon'];?></td>
+		  <?php }?>
+		  <td class="right"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['net'];?></td>
+		  <td class="right"><?php echo $product['tax'] . '%';?></td>
+		  <td class="right"><?php echo $product['product_tax'];?></td>
+		  <td class="right">
+		  <?php if ($product['shipping']) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+		</td>
+		  <td class="right"><?php echo '<span class="tax">*</span>' . $product['total_discounted']; ?></td>
+		<?php } else {?>
+		<td class="right">
+		  <?php if ($product['shipping']) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+		</td>
+        <td class="right"><?php echo ($tax_included ? '<span class="tax">* </span>' : '') . $product['total']; ?></td>
+		<?php }?>
       </tr>
       <?php } ?>
+	  <?php if($columns == 2){?>
+	  <tr><td colspan="12"><hr></td></tr>
+	  <tr>
+	    <th class="left"><?php echo $text_product_totals;?></th>
+	    <td colspan="3"></td>
+	    <td class="right"><?php echo ($tax_included ? '<span class="tax">* </span>' : '') . $extended_total;?></td>
+		<?php if($coupon_sort_order < $discount_sort_order){ ?>
+	      <td class="right"><?php echo ($tax_included && $coupon_total ? '<span class="tax">* </span>' : '') . $coupon_total;?></td>
+		  <td class="right"><?php echo ($tax_included && $discount_total ? '<span class="tax">* </span>' : '') . $discount_total;?></td>
+		<?php } else {?>
+		  <td class="right"><?php echo ($tax_included && $discount_total ? '<span class="tax">* </span>' : '') . $discount_total;?></td>
+		  <td class="right"><?php echo ($tax_included && $coupon_total ? '<span class="tax">* </span>' : '') . $coupon_total;?></td>
+		<?php }?>
+	    <td class="right"><?php echo ($tax_included ? '<span class="tax">* </span>' : '') . $net_total;?></td>
+		<td></td>
+		<td class="right"><?php echo $tax_total;?></td>
+		<td></td>
+		<td class="right"><?php echo '<span class="tax">*</span>' . $totals_total;?></td>
+	  </tr>
+	  <tr><td colspan="12"><hr></td></tr>
+	  <?php if(isset($shipping_total)){?>
+	    <tr>
+	      <th class="left"><?php echo $text_shipping_cost;?></th>
+	      <td colspan="6"></td>
+		  <td class="right"><?php echo $shipping_net;?></td>
+		  <td class="right"><?php echo $shipping_tax_rate;?></td>
+		  <td class="right"><?php echo $shipping_tax;?></td>
+		  <td></td>
+		  <td class="right"><?php echo '<span class="tax">*</span>' . $shipping_total;?></td>
+	    </tr>
+	    <?php if(isset($freeshipping_total)){?>
+		  <tr>
+	        <th class="left"><?php echo $text_free_shipping;?></th>
+	        <td colspan="6"></td>
+		    <td class="right"><?php echo $freeshipping_net;?></td>
+		    <td class="right"><?php echo $shipping_tax_rate;?></td>
+		    <td class="right"><?php echo $freeshipping_tax;?></td>
+		    <td></td>
+		    <td class="right"><?php echo '<span class="tax">*</span>' . $freeshipping_total;?></td>
+	      </tr>
+		<?php }?>
+		<tr><td colspan="12"><hr></td></tr>
+	  <?php }?>
+	  <tr>
+	    <th class="left"><?php echo $text_cart_totals;?></th>
+		<td colspan="3"></td>
+		<td class="right"><?php echo ($tax_included ? '<span class="tax">* </span>' : '') . $extended_total;?></td>
+		<?php if($coupon_sort_order < $discount_sort_order){ ?>
+	      <td class="right"><?php echo ($tax_included && $coupon_total ? '<span class="tax">* </span>' : '') . $coupon_total;?></td>
+		  <td class="right"><?php echo ($tax_included && $discount_total ? '<span class="tax">* </span>' : '') . $discount_total;?></td>
+		<?php } else {?>
+		  <td class="right"><?php echo ($tax_included && $discount_total ? '<span class="tax">* </span>' : '') . $discount_total;?></td>
+		  <td class="right"><?php echo ($tax_included && $coupon_total ? '<span class="tax">* </span>' : '') . $coupon_total;?></td>
+		<?php } ?>
+		<td class="right"><?php echo ($tax_included ? '<span class="tax">* </span>' : '') . $cart_net_total;?></td>
+		<td></td>
+		<td class="right"><?php echo $cart_tax_total;?></td>
+		<td></td>
+		<td class="right"><?php echo '<span class="tax">*</span>' . $cart_totals_total;?></td>
+	  </tr>
+	  <tr><td colspan="6"></td><td colspan="6"><hr></td></tr>
+	  <?php } ?>
     </table>
     <br>
     <div class="f">
       <table>
         <?php foreach ($totals as $total) { ?>
         <tr>
-          <td class="right" colspan="4"><?php echo $total['title']; ?></td>
+          <td class="right" colspan="4"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $total['title']; ?></td>
           <td class="right"><?php echo $total['text']; ?></td>
         </tr>
         <?php } ?>
-      </table>
+      </table>  
     </div>
   </div>
   <?php if ($comment) { ?>
@@ -88,6 +195,7 @@
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
       <table width="100%">
         <tr>
+		  <?php echo '<td class="left"><span class="tax">* </span>' . $text_tax . '</td>';?>
           <td class="right"><?php echo $entry_coupon; ?></td>
           <td class="right" width="1"><input type="text" name="coupon" value="<?php echo $coupon; ?>"></td>
           <td class="right" width="1"><input type="submit" value="<?php echo $button_update; ?>"></td>
@@ -103,10 +211,18 @@
   <?php if (isset($agree)) { ?>
   <div class="buttons">
     <table>
+	  <?php if($warehouse_pickup){?>
+	    <tr>
+		 <td></td>
+		 <td align="right"><?php echo $text_warehouse_pickup; ?></td>
+		 <td align="right" width="5"><input type="checkbox" id="pickup" name="pickup" value="1" onclick="check_status()"></td>
+		
+	    </tr>
+	  <?php }?>
       <tr>
         <td align="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
         <td align="right"><?php echo $agree; ?></td>
-        <td align="right" width="5"><input type="checkbox" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true;"></td>
+        <td align="right" width="5"><input type="checkbox" id="agree" name="agreed" value="1" onclick="check_status()"></td>
         <td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled></td>
       </tr>
     </table>
@@ -123,3 +239,18 @@
   <?php } ?>
 </form></div>
 <div class="contentBodyBottom"></div>
+
+<script type="text/javascript"><!--
+  function check_status(){
+	if($('#pickup').length > 0){
+	  if($('#pickup').attr('checked') && $('#agree').attr('checked')){
+		//document.getElementById('submit').disabled = false;
+	    $('#submit').removeAttr('disabled');
+	  }
+	} else {
+	  if($('#agree').attr('checked')){
+	    $('#submit').removeAttr('disabled');
+	  }
+	}
+  }
+//--></script>

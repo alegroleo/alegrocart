@@ -2,6 +2,7 @@
 class ShippingFlat extends Shipping {    
 	function __construct(&$locator) { 
 		$this->address  =& $locator->get('address');
+		$this->cart     =& $locator->get('cart');
 		$this->config   =& $locator->get('config');
 		$this->currency =& $locator->get('currency');
 		$this->language =& $locator->get('language');
@@ -29,6 +30,10 @@ class ShippingFlat extends Shipping {
 		$method_data = array();
 	
 		if ($status) {
+		
+			if($this->config->get('flat_max') < $this->cart->getWeight() && $this->config->get('flat_max') > 0){
+				$error_weight = $this->language->get('error_weight', $this->cart->formatWeight($this->config->get('flat_max')));
+			}
 			$quote_data = array();
 			
       		$quote_data['flat'] = array(
@@ -44,7 +49,7 @@ class ShippingFlat extends Shipping {
         		'quote'        => $quote_data,
         		'tax_class_id' => $this->config->get('flat_tax_class_id'),
 				'sort_order'   => $this->config->get('flat_sort_order'),
-        		'error'        => false
+        		'error'        => isset($error_weight) ? $error_weight : false
       		);
 		}
 	

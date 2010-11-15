@@ -31,6 +31,7 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
+	      <td><?php echo $explanation_entry_status; ?></td>
             </tr>
             <tr>
               <td width="185"><?php echo $entry_geo_zone; ?></td>
@@ -44,11 +45,18 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+	      <td><?php echo $explanation_entry_geo_zone; ?></td>
             </tr>
             <tr>
               <td><?php echo $entry_cost; ?></td>
               <td><input type="text" name="global_item_cost" value="<?php echo $global_item_cost; ?>"></td>
+	    <td><?php echo $explanation_entry_cost; ?></td>
             </tr>
+			<tr>
+			  <td><?php echo $entry_max; ?></td>
+			  <td><input type="text" name="global_item_max" value="<?php echo $global_item_max; ?>"></td>
+			  <td><?php echo $explanation_entry_max; ?></td>
+			</tr>
             <tr>
               <td><?php echo $entry_tax; ?></td>
               <td><select name="global_item_tax_class_id">
@@ -61,10 +69,12 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+	      <td><?php echo $explanation_entry_tax; ?></td>
             </tr>
             <tr>
               <td><?php echo $entry_sort_order; ?></td>
               <td><input type="text" name="global_item_sort_order" value="<?php echo $global_item_sort_order; ?>" size="1"></td>
+	      <td><?php echo $explanation_entry_sort_order; ?></td>
             </tr>
           </table>
         </div>

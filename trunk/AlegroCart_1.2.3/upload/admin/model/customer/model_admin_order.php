@@ -15,7 +15,7 @@ class Model_Admin_Order extends Model {
       		$this->database->query($this->database->parse($sql, $this->request->gethtml('order_id'), $this->request->gethtml('order_status_id', 'post'), $this->request->gethtml('notify', 'post'), ($this->request->gethtml('comment', 'post'))));
 	}
 	function get_order_info(){
-		$result = $this->database->getRow("select o.reference, o.firstname, o.lastname, o.email, o.date_added, os.name as status from `order` o left join order_status os on o.order_status_id = os.order_status_id where o.order_id = '" . (int)$this->request->gethtml('order_id') . "' and os.language_id = '" . (int)$this->language->getId() . "'");
+		$result = $this->database->getRow("select o.reference, o.invoice_number, o.firstname, o.lastname, o.email, o.date_added, os.name as status from `order` o left join order_status os on o.order_status_id = os.order_status_id where o.order_id = '" . (int)$this->request->gethtml('order_id') . "' and os.language_id = '" . (int)$this->language->getId() . "'");
 		return $result;
 	}
 	function get_order(){
@@ -56,11 +56,11 @@ class Model_Admin_Order extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('order.search')) {
-      		$sql = "select o.order_id, o.reference, o.firstname, o.lastname, os.name as status, o.date_added, o.total, o.currency, o.value from `order` o left join order_status os on o.order_status_id = os.order_status_id where os.language_id = '" . (int)$this->language->getId() . "'";
+      		$sql = "select o.order_id, o.reference, o.invoice_number, o.firstname, o.lastname, os.name as status, o.date_added, o.total, o.currency, o.value from `order` o left join order_status os on o.order_status_id = os.order_status_id where os.language_id = '" . (int)$this->language->getId() . "'";
     	} else {
-      		$sql = "select o.order_id, o.reference, o.firstname, o.lastname, os.name as status, o.date_added, o.total, o.currency, o.value from `order` o left join order_status os on o.order_status_id = os.order_status_id where (o.reference like '?' or o.firstname like '?' or o.lastname like '?') and os.language_id = '" . (int)$this->language->getId() . "'";
+      		$sql = "select o.order_id, o.reference, o.invoice_number, o.firstname, o.lastname, os.name as status, o.date_added, o.total, o.currency, o.value from `order` o left join order_status os on o.order_status_id = os.order_status_id where (o.reference like '?' or o.invoice_number like '?' or o.firstname like '?' or o.lastname like '?') and os.language_id = '" . (int)$this->language->getId() . "'";
     	}
-		$sort = array('o.order_id', 'o.reference', 'o.firstname', 'os.name', 'o.date_added', 'o.total');
+		$sort = array('o.order_id', 'o.reference', 'o.invoice_number', 'o.firstname', 'os.name', 'o.date_added', 'o.total');
 		if (in_array($this->session->get('order.sort'), $sort)) {
       		$sql .= " order by " . $this->session->get('order.sort') . " " . (($this->session->get('order.order') == 'desc') ? 'desc' : 'asc');
     	} else {

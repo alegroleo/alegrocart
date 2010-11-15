@@ -10,7 +10,7 @@ class Model_AccountHistory extends Model{
 		$this->url      =& $locator->get('url');
 	}
 	function get_orders($customer_id){
-		$results = $this->database->getRows($this->database->splitQuery("select o.order_id, o.reference, o.firstname, o.lastname, os.name as status, o.date_added, o.total, o.currency, o.value from `order` o left join order_status os on o.order_status_id = os.order_status_id where customer_id = '" . (int)$customer_id . "' and os.language_id = '" . (int)$this->language->getId() . "' order by order_id desc", $this->session->get('account_history.page'), $this->config->get('config_max_rows')));
+		$results = $this->database->getRows($this->database->splitQuery("select o.order_id, o.reference, o.invoice_number, o.firstname, o.lastname, os.name as status, o.date_added, o.total, o.currency, o.value from `order` o left join order_status os on o.order_status_id = os.order_status_id where customer_id = '" . (int)$customer_id . "' and os.language_id = '" . (int)$this->language->getId() . "' order by order_id desc", $this->session->get('account_history.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}
 	function get_product_count($order_id){

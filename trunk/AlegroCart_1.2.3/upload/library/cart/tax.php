@@ -4,8 +4,10 @@ class Tax {
 	
 	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
+		$this->currency =& $locator->get('currency');
 		$this->database =& $locator->get('database');
 		$this->session  =& $locator->get('session');
+		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
 
 		$address_info = $this->database->getRow("select country_id, zone_id from address where address_id = '" . (int)$this->session->get('payment_address_id') . "' and customer_id = '" . (int)$this->session->get('customer_id') . "'");
 		
@@ -29,7 +31,7 @@ class Tax {
 	
   	function calculate($value, $tax_class_id, $calculate = TRUE) {	
 		if (($calculate) && (isset($this->taxes[$tax_class_id])))  {
-      		return $value + ($value * $this->taxes[$tax_class_id]['rate'] / 100);
+      		return $value + roundDigits(($value * $this->taxes[$tax_class_id]['rate'] / 100), $this->decimal_place);
     	} else {
       		return $value;
     	}

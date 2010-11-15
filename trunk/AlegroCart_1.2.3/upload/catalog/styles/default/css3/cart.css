@@ -75,6 +75,18 @@
 	font-size: 9px;
 	text-align: center;
 }
+#cart .s  {
+	text-align: center;
+	width: 40px;
+	vertical-align: top;
+}
+#cart .right{
+	text-align: right;
+}
+.tax{
+	font-weight: bold;
+	color: #CC0000;
+}
 .cartprice_old {
 	text-decoration: line-through;
 	text-align: right;

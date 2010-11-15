@@ -1,4 +1,4 @@
-<?php
+<?php //AlegroCart Coupon
 class CalculateCoupon extends Calculate {
 	function __construct(&$locator) {		
 		$this->cart     =& $locator->get('cart');
@@ -15,98 +15,108 @@ class CalculateCoupon extends Calculate {
 
     // Modified for proper coupon usage
 	function calculate() {
+		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
 		$total_data = array();
-		$rawcouponvalue = 0; // raw based on pre-tax price
-        $freeshipavail = 0; // for per-item allowance of free shipping
+		$rawcouponvalue = 0; 
+        $freeshipavail = 0;
+		$rawtaxvalue = 0;
         
 		if ($this->coupon->get_minimum() > $this->cart->subtotal){
 			return $total_data;
 		}
-        // Check if coupons are enabled and that there is a valid coupon id
 		if (($this->config->get('coupon_status')) && ($this->coupon->getId())) {
-            
-            // Check the coupon->product array. This array holds all products that are valid for this coupon id.
-            // If there is at least 1 product in the allowed products, then use per-item.
-            // If there are no individual products selected, then the array is empty and we assume the coupon is "per-cart"
-            // Need to add that info to the language file: ("De-select all allowable products to set as a per-cart coupon")
-            if (!empty($this->coupon->product)) { // peritem code
-                
-                // get the list of allowed products
-                foreach ($this->coupon->product as $result) {
+            if (!empty($this->coupon->product)) { // peritem code if empty
+                foreach ($this->coupon->product as $result) {// get Coupon to Product
                     $data[] = $result['product_id'];
                 }
-                
-                // Check each item in the cart against the allowed products. If found, then apply the coupon for that item only.
-                // Freeshipping is a cart-wide coupon, but can still be disallowed if none of the products in the cart are eligible for freeshipping.
-                // So check that at least one item has freeshipping allowed and set a flag.
                 foreach ($this->cart->getProducts() as $product) {
                     if (in_array($product['product_id'], $data)) {
-                        $discount = $this->coupon->getDiscount($product['total']);
-						$rawcouponvalue += $product['total'] >= $discount ?  $discount : $product['total'];
-                        $freeshipavail++;
+                        $discount = $this->coupon->getDiscount($product['total_discounted']);
+						$coupon_value = $product['total_discounted'] >= $discount ?  $discount : $product['total_discounted'];
+						$old_tax = roundDigits($product['total_discounted'] / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place);
+						$this->cart->products[$product['key']]['total_discounted'] = $product['total_discounted'] - $coupon_value;
+						if($this->cart->products[$product['key']]['total_discounted'] > 0){
+							$new_tax = roundDigits($this->cart->products[$product['key']]['total_discounted'] / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place);
+							$tax_decrease = $old_tax-$new_tax;
+						} else {
+							$tax_decrease = $old_tax;
+						}
+						$this->cart->products[$product['key']]['coupon'] = $coupon_value + ($this->config->get('config_tax') ? $tax_decrease : 0);
+						$rawtaxvalue += $tax_decrease;
+						$this->cart->decreaseTaxes($product['tax_class_id'], $tax_decrease);
+						$this->cart->decreaseProductTax($product['key'], $tax_decrease);
+						$rawcouponvalue += $coupon_value;
+                        $freeshipavail++; //freeshipping flag
                     }
                 }
-                
-                // If there is a discount, add it to the array
-                // Take the sum of all the per-item coupon discounts and set it as a single discount coupon (instead of having 20 items and 20 separate deductions.
-			    if ($rawcouponvalue > 0) {
+			    if ($rawcouponvalue > 0) { // If Discount
                     $total_data[] = array(
                         'title' => $this->language->get('text_coupon_title', $this->coupon->getName()),
-                        'text'  => '-' . $this->currency->format($rawcouponvalue),
+                        'text'  => '-' . $this->currency->format($this->config->get('config_tax') ? ($rawcouponvalue + $rawtaxvalue) : $rawcouponvalue),
                         'value' => $rawcouponvalue
                     );
                 }
-                
-                // Subtract that from the total.
-                if($this->cart->total <= $rawcouponvalue){
+                if($this->cart->total <= $rawcouponvalue + $rawtaxvalue){
 					$this->cart->decreaseTotal($this->cart->total);
                 } else {
-					$this->cart->decreaseTotal($rawcouponvalue);
+					$this->cart->decreaseTotal($rawcouponvalue + $rawtaxvalue);
 				}
-				
-                // If at least one of the products was freeshipping eligible, then  run the free shipping check
-                if ($freeshipavail) {
+                if ($freeshipavail) { // Free shipping set
                     if (($this->coupon->getShipping()) && ($this->cart->hasShipping())) {
                         $total_data[] = array(
                             'title' => $this->language->get('text_coupon_shipping'),
                             'text'  => '-' . $this->currency->format($this->tax->calculate($this->shipping->getCost($this->session->get('shipping_method')), $this->shipping->getTaxClassId($this->session->get('shipping_method')), $this->config->get('config_tax'))),
                             'value' => $this->tax->calculate($this->shipping->getCost($this->session->get('shipping_method')), $this->shipping->getTaxClassId($this->session->get('shipping_method')),$this->config->get('config_tax'))
                         );
-                        // Subtract that from the total.
-						
 						$shipping_total = $this->tax->calculate($this->shipping->getCost($this->session->get('shipping_method')), $this->shipping->getTaxClassId($this->session->get('shipping_method')),$this->config->get('config_tax'));
-						if($this->cart->total <= $shipping_total){
-							$this->cart->decreaseTotal($this->cart->total);
+						if(!$this->config->get('config_tax')){
+							$shipping_tax = roundDigits($this->shipping->getCost($this->session->get('shipping_method')) / 100 * $this->tax->getRate($this->shipping->getTaxClassId($this->session->get('shipping_method'))),$this->decimal_place);
 						} else {
-							$this->cart->decreaseTotal($shipping_total);
+							$shipping_tax = 0;
 						}
 						
+						if($this->cart->total <= $shipping_total + $shipping_tax){
+							$this->cart->decreaseTotal($this->cart->total);
+							$this->cart->decreaseTaxes($this->shipping->getTaxClassId($this->session->get('shipping_method'), $this->cart->taxes[$this->shipping->getTaxClassId($this->session->get('shipping_method'))]));
+						} else {
+							$this->cart->decreaseTotal($shipping_total + $shipping_tax);
+							$this->cart->decreaseTaxes($this->shipping->getTaxClassId($this->session->get('shipping_method')), roundDigits($this->shipping->getCost($this->session->get('shipping_method')) / 100 * $this->tax->getRate($this->shipping->getTaxClassId($this->session->get('shipping_method'))),$this->decimal_place));
+						}
                     }
                 }
             } else { // per cart code
-                
-                // Get the discount using the pre-tax subtotal by getting the price from the sum of all products based on product price instead of the cart price.
-                foreach ($this->cart->getProducts() as $result) {
-					$discount = $this->coupon->getDiscount($result['total']);
-					$rawcouponvalue += $result['total'] >= $discount ?  $discount : $result['total'];
+                foreach ($this->cart->getProducts() as $product) {
+					$discount = $this->coupon->getDiscount($product['total_discounted']);
+					$coupon_value = $product['total_discounted'] >= $discount ?  $discount : $product['total_discounted'];
+					
+					$old_tax = roundDigits($product['total_discounted'] / 100 * $this->tax->getRate($product['tax_class_id']), $this->decimal_place);
+					$this->cart->products[$product['key']]['total_discounted'] = $product['total_discounted'] - $coupon_value;
+					if($this->cart->products[$product['key']]['total_discounted'] > 0){
+						$new_tax = roundDigits($this->cart->products[$product['key']]['total_discounted'] / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place);
+						$tax_decrease = $old_tax-$new_tax;
+					} else {
+						$tax_decrease = $old_tax;
+					}
+					$this->cart->products[$product['key']]['coupon'] = $coupon_value + ($this->config->get('config_tax') ? $tax_decrease : 0);
+					
+					$rawtaxvalue += $tax_decrease;
+					
+					$this->cart->decreaseTaxes($product['tax_class_id'], $tax_decrease);
+					$this->cart->decreaseProductTax($product['key'], $tax_decrease);
+					$rawcouponvalue += ($coupon_value);
                 }
-                
-                // If there is a discount, add it to the array
-			    if ($rawcouponvalue > 0) {
+			    if ($rawcouponvalue > 0) { // If Discount
       			    $total_data[] = array(
         			    'title' => $this->language->get('text_coupon_title', $this->coupon->getName()),
-	    			    'text'  => '-' . $this->currency->format($rawcouponvalue),
+						'text'  => '-' . $this->currency->format($this->config->get('config_tax') ? ($rawcouponvalue + $rawtaxvalue) : $rawcouponvalue),
         			    'value' => $rawcouponvalue
       			    );
-				    // Subtract that from the total.
-				    if($this->cart->total <= $rawcouponvalue){
+				    if($this->cart->total <= ($rawcouponvalue + $rawtaxvalue)){
 						$this->cart->decreaseTotal($this->cart->total);
 					} else {
-						$this->cart->decreaseTotal($rawcouponvalue);
+						$this->cart->decreaseTotal($rawcouponvalue + $rawtaxvalue);
 					}
 			    }
-                
-                // Apply shipping per-cart code  if applicable.
 			    if (($this->coupon->getShipping()) && ($this->cart->hasShipping())) {
       			    $total_data[] = array(
         			    'title' => $this->language->get('text_coupon_shipping'),
@@ -115,19 +125,25 @@ class CalculateCoupon extends Calculate {
       			    );
 					
 				    $shipping_total = $this->tax->calculate($this->shipping->getCost($this->session->get('shipping_method')), $this->shipping->getTaxClassId($this->session->get('shipping_method')),$this->config->get('config_tax'));
-				    if($this->cart->total <= $shipping_total){
-						$this->cart->decreaseTotal($this->cart->total);
+					if(!$this->config->get('config_tax')){
+						$shipping_tax = roundDigits($this->shipping->getCost($this->session->get('shipping_method')) / 100 * $this->tax->getRate($this->shipping->getTaxClassId($this->session->get('shipping_method'))),$this->decimal_place);
 					} else {
-						$this->cart->decreaseTotal($shipping_total);
+						$shipping_tax = 0;
+					}
+					
+				    if($this->cart->total <= $shipping_total + $shipping_tax){
+						$this->cart->decreaseTotal($this->cart->total);
+						$this->cart->decreaseTaxes($this->shipping->getTaxClassId($this->session->get('shipping_method'), $this->cart->taxes[$this->shipping->getTaxClassId($this->session->get('shipping_method'))]));
+					} else {
+						$this->cart->decreaseTotal($shipping_total + $shipping_tax);
+						$this->cart->decreaseTaxes($this->shipping->getTaxClassId($this->session->get('shipping_method')), roundDigits($this->shipping->getCost($this->session->get('shipping_method')) / 100 * $this->tax->getRate($this->shipping->getTaxClassId($this->session->get('shipping_method'))),$this->decimal_place)) ;
 					}
 			    }
             }
     	}
-		
+
     	return $total_data;
 	}
-    
-	
 	function getSortOrder() {
 		return $this->config->get('coupon_sort_order');
 	}

@@ -1,11 +1,11 @@
 #invoice {
 	margin-top: 20px;
-	margin-left: 20px;
-	width: 600px;
+	margin-left: 15px;
+	width: 945px;
 }
 
 #invoice .a, #invoice .b, #invoice .e {
-	border: 1px solid #EEEEEE;
+	border: 1px solid #48C4DB;
 	margin-bottom: 10px;
 	padding: 5px;
 }
@@ -49,4 +49,22 @@
 
 #invoice .g, #invoice .h {
 	width: 100%;
+}
+.invoice_price_old {
+	text-decoration: line-through;
+	text-align: right;
+	font-weight: 200;
+	font-size: 10px;
+}
+
+.invoice_price_new {
+	color: #FF0000;
+	font-size: 10px;
+	text-align: right;
+	font-weight: 200;
+	padding-left: 0px;
+}
+.tax{
+	font-weight: bold;
+	color: #CC0000;
 }

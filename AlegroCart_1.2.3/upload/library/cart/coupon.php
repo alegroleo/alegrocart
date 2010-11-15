@@ -6,10 +6,12 @@ class Coupon {
 	
 	function Coupon(&$locator) {
 		$this->cart     =& $locator->get('cart');
+		$this->currency =& $locator->get('currency');
 		$this->customer =& $locator->get('customer');
 		$this->database =& $locator->get('database');
 		$this->language =& $locator->get('language');
 		$this->session  =& $locator->get('session');
+		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
 		
 		if ($this->session->has('coupon_id')) {
 			$coupon_info = $this->database->getRow("select * from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '" . (int)$this->language->getId() . "' and c.coupon_id = '" . (int)$this->session->get('coupon_id') . "' and c.date_start < now() and c.date_end > now() and c.status = '1'");
@@ -101,9 +103,9 @@ class Coupon {
 	function getDiscount($value) {
 		if ($this->data) {
 			if ($this->data['prefix'] == '%') {
-				return ($value * $this->data['discount'] / 100);
+				return roundDigits(($value * $this->data['discount'] / 100), $this->decimal_place);
 			} elseif ($this->data['prefix'] == '-') {
-				return $this->data['discount'];
+				return roundDigits($this->data['discount'], $this->decimal_place);
 			}
 		}
 	}

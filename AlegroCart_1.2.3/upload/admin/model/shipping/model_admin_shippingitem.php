@@ -14,6 +14,7 @@ class Model_Admin_ShippingItem extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'item', `key` = 'item_status', value = '0'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'item', `key` = 'item_geo_zone_id', value = '0'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'item', `key` = 'item_cost', value = '0.00'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'item', `key` = 'item_max', value = '0'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'item', `key` = 'item_tax_class_id', value = '0'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'item', `key` = 'item_sort_order', value = '0'");
 	}
@@ -21,6 +22,7 @@ class Model_Admin_ShippingItem extends Model {
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'item', `key` = 'item_status', `value` = '?'", (int)$this->request->gethtml('global_item_status', 'post')));			 
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'item', `key` = 'item_geo_zone_id', `value` = '?'", (int)$this->request->gethtml('global_item_geo_zone_id', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'item', `key` = 'item_cost', `value` = '?'", (float)$this->request->gethtml('global_item_cost', 'post')));
+		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'item', `key` = 'item_max', `value` = '?'", (float)$this->request->gethtml('global_item_max', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'item', `key` = 'item_tax_class_id', `value` = '?'", (int)$this->request->gethtml('global_item_tax_class_id', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'item', `key` = 'item_sort_order', `value` = '?'", (int)$this->request->gethtml('global_item_sort_order', 'post')));
 	}

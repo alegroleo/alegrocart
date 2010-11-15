@@ -38,12 +38,20 @@ class ControllerShippingItem extends Controller {
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 		$view->set('text_all_zones', $this->language->get('text_all_zones'));
 		$view->set('text_none', $this->language->get('text_none'));
-
-		$view->set('entry_status', $this->language->get('entry_status'));		
+		
+		$view->set('entry_status', $this->language->get('entry_status'));	
 		$view->set('entry_geo_zone', $this->language->get('entry_geo_zone'));
 		$view->set('entry_cost', $this->language->get('entry_cost'));
+		$view->set('entry_max', $this->language->get('entry_max'));
 		$view->set('entry_tax', $this->language->get('entry_tax'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
+
+		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));	
+		$view->set('explanation_entry_geo_zone', $this->language->get('explanation_entry_geo_zone'));
+		$view->set('explanation_entry_cost', $this->language->get('explanation_entry_cost'));
+		$view->set('explanation_entry_max', $this->language->get('explanation_entry_max'));
+		$view->set('explanation_entry_tax', $this->language->get('explanation_entry_tax'));
+		$view->set('explanation_entry_sort_order', $this->language->get('explanation_entry_sort_order'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -90,6 +98,12 @@ class ControllerShippingItem extends Controller {
 			$view->set('global_item_cost', number_format($this->request->gethtml('global_item_cost', 'post'),$decimal_place,'.',''));
 		} else {
 			$view->set('global_item_cost', @number_format($setting_info['global']['item_cost'],$decimal_place,'.',''));
+		}
+		
+		if ($this->request->has('global_item_max', 'post')) {
+			$view->set('global_item_max', number_format($this->request->gethtml('global_item_max', 'post'),$decimal_place,'.',''));
+		} else {
+			$view->set('global_item_max', @number_format($setting_info['global']['item_max'],$decimal_place,'.',''));
 		}
 
 		if ($this->request->has('global_item_tax_class_id', 'post')) {

@@ -846,3 +846,33 @@ INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`
 SET @id=NULL;
 SELECT @id=currency_id FROM currency WHERE `code` = 'ZMK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Zambian Kwacha', 'ZMK', '0', '0', '¤', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
+
+#New invoice and tax settings
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'invoice_number';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'invoice_number', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_tax_store';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_tax_store', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'search_rows';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'search_rows', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'category_rows';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'category_rows', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# New Invoice Order Columns
+ALTER TABLE `order` ADD `coupon_sort_order` INT( 3 ) NOT NULL DEFAULT '0';
+ALTER TABLE `order` ADD `discount_sort_order` INT( 3 ) NOT NULL DEFAULT '0';
+ALTER TABLE `order_product` ADD `special_price` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000' AFTER `discount`;
+ALTER TABLE `order_product` ADD `coupon` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000' AFTER `special_price`; 
+ALTER TABLE `order_product` ADD `general_discount` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000' AFTER `coupon`; 
+ALTER TABLE `order_product` ADD `shipping` BOOLEAN NOT NULL DEFAULT '0'; 
+ALTER TABLE `order` ADD `shipping_tax_rate` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0';
+ALTER TABLE `order` ADD `freeshipping_net` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000';
+ALTER TABLE `order` ADD `shipping_net` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000';
+ALTER TABLE `order` ADD `taxed` BOOLEAN NOT NULL DEFAULT '0';
+ALTER TABLE `order` ADD `invoice_number` varchar(32) collate utf8_unicode_ci NOT NULL default '' AFTER `reference`;

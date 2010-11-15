@@ -1,10 +1,13 @@
 <?php // Cart AlegroCart
 class ControllerCart extends Controller {
+	var $error = array();
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
+		$this->calculate 	=& $locator->get('calculate');
 		$this->cart     	=& $locator->get('cart');
 		$this->config   	=& $locator->get('config');
+		$this->coupon   	=& $locator->get('coupon');
 		$this->currency 	=& $locator->get('currency');
 		$this->customer 	=& $locator->get('customer');
 		$this->head_def 	=& $locator->get('HeaderDefinition');  
@@ -23,6 +26,7 @@ class ControllerCart extends Controller {
 		$this->tpl_manager = $this->modelCore->get_tpl_manager('cart'); // Template Manager
 		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
 		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
+		$this->language->load('controller/cart.php');
 	}
 	function index() {
 	
@@ -59,22 +63,34 @@ class ControllerCart extends Controller {
           			$this->cart->remove($key);
 				}
       		}
-      
+			
+			if ($this->request->gethtml('coupon', 'post') && $this->validate()) {
+				$this->session->set('message', $this->language->get('text_coupon'));
+			}
+			
 	  		$this->response->redirect($this->url->href('cart'));
     	}
 
-		$this->language->load('controller/cart.php');
     	$this->template->set('title', $this->language->get('heading_title'));
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);    // New Header
       	$view->set('heading_title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);    // New Header	
+		$tax_included = $this->config->get('config_tax_store');
+		$view->set('tax_included', $tax_included);
 		
     	if ($this->cart->hasProducts()) {
-
+			$this->calculate->getTotals(); //************************
       		$view->set('text_subtotal', $this->language->get('text_subtotal'));
             $view->set('text_stock_ind', $this->language->get('text_stock_ind'));
             $view->set('text_min_qty_ind', $this->language->get('text_min_qty_ind'));
+			$view->set('text_shipping', $this->language->get('text_shipping'));
+			$view->set('text_shippable', $this->language->get('text_shippable'));
+			$view->set('text_non_shippable', $this->language->get('text_non_shippable'));
+			$view->set('text_tax', $this->language->get('text_tax'));
+			$view->set('text_tax_explantion', $this->language->get('text_tax_explantion'));
+			$view->set('text_product_totals', $this->language->get('text_product_totals'));
+			
             
       		$view->set('column_remove', $this->language->get('column_remove'));
       		$view->set('column_image', $this->language->get('column_image'));
@@ -82,19 +98,39 @@ class ControllerCart extends Controller {
       		$view->set('column_quantity', $this->language->get('column_quantity'));
 			$view->set('column_price', $this->language->get('column_price'));
       		$view->set('column_special', $this->language->get('column_special'));
+			$view->set('column_discount_value', $this->language->get('column_discount_value'));
+			$view->set('column_coupon_value', $this->language->get('column_coupon_value'));
+			$view->set('column_extended', $this->language->get('column_extended'));
       		$view->set('column_total', $this->language->get('column_total'));
             $view->set('column_min_qty', $this->language->get('column_min_qty'));
 
-      		$view->set('button_update', $this->language->get('button_update'));
+      		$view->set('entry_coupon', $this->language->get('entry_coupon'));
+			$view->set('button_update', $this->language->get('button_update'));
       		$view->set('button_shopping', $this->language->get('button_shopping'));
       		$view->set('button_checkout', $this->language->get('button_checkout'));
-
-      		$view->set('error', ((!$this->cart->hasStock()) && ($this->config->get('config_stock_check')) ? $this->language->get('error_stock') : NULL));
+			
+			
+      		$view->set('error', @$this->error['message']);
+			$view->set('error', ((!$this->cart->hasStock()) && ($this->config->get('config_stock_check')) ? $this->language->get('error_stock') : NULL));
       		$view->set('stock_check', $this->config->get('config_stock_check'));
+			if ($this->session->has('error')) {
+				$view->set('error', $this->session->get('error'));
+				$this->session->delete('error');
+				$view->set('message', '');
+			} else {
+				$view->set('message', $this->session->get('message'));
+			}
+			$this->session->delete('message');
+			
+			$view->set('coupon', $this->coupon->getCode());
       		$view->set('action', $this->url->href('cart'));
 
       		$product_data = array();
-
+			$subtotal = 0;
+			$coupon_total = NULL;
+			$discount_total = NULL;
+			$extended_total = 0;
+			$net_total = 0;
      		foreach ($this->cart->getProducts() as $result) {
         		$option_data = array();
 
@@ -116,23 +152,32 @@ class ControllerCart extends Controller {
                     }
                 }
                 $special_price = $result['special_price'] ?$result['special_price'] - $result['discount'] : 0;
+				$extended_total += $this->tax->calculate($result['total'], $result['tax_class_id'], $tax_included);
+				$coupon_total += $result['coupon'] ? $result['coupon'] : NULL;
+				$discount_total += $result['general_discount'] ? $result['general_discount'] : NULL;
+				$net_total += $result['total_discounted'];
+				$subtotal += $result['total_discounted'] + ($tax_included ? $result['product_tax'] : 0);
         		$product_data[] = array(
           			'key'           => $result['key'],
           			'name'          => $result['name'],
           			'model_number'  => $result['model_number'],
-          			'thumb'         => $this->image->resize($result['image'], 50, 50),
+					'shipping'   	=> $result['shipping'],
+          			'thumb'         => $this->image->resize($result['image'], 40, 40),
           			'option'        => $option_data,
           			'quantity'      => $result['quantity'],
                     'min_qty'       => $result['min_qty'],
                     'min_qty_error' => ($line_min_error || $this->session->get('line_min_error['.$result['key'].']') ? '1' : '0'),
           			'stock'         => $result['stock'],
-					'price'         => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'special_price' => $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $this->config->get('config_tax'))),
-          			'discount'      => ($result['discount'] ? $this->currency->format($this->tax->calculate($result['price'] - $result['discount'], $result['tax_class_id'], $this->config->get('config_tax'))) : NULL),
-					'total'         => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
+					'price'         => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $tax_included)),
+					'special_price' => $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $tax_included)),
+          			'discount'      => ($result['discount'] ? $this->currency->format($this->tax->calculate($result['price'] - $result['discount'], $result['tax_class_id'], $tax_included)) : NULL),
+					'coupon'     =>  ($result['coupon'] ? '-' . $this->currency->format($result['coupon']) : NULL),
+					'general_discount' => ($result['general_discount'] ? '-' . $this->currency->format($result['general_discount']) : NULL),
+					'total_discounted'  => $this->currency->format($result['total_discounted'] + ($tax_included ? $result['product_tax'] : 0)),
+					'total'      => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $tax_included)),
 					'href'          => $this->url->href('product', FALSE, array('product_id' => $result['product_id']))
         		);
-                
+				
                 if ($min_qty_error == '1' || $this->session->get('min_qty_error['.$result['key'].']')) {
                     $view->set('error', $this->language->get('error_min_qty'));
                     $this->session->set('min_qty_error['.$result['key'].']', '0');
@@ -140,9 +185,27 @@ class ControllerCart extends Controller {
                 }
                     
       		}
-
+			
+			$discount_lprice = $this->config->get('discount_lprice');
+			$discount_gprice = $this->config->get('discount_gprice');
+			if ($discount_lprice != 0 && $discount_lprice > $net_total){
+				$view->set('text_discount_lprice', $this->language->get('text_discount_lprice', $this->config->get('discount_lprice_percent'), $this->currency->format($discount_lprice)));
+			}
+			if ($discount_gprice != 0 && $discount_gprice > $net_total){
+				$view->set('text_discount_gprice', $this->language->get('text_discount_gprice', $this->config->get('discount_gprice_percent'), $this->currency->format($discount_gprice)));
+			}
+			
+			$view->set('columns', $this->tpl_columns);
+			$view->set('coupon_sort_order', $this->config->get('coupon_sort_order'));
+			$view->set('discount_sort_order', $this->config->get('discount_sort_order'));
       		$view->set('products', $product_data);
-     		$view->set('subtotal', $this->currency->format($this->cart->getSubtotal()));
+     		$view->set('subtotal', $this->currency->format($subtotal));
+			
+			$view->set('text_net_total', $this->language->get('text_net_total', $this->currency->format($net_total)));
+			
+			$view->set('extended_total', $this->currency->format($extended_total));
+			$view->set('coupon_total', $coupon_total ? '-' . $this->currency->format($coupon_total) : NULL);
+		$view->set('discount_total', $discount_total ? '-' . $this->currency->format($discount_total) : NULL);
             $view->set('weight', $this->cart->formatWeight($this->cart->getWeight()));
             $view->set('text_cart_weight', $this->language->get('text_cart_weight'));
 			$referer_page = $this->url->get_controller($this->session->get('current_page'),array('category','product', 'manufacturer' , 'search'));
@@ -196,6 +259,22 @@ class ControllerCart extends Controller {
 		}
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
+	}
+	function validate() {
+		if (!$this->coupon->set($this->request->gethtml('coupon', 'post'))) {
+			
+			$this->session->set('error', $this->language->get('error_coupon'));
+			$this->session->delete('message');
+			if (!$this->coupon->hasProduct()) {
+			
+				$this->session->set('error', $this->language->get('error_product')); 
+			}
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 }
 ?>

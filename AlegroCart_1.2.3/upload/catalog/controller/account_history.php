@@ -43,6 +43,7 @@ class ControllerAccountHistory extends Controller {
 		$results = $this->modelAccountHistory->get_orders($this->customer->getId());
 		if ($results) {
       		$view->set('text_order', $this->language->get('text_order'));
+      		$view->set('text_invoice_number', $this->language->get('text_invoice_number'));
       		$view->set('text_status', $this->language->get('text_status'));
      		$view->set('text_date_added', $this->language->get('text_date_added'));
       		$view->set('text_customer', $this->language->get('text_customer'));
@@ -67,6 +68,7 @@ class ControllerAccountHistory extends Controller {
           			'reference'  => $result['reference'],
           			'href'       => $this->url->ssl('account_invoice', FALSE, array('order_id' => $result['order_id'])),
           			'name'       => $result['firstname'] . ' ' . $result['lastname'],
+					'invoice_number' => $result['invoice_number'] ? $result['invoice_number'] : 0,
           			'status'     => $result['status'],
           			'date_added' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
           			'products'   => $product_info['products'],

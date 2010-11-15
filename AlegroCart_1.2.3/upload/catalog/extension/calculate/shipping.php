@@ -1,4 +1,4 @@
-<?php
+<?php // AlegroCart Shipping
 class CalculateShipping extends Calculate {  
 	function __construct(&$locator) {		
 		$this->cart     =& $locator->get('cart');
@@ -14,7 +14,7 @@ class CalculateShipping extends Calculate {
 			
   	function calculate() {
 		$total_data = array();
-		
+		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
 		if (($this->config->get('shipping_status')) && ($this->cart->hasShipping())) { 
 			$total_data[] = array(
         		'title' => $this->shipping->getTitle($this->session->get('shipping_method')) . ':',
@@ -23,7 +23,9 @@ class CalculateShipping extends Calculate {
       		);
 			
 			$this->cart->increaseTotal($this->tax->calculate($this->shipping->getCost($this->session->get('shipping_method')), $this->shipping->getTaxClassId($this->session->get('shipping_method'))));
-			$this->cart->addTax($this->shipping->getTaxClassId($this->session->get('shipping_method')), $this->shipping->getCost($this->session->get('shipping_method')) / 100 * $this->tax->getRate($this->shipping->getTaxClassId($this->session->get('shipping_method'))));
+			
+			$this->cart->addTax($this->shipping->getTaxClassId($this->session->get('shipping_method')), roundDigits($this->shipping->getCost($this->session->get('shipping_method')) * ($this->tax->getRate($this->shipping->getTaxClassId($this->session->get('shipping_method'))) / 100), $this->decimal_place));
+			
     	}
     
 		return $total_data;

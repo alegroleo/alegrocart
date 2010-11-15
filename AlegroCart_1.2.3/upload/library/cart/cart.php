@@ -8,22 +8,25 @@ class Cart {
 	var $stock    = TRUE;
   	var $shipping = FALSE;
    
-  	function __construct(&$locator)
-	{
+  	function __construct(&$locator){
 		$this->locator  =& $locator;
+		$this->config   =& $locator->get('config');
 		$this->session  =& $locator->get('session');
+		$this->database =& $locator->get('database');
+		$this->language =& $locator->get('language');
+		$this->tax      =& $locator->get('tax');
+		$this->weight   =& $locator->get('weight');
+		$this->currency =& $locator->get('currency');
+		
 		if ($this->session->has('cart')) {
       		$this->data = $this->session->get('cart');
     	}
+		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
 		$this->data_refresh();
     }	  
-	function data_refresh()
-	{		  
-	$this->config   =& $this->locator->get('config');
-		$this->database =& $this->locator->get('database');
-		$this->language =& $this->locator->get('language');
-		$this->tax      =& $this->locator->get('tax');
-		$this->weight   =& $this->locator->get('weight');
+	function data_refresh(){	  
+	
+		
 		
     	foreach ($this->data as $key => $value)
 		{
@@ -56,11 +59,11 @@ class Cart {
 					$option_weight = $option_weight + $option['option_weight'];
         			$option_data[] = array(
           				'product_to_option_id' => $product_to_option_id,
-          				'name'                 => $option['name'],
-          				'value'                => $option['value'],
-          				'prefix'               => $option['prefix'],
-          				'price'                => $option['price'],
-						'option_weight'		   => $option['option_weight']
+          				'name'           => $option['name'],
+          				'value'          => $option['value'],
+          				'prefix'         => $option['prefix'],
+          				'price'          => roundDigits($option['price'], $this->decimal_place),
+						'option_weight'	 => $option['option_weight']
         			);
       			}
 
@@ -85,16 +88,16 @@ class Cart {
 						'remaining'   => $download['remaining']
         			);			
 				}
-				$price = $product['price'];
-				$special_price = $product['special_price'];
+				$price = roundDigits($product['price'], $this->decimal_place);
+				$special_price = roundDigits($product['special_price'],$this->decimal_place);
 				if ($special_price > 0 && date('Y-m-d H:i:s') >= $product['sale_start_date'] && date('Y-m-d') <= $product['sale_end_date']) {
-				  $extended_price = $special_price;
-				  $discount = $discount_percent > 0 ? $discount = $special_price * ($discount_percent / 100) : '0';		  
-				  $special_price = ($product['special_price'] + $option_price);
+				  $extended_price = roundDigits($special_price, $this->decimal_place);
+				  $discount = $discount_percent > 0 ? roundDigits($discount = $special_price * ($discount_percent / 100), $this->decimal_place) : '0';		  
+				  $special_price = roundDigits(($product['special_price'] + $option_price), $this->decimal_place);
 				} else{
 				  $extended_price = $price;
 				  $special_price = '0';
-				  $discount = $discount_percent > 0 ? $price * ($discount_percent / 100) : '0';
+				  $discount = $discount_percent > 0 ? roundDigits($price * ($discount_percent / 100),$this->decimal_place) : '0';
 				}
 				
       			$this->products[$key] = array(
@@ -109,12 +112,16 @@ class Cart {
         			'quantity'        => $quantity,
                     'min_qty'         => $product['min_qty'],
 					'stock'           => ($quantity <= $product['quantity']),
-        			'price'           => ($product['price'] + $option_price),
+        			'price'           => roundDigits(($product['price'] + $option_price), $this->decimal_place),
 					'special_price'   => $special_price,
 					'discount'        => $discount,
-					'discount_percent'=> $discount_percent,
-        			'total'           => (($extended_price + $option_price) - $discount) * $quantity,
+					'coupon'		  => 0,
+					'general_discount'=> 0,
+					'discount_percent'=> $discount_percent,    
+        			'total'           => roundDigits((($extended_price + $option_price) - $discount) * $quantity, $this->decimal_place),
+					'total_discounted'=> roundDigits((($extended_price + $option_price) - $discount) * $quantity, $this->decimal_place),
         			'tax_class_id'    => $product['tax_class_id'],
+					'product_tax'     => roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place),
         			'weight'          => $product['weight'] + $option_weight,
         			'weight_class_id' => $product['weight_class_id']
       			);
@@ -122,9 +129,9 @@ class Cart {
  	  			$this->subtotal += $this->tax->calculate((($extended_price + $option_price) - $discount) * $quantity, $product['tax_class_id'], $this->config->get('config_tax'));
 
 				if (!isset($this->taxes[$product['tax_class_id']])) {
-					$this->taxes[$product['tax_class_id']] = ((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']);
+					$this->taxes[$product['tax_class_id']] = roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place);
 				} else {
-					$this->taxes[$product['tax_class_id']] += ((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']);
+					$this->taxes[$product['tax_class_id']] += roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']), $this->decimal_place);
 				}
 			
 				$this->total += $this->tax->calculate((($extended_price + $option_price) - $discount) * $quantity, $product['tax_class_id']);
@@ -206,7 +213,9 @@ class Cart {
 		$total = 0;
 	
     	foreach ($this->products as $product) {
-      		$total += $this->weight->convert($product['weight'] * $product['quantity'], $product['weight_class_id'], $this->config->get('config_weight_class_id'));
+			if ($product['shipping']){
+				$total += $this->weight->convert($product['weight'] * $product['quantity'], $product['weight_class_id'], $this->config->get('config_weight_class_id'));
+			}
     	}
 	
 		return $total;
@@ -219,11 +228,27 @@ class Cart {
   
   	function getSubtotal() {  
 		return $this->subtotal;   
-  	} 
+  	}
+	
+	function getNetTotal(){
+		$net_total = 0;
+		foreach($this->products as $product) {
+			$net_total += $product['total_discounted'];
+		}
+		return $net_total;		
+	}
   	
 	function getTaxes() {
 		return $this->taxes;
   	}
+	
+	function decreaseTaxes($tax_class_id, $value){
+		$this->taxes[$tax_class_id] -= $value;
+	}
+	
+	function decreaseProductTax($key, $value){
+		$this->products[$key]['product_tax'] -= $value;
+	}
 	
   	function getTotal() {
 		return $this->total;

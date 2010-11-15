@@ -1,15 +1,16 @@
 #cart .a {
 	width: 100%;
 	clear: both;
+	padding: 0px 2px 0px 2px;
 }
 #cart .i {
 	text-align: center;
-	width: 60px;
+	width: 50px;
 	vertical-align: middle;
 }
 #cart .c  {
 	text-align: center;
-	width: 60px;
+	width: 50px;
 	vertical-align: top;
 }
 #cart .b {
@@ -47,6 +48,7 @@
 }
 #cart .f{
 	text-align: center;
+	width: 30px;
 	vertical-align: top;	
 }
 #cart .g,  #cart .e { 
@@ -60,12 +62,18 @@
 	vertical-align: middle;
 }
 #cart .n {
+	width: 100%;
 	right: 0px;
 	text-align: right;
 	clear: both;
 }
+#cart .n  .l{
+    width: 75%;
+	text-align: left;
+}
 
 #cart .n table {
+	width: 100%;
 	display: inline;
 }
 
@@ -74,6 +82,23 @@
 	clear: both;
 	font-size: 9px;
 	text-align: center;
+}
+#cart .s  {
+	text-align: center;
+	width: 40px;
+	vertical-align: top;
+}
+#cart .t {
+	text-align: left;
+	vertical-align: middle;
+
+}
+#cart .right{
+	text-align: right;
+}
+.tax{
+	font-weight: bold;
+	color: #CC0000;
 }
 .cartprice_old {
 	text-decoration: line-through;

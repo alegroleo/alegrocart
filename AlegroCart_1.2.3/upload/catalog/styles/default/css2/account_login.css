@@ -1,13 +1,15 @@
 #login .a, #login .g {
-	width: 285px;
+	width: 384px;
 }
 
 #login .a {
 	float: left;
+	padding-left: 5px;
 }
 
 #login .g {
 	float: right;
+	padding-left: 5px;
 }
 
 #login .b, #login .h {

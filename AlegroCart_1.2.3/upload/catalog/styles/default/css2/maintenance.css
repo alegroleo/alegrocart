@@ -8,7 +8,7 @@ body {
 	background-color: #EEEEEE;
 }
 body, td, th, input, textarea, select, a {
-	font-family: Verdana, Arial, Helvetica, sans-serif;	
+	font-family: Arial, Verdana, Helvetica, sans-serif;	
 	font-size: 11px;
 	color: #000000;
 }
@@ -109,7 +109,7 @@ h1 {
 }
 #maintenance {
 	font-size: 16px;
-	font-family: Verdana,Helvetica,Arial,_sans-serif;
+	font-family: Arial, Verdana, Helvetica,_sans-serif;
 }
 #maintenance .b {
   border: 0px solid #000000;
@@ -119,7 +119,7 @@ h1 {
 .headingpadded {
 	font-size: 14px;
 	font-weight: 600;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 	text-align: center;
 	clear: both;
 	max-width: 795px;

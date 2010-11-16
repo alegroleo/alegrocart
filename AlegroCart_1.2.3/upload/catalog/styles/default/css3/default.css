@@ -9,7 +9,7 @@ body {
 	padding: 0px;
 }
 body, td, th, input, textarea, select, a {
-	font-family: Verdana, Arial, Helvetica, sans-serif;	
+	font-family:  Arial, Verdana, Helvetica, sans-serif;	
 	font-size: 11px;
 	color: #000000;
 }
@@ -153,8 +153,8 @@ a:hover {
 	text-decoration: none;
 }
 #footer .c{
-	float: left;
-	padding: 5px 10px 0px 80px;
+	float: right;
+	padding: 5px 260px 0px 10px;
 } 
 #footer .d{
 	font-weight: bold;
@@ -174,7 +174,7 @@ a:hover {
 .heading {
 	font-size: 14px;
 	font-weight: 600;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 	text-align: center;
 	clear: both;
 	padding-top: 5px;
@@ -184,7 +184,7 @@ a:hover {
 	padding-bottom: 5px;
 }
 .heading a{
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family:  Arial, Verdana, Helvetica, sans-serif;
 	font-size: 14px;
 	font-weight: 600;
 }
@@ -199,7 +199,7 @@ a:hover {
 .headingpadded {
 	font-size: 14px;
 	font-weight: 600;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family:  Arial, Verdana, Helvetica, sans-serif;
 	text-align: center;
 	clear: both;
 	max-width: 100%;
@@ -439,7 +439,7 @@ a:hover {
 	font-size: 14px;
 	color: #FFFFFF;
 	font-weight: 600;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family:  Arial, Verdana, Helvetica, sans-serif;
 }
 .admin_button:hover{
 	border-bottom: 0px;
@@ -636,7 +636,7 @@ a:hover {
 .headingbody {
 	font-size: 14px;
 	font-weight: 600;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 	text-align: center;
 	max-width: 590px;
 	margin: 5px 0px 0px 5px;

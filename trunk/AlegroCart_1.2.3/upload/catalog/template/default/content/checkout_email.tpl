@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
 * {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family:  Arial, Verdana, Helvetica, sans-serif;
 }
 body, td, th, input, textarea, select {
 	font-size: 11px;

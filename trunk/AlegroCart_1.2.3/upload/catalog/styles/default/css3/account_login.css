@@ -4,10 +4,12 @@
 
 #login .a {
 	float: left;
+	padding-left: 5px;
 }
 
 #login .g {
 	float: right;
+	padding-left: 5px;
 }
 
 #login .b, #login .h {

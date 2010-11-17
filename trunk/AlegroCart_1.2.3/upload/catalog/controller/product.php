@@ -4,6 +4,7 @@ class ControllerProduct extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
+		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module   	=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
 		$this->modelProducts = $model->get('model_products');
@@ -112,9 +113,9 @@ class ControllerProduct extends Controller {
 			$view->set('tab_information', $language->get('tab_information'));
 			$view->set('tab_reviews', $language->get('tab_reviews'));
 			$view->set('tab_write', $language->get('tab_write'));
-			$tax_included = $this->config->get('config_tax_store');
-			$view->set('tax_included', $tax_included);
-			$view->set('text_tax_rate', ($tax_included ? $language->get('text_tax_included') : '') . $language->get('text_tax_rate')); 
+
+			$view->set('tax_included', $this->config->get('config_tax'));
+			$view->set('text_tax_rate', ($this->config->get('config_tax') ? $language->get('text_tax_included') : '') . $language->get('text_tax_rate')); 
 			
       		$query = array(
         		'path'       => $request->gethtml('path'),
@@ -154,7 +155,7 @@ class ControllerProduct extends Controller {
 				$product_discounts[] = array(
 				  'discount_quantity' => $result['quantity'],
 				  'discount_percent' => (round($result['discount']*10))/10,
-				  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $product_info['tax_class_id'], $tax_included))
+				  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $product_info['tax_class_id'], $this->config->get('config_tax')))
 				);
 			  }
 			  $view->set('product_discounts',$product_discounts);
@@ -197,9 +198,9 @@ class ControllerProduct extends Controller {
 				'name'      => $product_info['name'],
 				'popup'     => $image->href($product_info['filename']),
 				'min_qty'   => isset($product_info['min_qty'])?$product_info['min_qty']:1,
-						'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $tax_included)),
+						'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
 
-            			'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $tax_included)),
+            			'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
 						'sale_start_date' => $product_info['sale_start_date'],
 						'sale_end_date'   => $product_info['sale_end_date'],
 				'options'         => $this->modelProducts->get_options($product_info['product_id'],$product_info['tax_class_id'])

@@ -4,6 +4,7 @@ class ControllerReview extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
+		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module   	=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
 		$this->modelCore 	= $model->get('model_core');
@@ -32,8 +33,8 @@ class ControllerReview extends Controller {
  
     	if ($results) {
       		$view = $this->locator->create('template');
-			$tax_included = $this->config->get('config_tax_store');
-			$view->set('tax_included', $tax_included);
+			
+			$view->set('tax_included', $this->config->get('config_tax'));
 
       		$product_info = $this->modelReview->get_product($request->gethtml('product_id'));
 	  
@@ -41,9 +42,9 @@ class ControllerReview extends Controller {
 
       		$view->set('heading_title', $language->get('heading_title', $product_info['name']));
 
-      		$view->set('price', $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $tax_included)));
+      		$view->set('price', $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))));
 			
-			$view->set('special_price', $product_info['special_price']>0 ? $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $tax_included)): "");
+			$view->set('special_price', $product_info['special_price']>0 ? $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))): "");
       		$view->set('text_results', $this->modelReview->get_text_results());
       		$view->set('text_review_by', $language->get('text_review_by'));
       		$view->set('text_date_added', $language->get('text_date_added'));

@@ -5,6 +5,7 @@ class ControllerContact extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
+		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->customer 	=& $locator->get('customer');
 		$this->head_def 	=& $locator->get('HeaderDefinition');
 		$this->language 	=& $locator->get('language');

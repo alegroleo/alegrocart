@@ -4,9 +4,10 @@ class ControllerCart extends Controller {
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
+		$this->config   	=& $locator->get('config');
+		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->calculate 	=& $locator->get('calculate');
 		$this->cart     	=& $locator->get('cart');
-		$this->config   	=& $locator->get('config');
 		$this->coupon   	=& $locator->get('coupon');
 		$this->currency 	=& $locator->get('currency');
 		$this->customer 	=& $locator->get('customer');
@@ -76,8 +77,7 @@ class ControllerCart extends Controller {
 		$view->set('head_def',$this->head_def);    // New Header
       	$view->set('heading_title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);    // New Header	
-		$tax_included = $this->config->get('config_tax_store');
-		$view->set('tax_included', $tax_included);
+		$view->set('tax_included', $this->config->get('config_tax'));
 		
     	if ($this->cart->hasProducts()) {
 			$this->calculate->getTotals(); //************************
@@ -152,11 +152,11 @@ class ControllerCart extends Controller {
                     }
                 }
                 $special_price = $result['special_price'] ?$result['special_price'] - $result['discount'] : 0;
-				$extended_total += $this->tax->calculate($result['total'], $result['tax_class_id'], $tax_included);
+				$extended_total += $this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'));
 				$coupon_total += $result['coupon'] ? $result['coupon'] : NULL;
 				$discount_total += $result['general_discount'] ? $result['general_discount'] : NULL;
 				$net_total += $result['total_discounted'];
-				$subtotal += $result['total_discounted'] + ($tax_included ? $result['product_tax'] : 0);
+				$subtotal += $result['total_discounted'] + ($this->config->get('config_tax') ? $result['product_tax'] : 0);
         		$product_data[] = array(
           			'key'           => $result['key'],
           			'name'          => $result['name'],
@@ -168,13 +168,13 @@ class ControllerCart extends Controller {
                     'min_qty'       => $result['min_qty'],
                     'min_qty_error' => ($line_min_error || $this->session->get('line_min_error['.$result['key'].']') ? '1' : '0'),
           			'stock'         => $result['stock'],
-					'price'         => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $tax_included)),
-					'special_price' => $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $tax_included)),
-          			'discount'      => ($result['discount'] ? $this->currency->format($this->tax->calculate($result['price'] - $result['discount'], $result['tax_class_id'], $tax_included)) : NULL),
+					'price'         => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
+					'special_price' => $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $this->config->get('config_tax'))),
+          			'discount'      => ($result['discount'] ? $this->currency->format($this->tax->calculate($result['price'] - $result['discount'], $result['tax_class_id'], $this->config->get('config_tax'))) : NULL),
 					'coupon'     =>  ($result['coupon'] ? '-' . $this->currency->format($result['coupon']) : NULL),
 					'general_discount' => ($result['general_discount'] ? '-' . $this->currency->format($result['general_discount']) : NULL),
-					'total_discounted'  => $this->currency->format($result['total_discounted'] + ($tax_included ? $result['product_tax'] : 0)),
-					'total'      => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $tax_included)),
+					'total_discounted'  => $this->currency->format($result['total_discounted'] + ($this->config->get('config_tax') ? $result['product_tax'] : 0)),
+					'total'      => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'href'          => $this->url->href('product', FALSE, array('product_id' => $result['product_id']))
         		);
 				

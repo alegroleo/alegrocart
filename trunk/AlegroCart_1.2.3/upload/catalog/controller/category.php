@@ -4,6 +4,7 @@ class ControllerCategory extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
+		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module   	=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
 		$this->modelProducts = $model->get('model_products');
@@ -69,8 +70,8 @@ class ControllerCategory extends Controller {
 			$view->set('meta_title', $category_info['meta_title']);
 			$view->set('meta_description', $category_info['meta_description']);			
 			$view->set('meta_keywords', $category_info['meta_keywords']);
-			$tax_included = $this->config->get('config_tax_store');
-			$view->set('tax_included', $tax_included);
+			
+			$view->set('tax_included', $this->config->get('config_tax'));
 
       		$breadcrumb = array();
 
@@ -227,7 +228,7 @@ class ControllerCategory extends Controller {
 							$product_discounts[] = array(
 							  'discount_quantity' => $discount['quantity'],
 							  'discount_percent'  => round($discount['discount']),
-							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $tax_included))
+							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $this->config->get('config_tax')))
 							);
 						}
 					}  // End product Discounts
@@ -263,8 +264,8 @@ class ControllerCategory extends Controller {
             			'href'  => $url->href('product', FALSE, $query),
 						'popup'     => $image->href($result['filename']),
             			'thumb' => $image->resize($result['filename'], $image_width, $image_height),
-						'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $tax_included)),
-            			'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $tax_included)),
+						'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
+            			'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 						'sale_start_date' => $result['sale_start_date'],
 						'sale_end_date'   => $result['sale_end_date'],
 						'options'         => $options						

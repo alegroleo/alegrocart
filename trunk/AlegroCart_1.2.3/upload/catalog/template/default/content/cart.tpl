@@ -137,21 +137,25 @@
 		</tr>
 	  </table>
 	<?php }?>
-	<?php if($tax_included){?>
-	  <script type="text/javascript">
-        $(document).ready(function(){
-	      $('.taxE[title]').tooltip({
-          offset: [160,-70], tipClass: 'tooltip_white'});
-	    });
-      </script>
+	
 	  <table width="100%">
         <tr>
+		<?php if($tax_included){?>
+		  <script type="text/javascript">
+			$(document).ready(function(){
+	          $('.taxE[title]').tooltip({
+              offset: [160,-70], tipClass: 'tooltip_white'});
+	        });
+          </script>
 		  <?php echo '<td class="left"><div title="' . $text_tax_explantion  . '" class="taxE" ><span class="tax">* </span>' . $text_tax . '</div></td>';?>
+		  <?php } else {?>
+		  <td></td>
+		  <?php }?>
           <td class="right"><?php echo $entry_coupon; ?></td>
           <td class="right" width="1"><input type="text" name="coupon" value="<?php echo $coupon; ?>"></td>
         </tr>
       </table>
-	<?php }?>
+	
   </div>
   <div class="buttons">
     <table>

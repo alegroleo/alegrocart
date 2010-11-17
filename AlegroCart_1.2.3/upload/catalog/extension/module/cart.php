@@ -6,6 +6,7 @@ class ModuleCart extends Controller {
 		$currency =& $this->locator->get('currency');
 		$customer =& $this->locator->get('customer');
 		$language =& $this->locator->get('language');
+		$tax 	  =& $this->locator->get('tax');
 		$url      =& $this->locator->get('url');
 		$this->modelCore 	= $this->model->get('model_core');
 		
@@ -33,7 +34,7 @@ class ModuleCart extends Controller {
         			'href'     => $url->href('product', false, array('product_id' => $result['product_id'])),
         			'name'     => $result['name'],
         			'quantity' => $result['quantity'],
-					'total'    => $currency->format($result['total'])
+					'total'    => $currency->format($tax->calculate($result['total'], $result['tax_class_id'], $config->get('config_tax')))
       			);
     		}
  

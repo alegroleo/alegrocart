@@ -65,7 +65,7 @@ class ControllerCart extends Controller {
 				}
       		}
 			
-			if ($this->request->gethtml('coupon', 'post') && $this->validate()) {
+			if ($this->request->has('coupon', 'post') && $this->validate()) {
 				$this->session->set('message', $this->language->get('text_coupon'));
 			}
 			
@@ -78,12 +78,13 @@ class ControllerCart extends Controller {
       	$view->set('heading_title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);    // New Header	
 		$view->set('tax_included', $this->config->get('config_tax'));
-		
+
     	if ($this->cart->hasProducts()) {
 			$this->calculate->getTotals(); //************************
-      		$view->set('text_subtotal', $this->language->get('text_subtotal'));
-            $view->set('text_stock_ind', $this->language->get('text_stock_ind'));
-            $view->set('text_min_qty_ind', $this->language->get('text_min_qty_ind'));
+			$view->set('text_subtotal', $this->language->get('text_subtotal'));
+			$view->set('text_stock_ind', $this->language->get('text_stock_ind'));
+			$view->set('text_min_order_value', $this->language->get('text_min_order_value'));
+			$view->set('text_min_qty_ind', $this->language->get('text_min_qty_ind'));
 			$view->set('text_shipping', $this->language->get('text_shipping'));
 			$view->set('text_shippable', $this->language->get('text_shippable'));
 			$view->set('text_non_shippable', $this->language->get('text_non_shippable'));
@@ -102,7 +103,7 @@ class ControllerCart extends Controller {
 			$view->set('column_coupon_value', $this->language->get('column_coupon_value'));
 			$view->set('column_extended', $this->language->get('column_extended'));
       		$view->set('column_total', $this->language->get('column_total'));
-            $view->set('column_min_qty', $this->language->get('column_min_qty'));
+			$view->set('column_min_qty', $this->language->get('column_min_qty'));
 
       		$view->set('entry_coupon', $this->language->get('entry_coupon'));
 			$view->set('button_update', $this->language->get('button_update'));
@@ -195,19 +196,28 @@ class ControllerCart extends Controller {
 				$view->set('text_discount_gprice', $this->language->get('text_discount_gprice', $this->config->get('discount_gprice_percent'), $this->currency->format($discount_gprice)));
 			}
 			
+			if (!$this->cart->moreThanMinov($this->cart->getNetTotal())) {
+				$shortfall = 0;
+				$shortfall = $this->config->get('minov_value') - $this->cart->getNetTotal();			
+				$view->set('text_shortfall', $this->language->get('text_shortfall', $this->currency->format($shortfall)));
+			}
+			
 			$view->set('columns', $this->tpl_columns);
 			$view->set('coupon_sort_order', $this->config->get('coupon_sort_order'));
 			$view->set('discount_sort_order', $this->config->get('discount_sort_order'));
       		$view->set('products', $product_data);
      		$view->set('subtotal', $this->currency->format($subtotal));
 			
-			$view->set('text_net_total', $this->language->get('text_net_total', $this->currency->format($net_total)));
-			
+			$view->set('text_net_total', $this->language->get('text_net_total'));
+			$view->set('net_total', $this->currency->format($net_total));
+
 			$view->set('extended_total', $this->currency->format($extended_total));
 			$view->set('coupon_total', $coupon_total ? '-' . $this->currency->format($coupon_total) : NULL);
-		$view->set('discount_total', $discount_total ? '-' . $this->currency->format($discount_total) : NULL);
-            $view->set('weight', $this->cart->formatWeight($this->cart->getWeight()));
-            $view->set('text_cart_weight', $this->language->get('text_cart_weight'));
+			$view->set('discount_total', $discount_total ? '-' . $this->currency->format($discount_total) : NULL);
+			$view->set('weight', $this->cart->formatWeight($this->cart->getWeight()));
+			$view->set('minov_value', $this->currency->format($this->config->get('minov_value')));
+     		$view->set('minov_status', $this->config->get('minov_status'));
+			$view->set('text_cart_weight', $this->language->get('text_cart_weight'));
 			$referer_page = $this->url->get_controller($this->session->get('current_page'),array('category','product', 'manufacturer' , 'search'));
       		$view->set('continue', "location='" . ($referer_page && $this->session->get('current_page') ? $this->session->get('current_page') : $this->url->href('home')) . "'");
 
@@ -261,13 +271,15 @@ class ControllerCart extends Controller {
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 	function validate() {
-		if (!$this->coupon->set($this->request->gethtml('coupon', 'post'))) {
-			
-			$this->session->set('error', $this->language->get('error_coupon'));
-			$this->session->delete('message');
-			if (!$this->coupon->hasProduct()) {
-			
-				$this->session->set('error', $this->language->get('error_product')); 
+		if(!$this->request->gethtml('coupon', 'post')){
+			$this->coupon->set(NULL);
+		} else {
+			if (!$this->coupon->set($this->request->gethtml('coupon', 'post'))) {
+				$this->session->set('error', $this->language->get('error_coupon'));
+				$this->session->delete('message');
+				if (!$this->coupon->hasProduct()) {
+					$this->session->set('error', $this->language->get('error_product')); 
+				}
 			}
 		}
 		if (!$this->error) {

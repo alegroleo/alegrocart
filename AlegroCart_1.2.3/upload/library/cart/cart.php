@@ -7,7 +7,8 @@ class Cart {
 	var $total    = 0;
 	var $stock    = TRUE;
   	var $shipping = FALSE;
-   
+	var $minov    = TRUE;
+
   	function __construct(&$locator){
 		$this->locator  =& $locator;
 		$this->config   =& $locator->get('config');
@@ -291,5 +292,17 @@ class Cart {
   	function hasShipping() {
     	return $this->shipping;
   	}  
+	
+	function moreThanMinov($value) {
+	if ($this->config->get('minov_status') == "1") {
+				if ($value < $this->config->get('minov_value')) 
+				    {
+					$this->minov = FALSE;
+				    } else {
+					$this->minov = TRUE;
+				    }
+				}
+	return $this->minov;
+	}  
 }
 ?>

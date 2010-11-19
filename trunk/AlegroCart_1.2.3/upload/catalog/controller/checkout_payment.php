@@ -5,8 +5,10 @@ class ControllerCheckoutPayment extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->address  	=& $locator->get('address');
+		$this->calculate 	=& $locator->get('calculate');
 		$this->cart     	=& $locator->get('cart');
 		$this->config  		=& $locator->get('config');
+		$this->coupon   	=& $locator->get('coupon');
 		$this->customer 	=& $locator->get('customer');
 		$this->head_def 	=& $locator->get('HeaderDefinition');
 		$this->language 	=& $locator->get('language');
@@ -33,8 +35,11 @@ class ControllerCheckoutPayment extends Controller {
 			
 	  		$this->response->redirect($this->url->ssl('account_login'));
     	} 
+		if ($this->cart->hasProducts()) {
+			$this->calculate->getTotals(); 
+		}
 
-    	if ((!$this->cart->hasProducts()) || ((!$this->cart->hasStock()) && (!$this->config->get('config_stock_checkout')))) {
+    	if ((!$this->cart->hasProducts()) || ((!$this->cart->hasStock()) && (!$this->config->get('config_stock_checkout'))) || (!$this->cart->moreThanMinov($this->cart->getNetTotal()))) {
       		$this->response->redirect($this->url->ssl('cart'));
     	}
 

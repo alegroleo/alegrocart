@@ -32,7 +32,8 @@
 	    ['<img src="javascript/JSCookMenu/default/url_alias.png">', '<?php echo $text_url_alias; ?>', '<?php echo $url_alias; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/home_page.png">', '<?php echo $text_homepage; ?>', '<?php echo $homepage; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/tpl_manager.png">', '<?php echo $text_tpl_manager; ?>', '<?php echo $template_manager; ?>', null, null],
-		['<img src="javascript/JSCookMenu/default/image_display.png">', '<?php echo $text_image_display; ?>', '<?php echo $image_display; ?>', null, null]
+	    ['<img src="javascript/JSCookMenu/default/image_display.png">', '<?php echo $text_image_display; ?>', '<?php echo $image_display; ?>', null, null],
+	    ['<img src="javascript/JSCookMenu/default/minov.png" />', '<?php echo $text_minov; ?>', '<?php echo $minov; ?>', null, null]
     ],
 	_cmSplit,	
 	  [null, '<?php echo $text_catalog; ?>', null, null, null, 	  

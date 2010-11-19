@@ -34,6 +34,7 @@ $_['text_option']         = 'Option';
 $_['text_manufacturer']   = 'Manufacturer';
 $_['text_image']          = 'Image';
 $_['text_image_display']  = 'Image Display';
+$_['text_minov']          = 'Minimum Order Value';
 $_['text_download']       = 'Download';
 $_['text_review']         = 'Review';
 $_['text_information']    = 'Information';

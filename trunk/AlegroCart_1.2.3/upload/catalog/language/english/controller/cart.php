@@ -6,17 +6,19 @@ $_['heading_title']    = 'Shopping Cart';
 $_['text_subtotal']    = 'Subtotal:';
 $_['text_error']       = 'Your shopping cart is empty!';
 $_['text_cart_weight'] = 'Total Cart Weight:';
+$_['text_min_order_value'] = 'Minimum Order Value:';
+$_['text_shortfall']   = 'You have a Shortfall of %s to meet minimum order requirement!';
 $_['text_stock_ind']   = '***';
 $_['text_min_qty_ind'] = '###';
-$_['text_shipping']          = 'Ship';
-$_['text_shippable']     	 = 'Shippable';
-$_['text_non_shippable'] 	 = 'Non Shippable';
+$_['text_shipping']    = 'Ship';
+$_['text_shippable']   = 'Shippable';
+$_['text_non_shippable']     = 'Non Shippable';
 $_['text_product_totals']    = 'Product Totals';
 $_['text_tax']               = 'Tax Included in Amount';
 $_['text_coupon']            = 'Success: Your coupon discount has been applied!';
 $_['text_discount_lprice']   = 'Discount of %s &#37; available if cart total is greater than %s ';
 $_['text_discount_gprice']   = ' Discount of %s &#37; available if cart total is greater than %s';
-$_['text_net_total']         = 'Cost of products excluding tax %s';
+$_['text_net_total']         = 'Cost of products excluding tax:';
 $_['text_tax_explantion'] = 'Tax included in prices is based on the prevailing tax rate in effect at the store location unless customer is logged on, in which case the tax will be adjusted to the rate in effect at the customer\'s location';
 
 // Entry

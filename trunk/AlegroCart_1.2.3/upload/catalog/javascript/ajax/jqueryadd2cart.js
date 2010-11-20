@@ -2,7 +2,7 @@
 	$.extend({
 
 		add2cart: function(source_id, target_id, callback) {
-	  $('#cart_products').show(); // Hide mini_cart contents
+	  
       var source = $('#' + source_id );
       var target = $('#' + target_id );
       var display_image = $('#' + source_id).attr('src');
@@ -24,7 +24,7 @@
       shadow.animate( { width: target.innerWidth(), height: target.innerHeight(), top: target.offset().top, left: target.offset().left }, 800,'linear'
 	  ).animate({opacity: 0.5},100 , function(){shadow.hide();}
 	  ).animate({opacity: 0},{duration: 0, complete: callback});
-	  $('#cart_products').hide(5000); // show mini_cart contents
+	  
 	  }
 	});
 })(jQuery);

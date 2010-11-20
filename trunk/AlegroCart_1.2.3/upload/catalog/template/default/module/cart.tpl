@@ -3,7 +3,7 @@
 <?php } else {?>
 <div id="mini_cart" class="mini_cart">
 <?php }?>
-  <div class="headingcolumn"><h1><?php echo $heading_title; ?></h1></div>
+  <div class="headingcolumn" style="cursor: pointer" onclick="ShowCart()"><h1><?php echo $heading_title; ?></h1></div>
 
   <div  class="cart">
     <div id="cart_content" class="cart_content">
@@ -29,13 +29,13 @@
   </div></div>
   <div class="bottom"></div>
 </div>
+
   <script type="text/javascript"><!--
 $(document).ready(function(){
 	$('#cart_products').hide(0);
-	$('#mini_cart').hover(function(){
-		$('#cart_products').show(400);
-	}, function() {
-		$('#cart_products').hide(800);
-	});
 });
+	
+function ShowCart(){	
+	$('#cart_products').toggle('slow');
+}
   //--></script>

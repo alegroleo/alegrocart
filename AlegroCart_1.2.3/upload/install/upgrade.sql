@@ -1,5 +1,5 @@
 #Version Setting
-SET @ver='1.2.3';
+SET @ver='1.2.4';
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `type` = 'global' and `group` = 'version' and `key` = 'version';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'version', 'version', @ver) ON DUPLICATE KEY UPDATE value=@ver;

@@ -10,7 +10,7 @@ error_reporting(E_ALL);
 }
  
 // CODE VERSION
-define('CODE_VERSION','1.2.3');
+define('CODE_VERSION','1.2.4');
 
 // PATH
 define('PATH_CATALOG','catalog');

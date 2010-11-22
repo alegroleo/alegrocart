@@ -167,6 +167,9 @@ class ControllerCheckoutConfirm extends Controller {
 		$view->set('currency', $currency);
 		
 		$totals = $this->calculate->getTotals();
+		if (!$this->cart->moreThanMinov($this->cart->getNetTotal())){
+			$this->response->redirect($this->url->ssl('cart'));
+		}
 		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
     	$product_data = array();
 		

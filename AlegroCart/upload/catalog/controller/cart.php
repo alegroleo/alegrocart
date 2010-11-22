@@ -64,11 +64,9 @@ class ControllerCart extends Controller {
           			$this->cart->remove($key);
 				}
       		}
-			
-			if ($this->request->has('coupon', 'post') && $this->validate()) {
-				$this->session->set('message', $this->language->get('text_coupon'));
-			}
-			
+
+			$this->validate();
+
 	  		$this->response->redirect($this->url->href('cart'));
     	}
 
@@ -119,9 +117,9 @@ class ControllerCart extends Controller {
 				$this->session->delete('error');
 				$view->set('message', '');
 			} else {
-				$view->set('message', $this->session->get('message'));
+				$view->set('message', $this->coupon->getCode() ? $this->session->get('coupon_message') : '');
 			}
-			$this->session->delete('message');
+			$this->session->delete('coupon_message');
 			
 			$view->set('coupon', $this->coupon->getCode());
       		$view->set('action', $this->url->href('cart'));
@@ -273,10 +271,14 @@ class ControllerCart extends Controller {
 	function validate() {
 		if(!$this->request->gethtml('coupon', 'post')){
 			$this->coupon->set(NULL);
+			$this->session->delete('coupon_message');
 		} else {
+			if ($this->coupon->getCode() != $this->request->gethtml('coupon', 'post')){
+				$this->session->set('coupon_message', $this->language->get('text_coupon'));
+			}
 			if (!$this->coupon->set($this->request->gethtml('coupon', 'post'))) {
 				$this->session->set('error', $this->language->get('error_coupon'));
-				$this->session->delete('message');
+				$this->session->delete('coupon_message');
 				if (!$this->coupon->hasProduct()) {
 					$this->session->set('error', $this->language->get('error_product')); 
 				}

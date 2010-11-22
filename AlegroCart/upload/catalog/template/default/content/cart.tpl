@@ -8,6 +8,9 @@
 <div class="headingbody"><?php echo $heading_title; ?></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
   <div class="contentBody">
+  <?php if ($message) { ?>
+	<div class="message"><?php if(isset($message)){ echo $message;} ?></div>
+  <?php } ?>
   <?php if ($error) { ?>
   <div class="warning"><?php echo $error; ?></div>
   <?php } ?>  

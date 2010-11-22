@@ -22,7 +22,7 @@
       shadow.css('position', 'absolute');
 	  
       shadow.animate( { width: target.innerWidth(), height: target.innerHeight(), top: target.offset().top, left: target.offset().left }, 800,'linear'
-	  ).animate({opacity: 0.5},100 , function(){shadow.hide();}
+	  ).animate({opacity: 0.5},300 , function(){shadow.hide();}
 	  ).animate({opacity: 0},{duration: 0, complete: callback});
 	  
 	  }

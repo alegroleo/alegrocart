@@ -34,7 +34,7 @@ class ControllerAddToCart extends Controller {
 					);
 				}
 				//Create Output to Mini Cart
-				$output = '<div class="headingcolumn"><h1>' . $language->get('heading_title') . '</h1></div>' . "\n";
+				$output = '<div class="headingcolumn" style="cursor: pointer" onclick="ShowCart()"><h1>' . $language->get('heading_title') . '</h1></div>' . "\n";
 				$output .= '<div  class="cart">' . "\n";
 				$output .= '<div id="cart_content" class="cart_content">' . "\n";
 				if($products) {
@@ -59,14 +59,8 @@ class ControllerAddToCart extends Controller {
 				$output .= '</div></div>' . "\n";
 				$output .= '<div class="bottom"></div>' . "\n";
 				$output .= '<script type="text/javascript"><!--' . "\n";
-				$output .= '$(document).ready(function(){' . "\n";
-				$output .= '$(\'#cart_products\').hide(2500);' . "\n";
-				$output .= '$(\'#mini_cart\').hover(function(){' . "\n";
-				$output .= '$(\'#cart_products\').show(400);' . "\n";
-				$output .= '}, function() {' . "\n";
-				$output .= '$(\'#cart_products\').hide(800);' . "\n";
-				$output .= '});' . "\n";
-				$output .= '});' . "\n";
+				$output .= '$(\'#cart_products\').show(\'slow\');' . "\n";
+				$output .= '$(\'#cart_products\').hide(3500);' . "\n";
 				$output .= '//--></script>' . "\n";
 				
 				$response->set($output);

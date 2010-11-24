@@ -168,7 +168,7 @@ class ControllerCart extends Controller {
                     'min_qty_error' => ($line_min_error || $this->session->get('line_min_error['.$result['key'].']') ? '1' : '0'),
           			'stock'         => $result['stock'],
 					'price'         => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'special_price' => $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $this->config->get('config_tax'))),
+					'special_price' => $special_price ? $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $this->config->get('config_tax'))) : NULL,
           			'discount'      => ($result['discount'] ? $this->currency->format($this->tax->calculate($result['price'] - $result['discount'], $result['tax_class_id'], $this->config->get('config_tax'))) : NULL),
 					'coupon'     =>  ($result['coupon'] ? '-' . $this->currency->format($result['coupon']) : NULL),
 					'general_discount' => ($result['general_discount'] ? '-' . $this->currency->format($result['general_discount']) : NULL),

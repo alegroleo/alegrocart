@@ -1,7 +1,7 @@
 <?php
 // Heading
 $_['heading_title']          = 'Zones';
-$_['heading_description']    = 'You can edit your zones here.';
+$_['heading_description']    = 'You can edit your zones here. &nbsp;&nbsp;&nbsp; To limit list to only zones for one country, search by that country';
 
 // Text
 $_['text_message']        = 'Success: You have updated zones!';

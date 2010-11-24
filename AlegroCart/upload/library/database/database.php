@@ -146,18 +146,32 @@ class Database {
 		if ($sql=file($file)) {
 			$query = '';
 			foreach($sql as $line) {
-				if ((substr(trim($line), 0, 2) == '--') || (substr(trim($line), 0, 1) == '#')) { $line=''; }
-				//Alter tables hack.
-				if (preg_match('/^ALTER TABLE (.+?) ADD (.+?) /',$line,$matches)) {
-					if (mysql_num_rows(@mysql_query(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])))) > 0) { $line=''; }
+				if ((substr(trim($line), 0, 2) == '--') || (substr(trim($line), 0, 1) == '#')) { 
+					$line=''; 
 				}
 				if (!empty($line)) {
-					$query .= ' '.$line;
-					if (preg_match('/;\s*$/', $line)) {
-						if (!mysql_query($query)) { exit(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql)); }
-						$query = '';
+					$query .= $line;
+					if (strstr($query,'ALTER TABLE') == TRUE){
+						$query = trim($query).' ';
 					}
-				}
+					if (preg_match('/;\s*$/', $query)){
+						if(preg_match('/^ALTER TABLE (.+?) ADD (.+?) /',$query,$matches)){
+							if (mysql_num_rows(@mysql_query(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])))) > 0){
+								$query='';
+							}
+						}
+						if(preg_match('/^ALTER TABLE (.+?) DROP (.+?) /',$query,$matches)){
+							$matches[2] = str_replace(';','',$matches[2]);
+							if (mysql_num_rows(@mysql_query(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])))) == NULL){
+								$query = '';
+							}
+						}
+						if((strlen($query) > 3) && (preg_match('/;\s*$/', $line))){
+							if (!mysql_query($query)) { exit(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql)); }
+							$query = '';
+						}
+					}
+				}	
 			}
 		}
 	}

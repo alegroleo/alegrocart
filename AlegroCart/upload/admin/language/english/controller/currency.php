@@ -38,6 +38,6 @@ $_['error_time']           = '** Automatic update did not complete due to timeou
 $_['error_permission']     = 'Warning: You do not have permission to modify currencies';
 $_['error_title']          = '* Currency Title must be between 1 and 32 characters!';
 $_['error_code']           = '* Currency Code must contain exactly 3 characters!';
-$_['error_default']        = '* You cannot disable default currency!';
+$_['error_disable']        = '* You cannot disable default currency!';// Change to error_disable
 $_['error_default']        = 'Warning: This Currency cannot be deleted as it is currently assigned as the default store currency!';
 ?>

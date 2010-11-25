@@ -243,11 +243,11 @@ class Cart {
 		return $this->taxes;
   	}
 	
-	function decreaseTaxes($tax_class_id, $value){
+	function decreaseTaxes($tax_class_id, $value = 0){
 		$this->taxes[$tax_class_id] -= $value;
 	}
 	
-	function decreaseProductTax($key, $value){
+	function decreaseProductTax($key, $value = 0){
 		$this->products[$key]['product_tax'] -= $value;
 	}
 	

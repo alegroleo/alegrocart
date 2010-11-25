@@ -167,7 +167,7 @@ class ControllerCurrency extends Controller {
 				'align'  => 'center'
 			);
 			$cell[] = array(
-				'icon'  => ($result['lock_rate'] ? 'disable_update.png' : 'enable_update.png'),
+				'icon'  => ($result['lock_rate'] || ($result['code'] == $this->config->get('config_currency')) ? 'disable_update.png' : 'enable_update.png'),
 				'align'  => 'center'
 			);
 			$cell[] = array(
@@ -394,7 +394,7 @@ class ControllerCurrency extends Controller {
 		}
 		$result = $this->modelCurrency->check_default();
 		if ($this->config->get('config_currency') == $result['code'] && $this->request->gethtml('status', 'post') == FALSE){
-			$this->error['default'] = $this->language->get('error_default');
+			$this->error['default'] = $this->language->get('error_disable');
 		}
 
 		if (!$this->error) {

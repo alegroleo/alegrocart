@@ -26,7 +26,8 @@ class Database {
       		exit(sprintf(E_DB_SELECT,$database));
     	}
 		
-		mysql_query('set character set utf8');
+		mysql_query("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
+		mysql_set_charset('utf8');
 		mysql_query('set @@session.sql_mode="MYSQL40"');
   	}
     

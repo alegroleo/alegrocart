@@ -6,6 +6,9 @@ $_['heading_description'] = 'You can edit which zones belong to which geo zones 
 // Text
 $_['text_message']        = 'Success: You have updated zones to geo zones!';
 
+// Button
+$_['button_enable_disable']= 'Add/Remove all Countries';
+
 // Column
 $_['column_country']      = 'Country';
 $_['column_zone']         = 'Zone';

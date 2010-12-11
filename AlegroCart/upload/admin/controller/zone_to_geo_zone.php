@@ -75,7 +75,37 @@ class ControllerZoneToGeoZone extends Controller {
 	
     	$this->response->set($this->template->fetch('layout.tpl'));
   	}
+	
+	function addDeleteAll(){
+		if ($this->request->has('geo_zone_id') && $this->validateEnableAll()){
+			$geo_zone_id = $this->request->gethtml('geo_zone_id');
+			$countrys = $this->modelZonetoGeo->checkCountries($geo_zone_id);
+			$country_info = $this->modelZonetoGeo->get_countries();
+			if (!$countrys){
+				foreach($country_info as $country){
+					$this->modelZonetoGeo->insertCountry($geo_zone_id, $country['country_id']);
+				}
+			} else {
+				$this->modelZonetoGeo->deleteAllZones($this->request->gethtml('geo_zone_id'));
+			}
+		} else {
+			$this->session->set('message', @$this->error['message']);
+		}
 
+		$this->response->redirect($this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
+	}
+	
+	function validateEnableALL(){
+		if (!$this->user->hasPermission('modify', 'zone_to_geo_zone')) {
+      		$this->error['message'] = $this->language->get('error_permission');  
+    	}
+		if (!$this->error) {
+	  		return TRUE;
+		} else {
+	  		return FALSE;
+		}
+	}
+	
   	function getList() {
 		$this->session->set('zone_geo_validation', md5(time()));
 		if($this->session->get('geo_zone_id') != $this->request->gethtml('geo_zone_id')){
@@ -156,13 +186,15 @@ class ControllerZoneToGeoZone extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_refresh', $this->language->get('button_enable_disable')); 
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
     
 		$view->set('error', @$this->error['message']);
 		
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
-		  
+		
+		$view->set('action_refresh', $this->url->ssl('zone_to_geo_zone', 'addDeleteAll', array('geo_zone_id' => $this->request->gethtml('geo_zone_id')))); 
     	$view->set('action', $this->url->ssl('zone_to_geo_zone', 'page', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 		$view->set('action_delete', $this->url->ssl('zone_to_geo_zone', 'enableDelete', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 		

@@ -26,9 +26,22 @@ class Model_Admin_Zone_GeoZone extends Model {
 		$result = $this->database->getRow("select distinct * from zone_to_geo_zone where geo_zone_id ='" . (int)$this->request->gethtml('geo_zone_id') . "'");
 		return $result;
 	}
+	function deleteAllZones($geo_zone_id){
+		$this->database->query("delete from zone_to_geo_zone where geo_zone_id ='" . $geo_zone_id . "'");
+	}
+	function insertCountry($geo_zone_id, $country_id){
+		$sql = "insert into zone_to_geo_zone set country_id = '?', zone_id = '?', geo_zone_id = '?', date_added = now()";
+      	$this->database->query($this->database->parse($sql, $country_id, 
+		'0', $this->request->gethtml('geo_zone_id')));
+	
+	}
 	function get_countries(){
 		$results = $this->database->cache('country', "select country_id, name, country_status from country where country_status = '1' order by name");
 		return $results;
+	}
+	function checkCountries($geo_zone_id){
+		$result = count($this->database->getRows("select * from zone_to_geo_zone where geo_zone_id = '" . $geo_zone_id . "'"));
+		return $result;
 	}
 	function get_zones(){
 		$results = $this->database->cache('zone', "select * from zone where zone_status = '1' order by country_id, name");

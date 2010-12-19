@@ -1,11 +1,12 @@
+#User-agent: googlebot
+#Disallow:
+#User-agent: yahoo
+#Disallow:
 User-agent: *
 Disallow: /cgi-bin/
-Disallow: /image/
 Disallow: /admin/
 Disallow: /catalog/
 Disallow: /library/
 Disallow: /logs/
 Disallow: /downloads/
 Disallow: /cache/
-Allow: /
-Sitemap: sitemap.php

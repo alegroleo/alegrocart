@@ -32,6 +32,7 @@ class ModuleMenu extends Controller {
       		$view->set('text_geo_zone', $language->get('text_geo_zone'));
       		$view->set('text_tax_class', $language->get('text_tax_class'));
       		$view->set('text_weight_class', $language->get('text_weight_class'));
+			$view->set('text_dimension_class', $language->get('text_dimension_class'));
       		$view->set('text_url_alias', $language->get('text_url_alias'));
       		$view->set('text_backup', $language->get('text_backup'));
 			$view->set('text_server_info', $language->get('text_server_info'));
@@ -78,6 +79,7 @@ class ModuleMenu extends Controller {
       		$view->set('geo_zone', $url->rawssl('geo_zone'));
       		$view->set('tax_class', $url->rawssl('tax_class'));
       		$view->set('weight_class', $url->rawssl('weight_class'));
+			$view->set('dimension_class', $url->rawssl('dimension_class'));
       		$view->set('url_alias', $url->rawssl('url_alias'));
 			$view->set('backup', $url->rawssl('backup'));
       		$view->set('server_info', $url->rawssl('server_info'));

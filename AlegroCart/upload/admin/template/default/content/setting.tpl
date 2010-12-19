@@ -299,6 +299,34 @@
                   <?php } ?>
                 </select></td>
             </tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+			  <td><?php echo $entry_dimension_type; ?></td>
+			  <td><select name="global_config_dimension_type_id">
+			    <?php foreach($types as $type){?>
+			      <option value="<?php echo $type['type_id'];?>"<?php if($type['type_id'] == $global_config_dimension_type_id){ echo ' selected';}?>><?php echo $type['type_text'];?></option>
+			    <?php }?>
+			  </select></td>
+			</tr>
+		  <?php for($i=1; $i < 4; $i++){?>
+			<?php if(isset($dimensions[$i])){?>
+			  <tr>
+			    <td><?php echo $entry_dimension[$i]; ?></td>
+			    <td><select name="global_config_dimension_<?php echo $i;?>_id">
+			      <?php foreach($dimensions[$i] as $dimension){?>
+				    <?php $global_config_dimension = ('global_config_dimension_' . $i . '_id');?>
+			        <option value="<?php echo $dimension['dimension_id'];?>"<?php if($$global_config_dimension == $dimension['dimension_id']){echo ' selected';}?>><?php echo $dimension['title'] . ' (' . $dimension['unit'] . ')';?></option>
+				  <?php }?>
+			    </select></td>
+			  </tr>
+			<?php }?>
+		  <?php }?>
+		    <tr>
+			  <td><?php echo $entry_dimension_decimal; ?></td>
+			  <td><input type="text" name="global_config_dimension_decimal" value="<?php echo $global_config_dimension_decimal; ?>" size="2"></td>
+			  <td><?php echo $text_dimension_decimal; ?></td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
             <tr>
               <td><?php echo $entry_tax; ?></td>
               <td><?php if ($global_config_tax) { ?>
@@ -430,6 +458,11 @@
                   <?php } ?>
                 </select></td>
             </tr>
+			<tr>
+			  <td><?php echo $entry_rss_limit; ?></td>
+			  <td><input type="text" name="global_config_rss_limit" value="<?php echo $global_config_rss_limit; ?>" size="6"></td>
+			  <td><?php echo $text_rss_info;?></td>
+			</tr>
           </table>
         </div>
       </div>

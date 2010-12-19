@@ -381,7 +381,8 @@ class ControllerProduct extends Controller {
     	$view->set('text_disabled', $this->language->get('text_disabled'));
     	$view->set('text_none', $this->language->get('text_none'));
     	$view->set('text_yes', $this->language->get('text_yes'));
-    	$view->set('text_no', $this->language->get('text_no'));
+		$view->set('text_no', $this->language->get('text_no'));
+    	$view->set('text_no_dim', $this->language->get('text_no_dim'));
  		$view->set('text_plus', $this->language->get('text_plus'));
 		$view->set('text_minus', $this->language->get('text_minus'));
 		$view->set('text_model', $this->language->get('text_model'));
@@ -399,13 +400,14 @@ class ControllerProduct extends Controller {
     	$view->set('entry_shipping', $this->language->get('entry_shipping'));
     	$view->set('entry_date_available', $this->language->get('entry_date_available'));
     	$view->set('entry_quantity', $this->language->get('entry_quantity'));
-		$view->set('entry_discount', $this->language->get('entry_discount'));
+		$view->set('entry_discount', $this->language->get('entry_discount', $symbol_left ? $symbol_left : $symbol_right));
     	$view->set('entry_status', $this->language->get('entry_status'));
     	$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
     	$view->set('entry_tax_class', $this->language->get('entry_tax_class'));
     	$view->set('entry_price', $this->language->get('entry_price'));
     	$view->set('entry_weight_class', $this->language->get('entry_weight_class'));
     	$view->set('entry_weight', $this->language->get('entry_weight'));
+		$view->set('entry_dimension_class', $this->language->get('entry_dimension_class'));
 		$view->set('entry_prefix', $this->language->get('entry_prefix'));
     	$view->set('entry_image', $this->language->get('entry_image'));
     	$view->set('entry_images', $this->language->get('entry_images'));
@@ -534,9 +536,11 @@ class ControllerProduct extends Controller {
 		
     	if ($this->request->has('shipping', 'post')) {
       		$view->set('shipping', $this->request->gethtml('shipping', 'post'));
-    	} else {
+    	} else if(isset($product_info)){
       		$view->set('shipping', @$product_info['shipping']);
-    	}
+    	} else {
+			$view->set('shipping', TRUE);
+		}
   
     	if ($this->request->has('image_id', 'post')) {
       		$view->set('image_id', $this->request->gethtml('image_id', 'post'));
@@ -639,9 +643,11 @@ class ControllerProduct extends Controller {
 
     	if ($this->request->has('status', 'post')) {
       		$view->set('status', $this->request->gethtml('status', 'post'));
-    	} else {
+    	} else if(isset($product_info)){
       		$view->set('status', @$product_info['status']);
-    	}
+    	} else {
+			$view->set('status', TRUE);
+		}
 
     	if ($this->request->has('featured', 'post')) {
       		$view->set('featured', $this->request->gethtml('featured', 'post'));
@@ -735,6 +741,41 @@ class ControllerProduct extends Controller {
         } else {
             $view->set('min_qty', 1);
         }
+		
+		if ($this->request->has('dimension_value', 'post')) {
+			$dimension_value = implode(':', $this->request->gethtml('dimension_value', 'post'));
+		} else {
+			$dimension_value = @$product_info['dimension_value'];
+		}
+		
+		if ($this->request->has('dimension_id', 'post')) {
+			$dimension_id = $this->request->gethtml('dimension_id', 'post');
+		} elseif (isset($product_info['dimension_id'])) {
+			$dimension_id = @$product_info['dimension_id'];
+		} else {
+      		$dimension_id =  $this->config->get('config_dimension_' . $this->config->get('config_dimension_type_id') . '_id');
+    	}
+		$view->set('dimension_id', $dimension_id);
+		$dimension_info = $this->modelProduct->get_dimension_class($dimension_id);
+		
+		if ($this->request->has('type_id', 'post')) {
+			$view->set('type_id', $this->request->gethtml('type_id', 'post'));
+		} elseif (isset($dimension_info['type_id'])) {
+			$view->set('type_id', @$dimension_info['type_id']);
+		} else {
+			$view->set('type_id', $this->config->get('config_dimension_type_id'));
+		}
+			
+		$results = $this->modelProduct->get_types();
+		foreach ($results as $result) {
+			$type_data[] = array(
+				'type_id'   => $result['type_id'],
+				'type_text' => $this->language->get('text_'. $result['type_name'])
+			);
+		}
+		$view->set('types', $type_data);
+
+		$view->set('dimensions', $this->getDimensions($dimension_info['type_id'] ? $dimension_info['type_id'] : $this->config->get('config_dimension_type_id'), $dimension_id, $dimension_value));
 
     	if ($this->request->has('weight_class_id', 'post')) {
       		$view->set('weight_class_id', $this->request->gethtml('weight_class_id', 'post'));
@@ -817,6 +858,103 @@ class ControllerProduct extends Controller {
 
  		return $view->fetch('content/product.tpl');
   	}
+	
+	function dimensions(){
+		$this->response->set($this->getDimensions($this->request->gethtml('type_id')));
+	}
+	function getDimensions($type_id, $dimension_id = 0, $dimension_value = 0){
+		$output = '';
+		$dimension_data = array();
+		$results = $this->modelProduct->get_dimension_classes($type_id);
+		if ($results){
+			if ($type_id > 1){
+				$output .= '<tr><td colspan="4"></td><td colspan="9">' . $this->language->get('text_dimension_ship') . '</td></tr>' . "\n";
+			}
+			$output .= '<tr><td>' . $this->language->get('entry_dimension') . '</td>';
+			$output .= '<td><select id="dimension_id" name="dimension_id">' . "\n";
+			foreach ($results as $result) {
+				$output .= '<option value="' . $result['dimension_id'] . '"';
+				if ($dimension_id == $result['dimension_id']){
+					$output .= ' selected';
+				}
+				$output .= '>' . $result['title'] . ' (' . $result['unit'] . ')</option>' . "\n";
+			}
+			$output .= '</select></td>' . "\n";
+			$output .= $this->dimension_value($type_id, $dimension_value) . '</tr>' . "\n";
+		} else {
+			$type_info = $this->modelProduct->get_type($type_id);
+			$output = '<tr><td>' . $this->language->get('text_no_dimensions', $this->language->get('text_'. $type_info['type_name'])) . "</td></tr>\n";
+		}
+		return $output;
+	}
+	function dimension_value($type_id, $dimension_value){
+		$output = '';
+		$dimensions = explode(':', $dimension_value);
+		if ($type_id > 1){
+			$dimension_info = $this->modelProduct->get_dimension_classes(1);
+		}
+		$default_dimension = $this->config->get('config_dimension_1_id');
+		switch($type_id){
+			case '1':
+				$output .= '<td>' . $this->language->get('entry_length') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[0]" value="' . (array_key_exists(0, $dimensions) ? @$dimensions[0] : 0) . '"></td>' . "\n";
+				$output .= '<td>' . $this->language->get('entry_width') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td>' . "\n";
+				$output .= '<td>' . $this->language->get('entry_height') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[2]" value="' . (array_key_exists(2, $dimensions) ? @$dimensions[2] : 0) . '"></td>' . "\n";
+				break;
+			case '2':
+				$output .= '<td>' . $this->language->get('entry_area') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[0]" value="' . (array_key_exists(0, $dimensions) ? @$dimensions[0] : 0) . '"></td>' . "\n";
+				$output .= '<td>' . $this->language->get('entry_length') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td>' . "\n";
+				$output .= '<td><select name="dimension_value[2]">' . "\n";
+				$output .= $this->dimension_select($dimension_info, (array_key_exists(2, $dimensions) ? @$dimensions[2] : $default_dimension));
+				$output .= '</select></td>' . "\n";
+				$output .= '<td>' . $this->language->get('entry_width') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[3]" value="' . (array_key_exists(3, $dimensions) ? @$dimensions[3] : 0) . '"></td>' . "\n";
+				$output .= '<td><select name="dimension_value[4]">' . "\n";
+				$output .= $this->dimension_select($dimension_info, (array_key_exists(4, $dimensions) ? @$dimensions[4] : $default_dimension));
+				$output .= '</select></td>' . "\n";
+				$output .= '<td>' . $this->language->get('entry_height') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[5]" value="' . (array_key_exists(5, $dimensions) ? @$dimensions[5] : 0) . '"></td>' . "\n";
+				$output .= '<td><select name="dimension_value[6]">' . "\n";
+				$output .= $this->dimension_select($dimension_info, (array_key_exists(6, $dimensions) ? @$dimensions[6] : $default_dimension));
+				$output .= '</select></td>' . "\n";
+				break;
+			case '3':
+				$output .= '<td>' . $this->language->get('entry_volume') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[0]" value="' . (array_key_exists(0, $dimensions) ? @$dimensions[0] : 0) . '"></td>' . "\n";
+				$output .= '<td>' . $this->language->get('entry_length') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td>' . "\n";
+				$output .= '<td><select name="dimension_value[2]">' . "\n";
+				$output .= $this->dimension_select($dimension_info, (array_key_exists(2, $dimensions) ? @$dimensions[2] : $default_dimension));
+				$output .= '</select></td>' . "\n";
+				$output .= '<td>' . $this->language->get('entry_width') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[3]" value="' . (array_key_exists(3, $dimensions) ? @$dimensions[3] : 0) . '"></td>' . "\n";
+				$output .= '<td><select name="dimension_value[4]">' . "\n";
+				$output .= $this->dimension_select($dimension_info, (array_key_exists(4, $dimensions) ? @$dimensions[4] : $default_dimension));
+				$output .= '</select></td>' . "\n";
+				$output .= '<td>' . $this->language->get('entry_height') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[5]" value="' . (array_key_exists(5, $dimensions) ? @$dimensions[5] : 0) . '"></td>' . "\n";
+				$output .= '<td><select name="dimension_value[6]">' . "\n";
+				$output .= $this->dimension_select($dimension_info, (array_key_exists(6, $dimensions) ? @$dimensions[6] : $default_dimension));
+				$output .= '</select></td>' . "\n";
+				break;
+		}
+		return $output;
+	}
+	function dimension_select($results, $dimension_id){
+		$output = '<option value="0">' . $this->language->get('text_no_dim') . '</option>' . "\n";
+		foreach ($results as $result) {
+			$output .= '<option value="' . $result['dimension_id'] . '"';
+			if ($dimension_id == $result['dimension_id']){
+				$output .= ' selected';
+			}
+			$output .= '>' . $result['unit'] . '</option>' . "\n";
+		}
+		return $output;
+	}
 	
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));

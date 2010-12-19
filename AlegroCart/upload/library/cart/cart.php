@@ -124,7 +124,9 @@ class Cart {
         			'tax_class_id'    => $product['tax_class_id'],
 					'product_tax'     => roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place),
         			'weight'          => $product['weight'] + $option_weight,
-        			'weight_class_id' => $product['weight_class_id']
+        			'weight_class_id' => $product['weight_class_id'],
+					'dimension_value' => $product['dimension_value'],
+					'dimension_id'    => $product['dimension_id']
       			);
 
  	  			$this->subtotal += $this->tax->calculate((($extended_price + $option_price) - $discount) * $quantity, $product['tax_class_id'], $this->config->get('config_tax'));

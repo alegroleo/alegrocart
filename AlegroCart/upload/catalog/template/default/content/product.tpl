@@ -124,7 +124,7 @@
 	    <?php if ($product['min_qty'] >= '1') { ?>
           <?php echo $text_min_qty; ?><?php echo $product['min_qty']; ?><br>
         <?php } ?>
-		<?php echo $text_tax_rate . $tax_rate;?><br>
+		<?php echo '<b>' . $text_tax_rate . '</b>' . $tax_rate;?><br>
 		<?php if (isset($product_discounts)){ ?><br>
 		  <?php echo "<b>".$text_quantity_discount."</b><br>"; ?>
 		  <?php foreach ($product_discounts as $product_discount){ ?>
@@ -137,13 +137,16 @@
 		  <?php echo "&nbsp;&nbsp;".$text_sale_end.date("F-d-Y",strtotime($product['sale_end_date'])); ?><br>
 		<?php } ?>
 		<?php if (isset($manufacturer)) { ?><br>
-		  <?php echo $text_manufacturer.$manufacturer; ?><br>
+		  <?php echo '<b>' . $text_manufacturer . '</b>' . $manufacturer; ?><br>
 		<?php } ?>
 		<?php if ($weight) { ?><br>
-		  <?php echo $text_weight . $weight; ?><br>
+		  <?php echo '<b>' . $text_weight . '</b>' . $weight; ?><br>
 		 <?php } ?>
-		<?php if ($shipping) { ?>
-		  <?php echo $text_shipping_yes; } else { echo $text_shipping_no; ?> <br>
+		<?php if ($dimensions) { ?><br>
+		  <?php echo $dimensions; ?><br>
+		<?php } ?>
+		<?php if ($shipping) { ?><br>
+		  <?php echo '<b>' . $text_shipping_yes . '</b>'; } else { echo '<br><b>' . $text_shipping_no. '</b>'; ?> <br>
 		<?php  } ?>
 	  </div>
 	</div>

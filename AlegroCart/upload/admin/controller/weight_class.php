@@ -251,16 +251,16 @@ class ControllerWeightClass extends Controller {
 			if (($this->request->gethtml('weight_class_id')) && (!$this->request->isPost())) {
 				$weight_rule_info = $this->modelWeightClass->get_weight_rule($result['weight_class_id']);
 			}
-			
+			$rule = $this->request->gethtml('rule', 'post');
 			if ($result['weight_class_id'] != $this->request->gethtml('weight_class_id')) {
 				$weight_rule_data[] = array(
 					'title' => $result['title'] . ':',
 					'to_id' => $result['weight_class_id'],
-					'rule'  => (isset($post_info['rule'][$result['weight_class_id']]) ? $post_info['rule'][$result['weight_class_id']] : @$weight_rule_info['rule'])
+					'rule'  => (isset($rule[$result['weight_class_id']]) ? $rule[$result['weight_class_id']] : @$weight_rule_info['rule'])
 				);
 			}
 		}
-
+		
 		$view->set('weight_rules', $weight_rule_data);
 
 		return $view->fetch('content/weight_class.tpl');

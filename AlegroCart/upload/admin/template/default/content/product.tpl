@@ -156,7 +156,6 @@
             <tr>
               <td><?php echo $entry_tax_class; ?></td>
               <td><select name="tax_class_id">
-                  <option value="0"><?php echo $text_none; ?></option>
                   <?php foreach ($tax_classes as $tax_class) { ?>
                   <?php if ($tax_class['tax_class_id'] == $tax_class_id) { ?>
                   <option value="<?php echo $tax_class['tax_class_id']; ?>" selected><?php echo $tax_class['title']; ?></option>
@@ -164,6 +163,7 @@
                   <option value="<?php echo $tax_class['tax_class_id']; ?>"><?php echo $tax_class['title']; ?></option>
                   <?php } ?>
                   <?php } ?>
+				  <option value="0"><?php echo $text_none; ?></option>
                 </select></td>
             </tr>
             <tr>
@@ -173,6 +173,7 @@
 			  <input type="hidden" id="decimal_place" value="<?php echo $decimal_place;?>">
 			  </td>
             </tr>
+			<tr><td colspan="2"><hr></td></tr>
             <tr>
               <td><?php echo $entry_weight_class; ?></td>
               <td><select name="weight_class_id">
@@ -189,7 +190,19 @@
               <td><?php echo $entry_weight; ?></td>
               <td><input name="weight" value="<?php echo $weight; ?>"></td>
             </tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+			 <td><?php echo $entry_dimension_class;?></td>
+			 <td><select id="type_id" name="type_id" onchange="$('#dimensions').load('index.php?controller=product&action=dimensions&type_id='+this.value);">
+				<?php foreach($types as $type){?>
+				  <option value="<?php echo $type['type_id'];?>"<?php if($type['type_id'] == $type_id){echo ' selected';}?>><?php echo $type['type_text'];?></option>
+				<?php }?>
+			  </select></td>
+			</tr>
           </table>
+		  <table id="dimensions">
+			<?php echo $dimensions;?>
+		  </table>
         </div>
       </div>
       <div class="page">

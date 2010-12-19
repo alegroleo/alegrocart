@@ -27,7 +27,8 @@
 		      ['<img src="javascript/JSCookMenu/default/zone.png">', '<?php echo $text_zone; ?>', '<?php echo $zone; ?>', null, null],
 		      ['<img src="javascript/JSCookMenu/default/geo_zone.png">', '<?php echo $text_geo_zone; ?>', '<?php echo $geo_zone; ?>', null, null],
 		      ['<img src="javascript/JSCookMenu/default/tax_class.png">', '<?php echo $text_tax_class; ?>', '<?php echo $tax_class; ?>', null, null],
-		      ['<img src="javascript/JSCookMenu/default/weight_class.png">', '<?php echo $text_weight_class; ?>', '<?php echo $weight_class; ?>', null, null]
+		      ['<img src="javascript/JSCookMenu/default/weight_class.png">', '<?php echo $text_weight_class; ?>', '<?php echo $weight_class; ?>', null, null],
+			  ['<img src="javascript/JSCookMenu/default/dimension_class.png">', '<?php echo $text_dimension_class; ?>', '<?php echo $dimension_class; ?>', null, null]
 	    ],
 	    ['<img src="javascript/JSCookMenu/default/url_alias.png">', '<?php echo $text_url_alias; ?>', '<?php echo $url_alias; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/home_page.png">', '<?php echo $text_homepage; ?>', '<?php echo $homepage; ?>', null, null],

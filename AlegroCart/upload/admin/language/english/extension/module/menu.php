@@ -23,6 +23,7 @@ $_['text_zone']           = 'Zone';
 $_['text_geo_zone']       = 'Geo Zone';
 $_['text_tax_class']      = 'Tax Class';
 $_['text_weight_class']   = 'Weight Class';
+$_['text_dimension_class']= 'Dimension Class';
 $_['text_url_alias']      = 'URL Alias';
 $_['text_backup']         = 'Backup / Restore';
 $_['text_server_info']    = 'Server Info';

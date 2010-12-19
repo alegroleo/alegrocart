@@ -1,4 +1,4 @@
-<?php
+<?php //Library Weight AlegroCart
 class Weight {
 	var $classes = array();
 	var $rules   = array();
@@ -7,7 +7,7 @@ class Weight {
     	$this->database =& $locator->get('database');
 		$this->language =& $locator->get('language');
 	
-    	$results = $this->database->getRows("select * from weight_class where language_id = '" . (int)$this->language->getId() . "'");
+    	$results = $this->database->cache('weight', "select * from weight_class where language_id = '" . (int)$this->language->getId() . "'");
     
     	foreach ($results as $result) {
       		$this->classes[$result['weight_class_id']] = array(
@@ -16,7 +16,7 @@ class Weight {
       		);
     	}
 
-    	$results = $this->database->getRows("select * from weight_rule");
+    	$results = $this->database->cache('weight_rule', "select * from weight_rule");
 	
     	foreach ($results as $result) {
       		$this->rules[$result['from_id']][$result['to_id']] = $result['rule'];

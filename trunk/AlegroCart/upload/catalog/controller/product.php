@@ -17,6 +17,7 @@ class ControllerProduct extends Controller {
 	function index() { 
 		$cart     =& $this->locator->get('cart');
 		$currency =& $this->locator->get('currency');
+		$dimension=& $this->locator->get('dimension');
 		$language =& $this->locator->get('language');
 		$image    =& $this->locator->get('image');
 		$request  =& $this->locator->get('request');
@@ -96,8 +97,8 @@ class ControllerProduct extends Controller {
 			$view->set('text_date', $language->get('text_date'));
 			$view->set('text_shipping_yes', $language->get('text_shipping_yes'));
 			$view->set('text_shipping_no', $language->get('text_shipping_no'));
-			$view->set('text_weight', $language->get('text_weight'));			
 			$view->set('text_review_by', $language->get('text_review_by'));
+			$view->set('text_weight', $language->get('text_weight'));
       		$view->set('text_date_added', $language->get('text_date_added'));
       		$view->set('text_rating', $language->get('text_rating'));
       		$view->set('text_error', $language->get('text_empty'));	
@@ -122,7 +123,11 @@ class ControllerProduct extends Controller {
         		'product_id' => $request->gethtml('product_id')
       		);
      		$view->set('action', $url->href('product', FALSE, $query));
-
+			
+			$dimension_class = $this->modelProducts->get_dimension_class($product_info['dimension_id']);
+			$dimension_value = $dimension->getValues($product_info['dimension_value'], $dimension_class['type_id'], $product_info['dimension_id']);
+			$view->set('dimensions', $this->dimensionView($dimension_class, $dimension_value));
+			
 			$view->set('weight',$weight->format($weight->convert($product_info['weight'],$product_info['weight_class_id'], $this->config->get('config_weight_class_id')),$this->config->get('config_weight_class_id')));
 			$view->set('shipping',$product_info['shipping']);
       		$view->set('description', formatedstring($product_info['description'],40));
@@ -322,6 +327,52 @@ class ControllerProduct extends Controller {
         		);
       		}
 		return $review_data;
+	}
+	function dimensionView($dimension_class, $dimension_value){
+		$language =& $this->locator->get('language');
+		if($dimension_class && $dimension_value){
+			$text_dimensions = $language->get('text_dimensions');
+			$text_shipping = $language->get('text_shipping_dim');
+			$text_length = $language->get('text_length');
+			$text_width = $language->get('text_width');
+			$text_height = $language->get('text_height');
+			$text_volume = $language->get('text_volume');
+			$text_area = $language->get('text_area');
+			switch($dimension_class['type_id']){
+				case '1':
+					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
+					$dimensions .= $text_length . $dimension_value[0] . ', ';
+					$dimensions .= $text_width . $dimension_value[1] . ', ';
+					$dimensions .= $text_height . $dimension_value[2];
+					break;
+				case '2':
+					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
+					$dimensions .= $text_area . $dimension_value[0];
+					if(count($dimension_value) > 1){
+						$dimensions .= '<br><b>' . $text_shipping . '</b>' . ' - ';
+						$dimensions .= $text_length . $dimension_value[1] . ', ';
+						$dimensions .= $text_width . $dimension_value[2] . ', ';
+						$dimensions .= $text_height . $dimension_value[3];
+					}
+					break;
+				case '3':
+					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
+					$dimensions .= $text_volume . $dimension_value[0];
+					if(count($dimension_value) > 1){
+						$dimensions .= '<br><b>' . $text_shipping . '</b>' . ' - ';
+						$dimensions .= $text_length . $dimension_value[1] . ', ';
+						$dimensions .= $text_width . $dimension_value[2] . ', ';
+						$dimensions .= $text_height . $dimension_value[3];
+					}
+					break;
+				default:
+					return FALSE;
+					break;
+			}
+		} else {
+			return FALSE;
+		}
+		return $dimensions;
 	}
 }
 ?>

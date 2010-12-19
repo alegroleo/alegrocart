@@ -51,6 +51,10 @@ class Model_Products extends Model {
 		$results = $this->database->getRows("select r.review_id, r.author, r.rating, r.text, p.product_id, pd.name, p.price, i.filename, r.date_added from review r left join product p on(r.product_id = p.product_id) left join product_description pd on(p.product_id = pd.product_id) left join image i on(p.image_id = i.image_id) where p.product_id = '" . (int)$product_id . "' and p.date_available < now() and p.status = '1' and r.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' order by r.date_added desc limit 10");
 		return $results;
 	}
+	function get_dimension_class($dimension_id){
+		$result = $this->database->getRow("select title, unit, type_id from dimension where dimension_id = '" . (int)$dimension_id . "' and language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
 	function check_options($product_id){   // Check for Products with Options
 	    $results = $this->database->getRows("select * from product_to_option where product_id = '" . (int)$product_id . "'");
 		$option_status = $results ? TRUE : FALSE;

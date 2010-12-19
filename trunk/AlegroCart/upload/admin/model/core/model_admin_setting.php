@@ -32,6 +32,12 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_currency', `value` = '" . $this->request->gethtml('global_config_currency', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_currency_surcharge', `value` = '" . $this->request->gethtml('global_config_currency_surcharge', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_weight_class_id', `value` = '" . $this->request->gethtml('global_config_weight_class_id', 'post')  . "'");
+		
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_dimension_type_id', `value` = '" . $this->request->gethtml('global_config_dimension_type_id', 'post')  . "'");
+		for ($i=1; $i < 4; $i++){
+			$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_dimension_" . $i . "_id', `value` = '" . $this->request->gethtml('global_config_dimension_' . $i . '_id', 'post')  . "'");
+		}
+
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax', `value` = '" . $this->request->gethtml('global_config_tax', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax_store', `value` = '" . $this->request->gethtml('global_config_tax_store', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'invoice_number', `value` = '" . $this->request->gethtml('global_invoice_number', 'post')  . "'");
@@ -89,6 +95,10 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'search_rows', `value` = '" . $this->request->gethtml('catalog_search_rows', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'category_rows', `value` = '" . $this->request->gethtml('catalog_category_rows', 'post') . "'");
 		
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_rss_limit', `value` = '" . $this->request->gethtml('global_config_rss_limit', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_dimension_decimal', `value` = '" . $this->request->gethtml('global_config_dimension_decimal', 'post')  . "'");
+		
+		
 		//$this->database->query();
 	}
 	function get_settings(){
@@ -125,6 +135,14 @@ class Model_Admin_Setting extends Model {
 	}
 	function get_country_zones(){
 		$results = $this->database->cache('zone-' . (int)$this->request->gethtml('country_id'), "select zone_id, name from zone where country_id = '" . (int)$this->request->gethtml('country_id') . "' and zone_status = '1' order by name");
+		return $results;
+	}
+	function get_types(){
+		$results = $this->database->getRows("select * from dimension_type");
+		return $results;
+	}
+	function get_dimension_classes($type_id){
+		$results = $this->database->getRows("select * from dimension where type_id = '" . $type_id . "' and language_id = '" . (int)$this->language->getId() . "'");
 		return $results;
 	}
 }

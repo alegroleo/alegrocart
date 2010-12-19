@@ -55,6 +55,8 @@ class ControllerSetting extends Controller {
 		$view->set('text_default_rows', $this->language->get('text_default_rows'));
 		$view->set('text_cart_quantity', $this->language->get('text_cart_quantity'));
 		$view->set('text_cart_wide', $this->language->get('text_cart_wide'));
+		$view->set('text_rss_info', $this->language->get('text_rss_info'));
+		$view->set('text_dimension_decimal', $this->language->get('text_dimension_decimal'));
 		
 		$view->set('text_product', $this->language->get('text_product'));
 		$view->set('text_category', $this->language->get('text_category'));
@@ -83,6 +85,12 @@ class ControllerSetting extends Controller {
 		$view->set('entry_currency', $this->language->get('entry_currency'));
 		$view->set('entry_currency_surcharge', $this->language->get('entry_currency_surcharge'));
 		$view->set('entry_weight', $this->language->get('entry_weight'));
+		$view->set('entry_dimension_type', $this->language->get('entry_dimension_type'));
+		$entry_dimension = array(1 => $this->language->get('entry_linear'),
+								2 => $this->language->get('entry_area'),
+								3 =>$this->language->get('entry_volume'));
+								
+		$view->set('entry_dimension', $entry_dimension);
 		$view->set('entry_tax', $this->language->get('entry_tax'));
 		$view->set('entry_tax_store', $this->language->get('entry_tax_store'));
 		$view->set('entry_invoice_number', $this->language->get('entry_invoice_number'));
@@ -130,6 +138,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_email_contact',$this->language->get('entry_email_contact'));
 		$view->set('entry_addtocart_quantity',$this->language->get('entry_addtocart_quantity'));
 		$view->set('entry_addtocart_maximum',$this->language->get('entry_addtocart_maximum'));
+		$view->set('entry_dimension_decimal',$this->language->get('entry_dimension_decimal'));
+		$view->set('entry_rss_limit',$this->language->get('entry_rss_limit'));
 		$view->set('quantity_selects', array('selectbox', 'textbox'));
  
 		$view->set('button_list', $this->language->get('button_list'));
@@ -610,6 +620,51 @@ class ControllerSetting extends Controller {
 		}
 
 		$view->set('weight_classes', $this->modelSetting->get_weight_classes());
+		
+		if ($this->request->has('global_config_dimension_type_id')) {
+			$view->set('global_config_dimension_type_id', $this->request->gethtml('global_config_dimension_type_id'));
+		} else {
+			$view->set('global_config_dimension_type_id', @$setting_info['global']['config_dimension_type_id']);
+		}
+		for ($i=1; $i < 4; $i++){
+			if ($this->request->has('global_config_dimension_' . $i .'_id')) {
+				$view->set('global_config_dimension_' . $i .'_id', $this->request->gethtml('global_config_dimension_' . $i .'_id'));
+			} else {
+				$view->set('global_config_dimension_' . $i .'_id', @$setting_info['global']['config_dimension_' . $i .'_id']);
+			}
+		}
+		$results = $this->modelSetting->get_types();
+		foreach ($results as $result) {
+			$type_data[] = array(
+				'type_id'   => $result['type_id'],
+				'type_text' => $this->language->get('text_'. $result['type_name'])
+			);
+		}
+		$view->set('types', $type_data);
+		$dimensions = array();
+		for ($i=1; $i < 4; $i++){
+			$results = $this->modelSetting->get_dimension_classes($i);
+			foreach ($results as $result){
+				$dimensions[$i][] = array(
+					'dimension_id'	=> $result['dimension_id'],
+					'unit'			=> $result['unit'],
+					'title'			=> $result['title']
+				);
+			}
+		}
+		$view->set('dimensions', $dimensions);
+		
+		if ($this->request->has('global_config_rss_limit')) {
+			$view->set('global_config_rss_limit', $this->request->gethtml('global_config_rss_limit'));
+		} else {
+			$view->set('global_config_rss_limit', @$setting_info['global']['config_rss_limit']);
+		}
+		
+		if ($this->request->has('global_config_dimension_decimal')) {
+			$view->set('global_config_dimension_decimal', $this->request->gethtml('global_config_dimension_decimal'));
+		} else {
+			$view->set('global_config_dimension_decimal', @$setting_info['global']['config_dimension_decimal']);
+		}
 
 		if ($this->request->has('global_config_order_status_id')) {
 			$view->set('global_config_order_status_id', $this->request->gethtml('global_config_order_status_id'));

@@ -27,7 +27,7 @@ class ControllerAccountCreate extends Controller {
   	function index() {
 		 
 		if ($this->customer->isLogged()) {
-	  		$this->response->redirect($url->ssl('account'));
+	  		$this->response->redirect($this->url->ssl('account'));
     	}
 
     	$this->language->load('controller/account_create.php');

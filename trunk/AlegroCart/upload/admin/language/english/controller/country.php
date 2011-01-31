@@ -4,7 +4,10 @@ $_['heading_title']          = 'Country';
 $_['heading_description']    = 'You can edit the different countries here.';
 
 // Text
-$_['text_message']        = 'Success: You have updated countries!';
+$_['text_message']           = 'Success: You have updated countries!';
+$_['text_address_explantion']= 'You can set your address format for each country here.<br>The address format requires the following field names entered in the address box exactly as they appear here, only in the order you choose. Field Names:<br><b>firstname lastname<br>company<br>address_1<br>address_2<br>city, zone<br>country, postcode</b>';
+$_['text_address_help']      = 'Address HELP!';
+
 // Button
 $_['button_enable_disable']  = 'Enable/Disable Countries';
 // Column

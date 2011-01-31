@@ -95,7 +95,7 @@ class ControllerCountry extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('country_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
@@ -210,7 +210,7 @@ class ControllerCountry extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 
 		$view->set('heading_title', $this->language->get('heading_title'));
@@ -218,6 +218,9 @@ class ControllerCountry extends Controller {
 
     	$view->set('text_enabled', $this->language->get('text_enabled'));
     	$view->set('text_disabled', $this->language->get('text_disabled'));
+		$view->set('text_address_explantion', $this->language->get('text_address_explantion'));
+		$view->set('text_address_help', $this->language->get('text_address_help'));
+		
 		$view->set('entry_name', $this->language->get('entry_name'));
 		$view->set('entry_country_status', $this->language->get('entry_country_status'));
 		$view->set('entry_iso_code_2', $this->language->get('entry_iso_code_2'));
@@ -288,7 +291,7 @@ class ControllerCountry extends Controller {
 		return $view->fetch('content/country.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -309,7 +312,7 @@ class ControllerCountry extends Controller {
 			return FALSE;
 		}
 	}
-	function validateEnable() {
+	private function validateEnable() {
 		if (!$this->user->hasPermission('modify', 'country')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
@@ -333,7 +336,7 @@ class ControllerCountry extends Controller {
 			$this->response->redirect($this->url->ssl('country'));//**
 		}
 	}
-	function validateEnableDelete(){
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'country')) {//**
       		$this->error['message'] = $this->language->get('error_permission');  
     	}
@@ -343,7 +346,7 @@ class ControllerCountry extends Controller {
 	  		return FALSE;
 		}
 	}
-	function validateDelete() {
+	private function validateDelete() {
 		if(($this->session->get('country_validation') != $this->request->sanitize('country_validation')) || (strlen($this->session->get('country_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}

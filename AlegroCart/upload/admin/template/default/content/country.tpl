@@ -21,6 +21,8 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><?php echo $tab_general; ?></a></div>
@@ -60,6 +62,13 @@
 			<tr>
               <td valign="top"><?php echo $entry_address_format; ?></td>
               <td><textarea name="address_format" cols="40" rows="5"><?php echo $address_format; ?></textarea></td>
+			  <script type="text/javascript">
+			    $(document).ready(function(){
+				  $('.addressE[title]').tooltip({
+				  offset: [80,70], tipClass: 'tooltip_white'});
+				});
+			  </script>
+			  <?php echo '<th style="color:red"><div title="' . $text_address_explantion . '" class="addressE" >'. $text_address_help . '</div></th>';?>
             </tr>
           </table>
         </div>

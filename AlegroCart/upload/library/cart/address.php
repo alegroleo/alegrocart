@@ -41,7 +41,8 @@ class Address {
 		
 	function format($address, $format = NULL, $new_line = "\n") {
     	if (!$format) {
-      		$format = 'firstname lastname' . "\n" . 'company' . "\n" . 'address_1' . "\n" . 'address_2' . "\n" . 'postcode city' . "\n" . 'zone' . "\n" . 'country';
+      		$format = 'firstname lastname' . "\n" . 'company' . "\n" . 'address_1' . "\n" . 'address_2' . "\n" . 'city, zone' . "\n" . 'country' . "\n" . 'postcode';
+			
     	}
 	  
     	$find = array(

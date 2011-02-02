@@ -21,7 +21,7 @@ class ModuleBestseller extends Controller {
       		$view = $this->locator->create('template');
       		$view->set('heading_title', $language->get('heading_title'));
 			$view->set('onhand', $language->get('onhand'));
-			
+			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('tax_included', $config->get('config_tax'));
 			
 			if ($config->get('bestseller_total') == '0') {
@@ -74,6 +74,7 @@ class ModuleBestseller extends Controller {
 						}
 					}  // End product Discounts	
 					$options = $this->modelProducts->get_options($result['product_id'],$result['tax_class_id']);
+					$product_options = $this->modelProducts->get_product_with_options($result['product_id'], $image_width, $image_height);
 				} else if ($columns >3) {
 					if ($result['alt_description']){
 						$desc = strippedstring($result['alt_description'],$config->get('bestseller_lines_char'));
@@ -82,6 +83,7 @@ class ModuleBestseller extends Controller {
 					}
 					$product_discounts = '';
 					$options = $this->modelProducts->check_options($result['product_id']);
+					$product_options = FALSE;
 				} else {
 					if ($result['alt_description']){
 						$desc = formatedstring($result['alt_description'],$config->get('bestseller_lines_multi'));
@@ -90,6 +92,7 @@ class ModuleBestseller extends Controller {
 					}
 					$product_discounts = '';
 					$options = $this->modelProducts->check_options($result['product_id']);
+					$product_options = FALSE;
 				}
     	  		$product_data[] = array(
     	  			'name'  => $result['name'],
@@ -105,7 +108,9 @@ class ModuleBestseller extends Controller {
                 	'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
 					'sale_start_date' => $result['sale_start_date'],
 					'sale_end_date'   => $result['sale_end_date'],
-					'options'         => $options
+					'options'         => $options,
+					'model_number'    => $result['model_number'],
+					'product_options' => $product_options
     	  		);
     	  	}
 			

@@ -17,6 +17,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><?php echo $tab_shop; ?></a><a><?php echo $tab_admin; ?></a><a><?php echo $tab_local; ?></a><a><?php echo $tab_stock; ?></a><a><?php echo $tab_option; ?></a><a><?php echo $tab_mail; ?></a><a><?php echo $tab_cache; ?></a><a><?php echo $tab_image; ?></a><a><?php echo $tab_download; ?></a></div>
@@ -410,7 +411,7 @@
             </tr>
             <tr>
               <td width="185"><?php echo $entry_stock_subtract; ?></td>
-              <td><?php if ($catalog_config_stock_subtract) { ?>
+              <td width="100"><?php if ($catalog_config_stock_subtract) { ?>
                 <input type="radio" name="catalog_config_stock_subtract" value="1" checked>
                 <?php echo $text_yes; ?>
                 <input type="radio" name="catalog_config_stock_subtract" value="0">
@@ -421,6 +422,17 @@
                 <input type="radio" name="catalog_config_stock_subtract" value="0" checked>
                 <?php echo $text_no; ?>
                 <?php } ?></td>
+				
+				<script type="text/javascript">
+			    $(document).ready(function(){
+				  $('.stockE[title]').tooltip({
+				  offset: [160,70], tipClass: 'tooltip_white'});
+				});
+			    </script>
+				<?php echo '<th style="color:red"><div title="' . $text_stock_explantion . '" class="stockE" >'. $text_stock_help . '</div></th>';?>
+				
+				
+				
             </tr>
           </table>
         </div>
@@ -623,6 +635,20 @@
 			  <td><?php echo $entry_additional_height; ?></td>
 			  <td><input type="text" name="catalog_additional_image_height" value="<?php echo $catalog_additional_image_height; ?>" size="3"></td>
 			<tr>
+			<tr bgcolor="#CCFFFF">
+			  <td><?php echo $entry_alt_description; ?></td>
+			  <td><?php if ($catalog_alternate_description) { ?>
+                <input type="radio" name="catalog_alternate_description" value="1" checked>
+                <?php echo $text_yes; ?>
+                <input type="radio" name="catalog_alternate_description" value="0">
+                <?php echo $text_no; ?>
+                <?php } else { ?>
+                <input type="radio" name="catalog_alternate_description" value="1">
+                <?php echo $text_yes; ?>
+                <input type="radio" name="catalog_alternate_description" value="0" checked>
+                <?php echo $text_no; ?>
+                <?php } ?></td>
+			</tr>
 			<tr bgcolor="#FFFF99">  <!-- Category -->
 			  <td><?php echo $text_category; ?></td>
 			</tr>

@@ -14,6 +14,7 @@ $_['text_page_rows']     = 'Products per Page:';
 $_['text_columns']       = 'Number of Columns:<br>to Display';
 $_['text_model']         = 'Filter by Model';
 $_['text_all']           = 'Select All models';
+$_['text_model_number']  = 'Model Number: ';
 
 // Entry
 $_['entry_number']      = 'Item Number';

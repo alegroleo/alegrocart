@@ -2,10 +2,13 @@
 class Model_Products extends Model {
 	function __construct(&$locator) {
 		$this->database =& $locator->get('database');
+		$this->dimension=& $locator->get('dimension');
+		$this->image    =& $locator->get('image');
 		$this->language =& $locator->get('language');
 		$this->tax      =& $locator->get('tax');
 		$this->currency =& $locator->get('currency');
 		$this->config   =& $locator->get('config');
+		$this->language->load('controller/dimensions.php');
 	}
 	function get_bestseller($bestseller_total){
 		$results = $this->database->getRows("SELECT product.*, order_product.order_product_id, order_product.order_id, SUM(order_product.quantity) as TotalOrdered, product_description.*, image.* FROM product, order_product, order_history, product_description, image WHERE product.product_id = product_description.product_id AND product_description.name = order_product.name AND product.image_id = image.image_id AND product.status ='1' AND product_description.language_id = '" . (int)$this->language->getId() . "' GROUP BY order_product.name ORDER BY TotalOrdered DESC". $bestseller_total);
@@ -60,6 +63,21 @@ class Model_Products extends Model {
 		$option_status = $results ? TRUE : FALSE;
 		return $option_status;
 	}
+	function get_product_options($product_id){
+		$results = $this->database->getRows("select * from product_options po left join image i on (po.image_id = i.image_id) where po.product_id = '" . (int)$product_id . "' order by po.product_option asc");
+		return $results;
+	}
+	function get_option_weight($product_id){
+		$results = $this->database->getRows("select product_to_option_id, option_weight from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
+		$option_weight = array();
+		foreach ($results as $result) {
+			$option_weight[] = array(
+				'product_to_option_id' => $result['product_to_option_id'],
+				'option_weight'		   => $result['option_weight']
+			);
+		}
+		return $option_weight;
+	}
 	function get_options($product_id,$tax_class_id){  // Get product Options
 		$options = array();
       		$results = $this->database->getRows("select * from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
@@ -95,6 +113,79 @@ class Model_Products extends Model {
 	}
 	function update_viewed($product_id){
 		$this->database->query("update product set viewed = viewed + 1 where product_id = '" . (int)$product_id . "'");
+	}
+	
+	function get_product_with_options($product_id, $image_width = '140', $image_height = '140'){
+		$results = $this->get_product_options($product_id);
+		$product_options = array();
+		foreach($results as $result){
+			if($result['dimension_id']){
+				$dimension_class = $this->get_dimension_class($result['dimension_id']);
+				$dimension_value = $this->dimension->getValues($result['dimension_value'], $dimension_class['type_id'], $result['dimension_id']);
+				$dimensions = $this->dimensionView($dimension_class, $dimension_value);
+			} else {
+				$dimensions = '';
+			}
+				
+			$product_options[$result['product_option']] = array(
+				'product_id'		=> $result['product_id'],
+				'product_option'	=> $result['product_option'],
+				'quantity'			=> $result['quantity'],
+				'image_id'			=> $result['image_id'],
+				'popup'    			=> $result['filename'] ? $this->image->href($result['filename']) : '',
+				'thumb'     		=> $result['filename'] ? $this->image->resize($result['filename'], $image_width, $image_height) : '',
+				'dimensions'		=> $dimensions,
+				'model_number' 		=> $result['model_number'] ? $result['model_number'] : ''
+			);
+		}
+		return $product_options;
+	}
+	
+	function dimensionView($dimension_class, $dimension_value){
+		
+		if($dimension_class && $dimension_value){
+			$text_dimensions = $this->language->get('text_dimensions');
+			$text_shipping = $this->language->get('text_shipping_dim');
+			$text_length = $this->language->get('text_length');
+			$text_width = $this->language->get('text_width');
+			$text_height = $this->language->get('text_height');
+			$text_volume = $this->language->get('text_volume');
+			$text_area = $this->language->get('text_area');
+			switch($dimension_class['type_id']){
+				case '1':
+					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
+					$dimensions .= $text_length . $dimension_value[0] . ', ';
+					$dimensions .= $text_width . $dimension_value[1] . ', ';
+					$dimensions .= $text_height . $dimension_value[2];
+					break;
+				case '2':
+					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
+					$dimensions .= $text_area . $dimension_value[0];
+					if(count($dimension_value) > 1){
+						$dimensions .= '<br><b>' . $text_shipping . '</b>' . ' - ';
+						$dimensions .= $text_length . $dimension_value[1] . ', ';
+						$dimensions .= $text_width . $dimension_value[2] . ', ';
+						$dimensions .= $text_height . $dimension_value[3];
+					}
+					break;
+				case '3':
+					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
+					$dimensions .= $text_volume . $dimension_value[0];
+					if(count($dimension_value) > 1){
+						$dimensions .= '<br><b>' . $text_shipping . '</b>' . ' - ';
+						$dimensions .= $text_length . $dimension_value[1] . ', ';
+						$dimensions .= $text_width . $dimension_value[2] . ', ';
+						$dimensions .= $text_height . $dimension_value[3];
+					}
+					break;
+				default:
+					return FALSE;
+					break;
+			}
+		} else {
+			return FALSE;
+		}
+		return $dimensions;
 	}
 	function currentpage($current_page){  
 		switch($current_page){

@@ -63,6 +63,7 @@ class ModuleMenu extends Controller {
 			$view->set('text_maintenance', $language->get('text_maintenance'));
 			$view->set('text_homepage', $language->get('text_homepage'));
 			$view->set('text_tpl_manager',$language->get('text_tpl_manager'));
+			$view->set('text_products_with_options',$language->get('text_products_with_options'));
 			$view->set('homepage', $url->rawssl('homepage'));
 			$view->set('template_manager', $url->rawssl('template_manager'));
 			$view->set('maintenance', $url->rawssl('maintenance')); 
@@ -86,6 +87,7 @@ class ModuleMenu extends Controller {
       		$view->set('logout', $url->rawssl('logout'));
       		$view->set('category', $url->rawssl('category'));
       		$view->set('product', $url->rawssl('product'));
+			$view->set('products_with_options', $url->rawssl('products_with_options'));
      		$view->set('option', $url->rawssl('option'));
       		$view->set('manufacturer', $url->rawssl('manufacturer'));
 			$view->set('image', $url->rawssl('image'));

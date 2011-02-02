@@ -22,6 +22,28 @@
 	  }?> 
   </div>
   <div class="ptext"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></b><br>
+  <?php if($product['model_number'] || $product['product_options']){?>
+    <div class="model_number">
+	  <?php echo $text_model_number;?>
+	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>"><?php echo $product['model_number'];?></span>
+		<?php if($product['product_options']){?>
+		  <script language="JavaScript">
+			$(document).ready(function(){
+			  UpdateModel(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
+			});
+		  </script>
+		  <?php foreach($product['product_options'] as $product_option){?>
+		    <input type="hidden" id="<?php echo $this_controller . '_model_' . $product_option['product_option'];?>" value="<?php echo $product_option['model_number'];?>">
+		  <?php }?>
+		<?php }?>
+    </div>
+  <?php }?>
+  
+  
+  
+  
+  
+  
    <?php echo $product['description']; ?><br>
    <?php if ($product['product_discounts']){
 	echo "<div><b>".$text_quantity_discount.":</b><br>&nbsp;";
@@ -30,7 +52,22 @@
 	}
 	echo "</div>";
    }?>
-   <div class="onhand"><?php echo $onhand.$product['stock_level']; ?></div>
+   <div class="onhand"><?php echo $onhand; ?>
+	  <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
+   </div>
+   <?php if($product['product_options']){?>
+    <script language="JavaScript">
+	  $(document).ready(function(){
+	    UpdateQuantity(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
+	  });
+	</script>
+	<?php foreach($product['product_options'] as $product_option){?>
+	  <input type="hidden" id="<?php echo $this_controller . '_stock_level_' . $product_option['product_option'];?>" value="<?php echo $product_option['quantity'];?>">
+	<?php }?>
+  <?php }?>  
+   
+   
+   
    <?php include $shared_path . 'product_price.tpl' ;?>
    <?php if ($addtocart) { ?>
   <?php if ($product['options']){

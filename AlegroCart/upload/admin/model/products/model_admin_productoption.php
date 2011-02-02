@@ -65,5 +65,9 @@ class Model_Admin_Productoption extends Model {
 		$pages = $this->database->getpages();
 		return $pages;
 	}	
+	function insert_product_options($product_option){
+		$sql = "insert into product_options set product_id = '?', product_option = '?', quantity = '?', image_id = '?', dimension_id = '?', dimension_value = '?', model_number = '?'";
+		$this->database->query($this->database->parse($sql, $product_option['product_id'], $product_option['product_option'], $product_option['quantity'], $product_option['image_id'], $product_option['dimension_id'], $product_option['dimension_value'], $product_option['model_number']));
+	}
 }
 ?>

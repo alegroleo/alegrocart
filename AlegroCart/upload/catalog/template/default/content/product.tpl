@@ -45,15 +45,41 @@
   <div class="pheading">
    <div class="left"><?php echo $product_number.$heading_title; ?></div>
   </div>
+  <?php if($product['model_number'] || $product_options){?>
+    <div class="model_number">
+	  <?php echo $text_model_number;?>
+	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>"><?php echo $product['model_number'];?></span>
+		<?php if($product_options){?>
+		  <script language="JavaScript">
+			$(document).ready(function(){
+			  UpdateModel(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
+			});
+		  </script>
+		  <?php foreach($product_options as $product_option){?>
+		    <input type="hidden" id="<?php echo $this_controller . '_model_' . $product_option['product_option'];?>" value="<?php echo $product_option['model_number'];?>">
+		  <?php }?>
+		<?php }?>
+    </div>
+  <?php }?>
   <div>
    <?php if(isset($alt_description)){ echo $alt_description;} ?>
   </div>
   <div>
     <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
   </div>
-  <div class="ponhand"><?php echo $quantity_available.$stock_level; ?></div>	
+  <div class="ponhand"><?php echo $quantity_available; ?>
+  <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span></div>
+  <?php if($product_options){?>
+    <script language="JavaScript">
+	  $(document).ready(function(){
+	    UpdateQuantity(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
+	  });
+	</script>
+	<?php foreach($product_options as $product_option){?>
+	  <input type="hidden" id="<?php echo $this_controller . '_stock_level_' . $product_option['product_option'];?>" value="<?php echo $product_option['quantity'];?>">
+	<?php }?>
+  <?php }?>  
    <?php include $shared_path . 'product_price.tpl' ;?>
-   
   <?php if ($product['options']){
    if(isset($product_options_select) && $product_options_select == 'radio'){
      include $shared_path . 'product_options_radio.tpl';
@@ -140,10 +166,35 @@
 		  <?php echo '<b>' . $text_manufacturer . '</b>' . $manufacturer; ?><br>
 		<?php } ?>
 		<?php if ($weight) { ?><br>
-		  <?php echo '<b>' . $text_weight . '</b>' . $weight; ?><br>
+		  <?php echo '<b>' . $text_weight . '</b>' . ' '; ?>
+		  <span id="<?php echo $this_controller . '_weights_' . $product['product_id'];?>"><?php echo $weight;?></span>
+		  <?php echo ' ' . $weight_unit;?>
+		  <?php if($option_weights){?>
+		    <input type="hidden" id="weight_<?php echo $product['product_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$weight)),$decimal_place,'.','');?>">
+			<script language="JavaScript">
+			  $(document).ready(function(){
+			    UpdateWeight(<?php echo $decimal_place . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "'";?>);
+			  });
+			</script>
+		    <?php foreach($option_weights as $option_weight){?>
+			  <input type="hidden" id="<?php echo $this_controller . '_weight_' . $option_weight['product_to_option_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$option_weight['option_weight'])),$decimal_place,'.','');?>">
+			<?php }?>
+		  <?php }?>
+		  <br>
 		 <?php } ?>
-		<?php if ($dimensions) { ?><br>
-		  <?php echo $dimensions; ?><br>
+		<?php if ($dimensions || $product_options) { ?><br>
+		  <span id="<?php echo $this_controller . '_dimensions_' . $product['product_id'];?>"><?php echo $dimensions ? @$dimensions : ''; ?></span><br>
+		  <?php if($product_options){?>
+		    <input type="hidden" id="dimension_<?php echo $product['product_id'];?>" value="<?php echo $dimensions;?>">
+		    <script language="JavaScript">
+			  $(document).ready(function(){
+			    UpdateDimensions(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
+			  });
+			</script>
+			<?php foreach($product_options as $product_option){?>
+			<input type="hidden" id="<?php echo $this_controller . '_dimension_' . $product_option['product_option'];?>" value="<?php echo $product_option['dimensions'];?>">
+			<?php }?>
+		  <?php }?>
 		<?php } ?>
 		<?php if ($shipping) { ?><br>
 		  <?php echo '<b>' . $text_shipping_yes . '</b>'; } else { echo '<br><b>' . $text_shipping_no. '</b>'; ?> <br>

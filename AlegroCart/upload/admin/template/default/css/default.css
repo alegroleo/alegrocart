@@ -448,3 +448,13 @@ form {
 	width: 304px;
 	height: 152px;
 }
+.tooltip_white {
+   display:none;
+   background: url('../image/optionwhite.png');
+   font-size: 12px;
+   height:180px;
+   width:370px;
+   padding: 20px 20px 20px 20px;
+   color:#000000;                           
+   z-index: 1000;
+}

@@ -57,11 +57,123 @@ function GetData(product_id, controller){
 	var data = String(item + quantity);
 	return data;
 }
+function ProductOptions(product_id,controller){
+	var Product_id = product_id;
+	var Controller = controller;
+	var ProductWithOptions = product_id;
+	var options = [];
+	$('#'+Controller+'_options_'+Product_id+' select :selected').each(function(i, selected){
+		options[i] = $(selected).val();
+	});
+	$('#'+Controller+'_options_'+Product_id+' :radio:checked').each(function(i, selected){
+		options[i] = $(selected).val();
+	});
+	if(options.length!=undefined){
+		var i;
+		for (i in options){
+				if(i == 0){ProductWithOptions +="\\:";}
+				else {ProductWithOptions +="\\.";}
+				ProductWithOptions += (options[i]);
+		}
+	}
+	return ProductWithOptions;
+}
+function UpdateDimensions(product_id,controller){
+	var Product_id = product_id;
+	var Controller = controller;
+	var ProductWithOptions = ProductOptions(product_id,controller);
+	var dimension = $('#'+Controller+'_dimension_'+ProductWithOptions).val();
+	if(dimension!=undefined){
+		if(dimension.length > 0){
+			document.getElementById(Controller+'_dimensions_'+Product_id).innerHTML = dimension;
+		} else {
+			document.getElementById(Controller+'_dimensions_'+Product_id).innerHTML = $('#dimension_'+Product_id).val();
+		}
+	}
+}
+function UpdateImage(product_id,controller){
+	var Product_id = product_id;
+	var Controller = controller;
+	var ProductWithOptions = ProductOptions(product_id,controller);
+	var popup = $('#'+Controller+'_popup_'+ProductWithOptions).val();
+	var thumb = $('#'+Controller+'_thumb_'+ProductWithOptions).val();
+	var Href = $('#'+Controller+Product_id).attr('href');
+
+	if(thumb!=undefined){
+		if(thumb.length > 0){
+			document.getElementById(Controller+'_image'+Product_id).src = thumb;
+			if(Href!=undefined){
+				document.getElementById(Controller+Product_id).href = popup;
+			}
+		} else {
+			document.getElementById(Controller+'_image'+Product_id).src = $('#'+Controller+'_thumb_'+Product_id).val();
+			if(Href!=undefined){
+				document.getElementById(Controller+Product_id).href = $('#'+Controller+'_popup_'+Product_id).val();
+			}
+		}
+	}
+}
+function UpdateModel(product_id,controller){
+	var Product_id = product_id;
+	var Controller = controller;
+	var ProductWithOptions = ProductOptions(product_id,controller);
+	var Model = $('#'+Controller+'_model_'+ProductWithOptions).val();
+	if(Model!=undefined){
+		document.getElementById(Controller+'_model_'+Product_id).innerHTML = Model;
+	}
+}
+function UpdateQuantity(product_id,controller){
+	var Product_id = product_id;
+	var Controller = controller;
+	var ProductWithOptions = ProductOptions(product_id,controller);
+	var onhand = $('#'+Controller+'_stock_level_'+ProductWithOptions).val();
+	if(onhand!=undefined){
+		$('#'+Controller+'_stock_level_'+Product_id).text(onhand);
+	}
+}
+function UpdateWeight(decimal_place, decimal_point, product_id,controller){
+	var Decimal_Place = decimal_place;
+	var Decimal_point = decimal_point;
+	var Controller = controller;
+	var Product_id = product_id;
+	var Weight = $('#weight_'+Product_id).val();
+	var options = [];
+	$('#'+Controller+'_options_'+Product_id+' select :selected').each(function(i, selected){
+		options[i] = $(selected).val();
+	});
+	$('#'+Controller+'_options_'+Product_id+' :radio:checked').each(function(i, selected){
+		options[i] = $(selected).val();
+	});
+	if(Weight==undefined){
+		Weight = 0;
+	}
+	Weight = parseFloat(Weight);
+	if(options.length!=undefined){
+		var i;
+		for (i in options){
+				TempWeight = $('#'+Controller+'_weight_'+options[i]).val();
+				if(TempWeight!=undefined){
+					
+					Weight += parseFloat(TempWeight);
+				}
+				
+		}
+	}
+	Weight_new = (((Weight*100)/100).toFixed([Decimal_Place]));
+	Weight = Weight_new.replace('.', Decimal_point);
+	$('#'+Controller+'_weights_'+Product_id).text(Weight);
+}
 function UpdateTotal(decimal_place, decimal_point, product_id, controller){
 	var Decimal_Place = decimal_place;
 	var Decimal_point = decimal_point;
 	var Controller = controller;
 	var Product_id = product_id;
+	UpdateQuantity(Product_id, Controller);
+	UpdateImage(product_id,controller);
+	UpdateModel(product_id,controller);
+	UpdateDimensions(product_id,controller);
+	UpdateWeight(decimal_place, decimal_point, product_id,controller)
+	
 	var Price = $('#base_price_' + Product_id).val();
 	var options= [];
 

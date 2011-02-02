@@ -62,7 +62,8 @@ class ControllerSetting extends Controller {
 		$view->set('text_category', $this->language->get('text_category'));
 		$view->set('text_search', $this->language->get('text_search'));
 		$view->set('text_category_search', $this->language->get('text_category_search'));
-		
+		$view->set('text_stock_explantion', $this->language->get('text_stock_explantion'));
+		$view->set('text_stock_help', $this->language->get('text_stock_help'));
 		
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
@@ -116,6 +117,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_product_addtocart',$this->language->get('entry_product_addtocart'));
 		$view->set('entry_additional_width',$this->language->get('entry_additional_width'));
 		$view->set('entry_additional_height',$this->language->get('entry_additional_height'));
+		$view->set('entry_alt_description',$this->language->get('entry_alt_description'));
+		
 		$view->set('entry_category_width',$this->language->get('entry_category_width'));
 		$view->set('entry_category_height',$this->language->get('entry_category_height'));
 		$view->set('entry_category_addtocart',$this->language->get('entry_category_addtocart'));
@@ -468,6 +471,11 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_additional_image_height', $this->request->gethtml('catalog_additional_image_height'));
 		} else {
 			$view->set('catalog_additional_image_height', @$setting_info['catalog']['additional_image_height']);
+		}
+		if ($this->request->has('catalog_alternate_description')) {
+			$view->set('catalog_alternate_description', $this->request->gethtml('catalog_alternate_description'));
+		} else {
+			$view->set('catalog_alternate_description', @$setting_info['catalog']['alternate_description']);
 		}
 		if ($this->request->has('catalog_category_image_width')) {
 			$view->set('catalog_category_image_width', $this->request->gethtml('catalog_category_image_width'));

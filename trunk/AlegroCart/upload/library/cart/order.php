@@ -110,7 +110,11 @@ class Order {
 				}	
 				
 				if ($this->config->get('config_stock_subtract')) {
-					$this->database->query("update product set quantity = (quantity - " . (int)$product['quantity'] . ") where product_id = '" . (int)$product['product_id'] . "'");
+					if($product['option']){
+						$this->database->query("update product_options set quantity = (quantity - " . (int)$product['quantity'] . ") where product_option = '" . $product['product_key'] . "'");
+					} else {
+						$this->database->query("update product set quantity = (quantity - " . (int)$product['quantity'] . ") where product_id = '" . (int)$product['product_id'] . "'");
+					}
 				}
 			}
 		

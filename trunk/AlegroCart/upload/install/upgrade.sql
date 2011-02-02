@@ -1028,3 +1028,15 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_rss_limit';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_rss_limit', '40') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#Add Product With Options table
+CREATE TABLE IF NOT EXISTS `product_options` (
+  `product_id` int(11) NOT NULL auto_increment,
+  `product_option`  varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `quantity` int(4) NOT NULL default '0',
+  `image_id` int(11) NOT NULL default '0',
+  `dimension_id` int(11) NOT NULL DEFAULT '0',
+  `dimension_value` varchar(64) collate utf8_unicode_ci NOT NULL DEFAULT '0:0:0',
+  `model_number` varchar( 32 ) collate utf8_unicode_ci NOT NULL default '',
+  PRIMARY KEY  (`product_id`, `product_option`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

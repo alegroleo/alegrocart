@@ -32,12 +32,10 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_currency', `value` = '" . $this->request->gethtml('global_config_currency', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_currency_surcharge', `value` = '" . $this->request->gethtml('global_config_currency_surcharge', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_weight_class_id', `value` = '" . $this->request->gethtml('global_config_weight_class_id', 'post')  . "'");
-		
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_dimension_type_id', `value` = '" . $this->request->gethtml('global_config_dimension_type_id', 'post')  . "'");
 		for ($i=1; $i < 4; $i++){
 			$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_dimension_" . $i . "_id', `value` = '" . $this->request->gethtml('global_config_dimension_' . $i . '_id', 'post')  . "'");
 		}
-
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax', `value` = '" . $this->request->gethtml('global_config_tax', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax_store', `value` = '" . $this->request->gethtml('global_config_tax_store', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'invoice_number', `value` = '" . $this->request->gethtml('global_invoice_number', 'post')  . "'");
@@ -68,6 +66,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'product_addtocart', `value` = '" . $this->request->gethtml('catalog_product_addtocart', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'additional_image_width', `value` = '" . $this->request->gethtml('catalog_additional_image_width', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'additional_image_height', `value` = '" . $this->request->gethtml('catalog_additional_image_height', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'alternate_description', `value` = '" . $this->request->gethtml('catalog_alternate_description', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'category_image_width', `value` = '" . $this->request->gethtml('catalog_category_image_width', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'category_image_height', `value` = '" . $this->request->gethtml('catalog_category_image_height', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'category_addtocart', `value` = '" . $this->request->gethtml('catalog_category_addtocart', 'post')  . "'");

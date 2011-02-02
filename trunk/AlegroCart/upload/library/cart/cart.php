@@ -67,7 +67,13 @@ class Cart {
 						'option_weight'	 => $option['option_weight']
         			);
       			}
-
+				
+				if($options){
+					$product_option = $this->database->getRow("select * from product_options po left join image i on (po.image_id = i.image_id) where product_option = '" . $key . "'");
+				} else {
+					$product_option = array();
+				}
+				
 				$product_discount = $this->database->getRow("select * from product_discount where product_id = '" . (int)$product['product_id'] . "' and quantity <= '" . (int)$quantity . "' order by quantity desc limit 1");
 
 				if (!$product_discount) {   // changed to percent
@@ -105,14 +111,14 @@ class Cart {
         			'key'             => $key,
         			'product_id'      => $product['product_id'],
         			'name'            => $product['name'],
-        			'model_number'    => $product['model_number'],
+        			'model_number'    => isset($product_option['model_number']) ? @$product_option['model_number'] : @$product['model_number'],
 					'shipping'        => $product['shipping'],
-        			'image'           => $product['filename'],
+        			'image'           => (isset($product_option['filename']) && @$product_option['filename']) ? @$product_option['filename'] : $product['filename'],
         			'option'          => $option_data,
 					'download'        => $download_data,
         			'quantity'        => $quantity,
                     'min_qty'         => $product['min_qty'],
-					'stock'           => ($quantity <= $product['quantity']),
+					'stock'           => isset($product_option['quantity']) ? @$product_option['quantity'] : @$product['quantity'],
         			'price'           => roundDigits(($product['price'] + $option_price), $this->decimal_place),
 					'special_price'   => $special_price,
 					'discount'        => $discount,
@@ -125,8 +131,8 @@ class Cart {
 					'product_tax'     => roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place),
         			'weight'          => $product['weight'] + $option_weight,
         			'weight_class_id' => $product['weight_class_id'],
-					'dimension_value' => $product['dimension_value'],
-					'dimension_id'    => $product['dimension_id']
+					'dimension_value' => (isset($product_option['dimension_value']) && @$product_option['dimension_value']) ? @$product_option['dimension_value'] : $product['dimension_value'],
+					'dimension_id'    => (isset($product_option['dimension_id']) && @$product_option['dimension_id']) ? @$product_option['dimension_id'] : $product['dimension_id']
       			);
 
  	  			$this->subtotal += $this->tax->calculate((($extended_price + $option_price) - $discount) * $quantity, $product['tax_class_id'], $this->config->get('config_tax'));
@@ -139,7 +145,7 @@ class Cart {
 			
 				$this->total += $this->tax->calculate((($extended_price + $option_price) - $discount) * $quantity, $product['tax_class_id']);
 			
-	  			if ($quantity > $product['quantity']) {
+	  			if ($quantity > isset($product_option['quantity']) ? @$product_option['quantity'] : $product['quantity']) {
 	    			$this->stock = FALSE;
 	  			}	  
 	  

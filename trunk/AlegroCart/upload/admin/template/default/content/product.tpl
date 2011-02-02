@@ -22,10 +22,11 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-    <div class="tabs"><a><?php echo $tab_general; ?></a><a><?php echo $tab_data; ?></a><a><?php echo $tab_image; ?></a><a><?php echo $tab_download; ?></a><a><?php echo $tab_category; ?></a><a><?php echo $tab_home; ?></a><a href="#discount"><?php echo $tab_discount; ?></a><a><?php echo $tab_dated_special; ?></a><a><?php echo $tab_alt_description; ?></a></div>
+    <div class="tabs"><a><?php echo $tab_general; ?></a><a><?php echo $tab_data; ?></a><?php if($product_options){echo '<a>' . $tab_product_options . '</a>';}?><a><?php echo $tab_image; ?></a><a><?php echo $tab_download; ?></a><a><?php echo $tab_category; ?></a><a><?php echo $tab_home; ?></a><a href="#discount"><?php echo $tab_discount; ?></a><a><?php echo $tab_dated_special; ?></a><a><?php echo $tab_alt_description; ?></a></div>
     <div class="pages">
       <div class="page">
         <div id="tabmini">
@@ -49,7 +50,7 @@
                   </tr>
 				  <tr>
 				    <td style="width: 185px;"><?php echo $entry_model_number; ?></td>
-					<td style="width: 265px;"><input size="32" maxlength="32" name="model_number[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model_number']; ?>"></td>
+					<td style="width: 265px;"><input size="32" maxlength="32" <?php if($option_status) echo 'readonly="readonly" '; ?>name="model_number[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model_number']; ?>"></td>
 				  </tr>
 				  <tr>
 					<td style="width: 185px;"><?php echo $entry_model; ?></td>
@@ -57,7 +58,7 @@
 					<td>
 					  <select id="model_data<?php echo $product['language_id']; ?>" name="model_data<?php echo $product['language_id']; ?>" onchange="$('#model<?php echo $product['language_id']; ?>').val(this.value)">
 						<?php if(!$product['model']){?>
-							<option value=""><?php echo $select_model;?></option><?php }?>
+							<option value="" selected><?php echo $select_model;?></option><?php }?>
 						<?php foreach($product['models_data'] as $model_data){?>
 						  <?php if ($model_data['model'] == $product['model']){?>
 							<option value="<?php echo $model_data['model']; ?>" selected><?php echo $model_data['model']; ?></option>
@@ -131,11 +132,14 @@
             </tr>
             <tr>
               <td><?php echo $entry_quantity; ?></td>
-              <td><input name="quantity" value="<?php echo $quantity; ?>" size="2"></td>
+              <td><input <?php if($option_status) echo 'readonly="readonly" '; ?>name="quantity" value="<?php echo $quantity; ?>" size="2"></td>
+			  <?php if($option_status) {?>
+			    <td><b><?php echo $text_quantity_options;?></b></td>
+			  <?php }?>
             </tr>
             <tr>
               <td><?php echo $entry_min_qty; ?></td>
-              <td><input name="min_qty" value="<?php echo $min_qty; ?>" size="2" /></td>
+              <td><input name="min_qty" value="<?php echo $min_qty; ?>" size="2"></td>
             </tr>
             <tr>
               <td><?php echo $entry_status; ?></td>
@@ -205,6 +209,46 @@
 		  </table>
         </div>
       </div>
+	  <?php if($product_options){?>
+	  <div class="page">
+        <div class="pad">
+	      <table>
+		    <tr>
+			  <script type="text/javascript">
+			    $(document).ready(function(){
+				  $('.optionE[title]').tooltip({
+				  offset: [200,100], tipClass: 'tooltip_white'});
+				});
+			  </script>
+			  <?php echo '<th style="color:red"><div title="' . $text_option_explantion . '" class="optionE" >'. $text_option_info . '</div></th>';?>
+			</tr>
+			</table>
+			<table class="list">
+			<tr>
+			  <th align="left"><?php echo $entry_product_option;?></th>
+			  <th align="left"><?php echo $option_names ;?></th>
+			  <th align="left"><?php echo $entry_model_numbers; ?></th>
+			  <th align="left"><?php echo $entry_po_quantity;?></th>
+			</tr>
+			<?php $option_rows = 0;?>
+			<?php foreach($product_options as $key => $product_option){?>
+			  <tr <?php if($option_rows%2){ echo 'class="row1"'; } else { echo 'class="row2"'; }?>>
+				<td><?php echo $product_option['product_option'];?></td>
+				<input type="hidden" name="product_options[<?php echo $option_rows;?>][product_option]" value="<?php echo $product_option['product_option'];?>">
+				<td><?php echo $product_option['option_name'];?></td>
+				<td><input type="text" size="32" maxlength="32" name="product_options[<?php echo $option_rows;?>][model_number]" value="<?php echo $product_option['model_number'];?>"></td>
+				<td><input type="text" size="6" name="product_options[<?php echo $option_rows;?>][quantity]" value="<?php echo $product_option['quantity'];?>">
+				<input type="hidden" name="product_options[<?php echo $option_rows;?>][product_id]" value="<?php echo $product_option['product_id'];?>">
+				<input type="hidden" name="product_options[<?php echo $option_rows;?>][image_id]" value="<?php echo $product_option['image_id'];?>">
+				<input type="hidden" name="product_options[<?php echo $option_rows;?>][dimension_id]" value="<?php echo $product_option['dimension_id'];?>">
+				<input type="hidden" name="product_options[<?php echo $option_rows;?>][dimension_value]" value="<?php echo $product_option['dimension_value'];?>">
+			  </tr>
+			  <?php ++$option_rows;?>
+			<?php }?>
+		  </table>
+	    </div>
+	  </div>
+	  <?php }?>
       <div class="page">
         <div class="pad">
           <table>

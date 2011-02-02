@@ -1,6 +1,6 @@
 <?php  // Product ALegroCart 
 class ControllerProduct extends Controller {
-	function __construct(&$locator){ // Template Manager
+	function __construct(&$locator){ 
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
@@ -10,16 +10,16 @@ class ControllerProduct extends Controller {
 		$this->modelProducts = $model->get('model_products');
 		$this->modelCategory = $model->get('model_category');
 		$this->modelCore 	= $model->get('model_core');
-		$this->tpl_manager = $this->modelCore->get_tpl_manager('product'); // Template Manager
-		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
-		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
+		$this->tpl_manager = $this->modelCore->get_tpl_manager('product'); 
+		$this->locations = $this->modelCore->get_tpl_locations();
+		$this->tpl_columns = $this->modelCore->get_columns();
 	}
 	function index() { 
 		$cart     =& $this->locator->get('cart');
 		$currency =& $this->locator->get('currency');
-		$dimension=& $this->locator->get('dimension');
+		$this->dimension=& $this->locator->get('dimension');
 		$language =& $this->locator->get('language');
-		$image    =& $this->locator->get('image');
+		$this->image    =& $this->locator->get('image');
 		$request  =& $this->locator->get('request');
 		$response =& $this->locator->get('response');
 		$shipping =& $this->locator->get('shipping');
@@ -102,6 +102,7 @@ class ControllerProduct extends Controller {
       		$view->set('text_date_added', $language->get('text_date_added'));
       		$view->set('text_rating', $language->get('text_rating'));
       		$view->set('text_error', $language->get('text_empty'));	
+			$view->set('text_model_number', $language->get('text_model_number'));	
 			
       		$view->set('button_reviews', $language->get('button_reviews'));
       		$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
@@ -125,14 +126,20 @@ class ControllerProduct extends Controller {
      		$view->set('action', $url->href('product', FALSE, $query));
 			
 			$dimension_class = $this->modelProducts->get_dimension_class($product_info['dimension_id']);
-			$dimension_value = $dimension->getValues($product_info['dimension_value'], $dimension_class['type_id'], $product_info['dimension_id']);
-			$view->set('dimensions', $this->dimensionView($dimension_class, $dimension_value));
+			$dimension_value = $this->dimension->getValues($product_info['dimension_value'], $dimension_class['type_id'], $product_info['dimension_id']);
+			$view->set('dimensions', $this->modelProducts->dimensionView($dimension_class, $dimension_value));
 			
-			$view->set('weight',$weight->format($weight->convert($product_info['weight'],$product_info['weight_class_id'], $this->config->get('config_weight_class_id')),$this->config->get('config_weight_class_id')));
+			
+			$view->set('weight', $weight->convert($product_info['weight'],$product_info['weight_class_id'], $this->config->get('config_weight_class_id')));
+			$view->set('weight_unit', $weight->getClass($this->config->get('config_weight_class_id')));
+			
+			$view->set('option_weights', $this->modelProducts->get_option_weight($product_info['product_id']));
+			
 			$view->set('shipping',$product_info['shipping']);
       		$view->set('description', formatedstring($product_info['description'],40));
 			$view->set('technical', formatedstring($product_info['technical'],40));
-			if (isset($product_info['alt_description'])){
+			
+			if ($product_info['alt_description'] && $this->config->get('alternate_description')){
 			  $view->set('alt_description', formatedstring($product_info['alt_description'],4));
 			}
 			$view->set('onhand', $language->get('onhand')); 
@@ -192,26 +199,26 @@ class ControllerProduct extends Controller {
         		$image_data[] = array(
 					'image_id' => $result['image_id'],
           			'title' => $result['title'],
-          			'popup' => $image->href($result['filename']),
-          			'thumb' => $image->resize($result['filename'], $this->config->get('additional_image_width'), $this->config->get('additional_image_height')),
+          			'popup' => $this->image->href($result['filename']),
+          			'thumb' => $this->image->resize($result['filename'], $this->config->get('additional_image_width'), $this->config->get('additional_image_height')),
         		);
       		}
 			
 			$product_data = array(
 				'product_id'=> $request->gethtml('product_id'),
-				'thumb'     => $image->resize($product_info['filename'], $this->config->get('product_image_width'), $this->config->get('product_image_height')),
+				'thumb'     => $this->image->resize($product_info['filename'], $this->config->get('product_image_width'), $this->config->get('product_image_height')),
 				'name'      => $product_info['name'],
-				'popup'     => $image->href($product_info['filename']),
+				'model_number' => $product_info['model_number'],
+				'popup'     => $this->image->href($product_info['filename']),
 				'min_qty'   => isset($product_info['min_qty'])?$product_info['min_qty']:1,
-						'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
+				'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
 
-            			'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
-						'sale_start_date' => $product_info['sale_start_date'],
-						'sale_end_date'   => $product_info['sale_end_date'],
+            	'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
+				'sale_start_date' => $product_info['sale_start_date'],
+				'sale_end_date'   => $product_info['sale_end_date'],
 				'options'         => $this->modelProducts->get_options($product_info['product_id'],$product_info['tax_class_id'])
 			);
 			$view->set('product',$product_data);
-			
 			
 			if ($this->config->get('review_status')) {
 			  $view->set('review_status', true);
@@ -229,10 +236,11 @@ class ControllerProduct extends Controller {
 			$view->set('head_def',$head_def);
 			$view->set('product_addtocart',$this->config->get('product_addtocart')); 
 			$view->set('columns', 1);
+			$view->set('product_options', $this->modelProducts->get_product_with_options($product_info['product_id'],$this->config->get('product_image_width'), $this->config->get('product_image_height')));
 			$view->set('this_controller', 'product');	
 			$this->template->set('head_def',$head_def);
 			$this->has_related = $product_info['related'];
-
+			
 	  		$this->template->set('content', $view->fetch('content/product.tpl'));
 			
     	} else {
@@ -254,7 +262,7 @@ class ControllerProduct extends Controller {
 		$response->set($this->template->fetch('layout.tpl'));	
   	}
 
-	function load_modules(){ // Template Manager
+	private function load_modules(){ // Template Manager
         $modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){
 			if($modules[$location['location']]){
@@ -271,7 +279,7 @@ class ControllerProduct extends Controller {
 		}
 	} 
 	
-	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
+	private function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
@@ -292,7 +300,7 @@ class ControllerProduct extends Controller {
 		return $modules_extra;
 	}
 
-	function set_tpl_modules(){ // Template Manager
+	private function set_tpl_modules(){ // Template Manager
 		if($this->modelCore->tpl){
 			if(isset($this->modelCore->tpl['tpl_headers'])){$this->template->set('tpl_headers',$this->modelCore->tpl['tpl_headers']);}
 			if(isset($this->modelCore->tpl['tpl_extras'])){$this->template->set('tpl_extras',$this->modelCore->tpl['tpl_extras']);}
@@ -306,10 +314,9 @@ class ControllerProduct extends Controller {
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 
-	function review(){		
+	private function review(){		
 		$database =& $this->locator->get('database');		
 		$language =& $this->locator->get('language');
-		$image    =& $this->locator->get('image');
 		$request  =& $this->locator->get('request');
 		$url      =& $this->locator->get('url');
 
@@ -327,52 +334,6 @@ class ControllerProduct extends Controller {
         		);
       		}
 		return $review_data;
-	}
-	function dimensionView($dimension_class, $dimension_value){
-		$language =& $this->locator->get('language');
-		if($dimension_class && $dimension_value){
-			$text_dimensions = $language->get('text_dimensions');
-			$text_shipping = $language->get('text_shipping_dim');
-			$text_length = $language->get('text_length');
-			$text_width = $language->get('text_width');
-			$text_height = $language->get('text_height');
-			$text_volume = $language->get('text_volume');
-			$text_area = $language->get('text_area');
-			switch($dimension_class['type_id']){
-				case '1':
-					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
-					$dimensions .= $text_length . $dimension_value[0] . ', ';
-					$dimensions .= $text_width . $dimension_value[1] . ', ';
-					$dimensions .= $text_height . $dimension_value[2];
-					break;
-				case '2':
-					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
-					$dimensions .= $text_area . $dimension_value[0];
-					if(count($dimension_value) > 1){
-						$dimensions .= '<br><b>' . $text_shipping . '</b>' . ' - ';
-						$dimensions .= $text_length . $dimension_value[1] . ', ';
-						$dimensions .= $text_width . $dimension_value[2] . ', ';
-						$dimensions .= $text_height . $dimension_value[3];
-					}
-					break;
-				case '3':
-					$dimensions = '<b>' . $text_dimensions . '</b>' . ' - ';
-					$dimensions .= $text_volume . $dimension_value[0];
-					if(count($dimension_value) > 1){
-						$dimensions .= '<br><b>' . $text_shipping . '</b>' . ' - ';
-						$dimensions .= $text_length . $dimension_value[1] . ', ';
-						$dimensions .= $text_width . $dimension_value[2] . ', ';
-						$dimensions .= $text_height . $dimension_value[3];
-					}
-					break;
-				default:
-					return FALSE;
-					break;
-			}
-		} else {
-			return FALSE;
-		}
-		return $dimensions;
 	}
 }
 ?>

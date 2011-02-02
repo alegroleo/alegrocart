@@ -29,6 +29,7 @@ $_['text_shipping_dim']  = 'Shipping dimensions ';
 $_['price_with_options'] = 'Price with Options = ';
 $_['text_shippable']     = 'Shippable';
 $_['text_non_shippable'] = 'Non Shippable';
+$_['text_model_number']  = 'Model Number: ';
 
 //Tabs
 $_['tab_description']    = 'Product Description';

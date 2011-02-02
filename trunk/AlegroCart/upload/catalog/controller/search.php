@@ -199,8 +199,10 @@ class ControllerSearch extends Controller {
 					// Product Options
 					if ($columns == 1){
 						$options = $this->modelProducts->get_options($result['product_id'],$result['tax_class_id']);
+						$product_options = $this->modelProducts->get_product_with_options($result['product_id'], $image_width, $image_height);
 					} else {
 						$options = $this->modelProducts->check_options($result['product_id']);
+						$product_options = FALSE;
 					} // End Product Options
 					// Description
 					if ($columns == 1){
@@ -232,7 +234,9 @@ class ControllerSearch extends Controller {
             			'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 						'sale_start_date' => $result['sale_start_date'],
 						'sale_end_date'   => $result['sale_end_date'],
-						'options'         => $options
+						'options'         => $options,
+						'model_number'    => $result['model_number'],
+						'product_options' => $product_options
           			);
         		}
 				if($max_rows == $this->modelSearch->get_total()){
@@ -244,6 +248,7 @@ class ControllerSearch extends Controller {
        			$view->set('products', $product_data);
  		       	$view->set('page', $session->get('search.page'));
 				$view->set('onhand', $language->get('onhand'));
+				$view->set('text_model_number', $language->get('text_model_number'));
       			$view->set('previous' , $language->get('previous_page'));
 				$view->set('next' , $language->get('next_page'));
 				$view->set('first_page', $language->get('first_page'));

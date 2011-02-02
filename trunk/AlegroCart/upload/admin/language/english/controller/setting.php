@@ -26,6 +26,8 @@ $_['text_area']             = 'Area: Length X Width';
 $_['text_volume']           = 'Volume: Litre, Quart';
 $_['text_rss_info']         = 'Maximum items in Rss Feed';
 $_['text_dimension_decimal']= 'Number of decimal places to be displayed in catalog';
+$_['text_stock_help']       = 'Stock Help!';
+$_['text_stock_explantion'] = '<b>Check Stock</b> will produce a warning when quantity in cart exceeds available stock<br><b>Allow Checkout</b> will allow customer to checkout when cart quantity exceeds available stock. This is only functional when Check stock is enabled<br><b>Subtract Stock</b> reduces your inventory quantity when items are sold';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
@@ -78,6 +80,7 @@ $_['entry_product_height']  = 'Product Image Height:';
 $_['entry_product_addtocart'] = 'Product Add to Cart:'; 
 $_['entry_additional_width']  = 'Additional Image Width:';
 $_['entry_additional_height'] = 'Additional Image Height:';
+$_['entry_alt_description']   = 'Display Alternate Description:';
 $_['entry_category_width']    = 'Category Image Width:'; 
 $_['entry_category_height']   = 'Category Image Height:'; 
 $_['entry_category_addtocart']= 'Category Add to Cart:';

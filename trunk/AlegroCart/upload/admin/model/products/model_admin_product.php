@@ -1,10 +1,10 @@
 <?php //AdminModelProduct AlegroCart
 class Model_Admin_Product extends Model {
 	function __construct(&$locator) {
-		$this->config   	=& $locator->get('config');
+		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
 		$this->language =& $locator->get('language');
-		$this->request  	=& $locator->get('request');
+		$this->request  =& $locator->get('request');
 		$this->session 	=& $locator->get('session');
 	}
 	function check_product_name($value){
@@ -225,6 +225,31 @@ class Model_Admin_Product extends Model {
 	}
 	function get_dimension_classes($type_id){
 		$results = $this->database->getRows("select * from dimension where type_id = '" . $type_id . "' and language_id = '" . (int)$this->language->getId() . "'");
+		return $results;
+	}
+	function delete_options($product_id){
+		$this->database->query("delete from product_options where product_id = '" . (int)$product_id . "'");
+	}
+	function insert_options(){
+		foreach($this->request->gethtml('product_options', 'post', array()) as $product_option){
+			$sql = "insert into product_options set product_id = '?', product_option = '?', quantity = '?', image_id = '?', dimension_id = '?', dimension_value = '?', model_number = '?'";
+			$this->database->query($this->database->parse($sql, $product_option['product_id'], $product_option['product_option'], $product_option['quantity'], $product_option['image_id'], $product_option['dimension_id'], $product_option['dimension_value'], $product_option['model_number']));
+		}
+	}
+	function get_options($product_id){
+		$results = $this->database->getRows("select distinct option_id from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
+		return $results;
+	}
+	function get_option_names($option_id){
+		$result = $this->database->getRow("select name from `option` where option_id = '" . $option_id . "' and language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
+	function get_option_values(){
+		$results = $this->database->getRows("select pto.product_to_option_id, pto.option_value_id, pto.option_id, ov.name from product_to_option pto left join option_value ov on (pto.option_value_id = ov.option_value_id) where product_id = '" . (int)$this->request->gethtml('product_id') . "' and language_id = '" . (int)$this->language->getId() . "' order by sort_order");
+		return $results;
+	}
+	function get_product_options(){
+		$results = $this->database->getRows("select * from product_options po left join image i on (po.image_id = i.image_id) where po.product_id = '" . (int)$this->request->gethtml('product_id') . "' order by po.product_option asc");
 		return $results;
 	}
 }

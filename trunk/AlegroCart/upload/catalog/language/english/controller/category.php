@@ -8,6 +8,7 @@ $_['text_quantity_discount'] = 'Quantity Discount';
 $_['text_options']       = 'Available Options:';
 $_['price_with_options'] = 'Price with Options = ';
 $_['text_all']           = 'Select All Models';
+$_['text_model_number']  = 'Model Number: ';
 
 // Entry
 $_['entry_number']      = 'Item Number';

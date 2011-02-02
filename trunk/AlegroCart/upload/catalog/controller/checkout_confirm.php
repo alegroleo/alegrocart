@@ -148,7 +148,7 @@ class ControllerCheckoutConfirm extends Controller {
 		}
 
     	$view->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
-		    	
+		
 		$view->set('shipping_method', $this->shipping->getTitle($this->session->get('shipping_method')));
 		
     	$view->set('checkout_shipping', $this->url->ssl('checkout_shipping'));
@@ -405,8 +405,9 @@ class ControllerCheckoutConfirm extends Controller {
 		  			'prefix' => $option['prefix']
         		);
       		}
-
+			
       		$product_data[] = array(
+				'product_key'=> $product['key'],
         		'product_id' => $product['product_id'],
 				'name'       => $product['name'],
         		'model_number' => $product['model_number'],

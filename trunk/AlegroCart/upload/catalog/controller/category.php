@@ -235,8 +235,10 @@ class ControllerCategory extends Controller {
 					// Product Options
 					if ($columns == 1){
 						$options = $this->modelProducts->get_options($result['product_id'],$result['tax_class_id']);
+						$product_options = $this->modelProducts->get_product_with_options($result['product_id'], $image_width, $image_height);
 					} else {
 						$options = $this->modelProducts->check_options($result['product_id']);
+						$product_options = FALSE;
 					} // End Product Options
 					// Description
 					if ($columns == 1){
@@ -268,7 +270,9 @@ class ControllerCategory extends Controller {
             			'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 						'sale_start_date' => $result['sale_start_date'],
 						'sale_end_date'   => $result['sale_end_date'],
-						'options'         => $options						
+						'options'         => $options,
+						'model_number'    => $result['model_number'],
+						'product_options' => $product_options
           			);
         		}
 
@@ -276,6 +280,7 @@ class ControllerCategory extends Controller {
 
 				$view->set('description', $category_info['description']);
         		$view->set('text_product', $language->get('text_product'));
+				$view->set('text_model_number', $language->get('text_model_number'));
         		$view->set('text_results', $this->modelCategory->get_text_results());
 	      		$view->set('entry_page', $language->get('entry_page'));
 				$view->set('onhand', $language->get('onhand'));

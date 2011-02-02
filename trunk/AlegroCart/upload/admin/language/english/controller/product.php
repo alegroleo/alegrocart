@@ -16,6 +16,10 @@ $_['text_volume']          = 'Volume: Litre, Quart';
 $_['text_no_dimensions']   = 'There are no dimensions available for <b> %s </b>';
 $_['text_no_dim']          = 'None';
 $_['text_dimension_ship']  = 'Length, width, height are optional, used for shipping calculations where cubing is applied';
+$_['text_options']         = 'Options: ';
+$_['text_quantity_options']= 'Add Quantities in Product Options tab';
+$_['text_option_info']     = '<b>Important Information !</b>';
+$_['text_option_explantion'] = 'Before entering Quantities and other product:option information, you should create all your product to options first. <br>A product with one set of options will have entries like<br> 2:10 - 2:11 - 2:12<br>With 2 options, the entries will be like<br> 2:10.13 - 2:11.13 - 2:12.13 - 2:10.14 - 2:11.14 - 2:12.14<br>As you can see, the first set of product to option entries will no longer exist<br>If you create one set of options and later decide to create a second option, all your product:option specific data will be lost.<br>';
 
 // Column
 $_['column_options']       = 'Options';
@@ -36,6 +40,7 @@ $_['entry_name']           = 'Product Name (Item Number):';
 $_['entry_description']    = 'Description:<br><br><br>Use <b>SHIFT->ENTER</b> for<br>line feed or empty lines<br>for spacing.<br>ENTER only produces<br>Paragraph Tags which are<br>Stripped.';
 $_['entry_model']          = 'Model:';
 $_['entry_model_number']   = 'Model Number:';
+$_['entry_model_numbers']   = 'Model Number';
 $_['entry_manufacturer']   = 'Manufacturer:';
 $_['entry_shipping']       = 'Shippable Product:';
 $_['entry_date_available'] = 'Date Available:';
@@ -71,12 +76,15 @@ $_['entry_meta_keywords']  = 'Meta Keywords:'; // New
 $_['entry_regular_price']  = 'Regular Price %s '; //New
 $_['entry_percent_discount'] = 'Percentage Discount % '; // New
 $_['entry_quantity_discount'] = '<br>Percentage Discount is the base for quantity discount calculations.<br>Dollar amounts are for reference only, based on the regular selling price.<br>A new percentage discount can be created by entering a dollar amount.<br>If Dated Special pricing is in affect, the discount will be calculated off the dated special price.';
+$_['entry_product_option']    = 'Product Option';
+$_['entry_po_quantity']       = 'Quantity in Stock';
 // Button
 $_['button_add']           = 'Add';
 $_['button_remove']        = 'Remove';
 
 // Tab
-$_['tab_dated_special']    = '  Dated   Specials';
+$_['tab_product_options']  = 'Product<br>Options';
+$_['tab_dated_special']    = 'Dated<br>Specials';
 $_['tab_alt_description']  = 'Alternate Description';
 
 // Error

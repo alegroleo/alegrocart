@@ -31,5 +31,9 @@ class Weight {
 	function format($value, $weight_class_id) {
     	return number_format($value, 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')) . " " . $this->classes[$weight_class_id]['unit'];
   	}
+	
+	function getClass($weight_class_id){
+		return $this->classes[$weight_class_id]['unit'];
+	}
 }
 ?>

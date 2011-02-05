@@ -79,7 +79,13 @@ class ControllerGeoZone extends Controller {
 	function getList() {
 		$this->session->set('geo_zone_validation', md5(time()));
 		$cols = array();
-		$cols[] = array('align' => 'center');
+		
+		$cols[] = array(
+			'name'  => $this->language->get('column_zones'),
+			'folder_help' => $this->language->get('text_folder_help'),
+			'align' => 'left'
+		);
+		
 		$cols[] = array(
 			'name'  => $this->language->get('column_name'),
 			'sort'  => 'name',

@@ -5,9 +5,10 @@ $_['heading_description'] = 'You can edit your product categories here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated products!';
+$_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to adding or updating sub-categories<br>Click the Icon to add, delete, or edit sub-categories.';
 
 // Column
-$_['column_category']     = "Sub Categories";
+$_['column_category']     = "Sub Categories!";
 $_['column_name']         = 'Category Name';
 $_['column_image']        = 'Image';
 $_['column_sort_order']   = 'Sort Order';

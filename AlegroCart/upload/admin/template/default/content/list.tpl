@@ -10,6 +10,8 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
@@ -63,9 +65,19 @@
   <table class="list">
     <tr>
       <?php foreach ($cols as $col) { ?>
-      <th class="<?php echo $col['align']; ?>"><?php if (!isset($col['sort'])) { ?>
+      <th class="<?php echo $col['align']; ?>"<?php if (isset($col['folder_help'])){ echo ' style="color:red"';}?>><?php if (!isset($col['sort'])) { ?>
         <?php if (isset($col['name'])) { ?>
-        <?php echo $col['name']; ?>
+		  <?php if (isset($col['folder_help'])){?>
+		    <script type="text/javascript">
+			  $(document).ready(function(){
+				$('.folderE[title]').tooltip({
+				offset: [200,100], tipClass: 'tooltip_white'});
+			  });
+			</script>
+		    <?php echo '<div title="' . $col['folder_help'] . '" class="folderE" >'. $col['name'] . '</div>';?>
+		  <?php } else { ?>
+            <?php echo $col['name']; ?>
+		  <?php }?>
         <?php } ?>
         <?php } else { ?>
         <?php if (isset($col['sort'])) { ?>

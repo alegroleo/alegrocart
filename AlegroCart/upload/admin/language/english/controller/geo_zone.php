@@ -5,8 +5,10 @@ $_['heading_description']    = 'You can edit geo zones here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated geo zones!';
+$_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to Zones.<br>You can add or delete zones for each GeoZone here.<br>Click the Icon to enter and edit your zones.';
 
 // Column
+$_['column_zones']           = 'Zones!';
 $_['column_name']            = 'Geo Zone Name';
 $_['column_description']     = 'Description';
 $_['column_action']          = 'Action';

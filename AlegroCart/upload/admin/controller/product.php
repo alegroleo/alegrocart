@@ -200,6 +200,7 @@ class ControllerProduct extends Controller {
     	$cols = array();
 		$cols[] = array(
 			'name'  => $this->language->get('column_options'),
+			'folder_help' => $this->language->get('text_folder_help'),
 			'align' => 'left'
 		);
     	$cols[] = array(

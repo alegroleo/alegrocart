@@ -129,6 +129,7 @@ class ControllerCategory extends Controller {
 		$cols = array();
 		$cols[] = array(
 			'name'  => $this->language->get('column_category'),
+			'folder_help' => $this->language->get('text_folder_help'),
 			'align' => 'center'
 		);
 		$cols[] = array(

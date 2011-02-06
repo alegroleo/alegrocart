@@ -234,6 +234,17 @@
                 </select>
               </td>
             </tr>
+			<tr>
+			  <td valign="top"><?php echo $entry_address_format; ?></td>
+              <td><textarea name="global_config_address_format" cols="50" rows="7"><?php echo $global_config_address_format; ?></textarea>
+			  <script type="text/javascript">
+			    $(document).ready(function(){
+				  $('.addressE[title]').tooltip({
+				  offset: [80,70], tipClass: 'tooltip_white'});
+				});
+			  </script>
+			  <?php echo '<th style="color:red"><div title="' . $text_address_explantion . '" class="addressE" >'. $text_address_help . '</div></th>';?>
+			</tr>
           </table>
         </div>
       </div>

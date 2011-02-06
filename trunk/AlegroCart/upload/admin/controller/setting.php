@@ -64,6 +64,8 @@ class ControllerSetting extends Controller {
 		$view->set('text_category_search', $this->language->get('text_category_search'));
 		$view->set('text_stock_explantion', $this->language->get('text_stock_explantion'));
 		$view->set('text_stock_help', $this->language->get('text_stock_help'));
+		$view->set('text_address_explantion', $this->language->get('text_address_explantion'));
+		$view->set('text_address_help', $this->language->get('text_address_help'));
 		
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
@@ -118,6 +120,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_additional_width',$this->language->get('entry_additional_width'));
 		$view->set('entry_additional_height',$this->language->get('entry_additional_height'));
 		$view->set('entry_alt_description',$this->language->get('entry_alt_description'));
+		$view->set('entry_address_format',$this->language->get('entry_address_format'));
 		
 		$view->set('entry_category_width',$this->language->get('entry_category_width'));
 		$view->set('entry_category_height',$this->language->get('entry_category_height'));
@@ -201,6 +204,12 @@ class ControllerSetting extends Controller {
 			$view->set('global_config_address', $this->request->gethtml('global_config_address', 'post'));
 		} else {
 			$view->set('global_config_address', @$setting_info['global']['config_address']);
+		}
+		
+		if ($this->request->has('global_config_address_format', 'post')) {
+			$view->set('global_config_address_format', $this->request->gethtml('global_config_address_format', 'post'));
+		} else {
+			$view->set('global_config_address_format', @$setting_info['global']['config_address_format']);
 		}
 
 		if ($this->request->has('global_config_telephone', 'post')) {

@@ -14,6 +14,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_store', `value` = '" . $this->request->gethtml('global_config_store', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_owner', `value` = '" . $this->request->gethtml('global_config_owner', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_address', `value` = '" . $this->request->gethtml('global_config_address', 'post'). "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_address_format', `value` = '" . $this->request->gethtml('global_config_address_format', 'post'). "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_telephone', `value` = '" . $this->request->gethtml('global_config_telephone', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_fax', `value` = '" . $this->request->gethtml('global_config_fax', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_template', `value` = '" . $this->request->gethtml('catalog_config_template', 'post') . "'");

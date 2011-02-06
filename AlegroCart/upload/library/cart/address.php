@@ -5,6 +5,7 @@ class Address {
 	function Address(&$locator) {
 		$this->customer =& $locator->get('customer');
 		$this->database =& $locator->get('database');
+		$this->config   =& $locator->get('config');
 		
 		if ($this->customer->getId()) {
 			$results = $this->database->getRows("select *, c.name as country, z.name as zone from address a left join country c on a.country_id = c.country_id left join zone z on a.zone_id = z.zone_id where a.customer_id = '" . (int)$this->customer->getId() . "'");
@@ -41,7 +42,8 @@ class Address {
 		
 	function format($address, $format = NULL, $new_line = "\n") {
     	if (!$format) {
-      		$format = 'firstname lastname' . "\n" . 'company' . "\n" . 'address_1' . "\n" . 'address_2' . "\n" . 'city, zone' . "\n" . 'country' . "\n" . 'postcode';
+			
+      		$format = $this->config->get('config_address_format') ? $this->config->get('config_address_format') : 'firstname lastname' . "\n" . 'company' . "\n" . 'address_1' . "\n" . 'address_2' . "\n" . 'city, zone' . "\n" . 'country, postcode';
 			
     	}
 	  

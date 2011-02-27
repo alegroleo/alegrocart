@@ -21,7 +21,7 @@
 		  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">	
             <table>
               <tr>
-                <td width="100"><?php echo $entry_status; ?></td>
+                <td width="100" class="set"><?php echo $entry_status; ?></td>
                 <td><select name="catalog_imagedisplay_status">
                   <?php if ($catalog_imagedisplay_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -31,15 +31,15 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
-				<td><?php echo $text_save;?></td>
+				<td class="expl"><?php echo $text_save;?></td>
               </tr>
             </table>
 			<input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
 		  </form>
 		  <form action="<?php echo $action_home; ?>" method="post" enctype="multipart/form-data" id="entryform">
 			<table><tr>_______________________________________________</tr>
-			  <tr><td><?php echo $text_imagedisplay; ?></td>
-			  <td><input type="submit" value="<?php echo $button_home; ?>">
+			  <tr><td class="set"><?php echo $text_imagedisplay; ?></td>
+			  <td><input type="submit" class="submit" value="<?php echo $button_home; ?>">
 			  </td></tr>
 			</table>
 	      </form>

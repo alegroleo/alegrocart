@@ -4,7 +4,7 @@
   <div class="a">
     <table>
       <tr>
-        <td width="150"><?php echo $text_php; ?></td>
+        <td><?php echo $text_php; ?></td>
         <td><?php echo $php; ?></td>
       </tr>
       <tr>

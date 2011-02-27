@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_status; ?></td>
               <td><select name="catalog_review_status">
                   <?php if ($catalog_review_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>

@@ -11,7 +11,7 @@
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
     <table>
       <tr>
-        <td align="right"><?php echo $entry_to; ?></td>
+        <td align="right" class="set"><?php echo $entry_to; ?></td>
         <td><select name="to">
             <?php if ($to == 'newsletter') { ?>
             <option value="newsletter" SELECTED><?php echo $text_newsletter; ?></option>
@@ -33,21 +33,21 @@
           </select></td>
       </tr>
       <tr>
-        <td align="right"><span class="required">*</span> <?php echo $entry_subject; ?></td>
+        <td align="right" class="set"><span class="required">*</span> <?php echo $entry_subject; ?></td>
         <td><input name="subject" value="<?php echo $subject; ?>">
           <?php if ($error_subject) { ?>
           <span class="error"><?php echo $error_subject; ?></span>
           <?php } ?></td>
       </tr>
       <tr>
-        <td align="right" valign="top"><span class="required">*</span> <?php echo $entry_content; ?></td>
+        <td align="right" valign="top" class="set"><span class="required">*</span> <?php echo $entry_content; ?></td>
         <td><textarea name="content" id="content"><?php echo $content; ?></textarea>
           <?php if ($error_content) { ?>
           <span class="error"><?php echo $error_content; ?></span>
           <?php } ?></td>
       </tr>
       <tr>
-        <td align="right" colspan="2"><input type="submit" value="<?php echo $button_send; ?>"></td>
+        <td align="right" colspan="2"><input type="submit" class="submit" value="<?php echo $button_send; ?>"></td>
       </tr>
     </table>
 	<input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">

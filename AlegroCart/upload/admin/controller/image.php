@@ -180,7 +180,7 @@ class ControllerImage extends Controller {
 				'align' => 'left'
 			);
 			$cell[] = array(
-				'image' => $this->image->resize($result['filename'], '22', '22'),
+				'image' => $this->image->resize($result['filename'], '26', '26'),
 				'align' => 'center'
 			);
 			$action = array();
@@ -255,15 +255,16 @@ class ControllerImage extends Controller {
     	$view->set('heading_description', $this->language->get('heading_description'));
 
     	$view->set('text_image_filename', $this->language->get('text_image_filename'));
-		
-		$view->set('entry_filename', $this->language->get('entry_filename'));
+	$view->set('text_browse', $this->language->get('text_browse'));
+
+	$view->set('entry_filename', $this->language->get('entry_filename'));
     	$view->set('entry_title', $this->language->get('entry_title'));
 	
     	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
     	$view->set('button_update', $this->language->get('button_update'));
-		$view->set('button_delete', $this->language->get('button_delete'));
-		$view->set('button_save', $this->language->get('button_save'));
+	$view->set('button_delete', $this->language->get('button_delete'));
+	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));

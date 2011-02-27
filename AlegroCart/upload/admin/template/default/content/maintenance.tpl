@@ -1,5 +1,5 @@
 <div class="task">
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/default/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png" /><?php echo $button_list; ?></div>
+  <div class="disabled"><img src="template/default/image/list_disabled.png" alt="<?php echo $button_list; ?>" class="png" /><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/default/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png" /><?php echo $button_insert; ?></div>
   <div class="disabled"><img src="template/default/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png" /><?php echo $button_update; ?></div>
   <div class="disabled"><img src="template/default/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png" /><?php echo $button_delete; ?></div>
@@ -22,7 +22,7 @@
         <div class="pad">
 		  <table>
 			<tr>
-              <td width="185"><?php echo $entry_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_status; ?></td>
               <td><select name="catalog_maintenance_status">
                   <?php if ($catalog_maintenance_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -32,6 +32,9 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
+	      <td class="expl">
+                <?php echo($explanation_entry_status); ?>
+	      </td>
             </tr>
 		  </table>
         </div>

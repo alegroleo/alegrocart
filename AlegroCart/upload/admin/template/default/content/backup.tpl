@@ -24,12 +24,23 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_restore; ?></td>
-              <td><input type="file" name="database"></td>
-            </tr>
-            <tr>
-              <td colspan="2"><input type="button" value="<?php echo $text_backup; ?>" onclick="location='<?php echo $download; ?>'"></td>
-            </tr>
+              <td width="185" class="set"><?php echo $entry_backup; ?></td>
+	      <td><input type="button" class="button" value="<?php echo $text_backup; ?>" onclick="location='<?php echo $download; ?>'"></td>
+	      <td class="expl">
+                <?php echo($explanation_entry_backup); ?>
+	      </td>
+	    </tr>
+	    <tr>
+              <td width="185" class="set"><?php echo $entry_restore; ?></td>
+ 	      <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+	      <div class="file_input_div">
+	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
+	      <input type="file" name="database" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value" />
+	      </div></td>
+            <td class="expl">
+                <?php echo($explanation_entry_restore); ?>
+            </td>
+	    </tr>
           </table>
 		  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
         </div>

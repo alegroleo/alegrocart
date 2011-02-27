@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_discount_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_discount_status; ?></td>
               <td><select name="global_discount_status">
                   <?php if ($global_discount_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -31,32 +31,32 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
-	      <td><?php echo $explanation_entry_discount_status; ?></td>
+	      <td class="expl"><?php echo $explanation_entry_discount_status; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_discount_lprice; ?></td>
+              <td class="set"><?php echo $entry_discount_lprice; ?></td>
               <td><input type="text" name="global_discount_lprice" value="<?php echo $global_discount_lprice; ?>" size="10"></td>
-	      <td><?php echo $explanation_entry_discount_lprice; ?></td>
+	      <td class="expl"><?php echo $explanation_entry_discount_lprice; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_discount_lprice_percent; ?></td>
+              <td class="set"><?php echo $entry_discount_lprice_percent; ?></td>
               <td><input type="text" name="global_discount_lprice_percent" value="<?php echo $global_discount_lprice_percent; ?>" size="10"></td>
-	      <td><?php echo $explanation_entry_discount_lprice_percent; ?></td>
+	      <td class="expl"><?php echo $explanation_entry_discount_lprice_percent; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_discount_gprice; ?></td>
+              <td class="set"><?php echo $entry_discount_gprice; ?></td>
               <td><input type="text" name="global_discount_gprice" value="<?php echo $global_discount_gprice; ?>" size="10"></td>
-	      <td><?php echo $explanation_entry_discount_gprice; ?></td>
+	      <td class="expl"><?php echo $explanation_entry_discount_gprice; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_discount_gprice_percent; ?></td>
+              <td class="set"><?php echo $entry_discount_gprice_percent; ?></td>
               <td><input type="text" name="global_discount_gprice_percent" value="<?php echo $global_discount_gprice_percent; ?>" size="10"></td>
-	      <td><?php echo $explanation_entry_discount_gprice_percent; ?></td>
+	      <td class="expl"><?php echo $explanation_entry_discount_gprice_percent; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_discount_sort_order; ?></td>
+              <td class="set"><?php echo $entry_discount_sort_order; ?></td>
               <td><input type="text" name="global_discount_sort_order" value="<?php echo $global_discount_sort_order; ?>" size="3"></td>
-	      <td><?php echo $explanation_entry_discount_sort_order; ?></td>
+	      <td class="expl"><?php echo $explanation_entry_discount_sort_order; ?></td>
             </tr>
           </table>
         </div>

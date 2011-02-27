@@ -38,14 +38,14 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_title; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_title; ?></td>
                     <td><input name="language[<?php echo $weight_class['language_id']; ?>][title]" value="<?php echo $weight_class['title']; ?>">
                       <?php if ($error_title) { ?>
                       <span class="error"><?php echo $error_title; ?></span>
                       <?php } ?></td>
                   </tr>
                   <tr>
-                    <td><span class="required">*</span> <?php echo $entry_unit; ?></td>
+                    <td class="set"><span class="required">*</span> <?php echo $entry_unit; ?></td>
                     <td><input name="language[<?php echo $weight_class['language_id']; ?>][unit]" value="<?php echo $weight_class['unit']; ?>">
                       <?php if ($error_unit) { ?>
                       <span class="error"><?php echo $error_unit; ?></span>
@@ -63,7 +63,7 @@
           <table>
             <?php foreach ($weight_rules as $weight_rule) { ?>
             <tr>
-              <td width="185"><?php echo $weight_rule['title']; ?></td>
+              <td width="185" class="set"><?php echo $weight_rule['title']; ?></td>
               <td><input type="text" name="rule[<?php echo $weight_rule['to_id']; ?>]" value="<?php echo $weight_rule['rule']; ?>"></td>
             </tr>
             <?php } ?>

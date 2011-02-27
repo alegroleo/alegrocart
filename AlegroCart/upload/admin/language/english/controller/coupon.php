@@ -30,8 +30,11 @@ $_['entry_date_start']     = 'Date Start:';
 $_['entry_date_end']       = 'Date End:';
 $_['entry_uses_total']     = 'Uses Per Coupon:';
 $_['entry_uses_customer']  = 'Uses Per Customer:';
-$_['entry_product']        = 'Valid Products (selecting no products applies the coupon to the whole cart):';
+$_['entry_product']        = 'Valid Products:';
 $_['entry_status']         = 'Status:';
+
+//Explanation
+$_['explanation_entry_product'] = 'Selecting no products applies the coupon to the whole cart';
 
 // Error
 $_['error_discount']       = "* Discount cannot exceed 100 % !";

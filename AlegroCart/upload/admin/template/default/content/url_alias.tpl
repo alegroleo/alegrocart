@@ -29,14 +29,14 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_query; ?></td>
+              <td width="185" class="set"><?php echo $entry_query; ?></td>
               <td><input type="text" name="query" value="<?php echo $query; ?>">
                 <?php if ($error_query) { ?>
                 <span class="error"><?php echo $error_query; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_alias; ?></td>
+              <td class="set"><?php echo $entry_alias; ?></td>
               <td><input type="text" name="alias" value="<?php echo $alias; ?>"></td>
             </tr>
           </table>

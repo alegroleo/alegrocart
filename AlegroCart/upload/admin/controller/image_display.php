@@ -188,10 +188,10 @@ class ControllerImageDisplay extends Controller {
 		
 		$view->set('text_enabled', $this->language->get('text_enabled'));
     	$view->set('text_disabled', $this->language->get('text_disabled'));
-		$view->set('text_continous', $this->language->get('text_continous'));
 		$view->set('text_noflash', $this->language->get('text_noflash'));
 		$view->set('text_noimage', $this->language->get('text_noimage'));
-		
+		$view->set('text_browse', $this->language->get('text_browse'));
+
 		$view->set('entry_name', $this->language->get('entry_name'));
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
@@ -206,6 +206,18 @@ class ControllerImageDisplay extends Controller {
 		$view->set('entry_flash_loop', $this->language->get('entry_flash_loop'));
 		$view->set('entry_filename', $this->language->get('entry_filename'));
 		
+		$view->set('explanation_entry_name', $this->language->get('explanation_entry_name'));
+		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
+		$view->set('explanation_entry_sort_order', $this->language->get('explanation_entry_sort_order'));
+		$view->set('explanation_entry_location', $this->language->get('explanation_entry_location'));
+		
+		$view->set('explanation_entry_image_width', $this->language->get('explanation_entry_image_width'));
+		$view->set('explanation_entry_image_height', $this->language->get('explanation_entry_image_height'));
+		$view->set('explanation_entry_flash_width', $this->language->get('explanation_entry_flash_width'));
+		$view->set('explanation_entry_flash_height', $this->language->get('explanation_entry_flash_height'));
+		$view->set('explanation_entry_flash_loop', $this->language->get('explanation_entry_flash_loop'));
+		$view->set('explanation_entry_filename', $this->language->get('explanation_entry_filename'));
+
 		$view->set('button_upload', $this->language->get('button_upload'));
     	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));

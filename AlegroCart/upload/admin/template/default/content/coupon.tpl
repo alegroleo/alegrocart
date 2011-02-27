@@ -39,14 +39,14 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td><input name="language[<?php echo $coupon['language_id']; ?>][name]" value="<?php echo $coupon['name']; ?>">
                       <?php if ($error_name) { ?>
                       <span class="error"><?php echo $error_name; ?></span>
                       <?php } ?></td>
                   </tr>
                   <tr>
-                    <td valign="top"><span class="required">*</span> <?php echo $entry_description; ?></td>
+                    <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
                     <td><textarea name="language[<?php echo $coupon['language_id']; ?>][description]" cols="40" rows="5" id="description<?php echo $coupon['language_id']; ?>"><?php echo $coupon['description']; ?></textarea>
                       <?php if ($error_description) { ?>
                       <span class="error"><?php echo $error_description; ?></span>
@@ -63,19 +63,19 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_code; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_code; ?></td>
               <td><input type="text" name="code" value="<?php echo $code; ?>">
                 <?php if ($error_code) { ?>
                 <span class="error"><?php echo $error_code; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_discount; ?></td>
+              <td class="set"><?php echo $entry_discount; ?></td>
               <td><input type="text" name="discount" id="discount" value="<?php echo $discount; ?>" onchange="check_discount()"></td>
 			  <td><span id="error_discount"></span></td>
             </tr>
             <tr>
-              <td><?php echo $entry_prefix; ?></td>
+              <td class="set"><?php echo $entry_prefix; ?></td>
               <td><select name="prefix" id="prefix" onchange="check_discount()">
                   <?php if ($prefix != '-') { ?>
                   <option value="%" selected><?php echo $text_percent; ?></option>
@@ -87,25 +87,25 @@
                 </select></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_minimum_order; ?></td>
+			  <td class="set"><?php echo $entry_minimum_order; ?></td>
 			  <td><input type="text" name="minimum_order" value="<?php echo $minimum_order; ?>"></td>
 			</tr>
             <tr>
-              <td><?php echo $entry_shipping; ?></td>
+              <td class="set"><?php echo $entry_shipping; ?></td>
               <td><?php if ($shipping) { ?>
-                <input type="radio" name="shipping" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="shipping" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="shipping" value="1" checked id="yes">
+                <label for="yes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="shipping" value="0" id="no">
+                <label for="no"> <?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="shipping" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="shipping" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="shipping" value="1" id="yes">
+                <label for="yes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="shipping" value="0" checked id="no">
+                <label for="no"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_date_start; ?></td>
+              <td class="set"><?php echo $entry_date_start; ?></td>
               <td><input name="date_start_day" value="<?php echo $date_start_day; ?>" size="2" maxlength="2">
                 <select name="date_start_month">
                   <?php foreach ($months as $month) { ?>
@@ -122,7 +122,7 @@
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_date_end; ?></td>
+              <td class="set"><?php echo $entry_date_end; ?></td>
               <td><input name="date_end_day" value="<?php echo $date_end_day; ?>" size="2" maxlength="2">
                 <select name="date_end_month">
                   <?php foreach ($months as $month) { ?>
@@ -139,15 +139,15 @@
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_uses_total; ?></td>
+              <td class="set"><?php echo $entry_uses_total; ?></td>
               <td><input type="text" name="uses_total" value="<?php echo $uses_total; ?>"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_uses_customer; ?></td>
+              <td class="set"><?php echo $entry_uses_customer; ?></td>
               <td><input type="text" name="uses_customer" value="<?php echo $uses_customer; ?>"></td>
             </tr>
             <tr>
-              <td valign="top"><?php echo $entry_product; ?></td>
+              <td valign="top" class="set"><?php echo $entry_product; ?></td>
               <td><select name="product[]" multiple="multiple">
                   <?php foreach ($products as $product) { ?>
                   <?php if ($product['coupon_id']) { ?>
@@ -157,9 +157,10 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+	      <td valign="top" class="expl"><?php echo $explanation_entry_product; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_status; ?></td>
+              <td class="set"><?php echo $entry_status; ?></td>
               <td><select name="status">
                   <?php if ($status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>

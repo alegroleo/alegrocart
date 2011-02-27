@@ -36,9 +36,14 @@ class ControllerBackup extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 		
 		$view->set('text_backup', $this->language->get('text_backup'));
-		
+		$view->set('text_browse', $this->language->get('text_browse'));
+
 		$view->set('entry_restore', $this->language->get('entry_restore'));
-		 
+		$view->set('entry_backup', $this->language->get('entry_backup'));
+
+		$view->set('explanation_entry_restore', $this->language->get('explanation_entry_restore'));
+		$view->set('explanation_entry_backup', $this->language->get('explanation_entry_backup'));
+
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));

@@ -10,6 +10,7 @@ $_['text_runtimes']		  = 'Enter Zero (0) for no limit, or -1 to disable home pag
 $_['text_continous']      = 'If disabled, Flash will only run once!';
 $_['text_noflash']		  = 'No Flash Selected';
 $_['text_noimage']        = 'No Image Selected';
+$_['text_browse']         = 'Browse File';
 
 //Tabs
 $_['tab_name']		      = 'Name & Status';

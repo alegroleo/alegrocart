@@ -200,7 +200,8 @@ class ControllerDownload extends Controller {
     	$view->set('entry_filename', $this->language->get('entry_filename'));
 		$view->set('entry_mask', $this->language->get('entry_mask'));
     	$view->set('entry_remaining', $this->language->get('entry_remaining'));
-  
+  	$view->set('text_browse', $this->language->get('text_browse'));
+
     	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
     	$view->set('button_update', $this->language->get('button_update'));

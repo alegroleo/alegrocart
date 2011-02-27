@@ -41,20 +41,24 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td style="width: 185px;"><span class="required">*</span><?php echo $entry_name; ?></td>
+                    <td style="width: 185px;" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td style="width: 265px;"><input name="name[<?php echo $product['language_id']; ?>]" value="<?php echo $product['name']; ?>">
                       <?php if ($error_name) { ?>
                       <span class="error"><?php echo $error_name; ?></span>
                       <?php } ?></td>
-					<td><?php echo $text_unique; ?></td>	
+					<td class="expl"><?php echo $text_unique; ?></td>	
                   </tr>
 				  <tr>
-				    <td style="width: 185px;"><?php echo $entry_model_number; ?></td>
+				    <td style="width: 185px;" class="set"><?php echo $entry_model_number; ?></td>
 					<td style="width: 265px;"><input size="32" maxlength="32" <?php if($option_status) echo 'readonly="readonly" '; ?>name="model_number[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model_number']; ?>"></td>
 				  </tr>
 				  <tr>
-					<td style="width: 185px;"><?php echo $entry_model; ?></td>
+					<td style="width: 185px;" class="set"><?php echo $entry_model; ?></td>
 					<td><input size="32" maxlength="32" id="model<?php echo $product['language_id']; ?>" name="model[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model']; ?>"></td>
+					<td class="expl"><?php echo $text_model; ?></td>			  
+				  </tr>				  
+				  <tr>
+					<td style="width: 185px;" class="set"></td>
 					<td>
 					  <select id="model_data<?php echo $product['language_id']; ?>" name="model_data<?php echo $product['language_id']; ?>" onchange="$('#model<?php echo $product['language_id']; ?>').val(this.value)">
 						<?php if(!$product['model']){?>
@@ -68,12 +72,12 @@
 						<?php } ?>
 					  </select>
 					</td>
-					<td><?php echo $text_model; ?></td>			  
-				  </tr>				  
+					<td class="expl"><?php echo $text_model_select; ?></td>			  
+				  </tr>		
 				</table>
 				<table>
                   <tr>
-                    <td style="vertical-align: top; width: 185px"><?php echo $entry_description; ?></td>
+                    <td style="vertical-align: top; width: 185px" class="set"><?php echo $entry_description; ?></td>
                     <td><textarea name="description[<?php echo $product['language_id']; ?>]" id="description<?php echo $product['language_id']; ?>"><?php echo $product['description']; ?></textarea>
                   </tr>
                 </table>
@@ -87,7 +91,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td><?php echo $entry_manufacturer; ?></td>
+              <td class="set"><?php echo $entry_manufacturer; ?></td>
               <td><select name="manufacturer_id">
                   <option value="0" selected><?php echo $text_none; ?></option>
                   <?php foreach ($manufacturers as $manufacturer) { ?>
@@ -100,21 +104,21 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_shipping; ?></td>
+              <td class="set"><?php echo $entry_shipping; ?></td>
               <td><?php if ($shipping == 1) { ?>
-                <input type="radio" name="shipping" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="shipping" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="shipping" value="1" checked id="yes">
+                <label for="yes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="shipping" value="0" id="no">
+                <label for="no"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="shipping" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="shipping" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="shipping" value="1" id="yes">
+                <label for="yes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="shipping" value="0" checked id="no">
+                <label for="no"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_date_available; ?></td>
+              <td class="set"><?php echo $entry_date_available; ?></td>
               <td><input name="date_available_day" value="<?php echo $date_available_day; ?>" size="2" maxlength="2">
                 <select name="date_available_month">
                   <?php foreach ($months as $month) { ?>
@@ -131,18 +135,18 @@
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_quantity; ?></td>
+              <td class="set"><?php echo $entry_quantity; ?></td>
               <td><input <?php if($option_status) echo 'readonly="readonly" '; ?>name="quantity" value="<?php echo $quantity; ?>" size="2"></td>
 			  <?php if($option_status) {?>
 			    <td><b><?php echo $text_quantity_options;?></b></td>
 			  <?php }?>
             </tr>
             <tr>
-              <td><?php echo $entry_min_qty; ?></td>
+              <td class="set"><?php echo $entry_min_qty; ?></td>
               <td><input name="min_qty" value="<?php echo $min_qty; ?>" size="2"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_status; ?></td>
+              <td class="set"><?php echo $entry_status; ?></td>
               <td><select name="status">
                   <?php if ($status == '1') { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -154,11 +158,11 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_tax_class; ?></td>
+              <td class="set"><?php echo $entry_tax_class; ?></td>
               <td><select name="tax_class_id">
                   <?php foreach ($tax_classes as $tax_class) { ?>
                   <?php if ($tax_class['tax_class_id'] == $tax_class_id) { ?>
@@ -171,15 +175,15 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_price; ?></td>
+              <td class="set"><?php echo $entry_price; ?></td>
               <td><input name="price" id="price" value="<?php echo $price; ?>" onchange="price_update()"></td>
-			  <td><?php echo 'Currency : '. $currency_code;?>
+			  <td class="expl"><?php echo 'Currency : '. $currency_code;?>
 			  <input type="hidden" id="decimal_place" value="<?php echo $decimal_place;?>">
 			  </td>
             </tr>
 			<tr><td colspan="2"><hr></td></tr>
             <tr>
-              <td><?php echo $entry_weight_class; ?></td>
+              <td class="set"><?php echo $entry_weight_class; ?></td>
               <td><select name="weight_class_id">
                   <?php foreach ($weight_classes as $weight_class) { ?>
                   <?php if ($weight_class['weight_class_id'] == $weight_class_id) { ?>
@@ -191,12 +195,12 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_weight; ?></td>
+              <td class="set"><?php echo $entry_weight; ?></td>
               <td><input name="weight" value="<?php echo $weight; ?>"></td>
             </tr>
 			<tr><td colspan="2"><hr></td></tr>
 			<tr>
-			 <td><?php echo $entry_dimension_class;?></td>
+			 <td class="set"><?php echo $entry_dimension_class;?></td>
 			 <td><select id="type_id" name="type_id" onchange="$('#dimensions').load('index.php?controller=product&action=dimensions&type_id='+this.value);">
 				<?php foreach($types as $type){?>
 				  <option value="<?php echo $type['type_id'];?>"<?php if($type['type_id'] == $type_id){echo ' selected';}?>><?php echo $type['type_text'];?></option>
@@ -253,7 +257,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_image; ?></td>
+              <td width="185" class="set"><?php echo $entry_image; ?></td>
               <td><select name="image_id" id="image_id" onchange="$('#image').load('index.php?controller=image&action=view&image_id='+this.value);">
                   <?php foreach ($images as $image) { ?>
                   <?php if ($image['image_id'] == $image_id) { ?>
@@ -269,7 +273,7 @@
               <td id="image"></td>
             </tr>
             <tr>
-              <td valign="top"><?php echo $entry_images; ?></td>
+              <td valign="top" class="set"><?php echo $entry_images; ?></td>
               <td><select name="image[]" multiple="multiple">
                   <?php foreach ($images as $image) { ?>
                   <?php if (!$image['product_id']) { ?>
@@ -287,7 +291,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185" valign="top"><?php echo $entry_download; ?></td>
+              <td width="185" valign="top" class="set"><?php echo $entry_download; ?></td>
               <td><select name="download[]" multiple="multiple">
                   <?php foreach ($downloads as $download) { ?>
                   <?php if (!$download['product_id']) { ?>
@@ -305,7 +309,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185" valign="top"><?php echo $entry_category; ?></td>
+              <td width="185" valign="top" class="set"><?php echo $entry_category; ?></td>
               <td><select name="category[]" multiple="multiple">
                   <?php foreach ($categories as $category) { ?>
                   <?php if (!$category['product_id']) { ?>
@@ -325,7 +329,7 @@
           <table>
 
             <tr>
-              <td><?php echo $entry_featured; ?></td>
+              <td class="set"><?php echo $entry_featured; ?></td>
               <td><select name="featured">
                   <?php if ($featured == '1') { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -337,7 +341,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_specials; ?></td>
+              <td class="set"><?php echo $entry_specials; ?></td>
               <td><select name="special_offer">
                   <?php if ($special_offer == '1') { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -350,7 +354,7 @@
             </tr>
 			<!-- Related products by JT -->			
 			<tr>
-              <td><?php echo $entry_related; ?></td>
+              <td class="set"><?php echo $entry_related; ?></td>
               <td><select name="related">
                   <?php if ($related == '1') { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -363,7 +367,7 @@
             </tr>			
 			
 			<tr>
-              <td width="185" valign="top"><?php echo $entry_related; ?></td>
+              <td width="185" valign="top" class="set"><?php echo $entry_related; ?></td>
               <td><select name="relateddata[]" multiple="multiple">
                   <?php foreach ($relateddata as $product) { ?>
                   <?php if (!$product['relateddata']) { ?>
@@ -382,7 +386,7 @@
 	  <!-- S: Quantity Discounts -->
       <div id="discount" class="page">
         <div class="pad">
-		  <div><?php echo $entry_regular_price;?><input type="text" id="discount_regular_price" size="11" disabled="disabled" value="<?php echo $price;?>">		  
+		  <div class="set"><?php echo $entry_regular_price;?><input type="text" id="discount_regular_price" size="11" disabled="disabled" value="<?php echo $price;?>">		  
 		  <?php echo $entry_dated_special;?><input type="text" id="discount_special_price" size="11" disabled="disabled" value="<?php echo $special_price;?>"></div>		  
           <table id="discounts">
 
@@ -400,17 +404,18 @@
 			  <?php $discountvalue = number_format($price*($product_discount['discount']/100),2); ?>	
 			  <td><input type="text" id="discount_amount<?php echo $i;?>" size="8" value="<?php echo $discountvalue;?>" name="discount_amount<?php echo $i;?>" onchange="quantity_discount('<?php echo $i; ?>')"></td>
 			  
-              <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeDiscount('discount_<?php echo $i; ?>');"></td>
+              <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeDiscount('discount_<?php echo $i; ?>');"></td>
             </tr>
             <?php $i++; ?>
             <?php } ?>
           </table>
           <table>
             <tr>
-              <td colspan="5"><input type="button" value="<?php echo $button_add; ?>" onclick="addDiscount();"></td>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addDiscount();"></td>
             </tr>
           </table>
-		  <?php echo $entry_quantity_discount;?>
+	  <table><tr><td class="expl"><?php echo $entry_quantity_discount;?>
+		    </td></tr></table>
         </div>
       </div>
 	  <!-- E: Quantity Discounts -->	  
@@ -418,17 +423,17 @@
       <div class="page">
         <div class="pad">
 	      <table>
-		    <tr><td><b>
+		    <tr><td><b style="color:#0099FF;">
 			<?php echo $products['0']['name']?>
 			</b></td></tr>		  
 			<tr>
-			  <td><?php echo $entry_regular_price;?></td>
+			  <td class="set"><?php echo $entry_regular_price;?></td>
 			  <td>  <input type="text" id="regular_price" value="<?php echo $price; ?>"onchange="regular_price_update()">
 			  </td>
 			  
 			</tr>
 		    <tr>
-			  <td><?php echo $entry_start_date; ?></td>
+			  <td class="set"><?php echo $entry_start_date; ?></td>
               <td><input name="start_date_day" value="<?php echo $start_date_day; ?>" size="2" maxlength="2">
 			  <select name="start_date_month">
 			    <?php if ($start_date_month == '00'){ ?>
@@ -451,7 +456,7 @@
 			  </td>
 			</tr>
 		    <tr>
-			  <td><?php echo $entry_end_date; ?></td>
+			  <td class="set"><?php echo $entry_end_date; ?></td>
               <td><input name="end_date_day" value="<?php echo $end_date_day; ?>" size="2" maxlength="2">
 			  <select name="end_date_month">
 			    <?php if ($end_date_month == '00'){ ?>
@@ -474,12 +479,12 @@
 			  </td>
 			</tr>	  
             <tr>
-              <td><?php echo $entry_dated_special; ?></td>
+              <td class="set"><?php echo $entry_dated_special; ?></td>
               <td><input id="special_price" name="special_price" value="<?php echo $special_price; ?>" onchange="calculate_percent()"></td>
             </tr>
 			<tr>
 			
-			  <td><?php echo $entry_percent_discount;?></td>
+			  <td class="set"><?php echo $entry_percent_discount;?></td>
 			  <?php $special_discount = $special_price>0 ? ceil((100-(($special_price/$price)*100))*10000)/10000 : 0;?>
 			  <td><input id="special_discount" name="special_discount" value="<?php echo $special_discount; ?>" onchange="calculate_discount()">
 			
@@ -503,23 +508,23 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"> <?php echo $entry_meta_title; ?></td>
+                    <td width="185" class="set"> <?php echo $entry_meta_title; ?></td>
                     <td><input size="60" maxlength="60" name="meta_title[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_title']; ?>"></td> 
                   </tr>
 				  <tr>
-                    <td width="185"> <?php echo $entry_meta_description; ?></td>
+                    <td width="185" class="set"> <?php echo $entry_meta_description; ?></td>
                     <td><input size="60" maxlength="120" name="meta_description[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_description']; ?>"></td>					
 				  </tr>
 				  <tr>
-                    <td width="185"> <?php echo $entry_meta_keywords; ?></td>
+                    <td width="185" class="set"> <?php echo $entry_meta_keywords; ?></td>
                     <td><input size="60" maxlength="120" name="meta_keywords[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_keywords']; ?>"></td>
 				  </tr>
                   <tr>
-                    <td valign="top"><?php echo $entry_alt_description; ?></td>
+                    <td valign="top" class="set"><?php echo $entry_alt_description; ?></td>
                     <td><textarea name="alt_description[<?php echo $product['language_id']; ?>]" id="alt_description<?php echo $product['language_id']; ?>"><?php echo $product['alt_description']; ?></textarea>
                   </tr>
 				  <tr>
-				    <td valign="top"><?php echo $entry_technical; ?></td>
+				    <td valign="top" class="set"><?php echo $entry_technical; ?></td>
 				    <td><textarea name="technical[<?php echo $product['language_id']; ?>]" id="technical<?php echo $product['language_id']; ?>"><?php echo $product['technical']; ?></textarea>
 				  </tr>
                 </table>

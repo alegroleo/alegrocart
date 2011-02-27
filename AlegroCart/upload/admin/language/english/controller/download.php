@@ -5,6 +5,7 @@ $_['heading_description'] = 'You can upload and edit downloads here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated downloads!';
+$_['text_browse']         = 'Browse File';
 
 // Column
 $_['column_name']         = 'Download Name';

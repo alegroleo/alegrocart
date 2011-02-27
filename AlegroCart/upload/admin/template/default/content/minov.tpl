@@ -24,26 +24,26 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="145"><?php echo $entry_minov; ?></td>
-              <td ><input size="10" type="text" name="global_minov_value" value="<?php echo $global_minov_value; ?>"></td>
-	      <td>
+              <td width="145" class="set"><?php echo $entry_minov; ?></td>
+              <td ><input size="12" type="text" name="global_minov_value" value="<?php echo $global_minov_value; ?>"></td>
+	      <td class="expl">
                 <?php echo($explanation_entry_minov); ?>
 	      </td> 
             </tr>
             <tr>
-              <td><?php echo $entry_minov_status; ?></td>
+              <td class="set"><?php echo $entry_minov_status; ?></td>
               <td width="160"><?php if ($global_minov_status) { ?>
-                <input type="radio" name="global_minov_status" value="1" checked>
-                <?php echo $text_enabled; ?>
-                <input type="radio" name="global_minov_status" value="0">
-                <?php echo $text_disabled; ?>
+                <input type="radio" name="global_minov_status" value="1" checked id="enabled">
+                <label for="enabled"><?php echo $text_enabled; ?></label>
+                <input type="radio" name="global_minov_status" value="0" id="disabled">
+                <label for="disabled"><?php echo $text_disabled; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_minov_status" value="1">
-                <?php echo $text_enabled; ?>
-                <input type="radio" name="global_minov_status" value="0" checked>
-                <?php echo $text_disabled; ?>
+                <input type="radio" name="global_minov_status" value="1" id="enabled">
+                <label for="enabled"><?php echo $text_enabled; ?></label>
+                <input type="radio" name="global_minov_status" value="0" checked id="disabled">
+                <label for="disabled"><?php echo $text_disabled; ?></label>
                 <?php } ?></td>
-	      <td>
+	      <td class="expl">
                 <?php echo($explanation_entry_minov_status); ?>
 	      </td> 
             </tr>

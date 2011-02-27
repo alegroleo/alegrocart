@@ -30,14 +30,14 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
               <td><input name="name" value="<?php echo $name; ?>">
                 <?php if ($error_name) { ?>
                 <span class="error"><?php echo $error_name; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td width="185"><?php echo $entry_image; ?></td>
+              <td width="185" class="set"><?php echo $entry_image; ?></td>
               <td><select name="image_id" id="image_id" onchange="$('#image').load('index.php?controller=image&action=view&image_id='+this.value);">
                   <?php foreach ($images as $image) { ?>
                   <?php if ($image['image_id'] == $image_id) { ?>
@@ -53,7 +53,7 @@
               <td id="image"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
             </tr>
           </table>

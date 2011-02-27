@@ -65,7 +65,7 @@ $_['extra_authnetaim_prod_txnkey']   = 'Production account password';
 $_['extra_authnetaim_authtype']      = 'Authorize Only checks the account for the money, but does not take it.<br/>Authorize & Capture checks and processes the money';
 $_['extra_authnetaim_test']          = 'If yes, the test server will be used. If no, the production server is used.';
 $_['extra_authnetaim_currency']      = 'Supported Currencies';
-$_['extra_authnetaim_sort_order']    = '';
+$_['extra_authnetaim_sort_order']    = 'The order payment method appears in checkout';
 
 $_['extra_authnetaim_x_logo_url']         = 'URL to custom logo to be displayed on the payment form';
 $_['extra_authnetaim_x_header_html_payment_form'] = '(HTML) Custom html code to be set as the header on the payment form';

@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_status; ?></td>
               <td><select name="catalog_search_options_status">
                   <?php if ($catalog_search_options_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -33,7 +33,7 @@
                 </select></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_columns; ?></td>
+			  <td class="set"><?php echo $entry_columns; ?></td>
 			  <td><select name="catalog_search_columns">
 			    <?php foreach($columns as $column){?>
 				  <?php if($column == $catalog_search_columns) {?>
@@ -45,7 +45,7 @@
 			  </td>				 
 			</tr>
 			<tr>
-              <td><?php echo $entry_display_lock; ?></td>
+              <td class="set"><?php echo $entry_display_lock; ?></td>
               <td><select name="catalog_search_display_lock">
                   <?php if ($catalog_search_display_lock) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>

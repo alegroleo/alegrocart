@@ -30,7 +30,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_country; ?></td>
+              <td width="185" class="set"><?php echo $entry_country; ?></td>
               <td><select name="country_id" id="country_id" onchange="$('#zone').load('index.php?controller=zone_to_geo_zone&action=zone&country_id='+this.value+'&zone_id=<?php echo $zone_id; ?>');">
                   <?php foreach ($countries as $country) { ?>
                   <?php if ($country['country_id'] == $country_id) { ?>
@@ -42,7 +42,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_zone; ?></td>
+              <td class="set"><?php echo $entry_zone; ?></td>
               <td id="zone"><select name="zone_id">
                 </select></td>
             </tr>

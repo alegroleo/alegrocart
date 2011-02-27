@@ -24,31 +24,31 @@
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
     <table>
       <tr>
-        <td align="right"><span class="required">*</span> <?php echo $entry_subject; ?></td>
+        <td align="right" class="set"><span class="required">*</span> <?php echo $entry_subject; ?></td>
         <td><input name="subject" value="<?php echo $subject; ?>">
           <?php if ($error_subject) { ?>
           <span class="error"><?php echo $error_subject; ?></span>
           <?php } ?></td>
       </tr>
       <tr>
-        <td align="right" valign="top"><span class="required">*</span> <?php echo $entry_content; ?></td>
+        <td align="right" valign="top" class="set"><span class="required">*</span> <?php echo $entry_content; ?></td>
         <td><textarea name="content" id="content"><?php echo $content; ?></textarea>
           <?php if ($error_content) { ?>
           <span class="error"><?php echo $error_content; ?></span>
           <?php } ?></td>
       </tr>
       <tr>
-        <td align="right"><?php echo $entry_send; ?></td>
+        <td align="right" class="set"><?php echo $entry_send; ?></td>
         <td><?php if ($send == 1) { ?>
-          <input type="radio" name="send" value="1" checked>
-          <?php echo $text_yes; ?>
-          <input type="radio" name="send" value="0">
-          <?php echo $text_no; ?>
+          <input type="radio" name="send" value="1" checked id="yes">
+          <label for="yes"><?php echo $text_yes; ?></label>
+          <input type="radio" name="send" value="0" id="no">
+          <label for="no"><?php echo $text_no; ?></label>
           <?php } else { ?>
-          <input type="radio" name="send" value="1"d>
-          <?php echo $text_yes; ?>
-          <input type="radio" name="send" value="0" checke>
-          <?php echo $text_no; ?>
+          <input type="radio" name="send" value="1" id="yes">
+          <label for="yes"><?php echo $text_yes; ?></label>
+          <input type="radio" name="send" value="0" checked id="no">
+          <label for="no"><?php echo $text_no; ?></label>
           <?php } ?></td>
       </tr>
     </table>

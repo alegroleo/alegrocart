@@ -31,6 +31,8 @@ class ControllerMaintenance extends Controller{
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 		$view->set('entry_status', $this->language->get('entry_status'));
+		
+		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));

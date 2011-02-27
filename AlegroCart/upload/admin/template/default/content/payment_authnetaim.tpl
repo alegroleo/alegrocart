@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_authnetaim_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_authnetaim_status; ?></td>
               <td><select name="global_authnetaim_status">
                   <?php if ($global_authnetaim_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -31,65 +31,65 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
-                <td><?php echo $extra_authnetaim_status; ?></td>
+                <td class="expl"><?php echo $extra_authnetaim_status; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_authnetaim_test; ?></td>
+              <td class="set"><?php echo $entry_authnetaim_test; ?></td>
               <td><?php if ($global_authnetaim_test) { ?>
-                <input type="radio" name="global_authnetaim_test" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_authnetaim_test" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_authnetaim_test" value="1" checked id="yes">
+                <label for="yes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_authnetaim_test" value="0" id="no">
+                <label for="no"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_authnetaim_test" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_authnetaim_test" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_authnetaim_test" value="1" id="yes">
+                <label for="yes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_authnetaim_test" value="0" checked id="no">
+                <label for="no"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-                <td><?php echo $extra_authnetaim_test; ?></td>
+                <td class="expl"><?php echo $extra_authnetaim_test; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_authnetaim_test_login; ?></td>
+              <td class="set"><?php echo $entry_authnetaim_test_login; ?></td>
               <td><input type="text" name="global_authnetaim_test_login" value="<?php echo $global_authnetaim_test_login; ?>">
-              <td><?php echo $extra_authnetaim_test_login; ?></td>
+              <td class="expl"><?php echo $extra_authnetaim_test_login; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_authnetaim_test_txnkey; ?></td>
+              <td class="set"><?php echo $entry_authnetaim_test_txnkey; ?></td>
               <td><input type="text" name="global_authnetaim_test_txnkey" value="<?php echo $global_authnetaim_test_txnkey; ?>">
-              <td><?php echo $extra_authnetaim_test_txnkey; ?></td>
+              <td class="expl"><?php echo $extra_authnetaim_test_txnkey; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_authnetaim_prod_login; ?></td>
+              <td class="set"><?php echo $entry_authnetaim_prod_login; ?></td>
               <td><input type="text" name="global_authnetaim_prod_login" value="<?php echo $global_authnetaim_prod_login; ?>">
-              <td><?php echo $extra_authnetaim_prod_login; ?></td>
+              <td class="expl"><?php echo $extra_authnetaim_prod_login; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_authnetaim_prod_txnkey; ?></td>
+              <td class="set"><?php echo $entry_authnetaim_prod_txnkey; ?></td>
               <td><input type="text" name="global_authnetaim_prod_txnkey" value="<?php echo $global_authnetaim_prod_txnkey; ?>">
-              <td><?php echo $extra_authnetaim_prod_txnkey; ?></td>
+              <td class="expl"><?php echo $extra_authnetaim_prod_txnkey; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_authnetaim_authtype; ?></td>
+              <td class="set"><?php echo $entry_authnetaim_authtype; ?></td>
               <td>
-                <input type="radio" name="global_authnetaim_authtype" value="auth_only" <?php echo ($global_authnetaim_authtype == 'auth_only' ? 'checked' : '') ?>>
-                <?php echo $text_authonly; ?><br />
-                <input type="radio" name="global_authnetaim_authtype" value="auth_capture" <?php echo ($global_authnetaim_authtype == 'auth_capture' ? 'checked' : '') ?>>
-                <?php echo $text_authcapture; ?>
+                <input type="radio" name="global_authnetaim_authtype" value="auth_only" id="auth_only" <?php echo ($global_authnetaim_authtype == 'auth_only' ? 'checked' : '') ?>>
+                <label for="auth_only"><?php echo $text_authonly; ?><br /></label>
+                <input type="radio" name="global_authnetaim_authtype" value="auth_capture" id="auth_capture" <?php echo ($global_authnetaim_authtype == 'auth_capture' ? 'checked' : '') ?>>
+                <label for="auth_capture"><?php echo $text_authcapture; ?></label>
               </td>
-              <td><?php echo $extra_authnetaim_authtype; ?></td>
+              <td class="expl"><?php echo $extra_authnetaim_authtype; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_authnetaim_sendemail; ?></td>
+              <td class="set"><?php echo $entry_authnetaim_sendemail; ?></td>
               <td>
-                <input type="radio" name="global_authnetaim_sendemail" value="TRUE" <?php echo ($global_authnetaim_sendemail == 'TRUE' ? 'checked' : '') ?>>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_authnetaim_sendemail" value="FALSE" <?php echo ($global_authnetaim_sendemail == 'FALSE' ? 'checked' : '') ?>>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_authnetaim_sendemail" value="TRUE" id="yess" <?php echo ($global_authnetaim_sendemail == 'TRUE' ? 'checked' : '') ?>>
+                <label for="yess"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_authnetaim_sendemail" value="FALSE" id="noo" <?php echo ($global_authnetaim_sendemail == 'FALSE' ? 'checked' : '') ?>>
+                <label for="noo"><?php echo $text_no; ?></label>
               </td>
-              <td><?php echo $extra_authnetaim_sendemail; ?></td>
+              <td class="expl"><?php echo $extra_authnetaim_sendemail; ?></td>
             </tr>
             <tr>
-              <td width="185"><?php echo $entry_authnetaim_geo_zone_id; ?></td>
+              <td width="185" class="set"><?php echo $entry_authnetaim_geo_zone_id; ?></td>
               <td><select name="global_authnetaim_geo_zone_id">
                   <option value="0"><?php echo $text_all_zones; ?></option>
                   <?php foreach ($geo_zones as $geo_zone) { ?>
@@ -100,12 +100,12 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
-                <td><?php echo $extra_authnetaim_geo_zone_id; ?></td>
+                <td class="expl"><?php echo $extra_authnetaim_geo_zone_id; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_authnetaim_sort_order; ?></td>
+              <td class="set"><?php echo $entry_authnetaim_sort_order; ?></td>
               <td><input type="text" name="global_authnetaim_sort_order" value="<?php echo $global_authnetaim_sort_order; ?>" size="1"></td>
-              <td><?php echo $extra_authnetaim_sort_order; ?></td>
+              <td class="expl"><?php echo $extra_authnetaim_sort_order; ?></td>
             </tr>
           </table>
         </div>

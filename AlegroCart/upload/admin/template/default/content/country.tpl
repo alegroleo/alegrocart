@@ -31,23 +31,23 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
               <td><input type="text" name="name" value="<?php echo $name; ?>">
                 <?php if ($error_name) { ?>
                 <span class="error"><?php echo $error_name; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_iso_code_2; ?></td>
+              <td class="set"><?php echo $entry_iso_code_2; ?></td>
               <td><input type="text" name="iso_code_2" value="<?php echo $iso_code_2; ?>"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_iso_code_3; ?></td>
+              <td class="set"><?php echo $entry_iso_code_3; ?></td>
               <td><input type="text" name="iso_code_3" value="<?php echo $iso_code_3; ?>"></td>
             </tr>
 			<!--   Country Enable   -->			
 			<tr>
-              <td><?php echo $entry_country_status; ?></td>
+              <td class="set"><?php echo $entry_country_status; ?></td>
               <td><select name="country_status">
                   <?php if ($country_status == '1') { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -60,15 +60,9 @@
             </tr>	
 			<!-- End Country Enable -->
 			<tr>
-              <td valign="top"><?php echo $entry_address_format; ?></td>
-              <td><textarea name="address_format" cols="40" rows="5"><?php echo $address_format; ?></textarea></td>
-			  <script type="text/javascript">
-			    $(document).ready(function(){
-				  $('.addressE[title]').tooltip({
-				  offset: [80,70], tipClass: 'tooltip_white'});
-				});
-			  </script>
-			  <?php echo '<th style="color:red"><div title="' . $text_address_explantion . '" class="addressE" >'. $text_address_help . '</div></th>';?>
+              <td valign="top" class="set"><?php echo $entry_address_format; ?></td>
+              <td><textarea name="address_format" cols="40" rows="7"><?php echo $address_format; ?></textarea></td>
+	      <td class="expl"><?php echo $text_address_explantion ;?><td>
             </tr>
           </table>
         </div>

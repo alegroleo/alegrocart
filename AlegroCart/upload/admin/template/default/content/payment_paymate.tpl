@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_status; ?></td>
               <td><select name="global_paymate_status">
                   <?php if ($global_paymate_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -31,25 +31,25 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
-              <td><?php echo $explanation_entry_status; ?></td>
+              <td class="expl"><?php echo $explanation_entry_status; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_test; ?></td>
+              <td class="set"><?php echo $entry_test; ?></td>
               <td><?php if ($global_paymate_test) { ?>
-                <input type="radio" name="global_paymate_test" value="1" checked >
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_paymate_test" value="0" >
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_paymate_test" value="1" checked id="yes">
+                <label for="yes"> <?php echo $text_yes; ?></label>
+                <input type="radio" name="global_paymate_test" value="0" id="no">
+                <label for="no"> <?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_paymate_test" value="1" >
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_paymate_test" value="0" checked >
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_paymate_test" value="1" id="yes">
+                <label for="yes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_paymate_test" value="0" checked id="no">
+                <label for="no"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-              <td><?php echo $explanation_entry_test; ?></td>
+              <td class="expl"><?php echo $explanation_entry_test; ?></td>
             </tr>
             <tr>
-              <td width="185"><?php echo $entry_geo_zone; ?></td>
+              <td width="185" class="set"><?php echo $entry_geo_zone; ?></td>
               <td><select name="global_paymate_geo_zone_id">
                   <option value="0"><?php echo $text_all_zones; ?></option>
                   <?php foreach ($geo_zones as $geo_zone) { ?>
@@ -60,18 +60,18 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
-              <td><?php echo $explanation_entry_geo_zone; ?></td>
+              <td class="expl"><?php echo $explanation_entry_geo_zone; ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_mid; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_mid; ?></td>
               <td><input type="text" name="global_paymate_mid" style="width:200px;" value="<?php echo $global_paymate_mid; ?>" >
                 <?php if ($error_mid) { ?>
                 <span class="error"><?php echo $error_mid; ?></span>
                 <?php } ?></td>
-              <td><?php echo $explanation_entry_mid; ?></td>
+              <td class="expl"><?php echo $explanation_entry_mid; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_order_status; ?></td>
+              <td class="set"><?php echo $entry_order_status; ?></td>
               <td><select name="paymate_order_status">
                   <?php foreach ($order_statuses as $order_status) { ?>
                   <?php if ($order_status['order_status_id'] == $paymate_order_status) { ?>
@@ -81,10 +81,10 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
-              <td><?php echo $explanation_entry_order_status; ?></td>
+              <td class="expl"><?php echo $explanation_entry_order_status; ?></td>
             </tr>
             <tr>
-              <td valign="top"><?php echo $entry_currency; ?></td>
+              <td valign="top" class="set"><?php echo $entry_currency; ?></td>
               <td><select name="global_paymate_currency[]" multiple="multiple">
                   <?php foreach ($currencies as $currency) { ?>
                   <?php if ($currency['selected']) { ?>
@@ -94,12 +94,12 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
-              <td><?php echo $explanation_entry_currency; ?></td>
+              <td class="expl"><?php echo $explanation_entry_currency; ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input type="text" name="global_paymate_sort_order" value="<?php echo $global_paymate_sort_order; ?>" size="1" ></td>
-              <td><?php echo $explanation_entry_sort_order; ?></td>
+              <td class="expl"><?php echo $explanation_entry_sort_order; ?></td>
             </tr>
           </table>
         </div>

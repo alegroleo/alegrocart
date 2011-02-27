@@ -32,7 +32,7 @@
         <div class="pad">
 		  <table>
 		    <tr>
-			  <td><?php echo $entry_controller;?></td>
+			  <td class="set"><?php echo $entry_controller;?></td>
 			  <td><?php if($tpl_controller){?>
 			      <input type="text" size="32" readonly="readonly" maxlength="64" id="tpl_controller" name="tpl_controller" value="<?php echo $tpl_controller;?>">
 			    <?php } else { ?>
@@ -54,7 +54,7 @@
 			  <?php }?>
 			</tr>
 		    <tr>
-			  <td><?php echo $entry_columns;?></td>
+			  <td class="set"><?php echo $entry_columns;?></td>
 			  <td>
 			    <select id="tpl_columns" name="tpl_columns" onchange="set_column_right(); $('#tpl_colors').load('index.php?controller=template_manager&action=getColors&columns='+this.value);">
 				  <?php foreach($columns as $pagecolumn){?>
@@ -69,7 +69,7 @@
 			  <input type="hidden" id="default_columns" name="default_columns" value="<?php echo $default_columns;?>">
 			</tr>
 			<tr>
-              <td><?php echo $entry_color; ?></td>
+              <td class="set"><?php echo $entry_color; ?></td>
               <td id="tpl_colors"><select name="tpl_color">
                   <?php foreach ($catalog_colors as $catalog_color) { ?>
                   <?php if ($tpl_color == $catalog_color['colorcss']) { ?>
@@ -82,7 +82,7 @@
 			  </td>
 			</tr>
 			<tr>
-              <td><?php echo $entry_status; ?></td>
+              <td class="set"><?php echo $entry_status; ?></td>
               <td><select name="tpl_status">
                   <?php if ($tpl_status == '1') { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -94,7 +94,7 @@
                 </select></td>
 			</tr>
 		  </table>
-		  <table><tr><td>
+		  <table><tr><td class="expl">
 		    <?php echo $text_tpl_manager;?>
 		  </td></tr></table>
 		</div>
@@ -107,7 +107,7 @@
 		    <?php $i = 0;?>
 		    <?php foreach($header as $header_info){?>
 			<tr id="header_<?php echo $i; ?>">
-			  <td><?php echo $entry_module; ?></td>
+			  <td class="set"><?php echo $entry_module; ?></td>
 			  <td><select name="header[<?php echo $i; ?>][module_code]">
 			    <?php foreach($header_modules as $header_module){?>
 				  <?php if($header_module == $header_info['module_code']){?>
@@ -117,20 +117,20 @@
 				  <?php }?>
 				<?php }?>
 		      </select></td>
-			  <td><?php echo $entry_sortorder;?></td>
+			  <td class="set"><?php echo $entry_sortorder;?></td>
 			  <td><input type="text" name="header[<?php echo $i; ?>][sort_order]" value="<?php echo $header_info['sort_order'];?>"></td>
 			  <input type="hidden" name="header[<?php echo $i; ?>][location_id]" value="<?php echo $header_info['location_id']?>">
-			  <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeModule('header_<?php echo $i;?>');"></td> 
+			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('header_<?php echo $i;?>');"></td> 
 		    </tr>
 		    <?php $i++; ?>
 		    <?php }?>
 		  </table>
           <table>
             <tr>
-              <td colspan="5"><input type="button" value="<?php echo $button_add; ?>" onclick="addModule('headertable',<?php echo $header_id;?>);"></td>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addModule('headertable',<?php echo $header_id;?>);"></td>
             </tr>
           </table>
-		  <table><tr><td>
+		  <table><tr><td class="expl">
 		    <?php echo $text_tpl_header;?>
 		  </td></tr></table>
 		  
@@ -144,7 +144,7 @@
 		    <?php $i = 0;?>
 		    <?php foreach($extra as $extra_info){?>
 			<tr id="extra_<?php echo $i; ?>">
-			  <td><?php echo $entry_module; ?></td>
+			  <td class="set"><?php echo $entry_module; ?></td>
 			  <td><select name="extra[<?php echo $i; ?>][module_code]">
 			    <?php foreach($extra_modules as $extra_module){?>
 				  <?php if($extra_module == $extra_info['module_code']){?>
@@ -154,20 +154,20 @@
 				  <?php }?>
 				<?php }?>
 		      </select></td>
-			  <td><?php echo $entry_sortorder;?></td>
+			  <td class="set"><?php echo $entry_sortorder;?></td>
 			  <td><input type="text" name="extra[<?php echo $i; ?>][sort_order]" value="<?php echo $extra_info['sort_order'];?>"></td>
 			  <input type="hidden" name="extra[<?php echo $i; ?>][location_id]" value="<?php echo $extra_info['location_id']?>">
-			  <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeModule('extra_<?php echo $i;?>');"></td> 
+			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('extra_<?php echo $i;?>');"></td> 
 		    </tr>
 		    <?php $i++; ?>
 		    <?php }?>
 		  </table>
           <table>
             <tr>
-              <td colspan="5"><input type="button" value="<?php echo $button_add; ?>" onclick="addModule('extratable',<?php echo $extra_id;?>);"></td>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addModule('extratable',<?php echo $extra_id;?>);"></td>
             </tr>
           </table>
-		  <table><tr><td>
+		  <table><tr><td class="expl">
 		    <?php echo $text_tpl_extra;?>
 		  </td></tr></table>
 		</div>
@@ -180,7 +180,7 @@
 		    <?php $i = 0;?>
 		    <?php foreach($column as $column_info){?>
 			<tr id="column_<?php echo $i; ?>">
-			  <td><?php echo $entry_module; ?></td>
+			  <td class="set"><?php echo $entry_module; ?></td>
 			  <td><select name="column[<?php echo $i; ?>][module_code]">
 			    <?php foreach($column_modules as $column_module){?>
 				  <?php if($column_module == $column_info['module_code']){?>
@@ -190,20 +190,20 @@
 				  <?php }?>
 				<?php }?>
 		      </select></td>
-			  <td><?php echo $entry_sortorder;?></td>
+			  <td class="set"><?php echo $entry_sortorder;?></td>
 			  <td><input type="text" name="column[<?php echo $i; ?>][sort_order]" value="<?php echo $column_info['sort_order'];?>"></td>
 			  <input type="hidden" name="column[<?php echo $i; ?>][location_id]" value="<?php echo $column_info['location_id']?>">
-			  <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeModule('column_<?php echo $i;?>');"></td> 
+			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('column_<?php echo $i;?>');"></td> 
 		    </tr>
 		    <?php $i++; ?>
 		    <?php }?>
 		  </table>
           <table>
             <tr>
-              <td colspan="5"><input type="button" value="<?php echo $button_add; ?>" onclick="addModule('columntable',<?php echo $column_id;?>);"></td>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addModule('columntable',<?php echo $column_id;?>);"></td>
             </tr>
           </table>
-		  <table><tr><td>
+		  <table><tr><td class="expl">
 		    <?php echo $text_tpl_column;?>
 		  </td></tr></table>
 		</div>
@@ -216,7 +216,7 @@
 		    <?php $i = 0;?>
 		    <?php foreach($content as $content_info){?>
 			<tr id="content_<?php echo $i; ?>">
-			  <td><?php echo $entry_module; ?></td>
+			  <td class="set"><?php echo $entry_module; ?></td>
 			  <td><select name="content[<?php echo $i; ?>][module_code]">
 			    <?php foreach($content_modules as $content_module){?>
 				  <?php if($content_module == $content_info['module_code']){?>
@@ -226,20 +226,20 @@
 				  <?php }?>
 				<?php }?>
 		      </select></td>
-			  <td><?php echo $entry_sortorder;?></td>
+			  <td class="set"><?php echo $entry_sortorder;?></td>
 			  <td><input type="text" name="content[<?php echo $i; ?>][sort_order]" value="<?php echo $content_info['sort_order'];?>"></td>
 			  <input type="hidden" name="content[<?php echo $i; ?>][location_id]" value="<?php echo $content_info['location_id']?>">
-			  <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeModule('content_<?php echo $i;?>');"></td> 
+			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('content_<?php echo $i;?>');"></td> 
 		    </tr>
 		    <?php $i++; ?>
 		    <?php }?>
 		  </table>
           <table>
             <tr>
-              <td colspan="5"><input type="button" value="<?php echo $button_add; ?>" onclick="addModule('contenttable',<?php echo $content_id;?>);"></td>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addModule('contenttable',<?php echo $content_id;?>);"></td>
             </tr>
           </table>
-		  <table><tr><td>
+		  <table><tr><td class="expl">
 		    <?php echo $text_tpl_content;?>
 		  </td></tr></table>
 		</div>
@@ -252,7 +252,7 @@
 		    <?php $i = 0;?>
 		    <?php foreach($columnright as $columnright_info){?>
 			<tr id="columnright_<?php echo $i; ?>">
-			  <td><?php echo $entry_module; ?></td>
+			  <td class="set"><?php echo $entry_module; ?></td>
 			  <td><select name="columnright[<?php echo $i; ?>][module_code]">
 			    <?php foreach($columnright_modules as $columnright_module){?>
 				  <?php if($columnright_module == $columnright_info['module_code']){?>
@@ -262,20 +262,20 @@
 				  <?php }?>
 				<?php }?>
 		      </select></td>
-			  <td><?php echo $entry_sortorder;?></td>
+			  <td class="set"><?php echo $entry_sortorder;?></td>
 			  <td><input type="text" name="columnright[<?php echo $i; ?>][sort_order]" value="<?php echo $columnright_info['sort_order'];?>"></td>
 			  <input type="hidden" name="columnright[<?php echo $i; ?>][location_id]" value="<?php echo $columnright_info['location_id']?>">
-			  <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeModule('columnright_<?php echo $i;?>');"></td> 
+			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('columnright_<?php echo $i;?>');"></td> 
 		    </tr>
 		    <?php $i++; ?>
 		    <?php }?>
 		  </table>
           <table id="columnrightbutton">
             <tr>
-              <td colspan="5"><input type="button" value="<?php echo $button_add; ?>" onclick="addModule('columnrighttable',<?php echo $columnright_id;?>);"></td>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addModule('columnrighttable',<?php echo $columnright_id;?>);"></td>
             </tr>
           </table>
-		  <table><tr><td>
+		  <table><tr><td class="expl">
 		    <?php echo $text_tpl_columnright;?>
 		  </td></tr></table>
 		</div>
@@ -288,7 +288,7 @@
 		    <?php $i = 0;?>
 		    <?php foreach($footer as $footer_info){?>
 			<tr id="footer_<?php echo $i; ?>">
-			  <td><?php echo $entry_module; ?></td>
+			  <td class="set"><?php echo $entry_module; ?></td>
 			  <td><select name="footer[<?php echo $i; ?>][module_code]">
 			    <?php foreach($footer_modules as $footer_module){?>
 				  <?php if($footer_module == $footer_info['module_code']){?>
@@ -298,20 +298,20 @@
 				  <?php }?>
 				<?php }?>
 		      </select></td>
-			  <td><?php echo $entry_sortorder;?></td>
+			  <td class="set"><?php echo $entry_sortorder;?></td>
 			  <td><input type="text" name="footer[<?php echo $i; ?>][sort_order]" value="<?php echo $footer_info['sort_order'];?>"></td>
 			  <input type="hidden" name="footer[<?php echo $i; ?>][location_id]" value="<?php echo $footer_info['location_id']?>">
-			  <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeModule('footer_<?php echo $i;?>');"></td> 
+			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('footer_<?php echo $i;?>');"></td> 
 		    </tr>
 		    <?php $i++; ?>
 		    <?php }?>
 		  </table>
           <table>
             <tr>
-              <td colspan="5"><input type="button" value="<?php echo $button_add; ?>" onclick="addModule('footertable',<?php echo $footer_id;?>);"></td>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addModule('footertable',<?php echo $footer_id;?>);"></td>
             </tr>
           </table>
-		  <table><tr><td>
+		  <table><tr><td class="expl">
 		    <?php echo $text_tpl_footer;?>
 		  </td></tr></table>
 		</div>
@@ -324,7 +324,7 @@
 		    <?php $i = 0;?>
 		    <?php foreach($pagebottom as $pagebottom_info){?>
 			<tr id="pagebottom_<?php echo $i; ?>">
-			  <td><?php echo $entry_module; ?></td>
+			  <td class="set"><?php echo $entry_module; ?></td>
 			  <td><select name="pagebottom[<?php echo $i; ?>][module_code]">
 			    <?php foreach($pagebottom_modules as $pagebottom_module){?>
 				  <?php if($pagebottom_module == $pagebottom_info['module_code']){?>
@@ -334,20 +334,20 @@
 				  <?php }?>
 				<?php }?>
 		      </select></td>
-			  <td><?php echo $entry_sortorder;?></td>
+			  <td class="set"><?php echo $entry_sortorder;?></td>
 			  <td><input type="text" name="pagebottom[<?php echo $i; ?>][sort_order]" value="<?php echo $pagebottom_info['sort_order'];?>"></td>
 			  <input type="hidden" name="pagebottom[<?php echo $i; ?>][location_id]" value="<?php echo $pagebottom_info['location_id']?>">
-			  <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeModule('pagebottom_<?php echo $i;?>');"></td> 
+			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('pagebottom_<?php echo $i;?>');"></td> 
 		    </tr>
 		    <?php $i++; ?>
 		    <?php }?>
 		  </table>
           <table>
             <tr>
-              <td colspan="5"><input type="button" value="<?php echo $button_add; ?>" onclick="addModule('pagebottomtable',<?php echo $pagebottom_id;?>);"></td>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addModule('pagebottomtable',<?php echo $pagebottom_id;?>);"></td>
             </tr>
           </table>
-		  <table><tr><td>
+		  <table><tr><td class="expl">
 		    <?php echo $text_tpl_pagebottom;?>
 		  </td></tr></table>
 		</div>

@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_status; ?></td>
               <td><select name="global_cod_status">
                   <?php if ($status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -33,7 +33,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td width="185"><?php echo $entry_geo_zone; ?></td>
+              <td width="185" class="set"><?php echo $entry_geo_zone; ?></td>
               <td><select name="global_cod_geo_zone_id">
                   <option value="0"><?php echo $text_all_zones; ?></option>
                   <?php foreach ($geo_zones as $geo_zone) { ?>
@@ -46,7 +46,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input type="text" name="global_cod_sort_order" value="<?php echo $global_cod_sort_order; ?>" size="1"></td>
             </tr>
           </table>

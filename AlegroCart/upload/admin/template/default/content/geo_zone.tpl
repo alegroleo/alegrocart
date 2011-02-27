@@ -29,14 +29,14 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
               <td><input type="text" name="name" value="<?php echo $name; ?>">
                 <?php if ($error_name) { ?>
                 <span class="error"><?php echo $error_name; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_description; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
               <td><input type="text" name="description" value="<?php echo $description; ?>">
                 <?php if ($error_description) { ?>
                 <span class="error"><?php echo $error_description; ?></span>

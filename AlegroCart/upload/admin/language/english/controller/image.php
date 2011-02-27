@@ -6,6 +6,7 @@ $_['heading_description'] = 'You can upload and edit images here.';
 // Text
 $_['text_message']        = 'Success: You have updated images!';
 $_['text_image_filename'] = 'Current Image Filename: ';
+$_['text_browse']         = 'Browse File';
 
 // Column
 $_['column_title']        = 'Image Title';

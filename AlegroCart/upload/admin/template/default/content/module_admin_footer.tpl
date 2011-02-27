@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_status; ?></td>
               <td><select name="admin_footer_status">
                   <?php if ($admin_footer_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>

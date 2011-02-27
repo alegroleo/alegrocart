@@ -26,39 +26,42 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_store; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_store; ?></td>
               <td><input type="text" name="global_config_store" value="<?php echo $global_config_store; ?>">
                 <?php if ($error_store) { ?>
                 <span class="error"><?php echo $error_store; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_owner; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_owner; ?></td>
               <td><input type="text" name="global_config_owner" value="<?php echo $global_config_owner; ?>">
                 <?php if ($error_owner) { ?>
                 <span class="error"><?php echo $error_owner; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td valign="top"><span class="required">*</span> <?php echo $entry_address; ?></td>
+              <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_address; ?></td>
               <td><textarea name="global_config_address" cols="40" rows="5"><?php echo $global_config_address; ?></textarea>
                 <?php if ($error_address) { ?>
                 <span class="error"><?php echo $error_address; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_telephone; ?></td>
               <td><input type="text" name="global_config_telephone" value="<?php echo $global_config_telephone; ?>">
                 <?php if ($error_telephone) { ?>
                 <span class="error"><?php echo $error_telephone; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_fax; ?></td>
+              <td class="set"><?php echo $entry_fax; ?></td>
               <td><input type="text" name="global_config_fax" value="<?php echo $global_config_fax; ?>"></td>
             </tr>
+	    <tr>
+	      <td colspan="2"><hr></td>
+	    </tr>
             <tr>
-              <td><?php echo $entry_template; ?></td>
+              <td class="set"><?php echo $entry_template; ?></td>
               <td><select name="catalog_config_template">
                   <?php foreach ($catalog_templates as $catalog_template) { ?>
                   <?php if ($catalog_template == $catalog_config_template) { ?>
@@ -70,7 +73,7 @@
                 </select></td>
             </tr> 
 			<tr> <!-- Columns -->
-			  <td><?php echo $entry_columns; ?></td>
+			  <td class="set"><?php echo $entry_columns; ?></td>
 			  <td><select name="catalog_config_columns" id="catalog_config_columns" onchange="$('#colors').load('index.php?controller=setting&action=getColors&'+change_columns(this.value));">
                   <?php foreach ($page_columns as $page_column) { ?>
                   <?php if ($page_column == $catalog_config_columns) { ?>
@@ -82,7 +85,7 @@
                 </select></td>
 			</tr>
 			<tr> <!-- Styles -->
-              <td><?php echo $entry_styles; ?></td>
+              <td class="set"><?php echo $entry_styles; ?></td>
               <td><select name="catalog_config_styles" id="catalog_config_styles" onchange="$('#colors').load('index.php?controller=setting&action=getColors&'+change_styles(this.value));">
                   <?php foreach ($catalog_styles as $catalog_style) { ?>
                   <?php if ($catalog_style == $catalog_config_styles) { ?>
@@ -95,7 +98,7 @@
 			  </td>
             </tr>
 			<tr> <!-- Colors -->
-              <td><?php echo $entry_colors; ?></td>
+              <td class="set"><?php echo $entry_colors; ?></td>
               <td id="colors"><select name="catalog_config_colors">
                   <?php foreach ($catalog_colors as $catalog_color) { ?>
                   <?php if ($catalog_color['colorcss'] == $catalog_config_colors) { ?>
@@ -111,64 +114,64 @@
 			  </td>
             </tr>
             <tr>
-              <td><?php echo $entry_items_per_page; ?></td>
+              <td class="set"><?php echo $entry_items_per_page; ?></td>
               <td><input type="text" name="catalog_config_max_rows" value="<?php echo $catalog_config_max_rows; ?>" size="2"></td>
-			  <td><?php echo $text_items_per_page;?></td>
+			  <td class="expl"><?php echo $text_items_per_page;?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_url_alias; ?></td>
+              <td class="set"><?php echo $entry_url_alias; ?></td>
               <td><?php if ($global_config_url_alias) { ?>
-                <input type="radio" name="global_config_url_alias" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_url_alias" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_url_alias" value="1" id="gcuayes" checked>
+                <label for="gcuayes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_url_alias" value="0" id="gcuano">
+                <label for="gcuano"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_url_alias" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_url_alias" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_url_alias" value="1" id="gcuayes">
+                <label for="gcuayes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_url_alias" value="0" id="gcuano" checked>
+                <label for="gcuano"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
 			<tr>
-              <td><?php echo $entry_seo; ?></td>
+              <td class="set"><?php echo $entry_seo; ?></td>
               <td><?php if ($global_config_seo) { ?>
-                <input type="radio" name="global_config_seo" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_seo" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_seo" value="1" id="gcsyes" checked>
+                <label for="gcsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_seo" value="0" id="gcsno">
+                <label for="gcsno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_seo" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_seo" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_seo" value="1" id="gcsyes">
+                <label for="gcsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_seo" value="0" id="gcsno" checked>
+                <label for="gcsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_parse_time; ?></td>
+              <td class="set"><?php echo $entry_parse_time; ?></td>
               <td><?php if ($catalog_config_parse_time) { ?>
-                <input type="radio" name="catalog_config_parse_time" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_parse_time" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_parse_time" value="1" id="ccptyes" checked>
+                <label for="ccptyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_parse_time" value="0" id="ccptno">
+                <label for="ccptno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_config_parse_time" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_parse_time" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_parse_time" value="1" id="ccptyes">
+                <label for="ccptyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_parse_time" value="0" id="ccptno" checked>
+                <label for="ccptno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_ssl; ?></td>
+              <td class="set"><?php echo $entry_ssl; ?></td>
               <td><?php if ($catalog_config_ssl) { ?>
-                <input type="radio" name="catalog_config_ssl" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_ssl" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes" checked>
+                <label for="ccsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno">
+                <label for="ccsno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_config_ssl" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_ssl" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes">
+                <label for="ccsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno" checked>
+                <label for="ccsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
           </table>
@@ -178,7 +181,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_template; ?></td>
+              <td width="185" class="set"><?php echo $entry_template; ?></td>
               <td><select name="admin_config_template">
                   <?php foreach ($admin_templates as $admin_templates) { ?>
                   <?php if ($admin_templates == $admin_config_template) { ?>
@@ -190,39 +193,39 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_rows_per_page; ?></td>
+              <td class="set"><?php echo $entry_rows_per_page; ?></td>
               <td><input type="text" name="admin_config_max_rows" value="<?php echo $admin_config_max_rows; ?>" size="2"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_parse_time; ?></td>
+              <td class="set"><?php echo $entry_parse_time; ?></td>
               <td><?php if ($admin_config_parse_time) { ?>
-                <input type="radio" name="admin_config_parse_time" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="admin_config_parse_time" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="admin_config_parse_time" value="1" id="acptyes" checked>
+                <label for="acptyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="admin_config_parse_time" value="0" id="acptno">
+                <label for="acptno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="admin_config_parse_time" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="admin_config_parse_time" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="admin_config_parse_time" value="1" id="acptyes">
+                <label for="acptyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="admin_config_parse_time" value="0" id="acptno" checked>
+                <label for="acptno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_ssl; ?></td>
+              <td class="set"><?php echo $entry_ssl; ?></td>
               <td><?php if ($admin_config_ssl) { ?>
-                <input type="radio" name="admin_config_ssl" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="admin_config_ssl" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="admin_config_ssl" value="1" id="acsyes" checked>
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="admin_config_ssl" value="0" id="acsno">
+                <label for="acsno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="admin_config_ssl" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="admin_config_ssl" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="admin_config_ssl" value="1" id="acsyes">
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="admin_config_ssl" value="0" id="acsno" checked>
+                <label for="acsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_language; ?></td>
+              <td class="set"><?php echo $entry_language; ?></td>
               <td><select name="admin_config_language">
                   <?php foreach ($languages as $language) { ?>
                   <?php if ($language['code'] == $admin_config_language) { ?>
@@ -235,15 +238,12 @@
               </td>
             </tr>
 			<tr>
-			  <td valign="top"><?php echo $entry_address_format; ?></td>
-              <td><textarea name="global_config_address_format" cols="50" rows="7"><?php echo $global_config_address_format; ?></textarea>
-			  <script type="text/javascript">
-			    $(document).ready(function(){
-				  $('.addressE[title]').tooltip({
-				  offset: [80,70], tipClass: 'tooltip_white'});
-				});
-			  </script>
-			  <?php echo '<th style="color:red"><div title="' . $text_address_explantion . '" class="addressE" >'. $text_address_help . '</div></th>';?>
+			  <td valign="top" class="set"><?php echo $entry_address_format; ?></td>
+			  <td><textarea name="global_config_address_format" cols="50" rows="7"><?php echo $global_config_address_format; ?></textarea>
+			  <td class="expl">
+			      <?php echo $text_address_explantion; ?> 
+			  </td>
+			 
 			</tr>
           </table>
         </div>
@@ -252,7 +252,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="220"><?php echo $entry_country; ?></td>
+              <td width="220" class="set"><?php echo $entry_country; ?></td>
               <td><select name="global_config_country_id" onchange="$('#zone').load('index.php?controller=setting&action=zone&country_id='+this.value+'&zone_id=<?php echo $global_config_zone_id; ?>');">
                   <?php foreach ($countries as $country) { ?>
                   <?php if ($country['country_id'] == $global_config_country_id) { ?>
@@ -265,12 +265,12 @@
               </td>
             </tr>
             <tr>
-              <td><?php echo $entry_zone; ?></td>
+              <td class="set"><?php echo $entry_zone; ?></td>
               <td id="zone"><select name="global_config_zone_id">
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_language; ?></td>
+              <td class="set"><?php echo $entry_language; ?></td>
               <td><select name="catalog_config_language">
                   <?php foreach ($languages as $language) { ?>
                   <?php if ($language['code'] == $catalog_config_language) { ?>
@@ -283,7 +283,7 @@
               </td>
             </tr>
             <tr>
-              <td><?php echo $entry_currency; ?></td>
+              <td class="set"><?php echo $entry_currency; ?></td>
               <td><select name="global_config_currency">
                   <?php foreach ($currencies as $currencies) { ?>
                   <?php if ($currencies['code'] == $global_config_currency) { ?>
@@ -295,12 +295,12 @@
                 </select></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_currency_surcharge;?></td>
+			  <td class="set"><?php echo $entry_currency_surcharge;?></td>
 			  <td><input type="text" name="global_config_currency_surcharge" value="<?php echo $global_config_currency_surcharge;?>"></td>
-			  <td><?php echo $text_surcharge;?></td>
+			  <td class="expl"><?php echo $text_surcharge;?></td>
 			</tr>
             <tr>
-              <td><?php echo $entry_weight; ?></td>
+              <td class="set"><?php echo $entry_weight; ?></td>
               <td><select name="global_config_weight_class_id">
                   <?php foreach ($weight_classes as $weight_class) { ?>
                   <?php if ($weight_class['weight_class_id'] == $global_config_weight_class_id) { ?>
@@ -313,7 +313,7 @@
             </tr>
 			<tr><td colspan="2"><hr></td></tr>
 			<tr>
-			  <td><?php echo $entry_dimension_type; ?></td>
+			  <td class="set"><?php echo $entry_dimension_type; ?></td>
 			  <td><select name="global_config_dimension_type_id">
 			    <?php foreach($types as $type){?>
 			      <option value="<?php echo $type['type_id'];?>"<?php if($type['type_id'] == $global_config_dimension_type_id){ echo ' selected';}?>><?php echo $type['type_text'];?></option>
@@ -323,7 +323,7 @@
 		  <?php for($i=1; $i < 4; $i++){?>
 			<?php if(isset($dimensions[$i])){?>
 			  <tr>
-			    <td><?php echo $entry_dimension[$i]; ?></td>
+			    <td class="set"><?php echo $entry_dimension[$i]; ?></td>
 			    <td><select name="global_config_dimension_<?php echo $i;?>_id">
 			      <?php foreach($dimensions[$i] as $dimension){?>
 				    <?php $global_config_dimension = ('global_config_dimension_' . $i . '_id');?>
@@ -334,43 +334,43 @@
 			<?php }?>
 		  <?php }?>
 		    <tr>
-			  <td><?php echo $entry_dimension_decimal; ?></td>
+			  <td class="set"><?php echo $entry_dimension_decimal; ?></td>
 			  <td><input type="text" name="global_config_dimension_decimal" value="<?php echo $global_config_dimension_decimal; ?>" size="2"></td>
-			  <td><?php echo $text_dimension_decimal; ?></td>
+			  <td class="expl"><?php echo $text_dimension_decimal; ?></td>
 			</tr>
 			<tr><td colspan="2"><hr></td></tr>
             <tr>
-              <td><?php echo $entry_tax; ?></td>
+              <td class="set"><?php echo $entry_tax; ?></td>
               <td><?php if ($global_config_tax) { ?>
-                <input type="radio" name="global_config_tax" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_tax" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_tax" value="1" id="gctyes" checked>
+                <label for="gctyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_tax" value="0" id="gctno">
+                <label for="gctno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_tax" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_tax" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_tax" value="1" id="gctyes">
+                <label for="gctyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_tax" value="0" id="gctno" checked>
+                <label for="gctno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-				<td><?php echo $text_prices_tax;?></td>
+				<td class="expl"><?php echo $text_prices_tax;?></td>
             </tr>
 			<tr>
-              <td><?php echo $entry_tax_store; ?></td>
+              <td class="set"><?php echo $entry_tax_store; ?></td>
               <td><?php if ($global_config_tax_store) { ?>
-                <input type="radio" name="global_config_tax_store" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_tax_store" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_tax_store" value="1" id="gctsyes" checked>
+                <label for="gctsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_tax_store" value="0" id="gctsno">
+                <label for="gctsno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_tax_store" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_tax_store" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_tax_store" value="1" id="gctsyes">
+                <label for="gctsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_tax_store" value="0" id="gctsno" checked>
+                <label for="gctsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-				<td><?php echo $text_tax_products;?></td>
+				<td class="expl"><?php echo $text_tax_products;?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_order_status; ?></td>
+              <td class="set"><?php echo $entry_order_status; ?></td>
               <td><select name="global_config_order_status_id">
                   <?php foreach ($order_statuses as $order_status) { ?>
                   <?php if ($order_status['order_status_id'] == $global_config_order_status_id) { ?>
@@ -382,9 +382,9 @@
                 </select></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_invoice_number; ?></td>
+			  <td class="set"><?php echo $entry_invoice_number; ?></td>
 			  <td><input type="text" name="global_invoice_number" value="<?php echo $global_invoice_number; ?>" size="16" maxlength="32"></td>
-			  <td><?php echo $text_invoice_number;?></td>
+			  <td class="expl"><?php echo $text_invoice_number;?></td>
 			</tr>
           </table>
         </div>
@@ -393,58 +393,56 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_stock_check; ?></td>
+              <td width="185" class="set"><?php echo $entry_stock_check; ?></td>
               <td><?php if ($catalog_config_stock_check) { ?>
-                <input type="radio" name="catalog_config_stock_check" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_stock_check" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_stock_check" value="1"id="ccscyes"  checked>
+                <label for="ccscyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_stock_check" value="0" id="ccscno">
+                <label for="ccscno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_config_stock_check" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_stock_check" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_stock_check" value="1" id="ccscyes">
+                <label for="ccscyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_stock_check" value="0" id="ccscno" checked>
+                <label for="ccscno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
+	      <td class="expl">
+		    <?php echo $text_check_stock_explantion; ?> 
+	      </td>
             </tr>
             <tr>
-              <td><?php echo $entry_stock_checkout; ?></td>
+              <td class="set"><?php echo $entry_stock_checkout; ?></td>
               <td><?php if ($catalog_config_stock_checkout) { ?>
-                <input type="radio" name="catalog_config_stock_checkout" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_stock_checkout" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_stock_checkout" value="1" id="ccscoyes" checked>
+                <label for="ccscoyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_stock_checkout" value="0" id="ccscono">
+                <label for="ccscono"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_config_stock_checkout" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_stock_checkout" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_stock_checkout" value="1" id="ccscoyes">
+                <label for="ccscoyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_stock_checkout" value="0" id="ccscono" checked>
+                <label for="ccscono"><?php echo $text_no; ?></label>
                 <?php } ?></td>
+	      <td class="expl">
+		    <?php echo $text_allow_checkout_explantion; ?> 
+	      </td>
             </tr>
             <tr>
-              <td width="185"><?php echo $entry_stock_subtract; ?></td>
+              <td width="185" class="set"><?php echo $entry_stock_subtract; ?></td>
               <td width="100"><?php if ($catalog_config_stock_subtract) { ?>
-                <input type="radio" name="catalog_config_stock_subtract" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_stock_subtract" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_stock_subtract" value="1" id="ccssyes" checked>
+                <label for="ccssyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_stock_subtract" value="0" id="ccssno">
+                <label for="ccssno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_config_stock_subtract" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_stock_subtract" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_stock_subtract" value="1" id="ccssyes">
+                <label for="ccssyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_stock_subtract" value="0" id="ccssno" checked>
+                <label for="ccssno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-				
-				<script type="text/javascript">
-			    $(document).ready(function(){
-				  $('.stockE[title]').tooltip({
-				  offset: [160,70], tipClass: 'tooltip_white'});
-				});
-			    </script>
-				<?php echo '<th style="color:red"><div title="' . $text_stock_explantion . '" class="stockE" >'. $text_stock_help . '</div></th>';?>
-				
-				
-				
-            </tr>
+	      <td class="expl">
+		    <?php echo $text_subtract_stock_explantion; ?> 
+	      </td>
+	    </tr>
           </table>
         </div>
       </div>
@@ -452,11 +450,11 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_vat; ?></td>
+              <td width="185" class="set"><?php echo $entry_vat; ?></td>
               <td><input type="text" name="catalog_config_vat" value="<?php echo $catalog_config_vat; ?>"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_account; ?></td>
+              <td class="set"><?php echo $entry_account; ?></td>
               <td><select name="catalog_config_account_id">
                   <option value="0"><?php echo $text_none; ?></option>
                   <?php foreach ($informations as $information) { ?>
@@ -469,7 +467,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_checkout; ?></td>
+              <td class="set"><?php echo $entry_checkout; ?></td>
               <td><select name="catalog_config_checkout_id">
                   <option value="0"><?php echo $text_none; ?></option>
                   <?php foreach ($informations as $information) { ?>
@@ -482,9 +480,9 @@
                 </select></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_rss_limit; ?></td>
+			  <td class="set"><?php echo $entry_rss_limit; ?></td>
 			  <td><input type="text" name="global_config_rss_limit" value="<?php echo $global_config_rss_limit; ?>" size="6"></td>
-			  <td><?php echo $text_rss_info;?></td>
+			  <td class="expl"><?php echo $text_rss_info;?></td>
 			</tr>
           </table>
         </div>
@@ -493,47 +491,50 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_email; ?></td>
+              <td width="185" class="set"><?php echo $entry_email; ?></td>
               <td><input size="64" type="text" name="global_config_email" value="<?php echo $global_config_email; ?>"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_email_send; ?></td>
+              <td class="set"><?php echo $entry_email_send; ?></td>
               <td><?php if ($global_config_email_send) { ?>
-                <input type="radio" name="global_config_email_send" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_email_send" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_email_send" value="1" id="gcesyes" checked>
+                <label for="gcesyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_email_send" value="0" id="gcesno">
+                <label for="gcesno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_email_send" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_email_send" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_email_send" value="1" id="gcesyes">
+                <label for="gcesyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_email_send" value="0" id="gcesno" checked>
+                <label for="gcesno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-            </tr>
+            </tr> 
+	    <tr><td colspan="2"><hr></td>
+	    </tr>
+	 
 			<tr>
-			  <td><?php echo $text_emails; ?></td>
+			  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_emails; ?></p></td>
 			</tr>
 			<tr>
-			  <td width="185"><?php echo $entry_email_orders; ?></td>
+			  <td width="185" class="set"><?php echo $entry_email_orders; ?></td>
 			  <td><input size="64" type="text" name="global_config_email_orders" value="<?php echo $global_config_email_orders; ?>"></td>
 			</tr>
 			<tr>
-			  <td width="185"><?php echo $entry_email_accounts; ?></td>
+			  <td width="185" class="set"><?php echo $entry_email_accounts; ?></td>
 			  <td><input size="64" type="text" name="global_config_email_accounts" value="<?php echo $global_config_email_accounts; ?>"></td>
 			</tr>
 			</tr>
 			<tr>
-			  <td width="185"><?php echo $entry_email_newsletter; ?></td>
+			  <td width="185" class="set"><?php echo $entry_email_newsletter; ?></td>
 			  <td><input size="64" type="text" name="global_config_email_newsletter" value="<?php echo $global_config_email_newsletter; ?>"></td>
 			</tr>
 			</tr>
 			<tr>
-			  <td width="185"><?php echo $entry_email_mail; ?></td>
+			  <td width="185" class="set"><?php echo $entry_email_mail; ?></td>
 			  <td><input size="64" type="text" name="global_config_email_mail" value="<?php echo $global_config_email_mail; ?>"></td>
 			</tr>
 			</tr>
 			<tr>
-			  <td width="185"><?php echo $entry_email_contact; ?></td>
+			  <td width="185" class="set"><?php echo $entry_email_contact; ?></td>
 			  <td><input size="64" type="text" name="global_config_email_contact" value="<?php echo $global_config_email_contact; ?>"></td>
 			</tr>
           </table>
@@ -543,35 +544,35 @@
         <div class="pad">
           <table>
             <tr>
-              <td><?php echo $entry_cache_query; ?></td>
+              <td class="set"><?php echo $entry_cache_query; ?></td>
               <td><?php if ($global_config_cache_query) { ?>
-                <input type="radio" name="global_config_cache_query" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_cache_query" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_cache_query" value="1" id="gccqyes" checked>
+                <label for="gccqyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_cache_query" value="0" id="gccqno">
+                <label for="gccqno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_cache_query" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_cache_query" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_cache_query" value="1" id="gccqyes">
+                <label for="gccqyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_cache_query" value="0" id="gccqno" checked>
+                <label for="gccqno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td width="185"><?php echo $entry_compress_output; ?></td>
+              <td width="185" class="set"><?php echo $entry_compress_output; ?></td>
               <td><?php if ($global_config_compress_output) { ?>
-                <input type="radio" name="global_config_compress_output" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_compress_output" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_compress_output" value="1" id="gccoyes" checked>
+                <label for="gccoyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_compress_output" value="0" id="gccono">
+                <label for="gccono"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_compress_output" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_compress_output" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_compress_output" value="1" id="gccoyes">
+                <label for="gccoyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_compress_output" value="0" id="gccono" checked>
+                <label for="gccono"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_compress_level; ?></td>
+              <td class="set"><?php echo $entry_compress_level; ?></td>
               <td><input type="text" name="global_config_compress_level" value="<?php echo $global_config_compress_level; ?>" size="3"></td>
             </tr>
           </table>
@@ -581,36 +582,44 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_image_resize; ?></td>
+              <td width="185" class="set"><?php echo $entry_image_resize; ?></td>
               <td><?php if ($global_config_image_resize) { ?>
-                <input type="radio" name="global_config_image_resize" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_image_resize" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_image_resize" value="1" id="gciryes" checked>
+                <label for="gciryes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_image_resize" value="0" id="gcirno">
+                <label for="gcirno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_image_resize" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="global_config_image_resize" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="global_config_image_resize" value="1" id="gciryes">
+                <label for="gciryes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_image_resize" value="0" id="gcirno" checked>
+                <label for="gcirno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
-            <tr bgcolor="#EEEEEE">   <!-- Default Image Size -->
-              <td><?php echo $entry_image_width; ?></td>
+            <tr>   <!-- Default Image Size -->
+              <td class="set"><?php echo $entry_image_width; ?></td>
               <td><input type="text" name="global_config_image_width" value="<?php echo $global_config_image_width; ?>" size="3"></td>
-              <td><?php echo $entry_image_height; ?></td>
+              <td class="set"><?php echo $entry_image_height; ?></td>
               <td><input type="text" name="global_config_image_height" value="<?php echo $global_config_image_height; ?>" size="3"></td>			  
 			</tr>
-			<tr bgcolor="#CCFFFF">   <!-- Product -->
-			  <td><?php echo $text_product; ?></td>
+			<tr><td colspan="4"><hr></td>
 			</tr>
-			<tr bgcolor="#CCFFFF">
-			  <td><?php echo $entry_product_width; ?></td>
+			<tr>   <!-- Product -->
+			  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_product; ?></p></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_product_width; ?></td>
 			  <td><input type="text" name="catalog_product_image_width" value="<?php echo $catalog_product_image_width; ?>" size="3"></td>
-			  <td><?php echo $entry_product_height; ?></td>
+			  <td class="set"><?php echo $entry_product_height; ?></td>
 			  <td><input type="text" name="catalog_product_image_height" value="<?php echo $catalog_product_image_height; ?>" size="3"></td>
 			</tr>
-			<tr bgcolor="#CCFFFF">
-			  <td><?php echo $entry_image_display;?></td>
+			<tr>  <!-- Addition Product Images -->
+			  <td class="set"><?php echo $entry_additional_width; ?></td>
+			  <td><input type="text" name="catalog_additional_image_width" value="<?php echo $catalog_additional_image_width; ?>" size="3"></td>
+			  <td class="set"><?php echo $entry_additional_height; ?></td>
+			  <td><input type="text" name="catalog_additional_image_height" value="<?php echo $catalog_additional_image_height; ?>" size="3"></td>
+			<tr/>
+			<tr>
+			  <td class="set"><?php echo $entry_image_display;?></td>
 				<td><select name="catalog_product_image_display">
 				<?php foreach($image_displays_product as $image_display_product){?>
 				  <?php if($image_display_product == $catalog_product_image_display){?>
@@ -621,8 +630,8 @@
 				<?php }?> 
 			  </select></td>
 			</tr> 
-			<tr bgcolor="#CCFFFF">
-              <td><?php echo $entry_product_addtocart; ?></td>
+			<tr>
+              <td class="set"><?php echo $entry_product_addtocart; ?></td>
               <td><select name="catalog_product_addtocart">
                   <?php if ($catalog_product_addtocart) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -633,49 +642,45 @@
                   <?php } ?>
                 </select></td>
             </tr>
-			<tr bgcolor="#CCFFFF">
-			  <td><?php echo $entry_options_select; ?></td>
+			<tr>
+			  <td class="set"><?php echo $entry_options_select; ?></td>
 			  <td><select name="catalog_product_options_select">
 			        <option value="<?php echo $text_select;?>"<?php if($catalog_product_options_select == $text_select){echo ' selected';}?>><?php echo $text_select;?></option>
 				    <option value="<?php echo $text_radio;?>"<?php if($catalog_product_options_select == $text_radio){echo ' selected';}?>><?php echo $text_radio;?></option>
 			  </select></td>
 			</tr>  
-			<tr bgcolor="#CCFFFF">  <!-- Addition Product Images -->
-			  <td><?php echo $entry_additional_width; ?></td>
-			  <td><input type="text" name="catalog_additional_image_width" value="<?php echo $catalog_additional_image_width; ?>" size="3"></td>
-			  <td><?php echo $entry_additional_height; ?></td>
-			  <td><input type="text" name="catalog_additional_image_height" value="<?php echo $catalog_additional_image_height; ?>" size="3"></td>
 			<tr>
-			<tr bgcolor="#CCFFFF">
-			  <td><?php echo $entry_alt_description; ?></td>
+			  <td class="set"><?php echo $entry_alt_description; ?></td>
 			  <td><?php if ($catalog_alternate_description) { ?>
-                <input type="radio" name="catalog_alternate_description" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_alternate_description" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_alternate_description" value="1" id="cadyes" checked>
+                <label for="cadyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_alternate_description" value="0" id="cadno">
+                <label for="cadno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_alternate_description" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_alternate_description" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_alternate_description" value="1" id="cadyes">
+                <label for="cadyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_alternate_description" value="0" id="cadno" checked>
+                <label for="cadno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 			</tr>
-			<tr bgcolor="#FFFF99">  <!-- Category -->
-			  <td><?php echo $text_category; ?></td>
+			<tr><td colspan="4"><hr></td>
 			</tr>
-			<tr bgcolor="#FFFF99">
-			  <td><?php echo $entry_category_width; ?></td>
+			<tr>  <!-- Category -->
+			  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_category; ?></p></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_category_width; ?></td>
 			  <td><input type="text" name="catalog_category_image_width" value="<?php echo $catalog_category_image_width; ?>" size="3"></td>
-			  <td><?php echo $entry_category_height; ?></td>
+			  <td class="set"><?php echo $entry_category_height; ?></td>
 			  <td><input type="text" name="catalog_category_image_height" value="<?php echo $catalog_category_image_height; ?>" size="3"></td>
 			</tr>
-			<tr bgcolor="#FFFF99">
-			  <td><?php echo $entry_items_per_page; ?></td>
+			<tr>
+			  <td class="set"><?php echo $entry_items_per_page; ?></td>
 			  <td><input type="text" name="catalog_category_rows" value="<?php echo $catalog_category_rows; ?>" size="3"></td>
-			  <td><?php echo $text_default_rows; ?></td>
+			  <td colspan="2"><td class="expl"><?php echo $text_default_rows; ?></td>
 			</tr>
-			<tr bgcolor="#FFFF99">
-              <td><?php echo $entry_category_addtocart; ?></td>
+			<tr>
+              <td class="set"><?php echo $entry_category_addtocart; ?></td>
               <td><select name="catalog_category_addtocart">
                   <?php if ($catalog_category_addtocart) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -686,29 +691,31 @@
                   <?php } ?>
                 </select></td>
             </tr>
-			<tr bgcolor="#FFFF99">
-			  <td><?php echo $entry_options_select; ?></td>
+			<tr>
+			  <td class="set"><?php echo $entry_options_select; ?></td>
 			  <td><select name="catalog_category_options_select">
 			        <option value="<?php echo $text_select;?>"<?php if($catalog_category_options_select == $text_select){echo ' selected';}?>><?php echo $text_select;?></option>
 				    <option value="<?php echo $text_radio;?>"<?php if($catalog_category_options_select == $text_radio){echo ' selected';}?>><?php echo $text_radio;?></option>
 			  </select></td>
 			</tr> 
-			<tr bgcolor="#CCFFCC">  <!-- Search -->
-			  <td><?php echo $text_search; ?></td>
+			<tr><td colspan="4"><hr></td>
 			</tr>
-			<tr bgcolor="#CCFFCC">
-			  <td><?php echo $entry_search_width; ?></td>
+			<tr>  <!-- Search -->
+			  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_search; ?></p></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_search_width; ?></td>
 			  <td><input type="text" name="catalog_search_image_width" value="<?php echo $catalog_search_image_width; ?>" size="3"></td>
-			  <td><?php echo $entry_search_height; ?></td>
+			  <td class="set"><?php echo $entry_search_height; ?></td>
 			  <td><input type="text" name="catalog_search_image_height" value="<?php echo $catalog_search_image_height; ?>" size="3"></td>
 			</tr>
-			<tr bgcolor="#CCFFCC">
-			  <td><?php echo $entry_items_per_page; ?></td>
+			<tr>
+			  <td class="set"><?php echo $entry_items_per_page; ?></td>
 			  <td><input type="text" name="catalog_search_rows" value="<?php echo $catalog_search_rows; ?>" size="3"></td>
-			  <td><?php echo $text_default_rows; ?></td>
+			  <td colspan="2"><td class="expl"><?php echo $text_default_rows; ?></td>
 			</tr>
-			<tr bgcolor="#CCFFCC">
-              <td><?php echo $entry_search_addtocart; ?></td>
+			<tr>
+              <td class="set"><?php echo $entry_search_addtocart; ?></td>
               <td><select name="catalog_search_addtocart">
                   <?php if ($catalog_search_addtocart) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -719,22 +726,24 @@
                   <?php } ?>
                 </select></td>
             </tr>
-			<tr bgcolor="#CCFFCC">
-			  <td><?php echo $entry_options_select; ?></td>
+			<tr>
+			  <td class="set"><?php echo $entry_options_select; ?></td>
 			  <td><select name="catalog_search_options_select">
 			        <option value="<?php echo $text_select;?>"<?php if($catalog_search_options_select == $text_select){echo ' selected';}?>><?php echo $text_select;?></option>
 				    <option value="<?php echo $text_radio;?>"<?php if($catalog_search_options_select == $text_radio){echo ' selected';}?>><?php echo $text_radio;?></option>
 			  </select></td>
 			</tr> 
-			<tr bgcolor="#CCFFCC">
-              <td><?php echo $entry_search_limit; ?></td>
+			<tr>
+              <td class="set"><?php echo $entry_search_limit; ?></td>
               <td><input type="text" name="catalog_search_limit" value="<?php echo $catalog_search_limit; ?>" size="3"></td>
             </tr>
-			<tr bgcolor="#CCFFFF"> <!-- Category + Search -->
-			  <td><?php echo $text_category_search;?></td>
+	    <tr><td colspan="4"><hr></td>
+	    </tr>
+			<tr> <!-- Category + Search -->
+			  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_category_search;?><p></td>
 			</tr>
-			<tr bgcolor="#CCFFFF">
-			  <td><?php echo $entry_image_display;?></td>
+			<tr>
+			  <td class="set"><?php echo $entry_image_display;?></td>
 				<td><select name="catalog_content_image_display">
 				<?php foreach($image_displays_content as $image_display_content){?>
 				  <?php if($image_display_content == $catalog_content_image_display){?>
@@ -745,59 +754,56 @@
 				<?php }?> 
 			  </select></td>
 			</tr>
-			<tr bgcolor="#CCFFFF">
-              <td><?php echo $entry_lines_single; ?></td>
+			<tr>
+              <td class="set"><?php echo $entry_lines_single; ?></td>
               <td><input type="text" name="catalog_content_lines_single" value="<?php echo $catalog_content_lines_single; ?>" size="1" /></td>
-            </tr>
-			<tr bgcolor="#CCFFFF">
-              <td><?php echo $entry_lines_multi; ?></td>
-              <td><input type="text" name="catalog_content_lines_multi" value="<?php echo $catalog_content_lines_multi; ?>" size="1" /></td>
-            </tr>
-			<tr bgcolor="#CCFFFF">
-              <td><?php echo $entry_lines_char; ?></td>
-              <td><input type="text" name="catalog_content_lines_char" value="<?php echo $catalog_content_lines_char; ?>" size="3" /></td>
+	      <td colspan="2"><td class="expl"><?php echo $text_instruction;?></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_addtocart_quantity; ?></td>
+              <td class="set"><?php echo $entry_lines_multi; ?></td>
+              <td><input type="text" name="catalog_content_lines_multi" value="<?php echo $catalog_content_lines_multi; ?>" size="1" /></td>
+            </tr>
+			<tr>
+              <td class="set"><?php echo $entry_lines_char; ?></td>
+              <td><input type="text" name="catalog_content_lines_char" value="<?php echo $catalog_content_lines_char; ?>" size="3" /></td>
+            </tr><tr><td colspan="4"><hr></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_addtocart_quantity; ?></td>
 			  <td><select name="catalog_addtocart_quantity_box">
 			    <?php foreach($quantity_selects as $quantity_select){?>
 			      <option value="<?php echo $quantity_select;?>" <?php if($quantity_select == $catalog_addtocart_quantity_box){ echo ' selected';}?>><?php echo $quantity_select;?></option>
 				<?php }?>
 			  </select></td>
-			  <td><?php echo $text_cart_wide; ?></td>
+			  <td colspan="2"><td class="expl"><?php echo $text_cart_wide; ?></td>
 			</tr>
 			<tr>
-			  <td><?php echo $entry_addtocart_maximum; ?></td>
+			  <td class="set"><?php echo $entry_addtocart_maximum; ?></td>
 			  <td><input type="text" name="catalog_addtocart_quantity_max" value="<?php echo $catalog_addtocart_quantity_max;?>" size="4" /></td>
-			  <td><?php echo $text_cart_quantity; ?></td>
+			  <td colspan="2"></td><td class="expl"><?php echo $text_cart_quantity; ?></td>
 			</tr>
           </table>
-		  <table>
-		    <tr><td style="width: 100px;"></td><td>
-			  <?php echo $text_instruction;?>
-			</td></tr>
-		  </table>
-        </div>
+	</div>
       </div>   <!--  End Image and Add to Cart Controls -->
       <div class="page">
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_download; ?></td>
+              <td width="185" class="set"><?php echo $entry_download; ?></td>
               <td><?php if ($catalog_config_download) { ?>
-                <input type="radio" name="catalog_config_download" value="1" checked>
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_download" value="0">
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_download" value="1" id="ccdyes" checked>
+                <label for="ccdyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_download" value="0" id="ccdno">
+                <label for="ccdno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_config_download" value="1">
-                <?php echo $text_yes; ?>
-                <input type="radio" name="catalog_config_download" value="0" checked>
-                <?php echo $text_no; ?>
+                <input type="radio" name="catalog_config_download" value="1" id="ccdyes">
+                <label for="ccdyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_download" value="0" id="ccdno" checked>
+                <label for="ccdno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_download_status; ?></td>
+              <td class="set"><?php echo $entry_download_status; ?></td>
               <td><select name="catalog_config_download_status">
                   <?php foreach ($order_statuses as $order_status) { ?>
                   <?php if ($order_status['order_status_id'] == $catalog_config_download_status) { ?>

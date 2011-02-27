@@ -38,7 +38,7 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td><input name="language[<?php echo $option_value['language_id']; ?>][name]" value="<?php echo $option_value['name']; ?>">
                       <?php if ($error_name) { ?>
                       <span class="error"><?php echo $error_name; ?></span>

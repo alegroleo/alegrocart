@@ -304,7 +304,7 @@ class ControllerProduct extends Controller {
         		'align' => 'center'
       		);
 			$cell[] = array(
-               'image' => $this->image->resize($result['filename'], '22', '22'),
+               'image' => $this->image->resize($result['filename'], '26', '26'),
                'align' => 'right'
             );
       		$cell[] = array(
@@ -391,6 +391,7 @@ class ControllerProduct extends Controller {
  		$view->set('text_plus', $this->language->get('text_plus'));
 		$view->set('text_minus', $this->language->get('text_minus'));
 		$view->set('text_model', $this->language->get('text_model'));
+		$view->set('text_model_select', $this->language->get('text_model_select'));
 		$view->set('select_model', $this->language->get('select_model'));
 		$view->set('text_unique', $this->language->get('text_unique'));
 		$view->set('text_quantity_options', $this->language->get('text_quantity_options'));

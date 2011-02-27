@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_status; ?></td>
               <td><select name="global_total_status">
                   <?php if ($global_total_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -33,7 +33,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input type="text" name="global_total_sort_order" value="<?php echo $global_total_sort_order; ?>" size="1"></td>
             </tr>
           </table>

@@ -29,7 +29,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_option; ?></td>
+              <td width="185" class="set"><?php echo $entry_option; ?></td>
               <td><select name="option">
                   <?php foreach ($options as $option) { ?>
                   <optgroup label="<?php echo $option['name']; ?>">
@@ -45,7 +45,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_prefix; ?></td>
+              <td class="set"><?php echo $entry_prefix; ?></td>
               <td><select name="prefix">
                   <?php if ($prefix == '+') { ?>
                   <option value="+" selected><?php echo $text_plus; ?></option>
@@ -57,15 +57,15 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_price; ?></td>
+              <td class="set"><?php echo $entry_price; ?></td>
               <td><input type="text" name="price" value="<?php echo $price; ?>"></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_option_weight; ?></td>
+			  <td class="set"><?php echo $entry_option_weight; ?></td>
 			  <td><input type="text" name="option_weight" value="<?php echo $option_weight; ?>"></td>
 			</tr>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
             </tr>
           </table>

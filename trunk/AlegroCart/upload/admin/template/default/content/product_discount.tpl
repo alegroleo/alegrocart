@@ -9,5 +9,5 @@
   <td><?php echo $entry_discount; ?></td>  
   <td><input type="text" id="discount_amount<?php echo $discount_id;?>" size="8" name="discount_amount<?php echo $discount_id;?>" onchange="quantity_discount('<?php echo $discount_id; ?>')"></td>  
   
-  <td><input type="button" value="<?php echo $button_remove; ?>" onclick="removeDiscount('discount_<?php echo $discount_id; ?>');"></td>
+  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeDiscount('discount_<?php echo $discount_id; ?>');"></td>
 </tr>

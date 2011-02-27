@@ -62,7 +62,10 @@ class ControllerSetting extends Controller {
 		$view->set('text_category', $this->language->get('text_category'));
 		$view->set('text_search', $this->language->get('text_search'));
 		$view->set('text_category_search', $this->language->get('text_category_search'));
-		$view->set('text_stock_explantion', $this->language->get('text_stock_explantion'));
+		$view->set('text_check_stock_explantion', $this->language->get('text_check_stock_explantion'));
+		$view->set('text_allow_checkout_explantion', $this->language->get('text_allow_checkout_explantion'));
+		$view->set('text_subtract_stock_explantion', $this->language->get('text_subtract_stock_explantion'));
+
 		$view->set('text_stock_help', $this->language->get('text_stock_help'));
 		$view->set('text_address_explantion', $this->language->get('text_address_explantion'));
 		$view->set('text_address_help', $this->language->get('text_address_help'));

@@ -9,7 +9,7 @@
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
     <table class="a">
       <tr>
-        <td class="left"><input type="submit" value="<?php echo $button_search; ?>"></td>
+        <td class="left"><input type="submit" class="submit" value="<?php echo $button_search; ?>"></td>
         <td class="left"><?php echo $entry_group; ?>
           <select name="group">
             <?php foreach ($groups as $groups) { ?>

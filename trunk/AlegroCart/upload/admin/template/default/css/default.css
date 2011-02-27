@@ -9,12 +9,28 @@ body {
 	margin-left: -489px;
 	left: 50%;
 	position: relative;
+color: #000000;
 }
 
-body, td, th, input, select, textarea {
+body, td, th {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 11px;
+	
+}
+
+select, textarea, input {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #000000;
+	border: 1px solid #999999;
+	background-color: #FFFFFF;
+}
+
+.submit {
+    border: 2px outset #949CA1;
+    background: #949CA1;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
 img {
@@ -83,7 +99,7 @@ a:visited {
 
 .task .enabled {
 	cursor: pointer;
-	border: 1px solid #D5D5D5;
+	border: 1px solid #0099FF;
 	color: #333333;
 }
 
@@ -138,17 +154,19 @@ form {
 }
 
 #login_button {
-	background-color: #E0E0E0;
-	border: 1px solid #BBBBBB;
+	background-color: #949CA1;
+	border: 2px outset #949CA1;
 	font-weight: bold;
 	padding: 3px;
 	margin-top: 5px;
+	color: #FFFFFF;
 }
 
 .button {
-	background-color: #E0E0E0;
-	border: 1px solid #BBBBBB;
-	height: 19px;
+	border: 2px outset #949CA1;
+	background: #949CA1;
+	color: #FFFFFF;
+	font-weight: bold;
 }
 
 .home {
@@ -224,6 +242,7 @@ form {
 
 .list img {
 	border: 0px;
+	padding-top: 1px;
 }
 
 .left {
@@ -239,7 +258,7 @@ form {
 }
 
 .row1 td, .row2 td, .highlight td, .previous td  {
-	border-bottom: 1px solid #48C4DB;
+	border-bottom: 1px solid #0099FF;
 }
 
 .highlight {
@@ -260,9 +279,9 @@ form {
 }
 
 .rating {
-	color: #FF0000;
+	color: #0099FF;
 	text-transform: uppercase;
-	font-size: 10px;
+	font-weight: bold;
 }
  
 .box {
@@ -278,7 +297,7 @@ form {
 }
 
 .box table tr td {
-	border-bottom: 1px solid #48C4DB;
+	border-bottom: 1px solid #0099FF;
 	cursor: pointer;
 }
 
@@ -326,8 +345,50 @@ form {
 
 #phpinfo .a, #phpinfo .b {
 	margin: 20px;
-	border: 1px solid #48C4DB;
-	padding: 10px;
+	padding: 10px; 
+}
+
+#phpinfo .a {
+	font-weight: bold; 
+}
+
+#phpinfo .b table, .b td, .b tr {
+	font-family: Arial, sans-serif; 
+	font-size: 11px; 
+	text-align: left;
+	width: 919px;
+}
+
+#phpinfo .p {
+	text-align: center;
+}
+
+#phpinfo .e {
+	background-color: #ccccff; 
+	font-weight: bold; 
+	font-size: 11px;
+	width: 25%;
+}
+
+#phpinfo .h {
+	background-color: #9999cc; 
+	font-weight: bold; 
+	font-size: 11px;
+}
+
+#phpinfo .v {
+	background-color: #cccccc; 
+	font-size: 12px;
+}
+
+#phpinfo i {
+	color: #666666; 
+	font-size: 11px;
+}
+
+#phpinfo hr {
+	display: none; 
+	font-size: 11px;
 }
 
 #home .a {
@@ -374,12 +435,12 @@ form {
 }
 
 #home legend {
-	border: 1px solid #48C4DB;
+	border: 1px solid #0099FF;
 	padding: 5px;
 }
 
 #home fieldset {
-	border: 1px solid #48C4DB;
+	border: 1px solid #0099FF;
 	padding: 10px;
 }
 
@@ -405,7 +466,7 @@ form {
 }
 
 #bar {
-    background-color: #48C4DB;
+    background-color: #0099FF;
     border-top: 1px solid #CCCCCC; 
     border-bottom: 1px solid #CCCCCC;
     padding: 3px 3px 0px 10px;
@@ -449,12 +510,68 @@ form {
 	height: 152px;
 }
 .tooltip_white {
-   display:none;
-   background: url('../image/optionwhite.png');
-   font-size: 12px;
-   height:180px;
-   width:370px;
-   padding: 20px 20px 20px 20px;
-   color:#000000;                           
-   z-index: 1000;
+	display:none;
+	background: url('../image/optionwhite.png');
+	font-size: 12px;
+	height:180px;
+	width:370px;
+	padding: 20px 20px 20px 20px;
+	color:#000000;                           
+	z-index: 1000;
+}
+.set{
+	color: #2D2D2D;
+	font-weight: bold;
+}
+.expl{
+	color: #006600;
+	padding-left: 10px;
+}
+#dimensions{
+	color: #2D2D2D;
+	font-weight: bold;
+}
+#discounts{
+	color: #2D2D2D;
+	font-weight: bold;
+}
+#headertable, #extratable, #columntable, #contenttable, #columnrighttable, #footertable, #pagebottomtable, #rules{
+	color: #2D2D2D;
+	font-weight: bold;
+}
+.file_input_textbox{
+	float: left;
+	margin-top: 6px;
+}
+
+.file_input_div{
+	position: relative; 
+	width: 120px; 
+	height: 23px; 
+	overflow: hidden;
+	float: left;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+.file_input_button{
+	width: 120px; 
+	position: absolute; 
+	top: 0px;
+	background-color: #949CA1;
+	color: #FFFFFF;
+	border: 2px outset #949CA1;
+	font-weight: bold;
+}
+
+.file_input_hidden{
+	font-size: 45px; 
+	position: absolute; 
+	right: 0px; 
+	top: 0px; 
+	opacity: 0; 
+	
+	filter: alpha(opacity=0); 
+	-ms-filter: "alpha(opacity=0)"; 
+	-khtml-opacity: 0; 
+	-moz-opacity: 0;
 }

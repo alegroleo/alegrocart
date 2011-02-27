@@ -21,7 +21,7 @@
         <div class="pad">
 		  <table>
 		    <tr>
-              <td style="width:250px;"><?php echo $entry_status; ?></td>
+              <td style="width:250px;" class="set"><?php echo $entry_status; ?></td>
               <td><select name="global_developer_status">
                   <?php if ($global_developer_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -33,11 +33,11 @@
                 </select></td>
             </tr>
 			<tr>
-              <td><?php echo $entry_developer; ?></td>
+              <td class="set"><?php echo $entry_developer; ?></td>
               <td><input type="text" name="global_developer_developer" value="<?php echo $global_developer_developer; ?>" size="60" /></td>
             </tr>
 			<tr>
-              <td><?php echo $entry_link; ?></td>
+              <td class="set"><?php echo $entry_link; ?></td>
               <td><input type="text" name="global_developer_link" value="<?php echo $global_developer_link; ?>" size="80" /></td>
             </tr>
 		  </table>

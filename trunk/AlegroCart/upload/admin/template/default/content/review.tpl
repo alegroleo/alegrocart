@@ -29,14 +29,14 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_author; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_author; ?></td>
               <td><input type="text" name="author" value="<?php echo $author?>">
                 <?php if ($error_author) { ?>
                 <span class="error"><?php echo $error_author; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_product; ?></td>
+              <td class="set"><?php echo $entry_product; ?></td>
               <td><select name="product_id">
                   <?php foreach ($products as $product) { ?>
                   <?php if ($product['product_id'] == $product_id) { ?>
@@ -48,14 +48,14 @@
                 </select></td>
             </tr>
             <tr>
-              <td valign="top"><span class="required">*</span> <?php echo $entry_text; ?></td>
+              <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_text; ?></td>
               <td><textarea name="text" cols="60" rows="8"><?php echo $text; ?></textarea>
                 <?php if ($error_text) { ?>
                 <span class="error"><?php echo $error_text; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_rating; ?></td>
+              <td class="set"><?php echo $entry_rating; ?></td>
               <td><b class="rating"><?php echo $entry_bad; ?></b>&nbsp;
                 <?php if (@$rating == 1) { ?>
                 <input type="radio" name="rating" value="1" checked>
@@ -89,17 +89,17 @@
                 &nbsp; <b class="rating"><?php echo $entry_good; ?></b></td>
             </tr>
             <tr>
-              <td><?php echo $entry_status; ?></td>
+              <td class="set"><?php echo $entry_status; ?></td>
               <td><?php if ($status == 1) { ?>
-                <input type="radio" name="status" value="1" checked>
-                <?php echo $text_enabled; ?>
-                <input type="radio" name="status" value="0">
-                <?php echo $text_disabled; ?>
+                <input type="radio" name="status" value="1" id="enabled" checked>
+                <label for="enabled"><?php echo $text_enabled; ?></label>
+                <input type="radio" name="status" value="0" id="disabled">
+                <label for="disabled"><?php echo $text_disabled; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="status" value="1">
-                <?php echo $text_enabled; ?>
-                <input type="radio" name="status" value="0" checked>
-                <?php echo $text_disabled; ?>
+                <input type="radio" name="status" value="1" id="enabled">
+                <label for="enabled"><?php echo $text_enabled; ?></label>
+                <input type="radio" name="status" value="0" id="disabled" checked>
+                <label for="disabled"><?php echo $text_disabled; ?></label>
                 <?php } ?></td>
             </tr>
           </table>

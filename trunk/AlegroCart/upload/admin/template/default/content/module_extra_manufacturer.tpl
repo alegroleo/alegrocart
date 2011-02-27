@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_status; ?></td>
+              <td width="185" class="set"><?php echo $entry_status; ?></td>
               <td><select name="catalog_manufacturer_status">
                   <?php if ($catalog_manufacturer_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -33,7 +33,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_addtocart; ?></td>
+              <td class="set"><?php echo $entry_addtocart; ?></td>
               <td><select name="catalog_manufacturer_addtocart">
                   <?php if ($catalog_manufacturer_addtocart) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -45,16 +45,16 @@
                 </select></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_height; ?></td>
+			  <td class="set"><?php echo $entry_height; ?></td>
 			  <td><input type="text" name="catalog_manufacturer_image_height" value="<?php echo $catalog_manufacturer_image_height; ?>" size="3"></td>
-			  <td><?php echo $text_image;?></td>
+			  <td class="expl"><?php echo $text_image;?></td>
 			</tr>
 			<tr>
-			  <td><?php echo $entry_width; ?></td>
+			  <td class="set"><?php echo $entry_width; ?></td>
 			  <td><input type="text" name="catalog_manufacturer_image_width" value="<?php echo $catalog_manufacturer_image_width; ?>" size="3"></td>
 			</tr>
 			<tr>
-			  <td><?php echo $entry_columns; ?></td>
+			  <td class="set"><?php echo $entry_columns; ?></td>
 			  <td><select name="catalog_manufacturer_columns">
 			    <?php foreach($columns as $column){?>
 				  <?php if($column == $catalog_manufacturer_columns) {?>
@@ -66,11 +66,11 @@
 			  </td>				 
 			</tr>
 			<tr>
-			  <td><?php echo $entry_items_per_page; ?></td>
+			  <td class="set"><?php echo $entry_items_per_page; ?></td>
 			  <td><input type="text" name="catalog_manufacturer_rows" value="<?php echo $catalog_manufacturer_rows; ?>" size="3"></td>
-			  <td><?php echo $text_default_rows; ?></td>
+			  <td class="expl"><?php echo $text_default_rows; ?></td>
 			<tr>
-              <td><?php echo $entry_display_lock; ?></td>
+              <td class="set"><?php echo $entry_display_lock; ?></td>
               <td><select name="catalog_manufacturer_display_lock">
                   <?php if ($catalog_manufacturer_display_lock) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -82,7 +82,7 @@
                 </select></td>
 			</tr>
 			<tr>
-			  <td><?php echo $entry_options_select; ?></td>
+			  <td class="set"><?php echo $entry_options_select; ?></td>
 			  <td><select name="catalog_manufacturer_options_select">
 			        <option value="<?php echo $text_select;?>"<?php if($catalog_manufacturer_options_select == $text_select){echo ' selected';}?>><?php echo $text_select;?></option>
 				    <option value="<?php echo $text_radio;?>"<?php if($catalog_manufacturer_options_select == $text_radio){echo ' selected';}?>><?php echo $text_radio;?></option>

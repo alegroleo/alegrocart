@@ -271,6 +271,8 @@ class ControllerCoupon extends Controller {
 		$view->set('entry_product', $this->language->get('entry_product'));
 		$view->set('entry_status', $this->language->get('entry_status'));
 
+	$view->set('explanation_entry_product', $this->language->get('explanation_entry_product'));
+
     	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
     	$view->set('button_update', $this->language->get('button_update'));

@@ -39,14 +39,14 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_title; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_title; ?></td>
                     <td><input name="language[<?php echo $information['language_id']; ?>][title]" value="<?php echo $information['title']; ?>">
                       <?php if ($error_title) { ?>
                       <span class="error"><?php echo $error_title; ?></span>
                       <?php } ?></td>
                   </tr>
                   <tr>
-                    <td valign="top"><span class="required">*</span> <?php echo $entry_description; ?></td>
+                    <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
                     <td><textarea name="language[<?php echo $information['language_id']; ?>][description]" id="description<?php echo $information['language_id']; ?>"><?php echo $information['description']; ?></textarea>
                       <?php if ($error_description) { ?>
                       <span class="error"><?php echo $error_description; ?></span>
@@ -63,7 +63,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_sort_order; ?></td>
+              <td width="185" class="set"><?php echo $entry_sort_order; ?></td>
               <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
             </tr>
           </table>

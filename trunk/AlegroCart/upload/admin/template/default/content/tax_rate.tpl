@@ -29,7 +29,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_geo_zone; ?></td>
+              <td width="185" class="set"><?php echo $entry_geo_zone; ?></td>
               <td><select name="geo_zone_id">
                   <?php foreach ($geo_zones as $geo_zone) { ?>
                   <?php if ($geo_zone['geo_zone_id'] == $geo_zone_id) { ?>
@@ -41,21 +41,21 @@
                 </select></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_description; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
               <td><input type="text" name="description" value="<?php echo $description; ?>">
                 <?php if ($error_description) { ?>
                 <span class="error"><?php echo $error_description; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_rate; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_rate; ?></td>
               <td><input type="text" name="rate" value="<?php echo $rate; ?>">
                 <?php if ($error_rate) { ?>
                 <span class="error"><?php echo $error_rate; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_priority; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_priority; ?></td>
               <td><input type="text" name="priority" value="<?php echo $priority; ?>" size="1">
                 <?php if ($error_priority) { ?>
                 <span class="error"><?php echo $error_priority; ?></span>

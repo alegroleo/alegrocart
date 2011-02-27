@@ -40,7 +40,7 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td><input name="language[<?php echo $category['language_id']; ?>][name]" value="<?php echo $category['name']; ?>" >
                       <?php if ($error_name) { ?>
                       <span class="error"><?php echo $error_name; ?></span>
@@ -48,20 +48,20 @@
                   </tr>
 				  
                   <tr>  <!-- New Meta Tags -->
-                    <td width="185"> <?php echo $entry_meta_title; ?></td>
+                    <td width="185" class="set"> <?php echo $entry_meta_title; ?></td>
                     <td><input size="60" maxlength="60" name="meta_title[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_title']; ?>"></td> 
                   </tr>
 				  <tr>
-                    <td width="185"> <?php echo $entry_meta_description; ?></td>
+                    <td width="185" class="set"> <?php echo $entry_meta_description; ?></td>
                     <td><input size="100" maxlength="120" name="meta_description[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_description']; ?>"></td>					
 				  </tr>
 				  <tr>
-                    <td width="185"> <?php echo $entry_meta_keywords; ?></td>
+                    <td width="185" class="set"> <?php echo $entry_meta_keywords; ?></td>
                     <td><input size="100" maxlength="120" name="meta_keywords[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_keywords']; ?>"></td>
 				  </tr>	 <!-- End Meta Tags -->			  
 				  
                   <tr>
-                    <td valign="top"><span class="required">*</span> <?php echo $entry_description; ?></td>
+                    <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
                     <td><textarea name="description[<?php echo $category['language_id']; ?>]" id="description<?php echo $category['language_id']; ?>"><?php echo $category['description']; ?></textarea>
                       <?php if ($error_description) { ?>
                       <span class="error"><?php echo $error_description; ?></span>
@@ -78,7 +78,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_sort_order; ?></td>
+              <td width="185" class="set"><?php echo $entry_sort_order; ?></td>
               <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1" ></td>
             </tr>
           </table>
@@ -88,7 +88,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_image; ?></td>
+              <td width="185" class="set"><?php echo $entry_image; ?></td>
               <td><select name="image_id" id="image_id" onchange="$('#image').load('index.php?controller=image&action=view&image_id='+this.value);">
                   <?php foreach ($images as $image) { ?>
                   <?php if ($image['image_id'] == $image_id) { ?>

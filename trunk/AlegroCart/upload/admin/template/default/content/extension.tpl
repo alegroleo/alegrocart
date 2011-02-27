@@ -38,14 +38,14 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td><input name="extension_language[<?php echo $extension['language_id']; ?>][name]" value="<?php echo $extension['name']; ?>">
                       <?php if ($error_name) { ?>
                       <span class="error"><?php echo $error_name; ?></span>
                       <?php } ?></td>
                   </tr>
                   <tr>
-                    <td valign="top"><span class="required">*</span> <?php echo $entry_description; ?></td>
+                    <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
                     <td><textarea name="extension_language[<?php echo $extension['language_id']; ?>][description]" cols="40" rows="5"><?php echo $extension['description']; ?></textarea>
                       <?php if ($error_description) { ?>
                       <span class="error"><?php echo $error_description; ?></span>
@@ -62,28 +62,28 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_code; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_code; ?></td>
               <td><input name="code" value="<?php echo $code; ?>">
                 <?php if ($error_code) { ?>
                 <span class="error"><?php echo $error_code; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_directory; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_directory; ?></td>
               <td><input name="directory" value="<?php echo $directory; ?>">
                 <?php if ($error_directory) { ?>
                 <span class="error"><?php echo $error_directory; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_filename; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_filename; ?></td>
               <td><input name="filename" value="<?php echo $filename; ?>">
                 <?php if ($error_filename) { ?>
                 <span class="error"><?php echo $error_filename; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_controller; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_controller; ?></td>
               <td><input name="controller" value="<?php echo $controller; ?>">
                 <?php if ($error_controller) { ?>
                 <span class="error"><?php echo $error_controller; ?></span>

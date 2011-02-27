@@ -131,7 +131,7 @@ class ControllerProductsWithOptions extends Controller {
                'align' => 'center'
             );
 			$cell[] = array(
-               'image' => $result['filename']?$this->image->resize($result['filename'], '22', '22'):$this->image->resize('no_image.png', '22', '22'),
+               'image' => $result['filename']?$this->image->resize($result['filename'], '26', '26'):$this->image->resize('no_image.png', '26', '26'),
                'align' => 'right'
              );
 			 $action = array();

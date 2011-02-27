@@ -30,7 +30,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
               <td>
 			    <?php if($code == "en"){?>
 			      <input type="text" readonly="readonly" name="name" maxlength="32" value="<?php echo $name; ?>">
@@ -42,7 +42,7 @@
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_code; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_code; ?></td>
               <td>
 			    <?php if($code == "en"){?>
 				  <input type="text" readonly="readonly" name="code" maxlength="32" value="<?php echo $code; ?>">
@@ -54,7 +54,7 @@
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_image; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_image; ?></td>
               <td><input type="text" id="flag_image" name="image" maxlength="32" value="<?php echo $image; ?>">
                 <?php if ($error_image) { ?>
                 <span class="error"><?php echo $error_image; ?></span>
@@ -73,7 +73,7 @@
 				</td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_directory; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_directory; ?></td>
               <td>
 			    <?php if($code == "en"){?>
 				  <input type="text" readonly="readonly" name="directory" maxlength="32" value="<?php echo $directory; ?>">
@@ -85,7 +85,7 @@
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_filename; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_filename; ?></td>
               <td>
 			    <?php if($code == "en"){?>
 				  <input type="text" readonly="readonly" name="filename" maxlength="32" value="<?php echo $filename; ?>">
@@ -97,7 +97,7 @@
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
             </tr>
           </table>

@@ -29,14 +29,14 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
               <td><input type="text" name="name" value="<?php echo $name; ?>">
                 <?php if ($error_name) { ?>
                 <span class="error"><?php echo $error_name; ?></span>
                 <?php  } ?></td>
             </tr>
             <tr>
-              <td valign="top"><?php echo $entry_access; ?></td>
+              <td valign="top" class="set"><?php echo $entry_access; ?></td>
 		<td><?php echo $entry_all_access; ?><input name="all_access" type="checkbox"<?php echo (isset($all_access))?'CHECKED':''?>><br>
 		<select name="access[]" multiple="multiple">
                   <?php foreach ($permissions as $permission) { ?>
@@ -49,7 +49,7 @@
                 </select></td>
             </tr>
             <tr>
-              <td valign="top"><?php echo $entry_modify; ?></td>
+              <td valign="top" class="set"><?php echo $entry_modify; ?></td>
 		<td><?php echo $entry_all_modify; ?><input name="all_modify" type="checkbox"<?php echo isset($all_modify)?'CHECKED':''?>><br>
 		<select name="modify[]" multiple="multiple">
                   <?php foreach ($permissions as $permission) { ?>

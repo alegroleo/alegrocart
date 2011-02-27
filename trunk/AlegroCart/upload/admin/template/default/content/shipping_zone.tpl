@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
 		    <tr>
-			  <td><?php echo $entry_module_status;?></td>
+			  <td class="set"><?php echo $entry_module_status;?></td>
 			  <td><select name="global_zone_status">
 			    <option value="1"<?php if($global_zone_status){echo ' selected';}?>><?php echo $text_enabled; ?></option>
 				<option value="0"<?php if(!$global_zone_status){echo ' selected';}?>><?php echo $text_disabled; ?></option>
@@ -29,7 +29,7 @@
 			</tr>
             <?php foreach ($geo_zones as $geo_zone) { ?>
             <tr>
-              <td><?php echo $geo_zone['name']; ?> <?php echo $entry_status; ?></td>
+              <td class="set"><?php echo $geo_zone['name']; ?> <?php echo $entry_status; ?></td>
               <td><select name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][status]">
                   <?php if ($geo_zone['status']) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -41,12 +41,12 @@
                 </select></td>
             </tr>
             <tr>
-              <td width="185"><?php echo $geo_zone['name']; ?> <?php echo $entry_cost; ?></td>
+              <td width="185" class="set"><?php echo $geo_zone['name']; ?> <?php echo $entry_cost; ?></td>
               <td><input size="100" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][cost]" value="<?php echo $geo_zone['cost']; ?>"></td>
             </tr>
             <?php } ?>
             <tr>
-              <td><?php echo $entry_tax; ?></td>
+              <td class="set"><?php echo $entry_tax; ?></td>
               <td><select name="global_zone_tax_class_id">
                   <option value="0"><?php echo $text_none; ?></option>
                   <?php foreach ($tax_classes as $tax_class) { ?>
@@ -59,11 +59,11 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input type="text" name="global_zone_sort_order" value="<?php echo $global_zone_sort_order; ?>" size="1"></td>
             </tr>
           </table>
-		  <table><tr> <td>
+		  <table><tr> <td class="expl">
 		    <?php echo $text_instruction;?>
 		  </td></tr><table/>
         </div>

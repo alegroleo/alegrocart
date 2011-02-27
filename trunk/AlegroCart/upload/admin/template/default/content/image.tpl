@@ -38,7 +38,7 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_title; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_title; ?></td>
                     <td><input name="language[<?php echo $image['language_id']; ?>][title]" value="<?php echo $image['title']; ?>">
                       <?php if ($error_title) { ?>
                       <span class="error"><?php echo $error_title; ?></span>
@@ -55,8 +55,12 @@
         <div class="pad">
           <table>
             <tr>
-              <td style="width: 100px;"><?php echo $entry_filename; ?></td>
-              <td><input type="file" name="image">
+              <td style="width: 100px;" class="set"><?php echo $entry_filename; ?></td>
+              <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+	      <div class="file_input_div">
+	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
+	      <input type="file" name="image" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value" />
+	      </div>
                 <?php if ($error_file) { ?>
                 <span class="error"><?php echo $error_file; ?></span>
                 <?php } ?></td>
@@ -65,7 +69,7 @@
 		  <?php if(isset($image_data)){?>
 			<table>
 			  <tr>
-			    <td><?php echo $text_image_filename . '<b>' . $image_data[0]['filename'] . '</b>';?></td>
+			    <td class="set"><?php echo $text_image_filename . '<b style="color:#0099FF;">' . $image_data[0]['filename'] . '</b>';?></td>
 				<td id="image"><img src="<?php echo $image_data[0]['thumb'];?>" alt="" title="" width="100" height="100"></td>
 			  </tr>
 			</table>

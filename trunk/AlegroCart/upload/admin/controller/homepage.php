@@ -119,7 +119,7 @@ class ControllerHomepage extends Controller {
         		'align' => 'center'
       		);
 			$cell[] = array(
-               'image' => $result['filename']?$this->image->resize($result['filename'], '22', '22'):$this->image->resize('no_image.png', '22', '22'),
+               'image' => $result['filename']?$this->image->resize($result['filename'], '26', '26'):$this->image->resize('no_image.png', '26', '26'),
                'align' => 'right'
              );
 			
@@ -192,7 +192,8 @@ class ControllerHomepage extends Controller {
 		$view->set('text_continous', $this->language->get('text_continous'));
 		$view->set('text_noflash', $this->language->get('text_noflash'));
 		$view->set('text_noimage', $this->language->get('text_noimage'));
-		
+		$view->set('text_browse', $this->language->get('text_browse'));
+
 		$view->set('entry_name', $this->language->get('entry_name'));
 		$view->set('entry_title', $this->language->get('entry_title'));
 		$view->set('entry_status', $this->language->get('entry_status'));

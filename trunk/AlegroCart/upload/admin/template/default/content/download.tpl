@@ -39,7 +39,7 @@
               <div class="minipad">
                 <table>
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td><input name="language[<?php echo $download['language_id']; ?>][name]" value="<?php echo $download['name']; ?>">
                       <?php if ($error_name) { ?>
                       <span class="error"><?php echo $error_name; ?></span>
@@ -56,21 +56,25 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><?php echo $entry_filename; ?></td>
-              <td><input type="file" id="download" name="download" value="" onchange="set_mask()">
+              <td width="185" class="set"><?php echo $entry_filename; ?></td>
+               <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+	      <div class="file_input_div">
+	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
+	      <input type="file" id="download" name="download" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value; set_mask()" />
+	      </div>
                 <?php if ($error_file) { ?>
                 <span class="error"><?php echo $error_file; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_mask; ?></td>
+              <td class="set"><?php echo $entry_mask; ?></td>
               <td><input type="input" id="mask" name="mask" value="<?php echo $mask; ?>">
                 <?php if ($error_mask) { ?>
                 <span class="error"><?php echo $error_mask; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><?php echo $entry_remaining; ?></td>
+              <td class="set"><?php echo $entry_remaining; ?></td>
               <td><input type="input" id="remaining" name="remaining" value="<?php echo $remaining; ?>" size="6"></td>
             </tr>
           </table>

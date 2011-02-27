@@ -29,7 +29,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_name; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
               <td><input type="text" name="name" value="<?php echo $name; ?>">
                 <?php if ($error_name) { ?>
                 <span class="error"><?php echo $error_name; ?></span>
@@ -37,7 +37,7 @@
             </tr>			
 			<!--   Zone Enable   -->			
 			<tr>
-              <td><?php echo $entry_zone_status; ?></td>
+              <td class="set"><?php echo $entry_zone_status; ?></td>
               <td><select name="zone_status">
                   <?php if ($zone_status == '1') { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -50,11 +50,11 @@
             </tr>	
 			<!-- End Zone Enable -->		
             <tr>
-              <td><?php echo $entry_code; ?></td>
+              <td class="set"><?php echo $entry_code; ?></td>
               <td><input type="text" name="code" value="<?php echo $code; ?>"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_country; ?></td>
+              <td class="set"><?php echo $entry_country; ?></td>
               <td><select name="country_id">
                   <?php foreach ($countries as $country) { ?>
                   <?php if ($country['country_id'] == $country_id) { ?>

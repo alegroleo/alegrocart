@@ -29,21 +29,21 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185"><span class="required">*</span> <?php echo $entry_title; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_title; ?></td>
               <td><input type="text" name="title" value="<?php echo $title; ?>">
                 <?php if ($error_title) { ?>
                 <span class="error"><?php echo $error_title; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_code; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_code; ?></td>
               <td><input type="text" name="code" value="<?php echo $code; ?>">
                 <?php if ($error_code) { ?>
                 <span class="error"><?php echo $error_code; ?></span>
                 <?php } ?></td>
             </tr>
 			<tr>
-			  <td><?php echo $entry_status;?></td>
+			  <td class="set"><?php echo $entry_status;?></td>
 			  <td><select name="status">
 			    <?php if($status) { ?>
 			    <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -59,7 +59,7 @@
 			  </td>
 			</tr>
 			<tr>
-			  <td><?php echo $entry_lock_rate;?></td>
+			  <td class="set"><?php echo $entry_lock_rate;?></td>
 			  <td><select name="lock_rate">
 			    <?php if($lock_rate) { ?>
 			    <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -69,24 +69,24 @@
                 <option value="0" selected><?php echo $text_disabled; ?></option>
 			    <?php } ?>
 			  </select></td>
-			  <td><?php echo $text_lock_rate; ?></td>
+			  <td class="expl"><?php echo $text_lock_rate; ?></td>
 			</tr>
             <tr>
-              <td><?php echo $entry_symbol_left; ?></td>
+              <td class="set"><?php echo $entry_symbol_left; ?></td>
               <td><input type="text" name="symbol_left" value="<?php echo $symbol_left; ?>"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_symbol_right; ?></td>
+              <td class="set"><?php echo $entry_symbol_right; ?></td>
               <td><input type="text" name="symbol_right" value="<?php echo $symbol_right; ?>"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_decimal_place; ?></td>
+              <td class="set"><?php echo $entry_decimal_place; ?></td>
               <td><input type="text" name="decimal_place" value="<?php echo $decimal_place; ?>"></td>
             </tr>
             <tr>
-              <td><?php echo $entry_value; ?></td>
+              <td class="set"><?php echo $entry_value; ?></td>
               <td><input type="text" name="value" value="<?php echo $value; ?>"></td>
-			  <td><?php echo $text_default_rate ;?></td>
+			  <td class="expl"><?php echo $text_default_rate ;?></td>
             </tr>
           </table>
         </div>

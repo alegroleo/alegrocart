@@ -172,7 +172,7 @@ class ControllerCategory extends Controller {
 				'align' => 'left'
 			);
 		   $cell[] = array(
-               'image' => $this->image->resize($result['filename'], '22', '22'),
+               'image' => $this->image->resize($result['filename'], '26', '26'),
                'align' => 'center'
              );
 			$cell[] = array(

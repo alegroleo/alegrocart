@@ -21,7 +21,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td style="width:250px;"><?php echo $entry_status; ?></td>
+              <td style="width:250px;" class="set"><?php echo $entry_status; ?></td>
               <td><select name="catalog_featured_status">
                   <?php if ($catalog_featured_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -33,11 +33,11 @@
                 </select></td>
             </tr>
             <tr>
-              <td><?php echo $entry_limit; ?></td>
+              <td class="set"><?php echo $entry_limit; ?></td>
               <td><input type="text" name="catalog_featured_limit" value="<?php echo $catalog_featured_limit; ?>" size="1" /></td>
             </tr>
             <tr>
-              <td><?php echo $entry_columns; ?></td>
+              <td class="set"><?php echo $entry_columns; ?></td>
               <td><select name="catalog_featured_columns">
 				<?php foreach($column_data as $column){?>
 				  <?php if($column == $catalog_featured_columns){?>
@@ -49,15 +49,15 @@
 			  </select></td>
 			</tr>
 			<tr>
-			  <td><?php echo $entry_height; ?></td>
+			  <td class="set"><?php echo $entry_height; ?></td>
 			  <td><input type="text" name="catalog_featured_image_height" value="<?php echo $catalog_featured_image_height; ?>" size="3"></td>
 			</tr>
 			<tr>
-			  <td><?php echo $entry_width; ?></td>
+			  <td class="set"><?php echo $entry_width; ?></td>
 			  <td><input type="text" name="catalog_featured_image_width" value="<?php echo $catalog_featured_image_width; ?>" size="3"></td>
 			</tr>
 			<tr>
-			  <td><?php echo $entry_image_display;?></td>
+			  <td class="set"><?php echo $entry_image_display;?></td>
 				<td><select name="catalog_featured_image_display">
 				<?php foreach($image_displays as $image_display){?>
 				  <?php if($image_display == $catalog_featured_image_display){?>
@@ -69,7 +69,7 @@
 			  </select></td>
 			</tr>
             <tr>
-              <td><?php echo $entry_addtocart; ?></td>
+              <td class="set"><?php echo $entry_addtocart; ?></td>
               <td><select name="catalog_featured_addtocart">
                   <?php if ($catalog_featured_addtocart) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -81,20 +81,20 @@
                 </select></td>
             </tr>
 			<tr>
-              <td><?php echo $entry_lines_single; ?></td>
+              <td class="set"><?php echo $entry_lines_single; ?></td>
               <td><input type="text" name="catalog_featured_lines_single" value="<?php echo $catalog_featured_lines_single; ?>" size="1" /></td>
             </tr>
 			<tr>
-              <td><?php echo $entry_lines_multi; ?></td>
+              <td class="set"><?php echo $entry_lines_multi; ?></td>
               <td><input type="text" name="catalog_featured_lines_multi" value="<?php echo $catalog_featured_lines_multi; ?>" size="1" /></td>
             </tr>
 			<tr>
-              <td><?php echo $entry_lines_char; ?></td>
+              <td class="set"><?php echo $entry_lines_char; ?></td>
               <td><input type="text" name="catalog_featured_lines_char" value="<?php echo $catalog_featured_lines_char; ?>" size="3" /></td>
             </tr>
           </table>
 		  <table>
-		    <tr><td style="width: 100px;"></td><td>
+		    <tr><td style="width: 100px;"></td><td class="expl">
 			  <?php echo $text_instruction;?>
 			</td></tr>
 		  </table>

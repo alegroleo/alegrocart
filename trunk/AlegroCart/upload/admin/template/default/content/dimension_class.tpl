@@ -40,14 +40,14 @@
                 <table>
 				  
                   <tr>
-                    <td width="185"><span class="required">*</span> <?php echo $entry_title; ?></td>
+                    <td width="185" class="set"><span class="required">*</span> <?php echo $entry_title; ?></td>
                     <td><input name="language[<?php echo $dimension_class['language_id']; ?>][title]" value="<?php echo $dimension_class['title']; ?>">
                       <?php if ($error_title) { ?>
                       <span class="error"><?php echo $error_title; ?></span>
                       <?php } ?></td>
                   </tr>
                   <tr>
-                    <td><span class="required">*</span> <?php echo $entry_unit; ?></td>
+                    <td class="set"><span class="required">*</span> <?php echo $entry_unit; ?></td>
                     <td><input name="language[<?php echo $dimension_class['language_id']; ?>][unit]" value="<?php echo $dimension_class['unit']; ?>">
                       <?php if ($error_unit) { ?>
                       <span class="error"><?php echo $error_unit; ?></span>
@@ -64,7 +64,7 @@
         <div class="pad">
           <table>
 		    <tr>
-			  <td width="185"><span class="required">*</span> <?php echo $entry_type; ?></td>
+			  <td width="185" class="set"><span class="required">*</span> <?php echo $entry_type; ?></td>
 			  <?php if(isset($type)){?>
 				<td>
 				<input type="hidden" name="type_id" value="<?php echo $type['type_id'];?>">

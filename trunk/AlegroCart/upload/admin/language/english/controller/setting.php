@@ -27,7 +27,9 @@ $_['text_volume']           = 'Volume: Litre, Quart';
 $_['text_rss_info']         = 'Maximum items in Rss Feed';
 $_['text_dimension_decimal']= 'Number of decimal places to be displayed in catalog';
 $_['text_stock_help']       = 'Stock Help!';
-$_['text_stock_explantion'] = '<b>Check Stock</b> will produce a warning when quantity in cart exceeds available stock<br><b>Allow Checkout</b> will allow customer to checkout when cart quantity exceeds available stock. This is only functional when Check stock is enabled<br><b>Subtract Stock</b> reduces your inventory quantity when items are sold';
+$_['text_check_stock_explantion'] = 'Check Stock will produce a warning when quantity in cart exceeds available stock.';
+$_['text_allow_checkout_explantion'] = 'Allow Checkout will allow customer to checkout when cart quantity exceeds available stock. This is only functional when Check Stock is enabled.';
+$_['text_subtract_stock_explantion'] = 'Subtract Stock reduces your inventory quantity when items are sold.';
 $_['text_address_explantion']= 'You can set your Default address format here.<br>The address format requires the following field names entered in the address box exactly as they appear here, only in the order you choose. Field Names:<br><b>firstname lastname<br>company<br>address_1<br>address_2<br>city, zone<br>country, postcode</b>';
 $_['text_address_help']      = 'Address HELP!';
 

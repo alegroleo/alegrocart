@@ -25,11 +25,15 @@
 <script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
 
 <form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
-  <table>			
+  <table align="center">			
 	<tr>
-	  <td><?php echo $entry_filename;?></td>
-		<td><input size="64" type="file" name="flashimage"></td>
-		<td><input type="submit" value="<?php echo $button_upload;?>">
+	  <td class="set"><?php echo $entry_filename;?></td>
+	      <td><input size="64" type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+	      <div class="file_input_div">
+	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
+	      <input type="file" name="flashimage" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value" />
+	      </div></td>
+	      <td><input type="submit" class="submit" value="<?php echo $button_upload;?>">
 		</td>
 	</tr>
   </table>
@@ -43,11 +47,11 @@
         <div class="pad">
           <table>
             <tr>
-              <td><span class="required">*</span><?php echo $entry_name; ?></td>
+              <td class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
 			  <td><input size="32" maxlength="64" name="name" value="<?php echo $name;?>"></td>
 			</tr>
             <tr>
-              <td><?php echo $entry_status; ?></td>
+              <td class="set"><?php echo $entry_status; ?></td>
               <td><select name="status">
                   <?php if ($status == '1') { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -74,29 +78,29 @@
 			  <div class="minipad">
 				<table>
 				  <tr>
-					<td style="width: 165px;"><?php echo $entry_run_times;?></td>
+					<td style="width: 165px;" class="set"><?php echo $entry_run_times;?></td>
 					<td style="width: 200px;"><input size="10" name="run_times[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['run_times'];?>"></td>
-					<td><?php echo $text_runtimes;?></td>
+					<td class="expl"><?php echo $text_runtimes;?></td>
 				  </tr>
 				 </table>
 			    <table>
 				  <tr>
-					<td style="width: 165px;"><span class="required">*</span><?php echo $entry_title; ?></td>
+					<td style="width: 165px;" class="set"><span class="required">*</span> <?php echo $entry_title; ?></td>
 					<td style="width: 200px;"><input size="30" maxlength="64" name="title[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['title']; ?>">
                       <?php if ($error_title) { ?>
                       <span class="error"><?php echo $error_title; ?></span>
                       <?php } ?></td>
                   </tr> 
 				  <tr>
-				    <td><?php echo $entry_flash_width; ?></td>
+				    <td class="set"><?php echo $entry_flash_width; ?></td>
 					<td><input name="flash_width[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_width'];?>"></td>
 				  </tr>
 				  <tr>
-				    <td><?php echo $entry_flash_height; ?></td>
+				    <td class="set"><?php echo $entry_flash_height; ?></td>
 					<td><input name="flash_height[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_height'];?>"></td>
 				  </tr>
 				  <tr>
-				    <td><?php echo $entry_flash_loop; ?></td>
+				    <td class="set"><?php echo $entry_flash_loop; ?></td>
 					<td><select name="flash_loop[<?php echo $home_description['language_id']; ?>]">
 					  <?php if ($home_description['flash_loop'] == '1') { ?>
 						<option value="1" selected><?php echo $text_enabled; ?></option>
@@ -106,10 +110,10 @@
 					<option value="0" selected><?php echo $text_disabled; ?></option>
 					  <?php } ?>
 					</select></td>
-				    <td><?php echo $text_continous; ?></td>
+				    <td class="expl"><?php echo $text_continous; ?></td>
 				  </tr>
 				  <tr>
-				    <td><?php echo $entry_flash; ?></td>
+				    <td class="set"><?php echo $entry_flash; ?></td>
 					<td id="f_upload<?php echo $home_description['language_id']; ?>">
 					  <select name="flash[<?php echo $home_description['language_id']; ?>]" id="flash<?php echo $home_description['language_id']; ?>" onchange="$('#flash_name<?php echo $home_description['language_id']; ?>').load('index.php?controller=image_display&action=viewFlash&flash='+this.value);">
 					      <option value=""><?php echo $text_noflash;?></option>
@@ -126,19 +130,19 @@
 				  </table>
 				  <table>
                   <tr>
-                    <td style="vertical-align: top; width: 165px"><?php echo $entry_welcome; ?></td>
+                    <td style="vertical-align: top; width: 165px" class="set"><?php echo $entry_welcome; ?></td>
                     <td><textarea name="welcome[<?php echo $home_description['language_id']; ?>]" id="welcome<?php echo $home_description['language_id']; ?>"><?php echo $home_description['welcome']; ?></textarea>
                   </tr>
 				</table>
 				<table>
                   <tr>
-                    <td style="vertical-align: top; width: 165px"><?php echo $entry_description; ?></td>
+                    <td style="vertical-align: top; width: 165px" class="set"><?php echo $entry_description; ?></td>
                     <td><textarea name="description[<?php echo $home_description['language_id']; ?>]" id="description<?php echo $home_description['language_id']; ?>"><?php echo $home_description['description']; ?></textarea>
                   </tr>
 				</table>
 				<table>
 				  <tr>
-				    <td style="width: 165px"><?php echo $entry_image; ?></td>
+				    <td style="width: 165px" class="set"><?php echo $entry_image; ?></td>
                     <td><select name="image_id[<?php echo $home_description['language_id']; ?>]" id="image_id<?php echo $home_description['language_id']; ?>" onchange="$('#image<?php echo $home_description['language_id']; ?>').load('index.php?controller=image&action=view&image_id='+this.value);">
 						  <option value=""><?php echo $text_noimage;?></option>
                       <?php foreach ($images as $image) { ?>
@@ -172,15 +176,15 @@
 			    <div class="minipad">
 				  <table>
 					<tr>
-					  <td style="width: 185px"><?php echo $entry_meta_title;?></td>
+					  <td style="width: 185px" class="set"><?php echo $entry_meta_title;?></td>
 					  <td><input size="120" maxlength="120" name="meta_title[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_title']; ?>"></td>
 					</tr>
 					<tr>
-					  <td style="width: 185px"><?php echo $entry_meta_description;?></td>
+					  <td style="width: 185px" class="set"><?php echo $entry_meta_description;?></td>
 					  <td><input size="120" maxlength="512" name="meta_description[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_description']; ?>"></td>
 					</tr>
 					<tr>
-					  <td style="width: 185px"><?php echo $entry_meta_keywords;?></td>
+					  <td style="width: 185px" class="set"><?php echo $entry_meta_keywords;?></td>
 					  <td><input size="120" maxlength="255" name="meta_keywords[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_keywords']; ?>"></td>
 					</tr>
 				  </table>

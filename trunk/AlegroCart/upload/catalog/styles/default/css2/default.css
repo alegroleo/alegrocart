@@ -51,11 +51,12 @@ a:hover {
 
 }
 #header .a {
-	width: 460px;
+	position: absolute;
+	overflow: hidden;
+	/*width: 460px;
 	height: 59px;
 	left: 273px;
-	position: absolute;
-	top: 5px;
+	top: 5px;*/
 }
 #header .b a img {
 	width: 14px;

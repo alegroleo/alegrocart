@@ -1040,3 +1040,24 @@ CREATE TABLE IF NOT EXISTS `product_options` (
   `model_number` varchar( 32 ) collate utf8_unicode_ci NOT NULL default '',
   PRIMARY KEY  (`product_id`, `product_option`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+# Add selectable Logo
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_store_logo';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_store_logo', 'aclogo.png') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_left';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_left', '273') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_top';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_top', '5') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_width';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_width', '460') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_height';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_height', '60') ON DUPLICATE KEY UPDATE setting_id=setting_id;

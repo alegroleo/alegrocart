@@ -450,8 +450,8 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185" class="set"><?php echo $entry_vat; ?></td>
-              <td><input type="text" name="catalog_config_vat" value="<?php echo $catalog_config_vat; ?>"></td>
+              <td width="165" class="set"><?php echo $entry_vat; ?></td>
+              <td width="130><input type="text" name="catalog_config_vat" value="<?php echo $catalog_config_vat; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_account; ?></td>
@@ -484,7 +484,44 @@
 			  <td><input type="text" name="global_config_rss_limit" value="<?php echo $global_config_rss_limit; ?>" size="6"></td>
 			  <td class="expl"><?php echo $text_rss_info;?></td>
 			</tr>
+			<tr><td colspan="2"><hr></td></tr>
           </table>
+		  
+		  <table>
+			<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_store_logo;?></p></td>
+			  <td width="130"></td>
+			</tr>
+		    <tr>
+			  <td class="set"><?php echo $entry_logo;?></td>
+		      <td><select id="logo_id" name="catalog_config_store_logo" onchange="$('#logo_image').load('index.php?controller=setting&action=viewLogo&store_logo='+this.value);">
+			    <?php foreach ($logos as $logo){?>
+				  <option value="<?php echo $logo['logo'];?>"<?php if($logo['logo'] == $catalog_config_store_logo){echo ' selected';}?>><?php echo $logo['logo'];?></option>
+			    <?php }?>
+			  </select></td>
+			<td class="logo_image" id="logo_image"></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_logo_left;?></td>
+			  <td><input type="text" name="catalog_config_logo_left" value="<?php echo $catalog_config_logo_left; ?>" size="6"></td>
+			  <td class="expl"><?php echo $text_logo_left_exp;?></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_logo_top;?></td>
+			  <td><input type="text" name="catalog_config_logo_top" value="<?php echo $catalog_config_logo_top; ?>" size="6"></td>
+			  <td class="expl"><?php echo $text_logo_top_exp;?></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_logo_width;?></td>
+			  <td><input type="text" name="catalog_config_logo_width" value="<?php echo $catalog_config_logo_width; ?>" size="6"></td>
+			  
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_logo_height;?></td>
+			  <td><input type="text" name="catalog_config_logo_height" value="<?php echo $catalog_config_logo_height; ?>" size="6"></td>
+			  
+			</tr>
+		  </table>
+		  
         </div>
       </div>
       <div class="page">
@@ -839,5 +876,8 @@
   //--></script>
   <script type="text/javascript"><!--
   $('#zone').load('index.php?controller=setting&action=zone&country_id=<?php echo $global_config_country_id; ?>&zone_id=<?php echo $global_config_zone_id; ?>');
+  //--></script>
+  <script type="text/javascript"><!--
+    $('#logo_image').load('index.php?controller=setting&action=viewLogo&store_logo='+document.getElementById('logo_id').value);
   //--></script>
 </form>

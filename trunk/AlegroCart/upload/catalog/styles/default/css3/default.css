@@ -52,10 +52,11 @@ a:hover {
 }
 #header .a {
 	position: absolute;
-	width: 460px;
+	overflow: hidden;
+	/*width: 460px;
 	height: 59px;
 	left: 273px;
-	top: 5px;
+	top: 5px;*/
 }
 #header .b a img {
 	width: 14px;

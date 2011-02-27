@@ -2,6 +2,7 @@
 class ControllerSetting extends Controller {
 	var $error = array();
 	var $types=array('css');
+	var $logo_types = array('jpg','gif','jpeg','png');
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
@@ -57,7 +58,7 @@ class ControllerSetting extends Controller {
 		$view->set('text_cart_wide', $this->language->get('text_cart_wide'));
 		$view->set('text_rss_info', $this->language->get('text_rss_info'));
 		$view->set('text_dimension_decimal', $this->language->get('text_dimension_decimal'));
-		
+		$view->set('text_store_logo', $this->language->get('text_store_logo'));
 		$view->set('text_product', $this->language->get('text_product'));
 		$view->set('text_category', $this->language->get('text_category'));
 		$view->set('text_search', $this->language->get('text_search'));
@@ -69,6 +70,8 @@ class ControllerSetting extends Controller {
 		$view->set('text_stock_help', $this->language->get('text_stock_help'));
 		$view->set('text_address_explantion', $this->language->get('text_address_explantion'));
 		$view->set('text_address_help', $this->language->get('text_address_help'));
+		$view->set('text_logo_top_exp', $this->language->get('text_logo_top_exp'));
+		$view->set('text_logo_left_exp', $this->language->get('text_logo_left_exp'));
 		
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
@@ -78,6 +81,11 @@ class ControllerSetting extends Controller {
 		$view->set('entry_template', $this->language->get('entry_template'));
 		$view->set('entry_styles', $this->language->get('entry_styles'));
 		$view->set('entry_colors', $this->language->get('entry_colors'));
+		$view->set('entry_logo', $this->language->get('entry_logo'));
+		$view->set('entry_logo_top', $this->language->get('entry_logo_top'));
+		$view->set('entry_logo_left', $this->language->get('entry_logo_left'));
+		$view->set('entry_logo_width', $this->language->get('entry_logo_width'));
+		$view->set('entry_logo_height', $this->language->get('entry_logo_height'));
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_url_alias', $this->language->get('entry_url_alias'));
 		$view->set('entry_seo', $this->language->get('entry_seo'));
@@ -277,6 +285,37 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_config_colors', @$setting_info['catalog']['config_colors']);
 		}
 		$view->set('catalog_colors', $this->checkFiles($style, $columns));
+		
+		$view->set('logos', $this->getLogos());
+		if ($this->request->has('catalog_config_store_logo', 'post')) {  // Cataloge Logo
+			$view->set('catalog_config_store_logo', $this->request->gethtml('catalog_config_store_logo', 'post'));
+		} else {
+			$view->set('catalog_config_store_logo', @$setting_info['catalog']['config_store_logo']);
+		}
+		
+		if ($this->request->has('catalog_config_logo_left', 'post')) {
+			$view->set('catalog_config_logo_left', $this->request->gethtml('catalog_config_logo_left', 'post'));
+		} else {
+			$view->set('catalog_config_logo_left', @$setting_info['catalog']['config_logo_left']);
+		}
+		
+		if ($this->request->has('catalog_config_logo_top', 'post')) {
+			$view->set('catalog_config_logo_top', $this->request->gethtml('catalog_config_logo_top', 'post'));
+		} else {
+			$view->set('catalog_config_logo_top', @$setting_info['catalog']['config_logo_top']);
+		}
+		
+		if ($this->request->has('catalog_config_logo_width', 'post')) {
+			$view->set('catalog_config_logo_width', $this->request->gethtml('catalog_config_logo_width', 'post'));
+		} else {
+			$view->set('catalog_config_logo_width', @$setting_info['catalog']['config_logo_width']);
+		}
+		
+		if ($this->request->has('catalog_config_logo_height', 'post')) {
+			$view->set('catalog_config_logo_height', $this->request->gethtml('catalog_config_logo_height', 'post'));
+		} else {
+			$view->set('catalog_config_logo_height', @$setting_info['catalog']['config_logo_height']);
+		}
 		
 		if ($this->request->has('admin_config_template', 'post')) {  // Admin Template
 			$view->set('admin_config_template', $this->request->gethtml('admin_config_template', 'post'));
@@ -713,6 +752,32 @@ class ControllerSetting extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	
+	function getLogos(){
+		$logos_data = array();
+		$files = glob(DIR_IMAGE.D_S.'logo'.D_S.'*.*');
+		if (!$files) { return; }
+		foreach ($files as $file) {
+			$pattern='/\.('.implode('|',$this->logo_types).')$/';
+			if (preg_match($pattern,$file)) {
+				$filename = basename($file);
+				$logos_data[] = array(
+					'logo'	=> $filename
+				);
+			}
+		}
+		return $logos_data;
+	}
+	
+	function viewLogo(){
+		if($this->request->gethtml('store_logo')){
+			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('store_logo') . '"';
+			$output .= 'alt="Store Logo" title="Store Logo">';
+		} else {
+			$output = '';
+		}
+		$this->response->set($output);
+	}
+	
 	function checkFiles($style, $columns) {
 		$colors_data = array();
 		$files = glob(DIR_CATALOG_STYLES.$style.D_S.'colors'.$columns.D_S.'*.*');
@@ -728,6 +793,7 @@ class ControllerSetting extends Controller {
 		}
 		return $colors_data;
 	}
+	
 	function validate_update() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');

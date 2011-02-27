@@ -7,7 +7,7 @@ body {
 	background-color: #CCCCCC; /*Background Color*/
 }
 #header .a {
-	background: url('../image/color3/grey/shoppingcart.png') no-repeat;
+	/*background: url('../image/color3/grey/shoppingcart.png') no-repeat;*/
 }
 #bar .b a {
 	background: url('../image/color3/grey/tabup.jpg');

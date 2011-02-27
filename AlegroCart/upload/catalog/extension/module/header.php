@@ -19,6 +19,14 @@ class ModuleHeader extends Controller {
 			if ($session->get('maintenance') != 'enabled') {
 				$view->set('rss_image', $image->href('rss.png'));
 				$view->set('rss_link', $url->get_server().'rss.php');
+				
+				$view->set('store_logo', $image->href('logo/'.$config->get('config_store_logo')));
+				$view->set('logo_left', $config->get('config_logo_left'));
+				$view->set('logo_top', $config->get('config_logo_top'));
+				$view->set('logo_width', $config->get('config_logo_width'));
+				$view->set('logo_height', $config->get('config_logo_height'));
+				$view->set('store', $config->get('config_store'));
+				
 				$home_data = $this->modelCore->get_homepage();
 				$template->set('meta_title', $home_data['meta_title'] ? $home_data['meta_title'] : FALSE);
 				$template->set('meta_description', $home_data['meta_description'] ?'<meta name="description" content="' . $home_data['meta_description'] . '">' : FALSE);

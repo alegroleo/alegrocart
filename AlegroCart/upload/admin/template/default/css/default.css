@@ -9,7 +9,7 @@ body {
 	margin-left: -489px;
 	left: 50%;
 	position: relative;
-color: #000000;
+	color: #000000;
 }
 
 body, td, th {
@@ -503,6 +503,12 @@ form {
 	border: 1px solid #999999;
 	width: 102px;
 	height: 102px;
+}
+.logo_image{
+	border: 1px solid #999999;
+	width: 500px;
+	height: 70x;
+	text-align: center;
 }
 .flash_image{
 	border: 1px solid #999999;

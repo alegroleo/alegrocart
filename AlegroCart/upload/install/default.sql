@@ -1725,7 +1725,7 @@ INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALU
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('916', '57', 'VK', 'Vejle', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('917', '57', 'VJ', 'Vestjælland', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('918', '57', 'VB', 'Viborg', '1');
-INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('919', '58', 'S', &#039;'Ali Sabih', '1');
+INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('919', '58', 'S', '&#039;Ali Sabih', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('920', '58', 'K', 'Dikhil', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('921', '58', 'J', 'Djibouti', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('922', '58', 'O', 'Obock', '1');

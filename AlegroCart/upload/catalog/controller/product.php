@@ -233,6 +233,9 @@ class ControllerProduct extends Controller {
 			$view->set('maxrow', count($this->review()));
       		$view->set('images', $image_data);
 			$view->set('image_display', $this->config->get('product_image_display'));
+			$view->set('magnifier', $this->config->get('magnifier'));
+			$view->set('magnifier_width', $this->config->get('magnifier_width'));
+			$view->set('magnifier_height', $this->config->get('magnifier_height'));
 			$view->set('head_def',$head_def);
 			$view->set('product_addtocart',$this->config->get('product_addtocart')); 
 			$view->set('columns', 1);

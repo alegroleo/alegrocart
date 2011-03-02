@@ -689,18 +689,39 @@
 			<tr>
 			  <td class="set"><?php echo $entry_alt_description; ?></td>
 			  <td><?php if ($catalog_alternate_description) { ?>
-                <input type="radio" name="catalog_alternate_description" value="1" id="cadyes" checked>
-                <label for="cadyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="catalog_alternate_description" value="0" id="cadno">
-                <label for="cadno"><?php echo $text_no; ?></label>
-                <?php } else { ?>
-                <input type="radio" name="catalog_alternate_description" value="1" id="cadyes">
-                <label for="cadyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="catalog_alternate_description" value="0" id="cadno" checked>
-                <label for="cadno"><?php echo $text_no; ?></label>
-                <?php } ?></td>
+			    <input type="radio" name="catalog_alternate_description" value="1" id="cadyes" checked>
+			    <label for="cadyes"><?php echo $text_yes; ?></label>
+			    <input type="radio" name="catalog_alternate_description" value="0" id="cadno">
+			    <label for="cadno"><?php echo $text_no; ?></label>
+			    <?php } else { ?>
+			    <input type="radio" name="catalog_alternate_description" value="1" id="cadyes">
+			    <label for="cadyes"><?php echo $text_yes; ?></label>
+			    <input type="radio" name="catalog_alternate_description" value="0" id="cadno" checked>
+			    <label for="cadno"><?php echo $text_no; ?></label>
+			    <?php } ?></td>
 			</tr>
-			<tr><td colspan="4"><hr></td>
+			<tr> 
+			  <td class="set"><?php echo $entry_magnifier; ?></td>
+			  <td><?php if ($catalog_magnifier) { ?>
+			  <input type="radio" name="catalog_magnifier" value="1" id="myes" checked>
+			  <label for="myes"><?php echo $text_yes; ?></label>
+			  <input type="radio" name="catalog_magnifier" value="0" id="mno">
+			  <label for="mno"><?php echo $text_no; ?></label>
+			  <?php } else { ?>
+			  <input type="radio" name="catalog_magnifier" value="1" id="myes">
+			  <label for="myes"><?php echo $text_yes; ?></label>
+			  <input type="radio" name="catalog_magnifier" value="0" id="mno" checked>
+			  <label for="mno"><?php echo $text_no; ?></label>
+			  <?php } ?></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_magnifier_width; ?></td>
+			  <td><input type="text" name="catalog_magnifier_width" value="<?php echo $catalog_magnifier_width; ?>" size="3"></td>
+			  <td class="set"><?php echo $entry_magnifier_height; ?></td>
+			  <td><input type="text" name="catalog_magnifier_height" value="<?php echo $catalog_magnifier_height; ?>" size="3"></td>
+			</tr>
+			<tr>
+			  <td colspan="4"><hr></td>
 			</tr>
 			<tr>  <!-- Category -->
 			  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_category; ?></p></td>

@@ -1061,3 +1061,16 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_height';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_height', '60') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# Add Magnifier
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'magnifier';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'magnifier', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'magnifier_width';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'magnifier_width', '125') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'magnifier_height';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'magnifier_height', '125') ON DUPLICATE KEY UPDATE setting_id=setting_id;

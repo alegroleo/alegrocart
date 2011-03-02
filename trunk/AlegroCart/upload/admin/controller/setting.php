@@ -131,6 +131,9 @@ class ControllerSetting extends Controller {
 		$view->set('entry_additional_width',$this->language->get('entry_additional_width'));
 		$view->set('entry_additional_height',$this->language->get('entry_additional_height'));
 		$view->set('entry_alt_description',$this->language->get('entry_alt_description'));
+		$view->set('entry_magnifier',$this->language->get('entry_magnifier'));
+		$view->set('entry_magnifier_width',$this->language->get('entry_magnifier_width'));
+		$view->set('entry_magnifier_height',$this->language->get('entry_magnifier_height'));
 		$view->set('entry_address_format',$this->language->get('entry_address_format'));
 		
 		$view->set('entry_category_width',$this->language->get('entry_category_width'));
@@ -527,6 +530,21 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_alternate_description', $this->request->gethtml('catalog_alternate_description'));
 		} else {
 			$view->set('catalog_alternate_description', @$setting_info['catalog']['alternate_description']);
+		}
+		if ($this->request->has('catalog_magnifier')) {
+			$view->set('catalog_magnifier', $this->request->gethtml('catalog_magnifier'));
+		} else {
+			$view->set('catalog_magnifier', @$setting_info['catalog']['magnifier']);
+		}
+		if ($this->request->has('catalog_magnifier_width')) {
+			$view->set('catalog_magnifier_width', $this->request->gethtml('catalog_magnifier_width'));
+		} else {
+			$view->set('catalog_magnifier_width', @$setting_info['catalog']['magnifier_width']);
+		}
+		if ($this->request->has('catalog_magnifier_height')) {
+			$view->set('catalog_magnifier_height', $this->request->gethtml('catalog_magnifier_height'));
+		} else {
+			$view->set('catalog_magnifier_height', @$setting_info['catalog']['magnifier_height']);
 		}
 		if ($this->request->has('catalog_category_image_width')) {
 			$view->set('catalog_category_image_width', $this->request->gethtml('catalog_category_image_width'));

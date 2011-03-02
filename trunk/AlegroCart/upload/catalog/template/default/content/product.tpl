@@ -4,6 +4,7 @@
   $head_def->set_javascript("ajax/jquery.js");
   $head_def->set_javascript("ajax/jqueryadd2cart.js");
   $head_def->set_javascript("tab/tab.js");
+  $head_def->set_javascript("magnify/ddpowerzoomer.js"); 
   if($image_display == 'thickbox'){
 	$head_def->setcss($this->style . "/css/thickbox.css");  
 	$head_def->set_javascript("thickbox/thickbox-compressed.js");

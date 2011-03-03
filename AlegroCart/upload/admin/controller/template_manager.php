@@ -20,6 +20,7 @@ class ControllerTemplateManager extends Controller {
 		$this->modelTplManager = $model->get('model_admin_tpl_manager');
 		
 		$this->language->load('controller/template_manager.php');
+		$this->language->load('controller/layout_locations.php');
 	}
 	
 	function index(){
@@ -115,7 +116,7 @@ class ControllerTemplateManager extends Controller {
     	foreach ($results as $result) {
       		$cell = array();
       		$cell[] = array(
-        		'value' => $result['tpl_controller'],
+				'value' => $this->language->get('text_controller_' . $result['tpl_controller']) . ' (' . $result['tpl_controller'] . ')',
         		'align' => 'left'
 		  	);
       		$cell[] = array(
@@ -205,6 +206,7 @@ class ControllerTemplateManager extends Controller {
 		$view->set('text_tpl_columnright', $this->language->get('text_tpl_columnright'));
 		$view->set('text_tpl_footer', $this->language->get('text_tpl_footer'));
 		$view->set('text_tpl_pagebottom', $this->language->get('text_tpl_pagebottom'));
+		$view->set('text_select_controller', $this->language->get('text_select_controller'));
 		
 		$view->set('entry_controller', $this->language->get('entry_controller'));
 		$view->set('entry_columns', $this->language->get('entry_columns'));
@@ -278,9 +280,11 @@ class ControllerTemplateManager extends Controller {
 		if ($this->request->has('tpl_controller', 'post')){
 			$controller = $this->request->get('tpl_controller', 'post');
 			$view->set('tpl_controller', $controller);
+			$view->set('text_tpl_controller', $controller ? $this->language->get('text_controller_' . $controller) . ' (' . $controller . ')' : '');
 		} else {
 			$controller = @$template_info['tpl_controller'];
 			$view->set('tpl_controller', $controller);
+			$view->set('text_tpl_controller', $controller ? $this->language->get('text_controller_' . $controller) . ' (' . $controller . ')' : '');
 		}
 		if (!$controller){
 			$view->set('controllers', $this->getControllers());
@@ -375,7 +379,9 @@ class ControllerTemplateManager extends Controller {
 		$files = glob(DIR_CATALOG.PATH_CONTROLLER.D_S.'*.*');
 		if (!$files) { return; }
 		if(!in_array('default',$tpl_controllers)){
-			$controller_data[] = array('controller'   => 'default');
+			$controller_data[] = array('controller'   => 'default',
+									   'text_controller' => $this->language->get('text_controller_default')
+			);
 		}
 		$exclusions = array('index', 'addtocart', 'maintenance', 'tools');
 		foreach ($files as $file) {
@@ -384,7 +390,8 @@ class ControllerTemplateManager extends Controller {
 				if(!in_array($filename,$tpl_controllers)){
 					if(!in_array($filename, $exclusions)){
 						$controller_data[] = array(
-							'controller'   => $filename
+							'controller'   => $filename,
+							'text_controller' => $this->language->get('text_controller_' . $filename) . ' (' . $filename . ')'
 						);	
 					}
 				}

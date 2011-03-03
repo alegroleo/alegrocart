@@ -34,19 +34,21 @@
 		    <tr>
 			  <td class="set"><?php echo $entry_controller;?></td>
 			  <td><?php if($tpl_controller){?>
-			      <input type="text" size="32" readonly="readonly" maxlength="64" id="tpl_controller" name="tpl_controller" value="<?php echo $tpl_controller;?>">
+			      <input type="hidden" size="32" readonly="readonly" maxlength="64" id="tpl_controller" name="tpl_controller" value="<?php echo $tpl_controller;?>">
+				  <input type="text" size="32" readonly="readonly" maxlength="64" id="text_tpl_controller" name="text_tpl_controller" value="<?php echo $text_tpl_controller;?>">
 			    <?php } else { ?>
-			      <input type="text" size="32" maxlength="64" id="tpl_controller" name="tpl_controller" value="<?php echo $tpl_controller;?>">
+			      <input type="hidden" size="32" maxlength="64" id="tpl_controller" name="tpl_controller" value="<?php echo $tpl_controller;?>">
+				  <input type="text" readonly="readonly" size="32" maxlength="64" id="text_tpl_controller" name="text_tpl_controller" value="<?php echo '';?>">
 			  <?php }?></td>
 			  <?php if(isset($controllers)){?>
 			    <td>
-			      <select id="controllers" name="controllers" onchange="$('#tpl_controller').val(this.value)">
-				    <option value="">Select a Controller</option>
+			      <select id="controllers" name="controllers" onchange="set_controller();">
+				    <option value=""><?php echo $text_select_controller;?></option>
 					<?php  foreach($controllers as $controller){?>
 					  <?php if($controller['controller'] == $tpl_controller){?>
-					    <option value="<?php echo $controller['controller'];?>" selected><?php echo $controller['controller'];?></option>
+					    <option value="<?php echo $controller['controller'];?>" selected><?php echo $controller['text_controller'];?></option>
 					  <?php } else {?>
-					    <option value="<?php echo $controller['controller'];?>"><?php echo $controller['controller'];?></option>
+					    <option value="<?php echo $controller['controller'];?>"><?php echo $controller['text_controller'];?></option>
 					  <?php }?>
 					<?php }?>
 				  </select>
@@ -363,7 +365,13 @@
   <script type="text/javascript"><!--
 $(document).ready(function(){
 	set_column_right();
-});  
+}); 
+function set_controller(){
+	var Controller = $('#controllers').val();
+	var ControllerText = $('#controllers option:selected').text();
+	$('#tpl_controller').val(Controller);
+	$('#text_tpl_controller').val(ControllerText);
+} 
 function set_column_right(){
 	var Columns;
 	if($('#tpl_columns').val() > 0) {

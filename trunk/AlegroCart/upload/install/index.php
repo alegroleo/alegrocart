@@ -69,15 +69,16 @@ foreach ($files as $file) {
 	</head>
 
 	<body>
-		<h1>AlegroCart</h1>
+
 		<div id="container">
+			<div id="logo"></div>
 <?php 
 	if (!empty($errors)) { ?>
-		<p>The following errors occured:</p>
+		<p class="a">The following errors occured:</p>
 		<?php foreach ($errors as $error) {?>
 		<div class="warning"><?php echo $error;?></div><br>
 		<?php } ?>
-		<p>Please fix the above error(s), install halted!</p>
+		<p class="a">Please fix the above error(s), install halted!</p>
 <?php
 	} else {
 		switch ($step) {
@@ -93,7 +94,8 @@ foreach ($files as $file) {
 		}
 	}
 ?>
+			<div class="center"><a href="http://www.alegrocart.com/">AlegroCart</a></div>
 		</div>
-		<div class="center"><a href="http://www.alegrocart.com/">AlegroCart</a></div>
+		
 	</body>
 </html>

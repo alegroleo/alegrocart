@@ -26,7 +26,7 @@ if (!$errors) {
 			}
 
 			if (fwrite($handle, $str)) {
-				echo "<p>'$file' was updated successfully.</p>\n";
+				echo "<p class=\"a\">'$file' was updated successfully.</p>\n";
 				fclose($handle);
 			}
 			else { $errors[]="Could not write to '$file' file."; }
@@ -66,12 +66,12 @@ if ($errors && $step == 3) {
   <div class="warning">You MUST delete this install directory!</div><br>
   <div class="warning">Make 'config.php' unwritable (chmod go-w).</div><br>
   <div class="warning">Make 'admin/config.php' unwritable (chmod go-w).</div>
-  <p>Congratulations! You have successfully installed <a href="http://www.alegrocart.com/">AlegroCart</a>.</p>
+  <p class="a">Congratulations! You have successfully installed <a href="http://www.alegrocart.com/">AlegroCart</a>.</p>
 </div>
 <div id="footer">
 <form>
-		  <input type="button" value="Online Shop" onclick="location='<?php echo HTTP_CATALOG; ?>';">
-		  <input type="button" value="Administration" onclick="location='<?php echo HTTP_ADMIN; ?>';">
+		  <input type="button" value="Online Shop" class="button" onclick="location='<?php echo HTTP_CATALOG; ?>';">
+		  <input type="button" value="Administration" class="button" onclick="location='<?php echo HTTP_ADMIN; ?>';">
 </form>
 </div>
 <?php } ?>

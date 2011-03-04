@@ -67,5 +67,6 @@ $_['button_view']           = 'View';
 $_['noscript']              = '** Your Browser has JavaScript disabled. Javascript must be enabled on this website.**';
 
 //Error Message
+$_['error_language']				= 'ERROR : %s does not exist in language file*';
 $_['error_referer']         = 'This submission is not from this server';
 ?>

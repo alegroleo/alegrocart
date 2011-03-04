@@ -28,8 +28,8 @@ class Language {
         		'language_id' => $result['language_id'],
         		'name'        => $result['name'],
         		'code'        => $result['code'],
-				'directory'   => $result['directory'],
-				'filename'    => $result['filename']
+						'directory'   => $result['directory'],
+						'filename'    => $result['filename']
       		);
     	}
  		
@@ -87,7 +87,7 @@ class Language {
     	if (count($args) > 1) {
       		return vsprintf($this->get(array_shift($args)), $args);
     	} else {
-      		return (isset($this->data[$key]) ? $this->data[$key] : $key);
+      		return (isset($this->data[$key]) ? $this->data[$key] : sprintf($this->data['error_language'],$key));
     	}
   	}
 

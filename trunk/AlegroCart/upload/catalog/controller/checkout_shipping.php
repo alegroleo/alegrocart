@@ -11,6 +11,7 @@ class ControllerCheckoutShipping extends Controller {
 		$this->coupon   	=& $locator->get('coupon');
 		$this->customer 	=& $locator->get('customer');
 		$this->head_def 	=& $locator->get('HeaderDefinition');
+		$this->image    	=& $locator->get('image');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->response 	=& $locator->get('response');
@@ -83,7 +84,50 @@ class ControllerCheckoutShipping extends Controller {
     	$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
     	$view->set('text_shipping_methods', $this->language->get('text_shipping_methods'));
     	$view->set('text_comments', $this->language->get('text_comments'));
-    
+ 
+        if ($this->cart->hasNoShipping()) {
+		$view->set('text_nonshippable', $this->language->get('text_nonshippable'));
+
+		$product_data = array();
+			
+     		foreach ($this->cart->getProducts() as $result) {
+        		
+			if (!$result['shipping']) {   
+
+			$option_data = array();
+
+        		foreach ($result['option'] as $option) {
+          			$option_data[] = array(
+            			'name'  => $option['name'],
+            			'value' => $option['value'],
+          			);
+        		}
+
+			$product_data[] = array(
+          			'key'           => $result['key'],
+          			'name'          => $result['name'],
+          			'model_number'  => $result['model_number'],
+				'shipping'   	=> $result['shipping'],
+          			'thumb'         => $this->image->resize($result['image'], 40, 40),
+          			'option'        => $option_data,
+          			'quantity'      => $result['quantity'],
+				'stock'         => $result['stock'],
+				'href'          => $this->url->href('product', FALSE, array('product_id' => $result['product_id']))
+        		);
+			}
+			}
+
+		$view->set('products', $product_data);
+		$view->set('text_choose', $this->language->get('text_choose'));
+		$view->set('text_name', $this->language->get('text_name'));
+		$view->set('text_image', $this->language->get('text_image'));
+		$view->set('text_ship', $this->language->get('text_ship'));
+		$view->set('text_quantity', $this->language->get('text_quantity'));
+
+		}
+
+		$view->set('hasnoshipping', $this->cart->hasNoShipping());
+
 		$view->set('button_change_address', $this->language->get('button_change_address'));
     	$view->set('button_back', $this->language->get('button_back'));
     	$view->set('button_continue', $this->language->get('button_continue'));

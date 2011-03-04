@@ -10,8 +10,37 @@
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
-  
-  <div id="shipping">
+<div id="shipping">
+  <?php if ($hasnoshipping) { ?> 
+    <div class="a"><?php echo $text_nonshippable; ?></div>
+    <div class="j">
+    <table class="k">
+      <tr>
+        <th class="center"><?php echo $text_image; ?></th>
+	<th class="left"><?php echo $text_name; ?></th>
+        <th class="center"><?php echo $text_quantity; ?></th>
+       	<th class="center"><?php echo $text_ship; ?></th>
+      </tr>
+	  <tr><td colspan="4"><hr></td></tr>
+      <?php foreach ($products as $product) { ?>
+      <tr>
+	  <td class="l"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>"></a></td>
+	  <td class="left"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
+          <?php foreach ($product['option'] as $option) { ?>
+          <br>
+          &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+          <?php } ?>
+          </td>
+          <td class="center"><?php echo $product['quantity']; ?></td>
+	  <td class="center">
+	  <img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>">
+	  </td>
+      </tr>
+      <?php } ?>
+    </table>
+    </div>
+    <div class="a"><?php echo $text_choose; ?></div><br>
+<?php } ?>
     <div class="a"><?php echo $text_shipping; ?></div>
     <div class="b">
       <table>

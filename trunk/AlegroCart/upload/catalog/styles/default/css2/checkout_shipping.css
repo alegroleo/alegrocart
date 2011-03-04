@@ -35,3 +35,34 @@
   height: 100%;
   cursor: pointer;  
 }
+
+#shipping .j {
+  margin-bottom: 10px;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 5px;
+}
+
+#shipping .j table, #shipping .k {
+  width: 100%;
+
+}
+
+#shipping .k td {
+  vertical-align: middle;
+}
+
+#shipping .l {
+	text-align: center;
+	width: 90px;
+	vertical-align: middle;
+}
+
+#shipping .left {
+  text-align: left;
+}
+
+#shipping .center {
+  text-align: center;
+}
+

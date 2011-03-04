@@ -481,7 +481,7 @@ SELECT @id:=extension_id FROM `extension` WHERE `code` = 'converter' and `contro
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Currency Converter', 'Currency Converter Module') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 
 #Add Status and Rate Lock to Currency
-ALTER  TABLE `currency`
+ALTER TABLE `currency`
 ADD `lock_rate` int(1) NOT NULL default '0' After `code`,
 ADD `status` int(1) NOT NULL default '1' After `code`;
 

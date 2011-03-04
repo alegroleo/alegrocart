@@ -51,16 +51,16 @@ if ($errors && $step == 2) {
 <input type="hidden" name="db_pass" value="<?php echo $_POST['db_pass']; ?>">
 <?php } ?>
 <input type="hidden" name="db_name" value="<?php echo $_POST['db_name']; ?>">
-    <p>Please enter a username and password for the administration.</p>
+    <p class="a">Please enter a username and password for the administration.</p>
     <table>
       <tr>
-        <td width="185">Username:</td>
+        <td width="185" class="set">Username:</td>
         <td><input type="text" name="username" value="<?php echo (isset($_POST['username']) ? $_POST['username'] : 'admin'); ?>">
           <span class="required">*</span>
 		</td>
       </tr>
       <tr>
-        <td>Password:</td>
+        <td class="set">Password:</td>
         <td><input type="text" name="password" value="<?php echo @$_POST['password']; ?>">
           <span class="required">*</span>
 		</td>
@@ -68,7 +68,7 @@ if ($errors && $step == 2) {
     </table>
 	</div>
   <div id="footer">
-    <input type="submit" value="Continue">
+    <input type="submit" value="Continue" class="submit">
   </div>
 </form>
 <?php } ?>

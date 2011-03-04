@@ -72,5 +72,6 @@ $_['tab_customer']      = 'Customer';
 $_['tab_discount']      = 'Quantity Discount';
 
 //Error Message
+$_['error_language']		= 'ERROR : %s does not exist in language file*';
 $_['error_referer']         = 'Invalid Request: Please try again';
 ?>

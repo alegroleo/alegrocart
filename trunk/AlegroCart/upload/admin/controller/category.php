@@ -163,7 +163,7 @@ class ControllerCategory extends Controller {
 				$path = $result['category_id'];
 			}
 			$cell[] = array(
-				'icon'  => 'folder.png',
+				'icon'  => $this->modelCategory->check_children($result['category_id']) ? 'folderO.png' : 'folder.png',
 				'align' => 'center',
 				'path'  => $this->url->ssl('category', FALSE, array('path' => $path)),
 			);

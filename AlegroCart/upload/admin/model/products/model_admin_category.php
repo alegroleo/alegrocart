@@ -75,7 +75,13 @@ class Model_Admin_Category extends Model {
 	function get_insert_id(){
 		$insert_id = $this->database->getLastId();
 		return $insert_id;
-	}	
+	}
+	
+	function check_children($path){
+		$results =  $this->database->getRows("select category_id from category where parent_id = '" . $path . "'");
+		return $results;
+	}
+	
 	function get_page(){
 		if ((!$this->session->has('category.search')) || ($this->request->gethtml('path'))) {
 			$cat_path = explode('_', $this->request->gethtml('path'));

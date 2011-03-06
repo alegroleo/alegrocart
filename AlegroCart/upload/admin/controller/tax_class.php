@@ -79,23 +79,28 @@ class ControllerTaxClass extends Controller {
 	function getList() {
 		$this->session->set('tax_class_validation', md5(time()));
 		$cols = array();
-		$cols[] = array('align' => 'center');
+		
+		$cols[] = array(
+			'name'  => $this->language->get('column_tax'),
+			'folder_help' => $this->language->get('text_folder_help'),
+			'align' => 'left'
+		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_title'),
 			'sort'  => 'title',
 			'align' => 'left'
 		);
-    	$cols[] = array(
+		$cols[] = array(
       		'name'  => $this->language->get('column_action'),
       		'align' => 'right'
-    	);
+		);
 		
 		$results = $this->modelTaxClass->get_page();
 		$rows = array();
 		foreach ($results as $result) {
 			$cell = array();
       		$cell[] = array(
-        		'icon'  => 'folder.png',
+        		'icon'  => $this->modelTaxClass->check_children($result['tax_class_id']) ? 'folderO.png' : 'folder.png',
         		'align' => 'center',
 				'path'  => $this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $result['tax_class_id']))
 		  	);

@@ -81,11 +81,12 @@ class ControllerOption extends Controller {
   	function getList() {
 		$this->session->set('option_validation', md5(time()));
     	$cols = array();
-		$cols[] = array(
-			'name'  => $this->language->get('column_values'),
-			'align' => 'left'
+	$cols[] = array(
+		'name'  => $this->language->get('column_values'),
+		'folder_help' => $this->language->get('text_folder_help'),
+		'align' => 'left'
 		);
-    	$cols[] = array(
+	$cols[] = array(
       		'name'  => $this->language->get('column_name'),
       		'sort'  => 'name',
       		'align' => 'left'
@@ -101,7 +102,7 @@ class ControllerOption extends Controller {
     	foreach ($results as $result) {
      		$cell = array();
       		$cell[] = array(
-        		'icon'  => 'folder.png',
+        		'icon'  => $this->modelOptions->check_children($result['option_id']) ? 'folderO.png' : 'folder.png',
         		'align' => 'center',
 				'path'  => $this->url->ssl('option_value', FALSE, array('option_id' => $result['option_id']))
 		  	);

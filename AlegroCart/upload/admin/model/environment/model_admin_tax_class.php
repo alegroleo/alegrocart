@@ -59,5 +59,9 @@ class Model_Admin_Tax_Class extends Model {
 		$result = $this->database->getRow("select count(*) as total from product where tax_class_id = '" . (int)$this->request->gethtml('tax_class_id') . "'");
 		return $result;
 	}
+	function check_children($path){
+		$results =  $this->database->getRows("select tax_rate_id from tax_rate where tax_class_id = '" . $path . "'");
+		return $results;
+	}
 }
 ?>

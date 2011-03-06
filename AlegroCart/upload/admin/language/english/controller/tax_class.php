@@ -5,11 +5,11 @@ $_['heading_description'] = 'You can edit tax classes here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated tax classes!';
-
+$_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to Tax Rates.<br>You can add or delete tax rates for each Tax Class here.<br>Click the Icon to enter and edit your tax rates.';
 // Column
 $_['column_title']        = 'Tax Class Title';
 $_['column_action']       = 'Action';
-
+$_['column_tax']          = 'Tax Rate!';
 // Entry
 $_['entry_title']         = 'Tax Class Title:';
 $_['entry_description']   = 'Description:';

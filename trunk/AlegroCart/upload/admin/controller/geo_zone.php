@@ -106,7 +106,7 @@ class ControllerGeoZone extends Controller {
 		foreach ($results as $result) {
 			$cell = array();
       		$cell[] = array(
-        		'icon'  => 'folder.png',
+        		'icon'  => $this->modelGeoZone->check_children($result['geo_zone_id']) ? 'folderO.png' : 'folder.png',
         		'align' => 'center',
 				'path'  => $this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $result['geo_zone_id']))
 		  	);

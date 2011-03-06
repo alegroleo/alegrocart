@@ -67,5 +67,9 @@ class Model_Admin_Options extends Model {
 		$result = $this->database->getRow("select count(*) as total from product_to_option where option_id = '" . (int)$this->request->gethtml('option_id') . "'");
 		return $result;
 	}
+	function check_children($path){
+		$results =  $this->database->getRows("select option_value_id from option_value where option_id = '" . $path . "'");
+		return $results;
+	}
 }
 ?>

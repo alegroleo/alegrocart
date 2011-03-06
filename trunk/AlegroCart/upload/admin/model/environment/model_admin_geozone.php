@@ -64,5 +64,9 @@ class Model_Admin_GeoZone extends Model {
 		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where geo_zone_id = '" . (int)$this->request->gethtml('geo_zone_id') . "'");
 		return $result;
 	}
+	function check_children($path){
+		$results =  $this->database->getRows("select zone_to_geo_zone_id from zone_to_geo_zone where geo_zone_id = '" . $path . "'");
+		return $results;
+	}
 }
 ?>

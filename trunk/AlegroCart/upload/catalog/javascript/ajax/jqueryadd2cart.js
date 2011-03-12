@@ -1,8 +1,8 @@
 (function($) {
 	$.extend({
 
-		add2cart: function(source_id, target_id, callback) {
-	  
+	  add2cart: function(source_id, target_id, callback) {
+	  $('#' + source_id + '_shadow').remove();
       var source = $('#' + source_id );
       var target = $('#' + target_id );
       var display_image = $('#' + source_id).attr('src');
@@ -98,18 +98,29 @@ function UpdateImage(product_id,controller){
 	var popup = $('#'+Controller+'_popup_'+ProductWithOptions).val();
 	var thumb = $('#'+Controller+'_thumb_'+ProductWithOptions).val();
 	var Href = $('#'+Controller+Product_id).attr('href');
+	var width = $('#magnifier_width').val();
+	var height = $('#magnifier_height').val();
 
 	if(thumb!=undefined){
 		if(thumb.length > 0){
 			document.getElementById(Controller+'_image'+Product_id).src = thumb;
 			if(Href!=undefined){
 				document.getElementById(Controller+Product_id).href = popup;
+				
 			}
 		} else {
 			document.getElementById(Controller+'_image'+Product_id).src = $('#'+Controller+'_thumb_'+Product_id).val();
 			if(Href!=undefined){
 				document.getElementById(Controller+Product_id).href = $('#'+Controller+'_popup_'+Product_id).val();
 			}
+		}
+		if(width!=undefined && height!=undefined){
+			$("#"+Controller+"_image"+Product_id).addpowerzoom({
+				defaultpower: 2,
+				powerrange: [2,10],
+				largeimage: document.getElementById(Controller+Product_id).href,
+				magnifiersize: [width,height]
+			});
 		}
 	}
 }

@@ -23,16 +23,21 @@
     <input type="hidden" id="<?php echo $this_controller . '_thumb_' . $product_option['product_option'];?>" value="<?php echo $product_option['thumb'];?>">
 	<input type="hidden" id="<?php echo $this_controller . '_popup_' . $product_option['product_option'];?>" value="<?php echo $product_option['popup'];?>">  
   <?php }?>
-<?php }?>
-<?php if($magnifier){?>
-<script type="text/javascript">
-       $(document).ready(function() {
-          $("#<?php echo $this_controller.'_image'.$product['product_id']; ?>").addpowerzoom({
-             defaultpower: 2,
-             powerrange: [2,10],
-             largeimage: <?php echo '"'.$product['popup'].'"';?>,
-             magnifiersize: [<?php echo $magnifier_width; ?>,<?php echo $magnifier_height; ?>]
-          });
+	<?php if($magnifier){?>
+	  <input type="hidden" id="magnifier_width" value="<?php echo $magnifier_width;?>">
+	  <input type="hidden" id="magnifier_height" value="<?php echo $magnifier_height; ?>">
+	<?php }?>
+<?php } else {?>
+  <?php if($magnifier){?>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#<?php echo $this_controller.'_image'.$product['product_id']; ?>").addpowerzoom({
+          defaultpower: 2,
+          powerrange: [2,10],
+          largeimage: <?php echo '"'.$product['popup'].'"';?>,
+          magnifiersize: [<?php echo $magnifier_width; ?>,<?php echo $magnifier_height; ?>]
         });
+      });
     </script>
+	<?php }?>		
 <?php }?>

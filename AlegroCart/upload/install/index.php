@@ -25,18 +25,29 @@ foreach ($files as $file) {
 	elseif (!is_writable($file)) { 
 		@chmod($file, 0755);
 		if (!is_writable($file)){
-			$errors[]="'$file' is not writable! (chmod a+w)";
+			$errors[]="'$file' is not writable! (chmod a+w or chmod 777)";
 		}
 	}
+}
+$files=array('logs'.D_S, 'logs'.D_S.'error_log'.D_S, 'logs'.D_S.'google_log'.D_S);
+foreach ($files as $file) {
+	$file=DIR_BASE.$file;
+	if (!file_exists($file)) { $errors[]="'$file' was not found! (ensure you have uploaded it)"; }
+	elseif (!is_writable($file)) { 
+		@chmod($file, 0750);
+	if (!is_writable($file)){
+			$errors[]="'$file' is not writable! (chmod a+w or chmod 777)";
+		}
+	}	
 }
 $files=array('config.php');
 foreach ($files as $file) {
 	$file=DIR_BASE.$file;
 	if (!file_exists($file)) { $errors[]="'$file' was not found! (ensure you have uploaded it)"; }
 	elseif (!is_writable($file)) { 
-		@chmod($file, 0644);
+		@chmod($file, 0666);
 		if (!is_writable($file)){
-			$errors[]="'$file' is not writable! (chmod a+w)";
+			$errors[]="'$file' is not writable! (chmod a+w or chmod 666)";
 		}
 	}
 }
@@ -56,7 +67,7 @@ foreach ($files as $file) {
 		$errors[] = 'File uploads is required to be enable to run AlegroCart';
 	}
 	if (!extension_loaded('zlib')){
-		$errors[] = 'ZLIB must be loaded in php.ini for AlgroCart to work';
+		$errors[] = 'ZLIB must be loaded in php.ini for AlegroCart to work';
 	}
 
 ?>

@@ -41,8 +41,7 @@ a:hover {
 #container {
 	width: 1000px;
 	position: relative;
-	left: 50%;
-	margin-left: -500px;
+	margin: 0 auto;
 	padding-left: 1px;
 }
 #header {

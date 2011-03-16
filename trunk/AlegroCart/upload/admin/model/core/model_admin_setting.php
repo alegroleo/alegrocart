@@ -47,6 +47,15 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_vat', `value` = '" . $this->request->gethtml('catalog_config_vat', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_account_id', `value` = '" . $this->request->gethtml('catalog_config_account_id', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_checkout_id', `value` = '" . $this->request->gethtml('catalog_config_checkout_id', 'post')  . "'");
+		
+		
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'error_developer_ip', `value` = '" . $this->request->gethtml('global_error_developer_ip', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'error_show_user', `value` = '" . $this->request->gethtml('global_error_show_user', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'error_show_developer', `value` = '" . $this->request->gethtml('global_error_show_developer', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_error_email', `value` = '" . $this->request->gethtml('global_config_error_email', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'error_handler_status', `value` = '" . $this->request->gethtml('global_error_handler_status', 'post')  . "'");
+		
+		
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email', `value` = '" . $this->request->gethtml('global_config_email', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_send', `value` = '" . $this->request->gethtml('global_config_email_send', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_orders', `value` = '" . $this->request->gethtml('global_config_email_orders', 'post')  . "'");
@@ -93,6 +102,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'search_rows', `value` = '" . $this->request->gethtml('catalog_search_rows', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'category_rows', `value` = '" . $this->request->gethtml('catalog_category_rows', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_rss_limit', `value` = '" . $this->request->gethtml('global_config_rss_limit', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_rss_status', `value` = '" . $this->request->gethtml('global_config_rss_status', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_dimension_decimal', `value` = '" . $this->request->gethtml('global_config_dimension_decimal', 'post')  . "'");
 		
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_store_logo', `value` = '" . $this->request->gethtml('catalog_config_store_logo', 'post') . "'");

@@ -17,7 +17,12 @@ $files=array('config.php');  //,'admin'.DIRECTORY_SEPARATOR.'config.php'  Not Re
 foreach ($files as $file) {
 	$file=DIR_BASE.$file;
 	if (!file_exists($file)) { $errors[]="'$file' was not found! (ensure you have uploaded it)"; }
-	elseif (!is_writable($file)) { $errors[]="'$file' is not writable! (chmod a+w)"; }
+	elseif (!is_writable($file)) {
+		@chmod($file, 0666);
+		if (!is_writable($file)){
+			$errors[]="'$file' is not writable! (chmod a+w or chmod 666)"; 
+		}
+	}
 }
 
 if (!$link = @mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)) {
@@ -39,8 +44,8 @@ else {
 	</head>
 
 	<body>
-		<h1>AlegroCart</h1>
 		<div id="container">
+		<div id="logo"></div>
 		<div id="header">Upgrade</div>
 		<div id="content">
 <?php
@@ -73,19 +78,6 @@ else {
 		else { $errors[]="<b>Could not open '$file' file for writing."; }
 		unset($str);
 
-		//replace existing admin config with new one (NOT required any more)
-		/*$file=DIR_ADMIN.'config.php';
-		$str="<?php include('../config.php'); ?>";
-		if($handle = fopen($file, 'w')) {
-			if(fwrite($handle, $str)) {
-				echo "<p>'$file' was updated successfully.</p>\n";
-				fclose($handle);
-			}
-			else { $errors[]="Could not write to '$file' file."; }
-		} 
-		else { $errors[]="<b>Could not open '$file' file for writing."; }
-		unset($str);*/
-
 		mysql_query('set character set utf8', $link);
 		mysql_query('set @@session.sql_mode="MYSQL40"', $link);
 
@@ -107,9 +99,16 @@ else {
 		<div class="warning"><?php echo $error;?></div><br>
 		<?php } ?>
 		<p>Please fix the above error(s), install halted!</p>
-	<?php } else { ?>
+	<?php } else {
+		$file = DIR_BASE.'config.php';
+		@chmod($file, 0644);
+	?>
 		  <div class="warning">You MUST delete this install directory!</div><br>
+		  <?php if(is_writable($file)) { ?>
+			<div class="warning">Make 'config.php' unwritable (chmod go-w 644).</div><br>
+		  <?php }?>
 		  <p>Congratulations! You have successfully upgraded <a href="http://www.alegrocart.com/">AlegroCart</a>.</p>
+		  
 	<?php } ?>
 		</div><!--div/content-->
 		<div id="footer">

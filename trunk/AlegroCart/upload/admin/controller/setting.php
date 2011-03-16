@@ -57,6 +57,7 @@ class ControllerSetting extends Controller {
 		$view->set('text_cart_quantity', $this->language->get('text_cart_quantity'));
 		$view->set('text_cart_wide', $this->language->get('text_cart_wide'));
 		$view->set('text_rss_info', $this->language->get('text_rss_info'));
+		$view->set('text_rss_status', $this->language->get('text_rss_status'));
 		$view->set('text_dimension_decimal', $this->language->get('text_dimension_decimal'));
 		$view->set('text_store_logo', $this->language->get('text_store_logo'));
 		$view->set('text_product', $this->language->get('text_product'));
@@ -72,6 +73,11 @@ class ControllerSetting extends Controller {
 		$view->set('text_address_help', $this->language->get('text_address_help'));
 		$view->set('text_logo_top_exp', $this->language->get('text_logo_top_exp'));
 		$view->set('text_logo_left_exp', $this->language->get('text_logo_left_exp'));
+		$view->set('text_error_handler', $this->language->get('text_error_handler'));
+		$view->set('text_error_email', $this->language->get('text_error_email'));
+		$view->set('text_error_show_user', $this->language->get('text_error_show_user'));
+		$view->set('text_error_show_developer', $this->language->get('text_error_show_developer'));
+		$view->set('text_error_developer_ip', $this->language->get('text_error_developer_ip'));
 		
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
@@ -135,6 +141,11 @@ class ControllerSetting extends Controller {
 		$view->set('entry_magnifier_width',$this->language->get('entry_magnifier_width'));
 		$view->set('entry_magnifier_height',$this->language->get('entry_magnifier_height'));
 		$view->set('entry_address_format',$this->language->get('entry_address_format'));
+		$view->set('entry_error_handler_status',$this->language->get('entry_error_handler_status'));
+		$view->set('entry_error_email',$this->language->get('entry_error_email'));
+		$view->set('entry_error_show_user',$this->language->get('entry_error_show_user'));
+		$view->set('entry_error_show_developer',$this->language->get('entry_error_show_developer'));
+		$view->set('entry_error_developer_ip',$this->language->get('entry_error_developer_ip'));
 		
 		$view->set('entry_category_width',$this->language->get('entry_category_width'));
 		$view->set('entry_category_height',$this->language->get('entry_category_height'));
@@ -160,6 +171,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_addtocart_maximum',$this->language->get('entry_addtocart_maximum'));
 		$view->set('entry_dimension_decimal',$this->language->get('entry_dimension_decimal'));
 		$view->set('entry_rss_limit',$this->language->get('entry_rss_limit'));
+		$view->set('entry_rss_status',$this->language->get('entry_rss_status'));
 		$view->set('quantity_selects', array('selectbox', 'textbox'));
  
 		$view->set('button_list', $this->language->get('button_list'));
@@ -360,6 +372,34 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_invoice_number', @$setting_info['global']['invoice_number']);
 		}
+		
+		if ($this->request->has('global_error_developer_ip', 'post')) {
+			$view->set('global_error_developer_ip', $this->request->gethtml('global_error_developer_ip', 'post'));
+		} else {
+			$view->set('global_error_developer_ip', @$setting_info['global']['error_developer_ip']);
+		}
+		if ($this->request->has('global_error_show_user', 'post')) {
+			$view->set('global_error_show_user', $this->request->gethtml('global_error_show_user', 'post'));
+		} else {
+			$view->set('global_error_show_user', @$setting_info['global']['error_show_user']);
+		}
+		if ($this->request->has('global_error_show_developer', 'post')) {
+			$view->set('global_error_show_developer', $this->request->gethtml('global_error_show_developer', 'post'));
+		} else {
+			$view->set('global_error_show_developer', @$setting_info['global']['error_show_developer']);
+		}
+		if ($this->request->has('global_config_error_email', 'post')) {
+			$view->set('global_config_error_email', $this->request->gethtml('global_config_error_email', 'post'));
+		} else {
+			$view->set('global_config_error_email', @$setting_info['global']['config_error_email']);
+		}
+		if ($this->request->has('global_error_handler_status', 'post')) {
+			$view->set('global_error_handler_status', $this->request->gethtml('global_error_handler_status', 'post'));
+		} else {
+			$view->set('global_error_handler_status', @$setting_info['global']['error_handler_status']);
+		}
+		
+		
 		
 		if ($this->request->has('global_config_email', 'post')) {
 			$view->set('global_config_email', $this->request->gethtml('global_config_email', 'post'));
@@ -735,6 +775,12 @@ class ControllerSetting extends Controller {
 			$view->set('global_config_rss_limit', $this->request->gethtml('global_config_rss_limit'));
 		} else {
 			$view->set('global_config_rss_limit', @$setting_info['global']['config_rss_limit']);
+		}
+		
+		if ($this->request->has('global_config_rss_status')) {
+			$view->set('global_config_rss_status', $this->request->gethtml('global_config_rss_status'));
+		} else {
+			$view->set('global_config_rss_status', @$setting_info['global']['config_rss_status']);
 		}
 		
 		if ($this->request->has('global_config_dimension_decimal')) {

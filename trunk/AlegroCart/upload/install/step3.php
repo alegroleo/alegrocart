@@ -59,13 +59,16 @@ if (!$errors) {
 if ($errors && $step == 3) {
 	require('step2.php');
 } else {
+$file = DIR_BASE.'config.php';
+@chmod($file, 0644);
 ?>
 
 <div id="header">Finished!</div>
 <div id="content">
   <div class="warning">You MUST delete this install directory!</div><br>
-  <div class="warning">Make 'config.php' unwritable (chmod go-w).</div><br>
-  <div class="warning">Make 'admin/config.php' unwritable (chmod go-w).</div>
+  <?php if(is_writable($file)) { ?>
+	<div class="warning">Make 'config.php' unwritable (chmod go-w or chmod 644).</div><br>
+  <?php }?>
   <p class="a">Congratulations! You have successfully installed <a href="http://www.alegrocart.com/">AlegroCart</a>.</p>
 </div>
 <div id="footer">

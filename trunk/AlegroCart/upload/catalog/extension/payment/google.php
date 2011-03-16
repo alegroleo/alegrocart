@@ -155,7 +155,7 @@ class PaymentGoogle extends Payment {
 		// Log the message from Google
 		chdir('library/google');
 		require_once('library/googlelog.php');
-		$log = new GoogleLog( '../../logs/googleerror.log', '../../logs/googlemessage.log', L_ALL );
+		$log = new GoogleLog( '../../logs/google_log/googleerror.log', '../../logs/google_log/googlemessage.log', L_ALL );
 		foreach ($_POST as $key => $val) {
 			$log->LogRequest( "$key = $val");
 		}

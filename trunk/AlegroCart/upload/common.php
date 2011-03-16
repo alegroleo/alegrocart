@@ -1,13 +1,9 @@
 <?php
 
 // REPORT ALL ERRORS
-
-if (phpversion() >= '5.3'){
-//error_reporting(E_ALL ^ E_DEPRECATED);
-} else {
 error_reporting(E_ALL);
-//error_reporting(-1);
-}
+
+//error_reporting(-1); Use for development
  
 // CODE VERSION
 define('CODE_VERSION','1.2.4');

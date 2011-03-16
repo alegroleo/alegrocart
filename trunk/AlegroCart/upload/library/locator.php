@@ -83,6 +83,11 @@ class Locator {
 		return new Download();
 	}
 	
+	function createErrorHandler(){
+		require_once(DIR_LIBRARY.'session/errorhandler.php');
+		return new ErrorHandler($this);
+	}
+	
 	function createImage() {
 		if (!is_writable(DIR_IMAGE)) exit(sprintf(E_COULD_NOT_WRITE,'image'));
 		require_once(DIR_LIBRARY.'image/image.php');

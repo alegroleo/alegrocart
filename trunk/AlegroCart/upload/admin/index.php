@@ -26,6 +26,11 @@ $database =& $locator->get('database');
 $settings = $database->getRows("select * from (setting) where (type = 'admin' or type = 'global')");
 foreach ($settings as $setting) { $config->set($setting['key'], $setting['value']); }
 
+if($config->get('error_handler_status')){
+	$error_handler = & $locator->get('errorhandler');
+	set_error_handler(array(&$error_handler, "handler"));
+}
+
 // Upgrade check
 $version=defined('CODE_VERSION')?CODE_VERSION:0;
 $upgrade = $database->getRows("select * from setting where `type` = 'global' and `group` = 'version' and `key` = 'version' and `value` = '$version'");

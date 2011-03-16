@@ -243,8 +243,80 @@
 			  <td class="expl">
 			      <?php echo $text_address_explantion; ?> 
 			  </td>
-			 
 			</tr>
+			<tr>
+			  <td colspan="2"><hr></td>
+			</tr>
+			
+			<tr>
+              <td class="set"><?php echo $entry_error_handler_status; ?></td>
+              <td><?php if ($global_error_handler_status) { ?>
+                <input type="radio" name="global_error_handler_status" value="1" id="acsyes" checked>
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_handler_status" value="0" id="acsno">
+                <label for="acsno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_error_handler_status" value="1" id="acsyes">
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_handler_status" value="0" id="acsno" checked>
+                <label for="acsno"><?php echo $text_no; ?></label>
+                <?php } ?>
+			  </td>
+			  <td class="expl">
+			    <?php echo $text_error_handler; ?> 
+			  </td>
+            </tr>
+			<tr>
+              <td width="185" class="set"><?php echo $entry_error_email; ?></td>
+              <td><input size="64" type="text" name="global_config_error_email" value="<?php echo $global_config_error_email; ?>"></td>
+			  <td class="expl">
+			    <?php echo $text_error_email; ?> 
+			  </td>
+            </tr>
+			<tr>
+              <td class="set"><?php echo $entry_error_show_user; ?></td>
+              <td><?php if ($global_error_show_user) { ?>
+                <input type="radio" name="global_error_show_user" value="1" id="acsyes" checked>
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_show_user" value="0" id="acsno">
+                <label for="acsno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_error_show_user" value="1" id="acsyes">
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_show_user" value="0" id="acsno" checked>
+                <label for="acsno"><?php echo $text_no; ?></label>
+                <?php } ?>
+			  </td>
+			  <td class="expl">
+			    <?php echo $text_error_show_user; ?> 
+			  </td>
+            </tr>
+			<tr>
+              <td class="set"><?php echo $entry_error_show_developer; ?></td>
+              <td><?php if ($global_error_show_developer) { ?>
+                <input type="radio" name="global_error_show_developer" value="1" id="acsyes" checked>
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_show_developer" value="0" id="acsno">
+                <label for="acsno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_error_show_developer" value="1" id="acsyes">
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_show_developer" value="0" id="acsno" checked>
+                <label for="acsno"><?php echo $text_no; ?></label>
+                <?php } ?>
+			  </td>
+			  <td class="expl">
+			    <?php echo $text_error_show_developer; ?> 
+			  </td>
+            </tr>
+			<tr>
+              <td width="185" class="set"><?php echo $entry_error_developer_ip; ?></td>
+              <td><input size="64" type="text" name="global_error_developer_ip" value="<?php echo $global_error_developer_ip; ?>"></td>
+			  <td class="expl">
+			    <?php echo $text_error_developer_ip; ?> 
+			  </td>
+            </tr>
+			
           </table>
         </div>
       </div>
@@ -479,6 +551,26 @@
                   <?php } ?>
                 </select></td>
             </tr>
+			
+			<tr>
+              <td class="set"><?php echo $entry_rss_status; ?></td>
+              <td><?php if ($global_config_rss_status) { ?>
+                <input type="radio" name="global_config_rss_status" value="1" id="acsyes" checked>
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_rss_status" value="0" id="acsno">
+                <label for="acsno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_config_rss_status" value="1" id="acsyes">
+                <label for="acsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_rss_status" value="0" id="acsno" checked>
+                <label for="acsno"><?php echo $text_no; ?></label>
+                <?php } ?>
+			  </td>
+			  <td class="expl">
+			    <?php echo $text_rss_status; ?> 
+			  </td>
+            </tr>
+			
 			<tr>
 			  <td class="set"><?php echo $entry_rss_limit; ?></td>
 			  <td><input type="text" name="global_config_rss_limit" value="<?php echo $global_config_rss_limit; ?>" size="6"></td>

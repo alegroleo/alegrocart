@@ -6,8 +6,7 @@ body {
 	margin: 0;
 	padding: 0;
 	width: 979px;
-	margin-left: -489px;
-	left: 50%;
+	margin: 0 auto;
 	position: relative;
 	color: #000000;
 }

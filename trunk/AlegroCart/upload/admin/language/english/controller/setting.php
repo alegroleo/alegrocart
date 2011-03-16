@@ -25,6 +25,7 @@ $_['text_category_search']  = '<b>Category & Search Settings</b>';
 $_['text_linear']           = 'Linear: Length, Width, Height';
 $_['text_area']             = 'Area: Length X Width';
 $_['text_volume']           = 'Volume: Litre, Quart';
+$_['text_rss_status']       = 'Shows RSS Feed icon in header';
 $_['text_rss_info']         = 'Maximum items in Rss Feed';
 $_['text_dimension_decimal']= 'Number of decimal places to be displayed in catalog';
 $_['text_stock_help']       = 'Stock Help!';
@@ -35,6 +36,12 @@ $_['text_address_explantion']= 'You can set your Default address format here.<br
 $_['text_address_help']      = 'Address HELP!';
 $_['text_logo_top_exp']      = 'Number of pixels from top of the page';
 $_['text_logo_left_exp']     = 'Number of pixels from left side of the page';
+$_['text_error_handler']     = 'This will enable a custom error handler';
+$_['text_error_email']       = 'Email address to send error reports. If no address is set, default admin email address will be used.';
+$_['text_error_show_user']   = 'Will show all users short error message<br>ERROR: There has been an error in the code.';
+$_['text_error_show_developer']= 'Will show detailed Error Messages';
+$_['text_error_developer_ip']  = 'If set, only request from this IP address will show detailed error message. If NO address is set here and show developer is enabled, detailed error messages will be shown to all users. Not recomended in production installations.';
+
 // Entry
 $_['entry_store']           = 'Store Name:';
 $_['entry_owner']           = 'Store Owner:';
@@ -117,7 +124,12 @@ $_['entry_addtocart_quantity'] = 'Add-to-Cart Quantity style:';
 $_['entry_addtocart_maximum']  = 'Add Maximum Quantity:';
 $_['entry_dimension_decimal']  = 'Decimal places:';
 $_['entry_rss_limit']          = 'Rss Feed Limit:';
-
+$_['entry_rss_status']         = 'Enable RSS Feed';
+$_['entry_error_handler_status']= 'Enable Error Handler:';
+$_['entry_error_email']         = 'Email Address:';
+$_['entry_error_show_user']     = 'Show User:';
+$_['entry_error_show_developer']= 'Show Developer:';
+$_['entry_error_developer_ip']  = 'Developer IP Address:';
 
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify settings';

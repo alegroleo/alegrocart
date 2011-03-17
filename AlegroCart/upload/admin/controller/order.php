@@ -315,8 +315,17 @@ class ControllerOrder extends Controller {
       		'zone'      => $order_info['shipping_zone'],
       		'country'   => $order_info['shipping_country']
     	);
+	
+	if (array_filter($shipping_address)) {
     	$view->set('shipping_address', $this->address->format($shipping_address, $order_info['shipping_address_format'], '<br />'));
-    	$view->set('shipping_method', $order_info['shipping_method']);
+		} else {
+
+		$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
+
+		$view->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
+		}
+
+	$view->set('shipping_method', $order_info['shipping_method']);
 
     	$payment_address = array(
       		'firstname' => $order_info['payment_firstname'],

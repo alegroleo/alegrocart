@@ -122,6 +122,7 @@ class ControllerCheckoutShipping extends Controller {
 		$view->set('text_name', $this->language->get('text_name'));
 		$view->set('text_image', $this->language->get('text_image'));
 		$view->set('text_ship', $this->language->get('text_ship'));
+		$view->set('text_non_shippable', $this->language->get('text_non_shippable'));
 		$view->set('text_quantity', $this->language->get('text_quantity'));
 
 		}

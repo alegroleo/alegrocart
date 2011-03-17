@@ -147,15 +147,20 @@ class ControllerCheckoutConfirm extends Controller {
 			$view->set('payment_form_enctype', $this->session->get('payment_form_enctype'));
 		}
 
-    	$view->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
-		
-		$view->set('shipping_method', $this->shipping->getTitle($this->session->get('shipping_method')));
+    	if ($this->session->get('shipping_method') != 'warehouse_warehouse') {
+	$view->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
+	} else {
+	$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
+	$view->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
+	}
+
+	$view->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
 		
     	$view->set('checkout_shipping', $this->url->ssl('checkout_shipping'));
 
     	$view->set('checkout_shipping_address', $this->url->ssl('checkout_address', 'shipping'));
 		
-		$view->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));
+	$view->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));
     
     	$view->set('payment_method', $this->payment->getTitle($this->session->get('payment_method')));
 	
@@ -179,7 +184,7 @@ class ControllerCheckoutConfirm extends Controller {
 		$discount_total = 0;
 		$net_total = 0;
 		$totals_total = 0;
-		$warehouse_pickup = FALSE;
+		
     	foreach ($this->cart->getProducts() as $product) {
       		$option_data = array();
 
@@ -189,7 +194,7 @@ class ControllerCheckoutConfirm extends Controller {
           			'value' => $option['value']
         		);
       		}
-			if(!$product['shipping']){$warehouse_pickup = TRUE;}
+			$view->set('hasnoshipping', $this->cart->hasNoShipping());
 			$tax_total += $product['product_tax'];
 			$extended_total += $this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax'));
 			$coupon_total += $product['coupon'] ? $product['coupon'] : NULL;
@@ -202,7 +207,7 @@ class ControllerCheckoutConfirm extends Controller {
         		'href'       => $this->url->href('product', FALSE, array('product_id' => $product['product_id'])),
         		'name'       => $product['name'],
         		'model_number'=> $product['model_number'],
-				'shipping'   => $product['shipping'],
+			'shipping'   => ($this->session->get('shipping_method') == 'warehouse_warehouse' ? FALSE : $product['shipping']),
         		'option'     => $option_data,
         		'quantity'   => $product['quantity'],
 				'tax'        => round($this->tax->getRate($product['tax_class_id']), $this->decimal_place),
@@ -261,7 +266,6 @@ class ControllerCheckoutConfirm extends Controller {
 		$view->set('cart_net_total', $this->currency->format($cart_net_total));
 		$view->set('cart_tax_total', $this->currency->format($cart_tax_total));
 		$view->set('cart_totals_total', $this->currency->format($cart_totals_total));
-		$view->set('warehouse_pickup', $warehouse_pickup);
 		
 		$view->set('totals', $totals);
 		
@@ -289,18 +293,18 @@ class ControllerCheckoutConfirm extends Controller {
 		$this->order->set('freeshipping_net', isset($freeshipping_net) ? $freeshipping_net : 0 );
 		$this->order->set('taxed',$this->config->get('config_tax'));
 
-		$this->order->set('shipping_firstname', $this->address->getFirstName($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_lastname', $this->address->getLastName($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_company', $this->address->getCompany($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_address_1', $this->address->getAddress1($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_address_2', $this->address->getAddress2($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_city', $this->address->getCity($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_postcode', $this->address->getPostCode($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_zone', $this->address->getZone($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_country', $this->address->getCountry($this->session->get('shipping_address_id')));
-		$this->order->set('shipping_address_format', $this->address->getFormat($this->session->get('shipping_address_id')));
+		$this->order->set('shipping_firstname', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getFirstName($this->session->get('shipping_address_id')) : NULL);
+		$this->order->set('shipping_lastname', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getLastName($this->session->get('shipping_address_id')) : NULL);
+		$this->order->set('shipping_company', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getCompany($this->session->get('shipping_address_id')) : NULL);
+		$this->order->set('shipping_address_1', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getAddress1($this->session->get('shipping_address_id')) : NULL);
+		$this->order->set('shipping_address_2', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getAddress2($this->session->get('shipping_address_id')) :NULL);
+		$this->order->set('shipping_city', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getCity($this->session->get('shipping_address_id')) : NULL);
+		$this->order->set('shipping_postcode', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getPostCode($this->session->get('shipping_address_id')) : NULL);
+		$this->order->set('shipping_zone', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getZone($this->session->get('shipping_address_id')) : NULL);
+		$this->order->set('shipping_country', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getCountry($this->session->get('shipping_address_id')) : NULL);
+		$this->order->set('shipping_address_format', $this->session->get('shipping_method') != 'warehouse_warehouse' ? $this->address->getFormat($this->session->get('shipping_address_id')) : NULL);
 
-		$this->order->set('shipping_method', $this->shipping->getTitle($this->session->get('shipping_method')));
+		$this->order->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
 
 		$this->order->set('payment_firstname', $this->address->getFirstName($this->session->get('payment_address_id')));
 		$this->order->set('payment_lastname', $this->address->getLastName($this->session->get('payment_address_id')));
@@ -373,8 +377,18 @@ class ControllerCheckoutConfirm extends Controller {
 		$email->set('email', $this->customer->getEmail());
 		$email->set('telephone', $this->customer->getTelephone());
 		$email->set('fax', $this->customer->getFax());
-		$email->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
-		$email->set('shipping_method', $this->shipping->getTitle($this->session->get('shipping_method')));
+		
+
+//$email->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
+//
+if ($this->session->get('shipping_method') != 'warehouse_warehouse') {
+	$email->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
+	} else {
+	$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
+	$email->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
+	}
+
+		$email->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
 		$email->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));
 		$email->set('payment_method', $this->payment->getTitle($this->session->get('payment_method')));
 		$email->set('products', $product_data);
@@ -421,7 +435,7 @@ class ControllerCheckoutConfirm extends Controller {
 				'general_discount'   => $product['general_discount'],
         		'total'      => $this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax')),
 				'tax'        => $this->tax->getRate($product['tax_class_id']),
-				'shipping'   => $product['shipping']
+				'shipping'   => ($this->session->get('shipping_method') == 'warehouse_warehouse' ? FALSE : $product['shipping'])
       		); 
     	}
 		

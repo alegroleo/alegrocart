@@ -15,7 +15,7 @@ $_['text_image']            = 'Image';
 $_['text_name']             = 'Name';
 $_['text_quantity']         = 'Quantity';
 $_['text_ship']             = 'Ship';
-
+$_['text_non_shippable']    = 'Non Shippable';
 // Error
 $_['error_shipping']        = 'Error: Shipping method required!';
 ?>

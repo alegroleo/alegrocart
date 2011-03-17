@@ -98,7 +98,6 @@ class ControllerAccountInvoice extends Controller {
 			$view->set('shipping_tax_rate', round($order_info['shipping_tax_rate'], $this->decimal_place). '%');
 			$view->set('freeshipping_net', '-' . $this->currency->format($order_info['freeshipping_net']));
 
-		
       		$shipping_address = array(
         		'firstname' => $order_info['shipping_firstname'],
         		'lastname'  => $order_info['shipping_lastname'],
@@ -110,9 +109,18 @@ class ControllerAccountInvoice extends Controller {
         		'zone'      => $order_info['shipping_zone'],
         		'country'   => $order_info['shipping_country']
       		);
-
+		
+		if (array_filter($shipping_address)) {
       		$view->set('shipping_address', $this->address->format($shipping_address, $order_info['shipping_address_format'], '<br />'));
-			$view->set('shipping_method', $order_info['shipping_method']);
+		
+		} else {
+
+		$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
+
+		$view->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
+		}
+
+		$view->set('shipping_method', $order_info['shipping_method']);
 
       		$payment_address = array(
         		'firstname' => $order_info['payment_firstname'],

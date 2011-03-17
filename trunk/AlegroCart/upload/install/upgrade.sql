@@ -1099,3 +1099,15 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_rss_status';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_rss_status', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# Warehouse pickup
+SET @lid=1;
+SELECT @lid:=language_id FROM language WHERE `code` = 'en';
+
+# Insert without duplicate
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_warehouse';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'warehouse', 'shipping', 'shipping', 'warehouse.php', 'shipping_warehouse') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_warehouse';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Warehouse Pickup', 'Warehouse Pickup') ON DUPLICATE KEY UPDATE extension_id=extension_id;

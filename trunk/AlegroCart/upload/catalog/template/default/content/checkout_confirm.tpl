@@ -211,7 +211,7 @@
   <?php if (isset($agree)) { ?>
   <div class="buttons">
     <table>
-	  <?php if($warehouse_pickup){?>
+	  <?php if($hasnoshipping){?>
 	    <tr>
 		 <td></td>
 		 <td align="right"><?php echo $text_warehouse_pickup; ?></td>

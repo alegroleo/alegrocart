@@ -56,6 +56,7 @@ class Shipping {
 				
 			if (isset($quote['quote'][$key[1]])) {
 				$quote_data = array(
+					'description'  => $quote['title'],
 					'title'        => $quote['quote'][$key[1]]['title'],
 					'cost'         => $quote['quote'][$key[1]]['cost'],
 					'tax_class_id' => $quote['tax_class_id']
@@ -75,7 +76,11 @@ class Shipping {
 		
 		return (isset($data['title']) ? $data['title'] : NULL);
 	}
-	
+	function getDescription($key) {
+		$data = $this->getQuote($key);
+		
+		return (isset($data['description']) ? $data['description'] : NULL);
+	}
 	function getCost($key) {
 		$data = $this->getQuote($key);
 		

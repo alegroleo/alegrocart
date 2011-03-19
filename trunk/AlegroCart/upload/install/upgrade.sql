@@ -381,7 +381,7 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_bestseller';
 INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
-(NULL, 'bestseller', 'module', 'module', 'bestseller.php', 'module_extra_bestseller') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+(@id, 'bestseller', 'module', 'module', 'bestseller.php', 'module_extra_bestseller') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_bestseller';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES

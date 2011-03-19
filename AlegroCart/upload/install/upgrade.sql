@@ -495,359 +495,359 @@ ALTER TABLE `currency` CHANGE `title` `title` VARCHAR( 64 ) CHARACTER SET utf8 C
 
 #Add Currencies
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'AED';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'AED';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'United Arab Emirates Dirham', 'AED', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'ANG';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'ANG';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Netherlands Antillean Guilder', 'ANG', '0', '0', 'ƒ', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'ARS';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'ARS';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Argentine Peso', 'ARS', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'BDT';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'BDT';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Bangladeshi Taka', 'BDT', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'BGN';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'BGN';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Bulgarian Lev', 'BGN', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'BHD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'BHD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Bahraini Dinar', 'BHD', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'BND';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'BND';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Brunei Dollar', 'BND', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'BOB';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'BOB';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Bolivian Boliviano', 'BOB', '0', '0', '$b', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'BRL';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'BRL';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Brazilian Real', 'BRL', '0', '0', 'R$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'BWP';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'BWP';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Botswanan Pula', 'BWP', '0', '0', 'P', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'CHF';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'CHF';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Swiss Franc', 'CHF', '0', '0', 'CHF', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'CLP';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'CLP';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Chilean Peso', 'CLP', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'CNY';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'CNY';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Chinese Yuan Renminbi', 'CNY', '0', '0', '¥', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'COP';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'COP';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Colombian Peso', 'COP', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'CRC';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'CRC';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Costa Rican Colón', 'CRC', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'CZK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'CZK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Czech Republic Koruna', 'CZK', '0', '0', 'Kc', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'DKK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'DKK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Danish Krone', 'DKK', '0', '0', 'kr', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'DOP';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'DOP';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Dominican Peso', 'DOP', '0', '0', 'RD$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'DZD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'DZD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Algerian Dinar', 'DZD', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'EEK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'EEK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Estonian Kroon', 'EEK', '0', '0', 'kr', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'EGP';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'EGP';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Egyptian Pound', 'EGP', '0', '0', '£', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'FJD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'FJD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Fijian Dollar', 'FJD', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'HKD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'HKD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Hong Kong Dollar', 'HKD', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'HNL';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'HNL';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Honduran Lempira', 'HNL', '0', '0', 'L', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'HRK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'HRK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Croatian Kuna', 'HRK', '0', '0', 'kn', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'HUF';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'HUF';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Hungarian Forint', 'HUF', '0', '0', '', 'Ft', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'IDR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'IDR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Indonesian Rupiah', 'IDR', '0', '0', 'Rp', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'ILS';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'ILS';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Israeli New Sheqel', 'ILS', '0', '0', '?', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'INR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'INR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Indian Rupee', 'INR', '0', '0', 'Rp', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'ISK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'ISK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Icelandic Króna', 'ISK', '0', '0', 'kr', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'JMD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'JMD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Jamaican Dollar', 'JMD', '0', '0', 'J$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'JOD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'JOD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Jordanian Dinar', 'JOD', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'JPY';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'JPY';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Japanese Yen', 'JPY', '0', '0', '¥', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'KES';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'KES';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Kenyan Shilling', 'KES', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'KRW';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'KRW';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'South Korean Won', 'KRW', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'KWD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'KWD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Kuwaiti Dinar', 'KWD', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'KYD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'KYD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Cayman Islands Dollar', 'KYD', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'KZT';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'KZT';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Kazakhstan Tenge', 'KZT', '0', '0', '??', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'LBP';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'LBP';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Lebanese Pound', 'LBP', '0', '0', '£', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'LKR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'LKR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Sri Lanka Rupee', 'LKR', '0', '0', 'Rp', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'LTL';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'LTL';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Lithuanian Litas', 'LTL', '0', '0', 'Lt', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'LVL';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'LVL';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Latvian Lats', 'LVL', '0', '0', 'Ls', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'MAD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'MAD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Moroccan Dirham', 'MAD', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'MDL';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'MDL';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Moldovan Leu', 'MDL', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'MKD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'MKD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Macedonian Denar', 'MKD', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'MUR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'MUR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Mauritian Rupee', 'MUR', '0', '0', 'Rp', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'MVR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'MVR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Maldivian Rufiyaa', 'MVR', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'MXN';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'MXN';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Mexican Peso', 'MXN', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'MYR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'MYR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Malaysian Ringgit', 'MYR', '0', '0', 'RM', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'NAD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'NAD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Namibian Dollar', 'NAD', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'NGN';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'NGN';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Nigerian Naira', 'NGN', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'NIO';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'NIO';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Nicaraguan Cordoba Oro', 'NIO', '0', '0', 'C$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'NOK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'NOK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Norwegian Krone', 'NOK', '0', '0', 'kr', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'NPR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'NPR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Nepalese Rupee', 'NPR', '0', '0', 'Rp', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'NZD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'NZD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'New Zealand Dollar', 'NZD', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'OMR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'OMR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Omani Rial', 'OMR', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'PEN';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'PEN';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Peruvian Nuevo Sol', 'PEN', '0', '0', 'S/.', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'PGK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'PGK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Papua New Guinean Kina', 'PGK', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'PHP';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'PHP';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Philippine Peso', 'PHP', '0', '0', 'Php', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'PKR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'PKR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Pakistani Rupee', 'PKR', '0', '0', 'Rp', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'PLN';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'PLN';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Polish Zloty', 'PLN', '0', '0', 'zl', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'PYG';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'PYG';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Paraguayan Guarani', 'PYG', '0', '0', 'Gs', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'QAR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'QAR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Qatari Rial', 'QAR', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'RON';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'RON';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Romanian Leu', 'RON', '0', '0', 'lei', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'RSD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'RSD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Serbian Dinar', 'RSD', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'RUB';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'RUB';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Russian Ruble', 'RUB', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'SAR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'SAR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Saudi Riyal', 'SAR', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'SCR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'SCR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Seychellois Rupee', 'SCR', '0', '0', 'Rp', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'SEK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'SEK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Swedish Krona', 'SEK', '0', '0', 'kr', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'SGD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'SGD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Singapore Dollar', 'SGD', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'SKK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'SKK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Slovak Koruna', 'SKK', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'SLL';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'SLL';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Sierra Leonean Leone', 'SLL', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'SVC';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'SVC';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Salvadoran Colón', 'SVC', '0', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'THB';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'THB';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Thai Baht', 'THB', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'TND';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'TND';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Tunisian Dinar', 'TND', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'TRY';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'TRY';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Turkish Lira', 'TRY', '0', '0', '£', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'TTD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'TTD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Trinidad and Tobago Dollar', 'TTD', '0', '0', 'TT$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'TWD';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'TWD';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'New Taiwan Dollar', 'TWD', '0', '0', 'NT$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'TZS';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'TZS';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Tanzanian Shilling', 'TZS', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'UAH';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'UAH';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Ukrainian Hryvnia', 'UAH', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'UGX';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'UGX';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Ugandan Shilling', 'UGX', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'UYU';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'UYU';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Uruguayan Peso', 'UYU', '0', '0', '$U', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'UZS';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'UZS';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Uzbekistan Som', 'UZS', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'VEF';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'VEF';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Venezuelan Bolr Fuerte', 'VEF', '0', '0', 'Bs', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'VND';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'VND';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Vietnamese Dong', 'VND', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'XOF';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'XOF';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'CFA Franc BCEAO', 'XOF', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'YER';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'YER';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Yemeni Rial', 'YER', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'ZAR';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'ZAR';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'South African Rand', 'ZAR', '0', '0', 'R', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 SET @id=NULL;
-SELECT @id=currency_id FROM currency WHERE `code` = 'ZMK';
+SELECT @id:=currency_id FROM currency WHERE `code` = 'ZMK';
 INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Zambian Kwacha', 'ZMK', '0', '0', '', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
 
 #New invoice and tax settings

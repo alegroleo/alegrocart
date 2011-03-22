@@ -25,7 +25,7 @@
     ?>
     <tr class="<?php echo $class; ?>" onmouseover="this.className='highlight'" onmouseout="this.className='<?php echo $class; ?>'">
       <td class="left"><?php echo $product['name']; ?></td>
-      <td class="left"><div style="background: #FF0000; width: <?php echo $product['percent']; ?>; height: 50%;"></div></td>
+      <td class="left"><div style="background: #FF0000; width: <?php echo $product['graph']; ?>; height: 50%;"></div></td>
       <td class="right"><?php echo $product['viewed']; ?></td>
       <td class="right"><?php echo $product['percent']; ?></td>
     </tr>

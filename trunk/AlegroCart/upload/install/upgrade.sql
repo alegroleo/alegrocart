@@ -1111,3 +1111,14 @@ INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_warehouse';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Warehouse Pickup', 'Warehouse Pickup') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#Start of Version 1.2.6 ***********
+
+# Add 2 currencies if not exist
+SET @id=NULL;
+SELECT @id:=currency_id FROM currency WHERE `code` = 'AUD';
+INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Australian Dollar', 'AUD', '1', '0', '$', '', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;
+
+SET @id=NULL;
+SELECT @id:=currency_id FROM currency WHERE `code` = 'EUR';
+INSERT INTO `currency` (`currency_id`,  `title`, `code`, `status`, `lock_rate`,`symbol_left`, `symbol_right`, `decimal_place`, `value`, `date_modified`) VALUES (@id, 'Euro', 'EUR', '1', '0', '', '€', '2', '1.00000000', '2008-12-17 20:46:47') ON DUPLICATE KEY UPDATE currency_id=currency_id;

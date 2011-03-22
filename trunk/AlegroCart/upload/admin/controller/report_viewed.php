@@ -34,11 +34,13 @@ class ControllerReportViewed extends Controller {
 		}
 		
 		foreach ($results as $result) {
-			$percent=$total?round(($result['viewed'] / $total) * 100, 2):0;
+			$percent= $total ? roundDigits(($result['viewed'] / $total) * 100, 2):0;
+			//$percent=$total?number_format(($result['viewed'] / $total) * 100, 2, '.', ''):0;
 			$product_data[] = array(
 				'name'    => $result['name'],
 				'viewed'  => $result['viewed'],
-				'percent' => $percent.'%'
+				'percent' => $percent.'%',
+				'graph'   => number_format($percent, 2, '.', '') . '%'
 			);
 		}
 		

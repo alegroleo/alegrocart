@@ -254,6 +254,7 @@ class ControllerTemplateManager extends Controller {
 
 		$module_data = array();
 		foreach ($results as $result){
+			$locations_data = array();
 			$view->set($result['location'] .'_id', $result['location_id']);
 			if(($this->request->gethtml('tpl_manager_id')) && (!$this->request->isPost())){
 				$locations_data = $this->modelTplManager->getModules($this->request->gethtml('tpl_manager_id'), $result['location_id']);

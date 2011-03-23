@@ -320,7 +320,8 @@ form {
 	background-color: #FFB3B5;
 	padding: 3px;
 	display: block;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }
 
 .message {

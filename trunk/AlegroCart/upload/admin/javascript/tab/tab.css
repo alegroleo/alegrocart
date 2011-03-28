@@ -9,7 +9,7 @@
 
 .tabs a, .tabs a:hover.inactive, .tabs a.active {
 	float: left;
-	width: 80px;
+	width: 98px;
 	padding-top: 4px;
 	margin-right: -3px;
 	cursor: pointer;
@@ -21,13 +21,13 @@
 
 .tabs a {
 	background: url('tab.png') no-repeat; 
-	top: 5px;
+	top: 6px;
 	height: 36px;
 }
 
 .tabs a:hover.inactive {
 	background: url('tab_hover.png') no-repeat;
-	top: 5px;
+	top: 6px;
 	height: 36px;
 }
 
@@ -36,7 +36,7 @@
 	height: 40px;
 	margin-bottom: 2px;
 	top: 3px;
-	left: -2px;
+	left: -1px;
 	z-index: 2;
 }
 

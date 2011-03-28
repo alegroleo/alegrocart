@@ -570,7 +570,14 @@
 			    <?php echo $text_rss_status; ?> 
 			  </td>
             </tr>
-			
+			<tr>
+			  <td class="set"><?php echo $entry_rss_source; ?></td>
+			  <td><select name="global_config_rss_source">
+			    <?php foreach($rss_sources as $key => $rss_source){?>
+				  <option value="<?php echo $key;?>"<?php if($key == $global_config_rss_source) { echo ' selected';}?>><?php echo $rss_source;?></option>
+				<?php }?>
+			  </select></td>
+			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_rss_limit; ?></td>
 			  <td><input type="text" name="global_config_rss_limit" value="<?php echo $global_config_rss_limit; ?>" size="6"></td>
@@ -612,8 +619,42 @@
 			  <td><input type="text" name="catalog_config_logo_height" value="<?php echo $catalog_config_logo_height; ?>" size="6"></td>
 			  
 			</tr>
+			<tr><td colspan="2"><hr></td></tr>
 		  </table>
+		  <table>
+		    <tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_footer_logo;?></p></td>
+			  <td width="130"></td>
+			</tr>
+		    <tr>
+			  <td class="set"><?php echo $entry_footer_logo;?></td>
+		      <td><select id="footer_logo_id" name="catalog_config_footer_logo" onchange="$('#footer_logo_image').load('index.php?controller=setting&action=viewFooterLogo&footer_logo='+this.value);">
+			    <?php foreach ($logos as $logo){?>
+				  <option value="<?php echo $logo['logo'];?>"<?php if($logo['logo'] == $catalog_config_footer_logo){echo ' selected';}?>><?php echo $logo['logo'];?></option>
+			    <?php }?>
+			  </select></td>
+			<td class="footer_logo_image" id="footer_logo_image"></td>
+			</tr>
+		    <tr>
+			  <td class="set"><?php echo $entry_footer_logo_left;?></td>
+			  <td><input type="text" name="catalog_footer_logo_left" value="<?php echo $catalog_footer_logo_left; ?>" size="6"></td>
+			  <td class="expl"><?php echo $text_footer_left_exp;?></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_footer_logo_top;?></td>
+			  <td><input type="text" name="catalog_footer_logo_top" value="<?php echo $catalog_footer_logo_top; ?>" size="6"></td>
+			  <td class="expl"><?php echo $text_footer_top_exp;?></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_footer_logo_width;?></td>
+			  <td><input type="text" name="catalog_footer_logo_width" value="<?php echo $catalog_footer_logo_width; ?>" size="6"></td>
+			  
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_footer_logo_height;?></td>
+			  <td><input type="text" name="catalog_footer_logo_height" value="<?php echo $catalog_footer_logo_height; ?>" size="6"></td>
+			</tr>
 		  
+		  </table>
         </div>
       </div>
       <div class="page">
@@ -992,5 +1033,8 @@
   //--></script>
   <script type="text/javascript"><!--
     $('#logo_image').load('index.php?controller=setting&action=viewLogo&store_logo='+document.getElementById('logo_id').value);
+  //--></script>
+  <script type="text/javascript"><!--
+    $('#footer_logo_image').load('index.php?controller=setting&action=viewFooterLogo&footer_logo='+document.getElementById('footer_logo_id').value);
   //--></script>
 </form>

@@ -52,10 +52,6 @@ a:hover {
 #header .a {
 	position: absolute;
 	overflow: hidden;
-	/*width: 460px;
-	height: 59px;
-	left: 273px;
-	top: 5px;*/
 }
 #header .b a img {
 	width: 14px;
@@ -123,17 +119,17 @@ a:hover {
 }
 #footer {
 	clear: both;
-	padding-top: 12px;
 	margin-bottom: 1px;
-	min-height: 60px;
+	min-height: 70px;
 }
 #footer .a {
 	float: left;
-	margin-top: 2px;
+	margin-top: 18px;
 	min-height: 30px;
 	padding-left: 5px;
 }
 #footer .b {
+	margin-top: 12px;
 	font-size: 12px;
 	font-weight: bold;
 	float: right;
@@ -146,8 +142,9 @@ a:hover {
 	text-decoration: none;
 }
 #footer .c{
-	float: right;
-	padding: 5px 260px 0px 10px;
+	position: absolute;
+	overflow: hidden;
+	padding: 0px 10px 0px 10px;
 } 
 #footer .d{
 	font-weight: bold;

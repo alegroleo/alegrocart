@@ -60,6 +60,7 @@ class ControllerSetting extends Controller {
 		$view->set('text_rss_status', $this->language->get('text_rss_status'));
 		$view->set('text_dimension_decimal', $this->language->get('text_dimension_decimal'));
 		$view->set('text_store_logo', $this->language->get('text_store_logo'));
+		$view->set('text_footer_logo', $this->language->get('text_footer_logo'));
 		$view->set('text_product', $this->language->get('text_product'));
 		$view->set('text_category', $this->language->get('text_category'));
 		$view->set('text_search', $this->language->get('text_search'));
@@ -73,6 +74,8 @@ class ControllerSetting extends Controller {
 		$view->set('text_address_help', $this->language->get('text_address_help'));
 		$view->set('text_logo_top_exp', $this->language->get('text_logo_top_exp'));
 		$view->set('text_logo_left_exp', $this->language->get('text_logo_left_exp'));
+		$view->set('text_footer_top_exp', $this->language->get('text_footer_top_exp'));
+		$view->set('text_footer_left_exp', $this->language->get('text_footer_left_exp'));
 		$view->set('text_error_handler', $this->language->get('text_error_handler'));
 		$view->set('text_error_email', $this->language->get('text_error_email'));
 		$view->set('text_error_show_user', $this->language->get('text_error_show_user'));
@@ -92,6 +95,14 @@ class ControllerSetting extends Controller {
 		$view->set('entry_logo_left', $this->language->get('entry_logo_left'));
 		$view->set('entry_logo_width', $this->language->get('entry_logo_width'));
 		$view->set('entry_logo_height', $this->language->get('entry_logo_height'));
+		
+		$view->set('entry_footer_logo', $this->language->get('entry_footer_logo'));
+		$view->set('entry_footer_logo_top', $this->language->get('entry_footer_logo_top'));
+		$view->set('entry_footer_logo_left', $this->language->get('entry_footer_logo_left'));
+		$view->set('entry_footer_logo_width', $this->language->get('entry_footer_logo_width'));
+		$view->set('entry_footer_logo_height', $this->language->get('entry_footer_logo_height'));
+		
+		
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_url_alias', $this->language->get('entry_url_alias'));
 		$view->set('entry_seo', $this->language->get('entry_seo'));
@@ -172,6 +183,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_dimension_decimal',$this->language->get('entry_dimension_decimal'));
 		$view->set('entry_rss_limit',$this->language->get('entry_rss_limit'));
 		$view->set('entry_rss_status',$this->language->get('entry_rss_status'));
+		$view->set('entry_rss_source',$this->language->get('entry_rss_source'));
 		$view->set('quantity_selects', array('selectbox', 'textbox'));
  
 		$view->set('button_list', $this->language->get('button_list'));
@@ -332,6 +344,36 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_config_logo_height', @$setting_info['catalog']['config_logo_height']);
 		}
 		
+		if ($this->request->has('catalog_config_footer_logo', 'post')) {  // Cataloge Logo
+			$view->set('catalog_config_footer_logo', $this->request->gethtml('catalog_config_footer_logo', 'post'));
+		} else {
+			$view->set('catalog_config_footer_logo', @$setting_info['catalog']['config_footer_logo']);
+		}
+		
+		if ($this->request->has('catalog_footer_logo_left', 'post')) {
+			$view->set('catalog_footer_logo_left', $this->request->gethtml('catalog_footer_logo_left', 'post'));
+		} else {
+			$view->set('catalog_footer_logo_left', @$setting_info['catalog']['footer_logo_left']);
+		}
+		
+		if ($this->request->has('catalog_footer_logo_top', 'post')) {
+			$view->set('catalog_footer_logo_top', $this->request->gethtml('catalog_footer_logo_top', 'post'));
+		} else {
+			$view->set('catalog_footer_logo_top', @$setting_info['catalog']['footer_logo_top']);
+		}
+		
+		if ($this->request->has('catalog_footer_logo_width', 'post')) {
+			$view->set('catalog_footer_logo_width', $this->request->gethtml('catalog_footer_logo_width', 'post'));
+		} else {
+			$view->set('catalog_footer_logo_width', @$setting_info['catalog']['footer_logo_width']);
+		}
+		
+		if ($this->request->has('catalog_footer_logo_height', 'post')) {
+			$view->set('catalog_footer_logo_height', $this->request->gethtml('catalog_footer_logo_height', 'post'));
+		} else {
+			$view->set('catalog_footer_logo_height', @$setting_info['catalog']['footer_logo_height']);
+		}
+		
 		if ($this->request->has('admin_config_template', 'post')) {  // Admin Template
 			$view->set('admin_config_template', $this->request->gethtml('admin_config_template', 'post'));
 		} else {
@@ -398,8 +440,6 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_error_handler_status', @$setting_info['global']['error_handler_status']);
 		}
-		
-		
 		
 		if ($this->request->has('global_config_email', 'post')) {
 			$view->set('global_config_email', $this->request->gethtml('global_config_email', 'post'));
@@ -783,6 +823,25 @@ class ControllerSetting extends Controller {
 			$view->set('global_config_rss_status', @$setting_info['global']['config_rss_status']);
 		}
 		
+		if ($this->request->has('global_config_rss_status')) {
+			$view->set('global_config_rss_status', $this->request->gethtml('global_config_rss_status'));
+		} else {
+			$view->set('global_config_rss_status', @$setting_info['global']['config_rss_status']);
+		}
+		
+		if ($this->request->has('global_config_rss_source')) {
+			$view->set('global_config_rss_source', $this->request->gethtml('global_config_rss_source'));
+		} else {
+			$view->set('global_config_rss_source', @$setting_info['global']['config_rss_source']);
+		}
+		
+		$rss_sources = array(
+							'rss_featured' => $this->language->get('text_rss_featured'),
+							'rss_latest'   => $this->language->get('text_rss_latest'),
+							'rss_popular'  => $this->language->get('text_rss_popular'),
+							'rss_specials' => $this->language->get('text_rss_specials'));
+		$view->set('rss_sources', $rss_sources);
+		
 		if ($this->request->has('global_config_dimension_decimal')) {
 			$view->set('global_config_dimension_decimal', $this->request->gethtml('global_config_dimension_decimal'));
 		} else {
@@ -830,6 +889,16 @@ class ControllerSetting extends Controller {
 			}
 		}
 		return $logos_data;
+	}
+	
+	function viewFooterLogo(){
+		if($this->request->gethtml('footer_logo')){
+			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('footer_logo') . '"';
+			$output .= 'alt="Footer Logo" title="Footer Logo">';
+		} else {
+			$output = '';
+		}
+		$this->response->set($output);
 	}
 	
 	function viewLogo(){

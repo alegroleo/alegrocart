@@ -18,6 +18,7 @@ $_['text_cart_wide']        = 'This setting applies to all modules';
 $_['text_emails']           = 'Optional Store E-Mail Addresses';
 $_['text_cart_quantity']    = 'Only applicable with select box';
 $_['text_store_logo']       = '<b>Store Logo Image</b>';
+$_['text_footer_logo']      = '<b>Footer Logo Image</b>';
 $_['text_product']          = '<b>Product Page</b>';
 $_['text_category']         = '<b>Category Page</b>';
 $_['text_search']           = '<b>Search Page</b>';
@@ -36,11 +37,17 @@ $_['text_address_explantion']= 'You can set your Default address format here.<br
 $_['text_address_help']      = 'Address HELP!';
 $_['text_logo_top_exp']      = 'Number of pixels from top of the page';
 $_['text_logo_left_exp']     = 'Number of pixels from left side of the page';
+$_['text_footer_top_exp']      = 'Number of pixels from top of the footer';
+$_['text_footer_left_exp']     = 'Number of pixels from left side of the page';
 $_['text_error_handler']     = 'This will enable a custom error handler';
 $_['text_error_email']       = 'Email address to send error reports. If no address is set, default admin email address will be used.';
 $_['text_error_show_user']   = 'Will show all users short error message<br>ERROR: There has been an error in the code.';
 $_['text_error_show_developer']= 'Will show detailed Error Messages';
 $_['text_error_developer_ip']  = 'If set, only request from this IP address will show detailed error message. If NO address is set here and show developer is enabled, detailed error messages will be shown to all users. Not recomended in production installations.';
+$_['text_rss_latest']         = 'Latest Products';
+$_['text_rss_featured']       = 'Featured Products';
+$_['text_rss_popular']        = 'Popular Products';
+$_['text_rss_specials']       = 'Products on Special';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
@@ -57,6 +64,13 @@ $_['entry_logo_top']		= 'Position Top:';
 $_['entry_logo_left']       = 'Postion Left:';
 $_['entry_logo_width']      = 'Logo Width:';
 $_['entry_logo_height']     = 'Logo Height:';
+
+$_['entry_footer_logo']       = 'Footer Logo:';
+$_['entry_footer_logo_top']	  = 'Position Top:';
+$_['entry_footer_logo_left']  = 'Postion Left:';
+$_['entry_footer_logo_width'] = 'Logo Width:';
+$_['entry_footer_logo_height']= 'Logo Height:';
+
 $_['entry_columns'] 		= 'Page Columns:';
 $_['entry_url_alias']       = 'Use URL Alias:';
 $_['entry_seo']             = 'Auto Update SEO:';
@@ -125,11 +139,23 @@ $_['entry_addtocart_maximum']  = 'Add Maximum Quantity:';
 $_['entry_dimension_decimal']  = 'Decimal places:';
 $_['entry_rss_limit']          = 'Rss Feed Limit:';
 $_['entry_rss_status']         = 'Enable RSS Feed';
+$_['entry_rss_source']         = 'RSS Source:';
 $_['entry_error_handler_status']= 'Enable Error Handler:';
 $_['entry_error_email']         = 'Email Address:';
 $_['entry_error_show_user']     = 'Show User:';
 $_['entry_error_show_developer']= 'Show Developer:';
 $_['entry_error_developer_ip']  = 'Developer IP Address:';
+
+// Tab
+$_['tab_shop']          = 'Shop<br>Setup';
+$_['tab_admin']         = 'Admin Settings<br>Error Handling';
+$_['tab_local']         = 'Store<br>Localization';
+$_['tab_stock']         = 'Stock<br>Checkout';
+$_['tab_mail']          = 'E-Mail<br>Accounts';
+$_['tab_cache']         = 'Cache<br>Compression';
+$_['tab_image']         = 'Display Settings<br>Image, AddToCart';
+$_['tab_option']        = 'Options: Tax<br>RSS, Logos';
+$_['tab_download']      = 'Product<br>Download';
 
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify settings';

@@ -504,6 +504,12 @@ form {
 	width: 102px;
 	height: 102px;
 }
+.footer_logo_image{
+	border: 1px solid #999999;
+	width: 500px;
+	height: 70x;
+	text-align: center;
+}
 .logo_image{
 	border: 1px solid #999999;
 	width: 500px;

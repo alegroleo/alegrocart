@@ -35,6 +35,7 @@ $language =& $locator->get('language'); // Language
 $currency =& $locator->get('currency'); //Currency
 $tax      =& $locator->get('tax'); // Tax
 $limit = $config->get('config_rss_limit') ? $config->get('config_rss_limit') : 20;
+$rss_source = $config->get('config_rss_source') ? $config->get('config_rss_source') : 'rss_latest';
 
 // Base URL
 $catalog_url = $request->isSecure()?HTTPS_SERVER:HTTP_SERVER;
@@ -42,7 +43,21 @@ $image_url = $request->isSecure()?HTTPS_IMAGE:HTTP_IMAGE;
 
 // Product Data
 $product_data = array();
-$sql="select *, p.date_added as date_product_added from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '%s' and p.date_available < now() and p.status = '1' order by date_product_added desc limit " . $limit;
+switch($rss_source){
+	case 'rss_latest':
+		$sql="select *, p.date_added as date_product_added from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '%s' and p.date_available < now() and p.status = '1' order by date_product_added desc limit " . $limit;
+		break;
+	case 'rss_featured':
+		$sql="select *, p.date_added as date_product_added from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '%s' and p.date_available < now() and p.status = '1' and p.featured = '1' order by date_product_added desc limit " . $limit;
+		break;
+	case 'rss_specials':
+		$sql="select *, p.date_added as date_product_added from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '%s' and p.date_available < now() and p.status = '1' and p.special_offer = '1' order by date_product_added desc limit " . $limit;
+		break;
+	case 'rss_popular':
+		$sql="select *, p.date_added as date_product_added from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '%s' and p.date_available < now() and p.status = '1' order by viewed desc limit " . $limit;
+		break;
+}
+
 $sql=sprintf($sql,(int)$language->getId());
 $results = $database->getRows($sql);
 $unit = 'Pounds';

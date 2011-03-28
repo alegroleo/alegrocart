@@ -85,9 +85,15 @@ $_['button_add']           = 'Add';
 $_['button_remove']        = 'Remove';
 
 // Tab
+$_['tab_general']       = 'Product Name<br>Description';
 $_['tab_product_options']  = 'Product<br>Options';
 $_['tab_dated_special']    = 'Dated<br>Specials';
-$_['tab_alt_description']  = 'Alternate Description';
+$_['tab_alt_description']  = 'Alternate<br>Description';
+$_['tab_download']      = 'Product<br>Download';
+$_['tab_discount']      = 'Quantity<br>Discounts';
+$_['tab_category']      = 'Product<br>Category';
+$_['tab_image']         = 'Product Image<br>Additional Images';
+$_['tab_data']          = 'Product Detail<br>Information';
 
 // Error
 $_['error_permission']     = 'Warning: You do not have permission to modify products';

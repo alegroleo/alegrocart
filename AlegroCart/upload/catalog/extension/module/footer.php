@@ -2,6 +2,7 @@
 class ModuleFooter extends Controller {
 	function fetch() {
 		$config   =& $this->locator->get('config');
+		$image    =& $this->locator->get('image');
 		$language =& $this->locator->get('language');	
 		$session  =& $this->locator->get('session');
 		$request  =& $this->locator->get('request');
@@ -12,6 +13,13 @@ class ModuleFooter extends Controller {
 
 			$view = $this->locator->create('template');
 			$view->set('w3c_status', $this->currentpage($this->modelCore->controller));
+			
+			$view->set('footer_logo', $image->href('logo/'.$config->get('config_footer_logo')));
+			$view->set('footer_logo_left', $config->get('footer_logo_left'));
+			$view->set('footer_logo_top', $config->get('footer_logo_top'));
+			$view->set('footer_logo_width', $config->get('footer_logo_width'));
+			$view->set('footer_logo_height', $config->get('footer_logo_height'));
+			
 			$view->set('store', $config->get('config_store'));
 			$view->set('show_version',$config->get('show_version'));
 			$view->set('version', $config->get('version'));

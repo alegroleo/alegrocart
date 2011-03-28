@@ -23,6 +23,11 @@ $_['entry_meta_title']     = 'Meta Title:'; // New
 $_['entry_meta_description'] = 'Meta Description:'; // New
 $_['entry_meta_keywords']  = 'Meta Keywords:'; // New
 
+// Tab
+$_['tab_general']       = 'Category Name<br>Description';
+$_['tab_image']         = 'Category Image';
+$_['tab_data']          = 'Sort Order';
+
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify categories';
 $_['error_name']          = '* Category Name must be between 1 and 32 characters!';

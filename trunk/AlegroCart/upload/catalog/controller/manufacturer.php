@@ -9,6 +9,7 @@ class ControllerManufacturer extends Controller {
 		$this->template 	=& $locator->get('template');
 		$this->modelProducts = $model->get('model_products');
 		$this->modelManufacturer = $model->get('model_manufacturer');
+		$this->modelCategory = $model->get('model_category');
 		$this->modelCore 	= $model->get('model_core');
 		$this->tpl_manager = $this->modelCore->get_tpl_manager('manufacturer'); // Template Manager
 		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
@@ -234,22 +235,7 @@ class ControllerManufacturer extends Controller {
 						'product_options' => $product_options
           			);
         		}
-
        			$view->set('products', $product_data);
-	
-				$breadcrumb = array();
-
-				$breadcrumb[] = array(
-					'href'      => $url->href('home'),
-					'text'      => $language->get('text_home'),
-					'separator' => FALSE
-				);	
-        		$breadcrumb[] = array(
-          			'href'      => $url->href('manufacturer', FALSE, array('manufacturer_id'  => $request->gethtml('manufacturer_id'))),
-          			'text'      => $session->get('manufacturer.name'),
-          			'separator' => $language->get('text_separator')
-        		);
-				$view->set('breadcrumbs', $breadcrumb);
 				
 				$view->set('number_columns', $this->config->get('config_columns') == 2 ? array(1,2,3,4,5) : array(1,2,3,4));
 				$view->set('entry_page', $language->get('entry_page'));
@@ -297,6 +283,21 @@ class ControllerManufacturer extends Controller {
 				$view->set('thousand_point', $language->get('thousand_point'));
 				$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']);
 			}
+			
+		$breadcrumb = array();
+		$breadcrumb[] = array(
+			'href'      => $url->href('home'),
+			'text'      => $language->get('text_home'),
+			'separator' => FALSE
+		);
+		
+        $breadcrumb[] = array(
+          	'href'      => $url->href('manufacturer', FALSE, array('manufacturer_id'  => $request->gethtml('manufacturer_id'))),
+          	'text'      => $session->get('manufacturer.name'),
+          	'separator' => $language->get('text_separator')
+        );
+		$view->set('breadcrumbs', $breadcrumb);
+				
 		$view->set('head_def',$head_def);
 		$this->template->set('head_def',$head_def);
 		$view->set('addtocart',$this->config->get('manufacturer_addtocart'));

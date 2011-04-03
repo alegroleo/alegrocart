@@ -1,5 +1,5 @@
 <?php 
-  $head_def->setcss($this->style . "/css/account_login.css");
+ $head_def->setcss($this->style . "/css/account_login.css");
 ?>
 
 <div class="headingbody"><?php echo $heading_title; ?></div>
@@ -14,17 +14,33 @@
   <table><tr><td>	
   <div class="a">
     <div class="b"><?php echo $text_new_customer; ?></div>
-    <div class="c">
+    <div class="c" style="height: <?php echo (isset($text_guest_account) ? '300px' : '140px') ?>">
       <div class="d"><?php echo $text_i_am_new_customer; ?></div>
-      <div class="e"><?php echo $text_create_account; ?></div>
-      <div class="f">
-        <input type="button" value="<?php echo $button_continue; ?>" onclick="location='<?php echo $continue; ?>'">
-      </div>
+	  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
+		<div class="e">
+	    <input type="radio" name="account_type" value='new_account' id="ca" CHECKED><label for="ca"><b><?php echo $text_create_account;?></b></label><br>
+			<div class="x">
+				<?php echo $text_create_account_exp; ?>
+			</div>
+		  <?php if(isset($text_guest_account)){?>
+		    <input type="radio" name="account_type" value='guest_account' id="ga">
+		    <label for="ga"><b><?php echo $text_guest_account;?></b></label><br>
+				<div class="x">
+					<?php echo $text_guest_account_exp;?>
+				</div>
+		  <?php }?>
+	  </div>
+	    
+        <div class="f">
+          <input type="submit" value="<?php echo $button_continue; ?>">
+        </div>
+		<input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
+	  </form>
     </div>
   </div>
   <div class="g">
     <div class="h"><?php echo $text_returning_customer; ?></div>
-    <div class="i">
+    <div class="i" style="height: <?php echo (isset($text_guest_account) ? '300px' : '140px') ?>">
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
         <div class="j"><?php echo $text_i_am_returning_customer; ?></div>
         <div class="k">

@@ -1,4 +1,4 @@
-<?php
+<?php //Library Customer
 class Customer {
 	var $data = array();
 
@@ -22,8 +22,14 @@ class Customer {
 	}
 		
   	function login($email, $password) {	
-    	$sql           = "select * from customer where email = '?' and password = '?' and status = '1'";
-    	$customer_info = $this->database->getRow($this->database->parse($sql, $email, md5($password)));
+    	if($this->session->get('guest_account')){
+			$sql = "select * from customer where email = '?' and status = '0' and guest = '1'";
+			$customer_info = $this->database->getRow($this->database->parse($sql, $email));
+		} else {
+			$sql = "select * from customer where email = '?' and password = '?' and status = '1'";
+			$customer_info = $this->database->getRow($this->database->parse($sql, $email, md5($password)));
+		}
+		
 
     	if ($customer_info) {	
       		$this->session->set('customer_id', $customer_info['customer_id']);

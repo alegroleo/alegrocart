@@ -9,7 +9,7 @@ $_['text_message']    = 'Success: A new password has been sent to your e-mail ad
 
 // Email 
 $_['email_subject']   = '%s - New Password';
-$_['email_message']   = 'A new password was requested from %s.' . "\n\n" . 'Your new password to %s is:' . "\n\n" . '%s' . "\n\n";
+$_['email_message']   = 'A new password was requested from %s.' . "\n\n" . 'Your new password to %s is:' . "\n\n" . '%s' . "\n\n" . '%s';
 
 // Entry
 $_['entry_email']     = 'E-Mail Address:';

@@ -102,6 +102,7 @@
         </tr>
       </table>
     </div>
+	<?php if(!$guest){?>
     <div class="e"><?php echo $text_your_password; ?></div>
     <div class="f">
       <table>
@@ -141,6 +142,7 @@
         </tr>
       </table>
     </div>
+	<?php }?>
   </div>
   <?php if (isset($agree)) { ?>
   <div class="buttons">

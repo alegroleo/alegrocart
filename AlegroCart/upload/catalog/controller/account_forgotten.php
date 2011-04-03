@@ -41,7 +41,7 @@ class ControllerAccountForgotten extends Controller {
 				$this->mail->setFrom($this->config->get('config_email'));
 				$this->mail->setSender($this->config->get('config_store'));
 				$this->mail->setSubject($this->language->get('email_subject', $this->config->get('config_store')));
-				$this->mail->setText($this->language->get('email_message', $this->config->get('config_store'), $this->config->get('config_store'), $password));
+				$this->mail->setText($this->language->get('email_message', $this->config->get('config_store'), $this->config->get('config_store'), $password, $this->url->ssl('account_login')));
 				$this->mail->send();
 				$this->modelAccountCreate->reset_password($password);
 				$this->session->set('message', $this->language->get('text_message'));

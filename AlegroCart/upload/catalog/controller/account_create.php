@@ -6,6 +6,7 @@ class ControllerAccountCreate extends Controller {
 		$model 				=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
 		$this->customer 	=& $locator->get('customer');
+		$this->cart    		=& $locator->get('cart');
 		$this->head_def 	=& $locator->get('HeaderDefinition');
 		$this->language 	=& $locator->get('language');
 		$this->mail         =& $locator->get('mail');
@@ -33,7 +34,7 @@ class ControllerAccountCreate extends Controller {
     	$this->language->load('controller/account_create.php');
 
     	$this->template->set('title', $this->language->get('heading_title'));
-	
+		
     	if ($this->request->isPost() && $this->request->has('firstname', 'post') && $this->validate()) {
 			if(($this->session->get('account_validation') == $this->request->gethtml('account_validation','post')) && (strlen($this->session->get('account_validation')) > 10)){
 				$this->modelAccountCreate->insert_customer();
@@ -41,20 +42,30 @@ class ControllerAccountCreate extends Controller {
 				$this->modelAccountAddress->insert_address($this->customer->getId());
 				$this->modelAccountCreate->set_default_address($this->customer->getId());
 
-				if ($this->config->get('config_email_send') ) {
+				if ($this->config->get('config_email_send')) {
 					$this->mail->setTo($this->request->sanitize('email', 'post'));
 					$this->mail->setFrom($this->config->get('config_email'));
 					$this->mail->setSender($this->config->get('config_store'));
 					$this->mail->setSubject($this->language->get('email_subject', $this->config->get('config_store')));
 					$this->mail->setCharacterSet($this->language->get('charset'));
 					$this->mail->setText($this->language->get('email_message', $this->request->sanitize('firstname', 'post'), $this->config->get('config_store'), $this->url->ssl('account_login'), $this->config->get('config_store')));
-					$this->mail->send();
+					if(!$this->session->get('guest_account')){
+						$this->mail->send();
+					}
 					$this->mail->setTo($this->config->get('config_email_accounts') ? $this->config->get('config_email_accounts') : $this->config->get('config_email'));
 					$this->mail->send();
 				}
 				
 				$this->session->delete('account_validation');
-				$this->response->redirect($this->url->ssl('account_success'));
+				if($this->session->get('guest_account')){
+					if ($this->cart->hasProducts()) {
+						$this->response->redirect($this->url->ssl('checkout_confirm'));
+					} else {
+						$this->response->redirect($this->url->href('home'));
+					}
+				} else {
+					$this->response->redirect($this->url->ssl('account_success'));
+				}
 			} else {
 				$this->session->set('message',$this->language->get('error_referer'));
 				$this->session->delete('account_validation');
@@ -64,7 +75,7 @@ class ControllerAccountCreate extends Controller {
 		
     	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+    	$view->set('heading_title', $this->session->get('guest_account') ? $this->language->get('heading_guest') : $this->language->get('heading_title'));
 
 		$view->set('text_yes', $this->language->get('text_yes'));
 		$view->set('text_no', $this->language->get('text_no'));
@@ -113,6 +124,8 @@ class ControllerAccountCreate extends Controller {
 		
 		$this->session->set('account_validation', md5(time()));
 		$view->set('account_validation', $this->session->get('account_validation'));
+		
+		$view->set('guest', $this->session->get('guest_account'));
 
     	$view->set('firstname', $this->request->sanitize('firstname', 'post'));
 
@@ -219,12 +232,14 @@ class ControllerAccountCreate extends Controller {
 		if($this->modelAccountCreate->check_customer($this->request->sanitize('email', 'post'))){
       		$this->error['message'] = $this->language->get('error_exists');
     	}
-		if (!$this->validate->strlen($this->request->sanitize('password', 'post'),4,20)) {
-      		$this->error['password'] = $this->language->get('error_password');
-    	}
-    	if ($this->request->sanitize('confirm', 'post') != $this->request->sanitize('password', 'post')) {
-      		$this->error['confirm'] = $this->language->get('error_confirm');
-    	}
+		if(!$this->session->get('guest_account')){
+			if (!$this->validate->strlen($this->request->sanitize('password', 'post'),4,20)) {
+				$this->error['password'] = $this->language->get('error_password');
+			}
+			if ($this->request->sanitize('confirm', 'post') != $this->request->sanitize('password', 'post')) {
+				$this->error['confirm'] = $this->language->get('error_confirm');
+			}
+		}
 		if (!$this->validate->strlen($this->request->sanitize('address_1', 'post'),3,64)) {
       		$this->error['address_1'] = $this->language->get('error_address_1');
     	}

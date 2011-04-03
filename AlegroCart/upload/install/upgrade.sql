@@ -1148,3 +1148,11 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'footer_logo_height';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_height', '65') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# Add Guest Checkout
+ALTER TABLE `customer`
+ADD `guest` int(1) NOT NULL default '0' After `status`;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_guest_checkout';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_guest_checkout', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;

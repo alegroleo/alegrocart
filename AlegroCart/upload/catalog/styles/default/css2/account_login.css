@@ -21,7 +21,6 @@
 #login .c, #login .i {
 	border: 1px solid #EEEEEE;
 	padding: 10px;
-	height: 140px;
 }
 
 #login .d, #login .j {
@@ -32,6 +31,12 @@
 #login .e, #login .k {
 	margin-top: 20px;
 	_margin-top: 20px;
+}
+
+#login .e .x{
+	border-top: 1px solid #EEEEEE;
+	margin-top: 6px;
+	margin-bottom: 6px;
 }
 
 #login .f, #login .l {

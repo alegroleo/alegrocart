@@ -116,6 +116,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'magnifier', `value` = '" . $this->request->gethtml('catalog_magnifier', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'magnifier_width', `value` = '" . $this->request->gethtml('catalog_magnifier_width', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'magnifier_height', `value` = '" . $this->request->gethtml('catalog_magnifier_height', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_guest_checkout', `value` = '" . $this->request->gethtml('catalog_config_guest_checkout', 'post')  . "'");
 		//$this->database->query();
 	}
 	function get_settings(){

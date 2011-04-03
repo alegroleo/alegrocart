@@ -17,8 +17,12 @@ class Model_AccountCreate extends Model{
 		$this->database->query("update customer set address_id = '" . (int)$this->database->getLastId() . "' where customer_id = '" . (int)$customer_id . "'");
 	}
 	function insert_customer(){
-		$sql = "insert into customer set firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', password = '?', newsletter = '?', status = '1', date_added = now()";
-		$this->database->query($this->database->parse($sql, $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('email', 'post'), $this->request->sanitize('telephone', 'post'), $this->request->sanitize('fax', 'post'), md5($this->request->sanitize('password', 'post')), $this->request->gethtml('newsletter', 'post')));	
+		$guest = $this->session->get('guest_account') ? 1 : 0;
+		$status = $this->session->get('guest_account') ? 0 : 1;
+		$password = $this->request->sanitize('password', 'post') ? md5($this->request->sanitize('password', 'post')) : '';
+		
+		$sql = "insert into customer set firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', password = '?', newsletter = '?', status = '?', guest = '?', date_added = now()";
+		$this->database->query($this->database->parse($sql, $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('email', 'post'), $this->request->sanitize('telephone', 'post'), $this->request->sanitize('fax', 'post'), $password, $this->request->gethtml('newsletter', 'post'),$status , $guest));	
 	}
 	function update_customer($customer_id){
 		$sql = "update customer set firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', status = '1' where customer_id = '?'";
@@ -40,7 +44,7 @@ class Model_AccountCreate extends Model{
       	$this->database->query($this->database->parse($sql, md5($this->request->sanitize('password', 'post')), $customer_id));
 	}
 	function reset_password($password){
-		$this->database->query($this->database->parse("update customer set password = '?' where email = '?'", md5($password), $this->request->sanitize('email', 'post')));
+		$this->database->query($this->database->parse("update customer set password = '?', status = '1', guest = '0' where email = '?'", md5($password), $this->request->sanitize('email', 'post')));
 	}
 	function update_newsletter($customer_id){
 		$this->database->query("update customer set newsletter = '" . (int)$this->request->gethtml('newsletter', 'post') . "' where customer_id = '" . (int)$customer_id . "'");

@@ -251,15 +251,15 @@
 			<tr>
               <td class="set"><?php echo $entry_error_handler_status; ?></td>
               <td><?php if ($global_error_handler_status) { ?>
-                <input type="radio" name="global_error_handler_status" value="1" id="acsyes" checked>
-                <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_error_handler_status" value="0" id="acsno">
-                <label for="acsno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_error_handler_status" value="1" id="ehsyes" checked>
+                <label for="ehsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_handler_status" value="0" id="ehsno">
+                <label for="ehsno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_error_handler_status" value="1" id="acsyes">
-                <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_error_handler_status" value="0" id="acsno" checked>
-                <label for="acsno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_error_handler_status" value="1" id="ehsyes">
+                <label for="ehsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_handler_status" value="0" id="ehsno" checked>
+                <label for="ehsno"><?php echo $text_no; ?></label>
                 <?php } ?>
 			  </td>
 			  <td class="expl">
@@ -276,15 +276,15 @@
 			<tr>
               <td class="set"><?php echo $entry_error_show_user; ?></td>
               <td><?php if ($global_error_show_user) { ?>
-                <input type="radio" name="global_error_show_user" value="1" id="acsyes" checked>
-                <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_error_show_user" value="0" id="acsno">
-                <label for="acsno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_error_show_user" value="1" id="esuyes" checked>
+                <label for="esuyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_show_user" value="0" id="esuno">
+                <label for="esuno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_error_show_user" value="1" id="acsyes">
-                <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_error_show_user" value="0" id="acsno" checked>
-                <label for="acsno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_error_show_user" value="1" id="esuyes">
+                <label for="esuyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_show_user" value="0" id="esuno" checked>
+                <label for="esuno"><?php echo $text_no; ?></label>
                 <?php } ?>
 			  </td>
 			  <td class="expl">
@@ -294,15 +294,15 @@
 			<tr>
               <td class="set"><?php echo $entry_error_show_developer; ?></td>
               <td><?php if ($global_error_show_developer) { ?>
-                <input type="radio" name="global_error_show_developer" value="1" id="acsyes" checked>
-                <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_error_show_developer" value="0" id="acsno">
-                <label for="acsno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_error_show_developer" value="1" id="esdyes" checked>
+                <label for="esdyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_show_developer" value="0" id="esdno">
+                <label for="esdno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_error_show_developer" value="1" id="acsyes">
-                <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_error_show_developer" value="0" id="acsno" checked>
-                <label for="acsno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_error_show_developer" value="1" id="esdyes">
+                <label for="esdyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_show_developer" value="0" id="esdno" checked>
+                <label for="esdno"><?php echo $text_no; ?></label>
                 <?php } ?>
 			  </td>
 			  <td class="expl">
@@ -477,9 +477,9 @@
                 <input type="radio" name="catalog_config_stock_check" value="0" id="ccscno" checked>
                 <label for="ccscno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-	      <td class="expl">
-		    <?php echo $text_check_stock_explantion; ?> 
-	      </td>
+				<td class="expl">
+				  <?php echo $text_check_stock_explantion; ?> 
+				</td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_stock_checkout; ?></td>
@@ -494,9 +494,9 @@
                 <input type="radio" name="catalog_config_stock_checkout" value="0" id="ccscono" checked>
                 <label for="ccscono"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-	      <td class="expl">
-		    <?php echo $text_allow_checkout_explantion; ?> 
-	      </td>
+				<td class="expl">
+				  <?php echo $text_allow_checkout_explantion; ?> 
+				</td>
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_stock_subtract; ?></td>
@@ -511,10 +511,27 @@
                 <input type="radio" name="catalog_config_stock_subtract" value="0" id="ccssno" checked>
                 <label for="ccssno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-	      <td class="expl">
-		    <?php echo $text_subtract_stock_explantion; ?> 
-	      </td>
-	    </tr>
+				<td class="expl">
+				  <?php echo $text_subtract_stock_explantion; ?> 
+				</td>
+			</tr>
+			<tr>
+              <td width="185" class="set"><?php echo $entry_guest_checkout; ?></td>
+              <td width="100"><?php if ($catalog_config_guest_checkout) { ?>
+                <input type="radio" name="catalog_config_guest_checkout" value="1" id="ccgcyes" checked>
+                <label for="ccgcyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_guest_checkout" value="0" id="ccgcno">
+                <label for="ccgcno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_guest_checkout" value="1" id="ccgcyes">
+                <label for="ccgcyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_guest_checkout" value="0" id="ccgcno" checked>
+                <label for="ccgcno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+				<td class="expl">
+				  <?php echo $text_guest_checkout; ?> 
+				</td>
+			</tr>
           </table>
         </div>
       </div>
@@ -555,15 +572,15 @@
 			<tr>
               <td class="set"><?php echo $entry_rss_status; ?></td>
               <td><?php if ($global_config_rss_status) { ?>
-                <input type="radio" name="global_config_rss_status" value="1" id="acsyes" checked>
-                <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_rss_status" value="0" id="acsno">
-                <label for="acsno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_config_rss_status" value="1" id="rssyes" checked>
+                <label for="rssyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_rss_status" value="0" id="rssno">
+                <label for="rssno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_rss_status" value="1" id="acsyes">
-                <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_rss_status" value="0" id="acsno" checked>
-                <label for="acsno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_config_rss_status" value="1" id="rssyes">
+                <label for="rssyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_rss_status" value="0" id="rssno" checked>
+                <label for="rssno"><?php echo $text_no; ?></label>
                 <?php } ?>
 			  </td>
 			  <td class="expl">

@@ -29,7 +29,15 @@ class ControllerAccountLogin extends Controller {
 
     	$this->template->set('title', $this->language->get('heading_title'));
 			
-		if ($this->request->isPost() && $this->request->has('password', 'post') && $this->validate()) {			
+		if ($this->request->isPost() && ($this->request->has('password', 'post') || $this->request->has('account_type', 'post')) && $this->validate()) {	
+			if($this->request->has('account_type', 'post')){
+				if($this->request->gethtml('account_type', 'post') == 'guest_account' && $this->config->get('config_guest_checkout')){
+					$this->session->set('guest_account', TRUE);
+				} else {
+					$this->session->delete('guest_account');	
+				}
+				$this->response->redirect($this->url->ssl('account_create'));
+			}
       		if ($this->request->has('redirect', 'post')) {
 				$this->response->redirect($this->request->gethtml('redirect', 'post'));
       		} else {
@@ -45,7 +53,12 @@ class ControllerAccountLogin extends Controller {
     	$view->set('text_i_am_new_customer', $this->language->get('text_i_am_new_customer'));
     	$view->set('text_returning_customer', $this->language->get('text_returning_customer'));
     	$view->set('text_i_am_returning_customer', $this->language->get('text_i_am_returning_customer'));
-    	$view->set('text_create_account', $this->language->get('text_create_account'));
+			$view->set('text_create_account', $this->language->get('text_create_account'));
+			if($this->config->get('config_guest_checkout')){
+				$view->set('text_guest_account', $this->language->get('text_guest_account'));
+				$view->set('text_guest_account_exp', $this->language->get('text_guest_account_exp'));
+			}
+    	$view->set('text_create_account_exp', $this->language->get('text_create_account_exp'));
     	$view->set('text_forgotten_password', $this->language->get('text_forgotten_password'));
     	$view->set('text_forgotten_password', $this->language->get('text_forgotten_password'));
     	$view->set('entry_email', $this->language->get('entry_email_address'));
@@ -117,8 +130,10 @@ class ControllerAccountLogin extends Controller {
 
   	function validate() {
 		if(($this->session->get('account_validation') == $this->request->gethtml('account_validation','post')) && (strlen($this->session->get('account_validation')) > 10)){
-			if (!$this->customer->login($this->request->sanitize('email', 'post'), $this->request->sanitize('password', 'post'))) {
-				$this->error['message'] = $this->language->get('error_login');
+			if($this->request->has('password', 'post')){
+				if (!$this->customer->login($this->request->sanitize('email', 'post'), $this->request->sanitize('password', 'post'))) {
+					$this->error['message'] = $this->language->get('error_login');
+				}
 			}
 		} else {
 				$this->session->set('message',$this->language->get('error_referer'));

@@ -81,6 +81,7 @@ class ControllerSetting extends Controller {
 		$view->set('text_error_show_user', $this->language->get('text_error_show_user'));
 		$view->set('text_error_show_developer', $this->language->get('text_error_show_developer'));
 		$view->set('text_error_developer_ip', $this->language->get('text_error_developer_ip'));
+		$view->set('text_guest_checkout', $this->language->get('text_guest_checkout'));
 		
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
@@ -129,6 +130,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_stock_check', $this->language->get('entry_stock_check'));
 		$view->set('entry_stock_checkout', $this->language->get('entry_stock_checkout'));
 		$view->set('entry_stock_subtract', $this->language->get('entry_stock_subtract'));
+		$view->set('entry_guest_checkout', $this->language->get('entry_guest_checkout'));
 		$view->set('entry_vat', $this->language->get('entry_vat'));
 		$view->set('entry_account', $this->language->get('entry_account'));
 		$view->set('entry_checkout', $this->language->get('entry_checkout'));
@@ -523,6 +525,12 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_config_stock_subtract', $this->request->gethtml('catalog_config_stock_subtract'));
 		} else {
 			$view->set('catalog_config_stock_subtract', @$setting_info['catalog']['config_stock_subtract']);
+		}
+		
+		if ($this->request->has('catalog_config_guest_checkout')) {
+			$view->set('catalog_config_guest_checkout', $this->request->gethtml('catalog_config_guest_checkout'));
+		} else {
+			$view->set('catalog_config_guest_checkout', @$setting_info['catalog']['config_guest_checkout']);
 		}
 
 		if ($this->request->has('catalog_config_vat')) {

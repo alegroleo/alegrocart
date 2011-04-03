@@ -48,6 +48,7 @@ $_['text_rss_latest']         = 'Latest Products';
 $_['text_rss_featured']       = 'Featured Products';
 $_['text_rss_popular']        = 'Popular Products';
 $_['text_rss_specials']       = 'Products on Special';
+$_['text_guest_checkout']     = 'If not enabled, customers must register to complete purchase!';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
@@ -95,6 +96,7 @@ $_['entry_order_status']    = 'Order Status:';
 $_['entry_stock_check']     = 'Check Stock:';
 $_['entry_stock_checkout']  = 'Allow Checkout:';
 $_['entry_stock_subtract']  = 'Subtract Stock:';
+$_['entry_guest_checkout']  = 'Enable Guest Checkout';
 $_['entry_vat']             = 'VAT Registration ID:';
 $_['entry_account']         = 'Account Terms:';
 $_['entry_checkout']        = 'Checkout Terms:';

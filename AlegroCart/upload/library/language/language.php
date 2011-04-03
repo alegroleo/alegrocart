@@ -53,7 +53,7 @@ class Language {
     	}
 
     	if ((!$this->request->get($this->lang, 'cookie')) || ($this->request->get($this->lang, 'cookie') != $language)) {	  
-	  		setcookie($this->lang, $language, time() + $this->expire, '/', $_SERVER['HTTP_HOST']);
+	  		setcookie($this->lang, $language, time() + $this->expire, '/', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
     	}
   	}
     

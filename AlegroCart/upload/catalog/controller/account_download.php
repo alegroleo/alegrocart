@@ -132,7 +132,7 @@ class ControllerAccountDownload extends Controller {
 		}
 		$download_info = $this->modelAccountDownload->get_download($this->customer->getId(),$this->request->gethtml('order_download_id'));	
 		if ($download_info) {
-			$this->download->setSource(DIR_DOWNLOAD . $this->download_info['filename']);
+			$this->download->setSource(DIR_DOWNLOAD . $download_info['filename']);
 			$this->download->setFilename($download_info['mask']);
 			$this->download->output();
 			if (!$this->download->getError()) {

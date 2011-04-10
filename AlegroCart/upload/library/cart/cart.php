@@ -8,6 +8,7 @@ class Cart {
 	var $stock    = TRUE;
   	var $shipping = FALSE;
 	var $noshipping = FALSE;
+	var $downloads = FALSE;
 	var $minov    = TRUE;
 
   	function __construct(&$locator){
@@ -154,6 +155,9 @@ class Cart {
 	    			$this->shipping = TRUE;
 	  			} else {
 	    			$this->noshipping = TRUE;
+				}
+				if ($download_data){
+					$this->downloads = TRUE;
 				}
 			} else {
 				$this->remove($key);

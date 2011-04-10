@@ -33,7 +33,11 @@
           </td>
           <td class="center"><?php echo $product['quantity']; ?></td>
 	  <td class="center">
+	  <?php if ($product['download']) {?>
+	  <img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+	  <?php } else {?>
 	  <img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>">
+	  <?php }?>
 	  </td>
       </tr>
       <?php } ?>

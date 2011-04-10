@@ -252,5 +252,9 @@ class Model_Admin_Product extends Model {
 		$results = $this->database->getRows("select * from product_options po left join image i on (po.image_id = i.image_id) where po.product_id = '" . (int)$this->request->gethtml('product_id') . "' order by po.product_option asc");
 		return $results;
 	}
+	function check_downloads($product_id){
+		$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and dd.language_id = '" . (int)$this->language->getId() . "'");
+		return $downloads ? TRUE : FALSE;
+	}
 }
 ?>

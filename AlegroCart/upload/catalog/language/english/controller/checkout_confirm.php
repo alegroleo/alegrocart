@@ -34,6 +34,7 @@ $_['text_tax']               = 'Tax Included in Amount';  //*********
 $_['text_warehouse_pickup']  = 'I understand Non-Shippable items are to be picked up at Warehouse!';
 $_['text_coupon']            = 'Success: Your coupon discount has been applied!';
 $_['text_agree']             = 'I agree to <a style="cursor: pointer;" onclick="location=\'%s\';"><u><b>%s</b></u></a>';
+$_['text_downloadable']      = 'Downloadable';
 
 // Entry
 $_['entry_coupon']           = 'Coupon:';
@@ -62,6 +63,7 @@ $_['email_price']            = 'Unit Price';
 $_['email_total']            = 'Total';
 $_['email_ship']             = 'Yes';
 $_['email_noship']           = 'Pickup';
+$_['email_download']         = 'Download';
 $_['email_message']          = 'Thank you for your interest in %s Products. Your order has been received and will be dealt with as quickly as possible.' . "\n\n" . 
                                'Order ID: #%s' . "\n" .
 							   'Invoice Number: #XXXZZZ#' . "\n" .

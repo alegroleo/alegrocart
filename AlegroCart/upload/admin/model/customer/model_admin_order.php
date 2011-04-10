@@ -38,6 +38,10 @@ class Model_Admin_Order extends Model {
 		$results = $this->database->getRows("select date_added, os.name as status, oh.comment, oh.notify from order_history oh left join order_status os on oh.order_status_id = os.order_status_id where oh.order_id = '" . (int)$this->request->gethtml('order_id') . "' and os.language_id = '" . (int)$this->language->getId() . "' order by oh.date_added");
 		return $results;
 	}
+	function check_downloads($order_product_id){
+		$results = $this->database->getRows("select * from order_download where order_id = '" . (int)$this->request->gethtml('order_id') . "' and order_product_id = '" . (int)$order_product_id . "'");
+		return $results;
+	}
 	function get_downloads(){
 		$results = $this->database->getRows("select * from order_download where order_id = '" . (int)$this->request->gethtml('order_id') . "' order by name");
 		return $results;

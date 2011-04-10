@@ -27,9 +27,9 @@ $_['text_error']            = 'The invoice you requested could not be found!';
 $_['text_currency']         = 'Currency : ';
 $_['text_tax']              = 'Tax Included in Amount';
 $_['text_special']	    = 'Special<br>Price';
-$_['text_coupon_value']     = 'Coupon<br>Value';  //*********
-$_['text_discount_value']   = 'Discount<br>Amount';  //*********
-$_['text_tax_rate']         = 'Tax<br> Rate';  //*********
+$_['text_coupon_value']     = 'Coupon<br>Value';
+$_['text_discount_value']   = 'Discount<br>Amount';
+$_['text_tax_rate']         = 'Tax<br> Rate';
 $_['text_extended']         = 'Extended<br>Amount';
 $_['text_net']              = 'Net Cost';
 $_['text_cart_totals']      = 'Cart Totals';
@@ -41,6 +41,8 @@ $_['text_shipping']         = 'Ship';
 $_['text_shippable']        = 'Shippable';
 $_['text_non_shippable']    = 'Non Shippable';
 $_['text_invoice_number']   = 'Invoice Number';
+$_['text_downloadable']      = 'Downloadable';
+
 // Column
 $_['column_order_id']       = 'Order ID';
 $_['column_reference']      = 'Reference';

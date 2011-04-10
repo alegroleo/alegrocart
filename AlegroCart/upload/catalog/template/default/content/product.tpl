@@ -65,8 +65,11 @@
   <div>
    <?php if(isset($alt_description)){ echo $alt_description;} ?>
   </div>
-  <div>
-    <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+  <div class="shipping">
+    <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } elseif(!$downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+	<?php if ($downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+	<span><?php echo $text_downloadable;?></span>
+	<?php }?>
   </div>
   <div class="ponhand"><?php echo $quantity_available; ?>
   <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span></div>
@@ -143,7 +146,8 @@
             <?php include $shared_path . 'additional_images.tpl' ;?>
           <?php } ?>
         <?php } ?>
-       </div>
+			  <div class="clearfix"></div>
+      </div>
     </div>
 	<?php }?>
 	<div class="page">
@@ -163,6 +167,9 @@
 		  <?php echo "&nbsp;&nbsp;".$text_sale_start.date("F-d-Y",strtotime($product['sale_start_date'])); ?><br>
 		  <?php echo "&nbsp;&nbsp;".$text_sale_end.date("F-d-Y",strtotime($product['sale_end_date'])); ?><br>
 		<?php } ?>
+		<?php if($downloads){?>
+		  <?php echo '<br>' . $text_product_download;?>
+		<?php }?>
 		<?php if (isset($manufacturer)) { ?><br>
 		  <?php echo '<b>' . $text_manufacturer . '</b>' . $manufacturer; ?><br>
 		<?php } ?>
@@ -198,7 +205,7 @@
 		  <?php }?>
 		<?php } ?>
 		<?php if ($shipping) { ?><br>
-		  <?php echo '<b>' . $text_shipping_yes . '</b>'; } else { echo '<br><b>' . $text_shipping_no. '</b>'; ?> <br>
+		  <?php echo '<b>' . $text_shipping_yes . '</b>'; } elseif(!$downloads) { echo '<br><b>' . $text_shipping_no. '</b>'; ?> <br>
 		<?php  } ?>
 	  </div>
 	</div>

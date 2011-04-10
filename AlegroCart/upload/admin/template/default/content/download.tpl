@@ -57,7 +57,7 @@
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_filename; ?></td>
-               <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+               <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly" value="<?php echo $filename;?>">
 	      <div class="file_input_div">
 	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
 	      <input type="file" id="download" name="download" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value; set_mask()" />
@@ -86,8 +86,23 @@
   <script type="text/javascript"><!--
   function set_mask(){
   var url = $('#download').val();  
-  var Mask = url.substring(url.lastIndexOf('/')+1);
+  var Filename = url.substring(url.lastIndexOf('/')+1);
+  var Extension = Filename.substring(Filename.lastIndexOf("."));
+  Mask = RandomNumber(Filename)+Extension;
   $('#mask').val(Mask);
+  }
+  function RandomNumber(Filename){
+	var Seed = Filename.substring(0,Filename.lastIndexOf("."));
+	var Filecount = Seed.length;
+	var NumberSeed = '';
+	for(intI = 0; intI < Filecount; intI++){
+		NumberSeed += String(Seed.charCodeAt(intI));
+	}
+	NumberSeed = NumberSeed.substring(0,16);
+	D = new Date();
+	SeedTime = D.getTime();
+	var Mask = String(SeedTime + parseInt(NumberSeed))
+	return Mask;
   }
    //--></script> 
   <script type="text/javascript"><!--

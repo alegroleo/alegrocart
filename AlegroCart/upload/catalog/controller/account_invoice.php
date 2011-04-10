@@ -83,6 +83,7 @@ class ControllerAccountInvoice extends Controller {
       		$view->set('column_comment', $this->language->get('column_comment'));
       		$view->set('text_shippable', $this->language->get('text_shippable'));
       		$view->set('text_non_shippable', $this->language->get('text_non_shippable'));
+			$view->set('text_downloadable', $this->language->get('text_downloadable'));
 			
 			$this->decimal_place = $this->currency->currencies[$order_info['currency']]['decimal_place'];
 			$view->set('reference', $order_info['reference']);
@@ -167,7 +168,7 @@ class ControllerAccountInvoice extends Controller {
             			'value' => $option['value'],
           			);
         		}
-
+				$download = $this->modelAccountInvoice->get_downloads($order_info['order_id'],$product['order_product_id']);
 				$special_pr = $product['special_price'];
 				$net = $product['total'] - ($product['coupon'] ? $product['coupon'] : NULL ) - ($product['general_discount'] ? $product['general_discount'] : NULL );
 				$producttax = $order_info['taxed'] ? $net - roundDigits($net / ((100 + $product['tax'])/100), $this->decimal_place) : roundDigits($net * ($product['tax'] / 100), $this->decimal_place);
@@ -187,6 +188,7 @@ class ControllerAccountInvoice extends Controller {
 					'name'     		=> $product['name'],
 					'model_number'	=> $product['model_number'],
 					'option'   		=> $option_data,
+					'download'     => $download,
 					'quantity' 		=> $product['quantity'],
 					'special_price'	=> $special_pr > 0 ? $this->currency->format($special_pr) : NULL,
 					'price'    		=> $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),

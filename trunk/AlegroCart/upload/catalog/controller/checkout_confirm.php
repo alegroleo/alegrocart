@@ -113,6 +113,7 @@ class ControllerCheckoutConfirm extends Controller {
 		$view->set('text_non_shippable', $this->language->get('text_non_shippable'));
 		$view->set('text_warehouse_pickup', $this->language->get('text_warehouse_pickup'));
 		$view->set('text_currency', $this->language->get('text_currency'));
+		$view->set('text_downloadable', $this->language->get('text_downloadable'));
 
 		$view->set('entry_coupon', $this->language->get('entry_coupon'));
 
@@ -207,7 +208,8 @@ class ControllerCheckoutConfirm extends Controller {
         		'href'       => $this->url->href('product', FALSE, array('product_id' => $product['product_id'])),
         		'name'       => $product['name'],
         		'model_number'=> $product['model_number'],
-			'shipping'   => ($this->session->get('shipping_method') == 'warehouse_warehouse' ? FALSE : $product['shipping']),
+				'shipping'   => ($this->session->get('shipping_method') == 'warehouse_warehouse' ? FALSE : $product['shipping']),
+				'download'   => $product['download'],
         		'option'     => $option_data,
         		'quantity'   => $product['quantity'],
 				'tax'        => round($this->tax->getRate($product['tax_class_id']), $this->decimal_place),
@@ -353,6 +355,7 @@ class ControllerCheckoutConfirm extends Controller {
 		$email->set('tax_included', $this->config->get('config_tax'));
 		$email->set('email_ship', $this->language->get('email_ship'));
 		$email->set('email_noship', $this->language->get('email_noship'));
+		$email->set('email_download', $this->language->get('email_download'));
 		$email->set('text_currency', $this->language->get('text_currency'));
 		
 		if ($this->cart->hasShipping()){
@@ -381,12 +384,12 @@ class ControllerCheckoutConfirm extends Controller {
 
 //$email->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
 //
-if ($this->session->get('shipping_method') != 'warehouse_warehouse') {
-	$email->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
-	} else {
-	$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
-	$email->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
-	}
+		if ($this->session->get('shipping_method') != 'warehouse_warehouse') {
+			$email->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
+		} else {
+			$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
+			$email->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
+		}
 
 		$email->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
 		$email->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));

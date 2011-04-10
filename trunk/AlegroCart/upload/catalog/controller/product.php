@@ -102,7 +102,9 @@ class ControllerProduct extends Controller {
       		$view->set('text_date_added', $language->get('text_date_added'));
       		$view->set('text_rating', $language->get('text_rating'));
       		$view->set('text_error', $language->get('text_empty'));	
-			$view->set('text_model_number', $language->get('text_model_number'));	
+			$view->set('text_model_number', $language->get('text_model_number'));
+			$view->set('text_downloadable', $language->get('text_downloadable'));
+			$view->set('text_product_download', $language->get('text_product_download'));
 			
       		$view->set('button_reviews', $language->get('button_reviews'));
       		$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
@@ -203,6 +205,8 @@ class ControllerProduct extends Controller {
           			'thumb' => $this->image->resize($result['filename'], $this->config->get('additional_image_width'), $this->config->get('additional_image_height')),
         		);
       		}
+			$downloads = $this->modelProducts->get_downloads($request->gethtml('product_id'));
+			$view->set('downloads', $downloads);
 			
 			$product_data = array(
 				'product_id'=> $request->gethtml('product_id'),
@@ -259,6 +263,7 @@ class ControllerProduct extends Controller {
 	  		$this->template->set('content', $view->fetch('content/error.tpl'));
 
     	}
+		
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());

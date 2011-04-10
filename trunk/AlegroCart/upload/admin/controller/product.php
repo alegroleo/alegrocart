@@ -235,6 +235,7 @@ class ControllerProduct extends Controller {
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_featured'),
+			'folder_help' => $this->language->get('text_featured_help'),
 			'align' => 'center'
 		);		
     	$cols[] = array(
@@ -291,10 +292,12 @@ class ControllerProduct extends Controller {
 			    'value' => number_format($result['special_price'],$decimal_place,'.',''),
 				'align' => 'center'
 			);
+			$downloads = $this->modelProduct->check_downloads($result['product_id']);
 			$featured_special = "";
 			$featured_special .= $result['featured'] ? " F " : "";
 			$featured_special .= $result['special_offer'] ? " S " : "";
 			$featured_special .= $result['related'] ? " R " : "";
+			$featured_special .= $downloads ? " D " : "";
 			$cell[] = array(
 				'value' => $featured_special,
 				'align' => 'center'

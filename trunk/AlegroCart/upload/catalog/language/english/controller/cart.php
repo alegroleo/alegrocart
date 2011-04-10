@@ -20,6 +20,7 @@ $_['text_discount_lprice']   = 'Discount of %s &#37; available if cart total is 
 $_['text_discount_gprice']   = ' Discount of %s &#37; available if cart total is greater than %s';
 $_['text_net_total']         = 'Cost of products excluding tax:';
 $_['text_tax_explantion'] = 'Tax included in prices is based on the prevailing tax rate in effect at the store location unless customer is logged on, in which case the tax will be adjusted to the rate in effect at the customer\'s location';
+$_['text_downloadable']  = 'Downloadable';
 
 // Entry
 $_['entry_coupon']           = 'Coupon:';

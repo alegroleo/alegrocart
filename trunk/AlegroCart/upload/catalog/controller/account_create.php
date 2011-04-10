@@ -172,7 +172,8 @@ class ControllerAccountCreate extends Controller {
 
 		if ($this->config->get('config_account_id')) {
 			$information_info = $this->modelAccountCreate->get_information();
-
+			$view->set('text_required', $this->language->get('text_required'));
+			$view->set('information', $this->url->href('information', FALSE, array('information_id' => $this->config->get('config_account_id'))));
 			$view->set('agree', $this->language->get('text_agree', $this->url->href('information', FALSE, array('information_id' => $this->config->get('config_account_id'))), $information_info['title']));
 		}
 		

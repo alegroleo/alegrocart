@@ -8,8 +8,9 @@ $_['text_your_details']    = 'Your Personal Details';
 $_['text_your_address']    = 'Your Address';
 $_['text_newsletter']      = 'Newsletter';
 $_['text_your_password']   = 'Your Password';
-$_['text_no_postal']      = ' Enter 4 periods \' .... \' if not required';
-$_['text_agree']           = 'I agree to <a style="cursor: pointer;" onclick="location=\'%s\';"><u><b>%s</b></u></a>';
+$_['text_no_postal']       = ' Enter 4 periods \' .... \' if not required';
+$_['text_agree']           = 'I agree to <a id="infolink" style="cursor: pointer;" href="%s"><b>%s</b></a>';
+$_['text_required']        = '<span class="required">*</span><b> Required to enable input</b>';
 
 // Entry
 $_['entry_firstname']      = 'First Name:';

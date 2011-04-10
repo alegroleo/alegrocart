@@ -115,6 +115,24 @@ class Model_Products extends Model {
 		$this->database->query("update product set viewed = viewed + 1 where product_id = '" . (int)$product_id . "'");
 	}
 	
+	function get_downloads($product_id){
+		$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and dd.language_id = '" . (int)$this->language->getId() . "'");
+			
+		$download_data = array();
+			
+		foreach ($downloads as $download) {
+        	$download_data[] = array(
+          		'download_id' => $download['download_id'],
+				'name'        => $download['name'],
+				'filename'    => $download['filename'],
+				'mask'        => $download['mask'],
+				'remaining'   => $download['remaining']
+        	);			
+		}
+		return $download_data;
+	
+	}
+	
 	function get_product_with_options($product_id, $image_width = '140', $image_height = '140'){
 		$results = $this->get_product_options($product_id);
 		$product_options = array();

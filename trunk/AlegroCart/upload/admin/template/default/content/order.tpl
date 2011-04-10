@@ -126,7 +126,8 @@
 		  <td class="right"><?php echo $product['tax'] . '%';?></td>
 		  <td class="right"><?php echo $product['product_tax'];?></td>
 		  <td class="right">
-		  <?php if ($product['shipping']) { ?><img src="template/<?php echo $this->directory?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="template/<?php echo $this->directory?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+		  <?php if ($product['download']) {?><img src="template/<?php echo $this->directory?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+		  <?php }else if ($product['shipping']) { ?><img src="template/<?php echo $this->directory?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="template/<?php echo $this->directory?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
 		</td>
 		  <td class="right"><?php echo '<span class="tax">*</span>' . $product['total_discounted']; ?></td>
 	</tr>
@@ -159,7 +160,7 @@
 		  <td class="right"><?php echo $shipping_tax_rate;?></td>
 		  <td class="right"><?php echo $shipping_tax;?></td>
 		  <td></td>
-		  <td class="right"><?php echo '<span class="tax">*</span>' . $shipping_total;?></td>
+		  <td class="right"><?php echo $shipping_total ? '<span class="tax">*</span>' . $shipping_total : '';?></td>
 	    </tr>
 	    <?php if(!empty($freeshipping_net)){?>
 		  <tr>
@@ -169,7 +170,7 @@
 		    <td class="right"><?php echo $shipping_tax_rate;?></td>
 		    <td class="right"><?php echo $freeshipping_tax;?></td>
 		    <td></td>
-		    <td class="right"><?php echo '<span class="tax">*</span>' . $freeshipping_total;?></td>
+		    <td class="right"><?php echo $freeshipping_total ? '<span class="tax">*</span>' . $freeshipping_total : '';?></td>
 	      </tr>
 		<?php }?>
 		<tr><td colspan="12"><hr></td></tr>

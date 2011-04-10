@@ -160,7 +160,9 @@ body, td, th, input, textarea, select {
 		<td class="right"><?php echo $product['tax'] . '%';?></td>
 		<td class="right"><?php echo $product['product_tax'];?></td>
 		<td class="right">
-		  <?php if ($product['shipping']) { 
+		  <?php if($product['download']){
+		    echo $email_download;
+		  } else if($product['shipping']) { 
 		    echo $email_ship;
 		  }	else { 
 		    echo $email_noship;

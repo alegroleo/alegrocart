@@ -89,7 +89,7 @@ class ControllerCart extends Controller {
 			$view->set('text_tax', $this->language->get('text_tax'));
 			$view->set('text_tax_explantion', $this->language->get('text_tax_explantion'));
 			$view->set('text_product_totals', $this->language->get('text_product_totals'));
-			
+			$view->set('text_downloadable', $this->language->get('text_downloadable'));
             
       		$view->set('column_remove', $this->language->get('column_remove'));
       		$view->set('column_image', $this->language->get('column_image'));
@@ -161,6 +161,7 @@ class ControllerCart extends Controller {
           			'name'          => $result['name'],
           			'model_number'  => $result['model_number'],
 					'shipping'   	=> $result['shipping'],
+					'download'      => $result['download'],
           			'thumb'         => $this->image->resize($result['image'], 40, 40),
           			'option'        => $option_data,
           			'quantity'      => $result['quantity'],

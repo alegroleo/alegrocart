@@ -84,6 +84,7 @@ class ControllerCheckoutShipping extends Controller {
     	$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
     	$view->set('text_shipping_methods', $this->language->get('text_shipping_methods'));
     	$view->set('text_comments', $this->language->get('text_comments'));
+		$view->set('text_downloadable', $this->language->get('text_downloadable'));
  
         if ($this->cart->hasNoShipping()) {
 		$view->set('text_nonshippable', $this->language->get('text_nonshippable'));
@@ -107,12 +108,13 @@ class ControllerCheckoutShipping extends Controller {
           			'key'           => $result['key'],
           			'name'          => $result['name'],
           			'model_number'  => $result['model_number'],
-				'shipping'   	=> $result['shipping'],
+					'shipping'   	=> $result['shipping'],
+					'download'      => $result['download'],
           			'thumb'         => $this->image->resize($result['image'], 40, 40),
           			'option'        => $option_data,
           			'quantity'      => $result['quantity'],
-				'stock'         => $result['stock'],
-				'href'          => $this->url->href('product', FALSE, array('product_id' => $result['product_id']))
+					'stock'         => $result['stock'],
+					'href'          => $this->url->href('product', FALSE, array('product_id' => $result['product_id']))
         		);
 			}
 			}

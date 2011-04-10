@@ -145,3 +145,17 @@
 	border: 0px;
 	font-weight: bold;
 }
+.pbox .shipping{
+	height: 36px;
+}
+.pbox .shipping img{
+	padding-left: 10px;
+}
+.pbox .shipping  span{
+	position: relative;
+	bottom: 10px;
+	padding-left: 0px;
+	text-align: left;
+	font-size: 18px;
+	font-weight: bold;
+}

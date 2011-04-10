@@ -34,7 +34,11 @@ class Url {
 
 	function current_page(){
 		if(isset($_SERVER['HTTP_HOST'])){
-			return htmlspecialchars("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+		  if((@$_SERVER['HTTPS']) && (defined('HTTPS_SERVER')) && (HTTPS_SERVER)) {
+				return htmlspecialchars("https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+			} else {
+				return htmlspecialchars("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+			}
 		}
 	}
 	

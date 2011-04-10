@@ -18,12 +18,16 @@ class Model_AccountInvoice extends Model{
 		$results = $this->database->getRows("select * from order_option where order_id = '" . (int)$order_id . "' and order_product_id = '" . (int)$order_product_id . "'");
 		return $results;
 	}
+	function get_downloads($order_id,$order_product_id){
+		$results = $this->database->getRows("select * from order_download where order_id = '" . (int)$order_id . "' and order_product_id = '" . (int)$order_product_id . "'");
+		return $results;
+	}
 	function get_totals($order_id){ 
 		$results = $this->database->getRows("select * from order_total where order_id = '" . (int)$order_id . "' order by sort_order");
 		return $results;
 	}
 	function get_order_history($order_id){
-		$results = $this->database->getRows("select date_added, os.name as status, oh.comment from order_history oh left join order_status os on oh.order_status_id = os.order_status_id where oh.order_id = '" . (int)$order_id . "' and oh.notify = '1' order by oh.date_added");
+		$results = $this->database->getRows("select date_added, os.name as status, oh.comment from order_history oh left join order_status os on oh.order_status_id = os.order_status_id where os.language_id = '" . (int)$this->language->getId() . "' and oh.order_id = '" . (int)$order_id . "' and oh.notify = '1' order by oh.date_added");
 		return $results;
 	}
 	function get_order($order_id){

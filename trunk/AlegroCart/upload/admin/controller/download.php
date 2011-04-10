@@ -260,6 +260,8 @@ class ControllerDownload extends Controller {
       		$view->set('mask', @$download_info['mask']);
     	}
 
+		$view->set('filename', @$download_info['filename']);
+		
 		if ($this->request->has('remaining', 'post')) {
       		$view->set('remaining', $this->request->gethtml('remaining', 'post'));
     	} elseif (@$download_info['remaining']) {

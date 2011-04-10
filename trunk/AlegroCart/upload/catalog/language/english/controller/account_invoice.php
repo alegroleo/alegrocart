@@ -35,6 +35,7 @@ $_['text_shipping']          = 'Ship';
 $_['text_shippable']         = 'Shippable';
 $_['text_non_shippable']     = 'Non Shippable';
 $_['text_invoice_number']    = 'Invoice Number';
+$_['text_downloadable']      = 'Downloadable';
 // Column
 $_['column_date_added']     = 'Date Added';
 $_['column_status']         = 'Status';

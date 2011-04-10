@@ -18,7 +18,7 @@ $_['column_action']       = 'Action';
 $_['entry_name']          = 'Download Name';
 $_['entry_filename']      = 'Filename:';
 $_['entry_mask']          = 'Mask:';
-$_['entry_remaining']     = 'Remaining:';
+$_['entry_remaining']     = 'Remaining per order:';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify downloads';

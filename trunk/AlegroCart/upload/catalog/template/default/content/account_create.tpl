@@ -12,41 +12,57 @@
 <?php } ?>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="create-account">
   <div id="create">
-  <?php echo $text_account_already; ?><br><br>
+    <div class="b">
+	  <?php echo $text_account_already; ?>
+      <?php if (isset($agree)) { ?>
+	    <table>
+          <tr>
+            <td align="right" width="290px"><?php echo $agree; ?></td>
+		    <?php if ($agreed == 1) { ?>
+		      <td align="left" width="50px"><input type="checkbox" id="agreed" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true; enable_input(this.checked)" CHECKED></td>
+		    <?php } else { ?>
+		      <td align="left" width="50px"><input type="checkbox" id="agreed" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true; enable_input(this.checked)"></td>
+		    <?php } ?>
+			<td align="left" width="250px"><?php echo $text_required;?></td>
+          </tr>
+	    </table>
+		<input type="hidden" id="information" value="<?php echo $information;?>">
+	  <?php } ?>
+    </div>
     <div class="a"><?php echo $text_your_details; ?></div>
     <div class="b">
       <table>
         <tr>
           <td style="width:150px"><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-          <td><input type="text" name="firstname" value="<?php echo $firstname; ?>">
+          <td><input type="text" name="firstname" id="firstname"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $firstname; ?>">
             <?php if ($error_firstname) { ?>
             <span class="error"><?php echo $error_firstname; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
-          <td><input type="text" name="lastname" value="<?php echo $lastname; ?>">
+          <td><input type="text" name="lastname" id="lastname"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $lastname; ?>">
             <?php if ($error_lastname) { ?>
             <span class="error"><?php echo $error_lastname; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_email; ?></td>
-          <td><input type="text" name="email" value="<?php echo $email; ?>">
+          <td><input type="text" name="email" id="email"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $email; ?>">
             <?php if ($error_email) { ?>
             <span class="error"><?php echo $error_email; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
-          <td><input type="text" name="telephone" value="<?php echo $telephone; ?>">
+          <td><input type="text" name="telephone" id="telephone"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $telephone; ?>">
             <?php if ($error_telephone) { ?>
             <span class="error"><?php echo $error_telephone; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><?php echo $entry_fax; ?></td>
-          <td><input type="text" name="fax" value="<?php echo $fax; ?>"></td>
+          <td><input type="text" name="fax" id="fax"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $fax; ?>"></td>
         </tr>
       </table>
     </div>
@@ -55,29 +71,29 @@
       <table>
         <tr>
           <td style="width:150px"><?php echo $entry_company; ?></td>
-          <td><input type="text" name="company" value="<?php echo $company; ?>"></td>
+          <td><input type="text" name="company" id="company"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $company; ?>"></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>
-          <td><input type="text" name="address_1" value="<?php echo $address_1; ?>">
+          <td><input type="text" name="address_1" id="address_1"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $address_1; ?>">
             <?php if ($error_address_1) { ?>
             <span class="error"><?php echo $error_address_1; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><?php echo $entry_address_2; ?></td>
-          <td><input type="text" name="address_2" value="<?php echo $address_2; ?>"></td>
+          <td><input type="text" name="address_2" id="address_2"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $address_2; ?>"></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_postcode; ?></td>
-          <td><input type="text" name="postcode" value="<?php echo $postcode; ?>"><?php echo $text_no_postal;?>
+          <td><input type="text" name="postcode" id="postcode"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $postcode; ?>"><?php echo $text_no_postal;?>
 		  <?php if ($error_postcode) { ?>
 		  <span class="error"><?php echo $error_postcode; ?></span>
 		  <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_city; ?></td>
-          <td><input type="text" name="city" value="<?php echo $city; ?>">
+          <td><input type="text" name="city" id="city"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $city; ?>">
             <?php if ($error_city) { ?>
             <span class="error"><?php echo $error_city; ?></span>
             <?php } ?></td>
@@ -108,7 +124,7 @@
       <table>
         <tr>
           <td style="width:150px"><span class="required">*</span> <?php echo $entry_password; ?></td>
-          <td><input type="password" name="password" value="<?php echo $password; ?>">
+          <td><input type="password" name="password" id="password"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $password; ?>">
             <?php if ($error_password) { ?>
             <span class="error"><?php echo $error_password; ?></span>
             <?php } ?>
@@ -116,7 +132,7 @@
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_confirm; ?></td>
-          <td><input type="password" name="confirm" value="<?php echo $confirm; ?>">
+          <td><input type="password" name="confirm" id="confirm"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $confirm; ?>">
             <?php if ($error_confirm) { ?>
             <span class="error"><?php echo $error_confirm; ?></span>
             <?php } ?></td>
@@ -144,34 +160,58 @@
     </div>
 	<?php }?>
   </div>
-  <?php if (isset($agree)) { ?>
   <div class="buttons">
     <table>
       <tr>
-        <td align="right"><?php echo $agree; ?></td>
-        <?php if ($agree == 1) { ?>
-        <td align="right" width="5"><input type="checkbox" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true;" CHECKED></td>
-        <td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit"></td>
-        <?php } else { ?>
-        <td align="right" width="5"><input type="checkbox" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true;"></td>
-        <td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" DISABLED></td>
-        <?php } ?>
-      </tr>
-    </table>
-	<input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
-  </div>
-  <?php } else { ?>
-  <div class="buttons">
-    <table>
-      <tr>
-        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>" id="submit"<?php if(isset($agree) && (@!$agreed)) echo ' DISABLED';?>></td>
       </tr>
     </table>
   </div>
-  <?php } ?>
+
   <input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
 </form></div>
 <div class="contentBodyBottom"></div>
 <script type="text/javascript"><!--
 $('#zone').load('index.php?controller=account_create&action=zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
+
+function enable_input(agreed){
+	var Agreed = agreed;
+	var Infolink = $('#information'). val();
+	if(Agreed == true){
+		$('#firstname').attr("disabled", false);
+		$('#lastname').attr("disabled", false);
+		$('#email').attr("disabled", false);
+		$('#telephone').attr("disabled", false);
+		$('#fax').attr("disabled", false);
+		$('#company').attr("disabled", false);
+		$('#address_1').attr("disabled", false);
+		$('#address_2').attr("disabled", false);
+		$('#postcode').attr("disabled", false);
+		$('#city').attr("disabled", false);
+		$('#password').attr("disabled", false);
+		$('#confirm').attr("disabled", false);
+		$('#infolink'). removeAttr("href");
+	} else {
+		$('#firstname').attr("disabled", true);
+		$('#lastname').attr("disabled", true);
+		$('#email').attr("disabled", true);
+		$('#telephone').attr("disabled", true);
+		$('#fax').attr("disabled", true);
+		$('#company').attr("disabled", true);
+		$('#address_1').attr("disabled", true);
+		$('#address_2').attr("disabled", true);
+		$('#postcode').attr("disabled", true);
+		$('#city').attr("disabled", true);
+		$('#password').attr("disabled", true);
+		$('#confirm').attr("disabled", true);
+		$('#infolink'). attr("href", Infolink);
+	}
+}
+
+$(document).ready(function(){
+	var Agreed = $('#agreed').attr("checked");
+	if(Agreed){
+		$('#infolink'). removeAttr("href");
+	}
+});
 //--></script>

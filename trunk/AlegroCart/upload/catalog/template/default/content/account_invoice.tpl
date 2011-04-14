@@ -1,5 +1,6 @@
 <?php 
   $head_def->setcss($this->style . "/css/account_invoice.css");
+  $head_def->set_javascript("ajax/jquery.js");
 ?>
 <div class="headingbody"><?php echo $heading_title; ?></div>
 <div class="contentBody">
@@ -220,6 +221,7 @@
   </div>
 </div></div>
 <div class="contentBodyBottom"></div>
+<?php if(!$order_print){?>
 <div class="buttons">
   <table>
     <tr>
@@ -227,3 +229,4 @@
     </tr>
   </table>
 </div>
+<?php }?>

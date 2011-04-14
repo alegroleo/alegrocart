@@ -22,6 +22,7 @@
         <td><?php echo $text_date_added; ?> <?php echo $order['date_added']; ?></td>
         <td><?php echo $text_customer; ?> <?php echo $order['name']; ?></td>
         <td rowspan="2"><input type="button" value="<?php echo $button_view; ?>" onclick="location='<?php echo $order['href']; ?>'"></td>
+		<td rowspan="2"><a href="<?php echo $order['print'];?>"><img src="catalog/styles/<?php echo $this->style;?>/image/print.png" alt="<?php echo $text_print; ?>" title="<?php echo $text_print; ?>" ></a></td>
       </tr>
       <tr>
         <td><?php echo $text_products; ?> <?php echo $order['products']; ?></td>

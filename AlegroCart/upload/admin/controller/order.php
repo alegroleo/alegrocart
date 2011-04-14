@@ -60,7 +60,12 @@ class ControllerOrder extends Controller {
 	
     	$this->response->set($this->template->fetch('layout.tpl'));
   	}
-  
+
+	function print_document() {
+		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('content', $this->getForm());
+		$this->response->set($this->template->fetch('layout.tpl'));
+	}
   	function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -158,6 +163,11 @@ class ControllerOrder extends Controller {
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('order', 'update', array('order_id' => $result['order_id']))
       		);
+			$action[] = array(
+				'icon'  => 'print.png',
+				'text'  =>  $this->language->get('button_print'),
+				'href'  =>  $this->url->ssl('order', 'print_document', array('order_id' =>  $result['order_id'], 'order_print' => TRUE))
+			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -280,8 +290,10 @@ class ControllerOrder extends Controller {
       
     	$view->set('list', $this->url->ssl('order'));
 		$view->set('cancel', $this->url->ssl('order'));
-   
-    	if ($this->request->gethtml('order_id')) {	    
+		$view->set('order_print', $this->request->gethtml('order_print'));
+    	$view->set('continue', $this->url->ssl('order'));
+		
+		if ($this->request->gethtml('order_id')) {	    
       		$view->set('update', 'update');
 	  		$view->set('delete', $this->url->ssl('order', 'delete', array('order_id' => $this->request->gethtml('order_id'),'order_validation' => $this->session->get('order_validation'))));
     	}

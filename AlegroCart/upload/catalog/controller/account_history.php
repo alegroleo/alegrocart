@@ -50,6 +50,8 @@ class ControllerAccountHistory extends Controller {
       		$view->set('text_products', $this->language->get('text_products'));
       		$view->set('text_total', $this->language->get('text_total'));
      		$view->set('text_results',$this->modelAccountHistory->get_text_results());
+			$view->set('text_print', $this->language->get('text_print'));
+			
 			$view->set('first_page', $this->language->get('first_page'));
 			$view->set('last_page', $this->language->get('last_page'));
       		$view->set('entry_page', $this->language->get('entry_page'));
@@ -67,6 +69,7 @@ class ControllerAccountHistory extends Controller {
         		$order_data[] = array(
           			'reference'  => $result['reference'],
           			'href'       => $this->url->ssl('account_invoice', FALSE, array('order_id' => $result['order_id'])),
+					'print'      => $this->url->ssl('account_invoice', FALSE, array('order_id' => $result['order_id'], 'order_print' => TRUE)),
           			'name'       => $result['firstname'] . ' ' . $result['lastname'],
 					'invoice_number' => $result['invoice_number'] ? $result['invoice_number'] : 0,
           			'status'     => $result['status'],

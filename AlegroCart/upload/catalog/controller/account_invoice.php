@@ -8,6 +8,7 @@ class ControllerAccountInvoice extends Controller {
 		$this->currency 	=& $locator->get('currency');
 		$this->customer 	=& $locator->get('customer');
 		$this->head_def 	=& $locator->get('HeaderDefinition');
+		$this->image		=& $locator->get('image');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->response 	=& $locator->get('response');
@@ -221,8 +222,6 @@ class ControllerAccountInvoice extends Controller {
 			$view->set('freeshipping_total', $freeshipping_total ? '-' . $this->currency->format($freeshipping_total) : NULL);
 			$view->set('cart_totals_total', $this->currency->format($cart_totals_total));
 
-
-
       		$history_data = array();
 			$results = $this->modelAccountInvoice->get_order_history($order_info['order_id']);
       		foreach ($results as $result) {
@@ -232,8 +231,15 @@ class ControllerAccountInvoice extends Controller {
           			'comment'    => $result['comment']
         		);
       		}
+			
       		$view->set('historys', $history_data);
-
+			$view->set('order_print', $this->request->gethtml('order_print'));
+			if($this->request->gethtml('order_print')){
+				$this->template->set('continue', $this->url->ssl('account_history'));
+				$this->template->set('config_owner', $this->config->get('config_owner'));
+				$this->template->set('config_address', str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('config_address')));
+				$this->template->set('store_logo', $this->image->href('logo/'.$this->config->get('config_store_logo')));
+			}
 	  		$this->template->set('content', $view->fetch('content/account_invoice.tpl'));
     	} else {
       		$view->set('text_error', $this->language->get('text_error'));
@@ -242,8 +248,13 @@ class ControllerAccountInvoice extends Controller {
 		
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
-		$this->template->set($this->module->fetch());
-		$this->response->set($this->template->fetch('layout.tpl'));
+		if($this->request->gethtml('order_print')){
+			$this->response->set($this->template->fetch('print_layout.tpl'));
+		} else {
+			$this->template->set($this->module->fetch());
+			$this->response->set($this->template->fetch('layout.tpl'));
+		}
+		
   	}
 	
 	function load_modules(){ // Template Manager

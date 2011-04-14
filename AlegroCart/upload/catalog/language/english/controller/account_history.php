@@ -11,4 +11,5 @@ $_['text_customer']   = 'Customer:';
 $_['text_products']   = 'Products:';
 $_['text_total']      = 'Total:';
 $_['text_error']      = 'You have not made any previous orders!';
+$_['text_print']      = 'Print Order';
 ?>

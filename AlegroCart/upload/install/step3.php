@@ -33,6 +33,57 @@ if (!$errors) {
 		} 
 		else { $errors[]="<b>Could not open '$file' file for writing."; }
 		unset($str);
+
+		//change .htaccess if necessary
+		$pieces = array_filter(explode('/', HTTP_BASE));
+		$pieces = array_slice($pieces,2);
+		if (array_filter($pieces)) {
+		$rwb = implode('/', $pieces);
+		$rwb = "/".$rwb."/";
+		$file2='../.htaccess';
+		if ($handle2 = fopen($file2, 'w')) {
+			$content  = '# Uncomment this to ensure that register_globals is Off'."\n";
+			$content .= '# php_flag register_globals Off'."\n";
+			$content .= "\n";
+			$content .= '# URL Alias - see install.txt'."\n";
+			$content .= '# Prevent access to .tpl'."\n";
+			$content .= '<Files ~ "\.tpl$">'."\n";
+			$content .= 'Order allow,deny'."\n";
+			$content .= 'Deny from all'."\n";
+			$content .= '</Files>'."\n";
+			$content .= "\n";
+			$content .= 'Options +FollowSymlinks'."\n";
+			$content .= "\n";
+			$content .= '<IfModule mod_rewrite.c>'."\n";
+			$content .= 'RewriteEngine On'."\n";
+			$content .= "\n";
+			$content .= 'RewriteBase '.$rwb."\n";
+			$content .= "\n";
+			$content .= '# AlegroCart REWRITES START'."\n";
+			$content .= 'RewriteCond %{REQUEST_FILENAME} !-f'."\n";
+			$content .= 'RewriteCond %{REQUEST_FILENAME} !-d'."\n";
+			$content .= 'RewriteRule ^(.*) index.php/$1 [L,QSA]'."\n";
+			$content .= '# AlegroCart REWRITES END'."\n";
+			$content .= "\n";
+			$content .= '</IfModule>'."\n";
+			$content .= '# Try if you have problems with url alias'."\n";
+			$content .= '# RewriteRule ^(.*) index.php [L,QSA]'."\n";
+			$content .= "\n";
+			$content .= '# Focus on one domain - Uncomment to use'."\n";
+			$content .= '# RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]'."\n";
+			$content .= '# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]'."\n";
+
+		if (fwrite($handle2, $content)) {
+			echo "<p class=\"a\">'$file2' was updated successfully.</p>\n";
+			fclose($handle2);
+		} else { 
+			$errors[]="Could not write to '$file2' file."; 
+		}
+		} else { 
+			$errors[]="<b>Could not open '$file2' file for writing."; 
+		}
+		unset($content);
+}
 }
 
 if (!$errors) {
@@ -60,7 +111,9 @@ if ($errors && $step == 3) {
 	require('step2.php');
 } else {
 $file = DIR_BASE.'config.php';
+$file2 = DIR_BASE.'.htaccess';
 @chmod($file, 0644);
+@chmod($file2, 0644);
 ?>
 
 <div id="header">Finished!</div>
@@ -68,7 +121,8 @@ $file = DIR_BASE.'config.php';
   <div class="warning">You MUST delete this install directory!</div><br>
   <?php if(is_writable($file)) { ?>
 	<div class="warning">Make 'config.php' unwritable (chmod go-w or chmod 644).</div><br>
-  <?php }?>
+        <div class="warning">Make '.htaccess' unwritable (chmod go-w 644).</div><br>
+ <?php }?>
   <p class="a">Congratulations! You have successfully installed <a href="http://www.alegrocart.com/">AlegroCart</a>.</p>
 </div>
 <div id="footer">

@@ -40,7 +40,7 @@ foreach ($files as $file) {
 		}
 	}	
 }
-$files=array('config.php');
+$files=array('config.php', '.htaccess');
 foreach ($files as $file) {
 	$file=DIR_BASE.$file;
 	if (!file_exists($file)) { $errors[]="'$file' was not found! (ensure you have uploaded it)"; }

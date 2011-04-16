@@ -81,7 +81,9 @@ class ControllerSetting extends Controller {
 		$view->set('text_error_show_user', $this->language->get('text_error_show_user'));
 		$view->set('text_error_show_developer', $this->language->get('text_error_show_developer'));
 		$view->set('text_error_developer_ip', $this->language->get('text_error_developer_ip'));
+		$view->set('text_error_email_status', $this->language->get('text_error_email_status'));
 		$view->set('text_guest_checkout', $this->language->get('text_guest_checkout'));
+		$view->set('text_time_zone', $this->language->get('text_time_zone'));
 		
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
@@ -159,7 +161,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_error_show_user',$this->language->get('entry_error_show_user'));
 		$view->set('entry_error_show_developer',$this->language->get('entry_error_show_developer'));
 		$view->set('entry_error_developer_ip',$this->language->get('entry_error_developer_ip'));
-		
+		$view->set('entry_error_email_status',$this->language->get('entry_error_email_status'));
+		$view->set('entry_time_zone',$this->language->get('entry_time_zone'));
 		$view->set('entry_category_width',$this->language->get('entry_category_width'));
 		$view->set('entry_category_height',$this->language->get('entry_category_height'));
 		$view->set('entry_category_addtocart',$this->language->get('entry_category_addtocart'));
@@ -417,6 +420,12 @@ class ControllerSetting extends Controller {
 			$view->set('global_invoice_number', @$setting_info['global']['invoice_number']);
 		}
 		
+		if ($this->request->has('global_config_time_zone', 'post')) {
+			$view->set('global_config_time_zone', $this->request->gethtml('global_config_time_zone', 'post'));
+		} else {
+			$view->set('global_config_time_zone', @$setting_info['global']['config_time_zone']);
+		}
+		
 		if ($this->request->has('global_error_developer_ip', 'post')) {
 			$view->set('global_error_developer_ip', $this->request->gethtml('global_error_developer_ip', 'post'));
 		} else {
@@ -436,6 +445,11 @@ class ControllerSetting extends Controller {
 			$view->set('global_config_error_email', $this->request->gethtml('global_config_error_email', 'post'));
 		} else {
 			$view->set('global_config_error_email', @$setting_info['global']['config_error_email']);
+		}
+		if ($this->request->has('global_error_email_status', 'post')) {
+			$view->set('global_error_email_status', $this->request->gethtml('global_error_email_status', 'post'));
+		} else {
+			$view->set('global_error_email_status', @$setting_info['global']['error_email_status']);
 		}
 		if ($this->request->has('global_error_handler_status', 'post')) {
 			$view->set('global_error_handler_status', $this->request->gethtml('global_error_handler_status', 'post'));

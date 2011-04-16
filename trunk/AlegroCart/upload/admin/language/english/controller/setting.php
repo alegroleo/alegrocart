@@ -49,6 +49,8 @@ $_['text_rss_featured']       = 'Featured Products';
 $_['text_rss_popular']        = 'Popular Products';
 $_['text_rss_specials']       = 'Products on Special';
 $_['text_guest_checkout']     = 'If not enabled, customers must register to complete purchase!';
+$_['text_error_email_status'] = 'Will send email error message to admin';
+$_['text_time_zone']          = 'For valid time zones, go to http://php.net/manual/en/timezones.php';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
@@ -65,13 +67,11 @@ $_['entry_logo_top']		= 'Position Top:';
 $_['entry_logo_left']       = 'Postion Left:';
 $_['entry_logo_width']      = 'Logo Width:';
 $_['entry_logo_height']     = 'Logo Height:';
-
 $_['entry_footer_logo']       = 'Footer Logo:';
 $_['entry_footer_logo_top']	  = 'Position Top:';
 $_['entry_footer_logo_left']  = 'Postion Left:';
 $_['entry_footer_logo_width'] = 'Logo Width:';
 $_['entry_footer_logo_height']= 'Logo Height:';
-
 $_['entry_columns'] 		= 'Page Columns:';
 $_['entry_url_alias']       = 'Use URL Alias:';
 $_['entry_seo']             = 'Auto Update SEO:';
@@ -147,6 +147,8 @@ $_['entry_error_email']         = 'Email Address:';
 $_['entry_error_show_user']     = 'Show User:';
 $_['entry_error_show_developer']= 'Show Developer:';
 $_['entry_error_developer_ip']  = 'Developer IP Address:';
+$_['entry_error_email_status']  = 'Enable Email Send:';
+$_['entry_time_zone']           = 'Time Zone:';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

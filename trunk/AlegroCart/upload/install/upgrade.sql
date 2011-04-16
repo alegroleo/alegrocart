@@ -1156,3 +1156,13 @@ ADD `guest` int(1) NOT NULL default '0' After `status`;
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_guest_checkout';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_guest_checkout', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# Add Email status to error handler
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'error_email_status';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'error_email_status', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# Add Date Time Zone setting
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_time_zone';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_time_zone', 'UTC') ON DUPLICATE KEY UPDATE setting_id=setting_id;

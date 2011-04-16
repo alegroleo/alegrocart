@@ -25,7 +25,7 @@ $database =& $locator->get('database');
 // Settings
 $settings = $database->getRows("select * from (setting) where (type = 'admin' or type = 'global')");
 foreach ($settings as $setting) { $config->set($setting['key'], $setting['value']); }
-
+date_default_timezone_set($config->get('config_time_zone') ? $config->get('config_time_zone') : 'UTC');
 if($config->get('error_handler_status')){
 	$error_handler = & $locator->get('errorhandler');
 	set_error_handler(array(&$error_handler, "handler"));

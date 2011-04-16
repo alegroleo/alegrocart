@@ -1,6 +1,6 @@
 <?php // Error Handler
 class ErrorHandler{
-	
+	var $ErrorCode = array();
 	function __construct(&$locator){
 		$this->config   =& $locator->get('config');
 		$this->mail     =& $locator->get('mail');
@@ -39,21 +39,23 @@ class ErrorHandler{
 	}
 	
 	//error handling function...
-	function handler($errno, $errstr, $errfile, $errline, $errcontext)
+	function handler($errno, $errstr, $errfile, $errline)
 		{
 		$this->errno = $errno;
 		$this->errstr = $errstr;
 		$this->errfile = $errfile;
 		$this->errline = $errline;
-		$this->errcontext = $errcontext;
-			
+
 		if(error_reporting() != 0){
+		  
 			if($this->log_file){
 				$this->log_error_msg();
 			}
-			if ($this->config->get('config_email_send') ) {
-				if($this->email){
-					$this->send_error_msg();
+			if(!isset($this->ErrorCode[$errno]['errorcode'])){
+				if ($this->config->get('error_email_status') ) {
+					if($this->email){
+						$this->send_error_msg();
+					}
 				}
 			}
 			if($this->show_user){
@@ -62,8 +64,10 @@ class ErrorHandler{
 			if($this->show_developer && preg_match("/^$this->ip$/i", $_SERVER['REMOTE_ADDR'])){
 				$this->error_msg_developer();
 			}
+			$this->ErrorCode[$errno] = array('errorcode' => $errno);
 			return true;
 		}
+		
 	}
 		
 	function error_msg_user(){
@@ -85,8 +89,6 @@ class ErrorHandler{
 	function error_msg_developer(){
 		//settings for error display...
 		$silent = (2 & $this->show_developer) ? true : false;
-		$context = (4 & $this->show_developer) ? true : false;
-		$backtrace = (8 & $this->show_developer) ? true : false;
 			
 		switch(true){
 			case (16 & $this->show_developer): $color='white'; break;
@@ -100,8 +102,7 @@ class ErrorHandler{
 		$message .= " - line: ".print_r( $this->errline, true)."<br>\n";
 		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true);
 		$message .= " - message: ".print_r( $this->errstr, true)."<br>\n";
-		//$message .= ($context)?"context: ".print_r( $this->errcontext, true)."\n":'';
-		$message .= ($backtrace)?"backtrace: ".print_r( debug_backtrace(), true)."<br>\n":'';
+		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. $_SERVER['REQUEST_URI']."<br>\n" : "";
 		$message .= "---------------------------------------------------<br>\n";
 		$message .= "</span>";
 		$message .= ($silent)?"-->\n":'';
@@ -114,8 +115,11 @@ class ErrorHandler{
 		$message .= "line: ".print_r( $this->errline, true)."\n";
 		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true)."\n";
 		$message .= "message: ".print_r( $this->errstr, true)."\n";
+		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. @$_SERVER['REQUEST_URI'] . "\n" : "";
+		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\n" : "";
+		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\n" : "";
+		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\n";
 		$message .= "log: ".print_r( $this->log_message, true)."\n";
-		//$message .= "backtrace: ".print_r( $this->debug_backtrace(), true)."\n\n";
 		$message .= "##################################################\n\n";
 		
 		$this->email_sent = false;
@@ -137,6 +141,7 @@ class ErrorHandler{
 		$message .= "line: ".print_r( $this->errline, true)."\n";
 		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true)."\n";
 		$message .= "message: ".print_r( $this->errstr, true)."\n";
+		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '.$_SERVER['REQUEST_URI']."\n" : "";
 		$message .= "##################################################\n\n";
 
 		if (!$fp = fopen($this->log_file, 'a+')){ 
@@ -150,23 +155,29 @@ class ErrorHandler{
 		}
 		fclose($fp); 
 	}
+	function nslookup($ip) {
+		exec('nslookup '.$ip, $op);
+		if (substr(php_uname(), 0, 7) == "Windows") {
+			return substr($op[3], 6);
+        } else {
+			if (strpos($op[4], 'name = ') > 0){
+				return substr($op[4], strpos($op[4], 'name =') + 7, -1);
+			} else {
+				return substr($op[4], strpos($op[4], 'Name:') + 6);
+			}
+		}
+	}
 /*
 	show_user values:
-	0 -> off
-	1 -> on (default)
-
+	0 -> off (default)
+	1 -> on 
 	show_developer values:
-	0 -> off
-	1 -> on (default)
+	0 -> off (default)
+	1 -> on 
 	2 -> silent
-	4 -> add context
-	8 -> add backtrace
 	16 -> font color white (red default)
 	32 -> font color black (red default)
 	add numbers together for more than one to be turned on e.g: add context + silent = 6
-	matching ip address must be present for show_developer to be invoked
-	
-	add a valid email address or log file path to invoke these functions
 */
 }
 ?>

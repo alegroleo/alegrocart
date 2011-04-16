@@ -247,7 +247,6 @@
 			<tr>
 			  <td colspan="2"><hr></td>
 			</tr>
-			
 			<tr>
               <td class="set"><?php echo $entry_error_handler_status; ?></td>
               <td><?php if ($global_error_handler_status) { ?>
@@ -266,6 +265,27 @@
 			    <?php echo $text_error_handler; ?> 
 			  </td>
             </tr>
+			
+			<tr>
+              <td class="set"><?php echo $entry_error_email_status; ?></td>
+              <td><?php if ($global_error_email_status) { ?>
+                <input type="radio" name="global_error_email_status" value="1" id="eesyes" checked>
+                <label for="eesyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_email_status" value="0" id="eesno">
+                <label for="eesno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_error_email_status" value="1" id="eesyes">
+                <label for="eesyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_error_email_status" value="0" id="eesno" checked>
+                <label for="eesno"><?php echo $text_no; ?></label>
+                <?php } ?>
+			  </td>
+			  <td class="expl">
+			    <?php echo $text_error_email_status; ?> 
+			  </td>
+            </tr>
+			
+			
 			<tr>
               <td width="185" class="set"><?php echo $entry_error_email; ?></td>
               <td><input size="64" type="text" name="global_config_error_email" value="<?php echo $global_config_error_email; ?>"></td>
@@ -354,6 +374,11 @@
                 </select>
               </td>
             </tr>
+			<tr>
+			  <td class="set"><?php echo $entry_time_zone;?></td>
+			  <td><input type="text" name="global_config_time_zone" value="<?php echo $global_config_time_zone;?>"></td>
+			  <td class="expl"><?php echo $text_time_zone;?></td>
+			</tr>
             <tr>
               <td class="set"><?php echo $entry_currency; ?></td>
               <td><select name="global_config_currency">

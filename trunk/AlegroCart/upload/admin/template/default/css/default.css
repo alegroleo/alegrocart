@@ -14,7 +14,7 @@ body {
 body, td, th {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 11px;
-	
+		
 }
 
 select, textarea, input {
@@ -67,7 +67,7 @@ a:visited {
 }
 
 .task {
-	height: 61px;  
+	height: 73px;  
 	clear: both;
 	border-top: 1px solid #FFFFFF; 
 	border-bottom: 1px solid #FFFFFF; 
@@ -98,18 +98,27 @@ a:visited {
 
 .task .enabled {
 	cursor: pointer;
-	border: 1px solid #0099FF;
+	border: 5px solid #0099FF;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
 	color: #333333;
 }
 
 .task .disabled {
-	border: 1px solid #D5D5D5;
+	border: 5px solid #D5D5D5;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
 	color: #999999;
 }
 
 .task .hover {
 	cursor: pointer;
-	border: 1px solid #FDB016;
+	border: 5px solid #FDB016;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
 	background-color: #EBF1FC;
 	color: #333333;
 }
@@ -126,7 +135,7 @@ a:visited {
 }
 
 #login {
-	background: #E4E5E6;
+	background: #FFFFFF;
 }
 
 #login {
@@ -136,7 +145,10 @@ a:visited {
 	margin-left: -140px;
 	position: relative;
 	left: 48%;
-	border: 1px solid #D5D5D5;
+	border: 10px solid #0099FF;
+	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
 }
 
 #login td {
@@ -390,7 +402,7 @@ form {
 	display: none; 
 	font-size: 11px;
 }
-
+#home {background-color:#FFFFFF;}
 #home .a {
 	float: left;
 	width: 90%;

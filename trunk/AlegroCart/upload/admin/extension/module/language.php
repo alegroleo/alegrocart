@@ -8,13 +8,14 @@ class ModuleLanguage extends Controller {
 		$this->request  	=& $locator->get('request');
 		$this->response 	=& $locator->get('response');
 		$this->url      	=& $locator->get('url');
+		$this->user     	=& $this->locator->get('user');
 		$this->modelLanguage = $model->get('model_admin_languagemodule');
 		
 		$this->language->load('extension/module/language.php');
 		}
 	function fetch() {
 
-		if ($this->config->get('language_status')) {	
+		if (($this->user->isLogged()) && $this->config->get('language_status')) {	
     		if (($this->request->isPost()) && ($this->request->has('module_language', 'post'))) {
 	  			$this->language->set($this->request->gethtml('module_language', 'post'));
 				$this->response->redirect($this->url->requested($this->url->ssl('home')));

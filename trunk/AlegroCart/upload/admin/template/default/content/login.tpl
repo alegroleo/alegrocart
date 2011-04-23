@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="template/default/css/login.css">
 <?php if ($message) { ?>
 <div class="message"><?php echo $message; ?></div>
 <?php } ?>

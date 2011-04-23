@@ -5,7 +5,7 @@ class ModuleHeader extends Controller {
 		$language =& $this->locator->get('language');
 		$user     =& $this->locator->get('user');
 		
-		if ($config->get('header_status')) {		
+		if (($user->isLogged()) && $config->get('header_status')) {		
 			$language->load('extension/module/header.php');
 
 			$view = $this->locator->create('template');

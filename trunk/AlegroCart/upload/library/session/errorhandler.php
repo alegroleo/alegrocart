@@ -7,7 +7,7 @@ class ErrorHandler{
 		
 		$this->ip = $this->config->get('error_developer_ip') ? $this->config->get('error_developer_ip') : $_SERVER['REMOTE_ADDR'];
 		$this->show_user = $this->config->get('error_show_user') ? TRUE : FALSE;
-		$this->show_developer = $this->config->get('error_show_developer') ? TRUE : TRUE;
+		$this->show_developer = $this->config->get('error_show_developer') ? TRUE : FALSE;
 		
 		$this->email = $this->config->get('config_error_email') ? $this->config->get('config_error_email') : $this->config->get('config_email');
 		$log_path = DIR_BASE . 'logs' . D_S . 'error_log' . D_S;
@@ -156,16 +156,8 @@ class ErrorHandler{
 		fclose($fp); 
 	}
 	function nslookup($ip) {
-		exec('nslookup '.$ip, $op);
-		if (substr(php_uname(), 0, 7) == "Windows") {
-			return substr($op[3], 6);
-        } else {
-			if (strpos($op[4], 'name = ') > 0){
-				return substr($op[4], strpos($op[4], 'name =') + 7, -1);
-			} else {
-				return substr($op[4], strpos($op[4], 'Name:') + 6);
-			}
-		}
+		$host_name = gethostbyaddr($ip);
+		return $host_name;
 	}
 /*
 	show_user values:

@@ -48,9 +48,13 @@ class ControllerManufacturer extends Controller {
 					'name'  => $result['name'],
 					'manufacturer_id' => $result['manufacturer_id']
 					);
-				}
-			$session->set('manufacturer.name', $manufacturer['name']);
-			$session->set('manufacturer.manufacturer_id', $manufacturer['manufacturer_id']);
+				
+				$session->set('manufacturer.name', $manufacturer['name']);
+				$session->set('manufacturer.manufacturer_id', $manufacturer['manufacturer_id']);
+			} else {
+				$session->delete('manufacturer.name');
+				$session->delete('manufacturer.manufacturer_id');
+			}
 		}
 		$view->set('manufacturer', $session->get('manufacturer.name'));
 		if ($request->isPost() && $request->has('sort_order','post')){
@@ -172,7 +176,7 @@ class ControllerManufacturer extends Controller {
         		$product_data = array();
         		foreach ($results as $result) {
 					$query = array(
-						'manufacturer_id'  => $request->gethtml('manufacturer_id'),
+						'manufacturer_id'  => (int)$request->gethtml('manufacturer_id'),
 						'product_id' => $result['product_id']
           			);
 					// Product Discounts
@@ -292,7 +296,7 @@ class ControllerManufacturer extends Controller {
 		);
 		
         $breadcrumb[] = array(
-          	'href'      => $url->href('manufacturer', FALSE, array('manufacturer_id'  => $request->gethtml('manufacturer_id'))),
+          	'href'      => $url->href('manufacturer', FALSE, array('manufacturer_id'  => (int)$request->gethtml('manufacturer_id'))),
           	'text'      => $session->get('manufacturer.name'),
           	'separator' => $language->get('text_separator')
         );
@@ -342,7 +346,7 @@ class ControllerManufacturer extends Controller {
 			$modules_extra[$location['location']] = array();
 		}
 		$modules_extra['column'] = array('manufacturer', 'popular');
-		if($this->set_options && $this->tpl_columns != 2){
+		if(@$this->set_options && $this->tpl_columns != 2){
 			$modules_extra['columnright'] = array('manufactureroptions','specials');
 		} else {
 			$modules_extra['columnright'] = array('specials');

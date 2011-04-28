@@ -121,93 +121,82 @@ background: url('../image/color3/green/columnCenter.png') top left repeat-y;
 .category a{
 	color: #000000; /* Font Color*/
 }
+.category .menu_breadcrumb{
+	background-color: #B2FFB2;
+	color: #000000;
+}
 .category .cat_lvl_0 {
-		background: url('../image/color3/green/bullet_1.png') no-repeat 2px 5px;
-        border: 2px outset #006600;
-        background-color: #00FF00; 
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFFFF; 
 }
 .category .cat_lvl_0:hover{
-        background: url('../image/color3/green/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+       	background-color: #B2FFB2;
+	color: #000000;
 }
 .category .cat_lvl_0active {
-        background: url('../image/color3/green/bullet_3.gif') no-repeat 2px 5px;
-        border: 2px ridge #006600;
-        background-color: #EEEEEE;
-		color: #000000;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #7FFF7F;
+	color: #FFFFFF;
 }
 .category .cat_lvl_1 {
-        background: url('../image/color3/green/bullet_1.png') no-repeat 2px 5px;
         margin-left: 15px;
-		border: 2px outset #006600;
-		background-color: #00FF00; 
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_1:hover{
-        background: url('../image/color3/green/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #B2FFB2;
+	color: #000000;
 }
 .category .cat_lvl_1active {
-        background: url('../image/color3/green/bullet_3.gif') no-repeat 2px 5px;
         margin-left: 15px;
-        border: 2px ridge #006600;
-        background-color: #EEEEEE;
-		color: #000000;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #7FFF7F;
+	color: #FFFFFF;
 }
 .category .cat_lvl_2 {
-        background: url('../image/color3/green/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 30px;
-		border: 2px outset #006600;
-		background-color: #00FF00; 
+	margin-left: 30px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_2:hover{
-        background: url('../image/color3/green/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #B2FFB2;
+	color: #000000;
 }
 .category .cat_lvl_2active {
-        background: url('../image/color3/green/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 30px;
-        border: 2px ridge #006600;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 30px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #7FFF7F;
+	color: #FFFFFF;
 }
 .category .cat_lvl_3 {
-        background: url('../image/color3/green/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 45px;
-		border: 2px outset #006600;
-		background-color: #00FF00; 
+	margin-left: 45px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_3:hover{
-        background: url('../image/color3/green/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color:#B2FFB2;
+	color: #000000;
 }
 .category .cat_lvl_3active {
-        background: url('../image/color3/green/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 45px;
-        border: 2px ridge #006600;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 45px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #7FFF7F;
+	color: #FFFFFF;
 }
 .category .cat_lvl_4 {
-        background: url('../image/color3/green/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 60px;
-		border: 2px outset #006600;
-		background-color: #00FF00; 
+	margin-left: 60px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_4:hover{
-        background: url('../image/color3/green/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #B2FFB2;
+	color: #000000;
 }
 .category .cat_lvl_4active {
-        background: url('../image/color3/green/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 60px;
-        border: 2px ridge #006600;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 60px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #7FFF7F;
+	color: #FFFFFF;
 }
 .results {
 		border: 1px solid #EEEEEE;

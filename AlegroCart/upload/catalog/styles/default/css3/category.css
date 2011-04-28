@@ -1,7 +1,7 @@
 /* category */
 .category {
 	width: 194px;
-	padding: 5px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
 }
 .category  ul, li{
 	left: 0px;
@@ -21,18 +21,23 @@
 	padding: 1px 0px 1px 10px; 
 	display: block;
 	font-weight: 500;
-	text-decoration: none; 
+	text-decoration: underline; 
 	margin-bottom: 0px;
 }
 .category .menu{
 	position: absolute;
 	left: 100%;
-	top: -5px;
+	top: -1px;
 	min-width: 170px;
-	padding:5px 0px 5px 0px;
+	padding:0px 0px 0px 0px;
+	border: 1px solid #000000;
 }
 .category .menu .cat_lvl_1 , .category .menu .cat_lvl_2, .category .menu .cat_lvl_3, .category .menu .cat_lvl_4{
 	margin-left: 0px;
 	min-height: 1%;
 	min-width: 170px;
+}
+.category img {
+	float: right;
+	padding: 0 2px;
 }

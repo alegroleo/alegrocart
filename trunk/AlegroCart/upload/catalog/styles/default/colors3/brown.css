@@ -131,95 +131,84 @@ background: url('../image/color3/brown/columnCenter.png') top left repeat-y;
 	background: url('../image/color3/brown/columnCenter.png') top left repeat-y;
 }
 .category a{
-	color: #FFFFFF; /* Font Color*/
+	color: #000000; /* Font Color*/
+}
+.category .menu_breadcrumb{
+	background-color: #D0C1B2;
+	color: #000000;
 }
 .category .cat_lvl_0 {
-		background: url('../image/color3/brown/bullet_1.png') no-repeat 2px 5px;
-        border: 2px outset #330000;
-        background-color: #663300; 
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFFFF; 
 }
 .category .cat_lvl_0:hover{
-        background: url('../image/color3/brown/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+       	background-color: #D0C1B2;
+	color: #000000;
 }
 .category .cat_lvl_0active {
-        background: url('../image/color3/brown/bullet_3.gif') no-repeat 2px 5px;
-        border: 2px ridge #330000;
-        background-color: #EEEEEE;
-		color: #000000;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2987F;
+	color: #FFFFFF;
 }
 .category .cat_lvl_1 {
-        background: url('../image/color3/brown/bullet_1.png') no-repeat 2px 5px;
         margin-left: 15px;
-		border: 2px outset #330000;
-		background-color: #663300; 
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_1:hover{
-        background: url('../image/color3/brown/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #D0C1B2;
+	color: #000000;
 }
 .category .cat_lvl_1active {
-        background: url('../image/color3/brown/bullet_3.gif') no-repeat 2px 5px;
         margin-left: 15px;
-        border: 2px ridge #330000;
-        background-color: #EEEEEE;
-		color: #000000;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2987F;
+	color: #FFFFFF;
 }
 .category .cat_lvl_2 {
-        background: url('../image/color3/brown/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 30px;
-		border: 2px outset #330000;
-		background-color: #663300; 
+	margin-left: 30px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_2:hover{
-        background: url('../image/color3/brown/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #D0C1B2;
+	color: #000000;
 }
 .category .cat_lvl_2active {
-        background: url('../image/color3/brown/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 30px;
-        border: 2px ridge #330000;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 30px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2987F;
+	color: #FFFFFF;
 }
 .category .cat_lvl_3 {
-        background: url('../image/color3/brown/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 45px;
-		border: 2px outset #330000;
-		background-color: #663300; 
+	margin-left: 45px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_3:hover{
-        background: url('../image/color3/brown/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color:#D0C1B2;
+	color: #000000;
 }
 .category .cat_lvl_3active {
-        background: url('../image/color3/brown/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 45px;
-        border: 2px ridge #330000;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 45px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2987F;
+	color: #FFFFFF;
 }
 .category .cat_lvl_4 {
-        background: url('../image/color3/brown/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 60px;
-		border: 2px outset #330000;
-		background-color: #663300; 
+	margin-left: 60px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_4:hover{
-        background: url('../image/color3/brown/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #D0C1B2;
+	color: #000000;
 }
 .category .cat_lvl_4active {
-        background: url('../image/color3/brown/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 60px;
-        border: 2px ridge #330000;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 60px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2987F;
+	color: #FFFFFF;
 }
 .results {
 		border: 1px solid #EEEEEE;

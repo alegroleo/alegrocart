@@ -259,18 +259,24 @@ function resize(selectId, size){
     } 
 }
 $(document).ready(function(){
+	var bg_color = $('#menu_breadcrumb').css('background-color');
+	var text_color = $('#menu_breadcrumb').css('color');
+	bg_color==undefined || bg_color=='transparent' ? bg_color = '#D9D9D9' : bg_color = bg_color;
 	$('a[class*=active]').parents('li').each(function(i,li_parent){
 		var str=$(li_parent).children('a').attr('class');
 		if((str.search("active")) == -1){
-		$(li_parent).children('a').css({'background-color': '#EEEEEE', 'color':'#000000'});
+		$(li_parent).children('a').css({'background-color': bg_color, 'color':text_color});
 		}
 	});
 });
 $(document).ready(function(){
+	var bg_color = $('#menu_breadcrumb').css('background-color');
+	var text_color = $('#menu_breadcrumb').css('color');
+	bg_color==undefined || bg_color=='transparent' ? bg_color = '#D9D9D9' : bg_color = bg_color;
     $('#category_menu li').hover(function(){
  		$(this).find('ul:first').attr('style','display:block');
 		$(this).parents('li').each(function(i,li_parent){
-			$(li_parent).children('a').css({'background-color': '#EEEEEE', 'color':'#000000'});
+			$(li_parent).children('a').css({'background-color': bg_color, 'color':text_color});
 		});
 	}, function() {
 		var lilist = [];

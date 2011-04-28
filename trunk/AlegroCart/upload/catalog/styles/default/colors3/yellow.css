@@ -121,93 +121,82 @@ background: url('../image/color3/yellow/columnCenter.png') top left repeat-y;
 .category a{
 	color: #000000; /* Font Color*/
 }
+.category .menu_breadcrumb{
+	background-color: #FFFFB2;
+	color: #000000;
+}
 .category .cat_lvl_0 {
-		background: url('../image/color3/yellow/bullet_1.png') no-repeat 2px 5px;
-        border: 2px outset #000000;
-        background-color: #FFFF00; 
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFFFF; 
 }
 .category .cat_lvl_0:hover{
-        background: url('../image/color3/yellow/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+       	background-color: #FFFFB2;
+	color: #000000;
 }
 .category .cat_lvl_0active {
-        background: url('../image/color3/yellow/bullet_3.gif') no-repeat 2px 5px;
-        border: 2px ridge #000000;
-        background-color: #EEEEEE;
-		color: #000000;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFF7F;
+	color: #000000;
 }
 .category .cat_lvl_1 {
-        background: url('../image/color3/yellow/bullet_1.png') no-repeat 2px 5px;
         margin-left: 15px;
-		border: 2px outset #000000;
-		background-color:  #FFFF00; 
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_1:hover{
-        background: url('../image/color3/yellow/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #FFFFB2;
+	color: #000000;
 }
 .category .cat_lvl_1active {
-        background: url('../image/color3/yellow/bullet_3.gif') no-repeat 2px 5px;
         margin-left: 15px;
-        border: 2px ridge #000000;
-        background-color: #EEEEEE;
-		color: #000000;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFF7F;
+	color: #000000;
 }
 .category .cat_lvl_2 {
-        background: url('../image/color3/yellow/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 30px;
-		border: 2px outset #000000;
-		background-color:  #FFFF00; 
+	margin-left: 30px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_2:hover{
-        background: url('../image/color3/yellow/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #FFFFB2;
+	color: #000000;
 }
 .category .cat_lvl_2active {
-        background: url('../image/color3/yellow/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 30px;
-        border: 2px ridge #000000;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 30px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFF7F;
+	color: #000000;
 }
 .category .cat_lvl_3 {
-        background: url('../image/color3/yellow/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 45px;
-		border: 2px outset #000000;
-		background-color:  #FFFF00; 
+	margin-left: 45px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_3:hover{
-        background: url('../image/color3/yellow/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color:#FFFFB2;
+	color: #000000;
 }
 .category .cat_lvl_3active {
-        background: url('../image/color3/yellow/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 45px;
-        border: 2px ridge #000000;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 45px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFF7F;
+	color: #000000;
 }
 .category .cat_lvl_4 {
-        background: url('../image/color3/yellow/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 60px;
-		border: 2px outset #000000;
-		background-color:  #FFFF00; 
+	margin-left: 60px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_4:hover{
-        background: url('../image/color3/yellow/bullet_2.gif') no-repeat 2px 5px;
-		background-color: #EEEEEE;
-		color: #0000FF;
+	background-color: #FFFFB2;
+	color: #000000;
 }
 .category .cat_lvl_4active {
-        background: url('../image/color3/yellow/bullet_3.gif') no-repeat 2px 5px;
-		margin-left: 60px;
-        border: 2px ridge #000000;
-        background-color: #EEEEEE;
-		color: #000000;
+	margin-left: 60px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFF7F;
+	color: #000000;
 }
 .results {
 		border: 1px solid #EEEEEE;

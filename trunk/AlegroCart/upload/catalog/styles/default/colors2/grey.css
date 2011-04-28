@@ -126,99 +126,84 @@ background: url('../image/color2/grey/columnCenter.png') top left repeat-y;
 	background: url('../image/color2/grey/columnCenter.png') top left repeat-y;
 }
 .category a{
-	color: #FFFFFF; /* Font Color*/
+	color: #000000; /* Font Color*/
+}
+.category .menu_breadcrumb{
+	background-color: #D0D0D0;
+	color: #000000;
 }
 .category .cat_lvl_0 {
-		background: url('../image/color2/grey/bullet_1.png') no-repeat 2px 5px;
-        border: 3px outset #333333;
-        background-color: #666666; 
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #FFFFFF; 
 }
 .category .cat_lvl_0:hover{
-        background: url('../image/color2/grey/bullet_2.png') no-repeat 2px 5px;
-		background-color: #CCCCCC;
-		/*border: 2px outset #99FFFF;*/
-		color: #000000;
+       	background-color: #D0D0D0;
+	color: #000000;
 }
 .category .cat_lvl_0active {
-        background: url('../image/color2/grey/bullet_3.png') no-repeat 2px 5px;
-        border: 3px ridge #999999;
-        background-color: #CCCCCC;
-		color: #0000FF;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2B2B2;
+	color: #FFFFFF;
 }
 .category .cat_lvl_1 {
-        background: url('../image/color2/grey/bullet_1.png') no-repeat 2px 5px;
         margin-left: 15px;
-		border: 3px outset #333333;
-		background-color: #666666;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_1:hover{
-        background: url('../image/color2/grey/bullet_2.png') no-repeat 2px 5px;
-		background-color: #CCCCCC;
-		/*border: 2px outset #99FFFF;*/
-		color: #000000;
+	background-color: #D0D0D0;
+	color: #000000;
 }
 .category .cat_lvl_1active {
-        background: url('../image/color2/grey/bullet_3.png') no-repeat 2px 5px;
         margin-left: 15px;
-        border: 3px ridge #999999;
-        background-color: #CCCCCC;
-		color: #0000FF;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2B2B2;
+	color: #FFFFFF;
 }
 .category .cat_lvl_2 {
-        background: url('../image/color2/grey/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 30px;
-		border: 3px outset #333333;
-		background-color: #666666;
+	margin-left: 30px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_2:hover{
-        background: url('../image/color2/grey/bullet_2.png') no-repeat 2px 5px;
-		background-color: #CCCCCC;
-		/*border: 2px outset #99FFFF; */
-		color: #000000;
+	background-color: #D0D0D0;
+	color: #000000;
 }
 .category .cat_lvl_2active {
-        background: url('../image/color2/grey/bullet_3.png') no-repeat 2px 5px;
-		margin-left: 30px;
-        border: 3px ridge #999999;
-        background-color: #CCCCCC;
-		color: #0000FF;
+	margin-left: 30px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2B2B2;
+	color: #FFFFFF;
 }
 .category .cat_lvl_3 {
-        background: url('../image/color2/grey/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 45px;
-		border: 3px outset #333333;
-		background-color: #666666;
+	margin-left: 45px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_3:hover{
-        background: url('../image/color2/grey/bullet_2.png') no-repeat 2px 5px;
-		background-color: #CCCCCC;
-		/*border: 2px outset #99FFFF;*/
-		color: #000000;
+	background-color:#D0D0D0;
+	color: #000000;
 }
 .category .cat_lvl_3active {
-        background: url('../image/color2/grey/bullet_3.png') no-repeat 2px 5px;
-		margin-left: 45px;
-        border: 3px ridge #999999;
-        background-color: #CCCCCC;
-		color: #0000FF;
+	margin-left: 45px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2B2B2;
+	color: #FFFFFF;
 }
 .category .cat_lvl_4 {
-        background: url('../image/color2/grey/bullet_1.png') no-repeat 2px 5px;
-		margin-left: 60px;
-		border: 3px outset #333333;
-		background-color: #666666;
+	margin-left: 60px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #FFFFFF; 
 }
 .category .cat_lvl_4:hover{
-        background: url('../image/color2/grey/bullet_2.png') no-repeat 2px 5px;
-		background-color: #CCCCCC;
-		color: #000000;
+	background-color: #D0D0D0;
+	color: #000000;
 }
 .category .cat_lvl_4active {
-        background: url('../image/color2/grey/bullet_3.png') no-repeat 2px 5px;
-		margin-left: 60px;
-        border: 3px ridge #999999;
-        background-color: #CCCCCC;
-		color: #0000FF;
+	margin-left: 60px;
+        border: 2px solid rgba(0,0,0,0);
+        background-color: #B2B2B2;
+	color: #FFFFFF;
 }
 .results {
 		border: 1px solid #EEEEEE;

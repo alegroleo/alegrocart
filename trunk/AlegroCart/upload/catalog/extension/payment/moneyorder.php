@@ -50,6 +50,7 @@ class PaymentMoneyOrder extends Payment {
   	function process() {
 		$this->order->load($this->order->getReference());
 		$this->order->process();
+		return TRUE;
   	}
 }
 ?>

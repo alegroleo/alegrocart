@@ -4,5 +4,5 @@ $_['text_warehouse_title']       = 'Warehouse Pickup';
 $_['text_warehouse_description'] = 'Warehouse Pickup Handling Fee';
 
 // Error
-$_['error_weight']          = '';
+$_['error_weight']         = 'This order is overweight, Weight limit is %s';
 ?>

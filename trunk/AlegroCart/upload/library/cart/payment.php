@@ -76,8 +76,8 @@ class Payment {
 
 	function runProcess($key) {
 		if ((isset($this->data[$key])) && method_exists($this->data[$key], 'process')) {
-			$this->data[$key]->process();
-			return true;
+			$status = $this->data[$key]->process();
+			return $status;
 		}
 	}
 }

@@ -92,18 +92,18 @@ class PaymentAuthNetAim extends Payment {
                         //$this->session->set('message', $this->errors[0]);
                         $this->session->set('error', $this->errors[0]);
                     }
-                    $this->response->redirect($this->url->rawssl('checkout_confirm',false));
+                    $this->response->redirect($this->url->rawssl('checkout_confirm',FALSE));
                 }
             }
         
             // Process the Card
             $status = $this->paymentConfirmed();
-            if ($status === true) {
+            if ($status === TRUE) {
                 $this->session->set('authnetaim_confirmed', $this->order->getReference());
             } else {
                 $this->session->set('error', $status);
                 //$this->response->redirect($this->url->rawssl('checkout_confirm',false, array('errcode' => $status)));
-                $this->response->redirect($this->url->rawssl('checkout_confirm',false));
+                $this->response->redirect($this->url->rawssl('checkout_confirm',FALSE));
             }                    
         
             // Process the order if card successful
@@ -116,11 +116,12 @@ class PaymentAuthNetAim extends Payment {
 				$this->session->delete('cc_cvv');  
 				$this->order->load($this->order->getReference());
 				$this->order->process();
+				return TRUE;
             } else {
-				return false;   
+				return FALSE;   
             }
         }
-        return false; // if not post, then checkout_process was accessed directly. Checkout Failed.
+        return FALSE; // if not post, then checkout_process was accessed directly. Checkout Failed.
     }
 
     function callback() {

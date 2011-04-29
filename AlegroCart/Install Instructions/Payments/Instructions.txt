@@ -1,0 +1,15 @@
+ccAvenue
+If you do not have a ccAvenue merchant account, we have a gateway simulator that will allow you to test the payment module.
+Instructions for testing with out a ccAvenue merchant account on the AlegroCart gateway test site.
+
+After enabling ccAvenue module in admin, You need to enter a Merchant ID and Working Key.
+The Merchant ID can be an 8 or 10 digit number of your choice.
+The working key must be " ccavenuetest " to use the gateway similator.
+
+In catalog->extension->payment->ccavenue.php, at line 57 and 58 you will see 2 return url's.
+Uncomment the one you want to use for testing. It will be  * return 'http://www.alegrocart.com/gateway/ccavenue_test.php'; *
+Comment the lint * return 'https://ccavenue.com/shopzone/cc_details.jsp';' *
+
+When processing, the similated gateway does not require Credit Card information. 
+Return results are random: Authorize, Pending batch processing(Amex), or Declined.
+

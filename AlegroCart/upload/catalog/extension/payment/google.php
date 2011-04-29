@@ -113,11 +113,11 @@ class PaymentGoogle extends Payment {
 			// AlegroCart will store it in the database with a 'Paid Unconfirmed' order status.
 			$this->order->process($results['order_status_id']);
 			$this->cart->clear();
-
+			
 			// This will do a server-to-server Google cart post and send an HTTP 302 redirect status
 			// More info http://code.google.com/apis/checkout/developer/index.html#alternate_technique
 			list($status, $error) = $cart->CheckoutServer2Server();
-
+			return TRUE;
 			// If it reaches this point then something went wrong
 			echo "An error had ocurred: <br />HTTP Status: " . $status. ":";
 			echo "<br />Error message:<br />";
@@ -171,7 +171,7 @@ class PaymentGoogle extends Payment {
 				if (isset($_POST['shopping-cart_items_item-1_item-description'])) {
 					$orderReference = $_POST['shopping-cart_items_item-1_item-description'];
 					$i = strpos( $orderReference, 'order# ', 0 );
-					if (!(i===FALSE)) {
+					if (!($i===FALSE)) {
 						$orderReference = substr( $orderReference, $i+strlen('order# ') );
 						if (isset($_POST['order-total'])) {
 							$orderTotal = $_POST['order-total'];

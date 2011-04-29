@@ -21,6 +21,7 @@ function autoLoader($className){
       'library/image/',
       'library/language/',
       'library/mail/',
+	  'library/payments/',
       'library/session/',
       'library/template/',
       'library/user/',

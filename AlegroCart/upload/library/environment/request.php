@@ -20,9 +20,12 @@ class Request {
     
 	function sanitize($key, $type = 'GET', $default = NULL){
 		$str = $this->get($key,$type,$default);
-		//$str = $this->sanitizer($str);
 		return htmlspecialchars_deep($this->sanitizer($str));
 	
+	}
+	
+	function clean($key){
+		return htmlspecialchars_deep($this->sanitizer($key));
 	}
 	
 	function has($key, $type = 'GET') {

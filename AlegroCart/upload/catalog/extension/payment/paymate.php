@@ -114,7 +114,7 @@ class PaymentPayMate extends Payment {
 			$this->order->load($this->request->gethtml('ref'));
 			$order_status = ($this->config->get('paymate_order_status') != '') ? $this->config->get('paymate_order_status') : $this->config->get('config_order_status_id');
         	$this->order->process($order_status);
-        	return true;
+        	return TRUE;
 		} else {
             die('Unknown process method error: No return method was specified. Please contact store owner.');
         }

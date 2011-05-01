@@ -56,7 +56,7 @@
   </form>
 </div>
     <script type="text/javascript"><!--
-	var sBasePath           = '<?php echo HTTP_SERVER.'javascript/fckeditor/'?>';
+	var sBasePath           = '<?php echo$URL_TPL->get_server().'javascript/fckeditor/'?>';
 	var oFCKeditor          = new FCKeditor('content');
 	oFCKeditor.BasePath = sBasePath;
 	oFCKeditor.Value	= document.getElementById('content').value;

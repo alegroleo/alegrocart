@@ -79,7 +79,7 @@
   tabview_initialize('tabmini');
   //--></script>
   <script type="text/javascript"><!--
-  var sBasePath           = '<?php echo HTTP_SERVER.'javascript/fckeditor/'?>';
+  var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
   <?php foreach ($informations as $information) { ?>
 	var oFCKeditor          = new FCKeditor('description<?php echo $information['language_id']; ?>');
 	oFCKeditor.BasePath = sBasePath;

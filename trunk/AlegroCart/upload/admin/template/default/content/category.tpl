@@ -110,7 +110,7 @@
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
-  var sBasePath           = '<?php echo HTTP_SERVER.'javascript/fckeditor/'?>';
+  var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
   <?php foreach ($categories as $category) { ?>
   var oFCKeditor<?php echo $category['language_id']; ?>          = new FCKeditor('description<?php echo $category['language_id']; ?>');
       oFCKeditor<?php echo $category['language_id']; ?>.BasePath = sBasePath;

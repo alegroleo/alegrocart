@@ -322,6 +322,11 @@ class ControllerCategory extends Controller {
 			} else {
 				$category_description_info = $this->request->gethtml('language', 'post');
 			}
+			
+			$description = $this->request->get('description', 'post');
+			$meta_title = $this->request->gethtml('meta_title', 'post');
+			$meta_description = $this->request->gethtml('meta_description', 'post');
+			$meta_keywords = $this->request->gethtml('meta_keywords', 'post');
 			$category_data[] = array(
 				'language_id' => $result['language_id'],
 				'language'    => $result['name'],

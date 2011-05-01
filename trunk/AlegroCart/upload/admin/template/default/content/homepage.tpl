@@ -199,7 +199,7 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
  </form> 
   <script type="text/javascript">//<!--
-  var sBasePath           = '<?php echo HTTP_SERVER.'javascript/fckeditor/'?>';
+  var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
   <?php foreach ($home_descriptions as $home_description) { ?>
 	var oFCKeditor<?php echo $home_description['language_id']."desc"; ?> = new FCKeditor('description<?php echo $home_description['language_id']; ?>');
 	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.BasePath = sBasePath;

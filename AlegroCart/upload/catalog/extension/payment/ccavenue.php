@@ -54,8 +54,8 @@ class PaymentccAvenue extends Payment {
         return $method_data;
     }
 	function get_ActionUrl() {
-			return 'http://www.alegrocart.com/gateway/ccavenue_test.php';
-            //return 'https://www.ccavenue.com/shopzone/cc_details.jsp';
+			//return 'http://www.alegrocart.com/gateway/ccavenue_test.php';
+            return 'https://www.ccavenue.com/shopzone/cc_details.jsp';
     }
 	
 	function fields(){

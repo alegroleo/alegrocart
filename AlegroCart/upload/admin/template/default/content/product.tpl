@@ -240,6 +240,7 @@
 				<td><?php echo $product_option['product_option'];?></td>
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][product_option]" value="<?php echo $product_option['product_option'];?>">
 				<td><?php echo $product_option['option_name'];?></td>
+				<input type="hidden" name="product_options[<?php echo $option_rows;?>][option_name]" value="<?php echo $product_option['option_name'];?>">
 				<td><input type="text" size="32" maxlength="32" name="product_options[<?php echo $option_rows;?>][model_number]" value="<?php echo $product_option['model_number'];?>"></td>
 				<td><input type="text" size="6" name="product_options[<?php echo $option_rows;?>][quantity]" value="<?php echo $product_option['quantity'];?>">
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][product_id]" value="<?php echo $product_option['product_id'];?>">
@@ -539,7 +540,7 @@
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript">//<!--
-  var sBasePath           = '<?php echo HTTP_SERVER.'javascript/fckeditor/'?>';
+  var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
   <?php foreach ($products as $product) { ?>
 	var oFCKeditor<?php echo $product['language_id']."desc"; ?> = new FCKeditor('description<?php echo $product['language_id']; ?>');
 	oFCKeditor<?php echo $product['language_id']."desc"; ?>.BasePath = sBasePath;

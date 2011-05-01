@@ -19,9 +19,11 @@ class ModuleManufacturer extends Controller {
     		$view->set('action', $url->href('manufacturer', 'page'));
 			if ($request->get('controller') == 'manufacturer'){
 				if ($request->has('manufacturer_id')){
-					$view->set('manufacturer_id', $request->gethtml('manufacturer_id'));
+					$view->set('manufacturer_id', (int)$request->gethtml('manufacturer_id'));
 				} else if($session->get('manufacturer.manufacturer_id')){
 					$view->set('manufacturer_id', $session->get('manufacturer.manufacturer_id'));
+				} else {
+					$view->set('manufacturer_id', '0');
 				}
 			} else {
 				$view->set('manufacturer_id', '0');

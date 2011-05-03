@@ -25,7 +25,7 @@
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-    <div class="tabs"><a><?php echo $tab_general; ?></a></div>
+    <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div class="pad">

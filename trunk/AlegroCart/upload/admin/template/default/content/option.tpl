@@ -23,13 +23,13 @@
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-    <div class="tabs"><a><?php echo $tab_general; ?></a></div>
+    <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div id="tabmini">
           <div class="tabs">
             <?php foreach ($options as $option) { ?>
-            <a><?php echo $option['language']; ?></a>
+            <a><div class="tab_text"><?php echo $option['language']; ?></div></a>
             <?php } ?>
           </div>
           <div class="pages">

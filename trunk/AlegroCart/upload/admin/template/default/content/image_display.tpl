@@ -41,7 +41,7 @@
 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-	<div class="tabs"><a><?php echo $tab_name; ?></a><a><?php echo $tab_description; ?></a></div>
+	<div class="tabs"><a><div class="tab_text"><?php echo $tab_name; ?></div></a><a><div class="tab_text"><?php echo $tab_description; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div class="pad">
@@ -93,7 +93,7 @@
         <div id="tabmini">
           <div class="tabs">
 		    <?php foreach($image_display_descriptions as $image_display_description){?>
-			  <a><?php echo $image_display_description['language'];?></a>
+			  <a><div class="tab_text"><?php echo $image_display_description['language'];?></div></a>
 			<?php }?>
 		  </div>
 		  <div class="pages">

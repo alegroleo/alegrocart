@@ -20,7 +20,7 @@
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-    <div class="tabs"><a><?php echo $tab_shop; ?></a><a><?php echo $tab_admin; ?></a><a><?php echo $tab_local; ?></a><a><?php echo $tab_stock; ?></a><a><?php echo $tab_option; ?></a><a><?php echo $tab_mail; ?></a><a><?php echo $tab_cache; ?></a><a><?php echo $tab_image; ?></a><a><?php echo $tab_download; ?></a></div>
+    <div class="tabs"><a><div class="tab_text"><?php echo $tab_shop; ?></div></a><a><div class="tab_text"><?php echo $tab_admin; ?></div></a><a><div class="tab_text"><?php echo $tab_local; ?></div></a><a><div class="tab_text"><?php echo $tab_stock; ?></div></a><a><div class="tab_text"><?php echo $tab_option; ?></div></a><a><div class="tab_text"><?php echo $tab_mail; ?></div></a><a><div class="tab_text"><?php echo $tab_cache; ?></div></a><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div class="pad">

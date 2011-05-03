@@ -36,7 +36,7 @@
 	height: 40px;
 	margin-bottom: 2px;
 	top: 3px;
-	left: -1px;
+	left: -2px;
 	z-index: 2;
 }
 
@@ -64,4 +64,7 @@
 	padding: 5px;
 	min-height: 165px;
  	_height: 165px;
+}
+.tabs .tab_text {
+	padding-top: 4px;
 }

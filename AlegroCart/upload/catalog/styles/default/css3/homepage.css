@@ -12,7 +12,7 @@
 	width: 95%;
 	margin-left: 5px;
 	padding: 5px 0px 5px 0px;
-	border: 10px ridge #999999;
+	border: 10px none #999999;
 	text-align: center;
 }
 .welcome{

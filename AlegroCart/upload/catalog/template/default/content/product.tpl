@@ -105,21 +105,21 @@
 <div class="box">
   <?php if($review_status){
       if($maxrow){
-		$Review_tabs = "<a>".$tab_reviews."(".$maxrow.")"."</a>";
+		$Review_tabs = "<a><div class=\"tab_text\">".$tab_reviews."(".$maxrow.")"."</div></a>";
 	  } else {
-		$Review_tabs = "<a>".$tab_write."</a>";
+		$Review_tabs = "<a><div class=\"tab_text\">".$tab_write."</div></a>";
 	  }
 	}
 	if($technical){
-	$Technical_tabs = "<a>" . $tab_technical . "</a>";}
+	$Technical_tabs = "<a><div class=\"tab_text\">" . $tab_technical . "</div></a>";}
   ?>
 <div class="tab" id="tab">
-  <div class="tabs"><a><?php echo $tab_description; ?></a>
+  <div class="tabs"><a><div class="tab_text"><?php echo $tab_description; ?></div></a>
     <?php if (isset($Technical_tabs)){ echo $Technical_tabs;} ?>
     <?php if(count($images)){?>
-	<a><?php echo $tab_images."(".count($images).")"; ?></a>
+	<a><div class="tab_text"><?php echo $tab_images."(".count($images).")"; ?></div></a>
 	<?php }?>
-	<a><?php echo $tab_information; ?></a>
+	<a><div class="tab_text"><?php echo $tab_information; ?></div></a>
 	<?php if (isset($Review_tabs)){ echo $Review_tabs;} ?></div>
   <div class="pages">
     <div class="page">
@@ -153,7 +153,7 @@
 	<div class="page">
 	  <div class="pad">
 	    <?php if ($product['min_qty'] >= '1') { ?>
-          <?php echo $text_min_qty; ?><?php echo $product['min_qty']; ?><br>
+          <?php echo '<b>' . $text_min_qty . '</b>'; ?><?php echo $product['min_qty']; ?><br><br>
         <?php } ?>
 		<?php echo '<b>' . $text_tax_rate . '</b>' . $tax_rate;?><br>
 		<?php if (isset($product_discounts)){ ?><br>

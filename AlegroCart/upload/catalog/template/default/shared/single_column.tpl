@@ -46,13 +46,13 @@
   
    <?php echo $product['description']; ?><br>
    <?php if ($product['product_discounts']){
-	echo "<div><b>".$text_quantity_discount.":</b><br>&nbsp;";
+	echo "<div><div class=\"discount\">".$text_quantity_discount.":</div>&nbsp;";
 	foreach($product['product_discounts'] as $product_discount){
 	 echo "&nbsp;(".$product_discount['discount_quantity'].")&nbsp;-".$product_discount['discount_amount']."(".$product_discount['discount_percent']."%)&nbsp;";
 	}
 	echo "</div>";
    }?>
-   <div class="onhand"><?php echo $onhand; ?>
+   <div class="onhand2"><?php echo $onhand; ?>
 	  <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
    </div>
    <?php if($product['product_options']){?>

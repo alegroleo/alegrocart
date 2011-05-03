@@ -93,7 +93,7 @@
 	font-size: 11px;
 	padding-top: 5px;
 	padding-bottom: 2px;
-	color: #0000FF;
+	color: #006600;
 	font-weight: bold;
 }
 .pbox .price_regular {
@@ -106,6 +106,7 @@
 .pbox .price_old{
 	padding-bottom: 3px;
 	text-align: left;
+	font-size: 11px;
 }
 .pbox .price_new{
 	padding-bottom: 5px;

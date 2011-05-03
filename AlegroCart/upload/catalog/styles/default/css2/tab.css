@@ -138,3 +138,6 @@
 	min-height: 165px;
  	/*_height: 165px; */
 }
+.tabs .tab_text {
+	padding-top: 8px;
+}

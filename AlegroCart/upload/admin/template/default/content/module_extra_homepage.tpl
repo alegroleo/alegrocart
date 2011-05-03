@@ -14,7 +14,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" />
   <div class="tab" id="tab">
-    <div class="tabs"><a><?php echo $tab_module; ?></a></div>
+    <div class="tabs"><a><div class="tab_text"><?php echo $tab_module; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div class="pad">

@@ -26,7 +26,7 @@
 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-	<div class="tabs"><a><?php echo $tab_controller; ?></a><a><?php echo $tab_header; ?></a><a><?php echo $tab_extra; ?></a><a><?php echo $tab_left_column; ?></a><a><?php echo $tab_content; ?></a><a><?php echo $tab_right_column; ?></a><a><?php echo $tab_footer; ?></a><a><?php echo $tab_page_bottom; ?></a></div>
+	<div class="tabs"><a><div class="tab_text"><?php echo $tab_controller; ?></div></a><a><div class="tab_text"><?php echo $tab_header; ?></div></a><a><div class="tab_text"><?php echo $tab_extra; ?></div></a><a><div class="tab_text"><?php echo $tab_left_column; ?></div></a><a><div class="tab_text"><?php echo $tab_content; ?></div></a><a><div class="tab_text"><?php echo $tab_right_column; ?></div></a><a><div class="tab_text"><?php echo $tab_footer; ?></div></a><a><div class="tab_text"><?php echo $tab_page_bottom; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div class="pad">

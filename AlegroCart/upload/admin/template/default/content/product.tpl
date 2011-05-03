@@ -26,13 +26,13 @@
 <script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-    <div class="tabs"><a><?php echo $tab_general; ?></a><a><?php echo $tab_data; ?></a><?php if($product_options){echo '<a>' . $tab_product_options . '</a>';}?><a><?php echo $tab_image; ?></a><a><?php echo $tab_download; ?></a><a><?php echo $tab_category; ?></a><a><?php echo $tab_home; ?></a><a href="#discount"><?php echo $tab_discount; ?></a><a><?php echo $tab_dated_special; ?></a><a><?php echo $tab_alt_description; ?></a></div>
+    <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><?php if($product_options){echo '<a><div class="tab_text">' . $tab_product_options . '</div></a>';}?><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a><a><div class="tab_text"><?php echo $tab_category; ?></div></a><a><div class="tab_text"><?php echo $tab_home; ?></div></a><a href="#discount"><div class="tab_text"><?php echo $tab_discount; ?></div></a><a><div class="tab_text"><?php echo $tab_dated_special; ?></div></a><a><div class="tab_text"><?php echo $tab_alt_description; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div id="tabmini">
           <div class="tabs">
             <?php foreach ($products as $product) { ?>
-            <a><?php echo $product['language']; ?></a>
+            <a><div class="tab_text"><?php echo $product['language']; ?></div></a>
             <?php } ?>
           </div>
           <div class="pages">
@@ -500,7 +500,7 @@
         <div id="tabmini2">
           <div class="tabs">
             <?php foreach ($products as $product) { ?>
-            <a><?php echo $product['language']; ?></a>
+            <a><div class="tab_text"><?php echo $product['language']; ?></div></a>
             <?php } ?>
           </div>
           <div class="pages">

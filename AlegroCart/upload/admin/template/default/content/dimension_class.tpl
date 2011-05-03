@@ -24,13 +24,13 @@
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-    <div class="tabs"><a><?php echo $tab_general; ?></a> <a><?php echo $tab_data; ?></a> </div>
+    <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a> <a><div class="tab_text"><?php echo $tab_data; ?></div></a> </div>
     <div class="pages">
       <div class="page">
         <div id="tabmini">
           <div class="tabs">
             <?php foreach ($dimension_classes as $dimension_class) { ?>
-            <a><?php echo $dimension_class['language']; ?></a>
+            <a><div class="tab_text"><?php echo $dimension_class['language']; ?></div></a>
             <?php } ?>
           </div>
           <div class="pages">

@@ -26,7 +26,7 @@
    ?>
    <div class="module_content" style="width: <?php echo $column_width; ?>%;">
 	<div class="a" >
-	 <div class="img">
+	 <div class="img" style="text-align:center;">
 	  <?php 
 	  if(!isset($image_display)){$image_display = 'image_link';}
 	  switch ($image_display){
@@ -47,10 +47,10 @@
 	  }?> 
 	 </div>
 	</div>
-    <b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
+    <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
     <div class="product_desc"<?php if($columns == 3){?> style="min-height: 50px;"<?php }?>>
       <?php echo "<span style=\"font-size: ".$font_size."px\">" . $product['description'] . "</span>"; ?>
-	</div>
+	</div></div>
 	<div class="onhand"><?php echo $onhand.$product['stock_level']; ?></div>
 	<?php include $shared_path . 'product_price.tpl';?>
 	<?php if ($addtocart) { ?>

@@ -289,7 +289,7 @@ a:hover {
 	text-decoration: line-through;
 	text-align: center; /*left; */
 	font-weight: bold;
-	font-size: 10px;
+	font-size: 11px;
 }
 .price_new {
 	color: #FF0000;
@@ -336,9 +336,9 @@ a:hover {
 	vertical-align: bottom;
 }
 .module_content .options{
-	left: 0px;
+	text-align: center;
 	font-size: 9px;	
-	padding-bottom: 10px;	
+	padding: 5px 0px;	
 }
 .module_content .button{
 	font-size: 9px;
@@ -347,25 +347,27 @@ a:hover {
 .enlarge{
 	z-index: 5;
 	position: relative;
-	width: 90%;
 	font-size: 9px;
-	text-align: left; 
-	bottom: 4px;
+	text-align: center; 
+	bottom: 5px;
 	color: #6699CC;
 	font-weight: 100;
 	text-decoration: none;
-	padding-left: 20px;
 }
 .enlarge a{
 	background-color: #EEEEEE;
-	border:1px outset #6699CC;
+	border:1px solid #6699CC;
 	color: #6699CC;
 	text-decoration: none;
 	font-size: 9px;
+	padding: 2px;
+	border-radius: 5px;
 }
 .enlarge a:hover{
-	border: 2px ridge #EEEEEE;
+	border: 2px solid #6699CC;
 	color: #99CCFF;
+	padding: 2px;
+	border-radius: 5px;
 }
 .products, .images, .categories {
 	float: left;
@@ -373,24 +375,49 @@ a:hover {
 	text-align: center; 
 	font-size: 10px; 
 	min-height: 220px;
-    padding-bottom: 2px;
+        padding-bottom: 2px;
 }
 .product_desc{
 	padding: 0px;
 	margin: 0px;
 	min-height: 60px;
 }
+.description{
+  padding: 2px 2px 0px 2px;
+}
 .onhand{
+	text-align: center;
+	font-size: 11px;
+	color: #006600;
+	font-weight: bold;
+}
+.onhand2{
 	text-align: left;
 	font-size: 11px;
-	padding-left: 15px;
-	color: #0000FF;
+	color: #006600;
 	font-weight: bold;
+	padding: 5px 0px;
+}
+.discount{
+	text-align: left;
+	font-size: 11px;
+	color: #000000;
+	font-weight: bold;
+	padding: 5px 0px;
 }
 .model_number{
 	text-align: left;
 	font-size: 11px;
 	font-weight: bold;
+	padding: 5px 0px;
+	color: #000000;
+}
+.available{
+	text-align: left;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 5px 0px;
+	color: #000000;
 }
 .categories a {
 	text-decoration: none;

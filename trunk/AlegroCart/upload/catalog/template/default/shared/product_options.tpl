@@ -2,7 +2,7 @@
 <?php if ($product['options']) { ?>
  <div class="product_options" id="<?php echo $this_controller.'_options_'.$product['product_id']; ?>" >
   <?php $options_price = array(); ?>
-  <b><?php echo $text_options; ?></b>
+  <div class="available"><?php echo $text_options; ?></b></div>
   <table class="b">
   <?php foreach ($product['options'] as $key => $option) { ?>
    <tr>	  

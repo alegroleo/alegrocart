@@ -3,7 +3,7 @@
 	display: block;
 	cursor: pointer;
 	width: 194px;
-	padding: 0px 0px 0px 2px;
+	padding: 0px 0px 0px 1px;
 	margin-top: 0px;
 	font-size: 10px;
 	margin-bottom: 0px;	
@@ -25,8 +25,8 @@
 }
 
 .module_column .options{
-	left: 0px;
-	padding-bottom: 10px;	
+	text-align: center;
+	padding: 5px 0px;	
 }
 
 .module_column .button{
@@ -34,4 +34,7 @@
 }
 .button:focus{
 	color: #CC0000;
+}
+.module_column .description{
+  padding: 2px 2px 0px 2px;
 }

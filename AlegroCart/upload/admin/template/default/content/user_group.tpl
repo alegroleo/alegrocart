@@ -38,7 +38,7 @@
             <tr>
               <td valign="top" class="set"><?php echo $entry_access; ?></td>
 		<td><?php echo $entry_all_access; ?><input name="all_access" type="checkbox"<?php echo (isset($all_access))?'CHECKED':''?>><br>
-		<select name="access[]" multiple="multiple">
+		<select name="access[]" multiple="multiple" size="15">
                   <?php foreach ($permissions as $permission) { ?>
                   <?php if (!$permission['access']) { ?>
                   <option value="<?php echo $permission['name']; ?>"><?php echo $permission['name']; ?></option>
@@ -51,7 +51,7 @@
             <tr>
               <td valign="top" class="set"><?php echo $entry_modify; ?></td>
 		<td><?php echo $entry_all_modify; ?><input name="all_modify" type="checkbox"<?php echo isset($all_modify)?'CHECKED':''?>><br>
-		<select name="modify[]" multiple="multiple">
+		<select name="modify[]" multiple="multiple" size="15">
                   <?php foreach ($permissions as $permission) { ?>
                   <?php if (!$permission['modify']) { ?>
                   <option value="<?php echo $permission['name']; ?>"><?php echo $permission['name']; ?></option>

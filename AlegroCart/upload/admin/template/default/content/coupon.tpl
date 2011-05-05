@@ -148,7 +148,7 @@
             </tr>
             <tr>
               <td valign="top" class="set"><?php echo $entry_product; ?></td>
-              <td><select name="product[]" multiple="multiple">
+              <td><select name="product[]" multiple="multiple" size="15">
                   <?php foreach ($products as $product) { ?>
                   <?php if ($product['coupon_id']) { ?>
                   <option value="<?php echo $product['product_id']; ?>" selected><?php echo $product['name']; ?></option>

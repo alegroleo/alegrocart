@@ -275,7 +275,7 @@
             </tr>
             <tr>
               <td valign="top" class="set"><?php echo $entry_images; ?></td>
-              <td><select name="image[]" multiple="multiple">
+              <td><select name="image[]" multiple="multiple" size="15">
                   <?php foreach ($images as $image) { ?>
                   <?php if (!$image['product_id']) { ?>
                   <option value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
@@ -293,7 +293,7 @@
           <table>
             <tr>
               <td width="185" valign="top" class="set"><?php echo $entry_download; ?></td>
-              <td><select name="download[]" multiple="multiple">
+              <td><select name="download[]" multiple="multiple" size="5">
                   <?php foreach ($downloads as $download) { ?>
                   <?php if (!$download['product_id']) { ?>
                   <option value="<?php echo $download['download_id']; ?>"><?php echo $download['name']; ?></option>
@@ -311,7 +311,7 @@
           <table>
             <tr>
               <td width="185" valign="top" class="set"><?php echo $entry_category; ?></td>
-              <td><select name="category[]" multiple="multiple">
+              <td><select name="category[]" multiple="multiple" size="15">
                   <?php foreach ($categories as $category) { ?>
                   <?php if (!$category['product_id']) { ?>
                   <option value="<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></option>
@@ -369,7 +369,7 @@
 			
 			<tr>
               <td width="185" valign="top" class="set"><?php echo $entry_related; ?></td>
-              <td><select name="relateddata[]" multiple="multiple">
+              <td><select name="relateddata[]" multiple="multiple" size="15">
                   <?php foreach ($relateddata as $product) { ?>
                   <?php if (!$product['relateddata']) { ?>
                   <option value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>

@@ -101,7 +101,7 @@
             </tr>
             <tr>
               <td valign="top" class="set"><?php echo $entry_currency; ?></td>
-              <td><select name="global_paypal_currency[]" multiple="multiple">
+              <td><select name="global_paypal_currency[]" multiple="multiple" size="16">
                   <?php foreach ($currencies as $currency) { ?>
                   <?php if ($currency['selected']) { ?>
                   <option value="<?php echo $currency['value']; ?>" selected><?php echo $currency['text']; ?></option>

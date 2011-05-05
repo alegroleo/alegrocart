@@ -76,10 +76,9 @@ class PaymentPayPal extends Payment {
 
         $fields=array();
         $i=1;
-        if ($this->config->get('paypal_itemized') && empty($this->coupon->data)) {
+        if ($this->config->get('paypal_itemized') && empty($this->coupon->data) && !$this->order->get('discount_total')) {
             $fields['cmd']='_cart';
-            $fields['upload']=1; 
-            //$fields['shipping_1']=$this->tax->calculate($this->shipping->getCost($this->session->get('shipping_method')), $this->config->get('config_tax'));           
+            $fields['upload']=1;     
             $fields['shipping_1']=$this->shipping->getCost($this->session->get('shipping_method'));           
             $taxtotal = 0;
 			foreach ($this->cart->getTaxes() as $key => $value) {

@@ -128,7 +128,7 @@ class ControllerCheckoutConfirm extends Controller {
             $this->session->delete('error');
         }
 
-		$view->set('action', $this->url->href('checkout_confirm'));
+		$view->set('action', $this->url->ssl('checkout_confirm'));
 
 		if ($this->request->has('coupon', 'post')) {
 			$view->set('coupon', $this->request->gethtml('coupon', 'post'));
@@ -441,7 +441,7 @@ class ControllerCheckoutConfirm extends Controller {
 				'shipping'   => ($this->session->get('shipping_method') == 'warehouse_warehouse' ? FALSE : $product['shipping'])
       		); 
     	}
-		
+		$this->order->set('discount_total',$discount_total);
 		$this->order->set('products', $product_data);
 		$this->order->set('totals', $totals);
 		$this->order->set('coupon_id', $this->coupon->getId());

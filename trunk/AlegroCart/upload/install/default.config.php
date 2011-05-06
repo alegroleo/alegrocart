@@ -1,6 +1,6 @@
 <?php
 
-define('CONFIG_VERSION', '1.2.5');
+define('CONFIG_VERSION', '1.2.6');
 define('DB_HOST', '');
 define('DB_USER', '');
 define('DB_PASSWORD', '');

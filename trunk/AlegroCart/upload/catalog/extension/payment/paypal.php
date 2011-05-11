@@ -17,6 +17,7 @@ class PaymentPayPal extends Payment {
         $this->shipping  =& $locator->get('shipping');
         $this->tax       =& $locator->get('tax');
         $this->url       =& $locator->get('url'); 
+		$this->weight    =& $locator->get('weight');
 		$model 			=& $locator->get('model');
 		$this->modelPayment = $model->get('model_payment');
         
@@ -57,6 +58,7 @@ class PaymentPayPal extends Payment {
     function get_ActionUrl() {
         if (!$this->config->get('paypal_test')) {
             return 'https://www.paypal.com/cgi-bin/webscr';
+			//return 'http://www.alegrocart.com/gateway/paypal_test.php';
         } else {
             return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         }
@@ -79,13 +81,13 @@ class PaymentPayPal extends Payment {
         if ($this->config->get('paypal_itemized') && empty($this->coupon->data) && !$this->order->get('discount_total')) {
             $fields['cmd']='_cart';
             $fields['upload']=1;     
-            $fields['shipping_1']=$this->shipping->getCost($this->session->get('shipping_method'));           
+            $fields['shipping_1'] = $this->shipping->getCost($this->session->get('shipping_method')) ? $this->currency->format($this->shipping->getCost($this->session->get('shipping_method')), $currency, FALSE, FALSE) : '0';           
             $taxtotal = 0;
 			foreach ($this->cart->getTaxes() as $key => $value) {
 				$taxtotal += $this->currency->format($value, $currency, FALSE, FALSE);
 			}
-			$fields['tax']=$taxtotal;
-			$fields['tax_cart']=$taxtotal;
+			$fields['tax']=$this->currency->format($taxtotal, $currency, FALSE, FALSE);
+			$fields['tax_cart']=$this->currency->format($taxtotal, $currency, FALSE, FALSE);
 
             foreach ($this->cart->getProducts() as $result) {
 				$special_price = $result['special_price'] ?$result['special_price'] - $result['discount'] : 0;
@@ -95,7 +97,7 @@ class PaymentPayPal extends Payment {
                 $fields['item_name_' . $i . '']=$result['name'];
                 $fields['amount_' . $i . '']=$this->currency->format($price, $currency, FALSE, FALSE);
                 $fields['quantity_' . $i . '']=$result['quantity'];
-                $fields['weight_' . $i . '']=$result['weight'];
+                $fields['weight_' . $i . '']=number_format($this->weight->convert($result['weight'],$result['weight_class_id'],$this->config->get('config_weight_class_id')),2,'.', '');
                 if (!empty($result['option'])) {
                     $x=0;
                     foreach ($result['option'] as $res) {

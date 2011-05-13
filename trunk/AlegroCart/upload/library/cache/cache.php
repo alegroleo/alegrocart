@@ -27,10 +27,12 @@ class Cache {
         $files = glob(DIR_CACHE.CACHE_PREFIX.$key.CACHE_SEP.'*');
         if (!$files) return;
 		foreach ($files as $file) {
-			$fh = fopen($file, 'r');
-			$cache = fread($fh, filesize($file));
-			fclose($fh);
-			return unserialize($cache);
+			if(filesize($file)>0) {
+				$fh = fopen($file, 'r');
+				$cache = fread($fh, filesize($file));
+				fclose($fh);
+				return  unserialize($cache);
+			}
 		}
     }
 

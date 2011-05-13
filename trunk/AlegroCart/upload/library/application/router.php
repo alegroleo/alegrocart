@@ -29,7 +29,7 @@ class Router {
         }
 		//Remove the ? from the query string
 		$path=trim($path, '?');
-
+		if(strstr($path,'http')){$path = substr($path,0,strpos($path, 'http'));} // Remove bogus urls from query string
 		if (substr($path,0,1) == '/') {
 			//Remove query string, we don't need it for routing
 			$query_string=parse_url($path,PHP_URL_QUERY);

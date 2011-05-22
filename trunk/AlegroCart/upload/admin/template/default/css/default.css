@@ -364,7 +364,7 @@ form {
 	font-weight: bold; 
 }
 
-#phpinfo .b table, .b td, .b tr {
+#phpinfo .b table, #phpinfo .b td, #phpinfo .b tr {
 	font-family: Arial, sans-serif; 
 	font-size: 11px; 
 	text-align: left;

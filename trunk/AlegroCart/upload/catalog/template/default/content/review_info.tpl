@@ -16,13 +16,16 @@
 </div>
 <div class="module">
 <div id="review_info">
-  <div class="a"><a href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" class="thickbox"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"><div class="enlarge"><?php echo $text_enlarge; ?></div></a></div>
   <p><b><?php echo $text_author; ?></b> <?php echo $author; ?></p><br>
-  <p><b><?php echo $text_date_added; ?> </b> <?php echo $date_added; ?></p>
-  <p><b><?php echo $text_rating; ?></b> <img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $rating . '.png'; ?>" alt="<?php echo $text_out_of; ?>" class="png"><br>
-    <?php echo $text_out_of; ?></p><br>
-
-<div><?php echo $text; ?></div>
+  <p><b><?php echo $text_date_added; ?> </b> <?php echo $date_added; ?></p><br>
+  <p><b><?php echo $text_rating; ?></b></p><br>
+<div class="a"><a href="<?php echo $href; ?>"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
+<div class="enlarge"><a class="thickbox" href="<?php echo $popup; ?>"><?php echo $text_enlarge; ?></a></div></a>
+</div>
+<table><?php for ($i=1; $i<5; $i++) { ?>
+  <tr><td style="width:15px;"></td><td><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo ${'rating'.$i} . '.png'; ?>" alt="<?php echo ${'text_out_of'.$i}; ?>" class="png"></td></tr><tr><td style="width:15px;"></td><td></td><td><?php echo ${'text_out_of'.$i}; ?></td></tr>
+  <?php } ?></table></br>
+<div><?php echo $text; ?></div><br>
 <p><b><a href="<?php echo $href; ?>"><?php echo $name; ?></a></b></p>
 </div>
 <br>

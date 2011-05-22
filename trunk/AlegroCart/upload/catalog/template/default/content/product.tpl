@@ -227,12 +227,13 @@
 			        <div class="c"><b><?php echo $text_date_added; ?></b> <?php echo $review['date_added']; ?></div><br>
 			        <table>
 				      <tr>				  
-				        <td><?php echo $review['text']; ?></td>
+				        <td colspan="2"><?php echo $review['text']; ?></td>
 				      </tr>
+				      <?php for ($i=1; $i<5; $i++) { ?>
 				      <tr>
-				        <td><br><b><?php echo $text_rating; ?></b> <img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $review['rating'] . '.png'; ?>" alt="<?php echo $review['out_of']; ?>" class="png"><br>
-					    (<?php echo $review['out_of']; ?>)</td>
+				        <td><br><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $review['rating'.$i] . '.png'; ?>" alt="<?php echo $review['out_of'.$i]; ?>" class="png">&nbsp;(<?php echo $review['out_of'.$i]; ?>)</td>
 				      </tr>
+				      <?php } ?>
 			        </table>
 			      </div>
 		        </div>

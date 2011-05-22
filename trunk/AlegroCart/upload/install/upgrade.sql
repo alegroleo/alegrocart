@@ -1178,3 +1178,9 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 
 # Increase Weight field length
 ALTER TABLE `product` CHANGE `weight` `weight` decimal(15,4) NOT NULL default '0.00';
+
+#Extend review rating
+ALTER TABLE `review` CHANGE `rating` `rating1` INT( 1 ) NOT NULL DEFAULT '1';
+ALTER TABLE `review` ADD `rating2` INT( 1 ) NOT NULL DEFAULT '1' AFTER `rating1` ,
+ADD `rating3` INT( 1 ) NOT NULL DEFAULT '1' AFTER `rating2` ,
+ADD `rating4` INT( 1 ) NOT NULL DEFAULT '1' AFTER `rating3` ;

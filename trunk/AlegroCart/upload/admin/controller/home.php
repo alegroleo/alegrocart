@@ -43,7 +43,7 @@ class ControllerHome extends Controller {
     	$view->set('column_total', $this->language->get('column_total'));
     	$view->set('column_product', $this->language->get('column_product'));
     	$view->set('column_author', $this->language->get('column_author'));
-    	$view->set('column_rating', $this->language->get('column_rating'));
+    	$view->set('column_avgrating', $this->language->get('column_avgrating'));
 
     	$view->set('online', $this->url->ssl('report_online'));
         $user_info = $this->modelHome->get_people_online();
@@ -102,7 +102,7 @@ class ControllerHome extends Controller {
       		$review_data[] = array(
         		'product' => $result['product'],
         		'author'  => $result['author'],
-        		'rating'  => $result['rating'],
+        		'avgrating'  => number_format((($result['rating1'] + $result['rating2'] + $result['rating3'] + $result['rating4'])/4),1),
         		'status'  => $result['status'],
         		'href'    => $this->url->ssl('review', 'update', array('review_id' => $result['review_id']))
       		);

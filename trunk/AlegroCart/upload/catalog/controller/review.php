@@ -49,7 +49,7 @@ class ControllerReview extends Controller {
       		$view->set('text_review_by', $language->get('text_review_by'));
       		$view->set('text_date_added', $language->get('text_date_added'));
       		$view->set('text_rating', $language->get('text_rating'));
-
+      		
       		$view->set('entry_page', $language->get('entry_page'));
 
       		$view->set('action', $url->href('review', FALSE, array('product_id' => $request->gethtml('product_id'))));
@@ -57,13 +57,19 @@ class ControllerReview extends Controller {
       		$review_data = array();
 
       		foreach ($results as $result) {
+
+			$average = ($result['rating1'] + $result['rating2'] + $result['rating3'] + $result['rating4'])/4;
+			$avgrating = number_format($average,0);
+ 			$avgrating2 = number_format($average,1);
+
         		$review_data[] = array(
           			'href'       => $url->href('review_info', FALSE, array('product_id' => $result['product_id'], 'review_id' => $result['review_id'])),
           			'name'       => $result['name'],
           			'thumb'      => $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
           			'text'       => trim(substr(strip_tags($result['text']), 0, 150)) . '...',
-          			'rating'     => $result['rating'],
-          			'out_of'     => $language->get('text_out_of', $result['rating']),
+          			'avgrating'  => $avgrating,
+				'out_of'     => $language->get('text_out_of', $avgrating),
+				'avgrating2' => $avgrating2,
           			'author'     => $result['author'],
           			'date_added' => $language->formatDate($language->get('date_format_long'), strtotime($result['date_added']))
         		);

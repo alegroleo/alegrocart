@@ -84,9 +84,24 @@ class ControllerReview extends Controller {
 			'align' => 'left'
 		);
 		$cols[] = array(
-			'name'  => $this->language->get('column_rating'),
-			'sort'  => 'r.rating',
-			'align' => 'right'
+			'name'  => $this->language->get('column_rating1'),
+			'sort'  => 'r.rating1',
+			'align' => 'center'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_rating2'),
+			'sort'  => 'r.rating2',
+			'align' => 'center'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_rating3'),
+			'sort'  => 'r.rating3',
+			'align' => 'center'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_rating4'),
+			'sort'  => 'r.rating4',
+			'align' => 'center'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_status'),
@@ -111,8 +126,20 @@ class ControllerReview extends Controller {
 				'align' => 'left'
 			);
 			$cell[] = array(
-				'value' => $result['rating'],
-				'align' => 'right'
+				'value' => $result['rating1'],
+				'align' => 'center'
+			);
+			$cell[] = array(
+				'value' => $result['rating2'],
+				'align' => 'center'
+			);
+			$cell[] = array(
+				'value' => $result['rating3'],
+				'align' => 'center'
+			);
+			$cell[] = array(
+				'value' => $result['rating4'],
+				'align' => 'center'
 			);
 			$cell[] = array(
 				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
@@ -193,7 +220,10 @@ class ControllerReview extends Controller {
 
 		$view->set('entry_product', $this->language->get('entry_product'));
 		$view->set('entry_author', $this->language->get('entry_author'));
-		$view->set('entry_rating', $this->language->get('entry_rating'));
+		$view->set('entry_rating1', $this->language->get('entry_rating1'));
+		$view->set('entry_rating2', $this->language->get('entry_rating2'));
+		$view->set('entry_rating3', $this->language->get('entry_rating3'));
+		$view->set('entry_rating4', $this->language->get('entry_rating4'));
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_text', $this->language->get('entry_text'));
 		$view->set('entry_good', $this->language->get('entry_good'));
@@ -251,12 +281,30 @@ class ControllerReview extends Controller {
 			$view->set('text', @$review_info['text']);
 		}
 
-		if ($this->request->has('rating', 'post')) {
-			$view->set('rating', $this->request->gethtml('rating', 'post'));
+		if ($this->request->has('rating1', 'post')) {
+			$view->set('rating1', $this->request->gethtml('rating1', 'post'));
 		} else {
-			$view->set('rating', @$review_info['rating']);
+			$view->set('rating1', @$review_info['rating1']);
 		}
 
+		if ($this->request->has('rating2', 'post')) {
+			$view->set('rating2', $this->request->gethtml('rating2', 'post'));
+		} else {
+			$view->set('rating2', @$review_info['rating2']);
+		}
+
+		if ($this->request->has('rating3', 'post')) {
+			$view->set('rating3', $this->request->gethtml('rating3', 'post'));
+		} else {
+			$view->set('rating3', @$review_info['rating3']);
+		}
+
+		if ($this->request->has('rating4', 'post')) {
+			$view->set('rating4', $this->request->gethtml('rating4', 'post'));
+		} else {
+			$view->set('rating4', @$review_info['rating4']);
+		}
+		
 		if ($this->request->has('status', 'post')) {
 			$view->set('status', $this->request->gethtml('status', 'post'));
 		} else {

@@ -21,12 +21,16 @@ $head_def->setcss($this->style . "/css/paging.css");
     <div class="c"><b><?php echo $text_date_added; ?></b> <?php echo $review['date_added']; ?></div>
     <table>
       <tr>
-        <td rowspan="2"><a href="<?php echo $review['href']; ?>"><img src="<?php echo $review['thumb']; ?>" alt="<?php echo $review['name']; ?>" class="d"></a></td>
+        <td rowspan="3"><a href="<?php echo $review['href']; ?>"><img src="<?php echo $review['thumb']; ?>" alt="<?php echo $review['name']; ?>" class="d"></a></td>
         <td><?php echo $review['text']; ?></td>
       </tr>
       <tr>
-        <td><b><?php echo $text_rating; ?></b> <img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $review['rating'] . '.png'; ?>" alt="<?php echo $review['out_of']; ?>" class="png"><br>
-          (<?php echo $review['out_of']; ?>)</td>
+        <td><b><?php echo $text_rating; ?></b>&nbsp;</td>
+	<td style="color:gray; font-size: 50px; font-weight:bold;"><?php echo $review['avgrating2']; ?>/5</td>
+      </tr>
+ <tr>
+        <td></td><td style="text-align:center"><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $review['avgrating'] . '.png'; ?>" alt="<?php echo $review['out_of']; ?>" class="png"></td>
+	
       </tr>
     </table>
   </div>

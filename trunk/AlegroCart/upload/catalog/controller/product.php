@@ -100,7 +100,10 @@ class ControllerProduct extends Controller {
 			$view->set('text_review_by', $language->get('text_review_by'));
 			$view->set('text_weight', $language->get('text_weight'));
       		$view->set('text_date_added', $language->get('text_date_added'));
-      		$view->set('text_rating', $language->get('text_rating'));
+      		$view->set('text_rating1', $language->get('text_rating1'));
+      		$view->set('text_rating2', $language->get('text_rating2'));
+      		$view->set('text_rating3', $language->get('text_rating3'));
+      		$view->set('text_rating4', $language->get('text_rating4'));
       		$view->set('text_error', $language->get('text_empty'));	
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('text_downloadable', $language->get('text_downloadable'));
@@ -335,8 +338,14 @@ class ControllerProduct extends Controller {
           			'href'       => $url->href('review_info', FALSE, array('review_id' => $result['review_id'])),
           			'name'       => $result['name'],
           			'text'       => trim(substr(strip_tags($result['text']), 0, 1000)),
-          			'rating'     => $result['rating'],
-          			'out_of'     => $language->get('text_out_of', $result['rating']),
+          			'rating1'     => $result['rating1'],
+				'rating2'     => $result['rating2'],
+				'rating3'     => $result['rating3'],
+				'rating4'     => $result['rating4'],
+          			'out_of1'     => $language->get('text_out_of', $result['rating1']),
+				'out_of2'     => $language->get('text_out_of', $result['rating2']),
+				'out_of3'     => $language->get('text_out_of', $result['rating3']),
+				'out_of4'     => $language->get('text_out_of', $result['rating4']),
           			'author'     => $result['author'],
           			'date_added' => $language->formatDate($language->get('date_format_long'), strtotime($result['date_added']))
         		);

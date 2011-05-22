@@ -65,7 +65,11 @@ class ControllerReviewWrite extends controller {
       		$view->set('text_product', $this->language->get('text_product'));
 
       		$view->set('entry_review', $this->language->get('entry_review'));
-      		$view->set('entry_rating', $this->language->get('entry_rating'));
+      		$view->set('entry_rating1', $this->language->get('entry_rating1'));
+      		$view->set('entry_rating2', $this->language->get('entry_rating2'));
+      		$view->set('entry_rating3', $this->language->get('entry_rating3'));
+      		$view->set('entry_rating4', $this->language->get('entry_rating4'));
+      		
       		$view->set('entry_good', $this->language->get('entry_good'));
       		$view->set('entry_bad', $this->language->get('entry_bad'));
 
@@ -88,8 +92,11 @@ class ControllerReviewWrite extends controller {
 	  		$view->set('thumb', $this->image->resize($product_info['filename'], 160,160));
 	  		$view->set('author', $this->customer->getFirstName() . ' ' . $this->customer->getLastName());
 	  		$view->set('text', $this->request->sanitize('text', 'post'));
-	  		$view->set('rating', $this->request->gethtml('rating', 'post'));
-      
+	  		$view->set('rating1', $this->request->gethtml('rating1', 'post'));
+      	  		$view->set('rating2', $this->request->gethtml('rating2', 'post'));
+	  		$view->set('rating3', $this->request->gethtml('rating3', 'post'));
+	  		$view->set('rating4', $this->request->gethtml('rating4', 'post'));
+	  		
 	  		$query = array(
 	    		'product_id' => $this->request->gethtml('product_id')
 	  		);
@@ -157,10 +164,19 @@ class ControllerReviewWrite extends controller {
     	if ((strlen($this->request->sanitize('text', 'post')) < 25) || (strlen($this->request->sanitize('text', 'post')) > 1000)) {
       		$this->error['message'] = $this->language->get('error_text');
     	}
-    	if (!$this->request->gethtml('rating', 'post')) {
+    	if (!$this->request->gethtml('rating1', 'post')) {
       		$this->error['message'] = $this->language->get('error_rating');
     	}
-    	if (!$this->error) {
+	if (!$this->request->gethtml('rating2', 'post')) {
+      		$this->error['message'] = $this->language->get('error_rating');
+    	}
+	if (!$this->request->gethtml('rating3', 'post')) {
+      		$this->error['message'] = $this->language->get('error_rating');
+    	}
+	if (!$this->request->gethtml('rating4', 'post')) {
+      		$this->error['message'] = $this->language->get('error_rating');
+    	}
+	if (!$this->error) {
       		return TRUE;
     	} else {
       		return FALSE;

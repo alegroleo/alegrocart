@@ -54,40 +54,42 @@
                 <span class="error"><?php echo $error_text; ?></span>
                 <?php } ?></td>
             </tr>
+            <?php for ($i=1; $i<5; $i++) { ?>          
             <tr>
-              <td class="set"><?php echo $entry_rating; ?></td>
+              <td class="set"><?php echo ${'entry_rating'.$i}; ?></td>
               <td><b class="rating"><?php echo $entry_bad; ?></b>&nbsp;
-                <?php if (@$rating == 1) { ?>
-                <input type="radio" name="rating" value="1" checked>
+                <?php if (@${'rating'.$i} == 1) { ?>
+                <input type="radio" name="rating<?php echo $i; ?>" value="1" checked>
                 <?php } else { ?>
-                <input type="radio" name="rating" value="1">
+                <input type="radio" name="rating<?php echo $i; ?>" value="1">
                 <?php } ?>
                 &nbsp;
-                <?php if (@$rating == 2) { ?>
-                <input type="radio" name="rating" value="2" checked>
+                <?php if (@${'rating'.$i} == 2) { ?>
+                <input type="radio" name="rating<?php echo $i; ?>" value="2" checked>
                 <?php } else { ?>
-                <input type="radio" name="rating" value="2">
+                <input type="radio" name="rating<?php echo $i; ?>" value="2">
                 <?php } ?>
                 &nbsp;
-                <?php if (@$rating == 3) { ?>
-                <input type="radio" name="rating" value="3" checked>
+                <?php if (@${'rating'.$i} == 3) { ?>
+                <input type="radio" name="rating<?php echo $i; ?>" value="3" checked>
                 <?php } else { ?>
-                <input type="radio" name="rating" value="3">
+                <input type="radio" name="rating<?php echo $i; ?>" value="3">
                 <?php } ?>
                 &nbsp;
-                <?php if (@$rating == 4) { ?>
-                <input type="radio" name="rating" value="4" checked>
+                <?php if (@${'rating'.$i} == 4) { ?>
+                <input type="radio" name="rating<?php echo $i; ?>" value="4" checked>
                 <?php } else { ?>
-                <input type="radio" name="rating" value="4">
+                <input type="radio" name="rating<?php echo $i; ?>" value="4">
                 <?php } ?>
                 &nbsp;
-                <?php if (@$rating == 5) { ?>
-                <input type="radio" name="rating" value="5" checked>
+                <?php if (@${'rating'.$i} == 5) { ?>
+                <input type="radio" name="rating<?php echo $i; ?>" value="5" checked>
                 <?php } else { ?>
-                <input type="radio" name="rating" value="5">
+                <input type="radio" name="rating<?php echo $i; ?>" value="5">
                 <?php } ?>
                 &nbsp; <b class="rating"><?php echo $entry_good; ?></b></td>
             </tr>
+            <?php } ?>
             <tr>
               <td class="set"><?php echo $entry_status; ?></td>
               <td><?php if ($status == 1) { ?>

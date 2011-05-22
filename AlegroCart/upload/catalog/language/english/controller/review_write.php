@@ -12,7 +12,10 @@ $_['text_error']      = 'Product could not be found!';
 
 // Entry
 $_['entry_review']    = 'Your Review:';
-$_['entry_rating']    = 'Rating:';
+$_['entry_rating1']   = 'Quality of the Product:';
+$_['entry_rating2']   = 'Packaging:';
+$_['entry_rating3']   = 'Dispatch Time:';
+$_['entry_rating4']   = 'Item as Described:';
 $_['entry_good']      = 'Good';
 $_['entry_bad']       = 'Bad';
 

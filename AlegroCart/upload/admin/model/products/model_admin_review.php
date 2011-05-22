@@ -8,12 +8,12 @@ class Model_Admin_Review extends Model {
 		$this->session 	=& $locator->get('session');
 	}
 	function insert_review(){
-		$sql = "insert into review set author = '?', product_id = '?', text = '?', rating = '?', status = '?', date_added = now()";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('author', 'post'), (int)$this->request->gethtml('product_id', 'post'), $this->request->gethtml('text', 'post'), $this->request->gethtml('rating', 'post'), $this->request->gethtml('status', 'post')));
+		$sql = "insert into review set author = '?', product_id = '?', text = '?', rating1 = '?', rating2 = '?', rating3 = '?', rating4 = '?', status = '?', date_added = now()";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('author', 'post'), (int)$this->request->gethtml('product_id', 'post'), $this->request->gethtml('text', 'post'), $this->request->gethtml('rating1', 'post'), $this->request->gethtml('rating2', 'post'), $this->request->gethtml('rating3', 'post'), $this->request->gethtml('rating4', 'post'), $this->request->gethtml('status', 'post')));
 	}
 	function update_review(){
-		$sql = "update review set author = '?', product_id = '?', text = '?', rating = '?', status = '?', date_added = now() where review_id = '?'";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('author', 'post'), (int)$this->request->gethtml('product_id', 'post'), $this->request->gethtml('text', 'post'), $this->request->gethtml('rating', 'post'), $this->request->gethtml('status', 'post'), (int)$this->request->gethtml('review_id')));
+		$sql = "update review set author = '?', product_id = '?', text = '?', rating1 = '?', rating2 = '?', rating3 = '?', rating4 = '?', status = '?', date_added = now() where review_id = '?'";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('author', 'post'), (int)$this->request->gethtml('product_id', 'post'), $this->request->gethtml('text', 'post'), $this->request->gethtml('rating1', 'post'), $this->request->gethtml('rating2', 'post'), $this->request->gethtml('rating3', 'post'), $this->request->gethtml('rating4', 'post'), $this->request->gethtml('status', 'post'), (int)$this->request->gethtml('review_id')));
 	}
 	function get_review(){
 		$result = $this->database->getRow("select distinct * from review where review_id = '" . (int)$this->request->gethtml('review_id') . "'");
@@ -28,11 +28,11 @@ class Model_Admin_Review extends Model {
 	}
 function get_page(){
         if (!$this->session->get('review.search')) {
-            $sql = "select r.review_id, pd.name, r.author, r.rating, r.status from review r left join product_description pd on (r.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "'";
+            $sql = "select r.review_id, pd.name, r.author, r.rating1, r.rating2, r.rating3, r.rating4, r.status from review r left join product_description pd on (r.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "'";
         } else {
-            $sql = "select r.review_id, pd.name, r.author, r.rating, r.status from review r left join product_description pd on (r.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "' and (r.author like '?' or pd.name like '?')";
+            $sql = "select r.review_id, pd.name, r.author, r.rating1, r.rating2, r.rating3, r.rating4, r.status from review r left join product_description pd on (r.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "' and (r.author like '?' or pd.name like '?')";
         }
-        $sort = array('pd.name', 'r.author', 'r.rating', 'r.status');
+        $sort = array('pd.name', 'r.author', 'r.rating1', 'r.rating2', 'r.rating3', 'r.rating4', 'r.status');
         if (in_array($this->session->get('review.sort'), $sort)) {
             $sql .= " order by " . $this->session->get('review.sort') . " " . (($this->session->get('review.order') == 'desc') ? 'desc' : 'asc');
         } else {

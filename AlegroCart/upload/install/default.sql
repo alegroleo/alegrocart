@@ -633,8 +633,8 @@ INSERT INTO `related_products` (`product_id`, `related_product_id`) VALUES ('11'
 INSERT INTO `related_products` (`product_id`, `related_product_id`) VALUES ('11', '18');
 INSERT INTO `related_products` (`product_id`, `related_product_id`) VALUES ('22', '10');
 
-INSERT INTO `review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating`, `status`, `date_added`, `date_modified`) VALUES ('1', '1', '0', 'John Customer', 'This a sample Review.\r\nThis product was reviewed by a potential or previous customer.', '4', '1', '2008-12-27 11:23:43', '0000-00-00 00:00:00');
-INSERT INTO `review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating`, `status`, `date_added`, `date_modified`) VALUES ('2', '1', '2', 'Another Customer', 'This is a nice red motor cycle. It goes very fast and handles well at high speeds. \r\nIt is very comfortable to ride for long distances.', '5', '1', '2009-04-08 19:48:49', '0000-00-00 00:00:00');
+INSERT INTO `review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating1`, `rating2`, `rating3`, `rating4`, `status`, `date_added`, `date_modified`) VALUES ('1', '1', '0', 'John Customer', 'This a sample Review.\r\nThis product was reviewed by a potential or previous customer.', '4', '5', '3', '5', '1', '2008-12-27 11:23:43', '0000-00-00 00:00:00');
+INSERT INTO `review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating1`, `rating2`, `rating3`, `rating4`, `status`, `date_added`, `date_modified`) VALUES ('2', '1', '2', 'Another Customer', 'This is a nice red motor cycle. It goes very fast and handles well at high speeds. \r\nIt is very comfortable to ride for long distances.', '5', '5', '4', '3', '1', '2009-04-08 19:48:49', '0000-00-00 00:00:00');
 
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (NULL, 'catalog', 'footer', 'footer_status', '1');
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (NULL, 'global', 'cod', 'cod_sort_order', '1');

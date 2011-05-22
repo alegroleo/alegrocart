@@ -25,5 +25,5 @@ $_['column_date_added']   = 'Date Added';
 $_['column_total']        = 'Total';
 $_['column_product']      = 'Product';
 $_['column_author']       = 'Author';
-$_['column_rating']       = 'Rating';
+$_['column_avgrating']    = 'Average Rating';
 ?>

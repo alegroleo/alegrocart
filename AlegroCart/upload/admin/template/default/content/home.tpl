@@ -76,7 +76,7 @@
       <tr>
         <th class="left"><?php echo $column_product; ?></th>
         <th class="left"><?php echo $column_author; ?></th>
-        <th class="right"><?php echo $column_rating; ?></th>
+        <th class="center"><?php echo $column_avgrating; ?></th>
         <th class="center"><?php echo $column_status; ?></th>
       </tr>
       <?php $j = 1; ?>
@@ -97,7 +97,7 @@
       <tr class="<?php echo $class; ?>" onmouseover="this.className='highlight'" onmouseout="this.className='<?php echo $class; ?>'" onclick="location='<?php echo $review['href']; ?>'">
         <td class="left"><?php echo $review['product']; ?></td>
         <td class="left"><?php echo $review['author']; ?></td>
-        <td class="right"><?php echo $review['rating']; ?></td>
+        <td class="center"><?php echo $review['avgrating']; ?></td>
         <td class="center"><img src="template/<?php echo $this->directory?>/image/<?php echo (($review['status']) ? 'enabled' : 'disabled'); ?>.png" class="png"></td>
       </tr>
       <?php } ?>

@@ -21,10 +21,13 @@ class ModuleReview extends Controller {
 				$language->load('extension/module/review.php');
 				$view = $this->locator->create('template');
       			$view->set('heading_title', $language->get('heading_title'));
-	
-     			$view->set('text_rating', $language->get('text_rating', $review_info['rating']));
+			$average = ($review_info['rating1'] + $review_info['rating2'] + $review_info['rating3'] + $review_info['rating4'])/4;
+			$avgrating = number_format($average,0);
+ 			$avgrating2 = number_format($average,1);
+     			$view->set('text_rating', $language->get('text_rating', $avgrating));
      			$view->set('name', $review_info['name']);
-      			$view->set('rating', $review_info['rating']);
+      			$view->set('rating', $avgrating);
+      			$view->set('avgrating', $avgrating2);
       			$view->set('desciption', strippedstring($review_info['text'], 55));
 		
      			$view->set('image', $image->resize($review_info['filename'], $config->get('config_image_width'), $config->get('config_image_height')));

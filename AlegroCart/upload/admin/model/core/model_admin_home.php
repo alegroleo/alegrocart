@@ -47,7 +47,7 @@ class Model_Admin_Home extends Model {
 		return $results;
 	}
 	function get_latest_reviews(){
-		$results = $this->database->getRows("select r.review_id, pd.name as product, r.author, r.rating, r.status from review r left join product_description pd on (r.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "' limit 5");
+		$results = $this->database->getRows("select r.review_id, pd.name as product, r.author, r.rating1, r.rating2, r.rating3, r.rating4, r.status from review r left join product_description pd on (r.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "' limit 5");
 		return $results;
 	}
 }

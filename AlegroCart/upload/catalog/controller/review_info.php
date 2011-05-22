@@ -39,8 +39,16 @@ class ControllerReviewInfo extends Controller {
       		$view->set('text_author', $language->get('text_author'));
       		$view->set('text_date_added', $language->get('text_date_added'));
       		$view->set('text_rating', $language->get('text_rating'));
-      		$view->set('text_out_of', $language->get('text_out_of', $review_info['rating']));
-
+      		$view->set('text_rating1', $language->get('text_rating1'));
+      		$view->set('text_rating2', $language->get('text_rating2'));
+      		$view->set('text_rating3', $language->get('text_rating3'));
+      		$view->set('text_rating4', $language->get('text_rating4'));
+      		
+      		$view->set('text_out_of1', $language->get('text_out_of', $review_info['rating1']));
+      		$view->set('text_out_of2', $language->get('text_out_of', $review_info['rating2']));
+      		$view->set('text_out_of3', $language->get('text_out_of', $review_info['rating3']));
+      		$view->set('text_out_of4', $language->get('text_out_of', $review_info['rating4']));
+      		
       		$view->set('button_reviews', $language->get('button_reviews'));
       		$view->set('button_write', $language->get('button_write'));
 
@@ -56,8 +64,11 @@ class ControllerReviewInfo extends Controller {
       		
       		$view->set('author', $review_info['author']);
       		$view->set('text', nl2br($review_info['text']));
-      		$view->set('rating', $review_info['rating']);
-
+      		$view->set('rating1', $review_info['rating1']);
+      		$view->set('rating2', $review_info['rating2']);
+      		$view->set('rating3', $review_info['rating3']);
+      		$view->set('rating4', $review_info['rating4']);
+      		
       		$view->set('date_added', $language->formatDate($language->get('date_format_long'), strtotime($review_info['date_added'])));
       
 	  		$query = array(

@@ -25,7 +25,7 @@ class ControllerReview extends Controller {
 		$head_def =& $this->locator->get('HeaderDefinition');
 		
 		//pagination
-        $session->set('review.page', $request->has('page')?(int)$request->get('page'):1);
+        $session->set('review.page', $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
 
 		$language->load('controller/review.php');
 

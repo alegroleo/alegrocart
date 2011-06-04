@@ -62,6 +62,7 @@ class PaymentPayMate extends Payment {
     function get_ActionUrl() {
     	$this->session->set('payment_form_enctype', 'none');
         if (!$this->config->get('paymate_test')) {
+			//return 'http://www.alegrocart.com/gateway/paymate_test.php';
             return 'https://www.paymate.com/PayMate/GenExpressPayment';
         } else {
             return 'https://www.paymate.com/PayMate/TestExpressPayment';
@@ -87,9 +88,11 @@ class PaymentPayMate extends Payment {
         $fields['pmt_contact_surname']=$this->order->get('lastname');
         $fields['pmt_contact_phone']=$this->order->get('telephone');
         $fields['regindi_address1']=$this->order->get('payment_address_1');
-        $fields['regindi_address2']=$this->order->get('payment_address_2');
+		if($this->order->get('payment_address_2')){
+			$fields['regindi_address2']=$this->order->get('payment_address_2');
+		}
         $fields['regindi_sub']=$this->order->get('payment_city');
-        //$fields['regindi_state']=$this->order->get('payment_zone');
+        $fields['regindi_state']=$this->order->get('payment_zone');
         $fields['regindi_state']=$this->address->getZoneCode($this->session->get('payment_address_id'));
         $fields['regindi_pcode']=$this->order->get('payment_postcode');
         $fields['pmt_country']=$this->address->getIsoCode2($this->session->get('payment_address_id'));
@@ -110,13 +113,29 @@ class PaymentPayMate extends Payment {
 	
 	// Process the order on return
 	function process() {
-		if ($this->request->gethtml('method') == 'return') { 
-			$this->order->load($this->request->gethtml('ref'));
-			$order_status = ($this->config->get('paymate_order_status') != '') ? $this->config->get('paymate_order_status') : $this->config->get('config_order_status_id');
-        	$this->order->process($order_status);
-        	return TRUE;
+		if ($this->request->gethtml('method') == 'return') {
+			$responseCode = isset($_REQUEST['responseCode']) ? $this->request->clean($_REQUEST['responseCode']) : '';
+			if($responseCode == 'PA'){
+				$this->order->load($this->request->gethtml('ref'));
+				$order_status = ($this->config->get('paymate_order_status') != '') ? $this->config->get('paymate_order_status') : $this->config->get('config_order_status_id');
+				$this->order->process($order_status);
+				return TRUE;
+			} else if ($responseCode == 'PP'){
+				$this->order->load($this->request->gethtml('ref'));
+				$result = $this->modelPayment->get_orderstatus_id('processing', '1');
+				$order_status = $result['order_status_id'];
+				$this->order->process($order_status);
+				$this->session->set('checkout_success', 'pending');
+				return true;
+			} else if ($responseCode == 'PD'){
+				$this->session->set('checkout_failure', 'declined');
+				return false;
+			} else {
+				return false;
+			}
 		} else {
-            die('Unknown process method error: No return method was specified. Please contact store owner.');
+			return false;
+            //die('Unknown process method error: No return method was specified. Please contact store owner.');
         }
         
 	}

@@ -29,7 +29,7 @@ class ControllerAccountHistory extends Controller {
     	}
  
 		//pagination
-        $this->session->set('account_history.page', $this->request->has('page')?(int)$this->request->gethtml('page'):1);
+        $this->session->set('account_history.page', $this->request->has('page') && ($this->request->gethtml('page') > 0) ? abs((int)$this->request->gethtml('page')) : 1);
 
     	$this->language->load('controller/account_history.php');
 

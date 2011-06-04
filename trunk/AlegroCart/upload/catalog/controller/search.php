@@ -29,7 +29,7 @@ class ControllerSearch extends Controller {
 		require_once('library/application/string_modify.php');
 		
 		//pagination
-        $session->set('search.page', $request->has('page')?(int)$request->get('page'):1);
+        $session->set('search.page', $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
     	$language->load('controller/search.php');
 	
 		$this->template->set('title', $language->get('heading_title'));

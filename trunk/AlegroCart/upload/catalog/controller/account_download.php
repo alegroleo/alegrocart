@@ -27,7 +27,7 @@ class ControllerAccountDownload extends Controller {
 			$this->response->redirect($this->url->ssl('account_login'));
 		}
 
-        $this->session->set('account_download.page', $this->request->has('page')?(int)$request->get('page'):1);
+        $this->session->set('account_download.page', $this->request->has('page') && ($this->request->gethtml('page') > 0) ? abs((int)$this->request->gethtml('page')) : 1);
 		$this->language->load('controller/account_download.php');
 		$this->template->set('title', $this->language->get('heading_title'));
 		$view = $this->locator->create('template');

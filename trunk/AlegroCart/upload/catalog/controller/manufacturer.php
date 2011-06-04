@@ -29,7 +29,7 @@ class ControllerManufacturer extends Controller {
 		require_once('library/application/string_modify.php');
 		//pagination
 		if(!$this->config->get('manufacturer_status')){ RETURN;}
-        $session->set('manufacturer.page', $request->has('page')?(int)$request->get('page'):1);
+        $session->set('manufacturer.page', $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
     	$language->load('controller/manufacturer.php');
 	
 	   	$view = $this->locator->create('template');

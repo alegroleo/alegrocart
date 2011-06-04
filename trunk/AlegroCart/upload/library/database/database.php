@@ -15,14 +15,17 @@ class Database {
 	function __construct(&$locator) {	
   		$this->config =& $locator->get('config');
 		$this->cache  =& $locator->get('cache');
+		$this->mail     =& $locator->get('mail');
   	}
 
   	function connect($server, $username, $password, $database) {
 		if (!$this->connection = mysql_connect($server, $username, $password)) {
+			$this->SQL_handler(sprintf(E_DB_CONN,$username,$server));
       		exit(sprintf(E_DB_CONN,$username,$server));
     	}
 
     	if (!mysql_select_db($database, $this->connection)) {
+			$this->SQL_handler(sprintf(E_DB_SELECT,$database));
       		exit(sprintf(E_DB_SELECT,$database));
     	}
 		
@@ -34,12 +37,13 @@ class Database {
   	function query($sql) {
 		$this->result = mysql_query($sql);
 		if ($this->result) { return $this->result; }
-		exit(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
-		
+		$this->SQL_handler(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
   	}
 
 	function error($sql='') {
-		if (mysql_error()) { return sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql); }
+		if (mysql_error()) {
+			return 'SQL Error No: ' . mysql_errno() . '<br />MySQL Error: ' . mysql_error();
+		}
 	}
 	
 	function parse() {
@@ -61,10 +65,10 @@ class Database {
 		
     	$rows = array();
 
-    	while ($row = mysql_fetch_assoc($this->result)) { $rows[] = $row; }
-
-    	mysql_free_result($this->result);
-	
+    	while (is_resource($this->result) && $row = mysql_fetch_assoc($this->result)) { $rows[] = $row; }
+		if(is_resource($this->result)){
+			mysql_free_result($this->result);
+		}
     	return $rows;
   	}
 	
@@ -168,7 +172,7 @@ class Database {
 							}
 						}
 						if((strlen($query) > 3) && (preg_match('/;\s*$/', $line))){
-							if (!mysql_query($query)) { exit(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql)); }
+							if (!mysql_query($query)) { $this->SQL_handler(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql)); }
 							$query = '';
 						}
 					}
@@ -209,6 +213,88 @@ class Database {
 			$output .= "\n\n";
 		}
 		return $output;
-	}	
+	}
+	function SQL_handler($error){
+		$this->initailize_handler();
+		if($this->log_file){
+			$this->log_error_msg($error);
+		}
+		if ($this->config->get('error_email_status') ) {
+			if($this->email){
+				$this->send_error_msg($error);
+			}
+		}
+		if($this->show_developer && preg_match("/^$this->ip$/i", $_SERVER['REMOTE_ADDR'])){
+			$this->sql_msg_developer($error);
+		}
+		
+	}
+	function send_error_msg($error){
+		$error = str_replace(array('<br />', '<br>'), "\n", $error);
+		$message = "MySQL ". $error . "\n" ;
+		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. @$_SERVER['REQUEST_URI'] . "\n" : "";
+		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\n" : "";
+		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\n" : "";
+		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\n";
+		$message .= "log: ".print_r( $this->log_message, true)."\n";
+		$message .= "##################################################\n\n";
+		
+		$this->email_sent = false;
+		
+		$this->mail->setTo($this->email);
+		$this->mail->setFrom($this->config->get('config_email'));
+		$this->mail->setSender(HTTP_BASE);
+		$this->mail->setSubject('ERROR');
+		$this->mail->setText($message);
+		$this->mail->send();
+		
+		$this->email_sent = true;
+	}
+	function log_error_msg($error){
+		$error = str_replace(array('<br />', '<br>'), "\n", $error);
+		$message =  "time: ".date("j-m-d H:i:s (T)", time())."\n";
+		$message .= "MySQL ". $error . "\n" ;
+		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. @$_SERVER['REQUEST_URI'] . "\n" : "";
+		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\n" : "";
+		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\n" : "";
+		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\n";
+		$message .= "##################################################\n\n";
+		if (!$fp = fopen($this->log_file, 'a+')){ 
+			$this->log_message = "Could not open/create file: $this->log_file to log error."; $log_error = true;
+		}
+		if (!fwrite($fp, $message)){
+			$this->log_message = "Could not log error to file: $this->log_file. Write Error."; $log_error = true;
+		}
+		if(!$this->log_message){
+			$this->log_message = "Error was logged to file: $this->log_file.";
+		}
+		fclose($fp); 
+	}
+	function sql_msg_developer($error){
+		$color='red';
+		$message = "<span style='color:$color;font-size: 12px'>";
+		$message .= "MySQL ". $error . "<br>\n" ;
+		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. $_SERVER['REQUEST_URI']."<br>\n" : "";
+		$message .= "---------------------------------------------------<br>\n";
+		$message .= "</span>";
+		echo $message;
+	}
+	function initailize_handler(){
+		$this->ip = $this->config->get('error_developer_ip') ? $this->config->get('error_developer_ip') : $_SERVER['REMOTE_ADDR'];
+		$this->show_developer = $this->config->get('error_show_developer') ? TRUE : FALSE;
+		$this->email = $this->config->get('config_error_email') ? $this->config->get('config_error_email') : $this->config->get('config_email');
+		$log_path = DIR_BASE . 'logs' . D_S . 'error_log' . D_S;
+		if (is_writable($log_path)){
+			$this->log_file = $log_path . 'error-' . date("Ymd") . '.txt';
+		} else {
+			$this->log_file = FALSE;
+		}
+		$this->log_message = NULL;
+		$this->email_sent = FALSE;
+	}
+	function nslookup($ip) {
+		$host_name = gethostbyaddr($ip);
+		return $host_name;
+	}
 }
 ?>

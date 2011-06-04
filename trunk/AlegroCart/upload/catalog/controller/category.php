@@ -29,8 +29,8 @@ class ControllerCategory extends Controller {
 		
 		//pagination
 		$set=$request->has('path')?'category.'.$request->gethtml('path').'.page':'category.page';
-        $session->set($set, $request->has('page')?(int)$request->gethtml('page'):1);
-		
+        $session->set($set, $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
+
 		// Get Options Post Variables
 		if ($request->isPost() && $request->has('sort_order','post')){
 			$session->set('category.sort_order', $request->gethtml('sort_order','post'));

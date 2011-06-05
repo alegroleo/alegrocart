@@ -59,7 +59,9 @@ class ModuleMenu extends Controller {
       		$view->set('text_online', $language->get('text_online'));
       		$view->set('text_sale', $language->get('text_sale'));
       		$view->set('text_viewed', $language->get('text_viewed'));
-      		$view->set('text_purchased', $language->get('text_purchased'));		
+      		$view->set('text_purchased', $language->get('text_purchased'));
+			$view->set('text_logs', $language->get('text_logs'));
+			
 			$view->set('text_maintenance', $language->get('text_maintenance'));
 			$view->set('text_homepage', $language->get('text_homepage'));
 			$view->set('text_tpl_manager',$language->get('text_tpl_manager'));
@@ -110,6 +112,7 @@ class ModuleMenu extends Controller {
       		$view->set('sale', $url->rawssl('report_sale'));
       		$view->set('viewed', $url->rawssl('report_viewed'));
       		$view->set('purchased', $url->rawssl('report_purchased'));
+			$view->set('logs', $url->rawssl('report_logs'));
 
       		return $view->fetch('module/menu.tpl');
 		}

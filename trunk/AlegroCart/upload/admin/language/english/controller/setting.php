@@ -51,6 +51,7 @@ $_['text_rss_specials']       = 'Products on Special';
 $_['text_guest_checkout']     = 'If not enabled, customers must register to complete purchase!';
 $_['text_error_email_status'] = 'Will send email error message to admin';
 $_['text_time_zone']          = 'For valid time zones, go to http://php.net/manual/en/timezones.php';
+$_['text_token']			  = 'You can enter plain text which is converted to 32 bit Hash<br>Once created, this token becomes readonly';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
@@ -149,6 +150,7 @@ $_['entry_error_show_developer']= 'Show Developer:';
 $_['entry_error_developer_ip']  = 'Developer IP Address:';
 $_['entry_error_email_status']  = 'Enable Email Send:';
 $_['entry_time_zone']           = 'Time Zone:';
+$_['entry_token']			    = 'EnCryption/DeCryption Token:';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

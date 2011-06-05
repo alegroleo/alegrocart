@@ -17,6 +17,7 @@ define('PATH_LIBRARY','library');
 define('PATH_CACHE','cache');
 define('PATH_DOWNLOAD','download');
 define('PATH_MODEL','model');
+define('PATH_LOGS','logs');
 define('PATH_CONTROLLER','controller');
 define('PATH_EXTENSION','extension');
 define('PATH_LANGUAGE','language');
@@ -30,6 +31,7 @@ define('PATH_COMMON','common');
 if (!defined('APP')) { define('APP','CATALOG'); }
 
 // DIR
+if (!defined('DIR_LOGS')) define('DIR_LOGS',DIR_BASE.PATH_LOGS.D_S);
 if (!defined('DIR_CATALOG')) define('DIR_CATALOG',DIR_BASE.PATH_CATALOG.D_S);
 if (!defined('DIR_ADMIN')) define('DIR_ADMIN',DIR_BASE.PATH_ADMIN.D_S);
 if (!defined('DIR_LIBRARY')) define('DIR_LIBRARY', DIR_BASE.PATH_LIBRARY.D_S);

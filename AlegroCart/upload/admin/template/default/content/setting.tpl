@@ -237,6 +237,16 @@
                 </select>
               </td>
             </tr>
+
+			<tr>
+			  <td class="set"><?php echo $entry_token; ?></td>
+			  <td id="token"><input type="text" size="40" <?php if($global_config_token){ echo 'readonly="readonly" ';}?>name="global_config_token" value="<?php echo $global_config_token;?>" onchange="$('#token').load('index.php?controller=setting&action=getToken&token='+this.value); ">
+			  </td>
+			  <td class="expl">
+			      <?php echo $text_token; ?> 
+			  </td>
+			</tr>
+			
 			<tr>
 			  <td valign="top" class="set"><?php echo $entry_address_format; ?></td>
 			  <td><textarea name="global_config_address_format" cols="50" rows="7"><?php echo $global_config_address_format; ?></textarea>

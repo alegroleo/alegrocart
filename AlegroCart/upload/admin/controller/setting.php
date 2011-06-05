@@ -84,7 +84,9 @@ class ControllerSetting extends Controller {
 		$view->set('text_error_email_status', $this->language->get('text_error_email_status'));
 		$view->set('text_guest_checkout', $this->language->get('text_guest_checkout'));
 		$view->set('text_time_zone', $this->language->get('text_time_zone'));
+		$view->set('text_token', $this->language->get('text_token'));
 		
+		$view->set('entry_token', $this->language->get('entry_token'));
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
 		$view->set('entry_address', $this->language->get('entry_address'));
@@ -231,6 +233,12 @@ class ControllerSetting extends Controller {
 			$setting_info[$result['type']][$result['key']] = $result['value'];
 		}
 
+		if ($this->request->has('global_config_token', 'post')) {
+			$view->set('global_config_token', $this->request->gethtml('global_config_token', 'post'));
+		} else {
+			$view->set('global_config_token', @$setting_info['global']['config_token']);
+		}
+		
 		if ($this->request->has('global_config_store', 'post')) {
 			$view->set('global_config_store', $this->request->gethtml('global_config_store', 'post'));
 		} else {
@@ -980,6 +988,19 @@ class ControllerSetting extends Controller {
 			return FALSE;
 		}
 	}
+	
+	function getToken(){
+		$token = $this->request->gethtml('token');
+		$output = '<input type="text" size="40"';
+		$output .= ' readonly="readonly" name="global_config_token"';
+		if ($this->user->hasPermission('modify', 'setting')) {
+			$output .= ' value="' . md5($token) . '">';
+		} else {
+			$output .= ' value="' . $token . '".';
+		}
+		$this->response->set($output);
+	}
+	
 	function getColors(){
 		$style = $this->request->gethtml('style');
 		$columns = $this->request->gethtml('columns');

@@ -69,6 +69,7 @@
 	    ['<img src="javascript/JSCookMenu/default/report.png">', '<?php echo $text_sale; ?>', '<?php echo $sale; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/report.png">', '<?php echo $text_viewed; ?>', '<?php echo $viewed; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/report.png">', '<?php echo $text_purchased; ?>', '<?php echo $purchased; ?>', null, null],
+		['<img src="javascript/JSCookMenu/default/logs.png">', '<?php echo $text_logs; ?>', '<?php echo $logs; ?>', null, null],
     ]			
   ]
 //--></script>

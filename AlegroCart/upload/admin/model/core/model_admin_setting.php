@@ -11,6 +11,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("delete from setting where `group` = 'config'");
 	}
 	function update_setting(){
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_token', `value` = '" . $this->request->gethtml('global_config_token', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_store', `value` = '" . $this->request->gethtml('global_config_store', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_owner', `value` = '" . $this->request->gethtml('global_config_owner', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_address', `value` = '" . $this->request->gethtml('global_config_address', 'post'). "'");

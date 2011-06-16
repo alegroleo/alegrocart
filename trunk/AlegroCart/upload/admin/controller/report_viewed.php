@@ -28,11 +28,13 @@ class ControllerReportViewed extends Controller {
 		$results = $this->modelReportViewed->get_viewed();
 		
 		$total = 0;
-		
+		$max=0;
+
 		foreach ($results as $result) {
 			$total += $result['viewed'];
 		}
-		
+		$max= $total ? roundDigits(($results[0]['viewed'] / $total) * 100, 2):0;
+
 		foreach ($results as $result) {
 			$percent= $total ? roundDigits(($result['viewed'] / $total) * 100, 2):0;
 			//$percent=$total?number_format(($result['viewed'] / $total) * 100, 2, '.', ''):0;
@@ -40,7 +42,7 @@ class ControllerReportViewed extends Controller {
 				'name'    => $result['name'],
 				'viewed'  => $result['viewed'],
 				'percent' => $percent.'%',
-				'graph'   => number_format($percent, 2, '.', '') . '%'
+				'graph'   => (100/$max)*number_format($percent, 2, '.', '') . '%'
 			);
 		}
 		

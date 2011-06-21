@@ -39,13 +39,13 @@ class ControllerCategory extends Controller {
 			$session->set('category.sort_filter', $request->gethtml('sort_filter','post'));
 		}
 		if ($request->isPost() && $request->has('page_rows','post')){
-			$session->set('category.page_rows', (int)$request->gethtml('page_rows','post'));
+			$session->set('category.page_rows', abs((int)$request->gethtml('page_rows','post')));
 		}
 		if ($request->isPost() && $request->has('max_rows','post')){
-			$session->set('category.max_rows', (int)$request->gethtml('max_rows','post'));
+			$session->set('category.max_rows', abs((int)$request->gethtml('max_rows','post')));
 		}
 		if ($request->isPost() && $request->has('columns', 'post')){
-			$session->set('category.columns', (int)$request->gethtml('columns', 'post'));
+			$session->set('category.columns', abs((int)$request->gethtml('columns', 'post')));
 		}
 		if ($request->isPost() && $request->has('manufacturer', 'post')){
 			$session->set('category.manufacturer', $request->gethtml('manufacturer', 'post'));

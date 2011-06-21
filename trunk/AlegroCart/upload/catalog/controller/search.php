@@ -416,13 +416,13 @@ class ControllerSearch extends Controller {
 			$session->set('search.sort_filter', $request->gethtml('sort_filter','post'));
 		}
 		if ($request->isPost() && $request->has('page_rows','post')){
-			$session->set('search.page_rows', (int)$request->gethtml('page_rows','post'));
+			$session->set('search.page_rows', abs((int)$request->gethtml('page_rows','post')));
 		}		
 		if ($request->isPost() && $request->has('max_rows','post')){
-			$session->set('search.max_rows', (int)$request->gethtml('max_rows','post'));
+			$session->set('search.max_rows', abs((int)$request->gethtml('max_rows','post')));
 		}
 		if ($request->isPost() && $request->has('columns', 'post')){
-			$session->set('search.columns', (int)$request->gethtml('columns', 'post'));
+			$session->set('search.columns', abs((int)$request->gethtml('columns', 'post')));
 		}
 		if ($request->isPost() && $request->has('manufacturer', 'post')){
 			$session->set('search.manufacturer', $request->gethtml('manufacturer', 'post'));

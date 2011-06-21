@@ -21,12 +21,12 @@ class Database {
   	function connect($server, $username, $password, $database) {
 		if (!$this->connection = mysql_connect($server, $username, $password)) {
 			$this->SQL_handler(sprintf(E_DB_CONN,$username,$server));
-      		exit(sprintf(E_DB_CONN,$username,$server));
+      		exit;
     	}
 
     	if (!mysql_select_db($database, $this->connection)) {
 			$this->SQL_handler(sprintf(E_DB_SELECT,$database));
-      		exit(sprintf(E_DB_SELECT,$database));
+      		exit;
     	}
 		
 		mysql_query("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
@@ -37,7 +37,10 @@ class Database {
   	function query($sql) {
 		$this->result = mysql_query($sql);
 		if ($this->result) { return $this->result; }
+		
+		//exit(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
 		$this->SQL_handler(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
+		//echo sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql);
   	}
 
 	function error($sql='') {
@@ -182,6 +185,7 @@ class Database {
 	}
 
 	function export() {
+		mysql_query('set @@session.sql_mode=""');
 		$output = '';
 		$sql = "SHOW TABLES FROM `" . DB_NAME ."`";
 		$list_tables =  mysql_query($sql);

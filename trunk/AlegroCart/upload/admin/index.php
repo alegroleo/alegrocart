@@ -36,6 +36,8 @@ $version=defined('CODE_VERSION')?CODE_VERSION:0;
 $upgrade = $database->getRows("select * from setting where `type` = 'global' and `group` = 'version' and `key` = 'version' and `value` = '$version'");
 if (!$upgrade) { header('Location: ../install/upgrade.php'); exit; }
 
+$session =& $locator->get('session');
+
 // Language
 $language =& $locator->get('language');
 

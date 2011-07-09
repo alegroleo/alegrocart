@@ -1,7 +1,6 @@
 <?php
 class Session {
 	var $expire = 3600;
-	
   	function __construct(&$locator) {
 		$this->database =& $locator->get('database');
 		$this->request  =& $locator->get('request');
@@ -14,7 +13,19 @@ class Session {
 								 array(&$this, 'clean')); 
  
     	register_shutdown_function('session_write_close');
-	   	
+
+		if (!$this->request->has('test', 'cookie') && $this->request->isPost()) {
+			$this->log_access();
+			if(strtolower($_SERVER['HTTP_CONNECTION']) == 'keep-alive'){
+				echo $this->close_connection();
+				exit;
+			}
+			if($this->check_access()){
+				echo $this->close_connection();
+				exit;
+			}
+		}
+		
 		if (!$this->request->has('test', 'cookie')) {
 	    	setcookie('test', 'accept', time() + 60 * 60 * 24 * 30, '/', NULL, false);
 		}
@@ -24,6 +35,49 @@ class Session {
 	  		ini_set('session.hash_function', '0');
 			session_start();
   		}
+	}
+	
+	function check_access(){
+		$contents = file_get_contents($this->log_file);
+		$contents = preg_split("#((\r(?!\n))|((?!\r)\n)|(\r\n))#",$contents);
+		$access_count = 0;
+		$time_check = date("Y-m-d H:i:s", time()-300);
+		foreach($contents as $content){
+			$line = explode(',', $content);
+			if($line[0] == $_SERVER['REMOTE_ADDR'] && $line[1] > $time_check){
+				$access_count ++;
+			}
+			if($access_count > 20){return TRUE;}
+		}
+		return FALSE;
+	}
+	
+	function log_access(){
+		$log_path = DIR_BASE . 'logs' . D_S . 'access_log' . D_S;
+		if (is_writable($log_path)){
+			$this->log_file = $log_path . 'access-' . date("Ymd") . '.txt';
+		} else {
+			$this->log_file = FALSE;
+		}
+		$access = $_SERVER['REMOTE_ADDR'].',';
+		$access .= date("Y-m-d H:i:s", time())."\n";
+		if ($fp = fopen($this->log_file, 'a+')){ 
+			fwrite($fp, $access);
+			fclose($fp); 
+		}
+	}
+	
+	function close_connection(){
+		header("Connection: close\r\n");
+		header("Content-Encoding: none\r\n");
+		$error_response = "Invalid Request!" . "\n";
+		$error_response .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\n";
+		return $error_response;
+	}
+	
+	function nslookup($ip) {
+		$host_name = gethostbyaddr($ip);
+		return $host_name;
 	}
 		
 	function set($key, $value) {

@@ -32,6 +32,8 @@ if($config->get('error_handler_status')){
 	set_error_handler(array(&$error_handler, "handler"));
 }
 
+$session =& $locator->get('session');
+
 // Language
 $language =& $locator->get('language');
 

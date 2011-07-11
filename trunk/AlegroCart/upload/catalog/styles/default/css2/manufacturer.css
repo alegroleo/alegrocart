@@ -29,15 +29,15 @@
 }
 .manufacturer_filter .entry{
 	position: relative;
-	width: 50px;
-	float: left;
+	width: 100px;
+	left: 250px;
 	/*text-align: right;*/
-	margin-right: 20px;
-	top: 10px;
+	margin: 5px;
+	top: 0px;
 }
 .manufacturer_filter .left{
 	position: relative;
-	width: 180px;
+	width: 200px;
 	min-height: 40px;
 	float: left;
 	top: 3px;
@@ -50,7 +50,7 @@
 }
 .manufacturer_filter .left .data{
 	position: absolute;
-	left: 58px;
+	left: 80px;
 	top: 0px;
 	min-height: 40px;
 	font-weight: normal;
@@ -59,11 +59,10 @@
 }
 .manufacturer_filter .floatleft{
 	position: relative;
-	width: 180px;
+	width: 200px;
 	min-height: 40px;
 	float: left;
 	top: 3px;
-
 	font-weight: bold;
 	border-right: 1px solid #EEEEEE;
 	margin: 0px;
@@ -71,7 +70,7 @@
 }
 .manufacturer_filter .floatleft .data{
 	position: absolute;
-	left: 54px;
+	left: 70px;
 	min-height: 40px;	
 	top: 0px;
 	font-weight: normal;
@@ -115,7 +114,8 @@
 	float: left;
 	top: 10px;
 	padding-left: 5px;
-	border-right: 1px solid #EEEEEE;	
+	border-right: 1px solid #EEEEEE;
+	margin-bottom: 4px;
 }
 .manufacturer_filter .lowerleft .data{
 	position: absolute;

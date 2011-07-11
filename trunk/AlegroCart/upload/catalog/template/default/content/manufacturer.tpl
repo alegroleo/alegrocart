@@ -67,9 +67,6 @@
 	   </table>
 	  <?php }?>		
 	 </div>
-	 <div class="entry">
-	  <input type="submit" value="Change Sort">
-	 </div>			
 	</div>
 	<div class="divider"></div>
 	<?php if($display_lock == False){ ?>
@@ -101,9 +98,15 @@
 	   </div>
 	  </div></td>
 	</tr></table>
+	<div class="divider"></div>
 	<?php } ?>
+	<div class="entry">
+	  <input type="submit" value="<?php echo $entry_submit;?>">
+	 </div>	
    </form>
-  </div>	
+   <div class="clearfix"></div>  
+  </div>
+  
  </div>
  <div class="contentBodyBottom">  </div>	
 <?php }?>

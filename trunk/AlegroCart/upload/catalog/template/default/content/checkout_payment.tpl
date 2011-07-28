@@ -48,8 +48,7 @@
       <textarea name="comment" cols="89" rows="8"><?php echo $comment; ?></textarea>
     </div>
 	<input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
-  </div></div>
-  <div class="contentBodyBottom"></div>
+  </div>
   <div class="buttons">
     <table>
       <tr>
@@ -59,3 +58,5 @@
     </table>
   </div>
 </form>
+</div>
+<div class="contentBodyBottom"></div>

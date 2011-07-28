@@ -1184,3 +1184,12 @@ ALTER TABLE `review` CHANGE `rating` `rating1` INT( 1 ) NOT NULL DEFAULT '1';
 ALTER TABLE `review` ADD `rating2` INT( 1 ) NOT NULL DEFAULT '1' AFTER `rating1` ,
 ADD `rating3` INT( 1 ) NOT NULL DEFAULT '1' AFTER `rating2` ,
 ADD `rating4` INT( 1 ) NOT NULL DEFAULT '1' AFTER `rating3` ;
+
+# Extension Australian Post
+SET @lid=1;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_australiapost';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'australiapost', 'shipping', 'shipping', 'australiapost.php', 'shipping_australiapost') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_australiapost';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Australia Post', 'Australia Post') ON DUPLICATE KEY UPDATE extension_id=extension_id;

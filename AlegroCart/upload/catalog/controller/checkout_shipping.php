@@ -44,7 +44,7 @@ class ControllerCheckoutShipping extends Controller {
     	if (!$this->cart->hasShipping()) {
 			$this->session->delete('shipping_address_id');
 			$this->session->delete('shipping_method');
-			
+			//$this->session->delete('quote_text');
 			$this->response->redirect($this->url->ssl('checkout_payment'));
     	}
 
@@ -60,19 +60,23 @@ class ControllerCheckoutShipping extends Controller {
 
 		$this->template->set('title', $this->language->get('heading_title')); 
 
-    	if ($this->request->isPost() && $this->request->has('shipping', 'post') && $this->validate()) {
+		if ($this->request->isPost() && $this->request->has('shipping', 'post') && $this->validate()) {
 			if(($this->session->get('account_validation') == $this->request->gethtml('account_validation', 'post')) && (strlen($this->session->get('account_validation')) > 10)){
 				$this->session->set('shipping_method', $this->request->gethtml('shipping', 'post'));
 				$this->session->set('comment', $this->request->sanitize('comment', 'post'));
 				$this->session->delete('message');
 				$this->session->delete('account_validation');
-				$this->response->redirect($this->url->ssl('checkout_payment'));
+				if (strlen($this->request->get($this->request->gethtml('shipping', 'post') . '_quote', 'post')) > 0){
+					if(!$this->request->has('form_required', 'post') || ($this->request->has('form_required', 'post') && $this->request->gethtml('form_required', 'post') == TRUE)){
+						$this->response->redirect($this->url->ssl('checkout_payment'));
+					}
+				}
 			} else {
 				$this->session->set('message',$this->language->get('error_referer'));
 				$this->session->delete('account_validation');
 				$this->response->redirect($this->url->ssl('checkout_shipping'));
-			}	
-    	}
+			}
+		}
 		
     	$view = $this->locator->create('template');
 
@@ -93,7 +97,7 @@ class ControllerCheckoutShipping extends Controller {
 			
      		foreach ($this->cart->getProducts() as $result) {
         		
-			if (!$result['shipping']) {   
+			if (!$result['shipping'] && !$result['download']) {   
 
 			$option_data = array();
 
@@ -148,6 +152,8 @@ class ControllerCheckoutShipping extends Controller {
     	$view->set('methods', $this->shipping->getQuotes());
 
     	$view->set('default', $this->session->get('shipping_method'));
+		
+		//$this->session->delete('quote_text');
 
     	$view->set('comment', $this->session->get('comment'));
 

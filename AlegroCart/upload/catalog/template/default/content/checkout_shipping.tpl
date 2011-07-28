@@ -1,5 +1,6 @@
 <?php 
   $head_def->setcss($this->style . "/css/checkout_shipping.css");
+  $head_def->set_javascript("ajax/jquery.js");
 ?>
 <div class="headingbody"><?php echo $heading_title; ?></div>
 <div class="contentBody">
@@ -59,42 +60,53 @@
       </table>
     </div>
     <?php if ($methods) { ?>
-    <div class="c"><?php echo $text_shipping_method; ?></div>
-    <div class="d"><?php echo $text_shipping_methods; ?>
-      <table>
+      <div class="c"><?php echo $text_shipping_method; ?></div>
+      <div class="d"><?php echo $text_shipping_methods; ?>
         <?php foreach ($methods as $method) { ?>
+		<?php if(isset($method['quote'][key($method['quote'])]['shipping_form']) && $method['quote'][key($method['quote'])]['id'] == $default){?>
+		<table style="border: 3px solid #0099FF; border-radius: 10px ; margin-bottom: 10px;">
+		<?php } else {?>
+		<table>
+		<?php }?>
         <tr>
           <td class="g" colspan="2"><b><?php echo $method['title']; ?></b></td>
         </tr>
-        <?php if (!$method['error']) { ?>
+      <?php if (!$method['error']) { ?>
         <?php foreach ($method['quote'] as $quote) { ?>
-        <tr>
-          <td class="g"><label for="<?php echo $quote['id']; ?>">
-            <?php if ($quote['id'] == $default) { ?>
-            <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>" CHECKED>
-            <?php } else { ?>
-            <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>">
-            <?php } ?>
-            <?php echo $quote['title']; ?></label></td>
-          <td class="i"><label for="<?php echo $quote['id']; ?>"><?php echo $quote['text']; ?></label></td>
-        </tr>
+		  <?php if(isset($quote['error']) && @$quote['error']){?>
+		    <tr>
+              <td colspan="2" class="g"><div class="warning"><?php echo $quote['error']; ?></div></td>
+            </tr>
+		  <?php } else {?>
+			<tr>
+              <td class="g"><label for="<?php echo $quote['id']; ?>">
+              <?php if ($quote['id'] == $default) { ?>
+                <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>" CHECKED>
+              <?php } else { ?>
+                <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>">
+              <?php } ?>
+              <?php echo $quote['title']; ?></label></td>
+              <td class="i"><label for="<?php echo $quote['id']; ?>"><?php echo $quote['text']; ?></label></td>
+		      <input type="hidden" name="<?php echo $quote['id']; ?>_quote" value="<?php echo $quote['text']; ?>">
+            </tr>
+		    <?php if(isset($quote['shipping_form']) && $quote['id'] == $default ){ echo $quote['shipping_form'];}?>
+		  <?php }?>
         <?php } ?>
-        <?php } else { ?>
-        <tr>
-          <td colspan="2" class="g"><div class="warning"><?php echo $method['error']; ?></div></td>
-        </tr>
+      <?php } else { ?>
+		  <tr>
+            <td colspan="2" class="g"><div class="warning"><?php echo $method['error']; ?></div></td>
+          </tr>
         <?php } ?>
+		</table>
         <?php } ?>
-      </table>
-    </div>
+      </div>
     <?php } ?>
     <div class="e"><?php echo $text_comments; ?></div>
     <div class="f">
       <textarea name="comment" cols="89" rows="8"><?php echo $comment; ?></textarea>
     </div>
 	<input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
-  </div></div>
-  <div class="contentBodyBottom"></div>
+  </div>
   <div class="buttons">
     <table>
       <tr>
@@ -104,3 +116,5 @@
     </table>
   </div>
 </form>
+</div>
+<div class="contentBodyBottom"></div>

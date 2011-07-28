@@ -16,13 +16,17 @@ class ShippingItem extends Shipping {
   	
   	function quote() {
 		if ($this->config->get('item_status')) {
-      		if (!$this->config->get('item_geo_zone_id')) {
-        		$status = true;
-			} elseif ($this->modelShipping->get_itemstatus()) {
-        		$status = true;
-      		} else {
-        		$status = false;
-      		}
+      		if(!isset($this->itemrate)){
+				if (!$this->config->get('item_geo_zone_id')) {
+					$status = true;
+				} elseif ($this->modelShipping->get_itemstatus()) {
+					$status = true;
+				} else {
+					$status = false;
+				}
+			} else {
+				$status = true;
+			}
 		} else {
 			$status = false;
 		}
@@ -34,13 +38,15 @@ class ShippingItem extends Shipping {
 			if($this->config->get('item_max') < $this->cart->getWeight() && $this->config->get('item_max') > 0){
 				$error_weight = $this->language->get('error_weight', $this->cart->formatWeight($this->config->get('item_max')));
 			}
+			if(!isset($this->itemrate)){
+				$this->itemrate = $this->config->get('item_cost') * $this->cart->countProducts();
+			}
 			$quote_data = array();
-			
       		$quote_data['item'] = array(
         		'id'    => 'item_item',
         		'title' => $this->language->get('text_item_description'),
-        		'cost'  => $this->config->get('item_cost') * $this->cart->countProducts(),
-        		'text'  => $this->currency->format($this->tax->calculate($this->config->get('item_cost') * $this->cart->countProducts(), $this->config->get('item_tax_class_id'), $this->config->get('config_tax')))
+        		'cost'  => $this->itemrate,
+        		'text'  => $this->currency->format($this->tax->calculate($this->itemrate, $this->config->get('item_tax_class_id'), $this->config->get('config_tax')))
       		);
 
       		$method_data = array(

@@ -16,13 +16,17 @@ class ShippingWarehouse extends Shipping {
   	
   	function quote() {
 		if ($this->config->get('warehouse_status')) {
-      		if (!$this->config->get('warehouse_geo_zone_id')) {
+      		if(!isset($this->ware_count)){
+			if (!$this->config->get('warehouse_geo_zone_id')) {
         		$status = true;
 			} elseif ($this->modelShipping->get_warehousestatus()) {
         		$status = true;
       		} else {
         		$status = false;
       		}
+			} else {
+				$status = true;
+			}
 		} else {
 			$status = false;
 		}
@@ -30,9 +34,8 @@ class ShippingWarehouse extends Shipping {
 		$method_data = array();
 	
 		if ($status) {
-		
-		$quote_data = array();
-			
+			$this->ware_count = TRUE;
+			$quote_data = array();
       		$quote_data['warehouse'] = array(
         		'id'    => 'warehouse_warehouse',
         		'title' => $this->language->get('text_warehouse_description'),

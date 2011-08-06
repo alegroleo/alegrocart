@@ -1193,3 +1193,14 @@ INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_australiapost';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Australia Post', 'Australia Post') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#Zone Plus Shipping
+SET @lid=1;
+SELECT @lid:=language_id FROM language WHERE `code` = 'en';
+
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_zoneplus';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'zoneplus', 'shipping', 'shipping', 'zoneplus.php', 'shipping_zoneplus') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_zoneplus';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Zone Plus', 'Zone Plus Shipping') ON DUPLICATE KEY UPDATE extension_id=extension_id;

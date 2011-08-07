@@ -1,23 +1,22 @@
 <?php //Admin Login AlegroCart
 class ControllerLogin extends Controller { 
 	var $error = array();
-	function initialize() {//$this->initialize();  Required in each function 
-		if(!isset($this->dataLink)){
-			$this->dataLink = TRUE;
-			$this->language =& $this->locator->get('language');
-			$this->module   =& $this->locator->get('module');
-			$this->request  =& $this->locator->get('request');
-			$this->response =& $this->locator->get('response');
-			$this->session  =& $this->locator->get('session');
-			$this->template =& $this->locator->get('template');
-			$this->url      =& $this->locator->get('url');
-			$this->user     =& $this->locator->get('user');
-		}
+	
+	function __construct(&$locator){
+		$this->locator 		=& $locator;
+		$this->language =& $locator->get('language');
+		$this->module   =& $locator->get('module');
+		$this->request  =& $locator->get('request');
+		$this->response =& $locator->get('response');
+		$this->session  =& $locator->get('session');
+		$this->template =& $locator->get('template');
+		$this->url      =& $locator->get('url');
+		$this->user     =& $locator->get('user');
+		
+		$this->language->load('controller/login.php');
 	}
+	
 	function index() {
-		$this->initialize(); // Required 
-
-    	$this->language->load('controller/login.php');
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->user->isLogged()) {
@@ -49,6 +48,7 @@ class ControllerLogin extends Controller {
     	$view->set('button_login', $this->language->get('button_login'));
 		
 		$view->set('error', @$this->error['message']);
+		$view->set('error_attempts', @$this->error_attempts);
 		$view->set('message', $this->session->get('message'));
  
 		$view->set('action', $this->url->requested($this->url->ssl('home')));
@@ -72,21 +72,23 @@ class ControllerLogin extends Controller {
   	}
 	
 	function validate() {
-		$this->initialize(); // Required 
-		
-		if(($this->session->get('validation') == $this->request->sanitize($this->session->get('cdx'),'post')) && (strlen($this->session->get('validation')) > 10)){
-			if (!$this->user->login($this->request->sanitize('username', 'post'), $this->request->sanitize('password', 'post'))) {
-				$this->error['message'] = $this->language->get('error_login');
-			}
-		} else {
-			$this->error['message'] = $this->language->get('error_referer');
-		}
 		if($this->session->get('attemps')>5){
 			if($this->session->get('attemps')>6){
 				$this->response->redirect(HTTP_CATALOG);
 			}
-			$this->error['message'] = 'Maximum Login Attempts';
+			$this->error_attempts = $this->language->get('error_attempts');
 		}
+		
+		if(($this->session->get('validation') == $this->request->sanitize($this->session->get('cdx'),'post')) && (strlen($this->session->get('validation')) > 10)){
+			if (!$this->user->login($this->request->sanitize('username', 'post'), $this->request->sanitize('password', 'post'))) {
+				$this->error['message'] = $this->language->get('error_login');
+			} else {
+				$this->session->delete('attemps');
+			}
+		} else {
+			$this->error['message'] = $this->language->get('error_referer');
+		}
+		
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
 		if (!$this->error) {
@@ -97,9 +99,7 @@ class ControllerLogin extends Controller {
 	}
 	
 	function isLogged() {
-		$user =& $this->locator->get('user');
-		
-		if (!$user->isLogged()) {
+		if (!$this->user->isLogged()) {
 			return $this->forward('login', 'index');
 		}
 	}

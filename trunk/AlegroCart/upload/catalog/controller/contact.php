@@ -11,6 +11,7 @@ class ControllerContact extends Controller {
 		$this->language 	=& $locator->get('language');
 		$this->mail         =& $locator->get('mail');
 		$this->mail_check   =& $locator->get('mail_check_mx');
+		$this->mask         =& $locator->get('mask');
 		$this->module   	=& $locator->get('module');
 		$this->response 	=& $locator->get('response');
 		$this->request 		=& $locator->get('request');
@@ -40,7 +41,7 @@ class ControllerContact extends Controller {
 
 	  		$this->response->redirect($this->url->ssl('contact', 'success'));
     	}
-
+		
     	$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);    // New Header
 
@@ -57,7 +58,7 @@ class ControllerContact extends Controller {
     	$view->set('error_name', @$this->error['name']);
     	$view->set('error_email', @$this->error['email']);
     	$view->set('error_enquiry', @$this->error['enquiry']);
-
+		
     	$view->set('button_continue', $this->language->get('button_continue'));
     
 		$view->set('action', $this->url->href('contact'));
@@ -75,6 +76,16 @@ class ControllerContact extends Controller {
     	$view->set('email', $this->request->sanitize('email', 'post'));
 
     	$view->set('enquiry', $this->request->sanitize('enquiry', 'post'));
+		
+	if (!$this->customer->isLogged() && $this->config->get('captcha_contactus')) {
+		$view->set('text_captcha', $this->language->get('text_captcha'));
+		$view->set('exp_captcha', $this->language->get('exp_captcha'));
+		$view->set('error_captcha', @$this->error['captcha']);
+		$view->set('captcha', $this->mask->captcha($this->config->get('captcha_length')));
+		$this->session->set('contact_mask', $this->mask->mask);
+		$this->session->set('contact_img_name', $this->mask->img_name);
+	}
+		
 		
 		$this->template->set('head_def',$this->head_def);    // New Header
 		$this->template->set('content', $view->fetch('content/contact.tpl'));
@@ -140,6 +151,13 @@ class ControllerContact extends Controller {
 	} 
     
   	function validate() {
+	if (!$this->customer->isLogged() && $this->config->get('captcha_contactus')) {
+		if (strtoupper($this->request->sanitize('captcha_value', 'post')) != $this->session->get('contact_mask')){
+			$this->error['captcha'] = $this->language->get('error_captcha');
+		}
+		$this->mask->delete_image($this->session->get('contact_img_name'));
+	}
+
 		if (!$this->validate->strlen($this->request->sanitize('name', 'post'),3,32)) {
       		$this->error['name'] = $this->language->get('error_name');
     	}

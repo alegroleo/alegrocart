@@ -61,6 +61,10 @@ class ControllerSetting extends Controller {
 		$view->set('text_dimension_decimal', $this->language->get('text_dimension_decimal'));
 		$view->set('text_store_logo', $this->language->get('text_store_logo'));
 		$view->set('text_footer_logo', $this->language->get('text_footer_logo'));
+		$view->set('text_captcha', $this->language->get('text_captcha'));
+		$view->set('text_captcha_contactus', $this->language->get('text_captcha_contactus'));
+		$view->set('text_captcha_reg', $this->language->get('text_captcha_reg'));
+		$view->set('text_captcha_length', $this->language->get('text_captcha_length'));
 		$view->set('text_product', $this->language->get('text_product'));
 		$view->set('text_category', $this->language->get('text_category'));
 		$view->set('text_search', $this->language->get('text_search'));
@@ -100,7 +104,10 @@ class ControllerSetting extends Controller {
 		$view->set('entry_logo_left', $this->language->get('entry_logo_left'));
 		$view->set('entry_logo_width', $this->language->get('entry_logo_width'));
 		$view->set('entry_logo_height', $this->language->get('entry_logo_height'));
-		
+		$view->set('entry_captcha_contactus', $this->language->get('entry_captcha_contactus'));
+		$view->set('entry_captcha_reg', $this->language->get('entry_captcha_reg'));
+		$view->set('entry_captcha_length', $this->language->get('entry_captcha_length'));
+
 		$view->set('entry_footer_logo', $this->language->get('entry_footer_logo'));
 		$view->set('entry_footer_logo_top', $this->language->get('entry_footer_logo_top'));
 		$view->set('entry_footer_logo_left', $this->language->get('entry_footer_logo_left'));
@@ -872,6 +879,22 @@ class ControllerSetting extends Controller {
 							'rss_specials' => $this->language->get('text_rss_specials'));
 		$view->set('rss_sources', $rss_sources);
 		
+		if ($this->request->has('catalog_captcha_contactus')) {
+			$view->set('catalog_captcha_contactus', $this->request->gethtml('catalog_captcha_contactus'));
+		} else {
+			$view->set('catalog_captcha_contactus', @$setting_info['catalog']['captcha_contactus']);
+		}
+		if ($this->request->has('catalog_captcha_reg')) {
+			$view->set('catalog_captcha_reg', $this->request->gethtml('catalog_captcha_reg'));
+		} else {
+			$view->set('catalog_captcha_reg', @$setting_info['catalog']['captcha_reg']);
+		}
+		if ($this->request->has('catalog_captcha_length')) {
+			$view->set('catalog_captcha_length', $this->request->gethtml('catalog_captcha_length'));
+		} else {
+			$view->set('catalog_captcha_length', @$setting_info['catalog']['captcha_length']);
+		}
+
 		if ($this->request->has('global_config_dimension_decimal')) {
 			$view->set('global_config_dimension_decimal', $this->request->gethtml('global_config_dimension_decimal'));
 		} else {

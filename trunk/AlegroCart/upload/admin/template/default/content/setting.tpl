@@ -705,8 +705,61 @@
 			  <td class="set"><?php echo $entry_footer_logo_height;?></td>
 			  <td><input type="text" name="catalog_footer_logo_height" value="<?php echo $catalog_footer_logo_height; ?>" size="6"></td>
 			</tr>
-		  
-		  </table>
+		  <tr><td colspan="2"><hr></td></tr>
+		</table>
+		<table>
+		  <tr><td  width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_captcha;?></p></td> <td width="130"></td>
+		  </tr>
+		  <tr>
+			<td class="set"><?php echo $entry_captcha_contactus; ?></td>
+			<td><?php if ($catalog_captcha_contactus) { ?>
+			<input type="radio" name="catalog_captcha_contactus" value="1" id="gcccyes" checked>
+			<label for="gcccyes"><?php echo $text_yes; ?></label>
+			<input type="radio" name="catalog_captcha_contactus" value="0" id="gcccno">
+			<label for="gcccno"><?php echo $text_no; ?></label>
+			<?php } else { ?>
+			<input type="radio" name="catalog_captcha_contactus" value="1" id="gcccyes">
+			<label for="gcccyes"><?php echo $text_yes; ?></label>
+			<input type="radio" name="catalog_captcha_contactus" value="0" id="gcccno" checked>
+			<label for="gcccno"><?php echo $text_no; ?></label>
+			<?php } ?>
+			</td>
+			<td class="expl">
+			    <?php echo $text_captcha_contactus; ?> 
+			</td>
+		  </tr>
+		  <tr>
+			<td class="set"><?php echo $entry_captcha_reg; ?></td>
+			<td><?php if ($catalog_captcha_reg) { ?>
+			<input type="radio" name="catalog_captcha_reg" value="1" id="gccryes" checked>
+			<label for="gccryes"><?php echo $text_yes; ?></label>
+			<input type="radio" name="catalog_captcha_reg" value="0" id="gccrno">
+			<label for="gccrno"><?php echo $text_no; ?></label>
+			<?php } else { ?>
+			<input type="radio" name="catalog_captcha_reg" value="1" id="gccryes">
+			<label for="gccryes"><?php echo $text_yes; ?></label>
+			<input type="radio" name="catalog_captcha_reg" value="0" id="gccrno" checked>
+			<label for="gccrno"><?php echo $text_no; ?></label>
+			<?php } ?>
+			</td>
+			<td class="expl">
+			    <?php echo $text_captcha_reg; ?> 
+			</td>
+		  </tr>
+		  <tr>
+			<td class="set"><?php echo $entry_captcha_length ?></td>
+			<td><select name="catalog_captcha_length">
+			      <option value="5"<?php if('5'==$catalog_captcha_length) { echo ' selected';}?>>5</option>
+			      <option value="6"<?php if('6'==$catalog_captcha_length) { echo ' selected';}?>>6</option>
+			      <option value="7"<?php if('7'==$catalog_captcha_length) { echo ' selected';}?>>7</option>
+			      <option value="8"<?php if('8'==$catalog_captcha_length) { echo ' selected';}?>>8</option>
+			  </select>
+			</td>
+			<td class="expl">
+			    <?php echo $text_captcha_length; ?> 
+			</td>
+		 </tr>
+	    </table>
         </div>
       </div>
       <div class="page">

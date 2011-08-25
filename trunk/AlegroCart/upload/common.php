@@ -26,6 +26,7 @@ define('PATH_STYLES','styles');
 define('PATH_INSTALL','install');
 define('D_S',DIRECTORY_SEPARATOR);
 define('PATH_COMMON','common');
+define('PATH_FONTS','fonts');
 
 // APP
 if (!defined('APP')) { define('APP','CATALOG'); }
@@ -48,6 +49,7 @@ if (!defined('DIR_TEMPLATE')) define('DIR_TEMPLATE', DIR_APP.PATH_TEMPLATE.D_S);
 if (!defined('DIR_CATALOG_STYLES')) define('DIR_CATALOG_STYLES', DIR_CATALOG.PATH_STYLES.D_S);    //New for Version 1.2
 if (!defined('DIR_CATALOG_TEMPLATE')) define('DIR_CATALOG_TEMPLATE', DIR_CATALOG.PATH_TEMPLATE.D_S);
 if (!defined('DIR_COMMON')) define('DIR_COMMON', DIR_BASE.PATH_LIBRARY.D_S.PATH_COMMON.D_S);
+if (!defined('DIR_FONTS')) define('DIR_FONTS', DIR_BASE.PATH_IMAGE.D_S.PATH_FONTS.D_S);
 
 // HTTP
 if (!defined('HTTP_CATALOG')) define('HTTP_CATALOG', HTTP_BASE);

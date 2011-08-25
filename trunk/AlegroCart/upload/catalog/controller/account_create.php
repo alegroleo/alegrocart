@@ -11,6 +11,7 @@ class ControllerAccountCreate extends Controller {
 		$this->language 	=& $locator->get('language');
 		$this->mail         =& $locator->get('mail');
 		$this->mail_check   =& $locator->get('mail_check_mx');
+		$this->mask         =& $locator->get('mask');
 		$this->module   	=& $locator->get('module');
 		$this->response 	=& $locator->get('response');
 		$this->request 		=& $locator->get('request');
@@ -177,6 +178,14 @@ class ControllerAccountCreate extends Controller {
 			$view->set('agree', $this->language->get('text_agree', $this->url->href('information', FALSE, array('information_id' => $this->config->get('config_account_id'))), $information_info['title']));
 		}
 		
+		if ($this->config->get('captcha_reg')) {
+		$view->set('text_captcha', $this->language->get('text_captcha'));
+		$view->set('exp_captcha', $this->language->get('exp_captcha'));
+		$view->set('error_captcha', @$this->error['captcha']);
+		$view->set('captcha', $this->mask->captcha($this->config->get('captcha_length')));
+		$this->session->set('contact_mask', $this->mask->mask);
+		$this->session->set('contact_img_name', $this->mask->img_name);
+		}
 		$view->set('head_def',$this->head_def);
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $view->fetch('content/account_create.tpl'));
@@ -221,6 +230,13 @@ class ControllerAccountCreate extends Controller {
 	}
 
   	function validate() {
+	if ($this->config->get('captcha_reg')) {
+		if (strtoupper($this->request->sanitize('captcha_value', 'post')) != $this->session->get('contact_mask')){
+			$this->error['captcha'] = $this->language->get('error_captcha');
+		}
+		$this->mask->delete_image($this->session->get('contact_img_name'));
+	}
+
 		if (!$this->validate->strlen($this->request->sanitize('firstname', 'post'),2,32)) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}

@@ -62,9 +62,29 @@
             <?php } ?></td>
         </tr>
       </table>
-    </div>
+ </div>
+ <?php if (@$captcha) { ?>
+	<div style="margin: 10px;">
+		  <img src="<?php echo $captcha;?>" title="<?php echo $text_captcha;?>" alt="<?php echo $text_captcha;?>"> 
+	  <table>
+		<tr>
+		  <td>
+		    <?php echo $exp_captcha;?>
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+		    <input size="20" type="text" name="captcha_value" value="">
+		    <?php if($error_captcha) {?>
+		    <span class="error"><?php echo $error_captcha; ?></span>
+		    <?php }?>
+		  </td>
+		</tr>
+	  </table>
+        </div>
+ <?php } ?>
   </div>
-  <div class="buttons">
+ <div class="buttons">
     <table>
       <tr>
         <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>

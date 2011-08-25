@@ -11,6 +11,8 @@ $_['text_your_password']   = 'Your Password';
 $_['text_no_postal']       = ' Enter 4 periods \' .... \' if not required';
 $_['text_agree']           = 'I agree to <a id="infolink" style="cursor: pointer;" href="%s"><b>%s</b></a>';
 $_['text_required']        = '<span class="required">*</span><b> Required to enable input</b>';
+$_['text_captcha']         = 'CAPTCHA';
+$_['exp_captcha']          = 'Enter the text above in the box below to validate this form.';
 
 // Entry
 $_['entry_firstname']      = 'First Name:';
@@ -44,4 +46,5 @@ $_['error_address_1']      = '* Address 1 must be greater than 3 and less than 6
 $_['error_city']           = '* City must be greater than 3 and less than 32 characters!';
 $_['error_telephone']      = '* Telephone must be greater than 7 and less than 32 characters!';
 $_['error_postcode']       = '* Postal Code must be greater than 4 and less than 10 characters!';
+$_['error_captcha'] 	   = '* Incorrect Text entered!';
 ?>

@@ -9,5 +9,5 @@ $_['text_name']       = 'Download Name:';
 $_['text_remaining']  = 'Remaining:';
 $_['text_size']       = 'Size:';
 $_['text_download']   = 'Download:';
-$_['text_error']      = 'You have not made any previous downloadable orders!';
+$_['text_error']      = 'Either you have not made any previous downloadable orders or the shop owner hasn\'t confirmed your payment yet!<br>In latter case you will be informed about your payment status by e-mail.';
 ?>

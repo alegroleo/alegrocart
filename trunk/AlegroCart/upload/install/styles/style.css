@@ -1,0 +1,154 @@
+html, body, form {
+	margin: 0;
+	padding: 0;
+}
+body, td, th {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 11px;
+	
+}
+select, textarea, input {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	border: 1px solid #999999;
+	background-color: #FFFFFF;
+}
+body{
+	background-color: #AFDDE5;
+}
+p,div {
+	padding: 2px 0;
+}
+h1 {
+	font-size: 28px;
+	text-align: center;
+	padding: 10px 0;
+}
+#container {
+	width: 800px;
+	margin: 0 auto;
+	padding: 10px;
+	height: 430px;
+	overflow-y: auto;
+}
+.logo {
+	position: absolute;
+	background:url('../image/aclogo.png') no-repeat;
+	height: 40px;
+	width: 210px;
+	float: left;
+}
+#header { 
+	padding: 10px;
+	margin: 0 auto;
+	height: 40px;
+	font-size: 20px;
+	background-color: #015666;
+	color: #FFFFFF;
+	text-align: center;
+	margin-bottom: 10px;
+}
+#header .language {
+	float: right;
+}
+#header .language form {
+	display: inline-block;
+}
+#content {
+	padding: 5px;
+	margin: 0px;
+}
+#content input {
+	padding: 5px;
+	border-radius: 7px;
+	width: 190px;
+}
+#content table {
+	padding: 25px;
+	background-color: #FFFFFF;
+	border: 5px solid #0099FF;
+	border-radius: 10px;
+	width: 64%;
+	margin-left: 18%;
+	margin-right: 18%;
+}
+#footer {
+	padding: 2px;
+	margin: 0 auto;
+	text-align: center;
+	background-color: #015666;
+	width: 700px;
+	border-radius: 10px;
+	margin-top: 10px;
+}
+#footer li {
+	display: inline;
+}
+#footer li a {
+	color: #FFFFFF;
+	font-weight: bold;
+	text-decoration: none;
+	margin: 0px 100px;
+}
+.required {
+	color: #FF1800;
+	margin-right: 5px;
+}
+.error {
+	color: #E78C83;
+	display: block;
+	clear: both;
+	line-height: 18px;
+}
+.warning {
+	background-color: #E78C83;
+	padding: 3px;
+	line-height: 16px;
+	margin: 6px;
+}
+.good {
+	color: #669900;
+	font-weight: bold;
+}
+
+.bad {
+	color: #E78C83;
+	font-weight: bold;	
+}
+.center {
+	text-align: center;
+	margin: 0 auto;
+	background-color: #EEEEEE;
+}
+.set{
+	color: #2D2D2D;
+	font-weight: bold;
+}
+.submit {
+	border: none;
+	background: #FFB000;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding: 5px;
+	border-radius: 5px;
+}
+.button {
+	border: none;
+	background: #FFB000;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding: 5px;
+	border-radius: 5px;
+}
+.a {
+	color: #015666;
+	font-weight: bold;
+}
+#buttons {
+	text-align: center;
+}
+.b {
+	color: #A61000;
+	font-weight: bold;
+}

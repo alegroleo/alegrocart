@@ -4,8 +4,8 @@ if (!$step) { header('Location: .'); die(); }
 
 if (filesize('../config.php') == 0) { //install is already done...
 
-if (empty($_POST['username'])) { $errors[] = 'Admin username is required'; }
-if (empty($_POST['password'])) { $errors[] = 'Admin password is required'; }
+if (empty($_POST['username'])) { $errors[] = $language->get('error_admin_uname'); }
+if (empty($_POST['password'])) { $errors[] = $language->get('error_admin_passw'); }
 
 if (!$errors) {
 		//replace existing config with new one
@@ -26,12 +26,12 @@ if (!$errors) {
 			}
 
 			if (fwrite($handle, $str)) {
-				echo "<p class=\"a\">'$file' was updated successfully.</p>\n";
+				echo "<p class=\"a\">".$language->get('success',$file)."</p>\n";
 				fclose($handle);
 			}
-			else { $errors[]="Could not write to '$file' file."; }
+			else { $errors[]=$language->get('error_write',$file); }
 		} 
-		else { $errors[]="<b>Could not open '$file' file for writing."; }
+		else { $errors[]="<b>$language->get('error_open',$file)"; }
 		unset($str);
 
 		//change .htaccess if necessary
@@ -74,13 +74,13 @@ if (!$errors) {
 			$content .= '# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]'."\n";
 
 		if (fwrite($handle2, $content)) {
-			echo "<p class=\"a\">'$file2' was updated successfully.</p>\n";
+			echo "<p class=\"a\">".$language->get('success',$file2)."</p>\n";
 			fclose($handle2);
 		} else { 
-			$errors[]="Could not write to '$file2' file."; 
+			$errors[]=$language->get('error_write',$file2); 
 		}
 		} else { 
-			$errors[]="<b>Could not open '$file2' file for writing."; 
+			$errors[]="<b>$language->get('error_open',$file2)"; 
 		}
 		unset($content);
 }
@@ -88,11 +88,11 @@ if (!$errors) {
 
 if (!$errors) {
 	if (!$link = @mysql_connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass'])) {
-		$errors[] = 'Could not connect to the database server using the username and password provided.';
+		$errors[] = $language->get('error_dbconnect');
 	}
 	else {
 		if (!@mysql_select_db($_POST['db_name'], $link)) {
-			$errors[] = 'The database could selected, check you have permissions, and check it exists on the server.';
+			$errors[] = $language->get('error_dbperm');
 		}			
 	}
 }
@@ -116,19 +116,18 @@ $file2 = DIR_BASE.'.htaccess';
 @chmod($file2, 0644);
 ?>
 
-<div id="header">Finished!</div>
 <div id="content">
-  <div class="warning">You MUST delete this install directory!</div><br>
+  <div class="warning"><?php echo $language->get('del_inst')?></div>
   <?php if(is_writable($file)) { ?>
-	<div class="warning">Make 'config.php' unwritable (chmod go-w or chmod 644).</div><br>
-        <div class="warning">Make '.htaccess' unwritable (chmod go-w 644).</div><br>
+	<div class="warning"><?php echo $language->get('config')?></div>
+        <div class="warning"><?php echo $language->get('htaccess')?></div>
  <?php }?>
-  <p class="a">Congratulations! You have successfully installed <a href="http://www.alegrocart.com/">AlegroCart</a>.</p>
+  <p class="a"><?php echo $language->get('congrat')?></p>
 </div>
-<div id="footer">
+<div id="buttons">
 <form>
-		  <input type="button" value="Online Shop" class="button" onclick="location='<?php echo HTTP_CATALOG; ?>';">
-		  <input type="button" value="Administration" class="button" onclick="location='<?php echo HTTP_ADMIN; ?>';">
+	<input type="button" value="<?php echo $language->get('shop')?>" class="button" onclick="location='<?php echo HTTP_CATALOG; ?>';">
+	<input type="button" value="<?php echo $language->get('admin')?>" class="button" onclick="location='<?php echo HTTP_ADMIN; ?>';">
 </form>
 </div>
 <?php } ?>

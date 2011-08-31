@@ -24,7 +24,12 @@ function mysql_import_file($file,$link=false) {
 						$matches[2] = str_replace(';','',$matches[2]);
 						if (mysql_num_rows(@mysql_query(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])), $link)) == NULL){
 							$query = '';
-							
+						}
+					}
+					if(preg_match('/^ALTER TABLE (.+?) CHANGE (.+?) /',$query,$matches)){
+						$matches[2] = str_replace(';','',$matches[2]);
+						if (mysql_num_rows(@mysql_query(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])), $link)) == NULL){
+							$query = '';
 						}
 					}
 					if((strlen($query) > 3) && (preg_match('/;\s*$/', $line))){

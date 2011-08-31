@@ -2,24 +2,24 @@
 if (!$step) { header('Location: .'); die(); }
 ?>
 
-<div id="header">Step 1 - Database</div>
 <div id="content">
 <?php 
 	if (!empty($errors)) { ?>
-		<p>The following errors occured:</p>
+		<p class="b"><?php echo $language->get('error')?></p>
 		<?php foreach ($errors as $error) { ?>
-			<div class="warning"><?php echo $error;?></div><br>
+			<div class="warning"><?php echo $error;?></div>
 		<?php } ?>
-		<p>Please fix the above error(s), install halted!</p>
+		<p class="b"><?php echo $language->get('error_fix')?></p>
 <?php } ?>
-<p><strong>THIS IS FOR FRESH INSTALLS ONLY! YOUR DATABASE WILL BE REMOVED.</strong></p>
+<p><strong><?php echo $language->get('fresh')?></strong></p>
 <form method="post" enctype="multipart/form-data">
-	<input type="hidden" name="step" value="2">
-    <p class="a">Please enter your database connection details.</p>
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="language" value="<?php echo $_POST['language']; ?>">
+    <p class="a"><?php echo $language->get('database_details')?></p>
     <table>
       <tr>
-        <td width="185" class="set">Database Host:</td>
-        <td><?php if (isset($_POST['db_host'])) { ?>
+        <td width="185" class="set"><?php echo $language->get('dbhost')?></td>
+        <td width="220"><?php if (isset($_POST['db_host'])) { ?>
           <input type="text" name="db_host" value="<?php echo $_POST['db_host']; ?>">
           <?php } elseif (isset($_SESSION['db_host'])) { ?>
           <input type="text" name="db_host" value="<?php echo $_SESSION['db_host']; ?>">
@@ -30,27 +30,27 @@ if (!$step) { header('Location: .'); die(); }
 		 </td>
       </tr>
       <tr>
-        <td class="set">Database Username:</td>
-        <td><input type="text" name="db_user" value="<?php echo (isset($_POST['db_user']) ? $_POST['db_user'] : @$_SESSION['db_user']); ?>">
+        <td class="set"><?php echo $language->get('dbuser')?></td>
+        <td width="220"><input type="text" name="db_user" value="<?php echo (isset($_POST['db_user']) ? $_POST['db_user'] : @$_SESSION['db_user']); ?>">
           <span class="required">*</span>
 		</td>
       </tr>
       <tr>
-        <td class="set">Database Password:</td>
-        <td><input type="text" name="db_pass" value="<?php echo (isset($_POST['db_pass']) ? $_POST['db_pass'] : @$_SESSION['db_pass']); ?>">
+        <td class="set"><?php echo $language->get('dbpassw')?></td>
+        <td width="220"><input type="text" name="db_pass" value="<?php echo (isset($_POST['db_pass']) ? $_POST['db_pass'] : @$_SESSION['db_pass']); ?>">
           <?php if (isset($errors['db_pass'])) { ?>
           <span class="required"><?php echo $errors['db_pass']; ?></span>
           <?php } ?></td>
       </tr>
       <tr>
-        <td class="set">Database Name:</td>
-        <td><input type="text" name="db_name" value="<?php echo (isset($_POST['db_name']) ? $_POST['db_name'] : @$_SESSION['db_name']); ?>">
+        <td class="set"><?php echo $language->get('dbname')?></td>
+        <td width="220"><input type="text" name="db_name" value="<?php echo (isset($_POST['db_name']) ? $_POST['db_name'] : @$_SESSION['db_name']); ?>">
           <span class="required">*</span>
 		</td>
       </tr>
     </table>
   </div>
-  <div id="footer">
-    <input type="submit" value="Continue" class="submit">
+  <div id="buttons">
+    <input type="submit" value="<?php echo $language->get('continue')?>" class="submit">
   </div>
 </form>

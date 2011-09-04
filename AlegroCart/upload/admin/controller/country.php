@@ -106,21 +106,21 @@ class ControllerCountry extends Controller {
 		$cols[] = array(
 			'name'  => $this->language->get('column_country_status'),
 			'sort'  => 'country_status',
-			'align' => 'left'
+			'align' => 'center'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_iso_code_2'),
 			'sort'  => 'iso_code_2',
-			'align' => 'left'
+			'align' => 'right'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_iso_code_3'),
 			'sort'  => 'iso_code_3',
-			'align' => 'left'
+			'align' => 'right'
 		);
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 
 		$results = $this->modelCountry->get_page();
@@ -134,15 +134,15 @@ class ControllerCountry extends Controller {
 			);
 			$cell[] = array(
         		'icon'  => ($result['country_status'] ? 'enabled.png' : 'disabled.png'),
-        		'align' => 'left'
+        		'align' => 'center'
       		);
 			$cell[] = array(
 				'value' => $result['iso_code_2'],
-				'align' => 'left'
+				'align' => 'right'
 			);
 			$cell[] = array(
 				'value' => $result['iso_code_3'],
-				'align' => 'left'
+				'align' => 'right'
 			);
 			$action = array();
 			$action[] = array(
@@ -161,7 +161,7 @@ class ControllerCountry extends Controller {
 			
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			$rows[] = array('cell' => $cell);
 		}
@@ -185,7 +185,8 @@ class ControllerCountry extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
  		$view->set('button_refresh', $this->language->get('button_enable_disable'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete')); // In English.php
-		
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
@@ -233,6 +234,7 @@ class ControllerCountry extends Controller {
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 

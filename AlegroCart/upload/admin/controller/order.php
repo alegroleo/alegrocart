@@ -61,12 +61,7 @@ class ControllerOrder extends Controller {
     	$this->response->set($this->template->fetch('layout.tpl'));
   	}
 
-	function print_document() {
-		$this->template->set('title', $this->language->get('heading_title'));
-		$this->template->set('content', $this->getForm());
-		$this->response->set($this->template->fetch('layout.tpl'));
-	}
-  	function delete() {
+	function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
     	if (($this->request->gethtml('order_id')) && ($this->validateDelete())) {
@@ -121,7 +116,7 @@ class ControllerOrder extends Controller {
     	);
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 		
 		$results = $this->modelOrder->get_page();
@@ -163,11 +158,6 @@ class ControllerOrder extends Controller {
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('order', 'update', array('order_id' => $result['order_id']))
       		);
-			$action[] = array(
-				'icon'  => 'print.png',
-				'text'  =>  $this->language->get('button_print'),
-				'href'  =>  $this->url->ssl('order', 'print_document', array('order_id' =>  $result['order_id'], 'order_print' => TRUE))
-			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -177,7 +167,7 @@ class ControllerOrder extends Controller {
 			}
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);	
       		$rows[] = array('cell' => $cell);
     	}
@@ -199,6 +189,7 @@ class ControllerOrder extends Controller {
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+	$view->set('button_print', $this->language->get('button_print'));
 
     	$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
@@ -281,6 +272,7 @@ class ControllerOrder extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
+	$view->set('button_print', $this->language->get('button_print'));
 
     	$view->set('tab_general', $this->language->get('tab_general'));
 	
@@ -290,9 +282,7 @@ class ControllerOrder extends Controller {
       
     	$view->set('list', $this->url->ssl('order'));
 		$view->set('cancel', $this->url->ssl('order'));
-		$view->set('order_print', $this->request->gethtml('order_print'));
-    	$view->set('continue', $this->url->ssl('order'));
-		
+				
 		if ($this->request->gethtml('order_id')) {	    
       		$view->set('update', 'update');
 	  		$view->set('delete', $this->url->ssl('order', 'delete', array('order_id' => $this->request->gethtml('order_id'),'order_validation' => $this->session->get('order_validation'))));

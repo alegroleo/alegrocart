@@ -58,8 +58,6 @@ $_['column_filename']       = 'Filename';
 $_['column_remaining']      = 'Remaining';
 $_['column_action']         = 'Action';
 
-//Button
-$_['button_print']          = 'Print';
 // Entry 
 $_['entry_status']          = 'Status:';
 $_['entry_comment']         = 'Comments:';

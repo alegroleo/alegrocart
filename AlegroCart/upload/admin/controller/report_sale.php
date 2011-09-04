@@ -131,6 +131,14 @@ class ControllerReportSale extends Controller {
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
+		$view->set('button_list', $this->language->get('button_list'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('text_results', $this->modelReportSale->get_text_results());
 
 		$view->set('entry_status', $this->language->get('entry_status'));

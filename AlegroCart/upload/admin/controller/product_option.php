@@ -112,7 +112,7 @@ class ControllerProductOption extends Controller {
 		);
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 		$results = $this->modelOption->get_page();
 
@@ -120,7 +120,7 @@ class ControllerProductOption extends Controller {
 		foreach ($results as $result) {
 			$cell = array();
 			$cell[] = array(
-				'value' => $result['option'],
+				'value' => $result['center'],
 				'align' => 'left'
 			);
 			$cell[] = array(
@@ -169,7 +169,7 @@ class ControllerProductOption extends Controller {
 			
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			$rows[] = array('cell' => $cell);
 		}
@@ -191,6 +191,7 @@ class ControllerProductOption extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('error', @$this->error['message']);
 
@@ -240,6 +241,7 @@ class ControllerProductOption extends Controller {
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 

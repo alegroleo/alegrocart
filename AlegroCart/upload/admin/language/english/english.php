@@ -48,6 +48,7 @@ $_['button_insert']     = 'Insert';
 $_['button_update']     = 'Update';
 $_['button_delete']     = 'Delete';
 $_['button_save']       = 'Save';
+$_['button_print']      = 'Print';
 $_['button_cancel']     = 'Cancel';
 $_['button_install']    = 'Install';
 $_['button_uninstall']  = 'Uninstall';

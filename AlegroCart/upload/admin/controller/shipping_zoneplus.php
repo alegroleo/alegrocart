@@ -58,6 +58,7 @@ class ControllerShippingZonePlus extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
+		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('tab_module', $this->language->get('tab_module'));
 		$view->set('tab_data', $this->language->get('tab_data'));

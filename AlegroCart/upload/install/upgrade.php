@@ -21,7 +21,7 @@ if ($language->error) {
 $errors[]=$language->error;
 }
 
-$language->load($_POST['language']);
+$language->load(isset($_POST['language']) ? $_POST['language'] : 'english');
 $languages=$language->langs;
 
 $files=array('config.php');  //,'admin'.DIRECTORY_SEPARATOR.'config.php'  Not Required

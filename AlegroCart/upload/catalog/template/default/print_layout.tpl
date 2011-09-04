@@ -49,14 +49,14 @@
 <noscript><div class="noscript"><?php echo $noscript; ?></div></noscript>
 <div id="container">
   <div id="header">
-	<?php if(isset($store_logo)){?>
-	  <div class="a"><img src="<?php echo $store_logo;?>"></div>
-	<?php }?>
-	<div class="b"><?php echo $config_owner . '<br>' . $config_address;?></div>
-	<div style="padding-left: 50px; margin-bottom: 10px;"><a href="<?php echo $continue;?>"><img class="back_button" src="catalog/styles/<?php echo $this->style;?>/image/button_back.png" alt="back" title="back"></a>
+	  <div class="c"><a href="<?php echo $continue;?>"><img class="back_button" src="catalog/styles/<?php echo $this->style;?>/image/button_back.png" alt="back" title="back"></a>
 	  <img class="print_button" id="printMe" src="catalog/styles/<?php echo $this->style;?>/image/print32.png" alt="print" title="print">
-    </div>
-	<div class="clearfix"></div>
+	  </div>	
+	  <div class="b"><?php echo $config_owner . '<br>' . $config_address;?></div>
+	  <?php if(isset($store_logo)){?>
+	  <div class="a"><img src="<?php echo $store_logo;?>"></div>
+	  <?php }?>	  
+	  <div class="clearfix"></div>
   </div>
 
   <div id="content">

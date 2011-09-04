@@ -67,7 +67,8 @@ class ControllerProductsWithOptions extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
-		
+	$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('error', @$this->error['message']);
 		
 		$view->set('productwo_id', $this->session->get('productwo_id'));
@@ -105,7 +106,7 @@ class ControllerProductsWithOptions extends Controller {
 		);
 		$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 		
 		$results = $this->modelProductOptions->get_page();
@@ -143,7 +144,7 @@ class ControllerProductsWithOptions extends Controller {
 			
 			$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			$rows[] = array('cell' => $cell);
 		}
@@ -165,7 +166,8 @@ class ControllerProductsWithOptions extends Controller {
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_refresh', $this->language->get('button_refresh'));
-		
+	$view->set('button_print', $this->language->get('button_print'));
+	
 		$view->set('error', @$this->error['message']);
  		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
@@ -206,7 +208,8 @@ class ControllerProductsWithOptions extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
-		
+	$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('error', @$this->error['message']);
 		
 		$view->set('action', $this->url->ssl('products_with_options', $this->request->gethtml('action'), array('product_option' => $this->request->gethtml('product_option'))));

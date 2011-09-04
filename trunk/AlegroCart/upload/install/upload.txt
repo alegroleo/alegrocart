@@ -113,7 +113,6 @@
 ./admin/template/default/image/delete_disabled.png
 ./admin/template/default/image/login.png
 ./admin/template/default/image/order.png
-./admin/template/default/image/button_back.png
 ./admin/template/default/image/folderO.png
 ./admin/template/default/image/review.png
 ./admin/template/default/image/update_enabled.png
@@ -121,10 +120,11 @@
 ./admin/template/default/image/cancel_enabled.png
 ./admin/template/default/image/edit.png
 ./admin/template/default/image/enabled.png
-./admin/template/default/image/folder2.png
 ./admin/template/default/image/asc.png
 ./admin/template/default/image/cancel_disabled.png
 ./admin/template/default/image/index.php
+./admin/template/default/image/print_enabled.png
+./admin/template/default/image/print_disabled.png
 ./admin/template/default/image/language/ye.png
 ./admin/template/default/image/language/ua.png
 ./admin/template/default/image/language/gd.png
@@ -381,7 +381,6 @@
 ./admin/template/default/image/catalog.png
 ./admin/template/default/image/configure.png
 ./admin/template/default/image/update.png
-./admin/template/default/image/print32.png
 ./admin/template/default/image/currency.png
 ./admin/template/default/image/folder.png
 ./admin/template/default/image/optionwhite.png
@@ -395,7 +394,6 @@
 ./admin/template/default/image/customer.png
 ./admin/template/default/image/product.png
 ./admin/template/default/image/insert_disabled.png
-./admin/template/default/image/duplicate.png
 ./admin/template/default/image/enable_update.png
 ./admin/template/default/image/shippable.png
 ./admin/template/default/image/install.png
@@ -406,7 +404,6 @@
 ./admin/template/default/image/save_enabled.png
 ./admin/template/default/image/online.png
 ./admin/template/default/image/downloadable.png
-./admin/template/default/image/print.png
 ./admin/template/default/module/footer.tpl
 ./admin/template/default/module/header.tpl
 ./admin/template/default/module/index.php
@@ -1189,7 +1186,6 @@
 ./install/language/french.php
 ./install/language/hungarian.php
 ./install/language/spanish.php
-./install/style.css
 ./install/upgrade.sql
 ./install/image/spanish.png
 ./install/image/aclogo.png

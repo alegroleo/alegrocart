@@ -43,7 +43,8 @@ class ControllerModuleExtraImageDisplay extends Controller {
 		$view->set('button_home', $this->language->get('button_home'));
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('tab_module', $this->language->get('tab_module'));
-		
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('module_extra_imagedisplay'));
 		$view->set('action_home', $this->url->ssl('image_display'));

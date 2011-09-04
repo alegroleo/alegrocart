@@ -138,7 +138,7 @@ class ControllerNewsletter extends Controller {
 
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 
 		
@@ -176,7 +176,7 @@ class ControllerNewsletter extends Controller {
 
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			
 			$rows[] = array('cell' => $cell);
@@ -199,6 +199,7 @@ class ControllerNewsletter extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
@@ -242,7 +243,8 @@ class ControllerNewsletter extends Controller {
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
-		
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('error', @$this->error['message']);
 		$view->set('error_subject', @$this->error['subject']);
 		$view->set('error_content', @$this->error['content']);

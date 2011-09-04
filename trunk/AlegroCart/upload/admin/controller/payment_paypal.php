@@ -62,6 +62,7 @@ class ControllerPaymentPayPal extends Controller {
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
 
         $view->set('text_authorization', $this->language->get('text_authorization'));
         $view->set('text_sale', $this->language->get('text_sale'));

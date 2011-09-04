@@ -88,12 +88,12 @@ class ControllerUser extends Controller {
     	$cols[] = array(
       		'name'  => $this->language->get('column_date_added'),
       		'sort'  => 'date_added',
-      		'align' => 'left'
+      		'align' => 'right'
     	);
 
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 		
     	if (!$this->session->get('user.search')) {
@@ -126,7 +126,7 @@ class ControllerUser extends Controller {
 
       		$cell[] = array(
         		'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
-        		'align' => 'left'
+        		'align' => 'right'
       		);
 			
 			$action = array();
@@ -147,7 +147,7 @@ class ControllerUser extends Controller {
 
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			
       		$rows[] = array('cell' => $cell);
@@ -169,6 +169,8 @@ class ControllerUser extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
+	$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 
     	$view->set('error', @$this->error['message']);
@@ -212,6 +214,7 @@ class ControllerUser extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
+	$view->set('button_print', $this->language->get('button_print'));
 
     	$view->set('tab_general', $this->language->get('tab_general'));
     

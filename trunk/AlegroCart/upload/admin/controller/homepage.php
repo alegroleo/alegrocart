@@ -98,7 +98,7 @@ class ControllerHomepage extends Controller {
         );
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 		
 		$results = $this->modelAdminHomepage->get_page();
@@ -139,7 +139,7 @@ class ControllerHomepage extends Controller {
 			}
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			$rows[] = array('cell' => $cell);
 		}
@@ -159,6 +159,7 @@ class ControllerHomepage extends Controller {
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_print', $this->language->get('button_print'));
 
     	$view->set('error', @$this->error['message']);
  		$view->set('message', $this->session->get('message'));
@@ -219,7 +220,8 @@ class ControllerHomepage extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
-		
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('tab_name', $this->language->get('tab_name'));
 		$view->set('tab_description', $this->language->get('tab_description'));
 		$view->set('tab_meta', $this->language->get('tab_meta'));

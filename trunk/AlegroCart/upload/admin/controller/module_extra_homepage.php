@@ -44,7 +44,8 @@ class ControllerModuleExtraHomepage extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_home', $this->language->get('button_home'));
-		
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('tab_module', $this->language->get('tab_module'));
 		$view->set('tab_homepage', $this->language->get('tab_homepage'));

@@ -201,7 +201,7 @@ class ControllerProduct extends Controller {
 		$cols[] = array(
 			'name'  => $this->language->get('column_options'),
 			'folder_help' => $this->language->get('text_folder_help'),
-			'align' => 'left'
+			'align' => 'center'
 		);
     	$cols[] = array(
       		'name'  => $this->language->get('column_name'),
@@ -255,7 +255,7 @@ class ControllerProduct extends Controller {
     	);
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 
 		$decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
@@ -331,7 +331,7 @@ class ControllerProduct extends Controller {
 			
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			$rows[] = array('cell' => $cell);
     	}
@@ -353,6 +353,7 @@ class ControllerProduct extends Controller {
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete')); // In English.php
+	$view->set('button_print', $this->language->get('button_print'));
 
     	$view->set('error', @$this->error['message']);
  
@@ -453,7 +454,8 @@ class ControllerProduct extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
-		
+	$view->set('button_print', $this->language->get('button_print'));
+	
     	$view->set('tab_general', $this->language->get('tab_general'));
     	$view->set('tab_data', $this->language->get('tab_data'));
 		$view->set('tab_discount', $this->language->get('tab_discount'));

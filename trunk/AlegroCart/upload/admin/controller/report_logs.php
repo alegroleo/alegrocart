@@ -23,6 +23,15 @@ class ControllerReportLogs extends Controller {
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
+
+		$view->set('button_list', $this->language->get('button_list'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('text_yes', $this->language->get('text_yes'));
 		$view->set('text_no', $this->language->get('text_no'));
 		$view->set('text_dycrypt_exp', $this->language->get('text_dycrypt_exp'));
@@ -53,13 +62,10 @@ class ControllerReportLogs extends Controller {
 		}
 		
 		$view->set('log_file', $this->get_file());
-		$log_print = $this->request->gethtml('log_print', 'post');
-		$view->set('log_print', $log_print);
-		
+				
 		$this->template->set('content', $view->fetch('content/report_logs.tpl'));
-		if(!$log_print){
-			$this->template->set($this->module->fetch());
-		}
+		$this->template->set($this->module->fetch());
+		
 		
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}

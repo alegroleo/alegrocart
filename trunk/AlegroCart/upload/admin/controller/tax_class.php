@@ -83,7 +83,7 @@ class ControllerTaxClass extends Controller {
 		$cols[] = array(
 			'name'  => $this->language->get('column_tax'),
 			'folder_help' => $this->language->get('text_folder_help'),
-			'align' => 'left'
+			'align' => 'center'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_title'),
@@ -92,7 +92,7 @@ class ControllerTaxClass extends Controller {
 		);
 		$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
 		);
 		
 		$results = $this->modelTaxClass->get_page();
@@ -125,7 +125,7 @@ class ControllerTaxClass extends Controller {
 			
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			$rows[] = array('cell' => $cell);
 		}
@@ -146,7 +146,8 @@ class ControllerTaxClass extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
- 
+ 		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('error', @$this->error['message']);
 
 		$view->set('message', $this->session->get('message'));
@@ -186,6 +187,7 @@ class ControllerTaxClass extends Controller {
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 

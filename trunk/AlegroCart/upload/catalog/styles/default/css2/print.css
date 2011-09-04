@@ -44,28 +44,34 @@ a:hover {
 	position: relative;
 	margin: 0 auto;
 	padding-left: 1px;
-	border: 1px solid #48C4DB;
+	border: 1px solid #EEEEEE;
 }
 #header {
-	min-height: 70px;
+	min-height: 80px;
 	clear: both;
 	width: 100%;
 	margin-bottom: 10px;
 }
 #header .a {
 	position: relative;
-	width: 500px;
+	margin-right: 20px;
 	top: 5px;
-	left: 20px;
+	float: right;
 }
 #header .b{
-	position: absolute;
-	top: 2px;
+	position: relative;
 	text-align: left;
-	left: 510px;
+	margin-left: 20px;
 	font-weight: bold;
+	margin-top: 10px;
+	font-size: 14px;
+	float: left;
 }
-
+#header .c{
+	padding-left: 50px; 
+	margin-bottom: 10px;
+	height: 40px;
+}
 #content {
 	position:relative;
 	left: 0px;
@@ -406,16 +412,18 @@ a:hover {
 	visibility: hidden;
 	clear: both;
 }
-
 .back_button{
 	position: absolute;
-	right: 100px; 
-	top: 10px;
+	left: 25px; 
+	top: 13px;
 	width: 32px;
 }
 .print_button{
 	position: absolute;
-	right: 50px;
+	right: 25px;
 	top: 13px;
 	width: 32px;
+}
+@media print {
+	#header .c {display: none;}
 }

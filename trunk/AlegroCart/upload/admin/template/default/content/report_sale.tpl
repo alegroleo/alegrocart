@@ -1,3 +1,12 @@
+<div class="task">
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/list_disabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+</div>
 <div class="heading"><?php echo $heading_title; ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="list">
@@ -9,7 +18,7 @@
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
     <table class="a">
       <tr>
-        <td class="left"><input type="submit" class="submit" value="<?php echo $button_search; ?>"></td>
+        <td class="left" id="search"><input type="submit" class="submit" value="<?php echo $button_search; ?>"></td>
         <td class="left"><?php echo $entry_group; ?>
           <select name="group">
             <?php foreach ($groups as $groups) { ?>

@@ -92,16 +92,16 @@ class ControllerZone extends Controller {
 		$cols[] = array(
 			'name'  => $this->language->get('column_code'),
 			'sort'  => 'z.code',
-			'align' => 'left'
+			'align' => 'center'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_zone_status'),
 			'sort'  => 'zone_status',
-			'align' => 'left'
+			'align' => 'right'
 		);		
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 		
 		$results = $this->modelZone->get_page();
@@ -119,11 +119,11 @@ class ControllerZone extends Controller {
 			);
 			$cell[] = array(
 				'value' => $result['code'],
-				'align' => 'left'
+				'align' => 'center'
 			);
 			$cell[] = array(
         		'icon'  => ($result['zone_status'] ? 'enabled.png' : 'disabled.png'),
-        		'align' => 'left'
+        		'align' => 'right'
       		);			
 			$action = array();
 			$action[] = array(
@@ -142,7 +142,7 @@ class ControllerZone extends Controller {
 			
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			$rows[] = array('cell' => $cell);
 		}
@@ -165,6 +165,7 @@ class ControllerZone extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('error', @$this->error['message']);
 
@@ -209,6 +210,7 @@ class ControllerZone extends Controller {
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('error_name', @$this->error['name']);

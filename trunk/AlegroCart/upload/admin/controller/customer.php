@@ -92,21 +92,21 @@ class ControllerCustomer extends Controller {
       		'align' => 'left'
     	);
 
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_status'),
-      		'sort'  => 'status',
-      		'align' => 'center'
-    	);
-    	
-		$cols[] = array(
+	$cols[] = array(
       		'name'  => $this->language->get('column_date_added'),
       		'sort'  => 'date_added',
       		'align' => 'left'
     	);
 
     	$cols[] = array(
+      		'name'  => $this->language->get('column_status'),
+      		'sort'  => 'status',
+      		'align' => 'center'
+    	);
+    	
+    	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 
 		$results = $this->modelCustomer->get_page();
@@ -123,12 +123,12 @@ class ControllerCustomer extends Controller {
         		'align' => 'left'
       		);
       		$cell[] = array(
-        		'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-        		'align' => 'center'
-      		);
-			$cell[] = array(
         		'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
         		'align' => 'left'
+      		);
+		$cell[] = array(
+        		'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+        		'align' => 'center'
       		);
 
 			$action = array();
@@ -147,7 +147,7 @@ class ControllerCustomer extends Controller {
 
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 
       		$rows[] = array('cell' => $cell);
@@ -170,7 +170,8 @@ class ControllerCustomer extends Controller {
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
- 
+	$view->set('button_print', $this->language->get('button_print'));
+
     	$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
@@ -227,7 +228,8 @@ class ControllerCustomer extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
-	
+	$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('tab_customer', $this->language->get('tab_customer'));
 		$view->set('tab_address', $this->language->get('tab_address'));
 	  

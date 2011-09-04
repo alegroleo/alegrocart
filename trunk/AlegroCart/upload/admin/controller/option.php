@@ -84,7 +84,7 @@ class ControllerOption extends Controller {
 	$cols[] = array(
 		'name'  => $this->language->get('column_values'),
 		'folder_help' => $this->language->get('text_folder_help'),
-		'align' => 'left'
+		'align' => 'option'
 		);
 	$cols[] = array(
       		'name'  => $this->language->get('column_name'),
@@ -93,7 +93,7 @@ class ControllerOption extends Controller {
     	);
     	$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
  
 		$results = $this->modelOptions->get_page_option();
@@ -103,7 +103,7 @@ class ControllerOption extends Controller {
      		$cell = array();
       		$cell[] = array(
         		'icon'  => $this->modelOptions->check_children($result['option_id']) ? 'folderO.png' : 'folder.png',
-        		'align' => 'center',
+        		'align' => 'option',
 				'path'  => $this->url->ssl('option_value', FALSE, array('option_id' => $result['option_id']))
 		  	);
       		$cell[] = array(
@@ -127,7 +127,7 @@ class ControllerOption extends Controller {
 			
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
       		$rows[] = array('cell' => $cell);
     	}
@@ -149,7 +149,8 @@ class ControllerOption extends Controller {
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
- 
+	$view->set('button_print', $this->language->get('button_print'));
+
     	$view->set('error', @$this->error['message']);
 
 		$view->set('message', $this->session->get('message'));
@@ -188,6 +189,7 @@ class ControllerOption extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
+	$view->set('button_print', $this->language->get('button_print'));
 
     	$view->set('tab_general', $this->language->get('tab_general'));
     

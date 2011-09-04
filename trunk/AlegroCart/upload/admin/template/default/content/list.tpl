@@ -8,6 +8,7 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png"><?php echo $button_print; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
@@ -24,7 +25,7 @@
   <table class="a">
     <tr>
       <td class="c"><?php echo $text_results; ?></td>
-      <td class="d"><form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
+      <td class="f"><form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
           <?php echo $entry_page; ?>
           <select name="page" onchange="this.form.submit();">
 		<?php foreach ($pages as $p) { ?>
@@ -65,7 +66,7 @@
   <table class="list">
     <tr>
       <?php foreach ($cols as $col) { ?>
-      <th class="<?php echo $col['align']; ?>"<?php if (isset($col['folder_help'])){ echo ' style="color:red"';}?>><?php if (!isset($col['sort'])) { ?>
+      <th class="<?php echo $col['align']; ?>"<?php if (isset($col['folder_help'])){ echo ' style="color:red;width:30px"';}?>><?php if (!isset($col['sort'])) { ?>
         <?php if (isset($col['name'])) { ?>
 		  <?php if (isset($col['folder_help'])){?>
 		    <script type="text/javascript">
@@ -101,9 +102,9 @@
     </tr>
     <?php $j = 1; ?>
     <?php if (isset($previous)) { ?>
-    <tr class="row1" onmouseover="this.className='previous'" onmouseout="this.className='row1'" onclick="self.location.href='<?php echo $previous; ?>'">
-      <td><img src="template/<?php echo $this->directory?>/image/previous.png" class="png">&nbsp;<?php echo $text_previous; ?></td>
-      <?php for ($i = 1; $i < sizeof($cols); $i++) { ?>
+    <tr class="row1" id="prev" onmouseover="this.className='previous'" onmouseout="this.className='row1'" onclick="self.location.href='<?php echo $previous; ?>'">
+      <td colspan="2"><img src="template/<?php echo $this->directory?>/image/previous.png" class="png">&nbsp;<?php echo $text_previous; ?></td>
+      <?php for ($i = 1; $i < sizeof($cols)-1; $i++) { ?>
       <td>&nbsp;</td>
       <?php $j = 0; ?>
       <?php } ?>

@@ -1,3 +1,4 @@
+@media screen,print {
 html {
 	overflow: -moz-scrollbars-vertical;
 }
@@ -226,7 +227,9 @@ form {
 #list .e {
 	text-align: right;
 }
-
+#list .f {
+	text-align: center;
+}
 .list {
 	border-collapse: collapse;
 	width: 100%;
@@ -267,7 +270,12 @@ form {
 .center {
 	text-align: center;
 }
-
+.action {
+	text-align: right;
+}
+.option {
+	text-align: center;
+}
 .row1 td, .row2 td, .highlight td, .previous td  {
 	border-bottom: 1px solid #0099FF;
 }
@@ -599,13 +607,14 @@ form {
 	-khtml-opacity: 0; 
 	-moz-opacity: 0;
 }
-.back_button{
-	position: absolute;
-	right: 100px; 
-	top: 0px;
 }
-.print_button{
-	position: absolute;
-	right: 50px;
-	top: 3px;
-}
+@media print {  
+     body {
+	  color: black; 
+	  background-color: white;
+     }
+     #header, #myMenuID, .task, .description, #footer, #list .a .e, #list .a .d, .list .action, #prev, #search, #encrypt  {
+          display:none;
+     }
+     #list .a .f select {border: none;}
+}  

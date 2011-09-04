@@ -107,7 +107,7 @@ class ControllerTemplateManager extends Controller {
 		);
 		$cols[] = array(
       		'name'  => $this->language->get('column_action'),
-      		'align' => 'right'
+      		'align' => 'action'
     	);
 
 		$results = $this->modelTplManager->get_page();
@@ -147,7 +147,7 @@ class ControllerTemplateManager extends Controller {
 			
       		$cell[] = array(
         		'action' => $action,
-        		'align'  => 'right'
+        		'align'  => 'action'
       		);
 			$rows[] = array('cell' => $cell);
 		}
@@ -168,7 +168,8 @@ class ControllerTemplateManager extends Controller {
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
-		
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
@@ -233,7 +234,8 @@ class ControllerTemplateManager extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
-		
+		$view->set('button_print', $this->language->get('button_print'));
+
 		$view->set('error', @$this->error['message']);
 		
 		$view->set('action', $this->url->ssl('template_manager', $this->request->gethtml('action'), array('tpl_manager_id' => (int)$this->request->gethtml('tpl_manager_id'))));

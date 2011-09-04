@@ -1,4 +1,3 @@
-<?php if(!$order_print){?>
 <div class="task">
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
@@ -13,28 +12,15 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
-<?php } else {?>
-  <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-  <script type="text/javascript"><!--
-    $(document).ready(function() {
-	  $('#printMe').click(function() {
-		window.print();
-		return false;
-	  });
-	});
-  //--></script>
-  <!-- Add print control here -->
-<?php }?>
 <link rel="stylesheet" type="text/css" href="template/<?php echo $this->directory?>/css/order.css">
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?></div>
-<?php if(!$order_print){?>
-  <div class="description"><?php echo $heading_description; ?></div>
-<?php }?>
+<div class="description"><?php echo $heading_description; ?></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div id="invoice">
     <div class="a">
@@ -298,9 +284,3 @@
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
 </form>
-<?php if($order_print){?>
-  <div style="padding-left: 50px; margin-bottom: 10px;"><a href="<?php echo $continue;?>"><img class="back_button" src="template/<?php echo $this->directory?>/image/button_back.png" alt="back" title="back"></a>
-  <img class="print_button" id="printMe" src="template/<?php echo $this->directory?>/image/print32.png" alt="print" title="print">
-  
-  </div>
-<?php }?>

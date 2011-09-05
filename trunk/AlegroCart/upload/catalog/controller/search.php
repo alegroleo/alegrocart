@@ -280,6 +280,7 @@ class ControllerSearch extends Controller {
 			}
 		}
 		
+		$view->set('show_stock', $this->config->get('config_show_stock'));
 		$view->set('addtocart',$this->config->get('search_addtocart'));
 		$view->set('text_inc_results', $language->get('text_inc_results'));
 		$view->set('text_max_reached', $language->get('text_max_reached'));

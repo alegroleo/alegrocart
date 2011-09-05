@@ -306,6 +306,7 @@ class ControllerCategory extends Controller {
 				$view->set('sale_price', $language->get('sale_price'));
 				$view->set('text_price', $language->get('text_price'));
 				$view->set('addtocart',$this->config->get('category_addtocart'));
+				$view->set('show_stock', $this->config->get('config_show_stock'));
 				// Currency
 				$currency_code = $currency->code;
 				$symbol_right = $currency->currencies[$currency_code]['symbol_right'];

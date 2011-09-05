@@ -551,6 +551,27 @@
 				  <?php echo $text_subtract_stock_explantion; ?> 
 				</td>
 			</tr>
+			
+			<tr>
+              <td width="185" class="set"><?php echo $entry_show_stock; ?></td>
+              <td width="100"><?php if ($catalog_config_show_stock) { ?>
+                <input type="radio" name="catalog_config_show_stock" value="1" id="stockyes" checked>
+                <label for="stockyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_show_stock" value="0" id="stockno">
+                <label for="stockno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_show_stock" value="1" id="stockyes">
+                <label for="stockyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_show_stock" value="0" id="stockno" checked>
+                <label for="stockno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+				<td class="expl">
+				  <?php echo $text_show_stock; ?> 
+				</td>
+			</tr>
+			
+			
+			
 			<tr>
               <td width="185" class="set"><?php echo $entry_guest_checkout; ?></td>
               <td width="100"><?php if ($catalog_config_guest_checkout) { ?>

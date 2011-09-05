@@ -110,7 +110,9 @@ class ControllerCart extends Controller {
 			
 			
       		$view->set('error', @$this->error['message']);
-			$view->set('error', ((!$this->cart->hasStock()) && ($this->config->get('config_stock_check')) ? $this->language->get('error_stock') : NULL));
+			$error_stock_check = ((!$this->cart->hasStock()) && ($this->config->get('config_stock_check')) ? $this->language->get('error_stock') : NULL);
+			$error_checkout = ((!$this->cart->hasStock()) && ($this->config->get('config_stock_checkout')) ? $this->language->get('error_checkout') : NULL);
+			$view->set('error', $error_stock_check . $error_checkout);
       		$view->set('stock_check', $this->config->get('config_stock_check'));
 			if ($this->session->has('error')) {
 				$view->set('error', $this->session->get('error'));

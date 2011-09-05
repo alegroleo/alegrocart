@@ -23,7 +23,7 @@ if ($language->error) {
 $errors[]=$language->error;
 }
 
-$language->load($_POST['language']);
+$language->load(isset($_POST['language']) ? $_POST['language'] : 'english');
 $languages=$language->langs;
 
 $step=(isset($_REQUEST['step']))?$_REQUEST['step']:1;

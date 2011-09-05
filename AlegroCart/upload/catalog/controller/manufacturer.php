@@ -304,6 +304,7 @@ class ControllerManufacturer extends Controller {
 				
 		$view->set('head_def',$head_def);
 		$this->template->set('head_def',$head_def);
+		$view->set('show_stock', $this->config->get('config_show_stock'));
 		$view->set('addtocart',$this->config->get('manufacturer_addtocart'));
 		$view->set('text_enlarge', $language->get('text_enlarge'));
 		$view->set('image_display',$this->config->get('content_image_display'));

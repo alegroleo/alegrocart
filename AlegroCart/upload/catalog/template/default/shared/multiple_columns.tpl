@@ -51,7 +51,11 @@
     <div class="product_desc"<?php if($columns == 3){?> style="min-height: 50px;"<?php }?>>
       <?php echo "<span style=\"font-size: ".$font_size."px\">" . $product['description'] . "</span>"; ?>
 	</div></div>
-	<div class="onhand"><?php echo $onhand.$product['stock_level']; ?></div>
+	<?php if($show_stock && !$product['options']){?>
+		<div class="onhand"><?php echo $onhand.$product['stock_level']; ?></div>
+	<?php } else if($show_stock && $product['options']){?>
+	  <br>
+	<?php }?>
 	<?php include $shared_path . 'product_price.tpl';?>
 	<?php if ($addtocart) { ?>
 	 <?php $option = $product['options'];

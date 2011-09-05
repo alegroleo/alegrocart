@@ -38,12 +38,6 @@
 		<?php }?>
     </div>
   <?php }?>
-  
-  
-  
-  
-  
-  
    <?php echo $product['description']; ?><br>
    <?php if ($product['product_discounts']){
 	echo "<div><div class=\"discount\">".$text_quantity_discount.":</div>&nbsp;";
@@ -52,9 +46,11 @@
 	}
 	echo "</div>";
    }?>
-   <div class="onhand2"><?php echo $onhand; ?>
-	  <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
-   </div>
+   <?php if($show_stock){?>
+	  <div class="onhand2"><?php echo $onhand; ?>
+	    <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
+     </div>
+   <?php }?>
    <?php if($product['product_options']){?>
     <script language="JavaScript">
 	  $(document).ready(function(){

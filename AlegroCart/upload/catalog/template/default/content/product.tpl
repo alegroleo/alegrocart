@@ -35,7 +35,7 @@
   }
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
 ?>
-<div class="headingbody"><?php echo "Product Detail : ".$heading_title; ?></div>
+<div class="headingbody"><?php echo $text_product_detail.$heading_title; ?></div>
 <div class="contentBody">
  <div class="product" id="product">
   <div class="a" >
@@ -71,8 +71,10 @@
 	<span><?php echo $text_downloadable;?></span>
 	<?php }?>
   </div>
-  <div class="ponhand"><?php echo $quantity_available; ?>
-  <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span></div>
+  <?php if($show_stock){?>
+    <div class="ponhand"><?php echo $quantity_available; ?>
+    <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span></div>
+  <?php }?>
   <?php if($product_options){?>
     <script language="JavaScript">
 	  $(document).ready(function(){

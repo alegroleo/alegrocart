@@ -148,6 +148,7 @@ class ModulePopular extends Controller {
 			$view->set('decimal_point', $language->get('decimal_point'));
 			$view->set('thousand_point', $language->get('thousand_point'));
 			
+			$view->set('show_stock', $config->get('config_show_stock'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
 			$view->set('options_text', $language->get('options_text'));

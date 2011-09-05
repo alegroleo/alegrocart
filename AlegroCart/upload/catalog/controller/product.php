@@ -108,6 +108,7 @@ class ControllerProduct extends Controller {
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('text_downloadable', $language->get('text_downloadable'));
 			$view->set('text_product_download', $language->get('text_product_download'));
+			$view->set('text_product_detail', $language->get('text_product_detail'));
 			
       		$view->set('button_reviews', $language->get('button_reviews'));
       		$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
@@ -235,6 +236,7 @@ class ControllerProduct extends Controller {
 			  $view->set('review_status', false);			  
 			}
 			$view->set('review_data', $this->review());
+			$view->set('show_stock', $this->config->get('config_show_stock'));
 			$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
 			$view->set('maxrow', count($this->review()));

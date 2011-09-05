@@ -65,6 +65,7 @@ class ControllerSetting extends Controller {
 		$view->set('text_captcha_contactus', $this->language->get('text_captcha_contactus'));
 		$view->set('text_captcha_reg', $this->language->get('text_captcha_reg'));
 		$view->set('text_captcha_length', $this->language->get('text_captcha_length'));
+		$view->set('text_show_stock', $this->language->get('text_show_stock'));
 		$view->set('text_product', $this->language->get('text_product'));
 		$view->set('text_category', $this->language->get('text_category'));
 		$view->set('text_search', $this->language->get('text_search'));
@@ -107,14 +108,12 @@ class ControllerSetting extends Controller {
 		$view->set('entry_captcha_contactus', $this->language->get('entry_captcha_contactus'));
 		$view->set('entry_captcha_reg', $this->language->get('entry_captcha_reg'));
 		$view->set('entry_captcha_length', $this->language->get('entry_captcha_length'));
-
+		$view->set('entry_show_stock', $this->language->get('entry_show_stock'));
 		$view->set('entry_footer_logo', $this->language->get('entry_footer_logo'));
 		$view->set('entry_footer_logo_top', $this->language->get('entry_footer_logo_top'));
 		$view->set('entry_footer_logo_left', $this->language->get('entry_footer_logo_left'));
 		$view->set('entry_footer_logo_width', $this->language->get('entry_footer_logo_width'));
 		$view->set('entry_footer_logo_height', $this->language->get('entry_footer_logo_height'));
-		
-		
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_url_alias', $this->language->get('entry_url_alias'));
 		$view->set('entry_seo', $this->language->get('entry_seo'));
@@ -555,6 +554,12 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_config_stock_subtract', $this->request->gethtml('catalog_config_stock_subtract'));
 		} else {
 			$view->set('catalog_config_stock_subtract', @$setting_info['catalog']['config_stock_subtract']);
+		}
+		
+		if ($this->request->has('catalog_config_show_stock')) {
+			$view->set('catalog_config_show_stock', $this->request->gethtml('catalog_config_show_stock'));
+		} else {
+			$view->set('catalog_config_show_stock', @$setting_info['catalog']['config_show_stock']);
 		}
 		
 		if ($this->request->has('catalog_config_guest_checkout')) {

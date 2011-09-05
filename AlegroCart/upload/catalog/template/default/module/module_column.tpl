@@ -50,8 +50,10 @@
 	  }?> 
   </div>
   <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
-  <?php echo $product['description']; ?><br></div>	
-  <div class="onhand"><?php echo $onhand.$product['stock_level']; ?></div>
+  <?php echo $product['description']; ?><br></div>
+  <?php if($show_stock && !$product['options']){?>
+    <div class="onhand"><?php echo $onhand.$product['stock_level']; ?></div>
+  <?php }?>
   <?php include $shared_path . 'product_price.tpl';?>
   <?php if ($add_enable && $addtocart) { ?>
    <?php $option = $product['options'];				

@@ -46,6 +46,7 @@ class ShippingItem extends Shipping {
         		'id'    => 'item_item',
         		'title' => $this->language->get('text_item_description'),
         		'cost'  => $this->itemrate,
+				'shipping_form'=> '',
         		'text'  => $this->currency->format($this->tax->calculate($this->itemrate, $this->config->get('item_tax_class_id'), $this->config->get('config_tax')))
       		);
 

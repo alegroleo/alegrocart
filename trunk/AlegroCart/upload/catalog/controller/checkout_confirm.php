@@ -380,10 +380,7 @@ class ControllerCheckoutConfirm extends Controller {
 		$email->set('email', $this->customer->getEmail());
 		$email->set('telephone', $this->customer->getTelephone());
 		$email->set('fax', $this->customer->getFax());
-		
 
-//$email->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
-//
 		if ($this->session->get('shipping_method') != 'warehouse_warehouse') {
 			$email->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
 		} else {
@@ -391,7 +388,7 @@ class ControllerCheckoutConfirm extends Controller {
 			$email->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
 		}
 
-		$email->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
+		$email->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')). ':' . $this->shipping->getTitle($this->session->get('shipping_method')));
 		$email->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));
 		$email->set('payment_method', $this->payment->getTitle($this->session->get('payment_method')));
 		$email->set('products', $product_data);

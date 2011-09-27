@@ -147,9 +147,10 @@ class Dimension {
 	function format($value, $dimension_id) {
     	return number_format($value, $this->config->get('config_dimension_decimal'), $this->language->get('decimal_point'), $this->language->get('thousand_point')) . " " . $this->classes[$dimension_id]['unit'];
   	}
-	function package($products, $max_weight, $max_length, $max_width, $max_height, $max_circumference = FALSE){
+	function package($products, $max_weight, $max_length, $max_width, $max_height, $max_circumference = FALSE, $minimum_d = ''){
 		$package = 1;
 		$packages = array();
+		$minimum_dim = $minimum_d ? explode(':',$minimum_d) : '';
 		while($products){
 			$package_weight = 0;
 			$package_height = 0;
@@ -170,11 +171,25 @@ class Dimension {
 			$error_weight = FALSE;
 			foreach($products as $key => $product){
 				$row_count ++;
+				if($row == 1 && $minimum_dim){
+					if ($product['length'] < $minimum_dim[0]){
+						$length[$row][$key] = $minimum_dim[0];
+					} else {
+						$length[$row][$key] = $product['length'];
+					}
+					if ($product['width'] < $minimum_dim[1]){
+						$width[$row][$key] = $minimum_dim[1];
+					} else {
+						$width[$row][$key] = $product['width'];
+					}
+				} else {
+					$length[$row][$key] = $product['length'];
+					$width[$row][$key] = $product['width'];
+				}
 				$product_keys[$item_count] = $key;
 				$weight[$row][$key] = $product['weight'];
 				$package_weight += $product['weight'];
-				$length[$row][$key] = $product['length'];
-				$width[$row][$key] = $product['width'];
+				
 				$height[$row][$key] = $product['height'];
 				$package_height = ($height[$row][$key] > $package_height)? $height[$row][$key] : $package_height;
 				$height_row[$row] = $package_height;

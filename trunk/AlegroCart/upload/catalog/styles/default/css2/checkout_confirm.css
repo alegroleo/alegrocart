@@ -26,6 +26,10 @@
   text-align: right;
 }
 
+#checkout .totals {
+	width: 60px;
+}
+
 #checkout .f table {
 	width: 100%;
 }

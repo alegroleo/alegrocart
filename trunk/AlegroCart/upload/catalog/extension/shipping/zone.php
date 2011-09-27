@@ -60,6 +60,7 @@ class ShippingZone extends Shipping {
         			'id'    => 'zone_' . $result['geo_zone_id'],
         			'title' => $result['name'],
         			'cost'  => $this->zonerate[$result['geo_zone_id']],
+					'shipping_form'=> '',
         			'text'  => $this->currency->format($this->tax->calculate($this->zonerate[$result['geo_zone_id']], $this->config->get('zone_tax_class_id'), $this->config->get('config_tax'))),
 					'error' => isset($this->quote_error[$result['geo_zone_id']]) ? $result['name'] . ' : ' . $this->quote_error[$result['geo_zone_id']] : FALSE
       			);			

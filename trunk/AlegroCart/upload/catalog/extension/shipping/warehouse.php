@@ -40,6 +40,7 @@ class ShippingWarehouse extends Shipping {
         		'id'    => 'warehouse_warehouse',
         		'title' => $this->language->get('text_warehouse_description'),
         		'cost'  => $this->config->get('warehouse_handling_fee'),
+				'shipping_form'=> '',
         		'text'  => $this->currency->format($this->tax->calculate($this->config->get('warehouse_handling_fee'), $this->config->get('warehouse_tax_class_id'), $this->config->get('config_tax')))
       		);
 

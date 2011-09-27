@@ -183,7 +183,7 @@
         <?php foreach ($totals as $total) { ?>
         <tr>
           <td class="right" colspan="4"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $total['title']; ?></td>
-          <td class="right"><?php echo $total['text']; ?></td>
+          <td class="totals"><?php echo $total['text']; ?></td>
         </tr>
         <?php } ?>
       </table>  

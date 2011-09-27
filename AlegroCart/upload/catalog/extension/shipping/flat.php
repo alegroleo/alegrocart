@@ -46,6 +46,7 @@ class ShippingFlat extends Shipping {
         		'id'    => 'flat_flat',
         		'title' => $this->language->get('text_flat_description'),
         		'cost'  => $this->flatrate,
+				'shipping_form'=> '',
         		'text'  => $this->currency->format($this->tax->calculate($this->flatrate, $this->config->get('flat_tax_class_id'), $this->config->get('config_tax')))
       		);
 

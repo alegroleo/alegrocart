@@ -44,7 +44,6 @@ class ControllerCheckoutShipping extends Controller {
     	if (!$this->cart->hasShipping()) {
 			$this->session->delete('shipping_address_id');
 			$this->session->delete('shipping_method');
-			//$this->session->delete('quote_text');
 			$this->response->redirect($this->url->ssl('checkout_payment'));
     	}
 
@@ -66,8 +65,12 @@ class ControllerCheckoutShipping extends Controller {
 				$this->session->set('comment', $this->request->sanitize('comment', 'post'));
 				$this->session->delete('message');
 				$this->session->delete('account_validation');
+				
+				$shipMethod = $this->session->get('shipping_method') ?explode('_', $this->session->get('shipping_method')) : '';
+				$form_complete = isset($shipMethod[0]) ? $shipMethod[0] . '_form_complete' : 'form_complete';
+				
 				if (strlen($this->request->get($this->request->gethtml('shipping', 'post') . '_quote', 'post')) > 0){
-					if(!$this->request->has('form_required', 'post') || ($this->request->has('form_required', 'post') && $this->request->gethtml('form_required', 'post') == TRUE)){
+					if(!$this->request->has($form_complete, 'post') || ($this->request->has($form_complete, 'post') && $this->session->get($form_complete, 'post'))){
 						$this->response->redirect($this->url->ssl('checkout_payment'));
 					}
 				}
@@ -152,8 +155,6 @@ class ControllerCheckoutShipping extends Controller {
     	$view->set('methods', $this->shipping->getQuotes());
 
     	$view->set('default', $this->session->get('shipping_method'));
-		
-		//$this->session->delete('quote_text');
 
     	$view->set('comment', $this->session->get('comment'));
 

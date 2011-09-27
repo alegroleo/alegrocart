@@ -60,10 +60,10 @@
       </table>
     </div>
     <?php if ($methods) { ?>
-      <div class="c"><?php echo $text_shipping_method; ?></div>
-      <div class="d"><?php echo $text_shipping_methods; ?>
+    <div class="c"><?php echo $text_shipping_method; ?></div>
+    <div class="d"><?php echo $text_shipping_methods; ?>
         <?php foreach ($methods as $method) { ?>
-		<?php if(isset($method['quote'][key($method['quote'])]['shipping_form']) && $method['quote'][key($method['quote'])]['id'] == $default){?>
+		<?php if($method['quote'][key($method['quote'])]['id'] == $default){?>
 		<table style="border: 3px solid #0099FF; border-radius: 10px ; margin-bottom: 10px;">
 		<?php } else {?>
 		<table>
@@ -79,7 +79,7 @@
             </tr>
 		  <?php } else {?>
 			<tr>
-              <td class="g"><label for="<?php echo $quote['id']; ?>">
+			  <td class="g"><label for="<?php echo $quote['id']; ?>">
               <?php if ($quote['id'] == $default) { ?>
                 <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>" CHECKED>
               <?php } else { ?>
@@ -88,18 +88,18 @@
               <?php echo $quote['title']; ?></label></td>
               <td class="i"><label for="<?php echo $quote['id']; ?>"><?php echo $quote['text']; ?></label></td>
 		      <input type="hidden" name="<?php echo $quote['id']; ?>_quote" value="<?php echo $quote['text']; ?>">
-            </tr>
-		    <?php if(isset($quote['shipping_form']) && $quote['id'] == $default ){ echo $quote['shipping_form'];}?>
+          </tr>
+		   <?php if(isset($quote['shipping_form']) ){ echo $quote['shipping_form'];}?>
 		  <?php }?>
         <?php } ?>
-      <?php } else { ?>
+        <?php } else { ?>
 		  <tr>
             <td colspan="2" class="g"><div class="warning"><?php echo $method['error']; ?></div></td>
           </tr>
         <?php } ?>
 		</table>
         <?php } ?>
-      </div>
+    </div>
     <?php } ?>
     <div class="e"><?php echo $text_comments; ?></div>
     <div class="f">

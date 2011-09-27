@@ -1221,3 +1221,12 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'show_stock';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'show_stock', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# Extension Canada Post
+SET @lid=1;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_canadapost';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'canadapost', 'shipping', 'shipping', 'canadapost.php', 'shipping_canadapost') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_canadapost';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Canada Post', 'Canada Post Shipping') ON DUPLICATE KEY UPDATE extension_id=extension_id;

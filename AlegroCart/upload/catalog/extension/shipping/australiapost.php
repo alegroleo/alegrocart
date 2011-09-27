@@ -1,12 +1,12 @@
 <?php //AlegroCart
 class ShippingAustraliaPost extends Shipping { 
-	var $form_required = FALSE;
-	var $max_weight = '0';
-	var $max_length = '0';
-	var $max_circumference = '0';
-	var $min_length = '0';
-	var $min_width = '0';
-	var $min_height = '0';
+	var $australiapost_form_complete = TRUE;
+	var $max_weight = '20000';
+	var $max_length = '1050';
+	var $max_circumference = '1400';
+	var $min_length = '150';
+	var $min_width = '150';
+	var $min_height = '5';
 	var $error = FALSE;
 	var $service_type = '';
 	
@@ -29,6 +29,7 @@ class ShippingAustraliaPost extends Shipping {
   	}
 
 	function quote() {
+
 		if ($this->config->get('australiapost_status')) {
 			if (!$this->config->get('australiapost_geo_zone_id')) {
         		$status = true;
@@ -48,6 +49,7 @@ class ShippingAustraliaPost extends Shipping {
 				if($this->service_type != $this->session->get('australiapost_service')){
 					$this->session->delete('auspost_rate');
 					$this->session->delete('auspost_packages');
+					$this->australiapost_form_complete = FALSE;
 				}
 			} else if($this->session->get('australiapost_service')){
 				$this->service_type = $this->session->get('australiapost_service');
@@ -56,34 +58,23 @@ class ShippingAustraliaPost extends Shipping {
 			}
 			$this->session->set('australiapost_service', $this->service_type);
 			$total_rate = '';
-			if($this->session->get('shipping_method') == 'australiapost_australiapost' && $this->customer->isLogged()){
-				//if($this->request->has('form_required', 'post')){
-					$this->form_required = TRUE;
-				//}
-				if($this->session->get('auspost_items') != $this->cart->countProducts() || $this->session->get('auspost_weight') != $this->cart->getWeight()){
+			if($this->customer->isLogged()){
+				if($this->session->get('auspost_items') != $this->cart->countProducts() || $this->session->get('auspost_weight') != $this->cart->getWeight() || $this->session->get('shipping_address_id') != $this->session->get('ap_shipping_address_id')){
 					$this->session->delete('auspost_rate');
 					$this->session->delete('auspost_packages');
-					$this->form_required = FALSE;
 				}
 				
 				if($this->session->get('auspost_rate') || $this->session->get('auspost_packages')){
 					$total_rate = $this->session->get('auspost_rate');
 					$package_rates = $this->session->get('auspost_packages');
 				} else {
-					$this->max_weight = $this->language->get('maximum_weight');
-					$this->max_length = $this->language->get('maximum_length');
-					$this->min_length = $this->language->get('minimum_length');
-					$this->min_width = $this->language->get('minimum_width');
-					$this->min_height = $this->language->get('minimum_height');
-					$this->max_circumference = $this->language->get('maximum_circumference');
-				
-				
+					//$this->australiapost_form_complete = FALSE;
 					$products = $this->getProducts();
 
 					if(!$this->error){
 						$packages = $this->dimension->package($products, $this->max_weight, $this->max_length, FALSE, FALSE, $this->max_circumference);
 						$rates = $this->getRate($packages);
-						
+
 						$package_rates = array();
 						foreach ($rates as $key => $rate){
 							$charge = explode('=',$rate[0]);
@@ -103,6 +94,8 @@ class ShippingAustraliaPost extends Shipping {
 					$this->session->set('auspost_rate', $total_rate);
 					$this->session->set('auspost_items',$this->cart->countProducts());
 					$this->session->set('auspost_weight',$this->cart->getWeight());
+					
+					$this->session->set('ap_shipping_address_id',$this->session->get('shipping_address_id'));
 				}
 			} else {
 				$this->session->delete('auspost_rate');
@@ -112,7 +105,7 @@ class ShippingAustraliaPost extends Shipping {
 			$quote_data = array();
       		$quote_data['australiapost'] = array(
         		'id'    => 'australiapost_australiapost',
-        		'title' => $this->language->get('text_australiapost_description'),
+        		'title' => $this->language->get('text_australiapost_description'). ' - ' .$this->service_type,
         		'cost'  => $total_rate,
 				'shipping_form'=> $this->fields(isset($package_rates)?$package_rates:''),
         		'text'  =>  $total_rate ?$this->currency->format($this->tax->calculate($total_rate, $this->config->get('australiapost_tax_class_id'), $this->config->get('config_tax'))) : ''
@@ -125,6 +118,10 @@ class ShippingAustraliaPost extends Shipping {
 				'sort_order'   => $this->config->get('australiapost_sort_order'),
         		'error'        => $this->error ? $this->error : false
       		);
+			
+		}
+		if($this->session->get('shipping_method') == 'australiapost_australiapost' ){
+			$this->session->set('australiapost_form_complete', $this->australiapost_form_complete);
 		}
 		return $method_data;
 	}
@@ -198,21 +195,21 @@ class ShippingAustraliaPost extends Shipping {
 	}
 	
 	function fields($package_rates) {
-		$services = explode(',',$this->language->get('service_methods'));
+		$services = explode(',',$this->language->get('ap_service_methods'));
 		
 		$output = '';
 		if($package_rates){
 			foreach($package_rates as $key => $rate){
 				$output .= '<tr>';
 				$output .= '<td class="g">';
-				$output .= $this->language->get('text_rate',$key+1, $rate['pieces'], $rate['err_msg'], $rate['days'], $this->currency->format($this->tax->calculate($rate['charge'], $this->config->get('australiapost'), $this->config->get('config_tax'))));
+				$output .= $this->language->get('ap_text_rate',$key+1, $rate['pieces'], $rate['err_msg'], $rate['days'], $this->currency->format($this->tax->calculate($rate['charge'], $this->config->get('australiapost'), $this->config->get('config_tax'))));
 				$output .= '</td>';
 				$output .= '</tr>';
 			}
 		}
 		$output .= '<tr>';
 		$output .= '<td class="g">';
-		$output .= $this->language->get('entry_service') . "\n";
+		$output .= $this->language->get('ap_entry_service') . "\n";
 		$output .= '<select name="australiapost_service">'  . "\n";
 		foreach($services as $service){
 		$output .= '<option value="' . $service . '"';
@@ -223,7 +220,9 @@ class ShippingAustraliaPost extends Shipping {
 		}
 		$output .= '</td>';
 		$output .= '</tr>';
-		$output .= '<input type="hidden" name="form_required" value="' . $this->form_required . '">' . "\n";	
+		if($this->session->get('shipping_method') == 'australiapost_australiapost' ){
+			$output .= '<input type="hidden" name="australiapost_form_complete" value="' . $this->australiapost_form_complete . '">' . "\n";
+		}
 		return $output; 
 	}
 }	

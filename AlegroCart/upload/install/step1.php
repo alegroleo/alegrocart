@@ -14,7 +14,7 @@ if (!$step) { header('Location: .'); die(); }
 <p><strong><?php echo $language->get('fresh')?></strong></p>
 <form method="post" enctype="multipart/form-data">
 <input type="hidden" name="step" value="2">
-<input type="hidden" name="language" value="<?php echo $_POST['language']; ?>">
+<input type="hidden" name="language" value="<?php echo isset($_POST['language']) ? $_POST['language'] : ''; ?>">
     <p class="a"><?php echo $language->get('database_details')?></p>
     <table>
       <tr>

@@ -120,7 +120,7 @@ class ControllerProductOption extends Controller {
 		foreach ($results as $result) {
 			$cell = array();
 			$cell[] = array(
-				'value' => $result['center'],
+				'value' => $result['option'],
 				'align' => 'left'
 			);
 			$cell[] = array(
@@ -367,6 +367,7 @@ class ControllerProductOption extends Controller {
 				'product_id'		=> $result['product_id'],
 				'product_option'	=> $result['product_option'],
 				'quantity'			=> $result['quantity'],
+				'barcode'			=> $result['barcode'],
 				'image_id'			=> $result['image_id'],
 				'dimension_id'		=> $result['dimension_id'],
 				'dimension_value'	=> $result['dimension_value'],
@@ -400,6 +401,7 @@ class ControllerProductOption extends Controller {
 						'product_id'		=> $product_id,
 						'product_option' 	=> $option_key,	
 						'quantity'			=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['quantity'] : 0,
+						'barcode'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['barcode'] : '',
 						'image_id'			=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['image_id'] : 0,
 						'dimension_id'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['dimension_id'] : 0,
 						'dimension_value'	=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['dimension_value'] : '0:0:0',
@@ -414,6 +416,7 @@ class ControllerProductOption extends Controller {
 								'product_id'		=> $product_id,
 								'product_option' 	=> $option_key,	
 								'quantity'			=> $match ? $product_options[$match]['quantity'] : 0,
+								'barcode'		=> $match ? $product_options[$match]['barcode'] : '',
 								'image_id'			=> $match ? $product_options[$match]['image_id'] : 0,
 								'dimension_id'		=> $match ? $product_options[$match]['dimension_id'] : 0,
 								'dimension_value'	=> $match ? $product_options[$match]['dimension_value'] : '0:0:0',
@@ -428,6 +431,7 @@ class ControllerProductOption extends Controller {
 									'product_id'		=> $product_id,
 									'product_option' 	=> $option_key,	
 									'quantity'			=> $match ? $product_options[$match]['quantity'] : 0,
+									'barcode'		=> $match ? $product_options[$match]['barcode'] : '',
 									'image_id'			=> $match ? $product_options[$match]['image_id'] : 0,
 									'dimension_id'		=> $match ? $product_options[$match]['dimension_id'] : 0,
 									'dimension_value'	=> $match ? $product_options[$match]['dimension_value'] : '0:0:0',

@@ -388,7 +388,7 @@ class ControllerCheckoutConfirm extends Controller {
 			$email->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
 		}
 
-		$email->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')). ':' . $this->shipping->getTitle($this->session->get('shipping_method')));
+		$email->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
 		$email->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));
 		$email->set('payment_method', $this->payment->getTitle($this->session->get('payment_method')));
 		$email->set('products', $product_data);
@@ -428,6 +428,7 @@ class ControllerCheckoutConfirm extends Controller {
         		'option'     => $option_data,
 				'download'   => $product['download'],
 				'quantity'   => $product['quantity'],
+				'barcode'    => $product['barcode'],
 				'price'      => $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')),
 				'discount'   => $product['discount'] ? $this->tax->calculate($product['price'] - $product['discount'], $product['tax_class_id'], $this->config->get('config_tax')) : NULL,
 				'special_price'  => $product['special_price'] ? $this->tax->calculate($product['special_price'], $product['tax_class_id'], $this->config->get('config_tax')) : 0 ,

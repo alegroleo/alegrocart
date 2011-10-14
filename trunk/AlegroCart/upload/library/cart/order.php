@@ -94,8 +94,8 @@ class Order {
 			$order_id = $this->database->getLastId();
 
 			foreach ($this->data['products'] as $product) {
-				$sql = "insert into order_product set order_id = '?', name = '?', model_number = '?', price = '?', discount = '?', special_price = '?', coupon = '?', general_discount = '?', total = '?', tax = '?', quantity = '?', shipping = '?'";
-				$this->database->query($this->database->parse($sql, $order_id, $product['name'], $product['model_number'], $product['price'], $product['discount'], $product['special_price'], $product['coupon'], $product['general_discount'], $product['total'], $product['tax'], $product['quantity'],  $product['shipping']));
+				$sql = "insert into order_product set order_id = '?', name = '?', model_number = '?', price = '?', discount = '?', special_price = '?', coupon = '?', general_discount = '?', total = '?', tax = '?', quantity = '?', barcode = '?', shipping = '?'";
+				$this->database->query($this->database->parse($sql, $order_id, $product['name'], $product['model_number'], $product['price'], $product['discount'], $product['special_price'], $product['coupon'], $product['general_discount'], $product['total'], $product['tax'], $product['quantity'], $product['barcode'], $product['shipping']));
  
 				$order_product_id = $this->database->getLastId();
 

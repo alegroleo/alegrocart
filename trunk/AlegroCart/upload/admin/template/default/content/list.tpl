@@ -144,7 +144,6 @@
       </td>
       <?php } elseif (isset($cell['action'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php foreach ($cell['action'] as $action) { 
-      	//See http://forum.opencart.com/index.php/topic,1179.msg5716.html#msg5716
 		if (preg_match('/action=delete/',$action['href'])) { $action['href'].='" onClick="return confirm(\'Are you sure you want to delete?\')'; }
       ?>
         <a href="<?php echo $action['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $action['icon']; ?>" alt="<?php echo $action['text']; ?>" title="<?php echo $action['text']; ?>" class="png"></a>

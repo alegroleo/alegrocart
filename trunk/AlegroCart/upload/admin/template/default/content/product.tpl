@@ -44,10 +44,14 @@
                   <tr>
                     <td style="width: 185px;" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td style="width: 265px;"><input name="name[<?php echo $product['language_id']; ?>]" value="<?php echo $product['name']; ?>">
-                      <?php if ($error_name) { ?>
-                      <span class="error"><?php echo $error_name; ?></span>
-                      <?php } ?></td>
-					<td class="expl"><?php echo $text_unique; ?></td>	
+                      <?php if (@$error_name[$product['language_id']]) { ?>
+                      <span class="error"><?php echo $error_name[$product['language_id']]; ?></span>
+                      <?php } ?>
+		      <?php if (@$error_duplicate_name[$product['language_id']]) { ?>
+                      <span class="error"><?php echo $error_duplicate_name[$product['language_id']]; ?></span>
+                      <?php } ?>
+		    </td>
+			<td class="expl"><?php echo $text_unique; ?></td>	
                   </tr>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_model_number; ?></td>
@@ -91,7 +95,69 @@
       <div class="page">
         <div class="pad">
           <table>
+            <table>
             <tr>
+              <td class="set"><?php echo $entry_status; ?></td>
+              <td><select name="status">
+                  <?php if ($status == '1') { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+            </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_date_available; ?></td>
+              <td><input name="date_available_day" value="<?php echo $date_available_day; ?>" size="2" maxlength="2">
+                <select name="date_available_month">
+                  <?php foreach ($months as $month) { ?>
+                  <?php if ($month['value'] == $date_available_month) { ?>
+                  <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select>
+                <input name="date_available_year" value="<?php echo $date_available_year; ?>" size="4" maxlength="4">
+                <?php if ($error_date_available) { ?>
+                <span class="error"><?php echo $error_date_available; ?></span>
+                <?php } ?></td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_quantity; ?></td>
+              <td><input type="text" <?php if($option_status) echo 'readonly="readonly" '; ?>name="quantity" value="<?php echo $quantity; ?>" size="2"></td>
+			  <?php if($option_status) {?>
+			    <td><b style="color:red;padding-left:10px;"><?php echo $text_quantity_options;?></b></td>
+			  <?php }?>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_min_qty; ?></td>
+              <td><input name="min_qty" value="<?php echo $min_qty; ?>" size="2"></td>
+            </tr>
+	    <tr><td colspan="2"><hr></td></tr>
+	    <tr>
+              <td class="set"><?php echo $entry_barcode_encoding; ?></td>
+              <td><select id="encoding_9999" name="encoding" onchange="$('#barcode_9999').val('')">
+                  <?php if ($encoding == 'upc') { ?>
+                  <option value="upc" selected><?php echo $text_upc; ?></option>
+                  <option value="ean"><?php echo $text_ean; ?></option>
+                  <?php } else { ?>
+                  <option value="upc"><?php echo $text_upc; ?></option>
+                  <option value="ean" selected><?php echo $text_ean; ?></option>
+                  <?php } ?>
+                </select></td>
+             <td class="expl"><?php if($option_status) {?><b style="color:red;"><?php echo $text_barcode_options;?></b></br><?php }?><?php echo $text_barcode_enc_explanation; ?></td>
+	    </tr>
+	    <tr>
+           <td  class="set"><?php echo $entry_barcode; ?></td>
+              <td id="barcodefield_9999"><input id="barcode_9999" type="text" size="14" maxlength="13" <?php if($option_status) echo 'readonly="readonly" '; ?>name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode('9999')">
+			</td>
+	      <td class="expl"><?php if($option_status) {?><b style="color:red;"><?php echo $text_barcode_options;?></b></br><?php }?><?php echo $text_barcode_explanation; ?></td>
+        </tr>
+	    <tr><td colspan="2"><hr></td></tr>
+	     <tr>
               <td class="set"><?php echo $entry_manufacturer; ?></td>
               <td><select name="manufacturer_id">
                   <option value="0" selected><?php echo $text_none; ?></option>
@@ -117,51 +183,7 @@
                 <input type="radio" name="shipping" value="0" checked id="no">
                 <label for="no"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_date_available; ?></td>
-              <td><input name="date_available_day" value="<?php echo $date_available_day; ?>" size="2" maxlength="2">
-                <select name="date_available_month">
-                  <?php foreach ($months as $month) { ?>
-                  <?php if ($month['value'] == $date_available_month) { ?>
-                  <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select>
-                <input name="date_available_year" value="<?php echo $date_available_year; ?>" size="4" maxlength="4">
-                <?php if ($error_date_available) { ?>
-                <span class="error"><?php echo $error_date_available; ?></span>
-                <?php } ?></td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_quantity; ?></td>
-              <td><input <?php if($option_status) echo 'readonly="readonly" '; ?>name="quantity" value="<?php echo $quantity; ?>" size="2"></td>
-			  <?php if($option_status) {?>
-			    <td><b><?php echo $text_quantity_options;?></b></td>
-			  <?php }?>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_min_qty; ?></td>
-              <td><input name="min_qty" value="<?php echo $min_qty; ?>" size="2"></td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_status; ?></td>
-              <td><select name="status">
-                  <?php if ($status == '1') { ?>
-                  <option value="1" selected><?php echo $text_enabled; ?></option>
-                  <option value="0"><?php echo $text_disabled; ?></option>
-                  <?php } else { ?>
-                  <option value="1"><?php echo $text_enabled; ?></option>
-                  <option value="0" selected><?php echo $text_disabled; ?></option>
-                  <?php } ?>
-                </select></td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
-            </tr>
+            </tr>         
             <tr>
               <td class="set"><?php echo $entry_tax_class; ?></td>
               <td><select name="tax_class_id">
@@ -182,7 +204,11 @@
 			  <input type="hidden" id="decimal_place" value="<?php echo $decimal_place;?>">
 			  </td>
             </tr>
-			<tr><td colspan="2"><hr></td></tr>
+	    <tr>
+              <td class="set"><?php echo $entry_sort_order; ?></td>
+              <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
+            </tr>
+        	<tr><td colspan="2"><hr></td></tr>
             <tr>
               <td class="set"><?php echo $entry_weight_class; ?></td>
               <td><select name="weight_class_id">
@@ -233,17 +259,35 @@
 			  <th align="left"><?php echo $entry_product_option;?></th>
 			  <th align="left"><?php echo $option_names ;?></th>
 			  <th align="left"><?php echo $entry_model_numbers; ?></th>
+			  <th align="left"><?php echo $entry_po_barcode_encoding;?></th>
+			  <th align="left"><?php echo $entry_po_barcode;?></th>
 			  <th align="left"><?php echo $entry_po_quantity;?></th>
 			</tr>
 			<?php $option_rows = 0;?>
 			<?php foreach($product_options as $key => $product_option){?>
 			  <tr <?php if($option_rows%2){ echo 'class="row1"'; } else { echo 'class="row2"'; }?>>
 				<td><?php echo $product_option['product_option'];?></td>
-				<input type="hidden" name="product_options[<?php echo $option_rows;?>][product_option]" value="<?php echo $product_option['product_option'];?>">
+				<input id="option_id_<?php echo $option_rows;?>" type="hidden" name="product_options[<?php echo $option_rows;?>][product_option]" value="<?php echo $product_option['product_option'];?>">
 				<td><?php echo $product_option['option_name'];?></td>
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][option_name]" value="<?php echo $product_option['option_name'];?>">
 				<td><input type="text" size="32" maxlength="32" name="product_options[<?php echo $option_rows;?>][model_number]" value="<?php echo $product_option['model_number'];?>"></td>
-				<td><input type="text" size="6" name="product_options[<?php echo $option_rows;?>][quantity]" value="<?php echo $product_option['quantity'];?>">
+				<td><select id="encoding_<?php echo $option_rows;?>" name="product_options[<?php echo $option_rows;?>][encoding]" onchange="$('#barcode_<?php echo $option_rows;?>').val('')">
+				  <?php if ($product_option['encoding'] == 'upc') { ?>
+				    <option value="upc" selected><?php echo $text_upc; ?></option>
+				    <option value="ean"><?php echo $text_ean; ?></option>
+				  <?php } else { ?>
+				    <option value="upc"><?php echo $text_upc; ?></option>
+				    <option value="ean" selected><?php echo $text_ean; ?></option>
+				  <?php } ?>
+			    </select></td>
+				<td id="barcodefield_<?php echo $option_rows;?>">
+					<input id="barcode_<?php echo $option_rows;?>" type="text" size="14" maxlength="13" name="product_options[<?php echo $option_rows;?>][barcode]" value="<?php echo $product_option['barcode'];?>" onchange="validate_barcode('<?php echo $option_rows;?>')">
+					
+				    <?php if (@$error_barcode[$product_option['product_option']]) { ?>
+						<span class="error"><?php echo $error_barcode[$product_option['product_option']]; ?></span>
+				    <?php } ?>
+				</td>
+				<td><input type="text" size="6" name="product_options[<?php echo $option_rows;?>][quantity]" value="<?php echo $product_option['quantity'];?>"></td>
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][product_id]" value="<?php echo $product_option['product_id'];?>">
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][image_id]" value="<?php echo $product_option['image_id'];?>">
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][dimension_id]" value="<?php echo $product_option['dimension_id'];?>">
@@ -539,6 +583,7 @@
 	  <!-- E: Alt Description Meta Tags -->
     </div>
   </div>
+  <input type="hidden" id="product_id" name="product_id" value="<?php echo $product_id;?>">
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript">//<!--
   var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
@@ -697,8 +742,32 @@
   }
   return;
 }
+//--></script>
 
-  //--></script>  
+<script type="text/javascript"><!--
+function validate_barcode(optionRow){
+	var Encoding = $('#encoding_'+optionRow).val();
+	var Barcode = $('#barcode_'+ optionRow).val();
+	var ProductID = $('#product_id').val();
+	var OptionID = $('#option_id_'+ optionRow).val();
+	if(OptionID==undefined){
+		OptionID = 0;
+	}
+	
+	if(Barcode > 0){
+		$.ajax({
+			type:    'GET',
+			url:
+			'index.php?controller=product&action=validate_barcode&encoding='+Encoding+'&barcode='+Barcode+'&row='+optionRow+'&product_id='+ProductID+'&option_id='+OptionID,
+			async:   false,
+			success: function(Barcode_data) {
+     		$('#barcodefield_'+optionRow).html(Barcode_data);
+			}
+		});
+	}
+}
+  //--></script> 
+  
   <script type="text/javascript"><!--
 function addDiscount() {
 	$.ajax({

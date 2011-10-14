@@ -419,6 +419,18 @@
                   <?php } ?>
                 </select></td>
             </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_barcode; ?></td>
+              <td><select name="global_config_barcode_encoding">
+                  <?php if ($global_config_barcode_encoding == 'upc') { ?>
+                  <option value="upc" selected><?php echo $text_upc; ?></option>
+                  <option value="ean"><?php echo $text_ean; ?></option>
+                  <?php } else { ?>
+                  <option value="upc"><?php echo $text_upc; ?></option>
+                  <option value="ean" selected><?php echo $text_ean; ?></option>
+                  <?php } ?>
+                </select></td>
+	    </tr>
 			<tr><td colspan="2"><hr></td></tr>
 			<tr>
 			  <td class="set"><?php echo $entry_dimension_type; ?></td>

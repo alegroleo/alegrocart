@@ -19,10 +19,15 @@ $_['text_no_dim']          = 'None';
 $_['text_dimension_ship']  = 'Length, width, height are optional, used for shipping calculations where cubing is applied';
 $_['text_options']         = 'Options: ';
 $_['text_quantity_options']= 'Add Quantities in Product Options tab';
+$_['text_barcode_options'] = 'Add Barcodes in Product Options tab';
 $_['text_option_info']     = '<b>Important Information !</b>';
 $_['text_option_explantion'] = 'Before entering Quantities and other product:option information, you should create all your product to options first. <br>A product with one set of options will have entries like<br> 2:10 - 2:11 - 2:12<br>With 2 options, the entries will be like<br> 2:10.13 - 2:11.13 - 2:12.13 - 2:10.14 - 2:11.14 - 2:12.14<br>As you can see, the first set of product to option entries will no longer exist<br>If you create one set of options and later decide to create a second option, all your product:option specific data will be lost.<br>';
 $_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to adding or updating product options.<br>You can add, delete, or change product options for each product.<br>Icons with 3 red stars indicate the product has options.<br>Click the icon to edit options for the product chosen.';
 $_['text_featured_help']  = 'F - Featured Products<br>S - Special Priced Products<br>R - Related Products<br>D - Downloadable Products';
+$_['text_barcode_explanation'] = 'If you enter the barcode without the last check digit it will be calculated automatically. The check digit is a single checksum digit calculated from the first 11 (UPC) or 12 (EAN-13/ISBN) barcode digits.';
+$_['text_barcode_enc_explanation'] = 'The Universal Product Code (UPC) consists of 12 numerical digits (11 data and 1 check digit).<br>An EAN-13/ISBN barcode is a 13 digit (12 data and 1 check digit) barcoding standard.';
+$_['text_upc']            = 'UPC';
+$_['text_ean']            = 'EAN-13/ISBN';
 
 // Column
 $_['column_options']       = 'Options!';
@@ -48,6 +53,8 @@ $_['entry_manufacturer']   = 'Manufacturer:';
 $_['entry_shipping']       = 'Shippable Product:';
 $_['entry_date_available'] = 'Date Available:';
 $_['entry_quantity']       = 'In Stock Quantity:';
+$_['entry_barcode']        = 'Barcode Digits:';
+$_['entry_barcode_encoding'] = 'Barcode Encoding:';
 $_['entry_discount']       = 'Discount Amount %s';
 $_['entry_status']         = 'Product Status:';
 $_['entry_sort_order']     = 'Sort Order:';
@@ -81,6 +88,8 @@ $_['entry_percent_discount'] = 'Percentage Discount % '; // New
 $_['entry_quantity_discount'] = '<br>Percentage Discount is the base for quantity discount calculations.<br>Dollar amounts are for reference only, based on the regular selling price.<br>A new percentage discount can be created by entering a dollar amount.<br>If Dated Special pricing is in affect, the discount will be calculated off the dated special price.';
 $_['entry_product_option']    = 'Product Option';
 $_['entry_po_quantity']       = 'Quantity in Stock';
+$_['entry_po_barcode']        = 'Barcode Digits';
+$_['entry_po_barcode_encoding'] = 'Barcode Encoding';
 // Button
 $_['button_add']           = 'Add';
 $_['button_remove']        = 'Remove';
@@ -104,4 +113,9 @@ $_['error_start_date']     = '* Start Date is not valid!'; // New
 $_['error_end_date']       = '* End Date is not valid!'; // New
 $_['error_already_exists'] = '* ERROR - This product name already EXISTS *';
 $_['error_duplicate_name'] = '*ERROR - You already have another product with this name*';
+$_['error_ean']            = 'EAN-13/ISBN barcode must be 12 or 13 digit!'; // New
+$_['error_upc']            = 'UPC barcode must be 11 or 12 digit!'; // New
+$_['error_barcode_already_exists'] = '* ERROR - This barcode already EXISTS *';
+$_['error_warning']        = '* You have errors. Please check all tabs for error messages!';
+$_['error_duplicate_barcode'] = '* ERROR - DUPLICATE BARCODE *';
 ?>

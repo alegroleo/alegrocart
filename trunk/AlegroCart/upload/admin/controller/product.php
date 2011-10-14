@@ -20,7 +20,8 @@ class ControllerProduct extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelProduct = $model->get('model_admin_product');
-		
+		$this->barcode     	=& $locator->get('barcode'); 
+
 		$this->language->load('controller/product.php');
 		$this->language->load('controller/product_lfs.php');
 	}
@@ -31,18 +32,13 @@ class ControllerProduct extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
   	}
-  
+	
   	function insert() {
     	$this->template->set('title', $this->language->get('heading_title'));
     	if (($this->request->isPost()) && ($this->validateForm())) {
 			$url_alias = $this->config->get('config_url_alias');
 			$url_seo = $this->config->get('config_seo');
-		   	foreach ($this->request->get('name', 'post', array()) as $value) {
-				if ($this->modelProduct->check_product_name($value)){
-					$this->session->set('message',  $this->language->get('error_already_exists'));
-					$this->response->redirect($this->url->ssl('product'));
-				}
-			}
+		   	
       		$this->modelProduct->insert_product();
 			$insert_id = $this->modelProduct->get_insert_id();
 			$name        = $this->request->get('name', 'post');
@@ -94,12 +90,7 @@ class ControllerProduct extends Controller {
     	if (($this->request->isPost()) && ($this->validateForm())) {
 			$url_alias = $this->config->get('config_url_alias');
 			$url_seo = $this->config->get('config_seo');
-		   	foreach ($this->request->get('name', 'post', array()) as $value) {
-				if($this->modelProduct->check_product_id_name($value)){
-					$this->session->set('message', $this->language->get('error_duplicate_name'));
-					$this->response->redirect($this->url->ssl('product'));
-				}
-			}
+
 			$this->modelProduct->update_product();			
 			$this->modelProduct->delete_description();
 			$this->modelProduct->get_description_post();
@@ -146,8 +137,9 @@ class ControllerProduct extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 	  		
 			$this->response->redirect($this->url->ssl('product'));
+ 
 		}
-    
+  
     	$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 	
@@ -417,6 +409,14 @@ class ControllerProduct extends Controller {
     	$view->set('entry_quantity', $this->language->get('entry_quantity'));
 		$view->set('entry_discount', $this->language->get('entry_discount', $symbol_left ? $symbol_left : $symbol_right));
     	$view->set('entry_status', $this->language->get('entry_status'));
+	$view->set('entry_barcode', $this->language->get('entry_barcode'));
+	$view->set('entry_barcode_encoding', $this->language->get('entry_barcode_encoding'));
+	$view->set('text_barcode_explanation', $this->language->get('text_barcode_explanation'));
+	$view->set('text_barcode_enc_explanation', $this->language->get('text_barcode_enc_explanation'));
+	$view->set('text_barcode_options', $this->language->get('text_barcode_options'));
+ 		$view->set('text_ean', $this->language->get('text_ean'));
+ 		$view->set('text_upc', $this->language->get('text_upc'));
+
     	$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
     	$view->set('entry_tax_class', $this->language->get('entry_tax_class'));
     	$view->set('entry_price', $this->language->get('entry_price'));
@@ -445,7 +445,9 @@ class ControllerProduct extends Controller {
 		$view->set('entry_quantity_discount',$this->language->get('entry_quantity_discount'));
 		$view->set('entry_product_option',$this->language->get('entry_product_option'));
 		$view->set('entry_po_quantity',$this->language->get('entry_po_quantity'));
-		
+		$view->set('entry_po_barcode',$this->language->get('entry_po_barcode'));
+		$view->set('entry_po_barcode_encoding',$this->language->get('entry_po_barcode_encoding'));
+
     	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
     	$view->set('button_update', $this->language->get('button_update'));
@@ -474,7 +476,10 @@ class ControllerProduct extends Controller {
     	$view->set('error_date_available', @$this->error['date_available']);
     	$view->set('error_start_date', @$this->error['start_date']); 
     	$view->set('error_end_date', @$this->error['end_date']); 
-		
+	$view->set('error_barcode', @$this->error['barcode']);
+	$view->set('error', @$this->error['warning']);
+        $view->set('error_duplicate_name', @$this->error['duplicate_name']);
+	
     	$view->set('action', $this->url->ssl('product', $this->request->gethtml('action'), array('product_id' => $this->request->gethtml('product_id'))));
   
     	$view->set('list', $this->url->ssl('product'));
@@ -545,6 +550,8 @@ class ControllerProduct extends Controller {
     	if (($this->request->gethtml('product_id')) && (!$this->request->isPost())) {
       		$product_info = $this->modelProduct->get_product_info();
     	}
+		
+		$view->set('product_id', $this->request->gethtml('product_id'));
 		
     	$view->set('manufacturers', $this->modelProduct->get_manufacturers());
 
@@ -823,10 +830,30 @@ class ControllerProduct extends Controller {
 		$view->set('option_names', $this->language->get('text_options') . $this->get_option_names());
 
 		if ($this->request->has('quantity', 'post')) {
-      		$view->set('quantity', !$this->option_status ? $this->request->gethtml('quantity', 'post') : 0);
-    	} else {
-      		$view->set('quantity', !$this->option_status ? @$product_info['quantity'] : 0);
-    	}
+			$view->set('quantity', !$this->option_status ? $this->request->gethtml('quantity', 'post') : 0);
+		} else {
+			$view->set('quantity', !$this->option_status ? @$product_info['quantity'] : 0);
+		}
+
+		if ($this->request->has('barcode', 'post')) {
+			$view->set('barcode', !$this->option_status ? $this->request->gethtml('barcode', 'post') : '');
+		} else {
+			$view->set('barcode', !$this->option_status ? @$product_info['barcode'] : '');
+		}
+
+		if ($this->request->has('encoding', 'post')) {
+			$view->set('encoding', !$this->option_status ? $this->request->gethtml('encoding', 'post') : '');
+		} elseif (($product_info['barcode']) != '') {
+			if ($this->barcode->get_length(@$product_info['barcode'])==13){
+			      $view->set('encoding', !$this->option_status ? 'ean' : '');
+			} else {
+			      $view->set('encoding', !$this->option_status ? 'upc' : '');
+			}
+		} else {
+      		$view->set('encoding', !$this->option_status ? $this->config->get('config_barcode_encoding') : '');
+		}
+
+		
 		$view->set('option_status', $this->option_status);
 		
     	$image_data = array();
@@ -918,6 +945,7 @@ class ControllerProduct extends Controller {
 				'product_id'		=> $result['product_id'],
 				'product_option'	=> $result['product_option'],
 				'quantity'			=> $result['quantity'],
+				'barcode'			=> $result['barcode'],
 				'image_id'			=> $result['image_id'],
 				'dimension_id'		=> $result['dimension_id'],
 				'dimension_value'	=> $result['dimension_value'],
@@ -956,6 +984,8 @@ class ControllerProduct extends Controller {
 						'product_id'		=> $product_id,
 						'product_option' 	=> $option_key,	
 						'quantity'			=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['quantity'] : 0,
+						'barcode'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['barcode'] : '',
+						'encoding'  		=> array_key_exists($option_key, $product_options) && $product_options[$option_key]['barcode'] != '' ? array_key_exists($option_key, $product_options) && ($this->barcode->get_length($product_options[$option_key]['barcode'])==13) ? 'ean' : 'upc' : $this->config->get('config_barcode_encoding'),
 						'image_id'			=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['image_id'] : 0,
 						'dimension_id'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['dimension_id'] : 0,
 						'dimension_value'	=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['dimension_value'] : '0:0:0',
@@ -971,6 +1001,8 @@ class ControllerProduct extends Controller {
 								'product_id'		=> $product_id,
 								'product_option' 	=> $option_key,	
 								'quantity'			=> $match ? $product_options[$match]['quantity'] : 0,
+								'barcode'		=> $match ? $product_options[$match]['barcode'] : '',
+								'encoding'		=> $match && $product_options[$match]['barcode'] != '' ? ($this->barcode->get_length($product_options[$match]['barcode'])==13) ? 'ean' : 'upc' : $this->config->get('config_barcode_encoding'),
 								'image_id'			=> $match ? $product_options[$match]['image_id'] : 0,
 								'dimension_id'		=> $match ? $product_options[$match]['dimension_id'] : 0,
 								'dimension_value'	=> $match ? $product_options[$match]['dimension_value'] : '0:0:0',
@@ -986,6 +1018,8 @@ class ControllerProduct extends Controller {
 									'product_id'		=> $product_id,
 									'product_option' 	=> $option_key,	
 									'quantity'			=> $match ? $product_options[$match]['quantity'] : 0,
+									'barcode'		=> $match ? $product_options[$match]['barcode'] : '',
+									'encoding'		=> $match && $product_options[$match]['barcode'] != '' ? ($this->barcode->get_length($product_options[$match]['barcode'])==13) ? 'ean' : 'upc' : $this->config->get('config_barcode_encoding'),
 									'image_id'			=> $match ? $product_options[$match]['image_id'] : 0,
 									'dimension_id'		=> $match ? $product_options[$match]['dimension_id'] : 0,
 									'dimension_value'	=> $match ? $product_options[$match]['dimension_value'] : '0:0:0',
@@ -1000,6 +1034,7 @@ class ControllerProduct extends Controller {
 		} else {
 			return FALSE;
 		}
+
 		return $option_list;
 	}
 	private function compare_key($product_options, $option_key){
@@ -1117,6 +1152,62 @@ class ControllerProduct extends Controller {
 		return $output;
 	}
 	
+	function validate_barcode(){
+		$barcode = $this->request->gethtml('barcode');
+		$encoding = $this->request->gethtml('encoding');
+		$product_id = $this->request->gethtml('product_id');
+		$option_id = $this->request->gethtml('option_id');
+		$row = $this->request->gethtml('row');
+		$error = FALSE;
+		$success = 'Barcode Validated';
+		$output = '';
+		if($encoding == 'ean'){
+			if(!$this->validate->strlen($barcode,12,13)){
+				$error = $this->language->get('error_ean');
+			}
+		} else {
+			if(!$this->validate->strlen($barcode,11,12)){
+				$error = $this->language->get('error_upc');
+			}
+		}
+		if(!$error){
+			$barcode = $this->barcode->check($barcode, $encoding);
+			if($product_id){
+				if($this->modelProduct->check_barcode_id($barcode, $option_id)){
+					$error = $this->language->get('error_barcode_already_exists');
+				}
+			} else {
+				if($this->modelProduct->check_barcode($barcode)){
+					$error = $this->language->get('error_barcode_already_exists');
+				}
+			}
+			if(!$error){
+				$this->barcode->create($barcode, $encoding);
+			}
+		} 
+		if($error){
+			$error = $barcode . ': ' . $error;
+			$barcode = '';
+		}
+		$output .= '<input id="barcode_' . $row . '" ';
+		$output .= 'type="text" size="14" maxlength="13" ';
+		if($option_id){
+			$output .= 'name="product_options[' . $row . '][barcode]" ';
+		} else {
+			$output .= 'name="barcode" ';
+		}
+		if(!$error){
+			$output .= 'class="success" ';
+		}
+		$output .= 'value="' . $barcode . '" ';
+		$output .= 'onchange="validate_barcode(\'' . $row . '\')">';
+		if($error){
+			$output .= '<span class="error">' . $error . '</span>';
+		}
+
+		$this->response->set($output);
+	}
+	
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -1139,20 +1230,32 @@ class ControllerProduct extends Controller {
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
 		
-    	if (!$this->user->hasPermission('modify', 'product')) {
-      		$this->error['message'] = $this->language->get('error_permission');
-    	}
+	    if (!$this->user->hasPermission('modify', 'product')) {
+		      $this->error['message'] = $this->language->get('error_permission');
+	    }
 	      
-    	foreach ($this->request->get('name', 'post', array()) as $value) {
-            if (!$this->validate->strlen($value,1,64)) {
-                $this->error['name'] = $this->language->get('error_name');
-            }
-    	}
+	    foreach ($this->request->get('name', 'post', array()) as $key =>$value) {
+		if (!$this->validate->strlen($value,1,64)) {
+		    $this->error['name'][$key] = $this->language->get('error_name');
+		}
+	    }
+      
+	    foreach ($this->request->get('name', 'post', array()) as $key =>$value) {
+		  if ($this->request->gethtml('product_id')) {
+			if($this->modelProduct->check_product_id_name($value)){
+			    $this->error['duplicate_name'][$key] =  $this->language->get('error_duplicate_name');
+			}
+		  } else {
+			if ($this->modelProduct->check_product_name($value)){
+			    $this->error['duplicate_name'][$key] =  $this->language->get('error_duplicate_name');
+			}
+		  }
+	    }
 
-		if (!$this->request->gethtml('date_available_month', 'post') || !$this->request->gethtml('date_available_day', 'post') || !$this->request->gethtml('date_available_year', 'post')) {
+	    if (!$this->request->gethtml('date_available_month', 'post') || !$this->request->gethtml('date_available_day', 'post') || !$this->request->gethtml('date_available_year', 'post')) {
 	  		$this->error['date_available'] = $this->language->get('error_date_available');
 		}
-    	elseif (!checkdate($this->request->gethtml('date_available_month', 'post'), $this->request->gethtml('date_available_day', 'post'), $this->request->gethtml('date_available_year', 'post'))) {
+	    elseif (!checkdate($this->request->gethtml('date_available_month', 'post'), $this->request->gethtml('date_available_day', 'post'), $this->request->gethtml('date_available_year', 'post'))) {
 	  		$this->error['date_available'] = $this->language->get('error_date_available');
 		}
 		
@@ -1163,6 +1266,25 @@ class ControllerProduct extends Controller {
 	   if (!($this->request->gethtml('end_date_month', 'post') === '00' && $this->request->gethtml('end_date_day', 'post') === '00' && $this->request->gethtml('end_date_year', 'post') === '0000') && (!checkdate($this->request->gethtml('end_date_month', 'post'), $this->request->gethtml('end_date_day', 'post'), $this->request->gethtml('end_date_year', 'post')))){
 			$this->error['end_date'] = $this->language->get('error_end_date');
 		}		
+	   
+	  $barcodes = array();
+	    foreach ($this->request->gethtml('product_options', 'post', array()) as $product_option) {
+		$barcodes[] = $product_option['barcode'];
+	    }
+
+	  foreach ($this->request->gethtml('product_options', 'post', array()) as $product_option) {
+		if ($this->request->gethtml('product_id')) {
+		
+		  if($product_option['barcode'] != '' && count(array_keys($barcodes, $product_option['barcode'])) > 1){
+		      $this->error['barcode'][$product_option['product_option']] = $this->language->get('error_duplicate_barcode');
+		  
+		  }
+		}
+	 }
+
+	 if (@$this->error && !@$this->error['message']){
+		$this->error['warning'] = $this->language->get('error_warning');
+	    }
 
     	if (!$this->error) {
       		return TRUE;

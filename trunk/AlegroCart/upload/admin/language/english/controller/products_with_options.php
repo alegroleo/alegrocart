@@ -15,6 +15,8 @@ $_['text_no_image']        = 'No Image';
 $_['text_dimension_ship']  = 'Length, width, height are optional, used for shipping calculations where cubing is applied';
 $_['text_options']         = 'Options: ';
 $_['text_quantity_options']= 'Add Quantities in Product Options';
+$_['text_upc']            = 'UPC';
+$_['text_ean']            = 'EAN-13/ISBN';
 
 // Column
 $_['column_product_option']= 'Product ID';
@@ -38,8 +40,12 @@ $_['entry_quantity']       = 'In Stock Quantity:';
 $_['entry_model_number']   = 'Model Number:';
 $_['entry_product_option'] = 'Product Option: ';
 $_['entry_image']          = 'Image:';
+$_['entry_barcode']        = 'Barcode Digits:';
+$_['entry_barcode_encoding'] = 'Barcode Encoding:';
 
 // Error
 $_['error_permission']     = 'Warning: You do not have permission to modify products with options';
-
+$_['error_ean']            = 'EAN-13/ISBN barcode must be 12 or 13 digit!'; // New
+$_['error_upc']            = 'UPC barcode must be 11 or 12 digit!'; // New
+$_['error_barcode_already_exists'] = '* ERROR - This barcode already EXISTS *';
 ?>

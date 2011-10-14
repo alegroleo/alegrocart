@@ -327,6 +327,11 @@ form {
 	clear: both;
 }
 
+.success {
+	color: #000000;
+	background-color: #99FF00;
+}
+
 .required {
 	margin: 0;
 	color: #FF0000;

@@ -17,7 +17,8 @@ class ControllerOrder extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user'); 
 		$this->modelOrder = $model->get('model_admin_order');
-		
+		$this->barcode     	=& $locator->get('barcode'); 
+
 		$this->language->load('controller/order.php');
 	}
   	function index() {
@@ -395,6 +396,8 @@ class ControllerOrder extends Controller {
 				'option'   		=> $option_data,
 				'download'      => $download,
 				'quantity' 		=> $product['quantity'],
+				'barcode' 		=> $product['barcode'],
+				'barcode_url' 		=> $product['barcode'] ? $this->barcode->show($product['barcode']) : NULL,
 				'special_price'	=> $special_pr > 0 ? $this->currency->format($special_pr) : NULL,
 				'price'    		=> $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
 				'discount' 		=> (ceil($product['discount']) ? $this->currency->format($product['discount'], $order_info['currency'], $order_info['value']) : NULL),

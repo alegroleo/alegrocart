@@ -40,7 +40,7 @@ $line=DIR_BASE.(substr(trim($line),2));
 $errors[]= DIR_BASE.UPLOAD.$language->get('error_not_found'); 
 }
 
-$files=array('cache'.D_S, 'image'.D_S, 'image'.D_S.'cache'.D_S, 'image'.D_S.'flash'.D_S ,'download'.D_S);
+$files=array('cache'.D_S, 'image'.D_S, 'image'.D_S.'cache'.D_S, 'image'.D_S.'flash'.D_S, 'image'.D_S.'mask'.D_S, 'image'.D_S.'barcode'.D_S, 'download'.D_S);
 foreach ($files as $file) {
 	$file=DIR_BASE.$file;
 	if (!is_writable($file)) { 

@@ -17,7 +17,8 @@ class ControllerProductsWithOptions extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelProductOptions = $model->get('model_admin_productswithoptions');
-		
+		$this->barcode     	=& $locator->get('barcode'); 
+
 		$this->language->load('controller/products_with_options.php');
 	}
 
@@ -37,9 +38,10 @@ class ControllerProductsWithOptions extends Controller {
 	
 		if (($this->request->isPost()) && ($this->validateForm())) {
 			$this->modelProductOptions->update_option();
-
+    
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('products_with_options'));
+
 		}
 		
 		$this->template->set('content', $this->getForm());
@@ -210,6 +212,11 @@ class ControllerProductsWithOptions extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
 
+	$view->set('entry_barcode', $this->language->get('entry_barcode'));
+	$view->set('entry_barcode_encoding', $this->language->get('entry_barcode_encoding'));
+	$view->set('text_ean', $this->language->get('text_ean'));
+ 	$view->set('text_upc', $this->language->get('text_upc'));
+
 		$view->set('error', @$this->error['message']);
 		
 		$view->set('action', $this->url->ssl('products_with_options', $this->request->gethtml('action'), array('product_option' => $this->request->gethtml('product_option'))));
@@ -254,17 +261,36 @@ class ControllerProductsWithOptions extends Controller {
 			$view->set('quantity', @$product_info['quantity']);
 		}
 		
+
+		if ($this->request->has('barcode', 'post')) {
+			$view->set('barcode', $this->request->gethtml('barcode', 'post'));
+		} else {
+			$view->set('barcode', @$product_info['barcode']);
+		}
+
+		if ($this->request->has('encoding', 'post')) {
+			$view->set('encoding', $this->request->gethtml('encoding', 'post'));
+		} elseif (($product_info['barcode']) != '') {
+			if ($this->barcode->get_length($product_info['barcode'])==13){
+			      $view->set('encoding', 'ean');
+			} else {
+			      $view->set('encoding', 'upc');
+			}
+		} else {
+      		$view->set('encoding', $this->config->get('config_barcode_encoding'));
+		}
+
 		if ($this->request->has('image_id', 'post')) {
-      		$view->set('image_id', $this->request->gethtml('image_id', 'post'));
-    	} else {
-      		$view->set('image_id', @$product_info['image_id']);
-    	}
+			$view->set('image_id', $this->request->gethtml('image_id', 'post'));
+		} else {
+			$view->set('image_id', @$product_info['image_id']);
+		}
 		
 		if ($this->request->has('model_number', 'post')) {
-      		$view->set('model_number', $this->request->gethtml('model_number', 'post'));
-    	} else {
-      		$view->set('model_number', @$product_info['model_number']);
-    	}
+			$view->set('model_number', $this->request->gethtml('model_number', 'post'));
+		} else {
+			$view->set('model_number', @$product_info['model_number']);
+		}
 		
 		if ($this->request->has('dimension_value', 'post')) {
 			$dimension_value = implode(':', $this->request->gethtml('dimension_value', 'post'));
@@ -451,6 +477,51 @@ class ControllerProductsWithOptions extends Controller {
 		return $output;
 	}
 	
+	function validate_barcode(){
+		$barcode = $this->request->gethtml('barcode');
+		$encoding = $this->request->gethtml('encoding');
+		$product_id = $this->request->gethtml('product_id');
+		$option_id = $this->request->gethtml('option_id');
+		$error = FALSE;
+		$success = 'Barcode Validated';
+		$output = '';
+		if($encoding == 'ean'){
+			if(!$this->validate->strlen($barcode,12,13)){
+				$error = $this->language->get('error_ean');
+			}
+		} else {
+			if(!$this->validate->strlen($barcode,11,12)){
+				$error = $this->language->get('error_upc');
+			}
+		}
+		if(!$error){
+			$barcode = $this->barcode->check($barcode, $encoding);
+			if($this->modelProductOptions->check_barcode_id($barcode, $option_id)){
+				$error = $this->language->get('error_barcode_already_exists');
+			}
+			if(!$error){
+				$this->barcode->create($barcode, $encoding);
+			}
+		} 
+		if($error){
+			$error = $barcode . ': ' . $error;
+			$barcode = '';
+		}
+		$output .= '<input id="barcode" ';
+		$output .= 'type="text" size="14" maxlength="13" ';
+		$output .= 'name="barcode" ';
+		if(!$error){
+			$output .= 'class="success" ';
+		}
+		$output .= 'value="' . $barcode . '" ';
+		$output .= 'onchange="validate_barcode()">';
+		if($error){
+			$output .= '<span class="error">' . $error . '</span>';
+		}
+
+		$this->response->set($output);
+	}
+	
 	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -458,10 +529,12 @@ class ControllerProductsWithOptions extends Controller {
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
 		
-    	if (!$this->user->hasPermission('modify', 'products_with_options')) {
+		if (!$this->user->hasPermission('modify', 'products_with_options')) {
       		$this->error['message'] = $this->language->get('error_permission');
-    	}
-		if (!$this->error) {
+		}
+
+		
+	if (!$this->error) {
       		return TRUE;
     	} else {
       		return FALSE;

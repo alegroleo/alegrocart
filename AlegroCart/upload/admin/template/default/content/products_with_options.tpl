@@ -67,8 +67,28 @@
 	  <tr><td class="set"><?php echo $entry_quantity;?></td>
 	    <td><input type="text" size="6" name="quantity" value="<?php echo $quantity;?>"></td>
 	  </tr>
-	  <input type="hidden" name="product_option" value="<?php echo $product_option;?>">
-	  <input type="hidden" name="product_id" value="<?php echo $product_id;?>">
+	  <input id="product_option" type="hidden" name="product_option" value="<?php echo $product_option;?>">
+	  <input id="product_id" type="hidden" name="product_id" value="<?php echo $product_id;?>">
+	</table>
+	<table>
+	  <tr><td colspan="2"><hr></td></tr>
+	  <tr>
+              <td class="set"><?php echo $entry_barcode_encoding; ?></td>
+              <td><select id="encoding" name="encoding" onchange="$('#barcode').val('')">
+                  <?php if ($encoding == 'upc') { ?>
+                  <option value="upc" selected><?php echo $text_upc; ?></option>
+                  <option value="ean"><?php echo $text_ean; ?></option>
+                  <?php } else { ?>
+                  <option value="upc"><?php echo $text_upc; ?></option>
+                  <option value="ean" selected><?php echo $text_ean; ?></option>
+                  <?php } ?>
+                </select></td>
+            </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_barcode; ?></td>
+              <td id="barcodefield"><input id="barcode" type="text" size="14" maxlength="13" name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode()">
+			</td>
+        </tr>
 	</table>
 	<table>
 	  <tr><td colspan="2"><hr></td></tr>
@@ -106,7 +126,26 @@
 	<input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   </form>
 <?php }?>
-
+<script type="text/javascript"><!--
+  function validate_barcode(){
+	var Encoding = $('#encoding').val();
+	var Barcode = $('#barcode').val();
+	var ProductID = $('#product_id').val();
+	var OptionID = $('#product_option').val();
+	
+	if(Barcode > 0){
+		$.ajax({
+			type:    'GET',
+			url:
+			'index.php?controller=products_with_options&action=validate_barcode&encoding='+Encoding+'&barcode='+Barcode+'&product_id='+ProductID+'&option_id='+OptionID,
+			async:   false,
+			success: function(Barcode_data) {
+     		$('#barcodefield').html(Barcode_data);
+			}
+		});
+	}
+  }
+  //--></script> 
   <script type="text/javascript"><!--
   $('#image').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id').value);
   //--></script>

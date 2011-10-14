@@ -132,6 +132,11 @@
 		</td>
 		  <td class="right"><?php echo '<span class="tax">*</span>' . $product['total_discounted']; ?></td>
 	</tr>
+	<tr>
+		  <td >
+		  <img src="<?php echo $product['barcode_url']; ?>" title="<?php echo $product['barcode']; ?>" alt="<?php echo $product['barcode']; ?>">
+		  </td>
+	</tr>
       <?php } ?>
 	  
 	  <tr><td colspan="12"><hr></td></tr>

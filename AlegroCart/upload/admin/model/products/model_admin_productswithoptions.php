@@ -6,6 +6,7 @@ class Model_Admin_ProductsWithOptions extends Model {
 		$this->language =& $locator->get('language');
 		$this->request  =& $locator->get('request');
 		$this->session 	=& $locator->get('session');
+		$this->barcode  =& $locator->get('barcode'); 
 	}
 	function get_products(){
 		$results = $this->database->getRows("select distinct product_id from product_to_option");
@@ -27,8 +28,8 @@ class Model_Admin_ProductsWithOptions extends Model {
 		$dimension_value = $this->request->gethtml('dimension_value', 'post');
 		$dimension_id = $dimension_value[0] > 0 ? $this->request->gethtml('dimension_id', 'post') : 0;
 		$dimension_value = $dimension_value[0] > 0 ? implode(':',$dimension_value) : '0:0:0';
-		$sql = "update product_options set quantity = '?', image_id = '?', dimension_id = '?', dimension_value = '?', model_number = '?' where product_id = '?' and product_option = '?'";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('quantity', 'post'), $image_id, $dimension_id, $dimension_value, $this->request->gethtml('model_number' , 'post'), $this->request->gethtml('product_id', 'post'), $this->request->gethtml('product_option')));
+		$sql = "update product_options set quantity = '?', barcode = '?', image_id = '?', dimension_id = '?', dimension_value = '?', model_number = '?' where product_id = '?' and product_option = '?'";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('quantity', 'post'), $this->barcode->check($this->request->gethtml('barcode', 'post'),$this->request->gethtml('encoding', 'post')), $image_id, $dimension_id, $dimension_value, $this->request->gethtml('model_number' , 'post'), $this->request->gethtml('product_id', 'post'), $this->request->gethtml('product_option')));
 	}
 	function get_option_values(){
 		$results = $this->database->getRows("select pto.product_to_option_id, pto.option_value_id, pto.option_id, ov.name from product_to_option pto left join option_value ov on (pto.option_value_id = ov.option_value_id) where pto.product_id = '" . (int)$this->session->get('productwo_id') . "' and ov.language_id = '" . (int)$this->language->getId() . "' order by sort_order");
@@ -102,6 +103,10 @@ class Model_Admin_ProductsWithOptions extends Model {
 	function get_no_image(){
 		$result = $this->database->getRow("select image_id from image_description where language_id = '1' and title = 'no image'");
 		return $result['image_id'];
+	}
+	function check_barcode_id($value, $product_option = ''){
+	      $result = $this->database->getRow("select barcode, product_id from product where barcode = '". htmlspecialchars_deep($value) ."' and product_id != '".(int)$this->request->gethtml('product_id') ."'union select barcode, product_option from product_options where barcode = '". htmlspecialchars_deep($value) ."' and product_option != '".$product_option."'");
+	      return $result;
 	}
 }	
 ?>

@@ -90,7 +90,9 @@ class ControllerSetting extends Controller {
 		$view->set('text_guest_checkout', $this->language->get('text_guest_checkout'));
 		$view->set('text_time_zone', $this->language->get('text_time_zone'));
 		$view->set('text_token', $this->language->get('text_token'));
-		
+		$view->set('text_ean', $this->language->get('text_ean'));
+ 		$view->set('text_upc', $this->language->get('text_upc'));
+
 		$view->set('entry_token', $this->language->get('entry_token'));
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
@@ -127,6 +129,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_currency', $this->language->get('entry_currency'));
 		$view->set('entry_currency_surcharge', $this->language->get('entry_currency_surcharge'));
 		$view->set('entry_weight', $this->language->get('entry_weight'));
+		$view->set('entry_barcode', $this->language->get('entry_barcode'));
 		$view->set('entry_dimension_type', $this->language->get('entry_dimension_type'));
 		$entry_dimension = array(1 => $this->language->get('entry_linear'),
 								2 => $this->language->get('entry_area'),
@@ -821,6 +824,11 @@ class ControllerSetting extends Controller {
 
 		$view->set('weight_classes', $this->modelSetting->get_weight_classes());
 		
+		if ($this->request->has('global_config_barcode_encoding')) {
+			$view->set('global_config_barcode_encoding', $this->request->gethtml('global_config_barcode_encoding'));
+		} else {
+			$view->set('global_config_barcode_encoding', @$setting_info['global']['config_barcode_encoding']);
+		}
 		if ($this->request->has('global_config_dimension_type_id')) {
 			$view->set('global_config_dimension_type_id', $this->request->gethtml('global_config_dimension_type_id'));
 		} else {

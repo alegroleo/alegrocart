@@ -57,6 +57,8 @@ $_['text_guest_checkout']     = 'If not enabled, customers must register to comp
 $_['text_error_email_status'] = 'Will send email error message to admin';
 $_['text_time_zone']          = 'For valid time zones, go to http://php.net/manual/en/timezones.php';
 $_['text_token']	      = 'You can enter plain text which is converted to 32 bit Hash<br>Once created, this token becomes readonly';
+$_['text_upc']                = 'UPC';
+$_['text_ean']                = 'EAN-13/ISBN';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
@@ -95,6 +97,7 @@ $_['entry_language']        = 'Default Language:';
 $_['entry_currency']        = 'Default Currency:';
 $_['entry_currency_surcharge'] = 'Currency Surcharge:';
 $_['entry_weight']          = 'Default Weight:';
+$_['entry_barcode']         = 'Default Barcode Encoding:';
 $_['entry_dimension_type']  = 'Default Dimension Type;';
 $_['entry_linear']          = 'Default Linear Dimension:';
 $_['entry_area']            = 'Default Area Dimension:';

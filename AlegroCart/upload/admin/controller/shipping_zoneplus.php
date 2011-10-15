@@ -49,6 +49,8 @@ class ControllerShippingZonePlus extends Controller {
 		$view->set('entry_added_cost', $this->language->get('entry_added_cost'));
 		$view->set('entry_added_weight', $this->language->get('entry_added_weight'));
 		$view->set('entry_max_weight', $this->language->get('entry_max_weight'));
+		$view->set('entry_free_amount', $this->language->get('entry_free_amount'));
+		$view->set('entry_message', $this->language->get('entry_message'));
 		
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -91,6 +93,9 @@ class ControllerShippingZonePlus extends Controller {
 					$geo_zone_data[] = array(
 						'geo_zone_id' 	=> $result['geo_zone_id'],
 						'name'        	=> $result['name'],
+						'description'	=> $result['description'],
+						'free_amount'	=> @$data['free_amount'],
+						'message'		=> @$data['message'],
 						'base_cost'	  	=> $data['base_cost'],
 						'base_weight'	=> $data['base_weight'],
 						'added_cost'	=> $data['added_cost'],
@@ -105,6 +110,9 @@ class ControllerShippingZonePlus extends Controller {
 					$geo_zone_data[] = array(
 						'geo_zone_id' 	=> $result['geo_zone_id'],
 						'name'        	=> $result['name'],
+						'description'	=> $result['description'],
+						'free_amount'	=> $geo_zone_info[$result['geo_zone_id']]['free_amount'],
+						'message'		=> $geo_zone_info[$result['geo_zone_id']]['message'],
 						'base_cost'	  	=> $geo_zone_info[$result['geo_zone_id']]['base_cost'],
 						'base_weight'	=> $geo_zone_info[$result['geo_zone_id']]['base_weight'],
 						'added_cost'	=> $geo_zone_info[$result['geo_zone_id']]['added_cost'],
@@ -148,31 +156,39 @@ class ControllerShippingZonePlus extends Controller {
 	function addzone(){
 		$geozone_id = $this->request->gethtml('geozone_id');
 		$geozone = $this->modelZonePlus->get_geozone($geozone_id);
-		$output = '<tr id="geozone' . $geozone_id . '">' . "\n";
-		$output .= '<td>' . $geozone['name'] . '</td>' . "\n";
+		$output = '<tr id="geozone' . $geozone_id . 'A">' . "\n";
+		$output .= '<td class="set">' . $geozone['name'] . '</td>' . "\n";
 		$output .= '<td><select name="geo_zone[' . $geozone_id . '][status]">' . "\n";
 		$output .= '<option value="1">' . $this->language->get('text_enabled') . '</option>' . "\n";
 		$output .= '<option value="0" selected>' . $this->language->get('text_disabled') . '</option>' . "\n";
 		$output .= '</select></td>' . "\n";
-		$output .= '<td><input size="10" type="text" name="geo_zone[' . $geozone_id . '][base_cost]" value="0.00"></td>' . "\n";
-		$output .= '<td><input size="10" type="text" name="geo_zone[' . $geozone_id . '][base_weight]" value="0"></td>' . "\n";
-		$output .= '<td><input size="10" type="text" name="geo_zone[' . $geozone_id . '][added_cost]" value="0.00"></td>' . "\n";
-		$output .= '<td><input size="10" type="text" name="geo_zone[' . $geozone_id . '][added_weight]" value="0"></td>' . "\n";
-		$output .= '<td><input size="10" type="text" name="geo_zone[' . $geozone_id . '][max_weight]" value="0"></td>' . "\n";
+		$output .= '<td><input size="8" type="text" name="geo_zone[' . $geozone_id . '][base_cost]" value="0.00"></td>' . "\n";
+		$output .= '<td><input size="6" type="text" name="geo_zone[' . $geozone_id . '][base_weight]" value="0"></td>' . "\n";
+		$output .= '<td><input size="8" type="text" name="geo_zone[' . $geozone_id . '][added_cost]" value="0.00"></td>' . "\n";
+		$output .= '<td><input size="6" type="text" name="geo_zone[' . $geozone_id . '][added_weight]" value="0"></td>' . "\n";
+		$output .= '<td><input size="6" type="text" name="geo_zone[' . $geozone_id . '][max_weight]" value="0"></td>' . "\n";
+		$output .= '<td><input size="8" type="text" name="geo_zone[' . $geozone_id . '][free_amount]" value="0.00"></td>' . "\n";
+		$output .= '<tr id="geozone' . $geozone_id . 'B">' . "\n";
+		$output .= '<td width="160" class="set">' . $geozone['description'] . '</td>' . "\n";
+		$output .= '<td colspan="8"><input size="106" type="text" name="geo_zone[' . $geozone_id . '][message]" value=""></td>' . "\n";
 		$output .= '<td><input type="button" class="button" value="' . $this->language->get('button_remove') . '" onclick="removeZone(' . "'geozone" . $geozone_id . "');" . '"></td>' . "\n";
-		
 		$output .= '</tr>';
+		$output .= '<tr id="geozone' . $geozone_id . 'C">' . "\n"; 
+		$output .= '<td colspan="9"><hr style="color: #EEEEEE;"></td>' . "\n"; 
+		$output .= '</tr>';
+		
+		
 		$this->response->set($output);
 	}
 	
 	function getzones(){
 		$geo_zones = $this->modelZonePlus->get_geo_zones();
-		$output = '<tr style="border: 1px solid #CCCCCC;" id="geo_select"><td>' . "\n";
+		$output = '<tr id="geo_select"><td colspan="2">' . "\n";
 		$output .= '<select id="temp_select" onchange="addzone();">' . "\n";
 		$output .= '<option value="">' . $this->language->get('text_select_geozone') . '</option>' . "\n";
 		foreach ($geo_zones as $geozone){
 			$output .= '<option value="' . $geozone['geo_zone_id'] . '">';
-			$output .= $geozone['name'] . '</option>' . "\n";
+			$output .= $geozone['name'] . ' : ' . $geozone['description'] . '</option>' . "\n";
 		}
 		$output .='</select></td></tr>' . "\n";
 		$this->response->set($output);

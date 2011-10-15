@@ -189,6 +189,9 @@ class ControllerGeoZone extends Controller {
 
 		$view->set('entry_name', $this->language->get('entry_name'));
 		$view->set('entry_description', $this->language->get('entry_description'));
+		
+		$view->set('explanation_name', $this->language->get('explanation_name'));
+		$view->set('explanation_description', $this->language->get('explanation_description'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));

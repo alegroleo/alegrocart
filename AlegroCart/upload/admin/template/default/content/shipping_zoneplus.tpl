@@ -53,11 +53,11 @@
 	  <div class="page">
 		<div class="pad">
 		  <table>
-		    <tr><td style="width: 260px;"><td><td>
+		    <tr><td style="width: 360px;"><td><td>
 			  <script type="text/javascript">
 			    $(document).ready(function(){
 				  $('.zoneE[title]').tooltip({
-				  offset: [30,40], tipClass: 'tooltip_white'});
+				  offset: [30,90], tipClass: 'tooltip_large'});
 				});
 			  </script>
 			  <?php echo '<th style="color:red"><div title="' . $text_zone_explantion . '" class="zoneE" >'. $text_zone_info . '</div></th>';?>
@@ -66,19 +66,19 @@
 		  <table id="geo_zones">
 		    <tr>
 			  <td style="width: 160px;" class="set"><?php echo $entry_geo_zone; ?></td>
-			  <td style="width: 100px;" class="set"><?php echo $entry_status; ?></td>
+			  <td style="width: 80px;" class="set"><?php echo $entry_status; ?></td>
 			  <td style="width: 90px;" class="set"><?php echo $entry_base_cost; ?></td>
-			  <td style="width: 90px;" class="set"><?php echo $entry_base_weight; ?><br><?php echo $weight_class;?></td>
+			  <td style="width: 100px;" class="set"><?php echo $entry_base_weight; ?><br><?php echo $weight_class;?></td>
 			  <td style="width: 90px;" class="set"><?php echo $entry_added_cost; ?></td>
-			  <td style="width: 90px;" class="set"><?php echo $entry_added_weight; ?><br><?php echo $weight_class;?></td>
-			  <td style="width: 120px;" class="set"><?php echo $entry_max_weight; ?></td>
-			  <td style="width: 120px;"></td>
+			  <td style="width: 120px;" class="set"><?php echo $entry_added_weight; ?><?php echo $weight_class;?></td>
+			  <td style="width: 90px;" class="set"><?php echo $entry_max_weight; ?></td>
+			  <td style="width: 90px;" class="set"><?php echo $entry_free_amount; ?></td>
 			</tr>
-			<tr><td colspan="8"><hr></td></tr>
+			<tr><td colspan="9" style="width: 620px; text-align: center;" class="set"><?php echo $entry_message; ?></td></tr>
+			<tr><td colspan="9"><hr></td></tr>
 			<?php foreach($geo_zones as $geo_zone) { ?>
-			  <tr id="geozone<?php echo $geo_zone['geo_zone_id'] ;?>">
-			    <td><?php echo $geo_zone['name']; ?></td>
-				  
+			  <tr id="geozone<?php echo $geo_zone['geo_zone_id'] ;?>A">
+			    <td class="set"><?php echo $geo_zone['name']; ?></td>
 			    <td><select name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][status]">
 			      <?php if ($geo_zone['status']) { ?>
                     <option value="1" selected><?php echo $text_enabled; ?></option>
@@ -88,18 +88,24 @@
                     <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
 				</select></td>
-				<td><input size="10" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][base_cost]" value="<?php echo $geo_zone['base_cost']; ?>"></td>
-				<td><input size="10" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][base_weight]" value="<?php echo $geo_zone['base_weight']; ?>"></td>
-				<td><input size="10" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][added_cost]" value="<?php echo $geo_zone['added_cost']; ?>"></td>
-				<td><input size="10" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][added_weight]" value="<?php echo $geo_zone['added_weight']; ?>"></td>
-				<td><input size="10" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][max_weight]" value="<?php echo $geo_zone['max_weight']; ?>"></td>
-				<td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeZone('geozone<?php echo $geo_zone['geo_zone_id'] ;?>');"></td> 
+				<td><input size="8" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][base_cost]" value="<?php echo $geo_zone['base_cost']; ?>"></td>
+				<td><input size="6" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][base_weight]" value="<?php echo $geo_zone['base_weight']; ?>"></td>
+				<td><input size="8" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][added_cost]" value="<?php echo $geo_zone['added_cost']; ?>"></td>
+				<td><input size="6" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][added_weight]" value="<?php echo $geo_zone['added_weight']; ?>"></td>
+				<td><input size="6" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][max_weight]" value="<?php echo $geo_zone['max_weight']; ?>"></td>
+				<td><input size="8" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][free_amount]" value="<?php echo $geo_zone['free_amount']; ?>"></td>
 			  </tr>
+			  <tr id="geozone<?php echo $geo_zone['geo_zone_id'] ;?>B">
+              <td width="160" class="set"><?php echo $geo_zone['description']; ?></td>
+              <td colspan="8"><input size="106" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][message]" value="<?php echo $geo_zone['message']; ?>"></td>
+			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeZone('geozone<?php echo $geo_zone['geo_zone_id'] ;?>');"></td> 
+              </tr>
+			  <tr id="geozone<?php echo $geo_zone['geo_zone_id'] ;?>C"><td colspan="9"><hr style="color: #EEEEEE;"></td></tr>
 			 <?php }?>
 		  </table>
 		  <table>
             <tr>
-              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="getzones();"></td>
+              <td colspan="9"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="getzones();"></td>
             </tr>
           </table>
 		
@@ -113,7 +119,9 @@
 //--></script>
 <script type="text/javascript"><!--
 function removeZone(row){
-	$('#'+row).remove();
+	$('#'+row+'A').remove();
+	$('#'+row+'B').remove();
+	$('#'+row+'C').remove();
 }
 function addzone(){
 	GeoZone_id = $('#temp_select').val();

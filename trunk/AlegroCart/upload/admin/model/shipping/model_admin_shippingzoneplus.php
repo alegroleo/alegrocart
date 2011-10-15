@@ -28,6 +28,8 @@ class Model_Admin_ShippingZonePlus extends Model {
 					'added_cost'	=> $value['added_cost'],
 					'added_weight'	=> $value['added_weight'],
 					'max_weight'	=> $value['max_weight'],
+					'free_amount'	=> $value['free_amount'],
+					'message'		=> $value['message'],
 					'status'		=> $value['status']
 				);
 				$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zoneplus', `key` = 'zoneplus_" . (int)$key . "_data', `value` = '?'", serialize($data)));
@@ -43,7 +45,7 @@ class Model_Admin_ShippingZonePlus extends Model {
 		return $results;
 	}
 	function get_geozone($geozone_id){
-		$result = $this->database->getRow("select name from geo_zone where geo_zone_id = '" . $geozone_id . "'");
+		$result = $this->database->getRow("select name, description from geo_zone where geo_zone_id = '" . $geozone_id . "'");
 		return $result;
 	}
 	function get_tax_classes(){

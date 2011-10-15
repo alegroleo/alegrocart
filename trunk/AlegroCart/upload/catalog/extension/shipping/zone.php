@@ -40,14 +40,17 @@ class ShippingZone extends Shipping {
 				$cost = 0;
 				$rates = explode(',', $this->config->get('zone_' . $result['geo_zone_id'] . '_cost'));
 				$top_rate = explode(':', end($rates));
-				
+				$cart_total = $this->cart->getNetTotal();
+				$free_amount = $this->config->get('zone_' . $result['geo_zone_id'] . '_free_amount');
 				if(!isset($this->zonerate[$result['geo_zone_id']])){
 					if ($top_rate[0] >= $this->cart->getWeight()){
-						foreach ($rates as $rate) {
-							$array = explode(':', $rate);
-							if ($this->cart->getWeight() <= $array[0]) {
-								$cost = @$array[1];
-								break;
+						if($free_amount == 0 || ($free_amount >= $cart_total)){
+							foreach ($rates as $rate) {
+								$array = explode(':', $rate);
+								if ($this->cart->getWeight() <= $array[0]) {
+									$cost = @$array[1];
+									break;
+								}
 							}
 						}
 					} else {
@@ -60,7 +63,7 @@ class ShippingZone extends Shipping {
         			'id'    => 'zone_' . $result['geo_zone_id'],
         			'title' => $result['name'],
         			'cost'  => $this->zonerate[$result['geo_zone_id']],
-					'shipping_form'=> '',
+					'shipping_form'=> !isset($this->quote_error[$result['geo_zone_id']]) ? $this->form_fields($this->config->get('zone_' . $result['geo_zone_id'] . '_message')) : '',
         			'text'  => $this->currency->format($this->tax->calculate($this->zonerate[$result['geo_zone_id']], $this->config->get('zone_tax_class_id'), $this->config->get('config_tax'))),
 					'error' => isset($this->quote_error[$result['geo_zone_id']]) ? $result['name'] . ' : ' . $this->quote_error[$result['geo_zone_id']] : FALSE
       			);			
@@ -82,5 +85,17 @@ class ShippingZone extends Shipping {
 	
 		return $method_data;
   	}
+	function form_fields($message){
+		if ($message){
+			$output = '<tr>';
+			$output .= '<td class="g">';
+			$output .= $message;
+			$output .= '</td>';
+			$output .= '</tr>';
+		} else {
+			$output = '';
+		}
+		return $output;
+	}
 }
 ?>

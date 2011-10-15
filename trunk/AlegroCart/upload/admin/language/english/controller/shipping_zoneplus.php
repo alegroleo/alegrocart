@@ -6,7 +6,7 @@ $_['heading_description'] = 'You can edit zone plus shipping rates here.';
 // Text
 $_['text_message']        = 'Success: You have updated zone plus shipping rates!';
 $_['text_select_geozone'] = 'Select GeoZone';
-$_['text_zone_explantion']= 'Base Cost is starting amount for rate calculation.<br>Additional cost is calculated on weights over base weight.  If base weight is zero(0), addtional cost calculation is started at 0.<br>Additional cost is amount per weight unit.<br>Weight unit is the increment you want additional cost to be multiplied by.<br> E.G. Weight unit is 1 kg. Amount is $2.00. Package weight of 10 kg X $2.00 per kg = $20.00 additional cost.<br>Total addtional cost is added to base cost to get total shipping cost.';
+$_['text_zone_explantion']= '<b>Base Cost</b> is the starting amount for rate calculation.<br><b>Additional Cost</b> is calculated on weights over <b>Base Weight</b>.<br>If <b>Base Weight</b> is zero(0), <b>Additional Cost</b> calculation is started at 0.<br><b>Additional Cost</b> is amount per <b>Weight Unit</b>.<br><b>Weight Unit</b> is the increment you want <b>Additional Cost</b> to be multiplied by.<br> E.G. Weight unit is 1 kg. Amount is $2.00. Package weight of 10 kg X $2.00 per kg = $20.00 additional cost.<br><b>Total Addtional Cost</b> is added to <b>Base Cost</b> to get <b>Total Shipping Cost</b>.<br><b>Maximum Weight</b> is the limit set for this quote. If cart weight exceeds this, weight error for this quote will be displayed.<br><br>If you enter an amount in <b>Free Freight</b>, freight cost for this method will be 0.00 if the order total exceeds this amount.<br><br>The <b>Message</b> is an optional message you can use to describe this quote or explain limitations on the shipping page.';
 $_['text_zone_info']      = 'Information';
 
 // Entry
@@ -17,9 +17,11 @@ $_['entry_status']        = 'Status';
 $_['entry_geo_zone']      = 'Geo Zone';
 $_['entry_base_cost']     = 'Base cost';
 $_['entry_base_weight']	  = 'Base Weight';
-$_['entry_added_cost']    = 'Additional Cost';
-$_['entry_added_weight']  = 'Per Weight unit';
-$_['entry_max_weight']    = 'Maximum Weight';
+$_['entry_added_cost']    = 'Additional<br>Cost';
+$_['entry_added_weight']  = 'Per Weight<br>unit ';
+$_['entry_max_weight']    = 'Maximum<br>Weight';
+$_['entry_free_amount']   = 'Free<br>Freight';
+$_['entry_message']  	  = 'Message';
 
 //Buttons
 $_['button_add']		  = 'Add GeoZone';

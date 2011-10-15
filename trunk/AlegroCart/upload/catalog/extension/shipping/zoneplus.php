@@ -42,17 +42,18 @@ class ShippingZonePlus extends Shipping {
 			if ($status) {
 				$cost = 0;
 				$cart_weight = $this->cart->getWeight();
+				$cart_total = $this->cart->getNetTotal();
 				if(!isset($this->zonerate[$result['geo_zone_id']])){
 					if($cart_weight <= $data['max_weight']){
 						$added_cost = 0;
-						
-						if($cart_weight > $data['base_weight']){
-							$calc_weight = $cart_weight - $data['base_weight'];
-							$weight_factor = ceil($calc_weight / (int)$data['added_weight']);
-							$added_cost = $weight_factor * $data['added_cost'];
+						if($data['free_amount'] == 0 || ($data['free_amount'] >= $cart_total)){
+							if($cart_weight > $data['base_weight']){
+								$calc_weight = $cart_weight - $data['base_weight'];
+								$weight_factor = ceil($calc_weight / (int)$data['added_weight']);
+								$added_cost = $weight_factor * $data['added_cost'];
+							}
+							$cost = $data['base_cost'] + $added_cost;
 						}
-						$cost = $data['base_cost'] + $added_cost;
-					
 					} else {
 						$this->quote_error[$result['geo_zone_id']] = $this->language->get('error_weight', $this->cart->formatWeight($data['max_weight']));
 					}
@@ -63,7 +64,7 @@ class ShippingZonePlus extends Shipping {
 					'id'    => 'zoneplus_' . $result['geo_zone_id'],
 					'title' => $result['name'],
 					'cost'  => $this->zonerate[$result['geo_zone_id']],
-					'shipping_form'=> '',
+					'shipping_form'=> !isset($this->quote_error[$result['geo_zone_id']]) ? $this->form_fields($data['message']) : '',
 					'text'  => $this->currency->format($this->tax->calculate($this->zonerate[$result['geo_zone_id']], $this->config->get('zone_tax_class_id'), $this->config->get('config_tax'))),
 					'error' => isset($this->quote_error[$result['geo_zone_id']]) ? $result['name'] . ' : ' . $this->quote_error[$result['geo_zone_id']] : FALSE
 				);	
@@ -84,6 +85,18 @@ class ShippingZonePlus extends Shipping {
 		}
 		
 		return $method_data;
+	}
+	function form_fields($message){
+		if ($message){
+			$output = '<tr>';
+			$output .= '<td class="g">';
+			$output .= $message;
+			$output .= '</td>';
+			$output .= '</tr>';
+		} else {
+			$output = '';
+		}
+		return $output;
 	}
 }
 ?>

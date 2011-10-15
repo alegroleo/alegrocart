@@ -17,6 +17,10 @@ $_['column_action']          = 'Action';
 $_['entry_name']             = 'Geo Zone Name:';
 $_['entry_description']      = 'Description:';
 
+//Explanation
+$_['explanation_name']		 = 'The NAME is what is displayed on checkout pages. This should be meaningful.<br> The NAME can be the same for more than one Geozone.<br> For example, you could use <b>UPS Ground</b> as the NAME for several GeoZones allowing this NAME to be displayed in shipping.';
+$_['explanation_description']= 'The description is used for internal store purposes. It can help identify the GeoZone when duplicate titles are used.';
+
 // Error
 $_['error_permission']       = 'Warning: You do not have permission to modify geo zones';
 $_['error_name']             = '* Geo Zone Name must be between 1 and 32 characters!';

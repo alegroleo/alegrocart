@@ -35,13 +35,20 @@
                 <?php if ($error_name) { ?>
                 <span class="error"><?php echo $error_name; ?></span>
                 <?php } ?></td>
+			  <td class="expl">
+                <?php echo($explanation_name); ?>
+			  </td> 
             </tr>
+			<tr><td colspan="3"><hr style="color: #EEEEEE;"></td></tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
               <td><input type="text" name="description" value="<?php echo $description; ?>">
                 <?php if ($error_description) { ?>
                 <span class="error"><?php echo $error_description; ?></span>
                 <?php } ?></td>
+			  <td class="expl">
+                <?php echo($explanation_description); ?>
+			  </td> 
             </tr>
           </table>
         </div>

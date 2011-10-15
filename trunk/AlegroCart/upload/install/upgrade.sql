@@ -1230,3 +1230,6 @@ INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'shipping_canadapost';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Canada Post', 'Canada Post Shipping') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+# Increase Value field length in Setting
+ALTER TABLE `setting` CHANGE `value` `value` VARCHAR(768) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default '';

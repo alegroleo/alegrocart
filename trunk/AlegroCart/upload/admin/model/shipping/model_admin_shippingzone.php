@@ -17,11 +17,13 @@ class Model_Admin_ShippingZone extends Model {
 	}
 	function update_zone(){
 		foreach ($this->request->gethtml('geo_zone', 'post') as $key => $value) {
-				$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_" . (int)$key . "_cost', `value` = '?'", $value['cost']));
-			}
-		foreach ($this->request->gethtml('geo_zone', 'post') as $key => $value) {
-			$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_" . (int)$key . "_status', `value` = '?'", $value['status']));
+				$this->database->query("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_" . (int)$key . "_cost', `value` = '" . $value['cost'] . "'");
+				$this->database->query("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_" . (int)$key . "_status', `value` = '" . $value['status'] . "'");
+				$this->database->query("insert into setting set `type` = 'global', `group` = 'zone', `key` = 'zone_" . (int)$key . "_free_amount', `value` = '" . $value['free_amount'] . "'");
+				$this->database->query("insert into setting set `type` = 'global', `group` = 'zone', `key` = 'zone_" . (int)$key . "_message', `value` = '" . $value['message'] . "'");
 		}
+		
+		
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_status', `value` = '?'", (int)$this->request->gethtml('global_zone_status', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_tax_class_id', `value` = '?'", (int)$this->request->gethtml('global_zone_tax_class_id', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'zone', `key` = 'zone_sort_order', `value` = '?'", (int)$this->request->gethtml('global_zone_sort_order', 'post')));
@@ -33,6 +35,10 @@ class Model_Admin_ShippingZone extends Model {
 	function get_geo_zones(){
 		$results = $this->database->cache('geo_zone', "select * from geo_zone order by name");
 		return $results;
+	}
+	function get_geozone($geozone_id){
+		$result = $this->database->getRow("select name, description from geo_zone where geo_zone_id = '" . $geozone_id . "'");
+		return $result;
 	}
 	function get_tax_classes(){
 		$results = $this->database->cache('tax_class', "select * from tax_class");

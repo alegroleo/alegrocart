@@ -66,7 +66,7 @@
 		<?php if($method['quote'][key($method['quote'])]['id'] == $default){?>
 		<table style="border: 3px solid #0099FF; border-radius: 10px ; margin-bottom: 10px;">
 		<?php } else {?>
-		<table>
+		<table style="border: 1px solid #EEEEEE; border-radius: 10px ;">
 		<?php }?>
         <tr>
           <td class="g" colspan="2"><b><?php echo $method['title']; ?></b></td>

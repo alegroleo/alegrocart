@@ -546,6 +546,16 @@ form {
 	width: 304px;
 	height: 152px;
 }
+.tooltip_large {
+	display:none;
+	background: url('../image/Instruction489x289.png');
+	font-size: 12px;
+	height:250px;
+	width:450px;
+	padding: 20px 20px 20px 20px;
+	color:#006600;                           
+	z-index: 1000;
+}
 .tooltip_white {
 	display:none;
 	background: url('../image/optionwhite.png');

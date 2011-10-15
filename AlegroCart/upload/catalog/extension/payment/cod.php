@@ -36,6 +36,7 @@ class PaymentCod extends Payment {
       		$method_data = array( 
         		'id'         => 'cod',
         		'title'      => $this->language->get('text_cod_title'),
+				'message'	 => $this->language->get('text_cod_message'),
 				'sort_order' => $this->config->get('cod_sort_order')
       		);
     	}

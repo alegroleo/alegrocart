@@ -28,19 +28,31 @@
     <?php if ($methods) { ?>
     <div class="c"><?php echo $text_payment_method; ?></div>
     <div class="d"><?php echo $text_payment_methods; ?>
-      <table>
-        <?php foreach ($methods as $method) { ?>
-        <tr>
-          <td class="i" colspan="2"><label for="<?php echo $method['id']; ?>">
-            <?php if ($method['id'] == $default) { ?>
-            <input type="radio" name="payment" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>" CHECKED>
-            <?php } else { ?>
-			<input type="radio" name="payment" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>">
-            <?php } ?>
-            <?php echo $method['title']; echo "<div class=\"divider\"></div>";?></label></td>
-        </tr>
-        <?php } ?>
-      </table>
+      
+      <?php foreach ($methods as $method) { ?>
+	    <?php if ($method['id'] == $default) { ?>
+		  <table style="border: 3px solid #0099FF; border-radius: 10px ;">
+		<?php } else {?>
+		  <table style="border: 1px solid #EEEEEE; border-radius: 10px ;">
+		<?php }?>
+            <tr>
+              <td class="i" colspan="2"><label for="<?php echo $method['id']; ?>">
+                <?php if ($method['id'] == $default) { ?>
+                  <input type="radio" name="payment" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>" CHECKED>
+                <?php } else { ?>
+			      <input type="radio" name="payment" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>">
+                <?php } ?>
+              <?php echo $method['title'];?></label></td>
+            </tr>
+		    <?php if($method['message']){?>
+		      <tr>
+		        <td class="i" colspan="2">
+		          <?php echo $method['message'];?>
+		        </td>
+		      </tr>
+		    <?php } ?>
+		  </table>
+      <?php } ?>
     </div>
     <?php } ?>
     <div class="g"><?php echo $text_comments; ?></div>

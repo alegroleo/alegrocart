@@ -30,6 +30,7 @@ class Payment {
 				$method_data[$data['id']] = array(
 					'id'         => $data['id'],
 					'title'      => $data['title'],
+					'message'	 =>  isset($data['message']) ? $data['message'] : '',
 					'sort_order' => $data['sort_order']
 				);
 			}

@@ -90,6 +90,10 @@ class Language {
       		return (isset($this->data[$key]) ? $this->data[$key] : sprintf($this->data['error_language'],$key));
     	}
   	}
+	
+	function check($key){
+		return isset($this->data[$key]) ? TRUE : FALSE;
+	}
 
   	function detect() {
     	if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) { return; }

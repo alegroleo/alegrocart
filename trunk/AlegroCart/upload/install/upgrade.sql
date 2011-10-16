@@ -1233,3 +1233,12 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 
 # Increase Value field length in Setting
 ALTER TABLE `setting` CHANGE `value` `value` VARCHAR(768) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default '';
+
+# Add Barcode
+ALTER TABLE `product` ADD `barcode` VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' AFTER `quantity` ;
+ALTER TABLE `product_options` ADD `barcode` VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' AFTER `quantity` ;
+ALTER TABLE `order_product` ADD `barcode` VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '' AFTER `quantity` ;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'barcode_encoding';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'barcode_encoding', 'upc') ON DUPLICATE KEY UPDATE setting_id=setting_id;

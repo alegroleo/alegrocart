@@ -8,10 +8,12 @@ class Language {
   	var $code;
   	var $languages = array();
   	var $data      = array();
+	var $dates;
 	var $lang;
 	var $expire = 2592000; // 60 * 60 * 24 * 30 (30 days)
 
   	function __construct(&$locator) {
+		$this->locator  =& $locator;
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
 		$this->request  =& $locator->get('request');
@@ -292,8 +294,11 @@ class Language {
 	}
 
 	function formatDate($format,$time=false) {
+		if(!isset($this->dates)){
+			$this->dates =& $this->locator->get('dates');
+		}
 		if (strstr($format,'%')) return ($time)?strftime($format,$time):strftime($format);
-		return ($time)?date($format,$time):date($format);
+		return ($time)? $this->dates->getDate($format,$time):$this->dates->getDate($format);
 	}
 
 }

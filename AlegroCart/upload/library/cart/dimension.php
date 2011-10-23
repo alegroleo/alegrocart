@@ -141,7 +141,7 @@ class Dimension {
 		return TRUE;
 	}
 	function convert($value, $from, $to) {
-    	if ($from != $to && $from > 0 ) { $value=($value * (float)$this->rules[$from][$to]); }
+    	if ($from != $to && $from > 0 && isset($this->rules[$from][$to])) { $value=($value * (float)$this->rules[$from][$to]); }
 		return $value;
   	}
 	function format($value, $dimension_id) {

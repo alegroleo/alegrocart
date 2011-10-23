@@ -11,7 +11,6 @@ $_['text_default_rate']   = 'Set your default currency to 1.0000';
 // Buttons
 $_['button_rate']         = 'Update Rates';
 $_['button_enable_disable']   = 'Enable/Disable Currencies';
-$_['checkbox_name']       = 'refresh_all';
 $_['checkbox_value']       = 'All';
 
 // Column

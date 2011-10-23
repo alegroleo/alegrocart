@@ -47,15 +47,18 @@
                       <?php if (@$error_name[$product['language_id']]) { ?>
                       <span class="error"><?php echo $error_name[$product['language_id']]; ?></span>
                       <?php } ?>
-		      <?php if (@$error_duplicate_name[$product['language_id']]) { ?>
+					 <?php if (@$error_duplicate_name[$product['language_id']]) { ?>
                       <span class="error"><?php echo $error_duplicate_name[$product['language_id']]; ?></span>
                       <?php } ?>
-		    </td>
-			<td class="expl"><?php echo $text_unique; ?></td>	
+					</td>
+					<td class="expl"><?php echo $text_unique; ?></td>	
                   </tr>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_model_number; ?></td>
 					<td style="width: 265px;"><input size="32" maxlength="32" <?php if($option_status) echo 'readonly="readonly" '; ?>name="model_number[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model_number']; ?>"></td>
+					<?php if($option_status) {?>
+					<td><b style="color:red;padding-left:10px;"><?php echo $text_model_options;?></b></td>
+			  <?php }?>
 				  </tr>
 				  <tr>
 					<td style="width: 185px;" class="set"><?php echo $entry_model; ?></td>
@@ -152,7 +155,7 @@
 	    </tr>
 	    <tr>
            <td  class="set"><?php echo $entry_barcode; ?></td>
-              <td id="barcodefield_9999"><input id="barcode_9999" type="text" size="14" maxlength="13" <?php if($option_status) echo 'readonly="readonly" '; ?>name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode('9999')">
+              <td id="barcodefield_9999"><input id="barcode_9999" type="text" size="14" maxlength="15" <?php if($option_status) echo 'readonly="readonly" '; ?>name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode('9999')">
 			</td>
 	      <td class="expl"><?php if($option_status) {?><b style="color:red;"><?php echo $text_barcode_options;?></b></br><?php }?><?php echo $text_barcode_explanation; ?></td>
         </tr>
@@ -281,7 +284,7 @@
 				  <?php } ?>
 			    </select></td>
 				<td id="barcodefield_<?php echo $option_rows;?>">
-					<input id="barcode_<?php echo $option_rows;?>" type="text" size="14" maxlength="13" name="product_options[<?php echo $option_rows;?>][barcode]" value="<?php echo $product_option['barcode'];?>" onchange="validate_barcode('<?php echo $option_rows;?>')">
+					<input id="barcode_<?php echo $option_rows;?>" type="text" size="14" maxlength="15" name="product_options[<?php echo $option_rows;?>][barcode]" value="<?php echo $product_option['barcode'];?>" onchange="validate_barcode('<?php echo $option_rows;?>')">
 					
 				    <?php if (@$error_barcode[$product_option['product_option']]) { ?>
 						<span class="error"><?php echo $error_barcode[$product_option['product_option']]; ?></span>

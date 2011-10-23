@@ -183,23 +183,26 @@ class ShippingCanadaPost extends Shipping{
 			fputs($fp, $header . $body); 
 			$res = '';
 			$headerdone = false;
+			$partial_line = FALSE;
 			while (!feof($fp)){
 				$retVal = @fgets($fp,128);		
 				if(strstr($retVal,'<eparcel>') && !$headerdone){
-					$res .= $retVal . ';';
+					$res .= $retVal . '*';
 					$headerdone = true;
 				} else if ($headerdone) {
 					$retVal = trim($retVal);
 					if (strstr($retVal, "<")) {
-						$res .= $retVal . ';';
+						$res .= $retVal . '*';
 					}
 				}
 			}
+
 			fclose($fp);
-			$cpResponse = explode(";", $res);
+			$cpResponse = explode("*", $res);
 		} else {
 			$this->error = $this->language->get('error_cp_connect');
-		}	
+		}
+
 		if($cpResponse){
 			$this->parseResponse($cpResponse);
 		}
@@ -255,6 +258,7 @@ class ShippingCanadaPost extends Shipping{
 	}
 	function requestBody($products){
 		$language = ($this->language->getCode() == 'fr') ? 'fr' : 'en';
+
 		$shipping_address_id = $this->session->get('shipping_address_id');
 		$output = "<?xml version=\"1.0\" ?>\n";
 		$output .= "<eparcel>\n";
@@ -270,10 +274,10 @@ class ShippingCanadaPost extends Shipping{
 		foreach($products as $product){
 			$output .= "<item>\n";
 			$output .= "<quantity>" . $product['quantity'] . "</quantity>\n";
-			$output .= "<weight>" . $product['weight'] . "</weight>\n";
-			$output .= "<length>" . $product['length'] . "</length>\n";
-			$output .= "<width>" . $product['width'] . "</width>\n";
-			$output .= "<height>" . $product['height'] . "</height>\n";
+			$output .= "<weight>" . str_replace(',','.',$product['weight']) . "</weight>\n";
+			$output .= "<length>" . str_replace(',','.',$product['length']) . "</length>\n";
+			$output .= "<width>" . str_replace(',','.',$product['width']) . "</width>\n";
+			$output .= "<height>" . str_replace(',','.',$product['height']) . "</height>\n";
 			$output .= "<description>" . $product['item']  . "</description>\n";
 			$output .= "</item>\n";
 		}

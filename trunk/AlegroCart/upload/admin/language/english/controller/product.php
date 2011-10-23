@@ -20,6 +20,7 @@ $_['text_dimension_ship']  = 'Length, width, height are optional, used for shipp
 $_['text_options']         = 'Options: ';
 $_['text_quantity_options']= 'Add Quantities in Product Options tab';
 $_['text_barcode_options'] = 'Add Barcodes in Product Options tab';
+$_['text_model_options']   = 'Add Model Number in Product Options tab';
 $_['text_option_info']     = '<b>Important Information !</b>';
 $_['text_option_explantion'] = 'Before entering Quantities and other product:option information, you should create all your product to options first. <br>A product with one set of options will have entries like<br> 2:10 - 2:11 - 2:12<br>With 2 options, the entries will be like<br> 2:10.13 - 2:11.13 - 2:12.13 - 2:10.14 - 2:11.14 - 2:12.14<br>As you can see, the first set of product to option entries will no longer exist<br>If you create one set of options and later decide to create a second option, all your product:option specific data will be lost.<br>';
 $_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to adding or updating product options.<br>You can add, delete, or change product options for each product.<br>Icons with 3 red stars indicate the product has options.<br>Click the icon to edit options for the product chosen.';

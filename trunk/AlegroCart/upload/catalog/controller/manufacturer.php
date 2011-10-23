@@ -206,18 +206,21 @@ class ControllerManufacturer extends Controller {
 					} // End Product Options
 					// Description
 					if ($columns == 1){
-						$desc = formatedstring($result['description'],6);
+						$lines = $this->config->get('content_lines_single') ? $this->config->get('content_lines_single') : 6;
+						$desc = formatedstring($result['description'],$lines);
 					} else if ($columns <= 3){
+						$lines = $this->config->get('content_lines_multi') ? $this->config->get('content_lines_multi') : 4;
 						if ($result['alt_description']){
-							$desc = formatedstring($result['alt_description'],4);
+							$desc = formatedstring($result['alt_description'],$lines);
 						} else {
-							$desc = formatedstring($result['description'],4);
+							$desc = formatedstring($result['description'],$lines);
 						}
 					} else {
+						$lines = $this->config->get('content_lines_char') ? $this->config->get('content_lines_char') : 108;
 						if ($result['alt_description']){
-							$desc = strippedstring($result['alt_description'],108);
+							$desc = strippedstring($result['alt_description'],$lines);
 						} else {
-							$desc = strippedstring($result['description'],108);
+							$desc = strippedstring($result['description'],$lines);
 						}
 					} // End Description
           			$product_data[] = array(

@@ -344,8 +344,8 @@ class ControllerProduct extends Controller {
    	 	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
-		$view->set('button_enable_delete', $this->language->get('button_enable_delete')); // In English.php
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_print', $this->language->get('button_print'));
 
     	$view->set('error', @$this->error['message']);
  
@@ -391,8 +391,14 @@ class ControllerProduct extends Controller {
 		$view->set('select_model', $this->language->get('select_model'));
 		$view->set('text_unique', $this->language->get('text_unique'));
 		$view->set('text_quantity_options', $this->language->get('text_quantity_options'));
+		$view->set('text_model_options', $this->language->get('text_model_options'));
 		$view->set('text_option_info', $this->language->get('text_option_info'));
 		$view->set('text_option_explantion', $this->language->get('text_option_explantion'));
+		$view->set('text_barcode_explanation', $this->language->get('text_barcode_explanation'));
+		$view->set('text_barcode_enc_explanation', $this->language->get('text_barcode_enc_explanation'));
+		$view->set('text_barcode_options', $this->language->get('text_barcode_options'));
+ 		$view->set('text_ean', $this->language->get('text_ean'));
+ 		$view->set('text_upc', $this->language->get('text_upc'));
 		
 		
 		$symbol_right = $this->currency->currencies[$this->currency->code]['symbol_right'];
@@ -403,20 +409,14 @@ class ControllerProduct extends Controller {
     	$view->set('entry_model', $this->language->get('entry_model'));
 		$view->set('entry_model_number', $this->language->get('entry_model_number'));
 		$view->set('entry_model_numbers', $this->language->get('entry_model_numbers'));
-	$view->set('entry_manufacturer', $this->language->get('entry_manufacturer'));
+		$view->set('entry_manufacturer', $this->language->get('entry_manufacturer'));
     	$view->set('entry_shipping', $this->language->get('entry_shipping'));
     	$view->set('entry_date_available', $this->language->get('entry_date_available'));
     	$view->set('entry_quantity', $this->language->get('entry_quantity'));
 		$view->set('entry_discount', $this->language->get('entry_discount', $symbol_left ? $symbol_left : $symbol_right));
     	$view->set('entry_status', $this->language->get('entry_status'));
-	$view->set('entry_barcode', $this->language->get('entry_barcode'));
-	$view->set('entry_barcode_encoding', $this->language->get('entry_barcode_encoding'));
-	$view->set('text_barcode_explanation', $this->language->get('text_barcode_explanation'));
-	$view->set('text_barcode_enc_explanation', $this->language->get('text_barcode_enc_explanation'));
-	$view->set('text_barcode_options', $this->language->get('text_barcode_options'));
- 		$view->set('text_ean', $this->language->get('text_ean'));
- 		$view->set('text_upc', $this->language->get('text_upc'));
-
+		$view->set('entry_barcode', $this->language->get('entry_barcode'));
+		$view->set('entry_barcode_encoding', $this->language->get('entry_barcode_encoding'));
     	$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
     	$view->set('entry_tax_class', $this->language->get('entry_tax_class'));
     	$view->set('entry_price', $this->language->get('entry_price'));
@@ -456,7 +456,7 @@ class ControllerProduct extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_print', $this->language->get('button_print'));
 	
     	$view->set('tab_general', $this->language->get('tab_general'));
     	$view->set('tab_data', $this->language->get('tab_data'));
@@ -476,8 +476,8 @@ class ControllerProduct extends Controller {
     	$view->set('error_date_available', @$this->error['date_available']);
     	$view->set('error_start_date', @$this->error['start_date']); 
     	$view->set('error_end_date', @$this->error['end_date']); 
-	$view->set('error_barcode', @$this->error['barcode']);
-	$view->set('error', @$this->error['warning']);
+		$view->set('error_barcode', @$this->error['barcode']);
+		$view->set('error', @$this->error['warning']);
         $view->set('error_duplicate_name', @$this->error['duplicate_name']);
 	
     	$view->set('action', $this->url->ssl('product', $this->request->gethtml('action'), array('product_id' => $this->request->gethtml('product_id'))));
@@ -500,6 +500,7 @@ class ControllerProduct extends Controller {
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
 
+		$this->check_options();
     	$product_data = array();
      		 
     	$results = $this->modelProduct->get_languages();
@@ -532,7 +533,7 @@ class ControllerProduct extends Controller {
 	    		'language'    	=> $result['name'],
 	    		'name'        	=> (isset($name[$result['language_id']]) ? $name[$result['language_id']] : @$product_description_info['name']),
 				'model'         => (isset($model[$result['language_id']]) ? $model[$result['language_id']] : @$product_description_info['model']),
-				'model_number'  => (isset($model_number[$result['language_id']]) ? $model_number[$result['language_id']] : @$product_description_info['model_number']),
+				'model_number'  => !$this->option_status ? (isset($model_number[$result['language_id']]) ? $model_number[$result['language_id']] : @$product_description_info['model_number']) : '',
 	    		'description' 	=> (isset($description[$result['language_id']]) ? $description[$result['language_id']] : @$product_description_info['description']),
 				'technical'     => (isset($technical[$result['language_id']]) ? $technical[$result['language_id']] : @$product_description_info['technical']),
 				'alt_description' => (isset($alt_description[$result['language_id']]) ? $alt_description[$result['language_id']] : @$product_description_info['alt_description']),
@@ -843,7 +844,7 @@ class ControllerProduct extends Controller {
 
 		if ($this->request->has('encoding', 'post')) {
 			$view->set('encoding', !$this->option_status ? $this->request->gethtml('encoding', 'post') : '');
-		} elseif (($product_info['barcode']) != '') {
+		} elseif ((@$product_info['barcode']) != '') {
 			if ($this->barcode->get_length(@$product_info['barcode'])==13){
 			      $view->set('encoding', !$this->option_status ? 'ean' : '');
 			} else {
@@ -915,15 +916,19 @@ class ControllerProduct extends Controller {
   	}
 	
 	private function get_options(){
-		$results = $this->modelProduct->get_options($this->request->gethtml('product_id'));
+		$results = $this->check_options();
 		$options = array();
 		foreach($results as $result){
 			$options[] = array(
 				'option_id'	=> $result['option_id']
 			);
 		}
-		$this->option_status = $options ? TRUE : FALSE;
 		return $options;
+	}
+	private function check_options(){
+		$results = $this->modelProduct->get_options($this->request->gethtml('product_id'));
+		$this->option_status = $results ? TRUE : FALSE;
+		return $results;
 	}
 	private function get_option_names(){
 		$results = $this->get_options();
@@ -1190,7 +1195,7 @@ class ControllerProduct extends Controller {
 			$barcode = '';
 		}
 		$output .= '<input id="barcode_' . $row . '" ';
-		$output .= 'type="text" size="14" maxlength="13" ';
+		$output .= 'type="text" size="14" maxlength="15" ';
 		if($option_id){
 			$output .= 'name="product_options[' . $row . '][barcode]" ';
 		} else {

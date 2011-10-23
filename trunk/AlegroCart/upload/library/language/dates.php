@@ -7,7 +7,10 @@ class Dates{
 		$this->codes = $this->getCodes();
 	}
 	
-	function getDate($date_format){
+	function getDate($date_format,$time=false){
+		if($time){
+			$this->codes = $this->getCodes($time);
+		}
 		$lang_keys = array('a','A','D','F','l','M','S');
 		$todays_date = array();
 		$formats  = array(); 
@@ -39,11 +42,11 @@ class Dates{
 		return implode($todays_date);
 	}
 	
-	function getCodes(){
+	function getCodes($time=false){
 		$formats = array('a','A','B','c','d','D','e','F','g','G','h','H','i','I','j','l','L','m','M','n','o','O','r','s','S','t','T','U','w','W','y','Y','z','Z');
 		$codes = array();
 		foreach($formats as $format){
-			$codes[$format] = date($format);
+			$codes[$format] = $time ? date($format,$time) : date($format);
 		}
 		return $codes;
 	}

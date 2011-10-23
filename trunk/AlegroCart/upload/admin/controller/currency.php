@@ -68,11 +68,12 @@ class ControllerCurrency extends Controller {
 			$results = $this->modelCurrency->get_codes();
 			$base_rate = 1.00 + $this->config->get('config_currency_surcharge');
 			
-			$status_all = ($this->request->gethtml('refresh_all','post') == 'All') ? TRUE : FALSE;
+			$status_all = ($this->request->gethtml('refresh_all','post') == $this->language->get('checkbox_value')) ? TRUE : FALSE;
 				
 			foreach ($results as $to) {		
 				if($status_all || $to['status']){
 					$rate = $this->currency->currency_converter($base_rate, $from, $to['code']);
+					$rate = str_replace(',','.',$rate); // Fix Comma
 					if ($rate > 0 && $to['lock_rate'] == FALSE ){
 						$this->modelCurrency->update_rates($rate, $to['code']);
 					}
@@ -214,7 +215,7 @@ class ControllerCurrency extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_refresh', $this->language->get('button_rate'));
-		$view->set('checkbox_name', $this->language->get('checkbox_name'));
+		$view->set('checkbox_name', 'refresh_all');
 		$view->set('checkbox_value', $this->language->get('checkbox_value'));
 		$view->set('button_enable_disable', $this->language->get('button_enable_disable'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));

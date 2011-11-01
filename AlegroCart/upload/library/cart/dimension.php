@@ -18,22 +18,41 @@ class Dimension {
 			);
 			$this->default_dimension[$result['type_id']] = $this->config->get( 'config_dimension_' . $result['type_id'] . '_id');
 		}
-		$results = $this->database->cache('dimension', "select * from dimension where language_id = '" . (int)$this->language->getId() . "'");
+		
+		$results = $this->database->cache('dimension', "select * from dimension");
 		foreach ($results as $result) {
-			$this->classes[$result['dimension_id']] = array(
-				'unit'	=> $result['unit'],
-				'title'	=> $result['title'],
-				'type_id' => $result['type_id']
-			);
-			$this->type_class[$result['type_id']][$result['dimension_id']] = array(
-				'dimension_id' => $result['dimension_id']
-			);
+			if($result['language_id'] == 1){
+				$this->classes[$result['dimension_id']] = array(
+					'unit'	=> $result['unit'],
+					'title'	=> $result['title'],
+					'type_id' => $result['type_id']
+				);
+				$this->type_class[$result['type_id']][$result['dimension_id']] = array(
+					'dimension_id' => $result['dimension_id']
+				);
+			}
 		}
+		if((int)$this->language->getId() != 1){
+			foreach ($results as $result) {
+				if($result['language_id'] == (int)$this->language->getId()){
+					$this->classes[$result['dimension_id']] = array(
+						'unit'	=> $result['unit'],
+						'title'	=> $result['title'],
+						'type_id' => $result['type_id']
+					);
+					$this->type_class[$result['type_id']][$result['dimension_id']] = array(
+						'dimension_id' => $result['dimension_id']
+					);
+				}
+			}
+		}
+
 		$results = $this->database->cache('dimension_rule', "select * from dimension_rule");
 		foreach ($results as $result) {
 			$this->rules[$result['from_id']][$result['to_id']] = $result['rule'];
 		}
 	}
+
 	function getValues( $dimension_value, $type_id, $dimension_id){
 		$dimensions = explode(':', $dimension_value);
 

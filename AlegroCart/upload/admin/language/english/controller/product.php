@@ -29,6 +29,7 @@ $_['text_barcode_explanation'] = 'If you enter the barcode without the last chec
 $_['text_barcode_enc_explanation'] = 'The Universal Product Code (UPC) consists of 12 numerical digits (11 data and 1 check digit).<br>An EAN-13/ISBN barcode is a 13 digit (12 data and 1 check digit) barcoding standard.';
 $_['text_upc']            = 'UPC';
 $_['text_ean']            = 'EAN-13/ISBN';
+$_['text_technical_name'] = 'Optional - Alternate name for Technical Tab.';
 
 // Column
 $_['column_options']       = 'Options!';
@@ -37,6 +38,7 @@ $_['column_price']         = 'Price';
 $_['column_dated_special'] = 'Dated<br>Special'; 
 $_['column_stock']         = 'Stock'; 
 $_['column_weight']        = 'Weight';
+$_['column_weight_class']  = 'Weight<br>Class';
 $_['column_image']         = 'Image';
 $_['column_model']         = 'Model';
 $_['column_featured']      = 'Specialties';
@@ -81,6 +83,7 @@ $_['entry_start_date']     = 'Start Date:'; // New
 $_['entry_end_date']       = 'End Date:'; // New
 $_['entry_alt_description']= 'Alternate Short Description:<br><br><br>Use <b>SHIFT->ENTER</b> for<br>line feed or empty lines<br>for spacing.<br>ENTER only produces<br>Paragraph Tags which are<br>Stripped.'; // New
 $_['entry_technical']      = 'Technical Specification Description:'; // New
+$_['entry_technical_name'] = 'Technical Tab Name:';
 $_['entry_meta_title']     = 'Meta Title:'; // New
 $_['entry_meta_description'] = 'Meta Description:'; // New
 $_['entry_meta_keywords']  = 'Meta Keywords:'; // New

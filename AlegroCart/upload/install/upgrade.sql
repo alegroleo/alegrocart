@@ -1242,3 +1242,22 @@ ALTER TABLE `order_product` ADD `barcode` VARCHAR( 20 ) CHARACTER SET utf8 COLLA
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'barcode_encoding';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'barcode_encoding', 'upc') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# Add Option Weight Class
+
+ALTER TABLE `product_to_option` CHANGE `option_weight` `option_weight` decimal(15,4) NOT NULL default '0.00';
+ALTER TABLE `product_to_option`
+ADD `option_weightclass_id` int(11) NOT NULL default '0' AFTER `option_weight`;
+
+SET @wid=1;
+SELECT @wid:=`value` FROM setting WHERE `group` = 'config' and `key` = 'config_weight_class_id';
+UPDATE `product_to_option` SET `option_weightclass_id` = @wid WHERE `option_weightclass_id` = '0';
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_weight_decimal';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_weight_decimal', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#Add Technical Tab Name
+
+ALTER TABLE `product_description`
+ADD `technical_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default '' AFTER `technical`;

@@ -407,6 +407,19 @@
 			  <td><input type="text" name="global_config_currency_surcharge" value="<?php echo $global_config_currency_surcharge;?>"></td>
 			  <td class="expl"><?php echo $text_surcharge;?></td>
 			</tr>
+			<tr> <!--  Moved Barcode -->
+              <td class="set"><?php echo $entry_barcode; ?></td>
+              <td><select name="global_config_barcode_encoding">
+                  <?php if ($global_config_barcode_encoding == 'upc') { ?>
+                  <option value="upc" selected><?php echo $text_upc; ?></option>
+                  <option value="ean"><?php echo $text_ean; ?></option>
+                  <?php } else { ?>
+                  <option value="upc"><?php echo $text_upc; ?></option>
+                  <option value="ean" selected><?php echo $text_ean; ?></option>
+                  <?php } ?>
+                </select></td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
             <tr>
               <td class="set"><?php echo $entry_weight; ?></td>
               <td><select name="global_config_weight_class_id">
@@ -419,18 +432,11 @@
                   <?php } ?>
                 </select></td>
             </tr>
-	    <tr>
-              <td class="set"><?php echo $entry_barcode; ?></td>
-              <td><select name="global_config_barcode_encoding">
-                  <?php if ($global_config_barcode_encoding == 'upc') { ?>
-                  <option value="upc" selected><?php echo $text_upc; ?></option>
-                  <option value="ean"><?php echo $text_ean; ?></option>
-                  <?php } else { ?>
-                  <option value="upc"><?php echo $text_upc; ?></option>
-                  <option value="ean" selected><?php echo $text_ean; ?></option>
-                  <?php } ?>
-                </select></td>
-	    </tr>
+			<tr> <!--  New Weight Decimal Places -->
+			  <td class="set"><?php echo $entry_weight_decimal; ?></td>
+			  <td><input type="text" name="global_config_weight_decimal" value="<?php echo $global_config_weight_decimal; ?>" size="2"></td>
+			  <td class="expl"><?php echo $text_weight_decimal; ?></td>
+			</tr>
 			<tr><td colspan="2"><hr></td></tr>
 			<tr>
 			  <td class="set"><?php echo $entry_dimension_type; ?></td>

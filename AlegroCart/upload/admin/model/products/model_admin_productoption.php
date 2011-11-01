@@ -9,13 +9,13 @@ class Model_Admin_Productoption extends Model {
 	}
 	function insert_option(){
 		$option = explode(':', $this->request->gethtml('option', 'post'));
-		$sql ="insert into product_to_option set product_id = '?', option_id = '?', option_value_id = '?', prefix = '?', price = '?', option_weight = '?', sort_order = '?'";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('product_id'), $option[0], $option[1], $this->request->gethtml('prefix', 'post'), $this->request->gethtml('price', 'post'), $this->request->gethtml('option_weight', 'post'), $this->request->gethtml('sort_order', 'post')));
+		$sql ="insert into product_to_option set product_id = '?', option_id = '?', option_value_id = '?', prefix = '?', price = '?', option_weight = '?', option_weightclass_id = '?', sort_order = '?'";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('product_id'), $option[0], $option[1], $this->request->gethtml('prefix', 'post'), $this->request->gethtml('price', 'post'), $this->request->gethtml('option_weight', 'post'), $this->request->gethtml('option_weightclass_id', 'post'), $this->request->gethtml('sort_order', 'post')));
 	}
 	function update_option(){
 		$option = explode(':', $this->request->gethtml('option', 'post'));
-		$sql ="update product_to_option set product_id = '?', option_id = '?', option_value_id = '?', prefix = '?', price = '?', option_weight = '?', sort_order = '?' where product_to_option_id = '?'";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('product_id'), $option[0], $option[1], $this->request->gethtml('prefix', 'post'), $this->request->gethtml('price', 'post'), $this->request->gethtml('option_weight', 'post'), $this->request->gethtml('sort_order', 'post'), $this->request->gethtml('product_to_option_id')));
+		$sql ="update product_to_option set product_id = '?', option_id = '?', option_value_id = '?', prefix = '?', price = '?', option_weight = '?', option_weightclass_id = '?', sort_order = '?' where product_to_option_id = '?'";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('product_id'), $option[0], $option[1], $this->request->gethtml('prefix', 'post'), $this->request->gethtml('price', 'post'), $this->request->gethtml('option_weight', 'post'), $this->request->gethtml('option_weightclass_id', 'post'), $this->request->gethtml('sort_order', 'post'), $this->request->gethtml('product_to_option_id')));
 	}
 	function delete_option(){
 		$this->database->query("delete from product_to_option where product_to_option_id = '" . (int)$this->request->gethtml('product_to_option_id') . "' and product_id = '" . (int)$this->request->gethtml('product_id') . "'");
@@ -34,9 +34,9 @@ class Model_Admin_Productoption extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('product_option.search')) {
-			$sql = "select p2o.product_to_option_id, o.name as `option`, ov.name as `option_value`, p2o.price, p2o.prefix, p2o.option_weight, p2o.sort_order from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_id = '" . (int)$this->request->gethtml('product_id') . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "'";
+			$sql = "select p2o.product_to_option_id, o.name as `option`, ov.name as `option_value`, p2o.price, p2o.prefix, p2o.option_weight, p2o.option_weightclass_id, p2o.sort_order from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_id = '" . (int)$this->request->gethtml('product_id') . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "'";
 		} else {
-			$sql = "select p2o.product_to_option_id, o.name as `option`, ov.name as `option_value`, p2o.price, p2o.prefix, p2o.option_weight, p2o.sort_order from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_id = '" . (int)$this->request->gethtml('product_id') . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "' and o.name like '?'";
+			$sql = "select p2o.product_to_option_id, o.name as `option`, ov.name as `option_value`, p2o.price, p2o.prefix, p2o.option_weight, p2o.option_weightclass_id, p2o.sort_order from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_id = '" . (int)$this->request->gethtml('product_id') . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "' and o.name like '?'";
 		}
 		$sort = array('o.name',	'ov.name', 'p2o.price',	'p2o.prefix', 'p2o.option_weight',	'p2o.sort_order');
 		if (in_array($this->session->get('product_option.sort'), $sort)) {

@@ -61,10 +61,25 @@
               <td class="set"><?php echo $entry_price; ?></td>
               <td><input type="text" name="price" value="<?php echo $price; ?>"></td>
             </tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+              <td class="set"><?php echo $entry_weight_class; ?></td>
+              <td><select name="option_weightclass_id">
+                  <?php foreach ($weight_classes as $weight_class) { ?>
+                  <?php if ($weight_class['weight_class_id'] == $option_weightclass_id) { ?>
+                  <option value="<?php echo $weight_class['weight_class_id']; ?>" selected><?php echo $weight_class['title']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $weight_class['weight_class_id']; ?>"><?php echo $weight_class['title']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select></td>
+            </tr>
+			
 			<tr>
 			  <td class="set"><?php echo $entry_option_weight; ?></td>
 			  <td><input type="text" name="option_weight" value="<?php echo $option_weight; ?>"></td>
 			</tr>
+			<tr><td colspan="2"><hr></td></tr>
             <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
               <td><input type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>

@@ -7,7 +7,7 @@
   <?php foreach ($product['options'] as $key => $option) { ?>
    <tr>	  
     <td><?php echo $option['name']; ?></td>
-    <td><select name="option<?php echo '_' . $product['product_id'];?>[<?php echo $key+1; ?>]" onchange="UpdateTotal(<?php echo $decimal_place . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "'";?>)">		
+    <td><select name="option<?php echo '_' . $product['product_id'];?>[<?php echo $key+1; ?>]" onchange="UpdateTotal(<?php echo $decimal_place . "," . $weight_decimal . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "'";?>)">		
     <?php foreach ($option['value'] as $price_key => $option_value) { ?>
      <option id="<?php echo "O".($product['product_id'])."_".($key+1)."_".($price_key+1); ?>" value="<?php echo $option_value['product_to_option_id']; ?>"><?php echo $option_value['name']; ?>
      <?php if ($option_value['price']) { ?> 

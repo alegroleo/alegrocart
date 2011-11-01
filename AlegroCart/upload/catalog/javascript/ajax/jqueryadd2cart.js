@@ -162,28 +162,27 @@ function UpdateWeight(decimal_place, decimal_point, product_id,controller){
 	if(options.length!=undefined){
 		var i;
 		for (i in options){
-				TempWeight = $('#'+Controller+'_weight_'+options[i]).val();
-				if(TempWeight!=undefined){
-					
-					Weight += parseFloat(TempWeight);
-				}
-				
+			TempWeight = $('#'+Controller+'_weight_'+options[i]).val();
+			if(TempWeight!=undefined){
+				Weight += parseFloat(TempWeight);
+			}
 		}
 	}
 	Weight_new = (((Weight*100)/100).toFixed([Decimal_Place]));
 	Weight = Weight_new.replace('.', Decimal_point);
 	$('#'+Controller+'_weights_'+Product_id).text(Weight);
 }
-function UpdateTotal(decimal_place, decimal_point, product_id, controller){
+function UpdateTotal(decimal_place, weight_decimal, decimal_point, product_id, controller){
 	var Decimal_Place = decimal_place;
 	var Decimal_point = decimal_point;
+	var Weight_decimal = weight_decimal;
 	var Controller = controller;
 	var Product_id = product_id;
 	UpdateQuantity(Product_id, Controller);
 	UpdateImage(product_id,controller);
 	UpdateModel(product_id,controller);
 	UpdateDimensions(product_id,controller);
-	UpdateWeight(decimal_place, decimal_point, product_id,controller)
+	UpdateWeight(Weight_decimal, decimal_point, product_id,controller)
 	
 	var Price = $('#base_price_' + Product_id).val();
 	var options= [];

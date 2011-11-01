@@ -106,6 +106,10 @@ class ControllerProductOption extends Controller {
 			'align' => 'right'
 		);
 		$cols[] = array(
+             'name'  => $this->language->get('column_weight_class'),
+             'align' => 'right'
+		);
+		$cols[] = array(
 			'name'  => $this->language->get('column_sort_order'),
 			'sort'  => 'p2o.sort_order',
 			'align' => 'right'
@@ -139,6 +143,10 @@ class ControllerProductOption extends Controller {
 				'value' => $result['option_weight'],
 				'align' => 'right'
 			);
+			$cell[] = array(
+               'value' => $this->modelProduct->get_weight_class($result['option_weightclass_id']),
+               'align' => 'right'
+            );
 			$cell[] = array(
 				'value' => $result['sort_order'],
 				'align' => 'right'
@@ -233,6 +241,7 @@ class ControllerProductOption extends Controller {
 		$view->set('entry_prefix', $this->language->get('entry_prefix'));
 		$view->set('entry_price', $this->language->get('entry_price'));
 		$view->set('entry_option_weight', $this->language->get('entry_option_weight'));
+		$view->set('entry_weight_class', $this->language->get('entry_weight_class'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 
 		$view->set('button_list', $this->language->get('button_list'));
@@ -324,6 +333,14 @@ class ControllerProductOption extends Controller {
 		} else {
 			$view->set('option_weight', @$product_option_info['option_weight']);
 		}
+		
+		if ($this->request->has('option_weightclass_id', 'post')) {
+			$view->set('option_weightclass_id', $this->request->gethtml('option_weightclass_id', 'post'));
+		} else {
+			$view->set('option_weightclass_id', @$product_option_info['option_weightclass_id']);
+		}
+		
+		$view->set('weight_classes', $this->modelProduct->get_weight_classes());
 
 		if ($this->request->has('sort_order', 'post')) {
 			$view->set('sort_order', $this->request->gethtml('sort_order', 'post'));

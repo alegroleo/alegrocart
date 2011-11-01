@@ -14,6 +14,7 @@ $_['column_value']        = 'Option Value';
 $_['column_prefix']       = 'Prefix';
 $_['column_price']        = 'Price';
 $_['column_weight']       = 'Weight';
+$_['column_weight_class'] = 'Weight<br>Class';
 $_['column_sort_order']   = 'Sort Order';
 $_['column_action']       = 'Action';
 
@@ -22,6 +23,7 @@ $_['entry_option']        = 'Product Options:';
 $_['entry_prefix']        = 'Prefix:';
 $_['entry_price']         = 'Price:';
 $_['entry_option_weight'] = 'Weight:';
+$_['entry_weight_class']  = 'Weight Class:';
 $_['entry_sort_order']    = 'Sort Order:';
 
 // Error

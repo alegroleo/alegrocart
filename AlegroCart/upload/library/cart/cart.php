@@ -52,21 +52,23 @@ class Cart {
       			$option_data = array();
       
       			foreach ($options as $product_to_option_id) {
-        			$option = $this->database->getRow("select o.name as name, ov.name as `value`, p2o.price, p2o.prefix, p2o.option_weight from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_to_option_id = '" . (int)$product_to_option_id . "' and product_id = '" . (int)$product_id . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "'");
+        			$option = $this->database->getRow("select o.name as name, ov.name as `value`, p2o.price, p2o.prefix, p2o.option_weight, p2o.option_weightclass_id from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_to_option_id = '" . (int)$product_to_option_id . "' and product_id = '" . (int)$product_id . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "'");
 
         			if ($option['prefix'] == '+') {
           				$option_price = $option_price + $option['price'];
         			} elseif ($option['prefix'] == '-') {
           				$option_price = $option_price - $option['price'];
         			}
-					$option_weight = $option_weight + $option['option_weight'];
+					$temp_option_weight = $this->weight->convert($option['option_weight'],$option['option_weightclass_id'],$product['weight_class_id']);
+					$option_weight = $option_weight + $temp_option_weight;
         			$option_data[] = array(
           				'product_to_option_id' => $product_to_option_id,
           				'name'           => $option['name'],
           				'value'          => $option['value'],
           				'prefix'         => $option['prefix'],
           				'price'          => roundDigits($option['price'], $this->decimal_place),
-						'option_weight'	 => $option['option_weight']
+						'option_weight'	 => $temp_option_weight,
+						'option_weightclass_id'=> $option['option_weightclass_id']
         			);
       			}
 				
@@ -117,10 +119,10 @@ class Cart {
 					'shipping'        => (isset($product_option['shipping']) ? @$product_option['shipping'] : @$product['shipping']),
         			'image'           => ((isset($product_option['filename']) && @$product_option['filename']) ? @$product_option['filename'] : $product['filename']),
         			'option'          => $option_data,
-				'download'        => $download_data,
+					'download'        => $download_data,
         			'quantity'        => $quantity,
-				'barcode'         => isset($product_option['barcode']) ? @$product_option['barcode'] : @$product['barcode'],
-				'min_qty'         => $product['min_qty'],
+					'barcode'         => isset($product_option['barcode']) ? @$product_option['barcode'] : @$product['barcode'],
+					'min_qty'         => $product['min_qty'],
 					'stock'           => ($quantity <=(isset($product_option['quantity']) ? @$product_option['quantity'] : @$product['quantity'])),
         			'price'           => roundDigits(($product['price'] + $option_price), $this->decimal_place),
 					'special_price'   => $special_price,

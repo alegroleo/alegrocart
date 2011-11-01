@@ -9,7 +9,7 @@
               <?php foreach ($option['value'] as $price_key => $option_value) { ?>
 			    <?php if($price_key >0){?><tr><?php }?>
 				<td>
-			  <input type="radio" id="<?php echo "O".($product['product_id'])."_".($key+1)."_".($price_key+1); ?>" name="option<?php echo '_' . $product['product_id'];?>[<?php echo $key+1; ?>]" value="<?php echo $option_value['product_to_option_id']; ?>"<?php if($price_key == 0){echo ' checked="checked"';}?> onchange="UpdateTotal(<?php echo $decimal_place . ",'". $decimal_point . "'," . $product['product_id'] . ",'" . $this_controller."'";?>)"><?php echo $option_value['name']; ?>
+			  <input type="radio" id="<?php echo "O".($product['product_id'])."_".($key+1)."_".($price_key+1); ?>" name="option<?php echo '_' . $product['product_id'];?>[<?php echo $key+1; ?>]" value="<?php echo $option_value['product_to_option_id']; ?>"<?php if($price_key == 0){echo ' checked="checked"';}?> onchange="UpdateTotal(<?php echo $decimal_place . "," . $weight_decimal . ",'" . $decimal_point . "'," . $product['product_id'] . ",'" . $this_controller."'";?>)"><?php echo $option_value['name']; ?>
                 <?php if ($option_value['price']) { ?> 
                   <?php echo $option_value['prefix']; ?><?php echo $option_value['price']; ?>
 				  <?php if($price_key == '0'){

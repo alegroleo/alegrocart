@@ -116,11 +116,11 @@ class ControllerProduct extends Controller {
 			$view->set('quantity_available', $language->get('quantity_available'));
 			$view->set('standard_price', $language->get('standard_price'));
 			$view->set('tab_description', $language->get('tab_description')); 
-			$view->set('tab_technical', $language->get('tab_technical'));
 			$view->set('tab_images', $language->get('tab_images'));
 			$view->set('tab_information', $language->get('tab_information'));
 			$view->set('tab_reviews', $language->get('tab_reviews'));
 			$view->set('tab_write', $language->get('tab_write'));
+			$view->set('tab_technical', $product_info['technical_name'] ? $product_info['technical_name'] : $language->get('tab_technical'));
 
 			$view->set('tax_included', $this->config->get('config_tax'));
 			$view->set('text_tax_rate', ($this->config->get('config_tax') ? $language->get('text_tax_included') : '') . $language->get('text_tax_rate')); 
@@ -134,12 +134,6 @@ class ControllerProduct extends Controller {
 			$dimension_class = $this->modelProducts->get_dimension_class($product_info['dimension_id']);
 			$dimension_value = $this->dimension->getValues($product_info['dimension_value'], $dimension_class['type_id'], $product_info['dimension_id']);
 			$view->set('dimensions', $this->modelProducts->dimensionView($dimension_class, $dimension_value));
-			
-			
-			$view->set('weight', $weight->convert($product_info['weight'],$product_info['weight_class_id'], $this->config->get('config_weight_class_id')));
-			$view->set('weight_unit', $weight->getClass($this->config->get('config_weight_class_id')));
-			
-			$view->set('option_weights', $this->modelProducts->get_option_weight($product_info['product_id']));
 			
 			$view->set('shipping',$product_info['shipping']);
       		$view->set('description', formatedstring($product_info['description'],40));
@@ -198,6 +192,13 @@ class ControllerProduct extends Controller {
 			$view->set('decimal_point', $language->get('decimal_point'));//********
 			$view->set('thousand_point', $language->get('thousand_point')); //*****************
 			$view->set('tax_rate', round($tax->getRate($product_info['tax_class_id'], $currency->currencies[$currency_code]['decimal_place'])) . '%');
+			
+			$product_weight = $weight->convert($product_info['weight'],$product_info['weight_class_id'], $this->config->get('config_weight_class_id'));
+			$product_weight = number_format($product_weight, $this->config->get('config_weight_decimal'), $language->get('decimal_point'),'');
+			$view->set('weight', $product_weight);
+			$view->set('weight_unit', $weight->getClass($this->config->get('config_weight_class_id')));
+			$view->set('weight_decimal', $this->config->get('config_weight_decimal'));
+			$view->set('option_weights', $this->modelProducts->get_option_weight($product_info['product_id'], $this->config->get('config_weight_class_id')));
 
       		$image_data = array(); // Additional Images
 			$results = $this->modelProducts->get_additional_images((int)$request->gethtml('product_id'));

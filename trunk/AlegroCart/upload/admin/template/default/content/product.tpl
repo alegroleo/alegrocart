@@ -12,7 +12,7 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png"><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
 <?php if ($error) { ?>
@@ -57,7 +57,7 @@
 				    <td style="width: 185px;" class="set"><?php echo $entry_model_number; ?></td>
 					<td style="width: 265px;"><input size="32" maxlength="32" <?php if($option_status) echo 'readonly="readonly" '; ?>name="model_number[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model_number']; ?>"></td>
 					<?php if($option_status) {?>
-					<td><b style="color:red;padding-left:10px;"><?php echo $text_model_options;?></b></td>
+					<td style="color:red;padding-left:10px;"><b ><?php echo $text_model_options;?></b></td>
 			  <?php }?>
 				  </tr>
 				  <tr>
@@ -86,7 +86,7 @@
 				<table>
                   <tr>
                     <td style="vertical-align: top; width: 185px" class="set"><?php echo $entry_description; ?></td>
-                    <td><textarea name="description[<?php echo $product['language_id']; ?>]" id="description<?php echo $product['language_id']; ?>"><?php echo $product['description']; ?></textarea>
+                    <td><textarea name="description[<?php echo $product['language_id']; ?>]" id="description<?php echo $product['language_id']; ?>"><?php echo $product['description']; ?></textarea></td>
                   </tr>
                 </table>
               </div>
@@ -98,7 +98,6 @@
       <div class="page">
         <div class="pad">
           <table>
-            <table>
             <tr>
               <td class="set"><?php echo $entry_status; ?></td>
               <td><select name="status">
@@ -111,7 +110,7 @@
                   <?php } ?>
                 </select></td>
             </tr>
-	    <tr>
+			<tr>
               <td class="set"><?php echo $entry_date_available; ?></td>
               <td><input name="date_available_day" value="<?php echo $date_available_day; ?>" size="2" maxlength="2">
                 <select name="date_available_month">
@@ -154,7 +153,7 @@
              <td class="expl"><?php if($option_status) {?><b style="color:red;"><?php echo $text_barcode_options;?></b></br><?php }?><?php echo $text_barcode_enc_explanation; ?></td>
 	    </tr>
 	    <tr>
-           <td  class="set"><?php echo $entry_barcode; ?></td>
+           <td class="set"><?php echo $entry_barcode; ?></td>
               <td id="barcodefield_9999"><input id="barcode_9999" type="text" size="14" maxlength="15" <?php if($option_status) echo 'readonly="readonly" '; ?>name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode('9999')">
 			</td>
 	      <td class="expl"><?php if($option_status) {?><b style="color:red;"><?php echo $text_barcode_options;?></b></br><?php }?><?php echo $text_barcode_explanation; ?></td>
@@ -376,7 +375,6 @@
       <div class="page">
         <div class="pad">
           <table>
-
             <tr>
               <td class="set"><?php echo $entry_featured; ?></td>
               <td><select name="featured">
@@ -414,7 +412,6 @@
                   <?php } ?>
                 </select></td>
             </tr>			
-			
 			<tr>
               <td width="185" valign="top" class="set"><?php echo $entry_related; ?></td>
               <td><select name="relateddata[]" multiple="multiple" size="15">
@@ -427,7 +424,6 @@
                   <?php } ?>
                 </select></td>
             </tr>
-			
           </table>
         </div>
       </div>
@@ -438,21 +434,16 @@
 		  <div class="set"><?php echo $entry_regular_price;?><input type="text" id="discount_regular_price" size="11" disabled="disabled" value="<?php echo $price;?>">		  
 		  <?php echo $entry_dated_special;?><input type="text" id="discount_special_price" size="11" disabled="disabled" value="<?php echo $special_price;?>"></div>		  
           <table id="discounts">
-
             <?php $i = 0; ?>
             <?php foreach ($product_discounts as $product_discount) { ?>
             <tr id="discount_<?php echo $i; ?>">
               <td><?php echo $entry_quantity; ?></td>
               <td><input type="text" name="product_discount[<?php echo $i; ?>][quantity]" value="<?php echo $product_discount['quantity']; ?>" size="2"></td>
-
-			  <td><?php echo $entry_percent_discount;?></td>			  
+			  <td><?php echo $entry_percent_discount;?></td>		  
               <td><input type="text" id="discount_percent<?php echo $i; ?>" name="product_discount[<?php echo $i; ?>][discount]" size="11" value="<?php echo $product_discount['discount']; ?>" onchange="quantity_percent('<?php echo $i; ?>')"></td>
-			  
-
               <td><?php echo $entry_discount; ?></td>
 			  <?php $discountvalue = number_format($price*($product_discount['discount']/100),2); ?>	
 			  <td><input type="text" id="discount_amount<?php echo $i;?>" size="8" value="<?php echo $discountvalue;?>" name="discount_amount<?php echo $i;?>" onchange="quantity_discount('<?php echo $i; ?>')"></td>
-			  
               <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeDiscount('discount_<?php echo $i; ?>');"></td>
             </tr>
             <?php $i++; ?>
@@ -463,7 +454,7 @@
               <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addDiscount();"></td>
             </tr>
           </table>
-	  <table><tr><td class="expl"><?php echo $entry_quantity_discount;?>
+		  <table><tr><td class="expl"><?php echo $entry_quantity_discount;?>
 		    </td></tr></table>
         </div>
       </div>
@@ -570,11 +561,20 @@
 				  </tr>
                   <tr>
                     <td valign="top" class="set"><?php echo $entry_alt_description; ?></td>
-                    <td><textarea name="alt_description[<?php echo $product['language_id']; ?>]" id="alt_description<?php echo $product['language_id']; ?>"><?php echo $product['alt_description']; ?></textarea>
+                    <td><textarea name="alt_description[<?php echo $product['language_id']; ?>]" id="alt_description<?php echo $product['language_id']; ?>"><?php echo $product['alt_description']; ?></textarea></td>
                   </tr>
+				</table>
+				<table>
+				  <tr>
+				    <td width="185" class="set"> <?php echo $entry_technical_name; ?></td>
+				    <td><input size="64" maxlength="64" name="technical_name[<?php echo $product['language_id']; ?>]" value="<?php echo $product['technical_name']; ?>"></td> 
+					<td class="expl"><?php echo $text_technical_name;?></td>
+				  </tr>
+				</table>
+				<table>
 				  <tr>
 				    <td valign="top" class="set"><?php echo $entry_technical; ?></td>
-				    <td><textarea name="technical[<?php echo $product['language_id']; ?>]" id="technical<?php echo $product['language_id']; ?>"><?php echo $product['technical']; ?></textarea>
+				    <td><textarea name="technical[<?php echo $product['language_id']; ?>]" id="technical<?php echo $product['language_id']; ?>"><?php echo $product['technical']; ?></textarea></td>
 				  </tr>
                 </table>
               </div>

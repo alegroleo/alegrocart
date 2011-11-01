@@ -59,6 +59,7 @@ class ControllerSetting extends Controller {
 		$view->set('text_rss_info', $this->language->get('text_rss_info'));
 		$view->set('text_rss_status', $this->language->get('text_rss_status'));
 		$view->set('text_dimension_decimal', $this->language->get('text_dimension_decimal'));
+		$view->set('text_weight_decimal', $this->language->get('text_weight_decimal'));  //Weight decimal
 		$view->set('text_store_logo', $this->language->get('text_store_logo'));
 		$view->set('text_footer_logo', $this->language->get('text_footer_logo'));
 		$view->set('text_captcha', $this->language->get('text_captcha'));
@@ -197,6 +198,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_addtocart_quantity',$this->language->get('entry_addtocart_quantity'));
 		$view->set('entry_addtocart_maximum',$this->language->get('entry_addtocart_maximum'));
 		$view->set('entry_dimension_decimal',$this->language->get('entry_dimension_decimal'));
+		$view->set('entry_weight_decimal',$this->language->get('entry_weight_decimal'));   //Weight decimal
 		$view->set('entry_rss_limit',$this->language->get('entry_rss_limit'));
 		$view->set('entry_rss_status',$this->language->get('entry_rss_status'));
 		$view->set('entry_rss_source',$this->language->get('entry_rss_source'));
@@ -821,6 +823,12 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_weight_class_id', @$setting_info['global']['config_weight_class_id']);
 		}
+		
+		if ($this->request->has('global_config_weight_decimal')) {
+			$view->set('global_config_weight_decimal', $this->request->gethtml('global_config_weight_decimal'));
+		} else {
+			$view->set('global_config_weight_decimal', @$setting_info['global']['config_weight_decimal']);
+		}  //Weight decimal
 
 		$view->set('weight_classes', $this->modelSetting->get_weight_classes());
 		

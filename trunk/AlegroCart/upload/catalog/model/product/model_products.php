@@ -8,6 +8,7 @@ class Model_Products extends Model {
 		$this->tax      =& $locator->get('tax');
 		$this->currency =& $locator->get('currency');
 		$this->config   =& $locator->get('config');
+		$this->weight	=& $locator->get('weight');
 		$this->language->load('controller/dimensions.php');
 	}
 	function get_bestseller($bestseller_total){
@@ -67,18 +68,18 @@ class Model_Products extends Model {
 		$results = $this->database->getRows("select * from product_options po left join image i on (po.image_id = i.image_id) where po.product_id = '" . (int)$product_id . "' order by po.product_option asc");
 		return $results;
 	}
-	function get_option_weight($product_id){
-		$results = $this->database->getRows("select product_to_option_id, option_weight from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
+	function get_option_weight($product_id, $weight_class_id){
+		$results = $this->database->getRows("select product_to_option_id, option_weight, option_weightclass_id from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
 		$option_weight = array();
 		foreach ($results as $result) {
 			$option_weight[] = array(
 				'product_to_option_id' => $result['product_to_option_id'],
-				'option_weight'		   => $result['option_weight']
+				'option_weight'		   => $this->weight->convert($result['option_weight'], $result['option_weightclass_id'], $weight_class_id)
 			);
 		}
 		return $option_weight;
 	}
-	function get_options($product_id,$tax_class_id){  // Get product Options
+	function get_options($product_id, $tax_class_id){  // Get product Options
 		$options = array();
       		$results = $this->database->getRows("select * from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
       		foreach ($results as $result) {

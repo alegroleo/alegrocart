@@ -204,17 +204,21 @@ class ControllerProduct extends Controller {
              'name'  => $this->language->get('column_price'),
              'sort'  => 'p.price',
              'align' => 'left'
-       );
+		);
         $cols[] = array(
              'name'  => $this->language->get('column_stock'),
              'sort'  => 'p.quantity',
              'align' => 'left'
-       );
+		);
         $cols[] = array(
              'name'  => $this->language->get('column_weight'),
              'sort'  => 'p.weight',
              'align' => 'left'
-       );
+		);
+		$cols[] = array(
+             'name'  => $this->language->get('column_weight_class'),
+             'align' => 'left'
+		);
     	$cols[] = array(
       		'name'  => $this->language->get('column_model'),
       		'sort'  => 'pd.model',
@@ -274,6 +278,10 @@ class ControllerProduct extends Controller {
             );
             $cell[] = array(
                'value' => $result['weight'],
+               'align' => 'left'
+            );
+			$cell[] = array(
+               'value' => $this->modelProduct->get_weight_class($result['weight_class_id']),
                'align' => 'left'
             );
       		$cell[] = array(
@@ -399,7 +407,7 @@ class ControllerProduct extends Controller {
 		$view->set('text_barcode_options', $this->language->get('text_barcode_options'));
  		$view->set('text_ean', $this->language->get('text_ean'));
  		$view->set('text_upc', $this->language->get('text_upc'));
-		
+		$view->set('text_technical_name', $this->language->get('text_technical_name'));
 		
 		$symbol_right = $this->currency->currencies[$this->currency->code]['symbol_right'];
 		$symbol_left = $this->currency->currencies[$this->currency->code]['symbol_left'];
@@ -439,6 +447,7 @@ class ControllerProduct extends Controller {
 		$view->set('entry_end_date', $this->language->get('entry_end_date'));
 		$view->set('entry_alt_description', $this->language->get('entry_alt_description'));
 		$view->set('entry_technical', $this->language->get('entry_technical'));
+		$view->set('entry_technical_name', $this->language->get('entry_technical_name'));
 		$view->set('entry_meta_title', $this->language->get('entry_meta_title'));
 		$view->set('entry_meta_description', $this->language->get('entry_meta_description'));
 		$view->set('entry_meta_keywords', $this->language->get('entry_meta_keywords'));
@@ -522,6 +531,7 @@ class ControllerProduct extends Controller {
 			$model_number     = $this->request->get('model_number', 'post');
 			$description      = $this->request->get('description', 'post');
 			$technical        = $this->request->get('technical', ' post');
+			$technical_name   = $this->request->get('technical_name', ' post');
 			$alt_description  = $this->request->get('alt_destription', 'post');
 			$meta_title       = $this->request->gethtml('meta_title', 'post');
 			$meta_description = $this->request->gethtml('meta_description', 'post');
@@ -536,6 +546,7 @@ class ControllerProduct extends Controller {
 				'model_number'  => !$this->option_status ? (isset($model_number[$result['language_id']]) ? $model_number[$result['language_id']] : @$product_description_info['model_number']) : '',
 	    		'description' 	=> (isset($description[$result['language_id']]) ? $description[$result['language_id']] : @$product_description_info['description']),
 				'technical'     => (isset($technical[$result['language_id']]) ? $technical[$result['language_id']] : @$product_description_info['technical']),
+				'technical_name' => (isset($technical_name[$result['language_id']]) ? $technical_name[$result['language_id']] : @$product_description_info['technical_name']),
 				'alt_description' => (isset($alt_description[$result['language_id']]) ? $alt_description[$result['language_id']] : @$product_description_info['alt_description']),
 	    		'meta_title' 	=> (isset($meta_title[$result['language_id']]) ? $meta_title[$result['language_id']] : @$product_description_info['meta_title']),			
 	    		'meta_description'=> (isset($meta_description[$result['language_id']]) ? $meta_description[$result['language_id']] : @$product_description_info['meta_description']),

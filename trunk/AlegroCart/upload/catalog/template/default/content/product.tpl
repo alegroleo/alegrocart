@@ -180,14 +180,14 @@
 		  <span id="<?php echo $this_controller . '_weights_' . $product['product_id'];?>"><?php echo $weight;?></span>
 		  <?php echo ' ' . $weight_unit;?>
 		  <?php if($option_weights){?>
-		    <input type="hidden" id="weight_<?php echo $product['product_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$weight)),$decimal_place,'.','');?>">
+		    <input type="hidden" id="weight_<?php echo $product['product_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',$weight),4,'.','');?>">
 			<script language="JavaScript">
 			  $(document).ready(function(){
-			    UpdateWeight(<?php echo $decimal_place . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "'";?>);
+			    UpdateWeight(<?php echo $weight_decimal . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "'";?>);
 			  });
 			</script>
 		    <?php foreach($option_weights as $option_weight){?>
-			  <input type="hidden" id="<?php echo $this_controller . '_weight_' . $option_weight['product_to_option_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$option_weight['option_weight'])),$decimal_place,'.','');?>">
+			  <input type="hidden" id="<?php echo $this_controller . '_weight_' . $option_weight['product_to_option_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',$option_weight['option_weight']),4,'.','');?>">
 			<?php }?>
 		  <?php }?>
 		  <br>

@@ -1,6 +1,7 @@
 <?php
 // Text
-$_['text_paypal_title']             = 'PayPal (Credit Card Payments)';
+$_['text_paypal_title']             = 'PayPal';
+$_['text_paypal_message'] 			= 'Payment by Credit Card: MasterCard and Visa accepted';
 $_['order_status_paid_unconfirmed'] = 'Paid Unconfirmed';
 $_['final_order_status']            = 'Pending';
 

@@ -45,14 +45,15 @@ class Model_Admin_Product extends Model {
 		$this->model_number	= $this->request->get('model_number' , 'post');
 		$this->description 	= $this->request->get('description', 'post');
 		$this->technical  	= $this->request->get('technical', 'post');
+		$this->technical_name  	= $this->request->get('technical_name', 'post');
 		$this->alt_description = $this->request->get('alt_description', 'post');
 		$this->meta_title 	= $this->request->get('meta_title', 'post');
 		$this->meta_description = $this->request->get('meta_description', 'post');
 		$this->meta_keywords = $this->request->get('meta_keywords', 'post');
 	}
 	function write_description($key, $insert_id, $name){
-		$sql = "insert into product_description set product_id = '?', language_id = '?', name = '?', description = '?', technical = '?', model = '?', model_number = '?', alt_description = '?', meta_title = '?', meta_description = '?', meta_keywords = '?'";
-		$this->database->query($this->database->parse($sql, $insert_id, $key, htmlspecialchars_deep($name), $this->description[$key], $this->technical[$key], htmlspecialchars_deep($this->model[$key]), htmlspecialchars_deep($this->model_number[$key]), $this->alt_description[$key], strip_tags($this->meta_title[$key]), strip_tags($this->meta_description[$key]), strip_tags($this->meta_keywords[$key])));
+		$sql = "insert into product_description set product_id = '?', language_id = '?', name = '?', description = '?', technical = '?',  technical_name = '?',model = '?', model_number = '?', alt_description = '?', meta_title = '?', meta_description = '?', meta_keywords = '?'";
+		$this->database->query($this->database->parse($sql, $insert_id, $key, htmlspecialchars_deep($name), $this->description[$key], $this->technical[$key], htmlspecialchars_deep($this->technical_name[$key]), htmlspecialchars_deep($this->model[$key]), htmlspecialchars_deep($this->model_number[$key]), $this->alt_description[$key], strip_tags($this->meta_title[$key]), strip_tags($this->meta_description[$key]), strip_tags($this->meta_keywords[$key])));
 	}
 	function write_discount($insert_id, $quantity, $discount){
 		$this->database->query("insert into product_discount set product_id = '" . $insert_id . "', quantity = '" . $quantity . "', discount = '" . $discount . "'");
@@ -106,9 +107,9 @@ class Model_Admin_Product extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('product.search')) {
-            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, pd.model, p.sort_order, p.status, p.special_price, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "'";
+            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, p.weight_class_id, pd.model, p.sort_order, p.status, p.special_price, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "'";
        } else {
-            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, pd.model, p.sort_order, p.status, p.special_price, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and pd.name like '?'";
+            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, p.weight_class_id, pd.model, p.sort_order, p.status, p.special_price, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and pd.name like '?'";
        }
 		$sort = array('pd.name', 'p.price', 'p.quantity', 'p.weight', 'pd.model', 'p.sort_order', 'p.featured', 'p.status',	'p.special_price', 'i.filename');
     	if (in_array($this->session->get('product.sort'), $sort)) {
@@ -142,7 +143,7 @@ class Model_Admin_Product extends Model {
 		return $results;
 	}
 	function get_product_description($language_id){
-		$result = $this->database->getRow("select name, description, technical, model, model_number,alt_description, meta_title, meta_description, meta_keywords from product_description where product_id = '" . (int)$this->request->gethtml('product_id') . "' and language_id = '" . (int)$language_id . "'");
+		$result = $this->database->getRow("select name, description, technical,technical_name,model, model_number,alt_description, meta_title, meta_description, meta_keywords from product_description where product_id = '" . (int)$this->request->gethtml('product_id') . "' and language_id = '" . (int)$language_id . "'");
 		return $result;
 	}
 	function get_product_info(){
@@ -156,6 +157,10 @@ class Model_Admin_Product extends Model {
 	function get_tax_classes(){
 		$results = $this->database->cache('tax_class', "select * from tax_class");
 		return $results;
+	}
+	function get_weight_class($weight_class_id){
+		$result = $this->database->getRow("select unit from weight_class where weight_class_id = '" . $weight_class_id ."' and language_id = '" . (int)$this->language->getId() . "'");
+		return $result['unit'];
 	}
 	function get_weight_classes(){
 		$results = $this->database->cache('weight_class-' . $this->language->getId(), "select weight_class_id, title from weight_class where language_id = '" . (int)$this->language->getId() . "'");

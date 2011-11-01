@@ -47,6 +47,7 @@ class PaymentPayPal extends Payment {
             $method_data = array( 
                 'id'         => 'paypal',
                 'title'      => $this->language->get('text_paypal_title'),
+				'message'    => $this->language->get('text_paypal_message'),
                 'sort_order' => $this->config->get('paypal_sort_order')
             );
         }
@@ -58,7 +59,7 @@ class PaymentPayPal extends Payment {
     function get_ActionUrl() {
         if (!$this->config->get('paypal_test')) {
             return 'https://www.paypal.com/cgi-bin/webscr';
-			//return 'http://www.alegrocart.com/gateway/paypal_test.php';
+			//return 'http://localhost/gateway/paypal_test.php';
         } else {
             return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         }

@@ -39,7 +39,7 @@ class ControllerDimensionClass extends Controller {
 			foreach ($this->request->gethtml('rule', 'post', array()) as $key => $value) {
 				$this->modelDimensions->insert_dimension_rule($insert_id, $key, $value);
 			}
-			$this->cache->delete('dimension_class');
+			$this->cache->delete('dimension');
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('dimension_class'));
@@ -62,7 +62,7 @@ class ControllerDimensionClass extends Controller {
 			foreach ($this->request->gethtml('rule', 'post', array()) as $key => $value) {
 				$this->modelDimensions->insert_dimension_rule($this->request->gethtml('dimension_id'), $key, $value);
 			}
-			$this->cache->delete('dimension_class');
+			$this->cache->delete('dimension');
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('dimension_class'));
@@ -79,7 +79,7 @@ class ControllerDimensionClass extends Controller {
 		if (($this->request->gethtml('dimension_id')) && ($this->validateDelete())) {
 			$this->modelDimensions->delete_dimension_class();
 			$this->modelDimensions->delete_dimension_rule();
-			$this->cache->delete('dimension_class');
+			$this->cache->delete('dimension');
 			$this->session->set('message', $this->language->get('text_message'));
 			
 			$this->response->redirect($this->url->ssl('dimension_class'));

@@ -58,4 +58,5 @@ $_['text_purchased']      = 'Products Purchased';
 $_['text_maintenance']    = 'Maintenance';
 $_['text_products_with_options'] = 'Products with Options';
 $_['text_logs']			  = 'Log Files';
+$_['text_watermark']	  = 'Watermark';
 ?>

@@ -19,6 +19,10 @@ class Validate {
         return TRUE;
     }
 
+    function is_hexcolor($color) {
+	return (bool)preg_match('/^#?+[0-9a-f]{3}(?:[0-9a-f]{3})?$/i', $color);
+    }
+
 }
 
 ?>

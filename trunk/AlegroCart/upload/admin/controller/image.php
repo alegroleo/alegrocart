@@ -4,6 +4,8 @@ class ControllerImage extends Controller {
 	var $size=100;
 	var $types=array('jpg','gif','jpeg','png');
   	var $error = array(); 
+	var $wm_method = 'auto';
+
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
@@ -22,7 +24,8 @@ class ControllerImage extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelImage = $model->get('model_admin_image');
-		
+		$this->watermark  	=& $locator->get('watermark');
+
 		$this->language->load('controller/image.php');
 	}
 
@@ -76,6 +79,9 @@ class ControllerImage extends Controller {
 				    if (empty($value['title'])) { $value['title']=$this->getTitle($this->upload->getName('image')); }
         		    $this->modelImage->insert_description($insert_id, $key, $value['title']);
       		    }
+		if ($this->watermark->check_status($this->wm_method)) {
+		$this->watermark->merge( DIR_IMAGE . $this->upload->getName('image'), $this->wm_method);
+		}
 	  		    $this->cache->delete('image');
 			    $this->session->set('message', $this->language->get('text_message'));
 			    

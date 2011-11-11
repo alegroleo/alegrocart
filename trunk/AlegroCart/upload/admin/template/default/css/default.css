@@ -266,7 +266,13 @@ form {
 .right {
 	text-align: right;
 }
+.leftbutton {
+	float: left;
+}
 
+.rightbutton {
+	float: right;
+}
 .center {
 	text-align: center;
 }
@@ -532,14 +538,26 @@ form {
 .footer_logo_image{
 	border: 1px solid #999999;
 	width: 500px;
-	height: 70x;
+	height: 70px;
 	text-align: center;
 }
 .logo_image{
 	border: 1px solid #999999;
 	width: 500px;
-	height: 70x;
+	height: 70px;
 	text-align: center;
+}
+.wm_image{
+	border: 1px solid #999999;
+	height: 100px;
+	text-align: center;
+	background: url('../image/trbg.png');
+}
+.wm_wmimage, .preview{
+	height: 310px;
+	text-align: center;
+	background: url('../image/trbg.png');
+	border-right: 5px solid #FFFFFF;
 }
 .flash_image{
 	border: 1px solid #999999;

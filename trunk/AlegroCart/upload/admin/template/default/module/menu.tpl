@@ -43,7 +43,8 @@
 		['<img src="javascript/JSCookMenu/default/products_with_options.png">', '<?php echo $text_products_with_options; ?>', '<?php echo $products_with_options; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/option.png">', '<?php echo $text_option; ?>', '<?php echo $option; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/manufacturer.png">', '<?php echo $text_manufacturer; ?>', '<?php echo $manufacturer; ?>', null, null],	
-	    ['<img src="javascript/JSCookMenu/default/image.png">', '<?php echo $text_image; ?>', '<?php echo $image; ?>', null, null],	
+	    ['<img src="javascript/JSCookMenu/default/image.png">', '<?php echo $text_image; ?>', '<?php echo $image; ?>', null, null],
+	    ['<img src="javascript/JSCookMenu/default/watermark.png">', '<?php echo $text_watermark; ?>', '<?php echo $watermark; ?>', null, null],	
 		['<img src="javascript/JSCookMenu/default/download.png">', '<?php echo $text_download; ?>', '<?php echo $download; ?>', null, null],	
 	    ['<img src="javascript/JSCookMenu/default/review.png">', '<?php echo $text_review; ?>', '<?php echo $review; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/information.png">', '<?php echo $text_information; ?>', '<?php echo $information; ?>', null, null]

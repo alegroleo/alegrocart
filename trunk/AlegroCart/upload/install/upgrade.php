@@ -3,6 +3,7 @@
 // Installed?
 if (filesize('../config.php') == 0) { header('Location: index.php'); exit; }
 
+define('APP','INSTALL');
 require('common.php');
 require('language.php');
 // Include Config and Common

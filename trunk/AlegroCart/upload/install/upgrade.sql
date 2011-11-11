@@ -1261,3 +1261,31 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 
 ALTER TABLE `product_description`
 ADD `technical_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default '' AFTER `technical`;
+
+#Create Watermark Table
+
+CREATE TABLE IF NOT EXISTS `watermark`(
+  `wm_id` int(11) NOT NULL auto_increment,
+  `wm_method` varchar(6) collate utf8_unicode_ci NOT NULL default '',
+  `wm_text` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `wm_font` int(11) NOT NULL default '0',
+  `wm_fontcolor` varchar(6) collate utf8_unicode_ci NOT NULL default '',
+  `wm_transparency` int(11) NOT NULL default '0',
+  `wm_thposition` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `wm_tvposition` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `wm_thmargin` int(11) NOT NULL default '0',
+  `wm_tvmargin` int(11) NOT NULL default '0',
+  `wm_image` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `wm_ihposition` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `wm_ivposition` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `wm_ihmargin` int(11) NOT NULL default '0',
+  `wm_ivmargin` int(11) NOT NULL default '0',
+  `wm_scale` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`wm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+# data for table `watermark`
+INSERT INTO `watermark` (`wm_id`, `wm_method`, `wm_text`, `wm_font`, `wm_fontcolor`, `wm_transparency`, `wm_thposition`, `wm_tvposition`, `wm_thmargin`, `wm_tvmargin`, `wm_image`, `wm_ihposition`, `wm_ivposition`, `wm_ihmargin`, `wm_ivmargin`, `wm_scale`) VALUES
+(NULL, 'auto', 'Alegrocart TEST auto watermark', 5, 'CCCCCC', 80, 'CENTER', 'TOP', 10, 15, 'ac_logo.png', 'RIGHT', 'BOTTOM', 12, 21, 50),
+(NULL, 'manual', 'Alegrocart TEST manual watermark', 4, '000000', 70, 'CENTER', 'TOP', 15, 25, 'ac_logo.png', 'RIGHT', 'BOTTOM', 15, 25, 60)
+ ON DUPLICATE KEY UPDATE wm_id=wm_id;

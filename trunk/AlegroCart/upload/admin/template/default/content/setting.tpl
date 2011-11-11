@@ -42,10 +42,13 @@
             </tr>
             <tr>
               <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_address; ?></td>
-              <td><textarea name="global_config_address" cols="40" rows="5"><?php echo $global_config_address; ?></textarea>
+              <td><textarea name="global_config_address" cols="40" rows="7"><?php echo $global_config_address; ?></textarea>
                 <?php if ($error_address) { ?>
                 <span class="error"><?php echo $error_address; ?></span>
                 <?php } ?></td>
+	      <td class="expl">
+			    <?php echo $explanation_address; ?> 
+	      </td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_telephone; ?></td>
@@ -432,7 +435,7 @@
                   <?php } ?>
                 </select></td>
             </tr>
-			<tr> <!--  New Weight Decimal Places -->
+		       <tr> <!--  New Weight Decimal Places -->
 			  <td class="set"><?php echo $entry_weight_decimal; ?></td>
 			  <td><input type="text" name="global_config_weight_decimal" value="<?php echo $global_config_weight_decimal; ?>" size="2"></td>
 			  <td class="expl"><?php echo $text_weight_decimal; ?></td>
@@ -615,7 +618,7 @@
           <table>
             <tr>
               <td width="165" class="set"><?php echo $entry_vat; ?></td>
-              <td width="130><input type="text" name="catalog_config_vat" value="<?php echo $catalog_config_vat; ?>"></td>
+              <td width="130"><input type="text" name="catalog_config_vat" value="<?php echo $catalog_config_vat; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_account; ?></td>
@@ -894,7 +897,14 @@
         </div>
       </div>
       <div class="page">  <!--  Start Image and Add to Cart Controls -->
-        <div class="pad">
+	<div id="tabmini">
+	  <div class="tabs">
+	  <a><div class="tab_text"><?php echo $tab_general; ?></div></a>
+	  <a><div class="tab_text"><?php echo $tab_watermark; ?></div></a>
+	  </div>
+	  <div class="pages">
+            <div class="page">
+             <div class="minipad">
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_image_resize; ?></td>
@@ -1118,8 +1128,172 @@
 			  <td><input type="text" name="catalog_addtocart_quantity_max" value="<?php echo $catalog_addtocart_quantity_max;?>" size="4" /></td>
 			  <td colspan="2"></td><td class="expl"><?php echo $text_cart_quantity; ?></td>
 			</tr>
-          </table>
-	</div>
+           </table>
+	  </div>
+	  </div>
+	  <div class="page">
+	  <div class="minipad">
+	  <table>
+	     <tr> 
+		  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_wm_with_text; ?></p></td>
+	     </tr>  
+	     <tr>
+		  <td width="185" class="set"><?php echo $entry_wm_text; ?></td>
+		  <td><input size="48" type="text" name="wm_text" value="<?php echo $wm_text; ?>">
+		  <?php if ($error_wm_text) { ?>
+		  <span class="error"><?php echo $error_wm_text; ?></span>
+		  <?php } ?></td>
+			      <td class="expl">
+				<?php echo $explanation_wm_text; ?> 
+		  </td>
+	      </tr>
+	      <tr> 
+		  <td class="set"><?php echo $entry_wm_fontsize; ?></td>
+		  <td><select name="wm_font">
+                  <?php foreach ($font_sizes as $font_size) { ?>
+                  <?php if ($font_size == $wm_font) { ?>
+                  <option value="<?php echo $font_size; ?>" selected><?php echo $font_size; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $font_size; ?>"><?php echo $font_size; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select></td>
+		  <td class="expl">
+		      <?php echo $explanation_wm_fontsize; ?> 
+		    </td>
+	      </tr>
+	      <tr>
+		  <td width="185" class="set"><?php echo $entry_wm_fontcolor; ?></td>
+		  <td><input type="text" name="wm_fontcolor" value="<?php echo $wm_fontcolor; ?>" size="6">
+		  <?php if ($error_wm_fontcolor) { ?>
+		  <span class="error"><?php echo $error_wm_fontcolor; ?></span>
+		  <?php } ?></td>
+		  <td class="expl">
+		    <?php echo $explanation_wm_fontcolor; ?> 
+		  </td>
+	      </tr>
+	      <tr>
+		  <td width="185" class="set"><?php echo $entry_wm_transparency; ?></td>
+		  <td><input type="text" name="wm_transparency" value="<?php echo $wm_transparency; ?>" size="4">
+		  <?php if ($error_wm_transparency) { ?>
+		  <span class="error"><?php echo $error_wm_transparency; ?></span>
+		  <?php } ?></td>
+		  <td class="expl">
+		    <?php echo $explanation_wm_transparency; ?> 
+		  </td>
+	      </tr>
+	      <tr>
+		  <td class="set"><?php echo $entry_wm_thposition ?></td>
+		  <td><select name="wm_thposition">
+			<option value="LEFT"<?php if('LEFT'==$wm_thposition) { echo ' selected';}?>><?php echo $text_left ?></option>
+			<option value="CENTER"<?php if('CENTER'==$wm_thposition) { echo ' selected';}?>><?php echo $text_center ?></option>
+			<option value="RIGHT"<?php if('RIGHT'==$wm_thposition) { echo ' selected';}?>><?php echo $text_right ?></option>
+		    </select>
+		  </td>
+		  <td class="expl">
+		      <?php echo $explanation_wm_thposition; ?> 
+		  </td>
+	       </tr>
+	       <tr>
+		  <td class="set"><?php echo $entry_wm_tvposition ?></td>
+		  <td><select name="wm_tvposition">
+			<option value="TOP"<?php if('TOP'==$wm_tvposition) { echo ' selected';}?>><?php echo $text_top ?></option>
+			<option value="CENTER"<?php if('CENTER'==$wm_tvposition) { echo ' selected';}?>><?php echo $text_center ?></option>
+			<option value="BOTTOM"<?php if('BOTTOM'==$wm_tvposition) { echo ' selected';}?>><?php echo $text_bottom ?></option>
+		    </select>
+		  </td>
+		  <td class="expl">
+		      <?php echo $explanation_wm_tvposition; ?> 
+		  </td>
+		</tr>
+	        <tr>
+		  <td width="185" class="set"><?php echo $entry_wm_thmargin; ?></td>
+		  <td><input type="text" name="wm_thmargin" value="<?php echo $wm_thmargin; ?>" size="4"></td>
+		  <td class="expl">
+		    <?php echo $explanation_wm_thmargin; ?> 
+		  </td>
+	      </tr>
+	      <tr>
+		  <td width="185" class="set"><?php echo $entry_wm_tvmargin; ?></td>
+		  <td><input type="text" name="wm_tvmargin" value="<?php echo $wm_tvmargin; ?>" size="4"></td>
+		  <td class="expl">
+		    <?php echo $explanation_wm_tvmargin; ?> 
+		  </td>
+	      </tr>
+              </tr>
+		  <tr><td colspan="2"><hr></td>
+		  </tr>
+	      <tr> 
+		  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_wm_with_image; ?></p></td>
+	      </tr> 
+	      <tr>
+		 <td class="set"><?php echo $entry_wm_image;?></td>
+		  <td><select id="wm_image_id" name="wm_image" onchange="$('#wm_image').load('index.php?controller=setting&action=viewWmImage&wm_image='+this.value);">
+			<option value="0"><?php echo $text_none; ?></option>
+			<?php foreach ($images as $image){?>
+			      <option value="<?php echo $image['image'];?>"<?php if($image['image'] == $wm_image){echo ' selected';}?>><?php echo $image['image'];?></option>
+			<?php }?>
+		      </select></td>
+		  <td class="expl">
+		    <?php echo $explanation_wm_image; ?> 
+		  </td> 
+	      </tr>
+	      <tr>
+		  <td class="wm_image" id="wm_image" colspan="3"></td>
+	      </tr>
+	      <tr>
+		  <td width="185" class="set"><?php echo $entry_wm_scale; ?></td>
+		  <td><input type="text" name="wm_scale" value="<?php echo $wm_scale; ?>" size="4">
+		  <?php if ($error_wm_scale) { ?>
+		  <span class="error"><?php echo $error_wm_scale; ?></span>
+		  <?php } ?></td>
+		  <td class="expl">
+		    <?php echo $explanation_wm_scale; ?> 
+		  </td>
+	      </tr>
+	      <tr>
+		<td class="set"><?php echo $entry_wm_ihposition ?></td>
+		<td><select name="wm_ihposition">
+		      <option value="LEFT"<?php if('LEFT'==$wm_ihposition) { echo ' selected';}?>><?php echo $text_left ?></option>
+		      <option value="CENTER"<?php if('CENTER'==$wm_ihposition) { echo ' selected';}?>><?php echo $text_center ?></option>
+		      <option value="RIGHT"<?php if('RIGHT'==$wm_ihposition) { echo ' selected';}?>><?php echo $text_right ?></option>
+		  </select>
+		</td>
+		<td class="expl">
+		    <?php echo $explanation_wm_ihposition; ?> 
+		</td>
+	      </tr>
+	      <tr>
+		<td class="set"><?php echo $entry_wm_ivposition ?></td>
+		<td><select name="wm_ivposition">
+		      <option value="TOP"<?php if('TOP'==$wm_ivposition) { echo ' selected';}?>><?php echo $text_top ?></option>
+		      <option value="CENTER"<?php if('CENTER'==$wm_ivposition) { echo ' selected';}?>><?php echo $text_center ?></option>
+		      <option value="BOTTOM"<?php if('BOTTOM'==$wm_ivposition) { echo ' selected';}?>><?php echo $text_bottom ?></option>
+		  </select>
+		</td>
+		<td class="expl">
+		    <?php echo $explanation_wm_ivposition; ?> 
+		</td>
+	      </tr>
+	      <tr>
+		  <td width="185" class="set"><?php echo $entry_wm_ihmargin; ?></td>
+		  <td><input type="text" name="wm_ihmargin" value="<?php echo $wm_ihmargin; ?>" size="4"></td>
+		  <td class="expl">
+		    <?php echo $explanation_wm_ihmargin; ?> 
+		  </td>
+	      </tr>
+	      <tr>
+		  <td width="185" class="set"><?php echo $entry_wm_ivmargin; ?></td>
+		  <td><input type="text" name="wm_ivmargin" value="<?php echo $wm_ivmargin; ?>" size="4"></td>
+		  <td class="expl">
+		    <?php echo $explanation_wm_ivmargin; ?> 
+		  </td>
+	      </tr>
+	  </table>
+	 </div>
+	 </div>
+	</div> 
+       </div>
       </div>   <!--  End Image and Add to Cart Controls -->
       <div class="page">
         <div class="pad">
@@ -1173,6 +1347,9 @@
   <script type="text/javascript"><!--
   tabview_initialize('tab');
   //--></script>
+ <script type="text/javascript"><!--
+  tabview_initialize('tabmini');
+  //--></script>
   <script type="text/javascript"><!--
   $('#zone').load('index.php?controller=setting&action=zone&country_id=<?php echo $global_config_country_id; ?>&zone_id=<?php echo $global_config_zone_id; ?>');
   //--></script>
@@ -1182,4 +1359,7 @@
   <script type="text/javascript"><!--
     $('#footer_logo_image').load('index.php?controller=setting&action=viewFooterLogo&footer_logo='+document.getElementById('footer_logo_id').value);
   //--></script>
+  <script type="text/javascript"><!--
+      $('#wm_image').load('index.php?controller=setting&action=viewWmImage&wm_image='+document.getElementById('wm_image_id').value);
+    //--></script>
 </form>

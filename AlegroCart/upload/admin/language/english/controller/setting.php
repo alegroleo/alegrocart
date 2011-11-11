@@ -60,6 +60,16 @@ $_['text_time_zone']          = 'For valid time zones, go to http://php.net/manu
 $_['text_token']	      = 'You can enter plain text which is converted to 32 bit Hash<br>Once created, this token becomes readonly';
 $_['text_upc']                = 'UPC';
 $_['text_ean']                = 'EAN-13/ISBN';
+$_['text_wm_with_text']       = 'Watermark with Text';
+$_['text_wm_with_image']      = 'Watermark with Image';
+$_['text_left']               = 'Left';
+$_['text_center']             = 'Center';
+$_['text_right']              = 'Right';
+$_['text_top']                = 'Top';
+$_['text_bottom']             = 'Bottom';
+$_['text_watermark']          = 'Watermark';
+$_['text_slogo']              = 'Store Logo';
+$_['text_flogo']              = 'Footer Logo';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
@@ -73,7 +83,7 @@ $_['entry_styles']          = 'Style:';
 $_['entry_colors']          = 'Color:';
 $_['entry_logo']            = 'Store Logo:';
 $_['entry_logo_top']		= 'Position Top:';
-$_['entry_logo_left']       = 'Postion Left:';
+$_['entry_logo_left']       = 'Position Left:';
 $_['entry_logo_width']      = 'Logo Width:';
 $_['entry_logo_height']     = 'Logo Height:';
 $_['entry_footer_logo']       = 'Footer Logo:';
@@ -164,7 +174,40 @@ $_['entry_error_show_developer']= 'Show Developer:';
 $_['entry_error_developer_ip']  = 'Developer IP Address:';
 $_['entry_error_email_status']  = 'Enable Email Send:';
 $_['entry_time_zone']           = 'Time Zone:';
-$_['entry_token']			    = 'EnCryption/DeCryption Token:';
+$_['entry_token']		= 'EnCryption/DeCryption Token:';
+$_['entry_wm_text']             = 'Watermark Text:';
+$_['entry_wm_fontsize']         = 'Font Size:';
+$_['entry_wm_fontcolor']        = 'Font Color:';
+$_['entry_wm_transparency']     = 'Transparency:';
+$_['entry_wm_thposition']       = 'Position Horizontal:';
+$_['entry_wm_tvposition']       = 'Position Vertical:';
+$_['entry_wm_thmargin']         = 'Margin Left:';
+$_['entry_wm_tvmargin']         = 'Margin Top:';
+$_['entry_wm_image']            = 'Watermark Image:';
+$_['entry_wm_scale']            = 'Scale:';
+$_['entry_wm_ihposition']       = 'Position Horizontal:';
+$_['entry_wm_ivposition']       = 'Position Vertical:';
+$_['entry_wm_ihmargin']         = 'Margin Left:';
+$_['entry_wm_ivmargin']         = 'Margin Top:';
+
+
+//Explanations
+$_['explanation_wm_text']         = 'If you fill in this field (maximum 64 characters) every image that you upload will be watermarked automatically from now on with this text. Leave it empty to not to use.';
+$_['explanation_wm_fontsize']     = 'Varies from 1 up to 5';
+$_['explanation_wm_fontcolor']    = 'The hexadecimal code of the color.';
+$_['explanation_wm_transparency'] = 'Varies from 0 (full transparency) to 100 (no transtarency).';
+$_['explanation_wm_thposition']   = 'Possible settings: Left, Center, Right according to the original image.';
+$_['explanation_wm_tvposition']   = 'Possible settings: Top, Center, Bottom according to the original image.';
+$_['explanation_wm_thmargin']     = 'Number of pixels from left side of the page.';
+$_['explanation_wm_tvmargin']     = 'Number of pixels from top of the page.';
+$_['explanation_wm_scale']        = 'This is the watermark image/image to watermark ratio in %. Varies from 0 to 100. If scale is zero the watermark image won\'t be resized. If scale is 100 the watermark image fills the original image.';
+$_['explanation_wm_ihposition']   = 'Possible settings: Left, Center, Right according to the original image.';
+$_['explanation_wm_ivposition']   = 'Possible settings: Top, Center, Bottom according to the original image.';
+$_['explanation_wm_ihmargin']     = 'Number of pixels from left side of the page.';
+$_['explanation_wm_ivmargin']     = 'Number of pixels from top of the page.';
+$_['explanation_wm_image']        = 'If you select a watermark image every image that you upload will be watermarked automatically from now on. Use watermark image with transparent background for the better result. Only png is supported.';
+$_['explanation_address']         = 'Use this field to enter your address and any information related to your store, e.g. tax number, trade register number, fiscal code or whatever you want to be displayed on the customer\'s invoices and the Contact Us page.';
+
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';
@@ -176,6 +219,8 @@ $_['tab_cache']         = 'Cache<br>Compression';
 $_['tab_image']         = 'Display Settings<br>Image, AddToCart';
 $_['tab_option']        = 'Options: Tax<br>RSS, Logos';
 $_['tab_download']      = 'Product<br>Download';
+$_['tab_watermark']     = 'Watermark<br>(automatic)';
+
 
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify settings';
@@ -184,4 +229,8 @@ $_['error_owner']           = '* Store Owner must be between 1 and 32 characters
 $_['error_address']         = '* Store Address must be between 1 and 128 characters!';
 $_['error_telephone']       = '* Telephone must be between 5 and 32 characters!';
 $_['error_color']           = '* Please ensure that the color directory exists!';
+$_['error_wm_text']         = '* Watermark Text must be less than 64 characters!';
+$_['error_wm_fontcolor']    = '* It does not seem to be a valid hexadecimal color code!';
+$_['error_wm_transparency'] = '* Transparency must be between 0 and 100!';
+$_['error_wm_scale']        = '* Scale must be between 0 and 100!';
 ?>

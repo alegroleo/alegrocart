@@ -3,6 +3,9 @@ class ControllerSetting extends Controller {
 	var $error = array();
 	var $types=array('css');
 	var $logo_types = array('jpg','gif','jpeg','png');
+	var $wm_types = array('png');
+	var $wm_method = 'auto';
+
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
@@ -19,7 +22,8 @@ class ControllerSetting extends Controller {
 		$this->user     	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelSetting = $model->get('model_admin_setting');
-		
+		$this->modelWatermark = $model->get('model_admin_watermark');
+
 		$this->language->load('controller/setting.php');
 	}	
 	function index() { 
@@ -27,7 +31,11 @@ class ControllerSetting extends Controller {
 
 		if ($this->request->isPost() && $this->request->has('global_config_store', 'post') && $this->validate_update()) {
 			$this->modelSetting->delete_setting();
+			$this->modelWatermark->delete_watermark($this->wm_method);
+
 			$this->modelSetting->update_setting();
+			$this->modelWatermark->update_watermark($this->wm_method);
+
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('setting'));
@@ -93,6 +101,16 @@ class ControllerSetting extends Controller {
 		$view->set('text_token', $this->language->get('text_token'));
 		$view->set('text_ean', $this->language->get('text_ean'));
  		$view->set('text_upc', $this->language->get('text_upc'));
+		$view->set('text_wm_with_text', $this->language->get('text_wm_with_text'));
+		$view->set('text_wm_with_image', $this->language->get('text_wm_with_image'));
+		$view->set('text_left', $this->language->get('text_left'));
+		$view->set('text_center', $this->language->get('text_center'));
+		$view->set('text_right', $this->language->get('text_right'));
+		$view->set('text_top', $this->language->get('text_top'));
+		$view->set('text_bottom', $this->language->get('text_bottom'));
+		$view->set('text_watermark', $this->language->get('text_watermark'));
+		$view->set('text_slogo', $this->language->get('text_slogo'));
+		$view->set('text_flogo', $this->language->get('text_flogo'));
 
 		$view->set('entry_token', $this->language->get('entry_token'));
 		$view->set('entry_store', $this->language->get('entry_store'));
@@ -203,7 +221,40 @@ class ControllerSetting extends Controller {
 		$view->set('entry_rss_status',$this->language->get('entry_rss_status'));
 		$view->set('entry_rss_source',$this->language->get('entry_rss_source'));
 		$view->set('quantity_selects', array('selectbox', 'textbox'));
- 
+
+ 		$view->set('entry_wm_text',$this->language->get('entry_wm_text'));
+		$view->set('font_sizes', array('1', '2', '3', '4', '5'));
+ 		$view->set('entry_wm_fontsize',$this->language->get('entry_wm_fontsize'));
+ 		$view->set('entry_wm_fontcolor',$this->language->get('entry_wm_fontcolor'));
+ 		$view->set('entry_wm_transparency',$this->language->get('entry_wm_transparency'));
+ 		$view->set('entry_wm_thposition',$this->language->get('entry_wm_thposition'));
+ 		$view->set('entry_wm_tvposition',$this->language->get('entry_wm_tvposition'));
+ 		$view->set('entry_wm_thmargin',$this->language->get('entry_wm_thmargin'));
+ 		$view->set('entry_wm_tvmargin',$this->language->get('entry_wm_tvmargin'));
+		$view->set('entry_wm_image',$this->language->get('entry_wm_image'));
+ 		$view->set('entry_wm_scale',$this->language->get('entry_wm_scale'));
+ 		$view->set('entry_wm_ihposition',$this->language->get('entry_wm_ihposition'));
+ 		$view->set('entry_wm_ivposition',$this->language->get('entry_wm_ivposition'));
+ 		$view->set('entry_wm_ihmargin',$this->language->get('entry_wm_ihmargin'));
+ 		$view->set('entry_wm_ivmargin',$this->language->get('entry_wm_ivmargin'));
+
+ 		$view->set('explanation_wm_text',$this->language->get('explanation_wm_text'));
+ 		$view->set('explanation_wm_fontsize',$this->language->get('explanation_wm_fontsize'));
+ 		$view->set('explanation_wm_fontcolor',$this->language->get('explanation_wm_fontcolor'));
+ 		$view->set('explanation_wm_transparency',$this->language->get('explanation_wm_transparency'));
+ 		$view->set('explanation_wm_thposition',$this->language->get('explanation_wm_thposition'));
+ 		$view->set('explanation_wm_tvposition',$this->language->get('explanation_wm_tvposition'));
+ 		$view->set('explanation_wm_thmargin',$this->language->get('explanation_wm_thmargin'));
+ 		$view->set('explanation_wm_tvmargin',$this->language->get('explanation_wm_tvmargin'));
+		$view->set('explanation_wm_scale',$this->language->get('explanation_wm_scale'));
+ 		$view->set('explanation_wm_ihposition',$this->language->get('explanation_wm_ihposition'));
+ 		$view->set('explanation_wm_ivposition',$this->language->get('explanation_wm_ivposition'));
+ 		$view->set('explanation_wm_ihmargin',$this->language->get('explanation_wm_ihmargin'));
+ 		$view->set('explanation_wm_ivmargin',$this->language->get('explanation_wm_ivmargin'));
+		$view->set('explanation_wm_image',$this->language->get('explanation_wm_image'));
+
+		$view->set('explanation_address',$this->language->get('explanation_address'));
+
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -221,6 +272,8 @@ class ControllerSetting extends Controller {
 		$view->set('tab_cache', $this->language->get('tab_cache'));
 		$view->set('tab_image', $this->language->get('tab_image'));
 		$view->set('tab_download', $this->language->get('tab_download'));
+		$view->set('tab_general', $this->language->get('tab_general'));
+		$view->set('tab_watermark', $this->language->get('tab_watermark'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('error_store', @$this->error['store']);
@@ -228,7 +281,11 @@ class ControllerSetting extends Controller {
 		$view->set('error_address', @$this->error['address']);
 		$view->set('error_telephone', @$this->error['telephone']);
 		$view->set('error_color', @$this->error['color']);
-		
+		$view->set('error_wm_text', @$this->error['wm_text']);
+		$view->set('error_wm_fontcolor', @$this->error['wm_fontcolor']);
+		$view->set('error_wm_transparency', @$this->error['wm_trancparency']);
+		$view->set('error_wm_scale', @$this->error['wm_scale']);
+
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 		
@@ -774,6 +831,84 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_category_rows', @$setting_info['catalog']['category_rows']);
 		}
 		//End of New Block
+
+		//Watermark
+		$watermark_data = $this->modelWatermark->get_watermark_data($this->wm_method);
+
+		if ($this->request->has('wm_text', 'post')) {
+			$view->set('wm_text', $this->request->gethtml('wm_text', 'post'));
+		} else {
+			$view->set('wm_text', @$watermark_data['wm_text']);
+		}
+		if ($this->request->has('wm_font', 'post')) {
+			$view->set('wm_font', $this->request->gethtml('wm_font', 'post'));
+		} else {
+			$view->set('wm_font', @$watermark_data['wm_font']);
+		}	
+		if ($this->request->has('wm_fontcolor', 'post')) {
+			$view->set('wm_fontcolor', $this->request->gethtml('wm_fontcolor', 'post'));
+		} else {
+			$view->set('wm_fontcolor', @$watermark_data['wm_fontcolor']);
+		}
+		if ($this->request->has('wm_transparency', 'post')) {
+			$view->set('wm_transparency', $this->request->gethtml('wm_transparency', 'post'));
+		} else {
+			$view->set('wm_transparency', @$watermark_data['wm_transparency']);
+		}
+		if ($this->request->has('wm_thposition', 'post')) {
+			$view->set('wm_thposition', $this->request->gethtml('wm_thposition', 'post'));
+		} else {
+			$view->set('wm_thposition', @$watermark_data['wm_thposition']);
+		}
+		if ($this->request->has('wm_tvposition', 'post')) {
+			$view->set('wm_tvposition', $this->request->gethtml('wm_tvposition', 'post'));
+		} else {
+			$view->set('wm_tvposition', @$watermark_data['wm_tvposition']);
+		}
+		if ($this->request->has('wm_thmargin', 'post')) {
+			$view->set('wm_thmargin', $this->request->gethtml('wm_thmargin', 'post'));
+		} else {
+			$view->set('wm_thmargin', @$watermark_data['wm_thmargin']);
+		}
+		if ($this->request->has('wm_tvmargin', 'post')) {
+			$view->set('wm_tvmargin', $this->request->gethtml('wm_tvmargin', 'post'));
+		} else {
+			$view->set('wm_tvmargin', @$watermark_data['wm_tvmargin']);
+		}
+		$view->set('images', $this->getImages());
+		if ($this->request->has('wm_image', 'post')) {
+			$view->set('wm_image', $this->request->gethtml('wm_image', 'post'));
+		} else {
+			$view->set('wm_image', @$watermark_data['wm_image']);
+		}
+		if ($this->request->has('wm_scale', 'post')) {
+			$view->set('wm_scale', $this->request->gethtml('wm_scale', 'post'));
+		} else {
+			$view->set('wm_scale', @$watermark_data['wm_scale']);
+		}
+		if ($this->request->has('wm_ihposition', 'post')) {
+			$view->set('wm_ihposition', $this->request->gethtml('wm_ihposition', 'post'));
+		} else {
+			$view->set('wm_ihposition', @$watermark_data['wm_ihposition']);
+		}
+		if ($this->request->has('wm_ivposition', 'post')) {
+			$view->set('wm_ivposition', $this->request->gethtml('wm_ivposition', 'post'));
+		} else {
+			$view->set('wm_ivposition', @$watermark_data['wm_ivposition']);
+		}
+		if ($this->request->has('wm_ihmargin', 'post')) {
+			$view->set('wm_ihmargin', $this->request->gethtml('wm_ihmargin', 'post'));
+		} else {
+			$view->set('wm_ihmargin', @$watermark_data['wm_ihmargin']);
+		}
+		if ($this->request->has('wm_ivmargin', 'post')) {
+			$view->set('wm_ivmargin', $this->request->gethtml('wm_ivmargin', 'post'));
+		} else {
+			$view->set('wm_ivmargin', @$watermark_data['wm_ivmargin']);
+		}
+		//End of Watermark
+
+
 		if ($this->request->has('global_config_country_id')) {
 			$view->set('global_config_country_id', $this->request->gethtml('global_config_country_id'));
 		} else {
@@ -823,7 +958,7 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_weight_class_id', @$setting_info['global']['config_weight_class_id']);
 		}
-		
+
 		if ($this->request->has('global_config_weight_decimal')) {
 			$view->set('global_config_weight_decimal', $this->request->gethtml('global_config_weight_decimal'));
 		} else {
@@ -952,7 +1087,7 @@ class ControllerSetting extends Controller {
 	
 	function getLogos(){
 		$logos_data = array();
-		$files = glob(DIR_IMAGE.D_S.'logo'.D_S.'*.*');
+		$files = glob(DIR_IMAGE.'logo'.D_S.'*.*');
 		if (!$files) { return; }
 		foreach ($files as $file) {
 			$pattern='/\.('.implode('|',$this->logo_types).')$/';
@@ -965,11 +1100,27 @@ class ControllerSetting extends Controller {
 		}
 		return $logos_data;
 	}
-	
+
+	function getImages(){
+		$images_data = array();
+		$files = glob(DIR_IMAGE.'watermark'.D_S.'*.*');
+		if (!$files) { return; }
+		foreach ($files as $file) {
+			$pattern='#^[^tmp\.](.*)(\.)('.implode('|',$this->wm_types).')$#';
+			$filename = basename($file);
+			if (preg_match($pattern,$filename)) {
+				$images_data[] = array(
+					'image'	=> $filename
+				);
+			}
+		}
+		return $images_data;
+	}
+
 	function viewFooterLogo(){
 		if($this->request->gethtml('footer_logo')){
 			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('footer_logo') . '"';
-			$output .= 'alt="Footer Logo" title="Footer Logo">';
+			$output .= 'alt="' . $this->language->get('text_flogo'). '" title="'. $this->language->get('text_flogo') .'">';
 		} else {
 			$output = '';
 		}
@@ -979,13 +1130,23 @@ class ControllerSetting extends Controller {
 	function viewLogo(){
 		if($this->request->gethtml('store_logo')){
 			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('store_logo') . '"';
-			$output .= 'alt="Store Logo" title="Store Logo">';
+			$output .= 'alt="' . $this->language->get('text_slogo'). '" title="'. $this->language->get('text_slogo') .'">';
 		} else {
 			$output = '';
 		}
 		$this->response->set($output);
 	}
-	
+
+	function viewWmImage(){
+		if($this->request->gethtml('wm_image')){
+			$output = '<img src="' . HTTP_IMAGE . '/watermark/' . $this->request->gethtml('wm_image') . '"';
+			$output .= 'alt="' . $this->language->get('text_watermark'). '" title="'. $this->language->get('text_watermark') .'">';
+		} else {
+			$output = '';
+		}
+		$this->response->set($output);
+	}
+
 	function checkFiles($style, $columns) {
 		$colors_data = array();
 		$files = glob(DIR_CATALOG_STYLES.$style.D_S.'colors'.$columns.D_S.'*.*');
@@ -1026,7 +1187,26 @@ class ControllerSetting extends Controller {
 		if (!$this->validate->strlen($this->request->gethtml('catalog_config_colors','post'),6,32)){
 			$this->error['color'] = $this->language->get('error_color');
 		}
-
+	if ($this->request->gethtml('wm_text', 'post') !='') {
+		if (!$this->validate->strlen($this->request->gethtml('wm_text', 'post'),0,64)) {
+			$this->error['wm_text'] = $this->language->get('error_wm_text');
+		}
+	}
+	if ($this->request->gethtml('wm_fontcolor', 'post') !='') {
+		if (!$this->validate->strlen($this->request->gethtml('wm_fontcolor', 'post'),6,6) || !$this->validate->is_hexcolor($this->request->gethtml('wm_fontcolor', 'post'))) {
+			$this->error['wm_fontcolor'] = $this->language->get('error_wm_fontcolor');
+		}
+	}
+	if ($this->request->gethtml('wm_transparency', 'post') !='') {
+		if ($this->request->gethtml('wm_transparency', 'post') < 0 || $this->request->gethtml('wm_transparency', 'post') > 100) {
+			$this->error['wm_trancparency'] = $this->language->get('error_wm_transparency');
+		}
+	}
+	if ($this->request->gethtml('wm_scale', 'post') !='') {
+		if ($this->request->gethtml('wm_scale', 'post') < 0 || $this->request->gethtml('wm_scale', 'post') > 100) {
+			$this->error['wm_scale'] = $this->language->get('error_wm_scale');
+		}
+	}
 		if (!$this->error) {
 			return TRUE;
 		} else {

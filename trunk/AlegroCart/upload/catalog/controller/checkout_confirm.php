@@ -144,8 +144,11 @@ class ControllerCheckoutConfirm extends Controller {
 
 		$view->set('payment_url', $this->payment->getActionUrl($this->session->get('payment_method')));
 
-        if ($this->session->get('payment_form_enctype')) {
+        /*if ($this->session->get('payment_form_enctype')) {
 			$view->set('payment_form_enctype', $this->session->get('payment_form_enctype'));
+		}*/
+		if($this->payment->formType($this->session->get('payment_method'))){
+			$view->set('payment_form_enctype',$this->payment->formType($this->session->get('payment_method')));
 		}
 
     	if ($this->session->get('shipping_method') != 'warehouse_warehouse') {

@@ -1197,7 +1197,7 @@ class ControllerProduct extends Controller {
 					$error = $this->language->get('error_barcode_already_exists');
 				}
 			}
-			if(!$error){
+			if(!$error && $this->user->hasPermission('modify', 'product')){
 				$this->barcode->create($barcode, $encoding);
 			}
 		} 

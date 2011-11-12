@@ -57,6 +57,12 @@ class Payment {
 		return isset($this->data[$key]);
 	}
 
+	function formType($key) {
+		if (method_exists($this->data[$key], 'form_Type')) {
+			return $this->data[$key]->form_Type();
+		}
+	}
+
 	function getActionUrl($key) {
 		if (method_exists($this->data[$key], 'get_ActionUrl')) {
 			return $this->data[$key]->get_ActionUrl();

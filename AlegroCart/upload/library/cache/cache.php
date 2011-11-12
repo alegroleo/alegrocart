@@ -17,6 +17,7 @@ class Cache {
     }
 
     function set($key, $value) {
+		$key = preg_replace('/[^A-Z0-9\._-]/i', '', $key);
         $this->delete($key);
         $fh = fopen(DIR_CACHE.CACHE_PREFIX.$key.CACHE_SEP.(time() + $this->expire), 'a');
         fwrite($fh, serialize($value));
@@ -24,6 +25,7 @@ class Cache {
     }
 
     function get($key) {
+		$key = preg_replace('/[^A-Z0-9\._-]/i', '', $key);
         $files = glob(DIR_CACHE.CACHE_PREFIX.$key.CACHE_SEP.'*');
         if (!$files) return;
 		foreach ($files as $file) {
@@ -37,6 +39,7 @@ class Cache {
     }
 
     function delete($key) {
+		$key = preg_replace('/[^A-Z0-9\._-]/i', '', $key);
         $files = glob(DIR_CACHE.CACHE_PREFIX.$key.'*'.CACHE_SEP.'*');
         if (!$files) return;
 		foreach ($files as $file) { @unlink($file); }

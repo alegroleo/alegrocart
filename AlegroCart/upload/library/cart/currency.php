@@ -103,7 +103,7 @@ class Currency {
       		$string .= $symbol_left;
     	}
 		
-    	$string .= number_format(round($value, $decimal_place), $decimal_place, (($format) ? $this->language->get('decimal_point') : '.'), (($format) ? $this->language->get('thousand_point') : NULL));
+    	$string .= number_format(round($value, $decimal_place), $decimal_place, (($format) ? $this->language->get('decimal_point') : '.'), (($format) ? $this->language->get('thousand_point') : ''));
 
     	if (($symbol_right) && ($format)) {
       		$string .= $symbol_right;

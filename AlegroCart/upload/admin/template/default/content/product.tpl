@@ -463,18 +463,28 @@
       <div class="page">
         <div class="pad">
 	      <table>
-		    <tr><td><b style="color:#0099FF;">
+		    <tr><td><p><b style="color:#0099FF;">
 			<?php echo $products['0']['name']?>
-			</b></td></tr>		  
+			</b></p></td></tr>		  
 			<tr>
 			  <td class="set"><?php echo $entry_regular_price;?></td>
 			  <td>  <input type="text" id="regular_price" value="<?php echo $price; ?>"onchange="regular_price_update()">
 			  </td>
-			  
 			</tr>
 		    <tr>
+		      <td class="set"><?php echo $entry_dated_special; ?></td>
+		      <td><input id="special_price" name="special_price" value="<?php echo $special_price; ?>" onchange="calculate_percent()"></td>
+		    </tr>
+		    <tr>
+		      <td class="set"><?php echo $entry_percent_discount;?></td>
+		      <?php $special_discount = $special_price>0 ? ceil((100-(($special_price/$price)*100))*10000)/10000 : 0;?>
+		      <td><input id="special_discount" name="special_discount" value="<?php echo $special_discount; ?>" onchange="calculate_discount()">
+		      </td>
+		    </tr> 
+		    <tr><td colspan="2"><hr></td></tr>
+		    <tr>
 			  <td class="set"><?php echo $entry_start_date; ?></td>
-              <td><input name="start_date_day" value="<?php echo $start_date_day; ?>" size="2" maxlength="2">
+			  <td><input name="start_date_day" value="<?php echo $start_date_day; ?>" size="2" maxlength="2">
 			  <select name="start_date_month">
 			    <?php if ($start_date_month == '00'){ ?>
 				<option value="00" selected>00</option>
@@ -494,10 +504,10 @@
 				<span class="error"><?php echo $error_start_date; ?></span>
 				<?php } ?>
 			  </td>
-			</tr>
+		    </tr>
 		    <tr>
 			  <td class="set"><?php echo $entry_end_date; ?></td>
-              <td><input name="end_date_day" value="<?php echo $end_date_day; ?>" size="2" maxlength="2">
+                          <td><input name="end_date_day" value="<?php echo $end_date_day; ?>" size="2" maxlength="2">
 			  <select name="end_date_month">
 			    <?php if ($end_date_month == '00'){ ?>
 				<option value="00" selected>00</option>
@@ -517,19 +527,21 @@
 				<span class="error"><?php echo $error_end_date; ?></span>
 				<?php } ?>
 			  </td>
-			</tr>	  
-            <tr>
-              <td class="set"><?php echo $entry_dated_special; ?></td>
-              <td><input id="special_price" name="special_price" value="<?php echo $special_price; ?>" onchange="calculate_percent()"></td>
-            </tr>
-			<tr>
-			
-			  <td class="set"><?php echo $entry_percent_discount;?></td>
-			  <?php $special_discount = $special_price>0 ? ceil((100-(($special_price/$price)*100))*10000)/10000 : 0;?>
-			  <td><input id="special_discount" name="special_discount" value="<?php echo $special_discount; ?>" onchange="calculate_discount()">
-			
-			  </td>
-			</tr>
+		      </tr>	  
+		      <tr>
+			  <td class="set"><?php echo $entry_remaining; ?></td>
+			  <td><?php if ($remaining == 1) { ?>
+			    <input type="radio" name="remaining" value="1" checked id="yes">
+			    <label for="yes"><?php echo $text_yes; ?></label>
+			    <input type="radio" name="remaining" value="0" id="no">
+			    <label for="no"><?php echo $text_no; ?></label>
+			    <?php } else { ?>
+			    <input type="radio" name="remaining" value="1" id="yes">
+			    <label for="yes"><?php echo $text_yes; ?></label>
+			    <input type="radio" name="remaining" value="0" checked id="no">
+			    <label for="no"><?php echo $text_no; ?></label>
+			    <?php } ?></td>
+			</tr>    
 	      </table>
 	    </div>
 	  </div>

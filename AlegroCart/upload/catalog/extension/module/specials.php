@@ -49,6 +49,10 @@ class ModuleSpecials extends Controller {
       		$results = $this->modelProducts->get_specials();
       		$product_data = array();
     	  	foreach ($results as $result) {
+					$days_remaining = ''; //***
+					if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
+						$days_remaining = $language->get('days_remaining', intval((strtotime($result['sale_end_date']) - time())/86400)); //*****
+					}
 				if ($location == 'content' && $columns == 1) {
 					$desc = formatedstring($result['description'],$config->get('specials_lines_single'));
 					// Product Discounts
@@ -103,9 +107,11 @@ class ModuleSpecials extends Controller {
                 	'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
 					'sale_start_date' => $result['sale_start_date'],
 					'sale_end_date'   => $result['sale_end_date'],
+					'show_days_remaining' => $result['remaining'],
 					'options'         => $options,
 					'model_number'    => $result['model_number'],
-					'product_options' => $product_options
+					'product_options' => $product_options,
+					'days_remaining'  => $days_remaining
     	  		);
     	  	}
 			

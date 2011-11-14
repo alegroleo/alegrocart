@@ -81,6 +81,7 @@ $_['entry_min_qty']        = 'Minimum Order Quantity:';
 $_['entry_dated_special']  = 'Dated Special Price  %s '; // New
 $_['entry_start_date']     = 'Start Date:'; // New
 $_['entry_end_date']       = 'End Date:'; // New
+$_['entry_remaining']      = 'Show Remaining Days:'; // New
 $_['entry_alt_description']= 'Alternate Short Description:<br><br><br>Use <b>SHIFT->ENTER</b> for<br>line feed or empty lines<br>for spacing.<br>ENTER only produces<br>Paragraph Tags which are<br>Stripped.'; // New
 $_['entry_technical']      = 'Technical Specification Description:'; // New
 $_['entry_technical_name'] = 'Technical Tab Name:';

@@ -80,6 +80,7 @@ $_['onhand']				= 'Onhand: ';
 $_['options_text']			= 'Product Options Available<br>Add From Product Page';
 $_['regular_price']			= 'Regular Price: ';
 $_['sale_price']			= 'Sale Price: ';
+$_['days_remaining']   	    = 'Valid only for %s days!';
 
 // Buttons
 $_['button_continue']       = 'Continue';

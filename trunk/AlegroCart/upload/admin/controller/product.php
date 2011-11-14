@@ -445,6 +445,7 @@ class ControllerProduct extends Controller {
 		$view->set('entry_percent_discount', $this->language->get('entry_percent_discount'));
 		$view->set('entry_start_date', $this->language->get('entry_start_date'));
 		$view->set('entry_end_date', $this->language->get('entry_end_date'));
+		$view->set('entry_remaining', $this->language->get('entry_remaining'));
 		$view->set('entry_alt_description', $this->language->get('entry_alt_description'));
 		$view->set('entry_technical', $this->language->get('entry_technical'));
 		$view->set('entry_technical_name', $this->language->get('entry_technical_name'));
@@ -753,7 +754,13 @@ class ControllerProduct extends Controller {
     	} else {
       		$view->set('special_price', @number_format($product_info['special_price'],$decimal_place,'.',''));
     	}
-		
+	if ($this->request->has('remaining', 'post')) {
+      		$view->set('remaining', $this->request->gethtml('remaining', 'post'));
+    	} else if(isset($product_info)){
+      		$view->set('remaining', @$product_info['remaining']);
+    	} else {
+		$view->set('remaining', TRUE);
+		}
     	if ($this->request->has('tax_class_id', 'post')) {
       		$view->set('tax_class_id', $this->request->gethtml('tax_class_id', 'post'));
     	} else {

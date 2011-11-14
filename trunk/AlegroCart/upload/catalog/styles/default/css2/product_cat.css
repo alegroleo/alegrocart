@@ -51,6 +51,11 @@
 	text-align: left;
 	padding: 5px 0px;
 }
+.productcat .remaining {
+	text-align: left;
+	color: #0000FF;
+	font-size: 11px;
+}
 .button{
 	font-weight: 500;
 }

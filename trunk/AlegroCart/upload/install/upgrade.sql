@@ -1289,3 +1289,6 @@ INSERT INTO `watermark` (`wm_id`, `wm_method`, `wm_text`, `wm_font`, `wm_fontcol
 (NULL, 'auto', 'Alegrocart TEST auto watermark', 5, 'CCCCCC', 80, 'CENTER', 'TOP', 10, 15, 'ac_logo.png', 'RIGHT', 'BOTTOM', 12, 21, 50),
 (NULL, 'manual', 'Alegrocart TEST manual watermark', 4, '000000', 70, 'CENTER', 'TOP', 15, 25, 'ac_logo.png', 'RIGHT', 'BOTTOM', 15, 25, 60)
  ON DUPLICATE KEY UPDATE wm_id=wm_id;
+
+#Add Show Remaining Days
+ALTER TABLE `product` ADD `remaining` int(1) NOT NULL default '1' After `sale_start_date`;

@@ -303,6 +303,11 @@ a:hover {
 	text-align: center; /*left; */
 	font-weight: bold;
 }
+.remaining {
+	text-align: center;
+	color: #0000FF;
+	font-size: 11px;
+}
 .price_old .tax{
 	font-weight: bold;
 	color: #CC0000;

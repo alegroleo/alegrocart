@@ -212,7 +212,13 @@ class ControllerProduct extends Controller {
       		}
 			$downloads = $this->modelProducts->get_downloads($request->gethtml('product_id'));
 			$view->set('downloads', $downloads);
-			
+
+			$days_remaining = ''; //***
+			if($product_info['special_price'] >0 && date('Y-m-d') >= $product_info['sale_start_date'] && date('Y-m-d') <= $product_info['sale_end_date']){
+			    $number_days = intval((strtotime($product_info['sale_end_date']) - time())/86400);
+			    $days_remaining = $language->get('days_remaining', ($number_days ? $number_days : 1)); //*****   
+			}
+
 			$product_data = array(
 				'product_id'=> $request->gethtml('product_id'),
 				'thumb'     => $this->image->resize($product_info['filename'], $this->config->get('product_image_width'), $this->config->get('product_image_height')),
@@ -225,7 +231,9 @@ class ControllerProduct extends Controller {
             	'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
 				'sale_start_date' => $product_info['sale_start_date'],
 				'sale_end_date'   => $product_info['sale_end_date'],
-				'options'         => $this->modelProducts->get_options($product_info['product_id'],$product_info['tax_class_id'])
+				'show_days_remaining' => $product_info['remaining'],
+				'options'         => $this->modelProducts->get_options($product_info['product_id'],$product_info['tax_class_id']),
+				'days_remaining'  => $days_remaining
 			);
 			$view->set('product',$product_data);
 			

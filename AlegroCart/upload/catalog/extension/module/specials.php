@@ -49,10 +49,11 @@ class ModuleSpecials extends Controller {
       		$results = $this->modelProducts->get_specials();
       		$product_data = array();
     	  	foreach ($results as $result) {
-					$days_remaining = ''; //***
-					if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
-						$days_remaining = $language->get('days_remaining', intval((strtotime($result['sale_end_date']) - time())/86400)); //*****
-					}
+				$days_remaining = ''; //***
+				if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
+				    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400);
+				    $days_remaining = $language->get('days_remaining', ($number_days ? $number_days : 1)); //*****  
+				}
 				if ($location == 'content' && $columns == 1) {
 					$desc = formatedstring($result['description'],$config->get('specials_lines_single'));
 					// Product Discounts

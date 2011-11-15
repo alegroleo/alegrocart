@@ -71,7 +71,7 @@ class Model_Admin_Order extends Model {
       		$sql .= " order by o.date_added desc";
     	}
 		$search = '%' . $this->session->get('order.search') . '%';
-    	$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, $search , $search, $search), $this->session->get('order.page'), $this->config->get('config_max_rows')));
+    	$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, $search , $search, $search, $search), $this->session->get('order.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}
 	function get_text_results(){

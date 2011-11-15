@@ -131,14 +131,15 @@
 		  <?php }else if ($product['shipping']) { ?><img src="template/<?php echo $this->directory?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="template/<?php echo $this->directory?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
 		</td>
 		  <td class="right"><?php echo '<span class="tax">*</span>' . $product['total_discounted']; ?></td>
-	</tr>
-	<tr>
+	  </tr>
+	  <?php if($product['barcode_url']){?>
+	    <tr>
 		  <td >
-		  <img src="<?php echo $product['barcode_url']; ?>" title="<?php echo $product['barcode']; ?>" alt="<?php echo $product['barcode']; ?>">
+		    <img src="<?php echo $product['barcode_url']; ?>" title="<?php echo $product['barcode']; ?>" alt="<?php echo $product['barcode']; ?>">
 		  </td>
-	</tr>
+	    </tr>
+	  <?php } ?>
       <?php } ?>
-	  
 	  <tr><td colspan="12"><hr></td></tr>
 	  <tr>
 	    <th class="left"><?php echo $text_product_totals;?></th>

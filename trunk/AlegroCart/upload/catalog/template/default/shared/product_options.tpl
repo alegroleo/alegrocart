@@ -4,6 +4,7 @@
   <?php $options_price = array(); ?>
   <div class="available"><?php echo $text_options; ?></b></div>
   <table class="b">
+<?php if(!isset($weight_decimal)){$weight_decimal = $decimal_place;}?>
   <?php foreach ($product['options'] as $key => $option) { ?>
    <tr>	  
     <td><?php echo $option['name']; ?></td>

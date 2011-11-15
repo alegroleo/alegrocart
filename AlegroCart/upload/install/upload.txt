@@ -74,6 +74,7 @@
 ./admin/template/default/content/calculate_tax.tpl
 ./admin/template/default/content/payment_paymate.tpl
 ./admin/template/default/content/report_logs.tpl
+./admin/template/default/content/watermark.tpl
 ./admin/template/default/content/weight_class.tpl
 ./admin/template/default/content/calculate_coupon.tpl
 ./admin/template/default/content/module_extra_popular.tpl
@@ -99,6 +100,7 @@
 ./admin/template/default/content/zone_to_geo_zone.tpl
 ./admin/template/default/content/dimension_class.tpl
 ./admin/template/default/content/module_admin_footer.tpl
+./admin/template/default/content/shipping_canadapost.tpl
 ./admin/template/default/content/payment_ccavenue.tpl
 ./admin/template/default/content/geo_zone.tpl
 ./admin/template/default/content/module_extra_related.tpl
@@ -385,6 +387,7 @@
 ./admin/template/default/image/folder.png
 ./admin/template/default/image/optionwhite.png
 ./admin/template/default/image/delete_enabled.png
+./admin/template/default/image/trbg.png
 ./admin/template/default/image/desc.png
 ./admin/template/default/image/disabled.png
 ./admin/template/default/image/save_disabled.png
@@ -392,6 +395,7 @@
 ./admin/template/default/image/previous.png
 ./admin/template/default/image/favicon.ico
 ./admin/template/default/image/customer.png
+./admin/template/default/image/Instruction489x289.png
 ./admin/template/default/image/product.png
 ./admin/template/default/image/insert_disabled.png
 ./admin/template/default/image/enable_update.png
@@ -438,6 +442,7 @@
 ./admin/model/reports/model_admin_report_online.php
 ./admin/model/reports/model_admin_report_purchased.php
 ./admin/model/index.php
+./admin/model/shipping/model_admin_shippingcanpost.php
 ./admin/model/shipping/model_admin_shippingzone.php
 ./admin/model/shipping/model_admin_shippingaup.php
 ./admin/model/shipping/model_admin_shippingzoneplus.php
@@ -456,6 +461,7 @@
 ./admin/model/products/model_admin_image.php
 ./admin/model/products/model_admin_download.php
 ./admin/model/products/model_admin_optionvalue.php
+./admin/model/products/model_admin_watermark.php
 ./admin/model/environment/model_admin_language.php
 ./admin/model/environment/model_admin_country.php
 ./admin/model/environment/model_admin_seo.php
@@ -559,6 +565,7 @@
 ./admin/language/english/controller/country.php
 ./admin/language/english/controller/index.php
 ./admin/language/english/controller/module_catalog_footer.php
+./admin/language/english/controller/shipping_canadapost.php
 ./admin/language/english/controller/coupon.php
 ./admin/language/english/controller/permission.php
 ./admin/language/english/controller/generate_url_alias.php
@@ -626,6 +633,7 @@
 ./admin/language/english/controller/report_logs.php
 ./admin/language/english/controller/shipping_australiapost.php
 ./admin/language/english/controller/newsletter.php
+./admin/language/english/controller/watermark.php
 ./admin/language/english/controller/setting.php
 ./admin/language/english/controller/review.php
 ./admin/language/.htaccess
@@ -635,6 +643,7 @@
 ./admin/javascript/JSCookMenu/default/arrow.png
 ./admin/javascript/JSCookMenu/default/order.png
 ./admin/javascript/JSCookMenu/default/review.png
+./admin/javascript/JSCookMenu/default/watermark.png
 ./admin/javascript/JSCookMenu/default/language.png
 ./admin/javascript/JSCookMenu/default/module.png
 ./admin/javascript/JSCookMenu/default/newsletter.png
@@ -964,7 +973,6 @@
 ./admin/javascript/fckeditor/editor/skins/silver/images/dialog.sides.rtl.png
 ./admin/javascript/fckeditor/editor/skins/silver/images/dialog.sides.gif
 ./admin/javascript/fckeditor/editor/skins/silver/images/dialog.sides.png
-./admin/javascript/fckeditor/editor/skins/silver/images/Thumbs.db
 ./admin/javascript/fckeditor/editor/skins/silver/images/sprites.png
 ./admin/javascript/fckeditor/editor/skins/silver/images/toolbar.start.gif
 ./admin/javascript/fckeditor/editor/skins/silver/images/sprites.gif
@@ -1107,6 +1115,7 @@
 ./admin/controller/usergroup.php
 ./admin/controller/index.php
 ./admin/controller/module_catalog_footer.php
+./admin/controller/shipping_canadapost.php
 ./admin/controller/logout.php
 ./admin/controller/coupon.php
 ./admin/controller/permission.php
@@ -1174,6 +1183,7 @@
 ./admin/controller/report_logs.php
 ./admin/controller/shipping_australiapost.php
 ./admin/controller/newsletter.php
+./admin/controller/watermark.php
 ./admin/controller/setting.php
 ./admin/controller/review.php
 ./admin/config.php
@@ -1184,12 +1194,16 @@
 ./install/index.php
 ./install/language/english.php
 ./install/language/french.php
+./install/language/catalan.php
 ./install/language/hungarian.php
 ./install/language/spanish.php
+./install/language/italian.php
 ./install/upgrade.sql
+./install/image/catalan.png
 ./install/image/spanish.png
 ./install/image/aclogo.png
 ./install/image/hungarian.png
+./install/image/italian.png
 ./install/image/french.png
 ./install/image/english.png
 ./install/writable.sh
@@ -1281,6 +1295,7 @@
 ./catalog/extension/shipping/zoneplus.php
 ./catalog/extension/shipping/index.php
 ./catalog/extension/shipping/warehouse.php
+./catalog/extension/shipping/canadapost.php
 ./catalog/extension/shipping/zone.php
 ./catalog/extension/shipping/flat.php
 ./catalog/extension/shipping/australiapost.php
@@ -1341,6 +1356,7 @@
 ./catalog/model/shipping/index.php
 ./catalog/model/shipping/model_shippingaupost.php
 ./catalog/model/shipping/model_shipping.php
+./catalog/model/shipping/model_shippingcapost.php
 ./catalog/model/account/model_accountinvoice.php
 ./catalog/model/account/index.php
 ./catalog/model/account/model_accountdownload.php
@@ -1361,6 +1377,7 @@
 ./catalog/language/english/extension/shipping/zoneplus.php
 ./catalog/language/english/extension/shipping/index.php
 ./catalog/language/english/extension/shipping/warehouse.php
+./catalog/language/english/extension/shipping/canadapost.php
 ./catalog/language/english/extension/shipping/zone.php
 ./catalog/language/english/extension/shipping/flat.php
 ./catalog/language/english/extension/shipping/australiapost.php
@@ -2560,7 +2577,6 @@
 ./image/Featured7.jpg
 ./image/SPECIALS.jpg
 ./image/image_1.jpg
-./image/Thumbs.db
 ./image/Featured8.jpg
 ./image/Featured9.jpg
 ./image/Specials6.jpg
@@ -2579,10 +2595,12 @@
 ./image/Related2.jpg
 ./image/Specials4.jpg
 ./image/fonts/luggerbu.ttf
+./image/fonts/FreeSansBold.ttf
 ./image/fonts/luggerbu.txt
 ./image/image_3.jpg
 ./image/Shopping.gif
 ./image/Related7.jpg
+./image/watermark/ac_logo.png
 ./image/PerformanceFriction.jpg
 ./robots.txt
 ./library/user/index.php
@@ -2618,6 +2636,7 @@
 ./library/Tree/NodeCollection.php
 ./library/index.php
 ./library/language/index.php
+./library/language/dates.php
 ./library/language/language.php
 ./library/cache/cache.php
 ./library/cache/index.php
@@ -2630,6 +2649,7 @@
 ./library/image/image.php
 ./library/image/index.php
 ./library/image/mask.php
+./library/image/watermark.php
 ./library/autoloader.php
 ./library/common/toolbox.php
 ./library/common/sys_get_temp_dir.php
@@ -2666,6 +2686,7 @@
 ./library/application/index.php
 ./library/application/controller.php
 ./library/application/model.php
+./library/application/barcode.php
 ./library/application/config.php
 ./library/application/router.php
 ./library/Tree.php

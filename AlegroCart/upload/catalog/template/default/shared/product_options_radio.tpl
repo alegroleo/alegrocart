@@ -3,6 +3,7 @@
     <div class="product_options" id="<?php echo $this_controller.'_options_'.$product['product_id']; ?>" >
 	  <?php $options_price = array(); ?>
         <b><?php echo $text_options; ?></b>
+<?php if(!isset($weight_decimal)){$weight_decimal = $decimal_place;}?>
 	      <?php foreach ($product['options'] as $key => $option) { ?>
           <table><tr>	  
             <td rowspan="<?php echo count($option['value']);?>" style="min-width: 60px;"> <?php echo $option['name']; ?></td>

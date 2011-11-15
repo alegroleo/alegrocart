@@ -62,7 +62,7 @@
 				  </tr>	 <!-- End Meta Tags -->			  
 				  
                   <tr>
-                    <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
+                    <td valign="top" class="set"><?php echo $entry_description; ?></td>
                     <td><textarea name="description[<?php echo $category['language_id']; ?>]" id="description<?php echo $category['language_id']; ?>"><?php echo $category['description']; ?></textarea>
                       <?php if ($error_description) { ?>
                       <span class="error"><?php echo $error_description; ?></span>

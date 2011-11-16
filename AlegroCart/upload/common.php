@@ -1,5 +1,5 @@
 <?php
-if(!defined('APP')){ header('Location: index.php');exit('Forbidden Path');}
+if(!defined('VALID_ACCESS')){ header('Location: index.php');exit('Forbidden Path');}
 // REPORT ALL ERRORS
 error_reporting(E_ALL);
 

@@ -2,7 +2,7 @@
 
 // Installed?
 if (filesize('../config.php') == 0) { header('Location: ../install/index.php'); exit; }
-
+define('VALID_ACCESS', TRUE);
 define('APP','ADMIN');
 
 // Include Config and Common

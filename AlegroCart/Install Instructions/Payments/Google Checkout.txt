@@ -27,13 +27,15 @@ the Google order number from its database.
 Make sure the /logs directory is not publicly accessable by using e.g. the following
 access rights:
 
-                                 user    group   other
+											user    group   other
 
-    /logs                        rwx     r-x     ---
-    /logs/googleerror.log        rw-     r--     ---
-    /logs/googlemessage.log      rw-     r--     ---
+    /logs                        			rwx     r-x     ---		chmod 750
+    /logs/google_log/googleerror.log        rw-     r--     ---		chmod 750
+    /logs/google_log/googlemessage.log      rw-     r--     ---		chmod 750
 
-
+If the module will not work on your site with this permission, it is not recommended to use this
+  payment method because sensitive information may be stored in the log file.
+  
 Use your FTP-client's remote 'chmod' command to change these access rights.
 
 The extensions payment list now includes the new 'Google Checkout' entry.

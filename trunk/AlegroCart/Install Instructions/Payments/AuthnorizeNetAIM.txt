@@ -21,3 +21,7 @@ Main features:
   * Configurable for test and production accounts simultaneously for easy mode switching.
 
 Click the wrench/spanner icon to config.
+
+The recommended permissions for logs/authnetaim_logs are:
+chmod g-w, o-rwx or chmod 750
+

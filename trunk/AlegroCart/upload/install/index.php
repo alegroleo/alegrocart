@@ -1,5 +1,5 @@
 <?php
-define('APP','INSTALL');
+define('VALID_ACCESS', TRUE);
 require('common.php');
 require('language.php');
 

@@ -3,6 +3,7 @@
 // Installed?
 if (filesize('config.php') == 0) { header('Location: install/index.php'); exit; }
 
+define('VALID_ACCESS', TRUE);
 define('APP','CATALOG');
 
 // Include Config and Common

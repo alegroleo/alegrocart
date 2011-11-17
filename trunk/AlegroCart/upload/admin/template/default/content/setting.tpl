@@ -244,7 +244,7 @@
 
 			<tr>
 			  <td class="set"><?php echo $entry_token; ?></td>
-			  <td id="token"><input type="text" size="40" <?php if($global_config_token){ echo 'readonly="readonly" ';}?>name="global_config_token" value="<?php echo $global_config_token;?>" onchange="$('#token').load('index.php?controller=setting&action=getToken&token='+this.value); ">
+			  <td id="token"><input type="text" size="40" <?php if($global_config_token){ echo 'readonly="readonly" ';}?>name="global_config_token" value="<?php echo $global_config_token;?>" onchange="$('#token').load('index.php?controller=setting&action=getToken&token='+encodeURIComponent(this.value)); ">
 			  </td>
 			  <td class="expl">
 			      <?php echo $text_token; ?> 
@@ -1343,6 +1343,11 @@
 	  var Query = String("style=" + Style + "&columns=" + Column);
 	  return Query;
     }
+  //--></script>
+  <script type="text/javascript"><!--
+	function removeSpaces(string) {
+	return string.split(' ').join('');
+  }
   //--></script>
   <script type="text/javascript"><!--
   tabview_initialize('tab');

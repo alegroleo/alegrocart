@@ -556,7 +556,7 @@ CREATE TABLE IF NOT EXISTS `product_discount` (
   `quantity` int(4) NOT NULL,
   `discount` decimal(15,4) NOT NULL,
   PRIMARY KEY  (`product_discount_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 #
 # TABLE STRUCTURE FOR: `product_to_category`

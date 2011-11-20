@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 //error_reporting(-1); Use for development
  
 // CODE VERSION
-define('CODE_VERSION','1.2.6');
+define('CODE_VERSION','1.2.7');
 
 // PATH
 define('PATH_CATALOG','catalog');

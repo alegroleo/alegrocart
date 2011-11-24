@@ -277,6 +277,17 @@ class ControllerZone extends Controller {
         if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,32)) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
+		
+		if($this->request->has('zone_status', 'post') && !$this->request->gethtml('zone_status','post')){
+			$address_info = $this->modelZone->check_address();
+			if ($address_info['total']) {
+				$this->error['message'] = $this->language->get('error_address', $address_info['total']);
+			}
+			$zone_to_geo_zone_info = $this->modelZone->check_zone_to_geo();
+			if ($zone_to_geo_zone_info['total']) {
+				$this->error['message'] = $this->language->get('error_zone_to_geo_zone', $zone_to_geo_zone_info['total']);
+			}
+		}
 
 		if (!$this->error) {
 			return TRUE;

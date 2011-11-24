@@ -34,6 +34,7 @@ class ControllerCountry extends Controller {
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$this->modelCountry->insert_country();
 			$this->cache->delete('country');
+			$this->cache->delete('zone');
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('country'));
@@ -50,6 +51,7 @@ class ControllerCountry extends Controller {
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$this->modelCountry->update_country();
 			$this->cache->delete('country');
+			$this->cache->delete('zone');
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('country'));
@@ -70,7 +72,8 @@ class ControllerCountry extends Controller {
 				$status = 1;
 			}
 			$this->modelCountry->set_status($status);
-			$this->cache->delete('country');	
+			$this->cache->delete('country');
+			$this->cache->delete('zone');
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('country'));
 		} else {
@@ -85,6 +88,7 @@ class ControllerCountry extends Controller {
 		if (($this->request->gethtml('country_id')) && ($this->validateDelete())) {
 			$this->modelCountry->delete_country();
 			$this->cache->delete('country');
+			$this->cache->delete('zone');
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('country'));
@@ -308,6 +312,18 @@ class ControllerCountry extends Controller {
 		if ($this->config->get('config_country_id') == $this->request->gethtml('country_id') && $this->request->gethtml('country_status', 'post') == FALSE) {
 			$this->error['message'] = $this->language->get('error_default');
 		}
+		
+		if($this->request->has('country_status', 'post') && !$this->request->gethtml('country_status', 'post')){
+			$zone_to_geo_zone_info = $this->modelCountry->check_zone_to_geo();
+			if ($zone_to_geo_zone_info['total']) {
+				$this->error['message'] = $this->language->get('error_zone_to_geo_zone', $zone_to_geo_zone_info['total']);
+			}
+			$address_info = $this->modelCountry->check_address();
+			if ($address_info['total']) {
+				$this->error['message'] = $this->language->get('error_address', $address_info['total']);
+			}
+		}
+		
 		if (!$this->error) {
 			return TRUE;
 		} else {

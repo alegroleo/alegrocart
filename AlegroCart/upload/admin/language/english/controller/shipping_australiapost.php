@@ -22,8 +22,8 @@ $_['explanation_entry_geo_zone']      = 'Geo Zone where this shipping method is 
 $_['explanation_entry_sort_order']    = 'The order shipping method appears in checkout ';
 $_['explanation_entry_method']        = 'Default shipping service type.';
 $_['explanation_entry_tax']           = 'Tax Rate used on shipping cost.';
-$_['explanation_weight']			  = 'Weight type used by Autralia Post';
-$_['explanation_dimension']			  = 'Dimension used by Autralia Post';
+$_['explanation_weight']			  = 'Weight type used by Autralia Post:<b> Gram(s)</b>';
+$_['explanation_dimension']			  = 'Dimension used by Autralia Post: <b>Millimetre</b>';
 $_['explanation_postcode']			  = 'Postal code where your shipments original from. Must be valid Australian Post Code.';
 
 //Data

@@ -252,7 +252,7 @@ class ControllerSetting extends Controller {
  		$view->set('explanation_wm_ihmargin',$this->language->get('explanation_wm_ihmargin'));
  		$view->set('explanation_wm_ivmargin',$this->language->get('explanation_wm_ivmargin'));
 		$view->set('explanation_wm_image',$this->language->get('explanation_wm_image'));
-
+		$view->set('explanation_default_weight',$this->language->get('explanation_default_weight'));
 		$view->set('explanation_address',$this->language->get('explanation_address'));
 
 		$view->set('button_list', $this->language->get('button_list'));

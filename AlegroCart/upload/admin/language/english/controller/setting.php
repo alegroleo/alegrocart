@@ -207,7 +207,7 @@ $_['explanation_wm_ihmargin']     = 'Number of pixels from left side of the page
 $_['explanation_wm_ivmargin']     = 'Number of pixels from top of the page.';
 $_['explanation_wm_image']        = 'If you select a watermark image every image that you upload will be watermarked automatically from now on. Use watermark image with transparent background for the better result. Only png is supported.';
 $_['explanation_address']         = 'Use this field to enter your address and any information related to your store, e.g. tax number, trade register number, fiscal code or whatever you want to be displayed on the customer\'s invoices and the Contact Us page.';
-
+$_['explanation_default_weight']  = 'Most shipping methods will use this unless otherwise specified in the individual shipping method.';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

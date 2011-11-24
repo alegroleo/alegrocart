@@ -167,7 +167,7 @@ class ShippingAustraliaPost extends Shipping {
 				}
 				$weight = round($this->weight->convert($product['weight'], $product['weight_class_id'], $this->config->get('australiapost_weight_class')));
 				if($weight > $this->max_weight){
-					$this->error = $this->language->get('error_aus_weight', $this->cart->formatWeight($this->max_weight));
+					$this->error = $this->language->get('error_aus_weight', $this->cart->formatWeight($this->weight->convert($this->max_weight,$this->config->get('australiapost_weight_class'), $this->config->get('config_weight_class_id'))));
 					return FALSE;
 				}
 				$i=1;

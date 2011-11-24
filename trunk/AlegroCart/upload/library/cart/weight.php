@@ -37,7 +37,7 @@ class Weight {
   	}
 	  
   	function convert($value, $from, $to) {
-    	if ($from != $to) { $value=($value * (float)$this->rules[$from][$to]); }
+    	if ($from != $to && $from > 0 && $to > 0) { $value=($value * (float)$this->rules[$from][$to]); }
 		return $value;
   	}
 

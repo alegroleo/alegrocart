@@ -64,7 +64,7 @@ class Model_Admin_Zone extends Model {
 		return $result;
 	}
 	function check_zone_to_geo(){
-		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
+		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where (zone_id = '" . (int)$this->request->gethtml('zone_id') . "') or (country_id = '" .  $this->request->gethtml('country_id', 'post') . "' and  zone_id = '0')");
 		return $result;
 	}
 }

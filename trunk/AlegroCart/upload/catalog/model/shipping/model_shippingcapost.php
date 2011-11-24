@@ -19,7 +19,7 @@ class Model_ShippingCAPost extends Model{
 		return $result['dimension_id'];
 	}
 	function get_canpost_weight(){
-		$result = $this->database->getRow("select `weight_class_id` from `weight_class` where unit = 'kg' and language_id = '" . (int)$this->language->getId() . "'");
+		$result = $this->database->getRow("select `weight_class_id` from `weight_class` where unit = 'kg' and language_id = '1'");
 		return $result['weight_class_id'];
 	}
 }

@@ -3,7 +3,8 @@
 // Installed?
 if (filesize('config.php') == 0) { exit; }
 
-	require_once('library/application/string_modify.php');
+require_once('library/application/string_modify.php');
+define('VALID_ACCESS', TRUE);
 define('APP','CATALOG');
 
 // Include Config and Common
@@ -28,7 +29,7 @@ $settings = $database->getRows($sql);
 foreach ($settings as $setting) {
 	$config->set($setting['key'], $setting['value']);
 }
-
+date_default_timezone_set($config->get('config_time_zone') ? $config->get('config_time_zone') : 'UTC');
 $image =& $locator->get('image'); // Image
 $request =& $locator->get('request'); // Request
 $url =& $locator->get('url'); // URL

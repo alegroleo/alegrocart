@@ -434,6 +434,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+				<td class="expl"><?php echo $explanation_default_weight; ?></td>
             </tr>
 		       <tr> <!--  New Weight Decimal Places -->
 			  <td class="set"><?php echo $entry_weight_decimal; ?></td>

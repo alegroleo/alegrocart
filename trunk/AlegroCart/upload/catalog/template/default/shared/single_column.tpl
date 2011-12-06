@@ -1,3 +1,9 @@
+<?php if($show_stock_icon){?>
+	<input type="hidden" id="stock_status_g" value="<?php echo $stock_status_g;?>">
+	<input type="hidden" id="stock_status_o" value="<?php echo $stock_status_o;?>">
+	<input type="hidden" id="stock_status_r" value="<?php echo $stock_status_r;?>">
+	<input type="hidden" id="low_stock_warning" value="<?php echo $low_stock_warning;?>">
+<?php }?>
 <?php foreach ($products as $key =>$product) { ?>
 <div class="productcat_top"></div>
  <div class="productcat">
@@ -39,16 +45,35 @@
     </div>
   <?php }?>
    <?php echo $product['description']; ?><br>
-   <?php if ($product['product_discounts']){
-	echo "<div><div class=\"discount\">".$text_quantity_discount.":</div>&nbsp;";
-	foreach($product['product_discounts'] as $product_discount){
-	 echo "&nbsp;(".$product_discount['discount_quantity'].")&nbsp;-".$product_discount['discount_amount']."(".$product_discount['discount_percent']."%)&nbsp;";
+   
+   <?php if ($product['product_discounts']){?>
+    <?php if($discount_options && $product['product_options']){?>
+	  <script language="JavaScript">
+		$(document).ready(function(){
+		  UpdateDiscounts(<?php echo "'" . $this_controller . "'," . $product['product_id'] . ",". $decimal_place . ",'" . $decimal_point . "'";?>,0);
+		});
+	  </script>
+	  <input id="<?php echo $this_controller.'_discounts_'.$product['product_id'];?>" hidden="hidden" value="<?php echo count($product['product_discounts']);?>">
+	<?php }?>
+	<?php echo "<div><div class=\"discount\">".$text_quantity_discount.":</div>&nbsp;";
+	foreach($product['product_discounts'] as $key => $product_discount){
+	 echo "&nbsp;(".$product_discount['discount_quantity'].")&nbsp;-".$symbol_left.'<span id="'. $this_controller.'_discount_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_amount']."</span>" .$symbol_right."(".'<span id="'. $this_controller.'_percent_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_percent']."</span>%)&nbsp;";
 	}
 	echo "</div>";
-   }?>
-   <?php if($show_stock){?>
-	  <div class="onhand2"><?php echo $onhand; ?>
-	    <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
+    }?>
+    <?php if($show_stock || $show_stock_icon){?>
+      <div class="onhand2"><?php echo $onhand; ?>
+	    <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
+	    <?php if($show_stock_icon){?>
+		  <?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
+		    $icon = $stock_status_g;
+		  }else if($product['stock_level'] > 0 && $product['stock_level'] <= $low_stock_warning){
+	        $icon = $stock_status_o;
+	      } else {
+		    $icon = $stock_status_r;
+	      }?>
+	    <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+		<?php }?>
      </div>
    <?php }?>
    <?php if($product['product_options']){?>

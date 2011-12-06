@@ -1292,3 +1292,15 @@ INSERT INTO `watermark` (`wm_id`, `wm_method`, `wm_text`, `wm_font`, `wm_fontcol
 
 #Add Show Remaining Days
 ALTER TABLE `product` ADD `remaining` int(1) NOT NULL default '1' After `sale_start_date`;
+
+#Start of Version 1.2.7 ***********
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_discount_options';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_discount_options', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_show_stock_icon';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_show_stock_icon', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_low_stock_warning';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_low_stock_warning', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;

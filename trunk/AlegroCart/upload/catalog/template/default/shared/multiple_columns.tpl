@@ -51,8 +51,20 @@
     <div class="product_desc"<?php if($columns == 3){?> style="min-height: 50px;"<?php }?>>
       <?php echo "<span style=\"font-size: ".$font_size."px\">" . $product['description'] . "</span>"; ?>
 	</div></div>
-	<?php if($show_stock && !$product['options']){?>
-		<div class="onhand"><?php echo $onhand.$product['stock_level']; ?></div>
+	<?php if(($show_stock  || $show_stock_icon )&& !$product['options']){?>
+		<div class="onhand">
+		  <?php echo $onhand.($show_stock ? $product['stock_level'] : ''); ?>
+		  <?php if($show_stock_icon){?>
+		    <?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
+		      $icon = $stock_status_g;
+		    }else if($product['stock_level'] > 0 && $product['stock_level'] <= $low_stock_warning){
+	          $icon = $stock_status_o;
+	        } else {
+		      $icon = $stock_status_r;
+	        }?>
+	        <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+		  <?php }?>
+		</div>
 	<?php } else if($show_stock && $product['options']){?>
 	  <br>
 	<?php }?>

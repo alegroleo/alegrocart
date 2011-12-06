@@ -17,9 +17,11 @@ class ControllerProduct extends Controller {
 	function index() { 
 		$cart     =& $this->locator->get('cart');
 		$currency =& $this->locator->get('currency');
+		$dates    = $this->locator->get('dates');
 		$this->dimension=& $this->locator->get('dimension');
 		$language =& $this->locator->get('language');
 		$this->image    =& $this->locator->get('image');
+		$this->barcode  =& $this->locator->get('barcode'); 
 		$request  =& $this->locator->get('request');
 		$response =& $this->locator->get('response');
 		$shipping =& $this->locator->get('shipping');
@@ -109,6 +111,9 @@ class ControllerProduct extends Controller {
 			$view->set('text_downloadable', $language->get('text_downloadable'));
 			$view->set('text_product_download', $language->get('text_product_download'));
 			$view->set('text_product_detail', $language->get('text_product_detail'));
+			$view->set('text_barcode', $language->get('text_barcode'));
+			$view->set('text_stock_icon', $language->get('text_stock_icon'));
+			$view->set('text_barcode_img', $language->get('text_barcode_img'));
 			
       		$view->set('button_reviews', $language->get('button_reviews'));
       		$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
@@ -153,25 +158,7 @@ class ControllerProduct extends Controller {
 			$view->set('meta_keywords', $product_info['meta_keywords']);
 			$view->set('product_options_select', $this->config->get('product_options_select'));
 			
-            //  Product Discounts
-			$results = $this->modelProducts->get_product_discount((int)$request->gethtml('product_id'));
-			$product_discounts = array();
-			if ($results) {
-          	  foreach($results as $result){
-			    if($product_info['special_price'] >0 && date('Y-m-d') >= $product_info['sale_start_date'] && date('Y-m-d') <= $product_info['sale_end_date']){
-				  $discount_amount = $product_info['special_price'] * ($result['discount'] / 100);
-				} else {
-				  $discount_amount = $product_info['price'] * ($result['discount'] / 100);
-			    }
-			  
-				$product_discounts[] = array(
-				  'discount_quantity' => $result['quantity'],
-				  'discount_percent' => (round($result['discount']*10))/10,
-				  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $product_info['tax_class_id'], $this->config->get('config_tax')))
-				);
-			  }
-			  $view->set('product_discounts',$product_discounts);
-			}
+            
 			// New manufaturer
 			$result = $this->modelProducts->getRow_manufacturer((int)$product_info['manufacturer_id']);
 			if ($result){
@@ -199,6 +186,27 @@ class ControllerProduct extends Controller {
 			$view->set('weight_unit', $weight->getClass($this->config->get('config_weight_class_id')));
 			$view->set('weight_decimal', $this->config->get('config_weight_decimal'));
 			$view->set('option_weights', $this->modelProducts->get_option_weight($product_info['product_id'], $this->config->get('config_weight_class_id')));
+			
+			//  Product Discounts
+			$view->set('discount_options', $this->config->get('config_discount_options'));
+			$results = $this->modelProducts->get_product_discount((int)$request->gethtml('product_id'));
+			$product_discounts = array();
+			if ($results) {
+          	  foreach($results as $result){
+			    if($product_info['special_price'] >0 && date('Y-m-d') >= $product_info['sale_start_date'] && date('Y-m-d') <= $product_info['sale_end_date']){
+				  $discount_amount = $product_info['special_price'] * ($result['discount'] / 100);
+				} else {
+				  $discount_amount = $product_info['price'] * ($result['discount'] / 100);
+			    }
+			  
+				$product_discounts[] = array(
+				  'discount_quantity' => $result['quantity'],
+				  'discount_percent' => (round($result['discount']*10))/10,
+				  'discount_amount'  => number_format($tax->calculate($discount_amount, $product_info['tax_class_id'], $this->config->get('config_tax')),$currency->currencies[$currency_code]['decimal_place'],$language->get('decimal_point'),'')
+				);
+			  }
+			  $view->set('product_discounts',$product_discounts);
+			}
 
       		$image_data = array(); // Additional Images
 			$results = $this->modelProducts->get_additional_images((int)$request->gethtml('product_id'));
@@ -216,7 +224,9 @@ class ControllerProduct extends Controller {
 			$days_remaining = ''; //***
 			if($product_info['special_price'] >0 && date('Y-m-d') >= $product_info['sale_start_date'] && date('Y-m-d') <= $product_info['sale_end_date']){
 			    $number_days = intval((strtotime($product_info['sale_end_date']) - time())/86400);
-			    $days_remaining = $language->get('days_remaining', ($number_days ? $number_days : 1)); //*****   
+			    $days_remaining = $language->get('days_remaining', ($number_days ? $number_days : 1)); //***** 
+				$view->set('sale_start',$dates->getDate($language->get('date_format_short'), strtotime($product_info['sale_start_date'])));
+				$view->set('sale_end', $dates->getDate($language->get('date_format_short'), strtotime($product_info['sale_end_date'])));
 			}
 
 			$product_data = array(
@@ -224,6 +234,8 @@ class ControllerProduct extends Controller {
 				'thumb'     => $this->image->resize($product_info['filename'], $this->config->get('product_image_width'), $this->config->get('product_image_height')),
 				'name'      => $product_info['name'],
 				'model_number' => $product_info['model_number'],
+				'barcode'   => $product_info['barcode'],
+				'barcode_url'	=> $product_info['barcode'] ? $this->barcode->show($product_info['barcode']) : NULL,
 				'popup'     => $this->image->href($product_info['filename']),
 				'min_qty'   => isset($product_info['min_qty'])?$product_info['min_qty']:1,
 				'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
@@ -246,6 +258,15 @@ class ControllerProduct extends Controller {
 			}
 			$view->set('review_data', $this->review());
 			$view->set('show_stock', $this->config->get('config_show_stock'));
+			$view->set('show_stock_icon',$this->config->get('config_show_stock_icon'));
+			if($this->config->get('config_show_stock_icon')){
+				$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
+				$view->set('stock_status_g', $this->image->href('stock_status_g.png'));
+				$view->set('stock_status_o', $this->image->href('stock_status_o.png'));
+				$view->set('stock_status_r', $this->image->href('stock_status_r.png'));
+				$view->set('stock_status_y', $this->image->href('stock_status_y.png'));
+			}
+			
 			$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
 			$view->set('maxrow', count($this->review()));

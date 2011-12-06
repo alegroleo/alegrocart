@@ -20,7 +20,7 @@ $_['entry_description']   = 'Description:';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify tax rates';
-$_['error_priority']      = '* Tax Prority required!';
+$_['error_priority']      = '* Tax Priority required!';
 $_['error_rate']          = '* Tax Rate required!';
 $_['error_description']   = '* Description must be between 1 and 255 characters!';
 ?>

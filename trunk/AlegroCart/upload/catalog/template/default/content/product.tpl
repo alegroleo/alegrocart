@@ -71,9 +71,26 @@
 	<span><?php echo $text_downloadable;?></span>
 	<?php }?>
   </div>
-  <?php if($show_stock){?>
+  <?php if($show_stock || $show_stock_icon){?>
     <div class="ponhand"><?php echo $quantity_available; ?>
-    <span id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span></div>
+      <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span>
+	<?php if($show_stock_icon){?>
+	  <?php if($stock_level > 0 && $stock_level > $low_stock_warning){
+		$icon = $stock_status_g;
+	  }else if($stock_level > 0 && $stock_level <= $low_stock_warning){
+	    $icon = $stock_status_o;
+	  } else {
+		$icon = $stock_status_r;
+	  }?>
+	  <?php if($show_stock_icon && $product_options){?>
+		<input type="hidden" id="stock_status_g" value="<?php echo $stock_status_g;?>">
+		<input type="hidden" id="stock_status_o" value="<?php echo $stock_status_o;?>">
+		<input type="hidden" id="stock_status_r" value="<?php echo $stock_status_r;?>">
+		<input type="hidden" id="low_stock_warning" value="<?php echo $low_stock_warning;?>">
+	  <?php }?>
+	  <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+	<?php }?>
+	</div>
   <?php }?>
   <?php if($product_options){?>
     <script language="JavaScript">
@@ -160,14 +177,23 @@
 		<?php echo '<b>' . $text_tax_rate . '</b>' . $tax_rate;?><br>
 		<?php if (isset($product_discounts)){ ?><br>
 		  <?php echo "<b>".$text_quantity_discount."</b><br>"; ?>
-		  <?php foreach ($product_discounts as $product_discount){ ?>
-		    <?php echo "&nbsp;&nbsp;".$text_qty_discount.$product_discount['discount_quantity']."&nbsp;&nbsp;".$text_discount.$product_discount['discount_amount']."&nbsp;&nbsp; (".$product_discount['discount_percent']."%)"; ?><br>
+		  <?php if($discount_options && $product_options){?>
+		    <script language="JavaScript">
+			  $(document).ready(function(){
+				UpdateDiscounts(<?php echo "'" . $this_controller . "'," . $product['product_id'] . ",". $decimal_place . ",'" . $decimal_point . "'";?>,0);
+			  });
+			</script>
+			<input id="<?php echo $this_controller.'_discounts_'.$product['product_id'];?>" type="hidden" value="<?php echo count($product_discounts);?>">
+		  <?php }?>
+		  <?php foreach ($product_discounts as $key => $product_discount){ ?>
+		    <?php echo "&nbsp;&nbsp;".$text_qty_discount.$product_discount['discount_quantity']."&nbsp;&nbsp;".$text_discount.$symbol_left.'<span id="'. $this_controller.'_discount_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_amount']."</span>" .$symbol_right."&nbsp;&nbsp; (".'<span id="'. $this_controller.'_percent_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_percent']."</span>%)"; ?><br>
 		  <?php } ?>
+		  
 		<?php } ?>
 		<?php if (($product['special_price'] > '$0.00' ) && date('Y-m-d') >= $product['sale_start_date'] && date('Y-m-d') <= $product['sale_end_date']) { ?><br>	
 		  <?php echo "<b>".$text_date."</b><br>"; ?>
-		  <?php echo "&nbsp;&nbsp;".$text_sale_start.date("F-d-Y",strtotime($product['sale_start_date'])); ?><br>
-		  <?php echo "&nbsp;&nbsp;".$text_sale_end.date("F-d-Y",strtotime($product['sale_end_date'])); ?><br>
+		  <?php echo "&nbsp;&nbsp;".$text_sale_start.$sale_start; ?><br>
+          <?php echo "&nbsp;&nbsp;".$text_sale_end.$sale_end; ?><br>
 		<?php } ?>
 		<?php if($downloads){?>
 		  <?php echo '<br>' . $text_product_download;?>
@@ -190,7 +216,6 @@
 			  <input type="hidden" id="<?php echo $this_controller . '_weight_' . $option_weight['product_to_option_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',$option_weight['option_weight']),4,'.','');?>">
 			<?php }?>
 		  <?php }?>
-		  <br>
 		 <?php } ?>
 		<?php if ($dimensions || $product_options) { ?><br>
 		  <span id="<?php echo $this_controller . '_dimensions_' . $product['product_id'];?>"><?php echo $dimensions ? @$dimensions : ''; ?></span><br>
@@ -202,10 +227,29 @@
 			  });
 			</script>
 			<?php foreach($product_options as $product_option){?>
-			<input type="hidden" id="<?php echo $this_controller . '_dimension_' . $product_option['product_option'];?>" value="<?php echo $product_option['dimensions'];?>">
+			  <input type="hidden" id="<?php echo $this_controller . '_dimension_' . $product_option['product_option'];?>" value="<?php echo $product_option['dimensions'];?>">
 			<?php }?>
 		  <?php }?>
 		<?php } ?>
+		<?php if(($product['barcode'] || $product_options)){?>
+		  <div class="barcode">
+		    <span <?php if(!$product['barcode']){ echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_barcode_text_' . $product['product_id'];?>"><?php echo $text_barcode; ?></span>
+		    <span <?php if(!$product['barcode']){ echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_barcode_' . $product['product_id'];?>"><?php echo $product['barcode']; ?></span>
+			<img <?php if(!$product['barcode']){ echo 'style="visibility:hidden;" ';}?>id="barcode_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $product['barcode_url'];?>" alt="<?php echo $text_barcode_img;?>" title="<?php echo $text_barcode_img;?>">
+		    <?php if($product_options){?>
+			  <script language="JavaScript">
+			    $(document).ready(function(){
+			      UpdateBarcode(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
+			    });
+			  </script>
+			  <?php foreach($product_options as $product_option){?>
+			    <input type="hidden" id="<?php echo $this_controller . '_barcode_' . $product_option['product_option'];?>" value="<?php echo $product_option['barcode'];?>">
+				<input type="hidden" id="<?php echo $this_controller . '_barcode_url_' . $product_option['product_option'];?>" value="<?php echo $product_option['barcode_url'];?>">
+			  <?php }?>
+			<?php }?>
+		  </div>
+		  <div class="clearfix"></div>
+		<?php }?>
 		<?php if ($shipping) { ?><br>
 		  <?php echo '<b>' . $text_shipping_yes . '</b>'; } elseif(!$downloads) { echo '<br><b>' . $text_shipping_no. '</b>'; ?> <br>
 		<?php  } ?>

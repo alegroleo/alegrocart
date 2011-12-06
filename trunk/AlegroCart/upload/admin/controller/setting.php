@@ -129,7 +129,6 @@ class ControllerSetting extends Controller {
 		$view->set('entry_captcha_contactus', $this->language->get('entry_captcha_contactus'));
 		$view->set('entry_captcha_reg', $this->language->get('entry_captcha_reg'));
 		$view->set('entry_captcha_length', $this->language->get('entry_captcha_length'));
-		$view->set('entry_show_stock', $this->language->get('entry_show_stock'));
 		$view->set('entry_footer_logo', $this->language->get('entry_footer_logo'));
 		$view->set('entry_footer_logo_top', $this->language->get('entry_footer_logo_top'));
 		$view->set('entry_footer_logo_left', $this->language->get('entry_footer_logo_left'));
@@ -163,6 +162,9 @@ class ControllerSetting extends Controller {
 		$view->set('entry_stock_checkout', $this->language->get('entry_stock_checkout'));
 		$view->set('entry_stock_subtract', $this->language->get('entry_stock_subtract'));
 		$view->set('entry_guest_checkout', $this->language->get('entry_guest_checkout'));
+		$view->set('entry_show_stock', $this->language->get('entry_show_stock'));
+		$view->set('entry_show_stock_icon', $this->language->get('entry_show_stock_icon'));
+		$view->set('entry_low_stock_warning', $this->language->get('entry_low_stock_warning'));
 		$view->set('entry_vat', $this->language->get('entry_vat'));
 		$view->set('entry_account', $this->language->get('entry_account'));
 		$view->set('entry_checkout', $this->language->get('entry_checkout'));
@@ -237,8 +239,12 @@ class ControllerSetting extends Controller {
  		$view->set('entry_wm_ivposition',$this->language->get('entry_wm_ivposition'));
  		$view->set('entry_wm_ihmargin',$this->language->get('entry_wm_ihmargin'));
  		$view->set('entry_wm_ivmargin',$this->language->get('entry_wm_ivmargin'));
+		$view->set('entry_discount_options',$this->language->get('entry_discount_options'));
 
- 		$view->set('explanation_wm_text',$this->language->get('explanation_wm_text'));
+ 		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
+		$view->set('explanation_stock_icon',$this->language->get('explanation_stock_icon'));
+		$view->set('explanation_stock_warning',$this->language->get('explanation_stock_warning'));
+		$view->set('explanation_wm_text',$this->language->get('explanation_wm_text'));
  		$view->set('explanation_wm_fontsize',$this->language->get('explanation_wm_fontsize'));
  		$view->set('explanation_wm_fontcolor',$this->language->get('explanation_wm_fontcolor'));
  		$view->set('explanation_wm_transparency',$this->language->get('explanation_wm_transparency'));
@@ -622,6 +628,24 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_config_show_stock', $this->request->gethtml('catalog_config_show_stock'));
 		} else {
 			$view->set('catalog_config_show_stock', @$setting_info['catalog']['config_show_stock']);
+		}
+		
+		if ($this->request->has('catalog_config_show_stock_icon')) {
+			$view->set('catalog_config_show_stock_icon', $this->request->gethtml('catalog_config_show_stock_icon'));
+		} else {
+			$view->set('catalog_config_show_stock_icon', @$setting_info['catalog']['config_show_stock_icon']);
+		}
+		
+		if ($this->request->has('catalog_config_low_stock_warning')) {
+			$view->set('catalog_config_low_stock_warning', $this->request->gethtml('catalog_config_low_stock_warning'));
+		} else {
+			$view->set('catalog_config_low_stock_warning', @$setting_info['catalog']['config_low_stock_warning']);
+		}
+		
+		if ($this->request->has('catalog_config_discount_options')) {
+			$view->set('catalog_config_discount_options', $this->request->gethtml('catalog_config_discount_options'));
+		} else {
+			$view->set('catalog_config_discount_options', @$setting_info['catalog']['config_discount_options']);
 		}
 		
 		if ($this->request->has('catalog_config_guest_checkout')) {

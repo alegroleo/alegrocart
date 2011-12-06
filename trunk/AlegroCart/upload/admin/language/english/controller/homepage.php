@@ -5,7 +5,7 @@ $_['heading_description']  = 'You can edit homepage sessions here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated homepage!';
-$_['text_image']          = 'Recomended Image Size: 175 x 175';
+$_['text_image']          = 'Recommended Image Size: 175 x 175';
 $_['text_runtimes']		  = 'Enter Zero (0) for no limit, or -1 to disable home page module';
 $_['text_continous']      = 'If disabled, Flash will only run once!';
 $_['text_noflash']		  = 'No Flash Selected';

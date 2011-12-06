@@ -103,12 +103,12 @@ class Cart {
 				$special_price = roundDigits($product['special_price'],$this->decimal_place);
 				if ($special_price > 0 && date('Y-m-d H:i:s') >= $product['sale_start_date'] && date('Y-m-d') <= $product['sale_end_date']) {
 				  $extended_price = roundDigits($special_price, $this->decimal_place);
-				  $discount = $discount_percent > 0 ? roundDigits($discount = $special_price * ($discount_percent / 100), $this->decimal_place) : '0';		  
+				  $discount = $discount_percent > 0 ? roundDigits(($special_price + ($this->config->get('config_discount_options') ? $option_price : 0)) * ($discount_percent / 100), $this->decimal_place) : '0';		  
 				  $special_price = roundDigits(($product['special_price'] + $option_price), $this->decimal_place);
 				} else{
 				  $extended_price = $price;
 				  $special_price = '0';
-				  $discount = $discount_percent > 0 ? roundDigits($price * ($discount_percent / 100),$this->decimal_place) : '0';
+				  $discount = $discount_percent > 0 ? roundDigits(($price + ($this->config->get('config_discount_options') ? $option_price : 0)) * ($discount_percent / 100),$this->decimal_place) : '0';
 				}
 				
       			$this->products[$key] = array(

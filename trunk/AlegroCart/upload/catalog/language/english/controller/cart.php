@@ -40,7 +40,7 @@ $_['column_total']     = 'Total';
 $_['column_special']   = 'Special';
 
 $_['error_stock']      = 'Products marked with *** are not available in the desired quantity or are not in stock!';
-$_['error_checkout']   = '<br>You will be advised the availablity status on items not in stock before order is processed.';
+$_['error_checkout']   = '<br>You will be advised the availability status on items not in stock before order is processed.';
 $_['error_min_qty']    = 'Products marked with ### have had their quantity reset to the minimum order quantity!';
 $_['error_coupon']           = 'Error: Coupon is either invalid, expired or reached its usage limit!';	
 $_['error_product']          = 'Error: You don\'t have any products in your shopping cart that this coupon can be used with!';			

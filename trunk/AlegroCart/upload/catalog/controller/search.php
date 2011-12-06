@@ -173,6 +173,19 @@ class ControllerSearch extends Controller {
 		if ($session->get('search.search')) {
 			$results = $this->modelSearch->get_products($search,$description_sql,$search_description,$manufacturer_sql,$manufacturer_filter,$model_sql,$model_filter,$search_filter,$search_order,$page_rows,$max_rows);
 
+			$view->set('discount_options', $this->config->get('config_discount_options')); //****
+			// Currency
+			$currency_code = $currency->code;
+			$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
+			$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
+			$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
+			$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
+			$view->set('symbol_right', $symbol_right);
+			$view->set('symbol_left', $symbol_left);
+			$view->set('decimal_point', $language->get('decimal_point'));
+			$view->set('thousand_point', $language->get('thousand_point'));
+			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency
+			
 			if ($results) {
 				$view->set('text_results', $this->modelSearch->get_text_results());
 		        
@@ -196,8 +209,8 @@ class ControllerSearch extends Controller {
 							}
 							$product_discounts[] = array(
 							  'discount_quantity' => $discount['quantity'],
-							  'discount_percent'  => round($discount['discount']),
-							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $this->config->get('config_tax')))
+							  'discount_percent' => (round($discount['discount']*10))/10,
+							  'discount_amount'  => number_format($tax->calculate($discount_amount, $result['tax_class_id'], $this->config->get('config_tax')),$currency->currencies[$currency_code]['decimal_place'],$language->get('decimal_point'),'')
 							);
 						}
 					}  // End product Discounts
@@ -276,21 +289,19 @@ class ControllerSearch extends Controller {
 				$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
 				$view->set('regular_price', $language->get('regular_price'));
 				$view->set('sale_price', $language->get('sale_price'));
-				// Currency
-				$currency_code = $currency->code;
-				$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
-				$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
-				$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
-				$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
-				$view->set('symbol_right', $symbol_right);
-				$view->set('symbol_left', $symbol_left);
-				$view->set('decimal_point', $language->get('decimal_point'));
-			$view->set('thousand_point', $language->get('thousand_point'));
-				$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency
 			}
 		}
 		
 		$view->set('show_stock', $this->config->get('config_show_stock'));
+		$view->set('show_stock_icon',$this->config->get('config_show_stock_icon'));
+		if($this->config->get('config_show_stock_icon')){
+			$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
+			$view->set('stock_status_g', $image->href('stock_status_g.png'));
+			$view->set('stock_status_o', $image->href('stock_status_o.png'));
+			$view->set('stock_status_r', $image->href('stock_status_r.png'));
+			$view->set('stock_status_y', $image->href('stock_status_y.png'));
+		}
+		$view->set('text_stock_icon', $language->get('text_stock_icon'));
 		$view->set('addtocart',$this->config->get('search_addtocart'));
 		$view->set('text_inc_results', $language->get('text_inc_results'));
 		$view->set('text_max_reached', $language->get('text_max_reached'));

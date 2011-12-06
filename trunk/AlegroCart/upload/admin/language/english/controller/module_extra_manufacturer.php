@@ -5,7 +5,7 @@ $_['heading_description'] = 'You can edit manufacturers module details here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated manufacturers module!';
-$_['text_image']          = 'Recomended Image Size: 175 x 175';
+$_['text_image']          = 'Recommended Image Size: 175 x 175';
 $_['text_select']           = 'select';
 $_['text_radio']            = 'radio';
 $_['text_default_rows']     = 'Enter 0 to use Shop default number of items';

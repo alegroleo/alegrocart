@@ -573,7 +573,7 @@
 				  <?php echo $text_subtract_stock_explantion; ?> 
 				</td>
 			</tr>
-			
+			<tr><td colspan="2"><hr></td></tr>
 			<tr>
               <td width="185" class="set"><?php echo $entry_show_stock; ?></td>
               <td width="100"><?php if ($catalog_config_show_stock) { ?>
@@ -592,7 +592,47 @@
 				</td>
 			</tr>
 			
+			<tr>
+              <td width="185" class="set"><?php echo $entry_show_stock_icon; ?></td>
+              <td width="100"><?php if ($catalog_config_show_stock_icon) { ?>
+                <input type="radio" name="catalog_config_show_stock_icon" value="1" id="sticonyes" checked>
+                <label for="sticonyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_show_stock_icon" value="0" id="sticonno">
+                <label for="sticonno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_show_stock_icon" value="1" id="sticonyes">
+                <label for="sticonyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_show_stock_icon" value="0" id="sticonno" checked>
+                <label for="sticonno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+				<td class="expl">
+				  <?php echo $explanation_stock_icon; ?> 
+				</td>
+			</tr>
 			
+			<tr>
+			  <td class="set"><?php echo $entry_low_stock_warning; ?></td>
+			  <td><input type="text" name="catalog_config_low_stock_warning" value="<?php echo $catalog_config_low_stock_warning; ?>" size="3" maxlength="3"></td>
+			  <td class="expl"><?php echo $explanation_stock_warning;?></td>
+			</tr>
+			<tr><td colspan="2"><hr></td></tr>
+			<tr>
+              <td width="185" class="set"><?php echo $entry_discount_options; ?></td>
+              <td width="100"><?php if ($catalog_config_discount_options) { ?>
+                <input type="radio" name="catalog_config_discount_options" value="1" id="doyes" checked>
+                <label for="doyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_discount_options" value="0" id="dono">
+                <label for="dono"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_discount_options" value="1" id="doyes">
+                <label for="doyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_discount_options" value="0" id="dono" checked>
+                <label for="dono"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+				<td class="expl">
+				  <?php echo $explanation_option_discount; ?> 
+				</td>
+			</tr>
 			
 			<tr>
               <td width="185" class="set"><?php echo $entry_guest_checkout; ?></td>

@@ -6,7 +6,7 @@ $_['final_order_status']            = 'Pending';
 $_['email_message']					= 'This is an order from a customer who is attempted to pay using PayMate. If the order is declined or payment is not confirmed, be sure to check your paymate account.<br><br>';
 
 // Error
-$_['error_canceled']                =  'Paymate Payment was canceled.';
+$_['error_canceled']                =  'Paymate Payment was Cancelled.';
 $_['error_invoice']                 =  'Paymate Payment returned with incorrect invoice. Please try again.';
 $_['error_failed_payment']          =  'Paymate Payment returned a failed payment status. Please try again.';
 $_['error_mismatched_amount']       =  'Paymate Payment could not verify the correct charge amount. Please try again.';

@@ -6,7 +6,7 @@ $_['order_status_paid_unconfirmed'] = 'Paid Unconfirmed';
 $_['final_order_status']            = 'Pending';
 
 // Error
-$_['error_canceled']                =  'Paypal Payment was canceled.';
+$_['error_canceled']                =  'Paypal Payment was Cancelled.';
 $_['error_invoice']                 =  'Paypal Payment returned with incorrect invoice. Please try again.';
 $_['error_failed_payment']          =  'Paypal Payment returned a failed payment status. Please try again.';
 $_['error_mismatched_amount']       =  'Paypal Payment could not verify the correct charge amount. Please try again.';

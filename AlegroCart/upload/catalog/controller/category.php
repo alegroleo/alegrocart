@@ -206,10 +206,23 @@ class ControllerCategory extends Controller {
 					$image_height = $this->config->get('category_image_height') <= 140 ? $this->config->get('category_image_height') : 140;
 				}    // End image
 	
+				$view->set('discount_options', $this->config->get('config_discount_options')); //****
+				// Currency
+				$currency_code = $currency->code;
+				$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
+				$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
+				$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
+				$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
+				$view->set('symbol_right', $symbol_right);
+				$view->set('symbol_left', $symbol_left);
+				$view->set('decimal_point', $language->get('decimal_point'));
+				$view->set('thousand_point', $language->get('thousand_point'));
+				$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency	
+				
 				$product_data = array();
         		
 				$results = $this->modelCategory->get_products($manufacturer_sql,$manufacturer_filter,$model_sql,$model_filter,$search_filter,$search_order,$page_rows,$max_rows);
-
+				
         		foreach ($results as $result) {
 					$days_remaining = ''; //***
 					if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
@@ -225,7 +238,7 @@ class ControllerCategory extends Controller {
 					$discounts = $this->modelProducts->get_product_discount($result['product_id']);
 					$product_discounts = array();
 					if ($discounts) {
-						foreach($discounts as $discount){						
+						foreach($discounts as $discount){				
 							if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
 							  $discount_amount = $result['special_price'] * ($discount['discount'] / 100);
 							} else {
@@ -233,8 +246,8 @@ class ControllerCategory extends Controller {
 							}
 							$product_discounts[] = array(
 							  'discount_quantity' => $discount['quantity'],
-							  'discount_percent'  => round($discount['discount']),
-							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $this->config->get('config_tax')))
+							  'discount_percent' => (round($discount['discount']*10))/10,
+							  'discount_amount'  => number_format($tax->calculate($discount_amount, $result['tax_class_id'], $this->config->get('config_tax')),$currency->currencies[$currency_code]['decimal_place'],$language->get('decimal_point'),'')
 							);
 						}
 					}  // End product Discounts
@@ -306,7 +319,7 @@ class ControllerCategory extends Controller {
 				$view->set('columns', $columns);
 				$view->set('product_options_select', $this->config->get('category_options_select'));
 				$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));
-			$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
+				$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
 				$view->set('options_text', $language->get('options_text'));
 				$view->set('text_options', $language->get('text_options'));
 				$view->set('text_quantity_discount', $language->get('text_quantity_discount'));
@@ -317,17 +330,17 @@ class ControllerCategory extends Controller {
 				$view->set('text_price', $language->get('text_price'));
 				$view->set('addtocart',$this->config->get('category_addtocart'));
 				$view->set('show_stock', $this->config->get('config_show_stock'));
-				// Currency
-				$currency_code = $currency->code;
-				$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
-				$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
-				$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
-				$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
-				$view->set('symbol_right', $symbol_right);
-				$view->set('symbol_left', $symbol_left);
-				$view->set('decimal_point', $language->get('decimal_point'));
-				$view->set('thousand_point', $language->get('thousand_point'));
-				$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency				
+				
+				$view->set('show_stock_icon',$this->config->get('config_show_stock_icon'));
+				if($this->config->get('config_show_stock_icon')){
+					$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
+					$view->set('stock_status_g', $image->href('stock_status_g.png'));
+					$view->set('stock_status_o', $image->href('stock_status_o.png'));
+					$view->set('stock_status_r', $image->href('stock_status_r.png'));
+					$view->set('stock_status_y', $image->href('stock_status_y.png'));
+				}
+				$view->set('text_stock_icon', $language->get('text_stock_icon'));
+							
 				$view->set('head_def',$head_def);
 				$this->template->set('head_def',$head_def);
 				$view->set('text_enlarge', $language->get('text_enlarge'));

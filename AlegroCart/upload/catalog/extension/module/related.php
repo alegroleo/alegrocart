@@ -44,10 +44,22 @@ class ModuleRelated extends Controller {
 				$image_height = $config->get('related_image_height') <= 140 ? $config->get('related_image_height') : 140;
 			}
 			
+			$view->set('discount_options', $config->get('config_discount_options')); //****
+			// Currency
+			$currency_code = $currency->code;
+			$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
+			$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
+			$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
+			$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
+			$view->set('symbol_right', $symbol_right);
+			$view->set('symbol_left', $symbol_left);
+			$view->set('decimal_point', $language->get('decimal_point'));
+			$view->set('thousand_point', $language->get('thousand_point'));
+			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency
 			
-           $results = $this->modelProducts->get_related((int)$request->gethtml('product_id'));
-			
-      		$product_data = array();			
+			$results = $this->modelProducts->get_related((int)$request->gethtml('product_id'));
+      		$product_data = array();
+
     	  	foreach ($results as $result) {
 				$days_remaining = ''; //***
 				if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
@@ -68,8 +80,8 @@ class ModuleRelated extends Controller {
 							}
 							$product_discounts[] = array(
 							  'discount_quantity' => $discount['quantity'],
-							  'discount_percent'  => round($discount['discount']),
-							  'discount_amount'  => $currency->format($tax->calculate($discount_amount, $result['tax_class_id'], $config->get('config_tax')))
+							  'discount_percent' => (round($discount['discount']*10))/10,
+							  'discount_amount'  => number_format($tax->calculate($discount_amount, $result['tax_class_id'], $config->get('config_tax')),$currency->currencies[$currency_code]['decimal_place'],$language->get('decimal_point'),'')
 							);
 						}
 					}  // End product Discounts	
@@ -139,18 +151,16 @@ class ModuleRelated extends Controller {
 			}
 			$rand->clearrand();
 			
-			$currency_code = $currency->code;
-			$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
-			$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
-			$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
-			$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
-			$view->set('symbol_right', $symbol_right);
-			$view->set('symbol_left', $symbol_left);
-			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']);
-			$view->set('decimal_point', $language->get('decimal_point'));
-			$view->set('thousand_point', $language->get('thousand_point'));
-			
 			$view->set('show_stock', $config->get('config_show_stock'));
+			$view->set('show_stock_icon',$config->get('config_show_stock_icon'));
+			if($config->get('config_show_stock_icon')){
+				$view->set('low_stock_warning',$config->get('config_low_stock_warning'));
+				$view->set('stock_status_g', $image->href('stock_status_g.png'));
+				$view->set('stock_status_o', $image->href('stock_status_o.png'));
+				$view->set('stock_status_r', $image->href('stock_status_r.png'));
+				$view->set('stock_status_y', $image->href('stock_status_y.png'));
+			}
+			$view->set('text_stock_icon', $language->get('text_stock_icon'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
 			$view->set('options_text', $language->get('options_text'));

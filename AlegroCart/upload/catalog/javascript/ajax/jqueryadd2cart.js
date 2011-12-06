@@ -136,10 +136,42 @@ function UpdateModel(product_id,controller){
 function UpdateQuantity(product_id,controller){
 	var Product_id = product_id;
 	var Controller = controller;
+	var LowStock = $('#low_stock_warning').val();
 	var ProductWithOptions = ProductOptions(product_id,controller);
 	var onhand = $('#'+Controller+'_stock_level_'+ProductWithOptions).val();
+	var ImgPath = '';
 	if(onhand!=undefined){
 		$('#'+Controller+'_stock_level_'+Product_id).text(onhand);
+	}
+	if(LowStock!=undefined && onhand!=undefined){
+		onhand = (+onhand);
+		LowStock = (+LowStock);
+		if(onhand > 0 && onhand > LowStock){
+			ImagPath = $('#stock_status_g').val();
+		} else if(onhand > 0 && onhand <= LowStock){
+			ImagPath = $('#stock_status_o').val();
+		} else {
+			ImagPath = $('#stock_status_r').val();
+		}
+		document.getElementById('stock_icon_'+Controller+'_'+Product_id).src = ImagPath;
+	}
+}
+function UpdateBarcode(product_id,controller){
+	var Product_id = product_id;
+	var Controller = controller;
+	var ProductWithOptions = ProductOptions(product_id,controller);
+	var BarCode = $('#'+Controller+'_barcode_'+ProductWithOptions).val();
+	if(BarCode!=undefined && BarCode > 0){
+		var ImagPath = $('#'+Controller+'_barcode_url_'+ProductWithOptions).val();
+		$('#'+Controller+'_barcode_'+Product_id).text(BarCode);
+		document.getElementById('barcode_'+Controller+'_'+Product_id).src = ImagPath;
+		$('#'+Controller+'_barcode_text_'+Product_id).attr('style','visibility:visible');
+		$('#'+Controller+'_barcode_'+Product_id).attr('style','visibility:visible');
+		$('#barcode_'+Controller+'_'+Product_id).attr('style','visibility:visible');
+	} else {
+		$('#'+Controller+'_barcode_text_'+Product_id).attr('style','visibility:hidden');
+		$('#'+Controller+'_barcode_'+Product_id).attr('style','visibility:hidden');
+		$('#barcode_'+Controller+'_'+Product_id).attr('style','visibility:hidden');
 	}
 }
 function UpdateWeight(decimal_place, decimal_point, product_id,controller){
@@ -172,6 +204,28 @@ function UpdateWeight(decimal_place, decimal_point, product_id,controller){
 	Weight = Weight_new.replace('.', Decimal_point);
 	$('#'+Controller+'_weights_'+Product_id).text(Weight);
 }
+function UpdateDiscounts(controller,product_id,decimal_place,decimal_point, price){
+	var Decimal_Place = decimal_place;
+	var Decimal_point = decimal_point;
+	var Controller = controller;
+	var Product_id = product_id;
+	if(price==0){
+		var price = $('#product_with_options_'+Product_id).text();
+	}
+	price = price.replace(",", ".");
+	var Discounts = $('#'+Controller+'_discounts_'+Product_id).val();
+	if(Discounts==undefined){
+		return;
+	}
+	for (var i=0; i< Discounts; i++){	
+		var percent = $('#'+Controller+'_percent_'+Product_id+'_'+i).text();
+		percent = percent.replace(",", ".");
+		var amount = price * (percent / 100);
+		var Discount_new = amount.toFixed([Decimal_Place]);
+		Discount_new = Discount_new.replace('.', Decimal_point);
+		$('#'+Controller+'_discount_'+Product_id+'_'+i).text(Discount_new);
+	}
+}
 function UpdateTotal(decimal_place, weight_decimal, decimal_point, product_id, controller){
 	var Decimal_Place = decimal_place;
 	var Decimal_point = decimal_point;
@@ -179,6 +233,7 @@ function UpdateTotal(decimal_place, weight_decimal, decimal_point, product_id, c
 	var Controller = controller;
 	var Product_id = product_id;
 	UpdateQuantity(Product_id, Controller);
+	UpdateBarcode(product_id,controller)
 	UpdateImage(product_id,controller);
 	UpdateModel(product_id,controller);
 	UpdateDimensions(product_id,controller);
@@ -212,6 +267,7 @@ function UpdateTotal(decimal_place, weight_decimal, decimal_point, product_id, c
 	$('#product_with_options_'+Product_id).fadeOut('slow',function(){
 	$('#product_with_options_'+Product_id).fadeIn('normal').text(Price);
 	});
+	UpdateDiscounts(Controller,Product_id,Decimal_Place,Decimal_point,Price_new);
 	return;
 }
 $(document).ready(function(){

@@ -9,6 +9,7 @@ class Model_Products extends Model {
 		$this->currency =& $locator->get('currency');
 		$this->config   =& $locator->get('config');
 		$this->weight	=& $locator->get('weight');
+		$this->barcode  =& $locator->get('barcode'); 
 		$this->language->load('controller/dimensions.php');
 	}
 	function get_bestseller($bestseller_total){
@@ -150,6 +151,8 @@ class Model_Products extends Model {
 				'product_id'		=> $result['product_id'],
 				'product_option'	=> $result['product_option'],
 				'quantity'			=> $result['quantity'],
+				'barcode'			=> $result['barcode'],
+				'barcode_url'		=> $result['barcode'] ? $this->barcode->show($result['barcode']) : NULL,
 				'image_id'			=> $result['image_id'],
 				'popup'    			=> $result['filename'] ? $this->image->href($result['filename']) : '',
 				'thumb'     		=> $result['filename'] ? $this->image->resize($result['filename'], $image_width, $image_height) : '',

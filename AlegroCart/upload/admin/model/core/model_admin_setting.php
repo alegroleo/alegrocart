@@ -126,7 +126,10 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'captcha_reg', `value` = '" . $this->request->gethtml('catalog_captcha_reg', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'captcha_length', `value` = '" . $this->request->gethtml('catalog_captcha_length', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_show_stock', `value` = '" . $this->request->gethtml('catalog_config_show_stock', 'post')  . "'");
-		//$this->database->query();
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_discount_options', `value` = '" . $this->request->gethtml('catalog_config_discount_options', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_show_stock_icon', `value` = '" . $this->request->gethtml('catalog_config_show_stock_icon', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_low_stock_warning', `value` = '" . $this->request->gethtml('catalog_config_low_stock_warning', 'post')  . "'");
+		
 	}
 	function get_settings(){
 		$results = $this->database->getRows("select * from setting where `group` = 'config'");

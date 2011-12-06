@@ -149,7 +149,7 @@ class ControllerGenerateUrlAlias extends Controller {
         }
 	}
 	function information(){
-		$sql = "select information_id, title from information_description";
+		$sql = "select information_id, title from information_description where language_id='" . (int)$this->language->getId() . "'";
 		$this->generate_seo->_generate_url_alias($sql, 'controller=information&information_id={0}', array('information_id'), array('title'));	
 	}
 	function checkout(){

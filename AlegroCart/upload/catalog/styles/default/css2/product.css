@@ -160,3 +160,13 @@
 	font-size: 18px;
 	font-weight: bold;
 }
+.barcode{
+	display: inline;
+}
+.barcode span{
+	padding: 2px;
+}
+.barcode img{
+	padding: 2px;
+	vertical-align: middle;
+}

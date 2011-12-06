@@ -51,8 +51,20 @@
   </div>
   <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
   <?php echo $product['description']; ?><br></div>
-  <?php if($show_stock && !$product['options']){?>
-    <div class="onhand"><?php echo $onhand.$product['stock_level']; ?></div>
+  <?php if(($show_stock  || $show_stock_icon ) && !$product['options']){?>
+    <div class="onhand">
+	  <?php echo $onhand.($show_stock ? $product['stock_level'] : ''); ?>
+	  <?php if($show_stock_icon){?>
+		<?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
+		  $icon = $stock_status_g;
+		}else if($product['stock_level'] > 0 && $product['stock_level'] <= $low_stock_warning){
+	      $icon = $stock_status_o;
+		} else {
+		  $icon = $stock_status_r;
+		}?>
+		<img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+	  <?php }?>
+	</div>
   <?php }?>
   <?php include $shared_path . 'product_price.tpl';?>
   <?php if ($add_enable && $addtocart) { ?>

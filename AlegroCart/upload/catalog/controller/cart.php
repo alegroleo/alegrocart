@@ -153,6 +153,12 @@ class ControllerCart extends Controller {
                     }
                 }
                 $special_price = $result['special_price'] ?$result['special_price'] - $result['discount'] : 0;
+				if($result['special_price']){
+					$discount_percent = (100 - $result['discount_percent'])/100;
+					$discount = ($result['discount'] ? $this->currency->format($this->tax->calculate(($result['price'] * $discount_percent), $result['tax_class_id'], $this->config->get('config_tax'))) : NULL);
+					} else {
+					$discount = ($result['discount'] ? $this->currency->format($this->tax->calculate($result['price'] - $result['discount'], $result['tax_class_id'], $this->config->get('config_tax'))) : NULL);
+				}
 				$extended_total += $this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'));
 				$coupon_total += $result['coupon'] ? $result['coupon'] : NULL;
 				$discount_total += $result['general_discount'] ? $result['general_discount'] : NULL;
@@ -172,7 +178,7 @@ class ControllerCart extends Controller {
           			'stock'         => $result['stock'],
 					'price'         => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'special_price' => $special_price ? $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $this->config->get('config_tax'))) : NULL,
-          			'discount'      => ($result['discount'] ? $this->currency->format($this->tax->calculate($result['price'] - $result['discount'], $result['tax_class_id'], $this->config->get('config_tax'))) : NULL),
+          			'discount'      => $discount,
 					'coupon'     =>  ($result['coupon'] ? '-' . $this->currency->format($result['coupon']) : NULL),
 					'general_discount' => ($result['general_discount'] ? '-' . $this->currency->format($result['general_discount']) : NULL),
 					'total_discounted'  => $this->currency->format($result['total_discounted'] + ($this->config->get('config_tax') ? $result['product_tax'] : 0)),

@@ -206,6 +206,12 @@ class ControllerCheckoutConfirm extends Controller {
 			$net_total += $product['total_discounted'] + ($this->config->get('config_tax') ? $product['product_tax'] : 0);
 			$totals_total += $product['total_discounted'] + $product['product_tax'];
 			$special_price = $product['special_price'] ? $product['special_price'] - $product['discount'] : 0 ;
+			if($product['special_price']){
+				$discount_percent = (100 - $product['discount_percent'])/100;
+				$discount = ($product['discount'] ? $this->currency->format($this->tax->calculate(($product['price'] * $discount_percent), $product['tax_class_id'], $this->config->get('config_tax'))) : NULL);
+			} else {
+				$discount = ($product['discount'] ? $this->currency->format($this->tax->calculate($product['price'] - $product['discount'], $product['tax_class_id'], $this->config->get('config_tax'))) : NULL);
+			}
       		$product_data[] = array(
 				'product_id' => $product['product_id'],
         		'href'       => $this->url->href('product', FALSE, array('product_id' => $product['product_id'])),
@@ -220,7 +226,7 @@ class ControllerCheckoutConfirm extends Controller {
 				'base_price' => $this->currency->format($product['price']),
 				'special_price' => $special_price ? $this->currency->format($this->tax->calculate($special_price, $product['tax_class_id'], $this->config->get('config_tax'))) : NULL,
 				'base_special_price' => $special_price ? $this->currency->format($special_price) : NULL,
-				'discount'   => ($product['discount'] ? $this->currency->format($this->tax->calculate($product['price'] - $product['discount'], $product['tax_class_id'], $this->config->get('config_tax'))) : NULL),
+				'discount'   => $discount,
 				'coupon'     =>  ($product['coupon'] ? '-' . $this->currency->format($product['coupon']) : NULL),
 				'general_discount' => ($product['general_discount'] ? '-' . $this->currency->format($product['general_discount']) : NULL),
 				'net'        => $this->currency->format($product['total_discounted'] + ($this->config->get('config_tax') ? $product['product_tax'] : 0)),
@@ -422,7 +428,12 @@ class ControllerCheckoutConfirm extends Controller {
 		  			'prefix' => $option['prefix']
         		);
       		}
-			
+			if($product['special_price']){
+				$discount_percent = (100 - $product['discount_percent'])/100;
+				$discount = ($product['discount'] ? $this->currency->format($this->tax->calculate(($product['price'] * $discount_percent), $product['tax_class_id'], $this->config->get('config_tax'))) : NULL);
+			} else {
+				$discount = ($product['discount'] ? $this->currency->format($this->tax->calculate($product['price'] - $product['discount'], $product['tax_class_id'], $this->config->get('config_tax'))) : NULL);
+			}
       		$product_data[] = array(
 				'product_key'=> $product['key'],
         		'product_id' => $product['product_id'],
@@ -433,7 +444,7 @@ class ControllerCheckoutConfirm extends Controller {
 				'quantity'   => $product['quantity'],
 				'barcode'    => $product['barcode'],
 				'price'      => $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')),
-				'discount'   => $product['discount'] ? $this->tax->calculate($product['price'] - $product['discount'], $product['tax_class_id'], $this->config->get('config_tax')) : NULL,
+				'discount'   => $discount,
 				'special_price'  => $product['special_price'] ? $this->tax->calculate($product['special_price'], $product['tax_class_id'], $this->config->get('config_tax')) : 0 ,
 				'coupon'   => $product['coupon'],
 				'general_discount'   => $product['general_discount'],

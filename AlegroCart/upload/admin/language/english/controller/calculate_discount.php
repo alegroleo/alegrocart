@@ -11,7 +11,7 @@ $_['entry_discount_status']        = 'Status:';
 $_['entry_discount_sort_order']    = 'Sort Order:';
 $_['entry_discount_lprice']      = 'Subtotal Greater Than Price:';
 $_['entry_discount_lprice_percent']  = 'Discount in percent:';
-$_['entry_discount_gprice']      = 'Subotal Greater Than Price:';
+$_['entry_discount_gprice']      = 'Subtotal Greater Than Price:';
 $_['entry_discount_gprice_percent']  = 'Discount in percent:';
 
 // Error

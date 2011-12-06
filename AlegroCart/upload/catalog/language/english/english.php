@@ -4,8 +4,8 @@ $_['code']                  = 'en';
 $_['charset']               = 'utf-8';
 $_['direction']             = 'ltr';
 $_['locale']                = 'en_US.UTF-8,en_US,english';
-$_['date_format_short']     = 'j F Y';
-$_['date_format_long']      = 'l, F dS Y';
+$_['date_format_short']     = 'F j, Y';
+$_['date_format_long']      = 'l, F jS, Y';
 $_['time_format']           = 'h:i:s A';
 $_['decimal_point']         = '.';
 $_['thousand_point']        = ',';
@@ -21,6 +21,7 @@ $_['text_pages']            = '%s of %s';
 $_['text_separator']        = ' &raquo; ';
 $_['text_price']            = 'Price: ';
 $_['text_enlarge']       	= 'Click to enlarge';
+$_['text_stock_icon']       = 'Stock Status';
 
 //DateTime
 $_['text_january']          = 'January';

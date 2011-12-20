@@ -240,8 +240,10 @@ class ControllerSetting extends Controller {
  		$view->set('entry_wm_ihmargin',$this->language->get('entry_wm_ihmargin'));
  		$view->set('entry_wm_ivmargin',$this->language->get('entry_wm_ivmargin'));
 		$view->set('entry_discount_options',$this->language->get('entry_discount_options'));
+		$view->set('entry_session_expire',$this->language->get('entry_session_expire'));
 
- 		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
+ 		$view->set('explanation_session_expire',$this->language->get('explanation_session_expire'));
+		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
 		$view->set('explanation_stock_icon',$this->language->get('explanation_stock_icon'));
 		$view->set('explanation_stock_warning',$this->language->get('explanation_stock_warning'));
 		$view->set('explanation_wm_text',$this->language->get('explanation_wm_text'));
@@ -586,6 +588,12 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_config_parse_time', $this->request->gethtml('catalog_config_parse_time', 'post'));
 		} else {
 			$view->set('catalog_config_parse_time', @$setting_info['catalog']['config_parse_time']);
+		}
+		
+		if ($this->request->has('global_config_session_expire', 'post')) {
+			$view->set('global_config_session_expire', $this->request->gethtml('global_config_session_expire', 'post'));
+		} else {
+			$view->set('global_config_session_expire', @$setting_info['global']['config_session_expire']);
 		}
 
 		if ($this->request->has('admin_config_parse_time', 'post')) {

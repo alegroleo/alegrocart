@@ -129,7 +129,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_discount_options', `value` = '" . $this->request->gethtml('catalog_config_discount_options', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_show_stock_icon', `value` = '" . $this->request->gethtml('catalog_config_show_stock_icon', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_low_stock_warning', `value` = '" . $this->request->gethtml('catalog_config_low_stock_warning', 'post')  . "'");
-		
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_session_expire', `value` = '" . $this->request->gethtml('global_config_session_expire', 'post')  . "'");
 	}
 	function get_settings(){
 		$results = $this->database->getRows("select * from setting where `group` = 'config'");

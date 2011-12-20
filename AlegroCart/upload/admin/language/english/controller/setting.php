@@ -101,6 +101,7 @@ $_['entry_columns'] 		= 'Page Columns:';
 $_['entry_url_alias']       = 'Use URL Alias:';
 $_['entry_seo']             = 'Auto Update SEO:';
 $_['entry_parse_time']      = 'Display Parse Time:';
+$_['entry_session_expire']  = 'Session Expire:';
 $_['entry_ssl']             = 'Use SSL:';
 $_['entry_rows_per_page']   = 'Rows Per Page:';
 $_['entry_items_per_page']  = 'Items Per Page:';
@@ -213,6 +214,7 @@ $_['explanation_default_weight']  = 'Most shipping methods will use this unless 
 $_['explanation_option_discount'] = 'Enable to include option price in quantity discounts';
 $_['explanation_stock_icon']	  = 'This will display color icon at stock level.';
 $_['explanation_stock_warning']	  = 'If stock quantity is equal to or less than this amount, an orange warning icon will be shown if stock level display image is set.';
+$_['explanation_session_expire']  = 'Time before session is deleted or has timed out in seconds(minimum 1800, default 3600)';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

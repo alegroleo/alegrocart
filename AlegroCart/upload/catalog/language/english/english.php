@@ -77,11 +77,12 @@ $_['previous_page']			= ' Previous ';
 $_['first_page']            = ' First ';
 $_['last_page']             = ' Last ';
 $_['next_page']				= ' Next';
-$_['onhand']				= 'Onhand: ';
+$_['onhand']				= 'Stock: ';
 $_['options_text']			= 'Product Options Available<br>Add From Product Page';
 $_['regular_price']			= 'Regular Price: ';
 $_['sale_price']			= 'Sale Price: ';
 $_['days_remaining']   	    = 'Valid only for %s days!';
+$_['day_remaining']   	    = 'Valid only for %s day!';
 
 // Buttons
 $_['button_continue']       = 'Continue';

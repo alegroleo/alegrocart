@@ -250,6 +250,11 @@
 			      <?php echo $text_token; ?> 
 			  </td>
 			</tr>
+			<tr> 
+			  <td class="set"><?php echo $entry_session_expire; ?></td>
+			  <td><input type="text" name="global_config_session_expire" value="<?php echo $global_config_session_expire; ?>" size="2"></td>
+			  <td class="expl"><?php echo $explanation_session_expire; ?></td>
+			</tr>
 			
 			<tr>
 			  <td valign="top" class="set"><?php echo $entry_address_format; ?></td>
@@ -436,7 +441,7 @@
                 </select></td>
 				<td class="expl"><?php echo $explanation_default_weight; ?></td>
             </tr>
-		       <tr> <!--  New Weight Decimal Places -->
+		    <tr> <!--  New Weight Decimal Places -->
 			  <td class="set"><?php echo $entry_weight_decimal; ?></td>
 			  <td><input type="text" name="global_config_weight_decimal" value="<?php echo $global_config_weight_decimal; ?>" size="2"></td>
 			  <td class="expl"><?php echo $text_weight_decimal; ?></td>

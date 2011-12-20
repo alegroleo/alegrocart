@@ -9,7 +9,7 @@ $_['text_quantity_discount'] = 'Quantity Discount';
 $_['text_error']        = 'No Products found!';
 $_['price_with_options'] = 'Price with Options = ';
 $_['text_options']       = 'Available Options:';
-$_['text_max_rows']      = 'Maxiumum Products:<br>0 = Unlimited';
+$_['text_max_rows']      = 'Maximum Products:<br>0 = Unlimited';
 $_['text_page_rows']     = 'Products per Page:';
 $_['text_columns']       = 'Number of Columns:<br>to Display';
 $_['text_model']         = 'Filter by Model';

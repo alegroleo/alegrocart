@@ -1,20 +1,19 @@
 <?php
 class Session {
-	var $expire = 3600;
-  	function __construct(&$locator) {
-		$this->database =& $locator->get('database');
-		$this->request  =& $locator->get('request');
-		
-    	session_set_save_handler(array(&$this, 'open'), 
-	    	                     array(&$this, 'close'), 
-	 					         array(&$this, 'read'), 
-			 					 array(&$this, 'write'), 
-								 array(&$this, 'destroy'), 
-								 array(&$this, 'clean')); 
- 
-    	register_shutdown_function('session_write_close');
+	var $expire = 1800;
+	private $session_id = '';
+	private $user_agent = '';
+	private $session_data = array();
+	private $bots = array("Teoma", "alexa","froogle","inktomi","looksmart","URL_Spider_SQL","Firefly","NationalDirectory","Ask Jeeves","TECNOSEEK","InfoSeek","WebFindBot","girafabot","crawler","Googlebot","Scooter","Slurp","appie","FAST","WebBug","Spade","ZyBorg","Baiduspider","bingbot","Ezooms","YodaoBot","spider");
 
-		if (!$this->request->has('test', 'cookie') && $this->request->isPost()) {
+  	function __construct($locator) {
+		$this->database = $locator->get('database');
+		$this->request  = $locator->get('request');
+		$this->config   = $locator->get('config');
+ 
+    	register_shutdown_function(array($this, 'save_session'));
+		$this->expire = ($this->config->get('config_session_expire') > 1800) ? $this->config->get('config_session_expire') : 1800;
+		if (!$this->request->has('alegro', 'cookie') && $this->request->isPost()) {
 			$this->log_access();
 			if(strtolower($_SERVER['HTTP_CONNECTION']) == 'keep-alive'){
 				echo $this->close_connection();
@@ -26,18 +25,53 @@ class Session {
 			}
 		}
 		
-		if (!$this->request->has('test', 'cookie')) {
-	    	setcookie('test', 'accept', time() + 60 * 60 * 24 * 30, '/', NULL, false);
+		if (!$this->request->has('alegro', 'cookie')) {
+	    	setcookie('alegro', 'accept', time() + 60 * 60 * 24 * 30, '/', NULL, false);
 		}
 		
-		if ($this->request->has('test', 'cookie')) {
-			session_set_cookie_params(0, '/');
-	  		ini_set('session.hash_function', '0');
-			session_start();
+		if ($this->request->has('alegro', 'cookie')) {
+			$this->start_session();
   		}
+			
 	}
 	
-	function check_access(){
+	function save_session(){
+		if(!$this->check_bots()){
+			$this->write($this->session_id);
+		}
+		$this->clean();
+	}
+	private function start_session(){
+		$this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+		
+		if (!$this->request->has('alegro_sid', 'cookie')) {
+			$this->CreateSID();
+			setcookie('alegro_sid', $this->session_id . '_' . md5($this->user_agent), 0, '/', NULL, false);
+		
+		} else {
+			$cookie = explode('_', $this->request->get('alegro_sid','cookie'));
+			if($cookie[1] != md5($this->user_agent)){
+				echo $this->close_connection();
+				exit;
+			}
+			$this->session_id = $cookie[0]; 
+			$this->read($this->session_id);
+		}
+	}
+	private function check_bots(){
+		foreach($this->bots as $bot){
+			if(stristr($this->user_agent,$bot)){
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+	
+	private function CreateSID(){
+		$this->session_id = md5(time()-rand(10000,100000));
+	}
+	
+	private function check_access(){
 		$contents = file_get_contents($this->log_file);
 		$contents = preg_split("#((\r(?!\n))|((?!\r)\n)|(\r\n))#",$contents);
 		$access_count = 0;
@@ -52,7 +86,7 @@ class Session {
 		return FALSE;
 	}
 	
-	function log_access(){
+	private function log_access(){
 		$log_path = DIR_BASE . 'logs' . D_S . 'access_log' . D_S;
 		if (is_writable($log_path)){
 			$this->log_file = $log_path . 'access-' . date("Ymd") . '.txt';
@@ -67,7 +101,7 @@ class Session {
 		}
 	}
 	
-	function close_connection(){
+	private function close_connection(){
 		header("Connection: close\r\n");
 		header("Content-Encoding: none\r\n");
 		$error_response = "Invalid Request!" . "\n";
@@ -81,20 +115,20 @@ class Session {
 	}
 		
 	function set($key, $value) {
-		$_SESSION[$key] = $value;
+		$this->session_data[$key] = $value;
 	}
 	
 	function get($key) {
-		return (isset($_SESSION[$key]) ? $_SESSION[$key] : NULL);
+		return (isset($this->session_data[$key]) ? $this->session_data[$key] : NULL);
 	}
 		
 	function has($key) {
-		return isset($_SESSION[$key]);
+		return isset($this->session_data[$key]);
 	}
 
 	function delete($key) {
-		if (isset($_SESSION[$key])) {
-			unset($_SESSION[$key]);
+		if (isset($this->session_data[$key])) {
+			unset($this->session_data[$key]);
 		}
 	}
 	
@@ -106,35 +140,30 @@ class Session {
 		return TRUE;
   	}
 
-  	function read($session_id) {
+  	private function read($session_id) {
     	$result = $this->database->getRow($this->database->parse("select value from session where session_id = '?' and expire > '?'", $session_id, time()));
-	
-		return (isset($result['value']) ? $result['value'] : NULL); 
+		if(isset($result['value']) && $result['value']){
+			$this->session_data = unserialize($result['value']);
+		}
   	}
 
-  	function write($session_id, $data) {
+  	private function write($session_id) {
 		if (!$this->database->getRow($this->database->parse("select * from session where session_id = '?'", $session_id))) {
 	  		$sql = "insert into session set session_id = '?', expire = '?', `value` = '?', ip = '?', time = now(), url = '?'";
-      		$this->database->query($this->database->parse($sql, $session_id, time() + $this->expire, $data, isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:''));
+      		$this->database->query($this->database->parse($sql, $session_id, time() + $this->expire, serialize($this->session_data), isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:''));
 		} else {
       		$sql = "update session set expire = '?', `value` = '?', ip = '?', time = now(), url = '?' where session_id = '?'";
-      		$this->database->query($this->database->parse($sql, time() + $this->expire, $data, isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'', $session_id));
+      		$this->database->query($this->database->parse($sql, time() + $this->expire, serialize($this->session_data), isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'', $session_id));
 		}
-
-    	return $this->database->countAffected();
   	}
 
   	function destroy($session_id) {
 		$this->database->query($this->database->parse("delete from session where session_id = '?'", $session_id));
-		//See http://forum.opencart.com/index.php?topic=1373.0
-		session_destroy();
-    	return $this->database->countAffected();
+		$this->session_data = array();
   	}
 
-  	function clean($maxlifetime) {
+  	function clean() {
     	$this->database->query($this->database->parse("delete from session where expire < '?'", time()));
-
-    	return $this->database->countAffected();
   	}
 }
 ?>

@@ -20,12 +20,15 @@ class ControllerReportOnline extends Controller {
 
 		foreach ($results as $result) {
 			$value = array();
-			$a = preg_split("/(\w+)\|/", $result['value'], - 1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+			if($this->is_serialized($result['value'])){
+				$value = unserialize($result['value']);
+			} else {
+				$a = preg_split("/(\w+)\|/", $result['value'], - 1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
-			for ($i = 0; $i < count($a); $i = $i + 2) {
-				$value[$a[$i]] = unserialize($a[$i + 1]);
+				for ($i = 0; $i < count($a); $i = $i + 2) {
+					$value[$a[$i]] = @unserialize($a[$i + 1]);
+				}
 			}
-
 			if (isset($value['user_id'])) {
 				$user_info = $this->modelReportOnline->get_user($value['user_id']);
 				$name = $this->language->get('text_admin', $user_info['username']);
@@ -95,6 +98,32 @@ class ControllerReportOnline extends Controller {
 			if ($add_flag) $new_array[] = $current;
 		}
 		return $new_array;
-	} 
+	}
+	function is_serialized( $data ) {
+    // if it isn't a string, it isn't serialized
+    if ( !is_string( $data ) )
+        return false;
+    $data = trim( $data );
+    if ( 'N;' == $data )
+        return true;
+    if ( !preg_match( '/^([adObis]):/', $data, $badions ) )
+        return false;
+    switch ( $badions[1] ) {
+        case 'a' :
+        case 'O' :
+        case 's' :
+            if ( preg_match( "/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data ) )
+                return true;
+            break;
+        case 'b' :
+        case 'i' :
+        case 'd' :
+            if ( preg_match( "/^{$badions[1]}:[0-9.E-]+;\$/", $data ) )
+                return true;
+            break;
+    }
+    return false;
+}
+
 }
 ?>

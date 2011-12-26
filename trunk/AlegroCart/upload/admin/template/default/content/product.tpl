@@ -24,7 +24,7 @@
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
-<script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
+<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><?php if($product_options){echo '<a><div class="tab_text">' . $tab_product_options . '</div></a>';}?><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a><a><div class="tab_text"><?php echo $tab_category; ?></div></a><a><div class="tab_text"><?php echo $tab_home; ?></div></a><a href="#discount"><div class="tab_text"><?php echo $tab_discount; ?></div></a><a><div class="tab_text"><?php echo $tab_dated_special; ?></div></a><a><div class="tab_text"><?php echo $tab_alt_description; ?></div></a></div>
@@ -585,7 +585,7 @@
 				</table>
 				<table>
 				  <tr>
-				    <td valign="top" class="set"><?php echo $entry_technical; ?></td>
+				    <td width="185" valign="top" class="set"><?php echo $entry_technical; ?></td>
 				    <td><textarea name="technical[<?php echo $product['language_id']; ?>]" id="technical<?php echo $product['language_id']; ?>"><?php echo $product['technical']; ?></textarea></td>
 				  </tr>
                 </table>
@@ -600,44 +600,23 @@
   </div>
   <input type="hidden" id="product_id" name="product_id" value="<?php echo $product_id;?>">
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
-  <script type="text/javascript">//<!--
-  var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
+  
+  <script type="text/javascript"><!--
   <?php foreach ($products as $product) { ?>
-	var oFCKeditor<?php echo $product['language_id']."desc"; ?> = new FCKeditor('description<?php echo $product['language_id']; ?>');
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.BasePath = sBasePath;
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.Value	= document.getElementById('description<?php echo $product['language_id']; ?>').value;
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.Width    = '600';
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.Height   = '300';
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.Config['CustomConfigurationsPath'] = oFCKeditor<?php echo $product['language_id']."desc"; ?>.BasePath + 'myconfig.js';
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.Config['DocType'] = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.Config['SkinPath'] = oFCKeditor<?php echo $product['language_id']."desc"; ?>.BasePath + 'editor/skins/silver/' ;
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.ToolbarSet = 'Custom' ;
-	oFCKeditor<?php echo $product['language_id']."desc"; ?>.ReplaceTextarea();	
-
-	var oFCKeditor<?php echo $product['language_id']."alt"; ?> = new FCKeditor('alt_description<?php echo $product['language_id']; ?>');
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.BasePath = sBasePath;
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.Value	= document.getElementById('alt_description<?php echo $product['language_id']; ?>').value;
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.Width    = '600';
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.Height   = '300';
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.Config['CustomConfigurationsPath'] = oFCKeditor<?php echo $product['language_id']."alt"; ?>.BasePath + 'myconfig.js';
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.Config['DocType'] = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.Config['SkinPath'] = oFCKeditor<?php echo $product['language_id']."alt"; ?>.BasePath + 'editor/skins/silver/' ;
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.ToolbarSet = 'Custom' ;
-	oFCKeditor<?php echo $product['language_id']."alt"; ?>.ReplaceTextarea();
-	
-	var oFCKeditor<?php echo $product['language_id']."tech"; ?> = new FCKeditor('technical<?php echo $product['language_id']; ?>');
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.BasePath = sBasePath;
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.Value	= document.getElementById('technical<?php echo $product['language_id']; ?>').value;
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.Width    = '600';
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.Height   = '300';
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.Config['CustomConfigurationsPath'] = oFCKeditor<?php echo $product['language_id']."alt"; ?>.BasePath + 'myconfig.js';
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.Config['DocType'] = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.Config['SkinPath'] = oFCKeditor<?php echo $product['language_id']."alt"; ?>.BasePath + 'editor/skins/silver/' ;
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.ToolbarSet = 'Custom' ;
-	oFCKeditor<?php echo $product['language_id']."tech"; ?>.ReplaceTextarea();
-	
-  <?php } ?>	  
+    CKEDITOR.replace( 'description<?php echo $product['language_id']; ?>' );
+  <?php } ?>      
   //--></script>
+  <script type="text/javascript"><!--
+  <?php foreach ($products as $product) { ?>
+    CKEDITOR.replace( 'alt_description<?php echo $product['language_id']; ?>' );
+  <?php } ?>      
+  //--></script>
+  <script type="text/javascript"><!--
+  <?php foreach ($products as $product) { ?>
+    CKEDITOR.replace( 'technical<?php echo $product['language_id']; ?>' );
+  <?php } ?>      
+  //--></script>
+
   <script type="text/javascript"><!-- 
   function quantity_percent(row){
   var Decimal = $('#decimal_place').val();

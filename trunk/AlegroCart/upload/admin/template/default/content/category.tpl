@@ -23,7 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" >
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-<script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script> 
+<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><a><div class="tab_text"><?php echo $tab_image; ?></div></a> </div>
@@ -111,18 +111,8 @@
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
-  var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
   <?php foreach ($categories as $category) { ?>
-  var oFCKeditor<?php echo $category['language_id']; ?>          = new FCKeditor('description<?php echo $category['language_id']; ?>');
-      oFCKeditor<?php echo $category['language_id']; ?>.BasePath = sBasePath;
-      oFCKeditor<?php echo $category['language_id']; ?>.Value    = document.getElementById('description<?php echo $category['language_id']; ?>').value;
-      oFCKeditor<?php echo $category['language_id']; ?>.Width    = '600';
-      oFCKeditor<?php echo $category['language_id']; ?>.Height   = '300';
-      oFCKeditor<?php echo $category['language_id']; ?>.Config['CustomConfigurationsPath'] = oFCKeditor<?php echo $category['language_id']; ?>.BasePath + 'myconfig.js';
-      oFCKeditor<?php echo $category['language_id']; ?>.Config['DocType'] = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-      oFCKeditor<?php echo $category['language_id']; ?>.Config['SkinPath'] = oFCKeditor<?php echo $category['language_id']; ?>.BasePath + 'editor/skins/silver/' ;
-      oFCKeditor<?php echo $category['language_id']; ?>.ToolbarSet = 'Custom' ;
-      oFCKeditor<?php echo $category['language_id']; ?>.ReplaceTextarea();
+    CKEDITOR.replace( 'description<?php echo $category['language_id']; ?>' );
   <?php } ?>      
   //--></script>
   <script type="text/javascript"><!--

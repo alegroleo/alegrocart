@@ -22,7 +22,7 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
-<script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
+<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a></div>
@@ -80,18 +80,8 @@
   tabview_initialize('tabmini');
   //--></script>
   <script type="text/javascript"><!--
-  var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
   <?php foreach ($informations as $information) { ?>
-	var oFCKeditor          = new FCKeditor('description<?php echo $information['language_id']; ?>');
-	oFCKeditor.BasePath = sBasePath;
-	oFCKeditor.Value	  = document.getElementById('description<?php echo $information['language_id']; ?>').value;
-	oFCKeditor.Width    = '600';
-	oFCKeditor.Height   = '300';
-	oFCKeditor.Config['CustomConfigurationsPath'] = oFCKeditor.BasePath + 'myconfig.js';
-	oFCKeditor.Config['DocType'] = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-	oFCKeditor.Config['SkinPath'] = oFCKeditor.BasePath + 'editor/skins/silver/' ;
-	oFCKeditor.ToolbarSet = 'Custom' ;
-	oFCKeditor.ReplaceTextarea();
-  <?php } ?>	  
+    CKEDITOR.replace( 'description<?php echo $information['language_id']; ?>' );
+  <?php } ?>      
   //--></script>
 </form>

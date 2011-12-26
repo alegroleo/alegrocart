@@ -23,7 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-<script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
+<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 
 <form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
   <table align="center">			
@@ -200,32 +200,16 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
  </form> 
   <script type="text/javascript">//<!--
-  var sBasePath           = '<?php echo $URL_TPL->get_server().'javascript/fckeditor/'?>';
-  <?php foreach ($home_descriptions as $home_description) { ?>
-	var oFCKeditor<?php echo $home_description['language_id']."desc"; ?> = new FCKeditor('description<?php echo $home_description['language_id']; ?>');
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.BasePath = sBasePath;
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.Value	= document.getElementById('description<?php echo $home_description['language_id']; ?>').value;
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.Width    = '600';
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.Height   = '300';
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.Config['CustomConfigurationsPath'] = oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.BasePath + 'myconfig.js';
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.Config['DocType'] = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.Config['SkinPath'] = oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.BasePath + 'editor/skins/silver/' ;
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.ToolbarSet = 'Custom' ;
-	oFCKeditor<?php echo $home_description['language_id']."desc"; ?>.ReplaceTextarea();	
-
-	var oFCKeditor<?php echo $home_description['language_id']."alt"; ?> = new FCKeditor('welcome<?php echo $home_description['language_id']; ?>');
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.BasePath = sBasePath;
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.Value	= document.getElementById('welcome<?php echo $home_description['language_id']; ?>').value;
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.Width    = '600';
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.Height   = '150';
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.Config['CustomConfigurationsPath'] = oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.BasePath + 'myconfig.js';
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.Config['DocType'] = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.Config['SkinPath'] = oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.BasePath + 'editor/skins/silver/' ;
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.ToolbarSet = 'Custom' ;
-	oFCKeditor<?php echo $home_description['language_id']."alt"; ?>.ReplaceTextarea();
-    <?php } ?>	
+    <?php foreach ($home_descriptions as $home_description) { ?>
+      CKEDITOR.replace( 'description<?php echo $home_description['language_id']; ?>' );
+  <?php } ?>      
   //--></script>
-  
+  <script type="text/javascript">//<!--
+    <?php foreach ($home_descriptions as $home_description) { ?>
+      CKEDITOR.replace( 'welcome<?php echo $home_description['language_id']; ?>' );
+  <?php } ?>      
+  //--></script>
+
   <?php foreach($languages as $language){?>
    <script type="text/javascript"><!--
      if(document.getElementById('flash<?php echo $language['language_id'];?>').value){

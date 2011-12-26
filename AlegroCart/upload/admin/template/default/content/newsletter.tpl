@@ -20,7 +20,7 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
-<script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
+<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <div id="mail">
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
     <table>
@@ -57,15 +57,5 @@
   </form>
 </div>
     <script type="text/javascript"><!--
-	var sBasePath           = '<?php echo$URL_TPL->get_server().'javascript/fckeditor/'?>';
-	var oFCKeditor          = new FCKeditor('content');
-	oFCKeditor.BasePath = sBasePath;
-	oFCKeditor.Value	= document.getElementById('content').value;
-	oFCKeditor.Width    = '600';
-	oFCKeditor.Height   = '300';
-	oFCKeditor.Config['CustomConfigurationsPath'] = oFCKeditor.BasePath + 'myconfig.js';
-	oFCKeditor.Config['DocType'] = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-	oFCKeditor.Config['SkinPath'] = oFCKeditor.BasePath + 'editor/skins/silver/' ;
-	oFCKeditor.ToolbarSet = 'Custom' ;
-	oFCKeditor.ReplaceTextarea();
-  //--></script>
+	  CKEDITOR.replace( 'content' );
+	//--></script>

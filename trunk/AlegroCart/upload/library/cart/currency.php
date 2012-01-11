@@ -52,16 +52,17 @@ class Currency {
 		}
   	}
 
-	function update_currency($currency){
-		If ($this->currencies[$currency]['date_modified'] < date('Y-m-d H:i:s', time() - 86400) && !$this->currencies[$currency]['lock_rate']){
+	private function update_currency($currency){
+        $currency = preg_replace('#[^a-z]#i', '',$currency);
+		If (isset($this->currencies[$currency]) && $this->currencies[$currency]['date_modified'] < date('Y-m-d H:i:s', time() - 86400) && !$this->currencies[$currency]['lock_rate']){
 			$new_rate = $this->currency_converter(($this->currencies[$this->config->get('config_currency')]['value'] + $this->config->get('config_currency_surcharge')),$this->config->get('config_currency'),$currency);  // Format 1, From, To
 			If ($new_rate > 0){
-				$this->currencies[$currency]['value'] = $new_rate;
-				$this->cache->delete('currency');
-				$this->database->query("update `currency` set value ='".$new_rate."', date_modified = now() where code = '".$currency."'");
-			}			
+			    $this->currencies[$currency]['value'] = $new_rate;
+			    $this->cache->delete('currency');
+			    $this->database->query("update `currency` set value ='".$new_rate."', date_modified = now() where code = '".$currency."'");
+			}         
 		}
-	}
+    }
 	
 	function currency_converter($amount, $from, $to){
 		$this->amount = (float)($amount > 0) ? (float)($amount) : 1;

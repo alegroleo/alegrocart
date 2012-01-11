@@ -11,9 +11,10 @@ class Model_Products extends Model {
 		$this->weight	=& $locator->get('weight');
 		$this->barcode  =& $locator->get('barcode'); 
 		$this->language->load('controller/dimensions.php');
+		$this->url      =& $locator->get('url');
 	}
 	function get_bestseller($bestseller_total){
-		$results = $this->database->getRows("SELECT  order_product.name, SUM(order_product.quantity) as TotalOrdered, product.*, product_description.*, image.* FROM order_product left join product_description on(product_description.name = order_product.name) left join product on(product.product_id = product_description.product_id)  left join image on (product.image_id = image.image_id) where product.status ='1' AND product_description.language_id = '" . (int)$this->language->getId() . "' GROUP BY order_product.name ORDER BY TotalOrdered DESC". $bestseller_total);
+		$results = $this->database->getRows("SELECT product.*, order_product.order_product_id, order_product.order_id, SUM(order_product.quantity) as TotalOrdered, product_description.*, image.* FROM product, order_product, order_history, product_description, image WHERE product.product_id = product_description.product_id AND product_description.name = order_product.name AND product.image_id = image.image_id AND product.status ='1' AND product_description.language_id = '" . (int)$this->language->getId() . "' GROUP BY order_product.name ORDER BY TotalOrdered DESC". $bestseller_total);
 		return $results;
 	}
 	function get_popular($popular_total){
@@ -118,7 +119,7 @@ class Model_Products extends Model {
 	}
 	
 	function get_downloads($product_id){
-		$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and dd.language_id = '" . (int)$this->language->getId() . "'");
+		$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and p2d.free = ' 0 ' and dd.language_id = '" . (int)$this->language->getId() . "'");
 			
 		$download_data = array();
 			
@@ -134,7 +135,38 @@ class Model_Products extends Model {
 		return $download_data;
 	
 	}
+
+	function get_fdownloads($product_id){
+		$fdownloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and p2d.free = ' 1 ' and dd.language_id = '" . (int)$this->language->getId() . "'");
+			
+		$fdownload_data = array();
+			
+		foreach ($fdownloads as $fdownload) {
+				$size = filesize(DIR_DOWNLOAD . $fdownload['filename']);
+				$i = 0;
+				$suffix = array('B','KB','MB','GB','TB','PB','EB','ZB','YB');
+				while (($size / 1024) > 1) {
+					$size = $size / 1024;
+					$i++;
+				}
+        	$fdownload_data[] = array(
+				'download_id' => $fdownload['download_id'],
+				'name'        => $fdownload['name'],
+				'filename'    => $fdownload['filename'],
+				'mask'        => $fdownload['mask'],
+				'size'        => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
+				'href'        => $this->url->ssl('product', 'download', array('product_id' => $fdownload['product_id'],'download_id' => $fdownload['download_id']))
+        	);			
+		}
+		return $fdownload_data;
 	
+	}
+
+	function get_fdownload($product_id, $download_id){
+		$result = $this->database->getRow("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and p2d.free = ' 1 ' and dd.language_id = '" . (int)$this->language->getId() . "' and p2d.download_id = '" . (int)$download_id . "'");
+		return $result;
+	}
+
 	function get_product_with_options($product_id, $image_width = '140', $image_height = '140'){
 		$results = $this->get_product_options($product_id);
 		$product_options = array();

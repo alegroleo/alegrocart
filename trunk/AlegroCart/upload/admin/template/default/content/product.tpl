@@ -337,15 +337,25 @@
       </div>
       <div class="page">
         <div class="pad">
-          <table>
+          <table width="800">
             <tr>
-              <td width="185" valign="top" class="set"><?php echo $entry_download; ?></td>
-              <td><select name="download[]" multiple="multiple" size="5">
+              <td width="185" valign="top" class="set right"><?php echo $entry_download; ?></td>
+              <td><select name="download[]" multiple="multiple" size="10" style="min-width:200px">
                   <?php foreach ($downloads as $download) { ?>
                   <?php if (!$download['product_id']) { ?>
                   <option value="<?php echo $download['download_id']; ?>"><?php echo $download['name']; ?></option>
                   <?php } else { ?>
                   <option value="<?php echo $download['download_id']; ?>" selected><?php echo $download['name']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select></td>
+	      <td width="185" valign="top" class="set right"><?php echo $entry_free_download; ?></td>
+              <td><select name="fdownload[]" multiple="multiple" size="10" style="min-width:200px">
+                  <?php foreach ($fdownloads as $fdownload) { ?>
+                  <?php if (!$fdownload['product_id']) { ?>
+                  <option value="<?php echo $fdownload['download_id']; ?>"><?php echo $fdownload['name']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $fdownload['download_id']; ?>" selected><?php echo $fdownload['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>

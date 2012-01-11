@@ -7,6 +7,7 @@ $_['heading_description'] = 'You can upload and edit images here.';
 $_['text_message']        = 'Success: You have updated images!';
 $_['text_image_filename'] = 'Current Image Filename: ';
 $_['text_browse']         = 'Browse File';
+$_['text_autowm_warning'] = 'Automatic watermark is enabled! To modify its settings or disable it go to Configuration-->Setting-->Display Settings, Image, AddToCart tab-->Watermark tab.';
 
 // Column
 $_['column_title']        = 'Image Title';

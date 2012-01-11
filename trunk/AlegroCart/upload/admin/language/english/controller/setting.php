@@ -127,7 +127,8 @@ $_['entry_guest_checkout']  = 'Enable Guest Checkout';
 $_['entry_vat']             = 'VAT Registration ID:';
 $_['entry_account']         = 'Account Terms:';
 $_['entry_checkout']        = 'Checkout Terms:';
-$_['entry_download']        = 'Allow Download:';
+$_['entry_download']        = 'Allow Payment Required Download:';
+$_['entry_free_download']   = 'Allow Free Download:';
 $_['entry_download_status'] = 'Download Status:';
 $_['entry_email']           = 'E-Mail:';
 $_['entry_email_send']      = 'Send E-Mails:';
@@ -215,6 +216,9 @@ $_['explanation_option_discount'] = 'Enable to include option price in quantity 
 $_['explanation_stock_icon']	  = 'This will display color icon at stock level.';
 $_['explanation_stock_warning']	  = 'If stock quantity is equal to or less than this amount, an orange warning icon will be shown if stock level display image is set.';
 $_['explanation_session_expire']  = 'Time before session is deleted or has timed out in seconds(minimum 1800, default 3600)';
+$_['explanation_pr_download']     = 'You can enable/disable here with one click the whole payment required download process.';
+$_['explanation_pr_download_status']     = 'As soon as you change the order status to this one, customers can download the purchased file(s).';
+$_['explanation_free_download']   = 'You can enable/disable here with one click the whole free download process.';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

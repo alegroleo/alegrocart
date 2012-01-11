@@ -118,7 +118,7 @@
       </tr>
      </table>
    <?php } ?>
-  </div>
+</div>
  </div>
  <div class="clearfix"></div>
 <div class="box">
@@ -143,7 +143,7 @@
   <div class="pages">
     <div class="page">
 	  <div class="pad">
-	    <Div>
+	    <div>
 		  <?php echo $description; ?>
 		</div>
 	  </div>
@@ -198,6 +198,14 @@
 		<?php if($downloads){?>
 		  <?php echo '<br>' . $text_product_download;?>
 		<?php }?>
+		<?php if($fdownloads){?>
+		  <?php echo '<br>' . '<b>'. $text_free_downloads . '</b>';?>
+		<?php foreach ($fdownloads as $fdownload) { ?>
+		<div class="freedl">
+		 <a href="<?php echo $fdownload['href']; ?>"><?php echo $fdownload['name']; ?>&nbsp(<?php echo $fdownload['size']; ?>)</a><br>
+		</div>
+		<?php } ?>
+	      <?php }?>
 		<?php if (isset($manufacturer)) { ?><br>
 		  <?php echo '<b>' . $text_manufacturer . '</b>' . $manufacturer; ?><br>
 		<?php } ?>

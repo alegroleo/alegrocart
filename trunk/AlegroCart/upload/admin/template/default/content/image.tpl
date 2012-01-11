@@ -55,6 +55,9 @@
       <div class="page">
         <div class="pad">
           <table>
+	    <?php if ($wm_active) { ?><tr><td colspan=2>
+		   <b style="color:red;"><?php echo $text_autowm_warning; ?></b> 
+	    </td></tr><?php } ?>
             <tr>
               <td style="width: 100px;" class="set"><?php echo $entry_filename; ?></td>
               <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly">

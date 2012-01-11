@@ -217,7 +217,7 @@ class Model_Core extends Model {
 		return $results;
 	}
 	function get_currencies(){
-		$currencies = $this->database->cache('currency', "select * from currency order by title");
+		$currencies = $this->database->cache('currency', "select * from currency where status = '1' order by title");
 		return $currencies;
 	}
 	function get_homepage(){

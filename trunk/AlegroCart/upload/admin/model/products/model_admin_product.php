@@ -61,8 +61,8 @@ class Model_Admin_Product extends Model {
 	function write_PtoImage($insert_id, $image_id){
 		$this->database->query("insert into product_to_image set product_id = '" . $insert_id . "', image_id = '" . $image_id . "'");
 	}
-	function write_download($insert_id, $download_id){
-		$this->database->query("insert into product_to_download set product_id = '" . $insert_id . "', download_id = '" . $download_id . "'");
+	function write_download($insert_id, $download_id, $free = 0){
+		$this->database->query("insert into product_to_download set product_id = '" . $insert_id . "', download_id = '" . $download_id . "', free = '" . $free . "'");
 	}
 	function write_PtoCategory($insert_id, $category_id){
 		$this->database->query("insert into product_to_category set product_id = '" . $insert_id . "', category_id = '" . $category_id . "'");
@@ -182,8 +182,8 @@ class Model_Admin_Product extends Model {
 		$results = $this->database->getRows("select d.download_id, d.filename, dd.name from download d left join download_description dd on d.download_id = dd.download_id where dd.language_id = '" . (int)$this->language->getId() . "' order by dd.name");
 		return $results;
 	}
-	function get_product_download($download_id){
-		$result = $this->database->getRow("select * from product_to_download where product_id = '" . (int)$this->request->gethtml('product_id') . "' and download_id = '" . (int)$download_id . "'");
+	function get_product_download($download_id, $free = 0){
+		$result = $this->database->getRow("select * from product_to_download where product_id = '" . (int)$this->request->gethtml('product_id') . "' and download_id = '" . (int)$download_id . "' and free = '" . (int)$free . "'");
 		return $result;
 	}
 	function get_categories(){
@@ -267,8 +267,12 @@ class Model_Admin_Product extends Model {
 		return $results;
 	}
 	function check_downloads($product_id){
-		$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and dd.language_id = '" . (int)$this->language->getId() . "'");
+		$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and p2d.free = ' 0 ' and dd.language_id = '" . (int)$this->language->getId() . "'");
 		return $downloads ? TRUE : FALSE;
+	}
+	function check_fdownloads($product_id){
+		$fdownloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and p2d.free = ' 1 ' and dd.language_id = '" . (int)$this->language->getId() . "'");
+		return $fdownloads ? TRUE : FALSE;
 	}
 }
 ?>

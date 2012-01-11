@@ -213,7 +213,11 @@ class ControllerDownload extends Controller {
 
     	$view->set('tab_general', $this->language->get('tab_general'));
     	$view->set('tab_data', $this->language->get('tab_data'));
-    
+        
+	$view->set('explanation_name', $this->language->get('explanation_name'));
+	$view->set('explanation_mask', $this->language->get('explanation_mask'));
+	$view->set('explanation_remaining', $this->language->get('explanation_remaining'));
+
 		$view->set('error', @$this->error['message']);
     	$view->set('error_name', @$this->error['name']);
     	$view->set('error_file', @$this->error['file']);

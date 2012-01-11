@@ -86,7 +86,7 @@ class Cart {
 					$discount_percent = $product_discount['discount'];
 				}
 				      		
-				$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and dd.language_id = '" . (int)$this->language->getId() . "'");
+				$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and p2d.free = ' 0 ' and dd.language_id = '" . (int)$this->language->getId() . "'");
 			
 				$download_data = array();
 			

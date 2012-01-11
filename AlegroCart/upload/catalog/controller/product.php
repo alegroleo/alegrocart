@@ -13,6 +13,7 @@ class ControllerProduct extends Controller {
 		$this->tpl_manager = $this->modelCore->get_tpl_manager('product'); 
 		$this->locations = $this->modelCore->get_tpl_locations();
 		$this->tpl_columns = $this->modelCore->get_columns();
+ 		$this->download 	=& $locator->get('download');
 	}
 	function index() { 
 		$cart     =& $this->locator->get('cart');
@@ -114,7 +115,8 @@ class ControllerProduct extends Controller {
 			$view->set('text_barcode', $language->get('text_barcode'));
 			$view->set('text_stock_icon', $language->get('text_stock_icon'));
 			$view->set('text_barcode_img', $language->get('text_barcode_img'));
-			
+			$view->set('text_free_downloads', $language->get('text_free_downloads'));
+
       		$view->set('button_reviews', $language->get('button_reviews'));
       		$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
 			$view->set('product_number', $language->get('product_number'));
@@ -220,6 +222,9 @@ class ControllerProduct extends Controller {
       		}
 			$downloads = $this->modelProducts->get_downloads($request->gethtml('product_id'));
 			$view->set('downloads', $downloads);
+
+			$this->fdownloads = $this->modelProducts->get_fdownloads($request->gethtml('product_id'));
+			$view->set('fdownloads', $this->fdownloads);
 
 			$days_remaining = ''; //***
 			if($product_info['special_price'] >0 && date('Y-m-d') >= $product_info['sale_start_date'] && date('Y-m-d') <= $product_info['sale_end_date']){
@@ -383,6 +388,18 @@ class ControllerProduct extends Controller {
         		);
       		}
 		return $review_data;
+	}
+
+	function download() {
+	
+		$request  =& $this->locator->get('request');
+
+ 		$fdownload_info = $this->modelProducts->get_fdownload((int)$request->gethtml('product_id'), (int)$request->gethtml('download_id'));	
+ 		if ($fdownload_info) {
+			$this->download->setSource(DIR_DOWNLOAD . $fdownload_info['filename']);
+			$this->download->setFilename($fdownload_info['mask']);
+			$this->download->output(); 			
+ 		} 
 	}
 }
 ?>

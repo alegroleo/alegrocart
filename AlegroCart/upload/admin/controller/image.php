@@ -5,6 +5,7 @@ class ControllerImage extends Controller {
 	var $types=array('jpg','gif','jpeg','png');
   	var $error = array(); 
 	var $wm_method = 'auto';
+	var $wm_active = FALSE;
 
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
@@ -263,6 +264,7 @@ class ControllerImage extends Controller {
 
     	$view->set('text_image_filename', $this->language->get('text_image_filename'));
 	$view->set('text_browse', $this->language->get('text_browse'));
+	$view->set('text_autowm_warning', $this->language->get('text_autowm_warning'));
 
 	$view->set('entry_filename', $this->language->get('entry_filename'));
     	$view->set('entry_title', $this->language->get('entry_title'));
@@ -297,6 +299,11 @@ class ControllerImage extends Controller {
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+	if ($this->watermark->check_status($this->wm_method)) {
+		$this->wm_active = TRUE;
+	}
+	$view->set('wm_active', $this->wm_active);
 
 		$image_data = array();
     	$results = $this->modelImage->get_languages();

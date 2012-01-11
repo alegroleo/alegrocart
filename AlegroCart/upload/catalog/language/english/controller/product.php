@@ -31,10 +31,12 @@ $_['text_shippable']     = 'Shippable';
 $_['text_non_shippable'] = 'Non Shippable';
 $_['text_model_number']  = 'Model Number: ';
 $_['text_downloadable']  = 'Downloadable';
-$_['text_product_download'] = '<b>Downloads</b><br>This product has downloads available.<br>The download links will be emailed when your order is processed or are accessible by logging into your account.<br>';
+$_['text_product_download'] = '<b>Downloads:</b><br>This product has downloads available.<br>The download links will be emailed when your order is processed or are accessible by logging into your account.<br>';
 $_['text_product_detail'] = 'Product Detail : ';
 $_['text_barcode']        = '<b>Barcode : </b>';
 $_['text_barcode_img']	  = 'Barcode';
+$_['text_free_downloads'] = 'Free downloads:';
+
 
 //Tabs
 $_['tab_description']    = 'Product Description';

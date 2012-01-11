@@ -285,6 +285,9 @@ a:hover {
 .breadcrumb a {
 	color: #006699;
 }
+.freedl a {
+	color: #006699;
+}
 .price_old {
 	text-decoration: line-through;
 	text-align: center; /*left; */

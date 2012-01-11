@@ -45,6 +45,9 @@
                       <?php if ($error_name) { ?>
                       <span class="error"><?php echo $error_name; ?></span>
                       <?php } ?></td>
+		    <td class="expl">
+			    <?php echo $explanation_name; ?> 
+		    </td>
                   </tr>
                 </table>
               </div>
@@ -59,13 +62,14 @@
             <tr>
               <td width="185" class="set"><?php echo $entry_filename; ?></td>
                <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly" value="<?php echo $filename;?>">
-	      <div class="file_input_div">
+	      <?php if ($error_file) { ?>
+                <span class="error"><?php echo $error_file; ?></span>
+                <?php } ?>
+	      <td><div class="file_input_div">
 	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
 	      <input type="file" id="download" name="download" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value; set_mask()" />
-	      </div>
-                <?php if ($error_file) { ?>
-                <span class="error"><?php echo $error_file; ?></span>
-                <?php } ?></td>
+	      </div><td>
+                </td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_mask; ?></td>
@@ -73,10 +77,16 @@
                 <?php if ($error_mask) { ?>
                 <span class="error"><?php echo $error_mask; ?></span>
                 <?php } ?></td>
+		<td class="expl">
+		    <?php echo $explanation_mask; ?> 
+		</td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_remaining; ?></td>
               <td><input type="input" id="remaining" name="remaining" value="<?php echo $remaining; ?>" size="6"></td>
+	      <td class="expl">
+		    <?php echo $explanation_remaining; ?> 
+	      </td>
             </tr>
           </table>
         </div>

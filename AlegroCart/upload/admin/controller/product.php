@@ -58,6 +58,9 @@ class ControllerProduct extends Controller {
       		foreach ($this->request->gethtml('download', 'post', array()) as $download_id) {
         		$this->modelProduct->write_download($insert_id, $download_id);
       		}
+		foreach ($this->request->gethtml('fdownload', 'post', array()) as $download_id) {
+        		$this->modelProduct->write_download($insert_id, $download_id, 1);
+      		}
       		foreach ($this->request->gethtml('category', 'post', array()) as $category_id) {
         		$this->modelProduct->write_PtoCategory($insert_id, $category_id);
 				if($url_alias && $url_seo){
@@ -112,6 +115,9 @@ class ControllerProduct extends Controller {
 			$this->modelProduct->delete_download();
       		foreach ($this->request->gethtml('download', 'post', array()) as $download_id) {
         		$this->modelProduct->write_download($this->request->gethtml('product_id'), $download_id);
+      		}
+		foreach ($this->request->gethtml('fdownload', 'post', array()) as $download_id) {
+        		$this->modelProduct->write_download($this->request->gethtml('product_id'), $download_id, 1);
       		}
 			$this->modelProduct->delete_PtoCategory();
       		foreach ($this->request->gethtml('category', 'post', array()) as $category_id) { 
@@ -293,11 +299,13 @@ class ControllerProduct extends Controller {
 				'align' => 'center'
 			);
 			$downloads = $this->modelProduct->check_downloads($result['product_id']);
+			$fdownloads = $this->modelProduct->check_fdownloads($result['product_id']);
 			$featured_special = "";
 			$featured_special .= $result['featured'] ? " F " : "";
 			$featured_special .= $result['special_offer'] ? " S " : "";
 			$featured_special .= $result['related'] ? " R " : "";
-			$featured_special .= $downloads ? " D " : "";
+			$featured_special .= $downloads ? " pD " : "";
+			$featured_special .= $fdownloads ? " fD " : "";
 			$cell[] = array(
 				'value' => $featured_special,
 				'align' => 'center'
@@ -435,6 +443,7 @@ class ControllerProduct extends Controller {
     	$view->set('entry_image', $this->language->get('entry_image'));
     	$view->set('entry_images', $this->language->get('entry_images'));
     	$view->set('entry_download', $this->language->get('entry_download'));
+    	$view->set('entry_free_download', $this->language->get('entry_free_download'));
     	$view->set('entry_category', $this->language->get('entry_category'));
         $view->set('entry_min_qty', $this->language->get('entry_min_qty'));
         $view->set('entry_featured', $this->language->get('entry_featured'));
@@ -903,6 +912,20 @@ class ControllerProduct extends Controller {
     	}
     	$view->set('downloads', $download_data);
 	
+	$fdownload_data = array();
+    	$results = $this->modelProduct->get_downloads();
+    	foreach ($results as $result) {
+			if (($this->request->gethtml('product_id')) && (!$this->request->isPost())) {
+	  			$product_to_download_info = $this->modelProduct->get_product_download($result['download_id'], 1);
+			}
+      		$fdownload_data[] = array(
+        		'download_id' => $result['download_id'],
+        		'name'        => $result['name'],
+        		'product_id'  => (isset($product_to_download_info) ? $product_to_download_info : in_array($result['download_id'], $this->request->gethtml('fdownload', 'post', array())))
+      		);
+    	}
+    	$view->set('fdownloads', $fdownload_data);
+
     	$category_data = array();
     	$results = $this->modelProduct->get_categories();
     	foreach ($results as $result) {

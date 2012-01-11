@@ -174,6 +174,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_compress_output', $this->language->get('entry_compress_output'));
 		$view->set('entry_compress_level', $this->language->get('entry_compress_level'));
 		$view->set('entry_download', $this->language->get('entry_download'));
+		$view->set('entry_free_download', $this->language->get('entry_free_download'));
 		$view->set('entry_download_status', $this->language->get('entry_download_status'));		
 		$view->set('entry_image_resize', $this->language->get('entry_image_resize'));
 		$view->set('entry_image_width', $this->language->get('entry_image_width'));
@@ -243,7 +244,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_session_expire',$this->language->get('entry_session_expire'));
 
  		$view->set('explanation_session_expire',$this->language->get('explanation_session_expire'));
-		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
+ 		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
 		$view->set('explanation_stock_icon',$this->language->get('explanation_stock_icon'));
 		$view->set('explanation_stock_warning',$this->language->get('explanation_stock_warning'));
 		$view->set('explanation_wm_text',$this->language->get('explanation_wm_text'));
@@ -262,6 +263,9 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_wm_image',$this->language->get('explanation_wm_image'));
 		$view->set('explanation_default_weight',$this->language->get('explanation_default_weight'));
 		$view->set('explanation_address',$this->language->get('explanation_address'));
+		$view->set('explanation_pr_download',$this->language->get('explanation_pr_download'));
+		$view->set('explanation_pr_download_status',$this->language->get('explanation_pr_download_status'));
+		$view->set('explanation_free_download',$this->language->get('explanation_free_download'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -589,7 +593,7 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_config_parse_time', @$setting_info['catalog']['config_parse_time']);
 		}
-		
+
 		if ($this->request->has('global_config_session_expire', 'post')) {
 			$view->set('global_config_session_expire', $this->request->gethtml('global_config_session_expire', 'post'));
 		} else {
@@ -1103,7 +1107,11 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_config_download', @$setting_info['catalog']['config_download']);
 		}
-
+		if ($this->request->has('catalog_config_freedownload')) {
+			$view->set('catalog_config_freedownload', $this->request->gethtml('catalog_config_freedownload'));
+		} else {
+			$view->set('catalog_config_freedownload', @$setting_info['catalog']['config_freedownload']);
+		}
 		if ($this->request->has('catalog_config_download_status')) {
 			$view->set('catalog_config_download_status', $this->request->gethtml('catalog_config_download_status'));
 		} else {

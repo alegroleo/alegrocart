@@ -1293,18 +1293,9 @@ INSERT INTO `watermark` (`wm_id`, `wm_method`, `wm_text`, `wm_font`, `wm_fontcol
 #Add Show Remaining Days
 ALTER TABLE `product` ADD `remaining` int(1) NOT NULL default '1' After `sale_start_date`;
 
-#Start of Version 1.2.7 ***********
+#Add free download
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_freedownload';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_freedownload', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
-SET @id=NULL;
-SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_discount_options';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_discount_options', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
-SET @id=NULL;
-SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_show_stock_icon';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_show_stock_icon', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
-SET @id=NULL;
-SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_low_stock_warning';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_low_stock_warning', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
-
-SET @id=NULL;
-SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_session_expire';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_session_expire', '3600') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+ALTER TABLE `product_to_download` ADD `free` INT( 1 ) NOT NULL DEFAULT '0';

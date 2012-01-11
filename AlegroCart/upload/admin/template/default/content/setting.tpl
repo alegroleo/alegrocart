@@ -255,7 +255,6 @@
 			  <td><input type="text" name="global_config_session_expire" value="<?php echo $global_config_session_expire; ?>" size="2"></td>
 			  <td class="expl"><?php echo $explanation_session_expire; ?></td>
 			</tr>
-			
 			<tr>
 			  <td valign="top" class="set"><?php echo $entry_address_format; ?></td>
 			  <td><textarea name="global_config_address_format" cols="50" rows="7"><?php echo $global_config_address_format; ?></textarea>
@@ -441,7 +440,7 @@
                 </select></td>
 				<td class="expl"><?php echo $explanation_default_weight; ?></td>
             </tr>
-		    <tr> <!--  New Weight Decimal Places -->
+		       <tr> <!--  New Weight Decimal Places -->
 			  <td class="set"><?php echo $entry_weight_decimal; ?></td>
 			  <td><input type="text" name="global_config_weight_decimal" value="<?php echo $global_config_weight_decimal; ?>" size="2"></td>
 			  <td class="expl"><?php echo $text_weight_decimal; ?></td>
@@ -1357,6 +1356,9 @@
                 <input type="radio" name="catalog_config_download" value="0" id="ccdno" checked>
                 <label for="ccdno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
+	      <td class="expl">
+		<?php echo $explanation_pr_download; ?> 
+	      </td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_download_status; ?></td>
@@ -1369,6 +1371,27 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+	      <td class="expl">
+		<?php echo $explanation_pr_download_status; ?> 
+	      </td>
+            </tr>
+	    <tr><td colspan="4"><hr></td>
+	    <tr>
+              <td width="185" class="set"><?php echo $entry_free_download; ?></td>
+              <td><?php if ($catalog_config_freedownload) { ?>
+                <input type="radio" name="catalog_config_freedownload" value="1" id="ccfdyes" checked>
+                <label for="ccfdyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_freedownload" value="0" id="ccfdno">
+                <label for="ccfdno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_freedownload" value="1" id="ccfdyes">
+                <label for="ccfdyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_freedownload" value="0" id="ccfdno" checked>
+                <label for="ccfdno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+	      <td class="expl">
+		<?php echo $explanation_free_download; ?> 
+	      </td>
             </tr>
           </table>
         </div>

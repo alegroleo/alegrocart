@@ -69,6 +69,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_image_width', `value` = '" . $this->request->gethtml('global_config_image_width', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_image_height', `value` = '" . $this->request->gethtml('global_config_image_height', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_download', `value` = '" . $this->request->gethtml('catalog_config_download', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_freedownload', `value` = '" . $this->request->gethtml('catalog_config_freedownload', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_download_status', `value` = '" . $this->request->gethtml('catalog_config_download_status', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'product_image_width', `value` = '" . $this->request->gethtml('catalog_product_image_width', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'product_image_height', `value` = '" . $this->request->gethtml('catalog_product_image_height', 'post')  . "'");
@@ -130,6 +131,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_show_stock_icon', `value` = '" . $this->request->gethtml('catalog_config_show_stock_icon', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_low_stock_warning', `value` = '" . $this->request->gethtml('catalog_config_low_stock_warning', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_session_expire', `value` = '" . $this->request->gethtml('global_config_session_expire', 'post')  . "'");
+
 	}
 	function get_settings(){
 		$results = $this->database->getRows("select * from setting where `group` = 'config'");

@@ -116,7 +116,7 @@
   <?php include $shared_path . 'single_column.tpl'; ?>
  <?php } else { ?>
   <?php if($columns > 1){
-   $heading_info = isset($heading_info) ? " - " . $heading_info : "";
+   $heading_info = isset($manufacturer) ? " - " . $manufacturer : "";
    include $shared_path . 'multiple_columns.tpl';
   }?>
  <?php } ?>

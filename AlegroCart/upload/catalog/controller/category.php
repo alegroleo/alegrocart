@@ -62,6 +62,7 @@ class ControllerCategory extends Controller {
 
       	$view->set('button_continue', $language->get('button_continue'));
       	$view->set('continue', $url->href('home'));
+	$view->set('location', 'content');
 
 		if ($category_info) {
 	  		$this->template->set('title', $category_info['name']);

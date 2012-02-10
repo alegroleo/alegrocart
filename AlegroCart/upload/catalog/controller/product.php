@@ -119,7 +119,7 @@ class ControllerProduct extends Controller {
 
       		$view->set('button_reviews', $language->get('button_reviews'));
       		$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
-			$view->set('product_number', $language->get('product_number'));
+// 			$view->set('product_number', $language->get('product_number'));
 			$view->set('quantity_available', $language->get('quantity_available'));
 			$view->set('standard_price', $language->get('standard_price'));
 			$view->set('tab_description', $language->get('tab_description')); 

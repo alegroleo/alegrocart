@@ -114,20 +114,19 @@
           <td><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $text_subtotal; ?></td>
           <td><?php echo $subtotal; ?></td>
         </tr>
-	<tr>
+	<?php if($tax_included){?>
+	  <tr>
 	  <td></td>  
-	  <?php if($tax_included){?>
 	  <td><?php echo $text_net_total;?></td>
 	  <td><?php echo $net_total; ?></td>
-	  <?php } else {?>
-	  <td></td>
 	  <?php } ?>
-	</tr>
-       	<tr>  
-	 <td></td>
-         <?php if ($minov_status) { ?> <td><?php echo $text_min_order_value; ?></td>
-          <td><?php echo $minov_value; ?></td><?php } ?>
-        </tr>
+         <?php if ($minov_status) { ?>
+	    <tr>
+	      <td></td>
+	      <td><?php echo $text_min_order_value; ?></td>
+	      <td><?php echo $minov_value; ?></td>
+	    </tr>
+	 <?php } ?>
 	<tr>
 	  <td></td>
           <td><?php echo $text_cart_weight; ?></td>
@@ -135,9 +134,9 @@
         </tr>
       </table>
     </div>
-	<tr>
+	<table width="100%"><tr>
            <td><span class="tax"><?php echo isset($text_shortfall) ? $text_shortfall : ''; ?></span></td>
-        </tr>
+        </tr></table>
 	<?php if(isset($text_discount_lprice) or isset($text_discount_gprice)){?>
 	  <table width="100%">
 	    <tr>

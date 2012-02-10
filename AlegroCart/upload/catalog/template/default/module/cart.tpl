@@ -4,7 +4,6 @@
 <div id="mini_cart" class="mini_cart">
 <?php }?>
   <div class="headingcolumn" style="cursor: pointer" onclick="ShowCart()"><h1><?php echo $heading_title; ?></h1></div>
-
   <div  class="cart">
     <div id="cart_content" class="cart_content">
     <?php if ($products) { ?>
@@ -18,10 +17,9 @@
       </tr>
       <?php } ?>
     </table>
-    <div class="aa"><?php echo $text_subtotal; ?><?php echo $subtotal; ?></div>
+    <div class="aa"><?php echo $text_subtotal; ?>&nbsp;<?php echo $subtotal; ?></div>
 	</div>
 	<div class="cc"><?php echo $text_products.$product_total;?><div class="dd"><?php echo $text_items.$item_total;?></div></div>
-	
     <div class="bb"><a href="<?php echo $view_cart; ?>"><?php echo $text_view_cart; ?></a></div>
     <?php } else { ?>
     <div class="bb"><?php echo $text_empty; ?></div>
@@ -29,7 +27,6 @@
   </div></div>
   <div class="bottom"></div>
 </div>
-
   <script type="text/javascript"><!--
 $(document).ready(function(){
 	$('#cart_products').hide(0);

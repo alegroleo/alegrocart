@@ -14,7 +14,7 @@ class ModuleFooter extends Controller {
 
 			$view = $this->locator->create('template');
 			$view->set('w3c_status', $this->currentpage($this->modelCore->controller));
-			
+			$view->set('flogo', $config->get('config_footer_logo'));
 			$view->set('footer_logo', $image->href('logo/'.$config->get('config_footer_logo')));
 			$view->set('footer_logo_left', $config->get('footer_logo_left'));
 			$view->set('footer_logo_top', $config->get('footer_logo_top'));
@@ -51,7 +51,7 @@ class ModuleFooter extends Controller {
 			case 'category':
 			case 'product':
 			case 'cart':
-			$w3c_status = true;
+			$w3c_status = false;
 			break;
 		default:
 			$w3c_status = false;

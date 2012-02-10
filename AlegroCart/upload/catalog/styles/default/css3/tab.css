@@ -3,48 +3,37 @@
 	margin: 0px 2px 0px 2px;
 }
 
-.tabs {
+.tab .tabs {
 	padding-left: 2px;
 }
 
 .tabs a, .tabs a:hover.inactive, .tabs a.active {
 	float: left;
-	width: 118px;
-	padding-top: 4px;
-	margin-right: -3px;
+	padding-bottom: 4px;
 	cursor: pointer;
 	position: relative;
 	text-decoration: none;
-	color: #000000;
 	text-align: center;
 }
 
 .tabs a {
-	background: url('../image/tabs/ptab.png') no-repeat; 
 	top: 5px;
 	height: 37px; 
 	left: -1px;
 }
 
 .tabs a:hover.inactive {
-	background: url('../image/tabs/ptab_hover.png') no-repeat;
 	top: 5px;
 	height: 37px; 
 }
 
 .tabs a.active {
-	background: url('../image/tabs/ptab_active.png') no-repeat;
-	height: 40px;  
 	margin-bottom: 2px;
-	top: 3px;
 	left: -2px;
-	z-index: 2;
 }
 
 .tab .pages {
 	clear: both;
-	border-top: 1px solid #919B9C;
-	/* border-left: 1px solid #919B9C; */
 }
 
 .tab .page {
@@ -54,10 +43,8 @@
 
 .tab .pages .page .pad {
 	background-color: #F9F9F9;
-	/* border-top: 1px solid #D5D5D5; */
 	padding: 5px;
 	min-height: 200px;
-	/*_height: 200px; */
 }
 
 .tab .pages .page .minipad {
@@ -65,7 +52,6 @@
 	border: 1px solid #D5D5D5;
 	padding: 5px;
 	min-height: 165px;
- 	/*_height: 165px; */
 }
 
 .rtab {
@@ -85,21 +71,16 @@
 	cursor: pointer;
 	position: relative;
 	font-size: 12px;
-	text-decoration: none;
-	color: #000000;
 	text-align: center;
 }
 
 .rtabs a {
-
 	top: 0px;
 	height: 16px; 
 
  }
 
 .rtabs a:hover.inactive {
-	font-weight: bold;
-	color: #0099CC;
 	top: 0px;
 	height: 16px; 
 }
@@ -108,27 +89,20 @@
 	font-weight: bold;
 	height: 16px;  
 	top: 0px;
-	color: #CC0000;
-	/*z-index: 2;*/
 }
 
 .rtab .rpages {
 	clear: both;
-	/*border-top: 1px solid #919B9C; */
-	/* border-left: 1px solid #919B9C; */
 }
 
 .rtab .rpage {
 	background-color: #FCFCFE;
-	/*padding: 4px 5px 5px 5px; */
 }
 
 .rtab .rpages .rpage .rpad {
 	background-color: #FCFCFE;
-	/* border-top: 1px solid #D5D5D5; */
 	padding: 0px;
 	min-height: 100px;
-	/*_height: 200px; */
 }
 
 .rtab .rpages .rpage .rminipad {
@@ -136,7 +110,6 @@
 	border: 1px solid #D5D5D5;
 	padding: 5px;
 	min-height: 165px;
- 	/*_height: 165px; */
 }
 .tabs .tab_text {
 	padding-top: 8px;

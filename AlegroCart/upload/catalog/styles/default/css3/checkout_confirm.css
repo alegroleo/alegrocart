@@ -1,5 +1,4 @@
 #checkout .a, #checkout .b, #checkout .e {
-  border: 1px solid #EEEEEE;
   margin-bottom: 10px;
   padding: 5px;
 }
@@ -22,27 +21,26 @@
 }
 
 #checkout .f {
-  text-align: right;
+	text-align: right;
 }
 
 #checkout .totals {
 	width: 60px;
 }
-
 #checkout .f table {
 	width: 100%;
 }
 
 #checkout .left {
-  text-align: left;
+	text-align: left;
 }
 
 #checkout .right {
-  text-align: right;
+	text-align: right;
 }
 
 #checkout .center {
-  text-align: center;
+	text-align: center;
 }
 .tax{
 	font-weight: bold;

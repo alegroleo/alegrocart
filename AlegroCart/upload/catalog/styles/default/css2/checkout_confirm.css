@@ -1,5 +1,4 @@
 #checkout .a, #checkout .b, #checkout .e {
-  border: 1px solid #EEEEEE;
   margin-bottom: 10px;
   padding: 5px;
 }
@@ -15,7 +14,6 @@
 
 #checkout .a table, #checkout .c {
   width: 100%;
-
 }
 
 #checkout .c td {
@@ -29,7 +27,6 @@
 #checkout .totals {
 	width: 60px;
 }
-
 #checkout .f table {
 	width: 100%;
 }
@@ -49,7 +46,6 @@
 	font-weight: bold;
 	color: #CC0000;
 }
-
 .checkout_price_old {
 	text-decoration: line-through;
 	text-align: right;

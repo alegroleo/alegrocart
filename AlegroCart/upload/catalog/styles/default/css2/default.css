@@ -9,12 +9,8 @@ body {
 	padding: 0px;
 }
 body, td, th, input, textarea, select, a {
-	font-family: Arial, Verdana, Helvetica, sans-serif;	
+	font-family:  Arial, Verdana, Helvetica, sans-serif;	
 	font-size: 11px;
-	color: #000000;
-}
-b, strong, th {
-	color: #000000;
 }
 form {
 	padding: 0;
@@ -35,7 +31,6 @@ a img {
 }
 a:hover {
 	text-decoration: none;
-	color: #0000FF;
 }
 /* layout */
 #container {
@@ -45,9 +40,7 @@ a:hover {
 	padding-left: 1px;
 }
 #header {
-	height: 110px;
 	clear: both;
-
 }
 #header .a {
 	position: absolute;
@@ -57,28 +50,27 @@ a:hover {
 	width: 14px;
 	height: 8px;
 }
-.rss{
-	width: 36px;
+.rss {
+	width: 46px;
 	height: 24px;
 	position: absolute;
-	top: 5px;
-	left: 20px;
+}
+.rss a {
+	color: #F47B24;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 12px;
+}
+.rss a img {
+	vertical-align: middle;
 }
 #bar {
 	position: absolute;	
-	border-top: 1px; 
-	border-bottom: 1px; 
-	padding: 0px 3px 0px 10px;
-	height: 30px;
-	width: 520px; 
-	top: 80px;
-	left: 210px;
 	white-space: normal;	
 	z-index: 10;	
 }
 #bar .b {
 	position: relative;
-	top: 0px;
 	float: left;
 }
 #bar .b a {
@@ -108,10 +100,10 @@ a:hover {
 	padding-right: 0px; 
 	width: 795px;
 	min-height: 520px;
-
+/* 	height: 100%; */
 }
 #column {
-	width: 194px;
+	width: 195px;
 	margin: 0px 0px 0px 0px;
 	float: left;
 	min-height: 670px;
@@ -120,7 +112,6 @@ a:hover {
 #footer {
 	clear: both;
 	margin-bottom: 1px;
-	min-height: 70px;
 }
 #footer .a {
 	float: left;
@@ -130,7 +121,7 @@ a:hover {
 }
 #footer .b {
 	margin-top: 12px;
-	font-size: 12px;
+	font-size: 11px;
 	font-weight: bold;
 	float: right;
 	color: #000000;
@@ -157,7 +148,6 @@ a:hover {
 	margin-bottom: 5px;
 }
 #time {
-	color: #EEEEEE;
 	text-align: center;
 	clear: both;
 }
@@ -167,14 +157,12 @@ a:hover {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	text-align: center;
 	clear: both;
-	padding-top: 5px;
 	max-width: 100%;
-	height: 28px;
 	margin: 5px 0px 0px 0px;
 	padding-bottom: 5px;
 }
 .heading a{
-	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-family:  Arial, Verdana, Helvetica, sans-serif;
 	font-size: 14px;
 	font-weight: 600;
 }
@@ -189,13 +177,12 @@ a:hover {
 .headingpadded {
 	font-size: 14px;
 	font-weight: 600;
-	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-family:  Arial, Verdana, Helvetica, sans-serif;
 	text-align: center;
 	clear: both;
 	max-width: 795px;
-	height: 25px;
-	padding-top: 5px;
 	margin-top: 5px;
+	padding-left: 5px;
 }
 .headingpadded .center{
 	float: left;
@@ -207,7 +194,6 @@ a:hover {
 	position: relative;
 	top: 0px;
 	float: left;
-
 	padding-left: 5px;
 }
 .headingpadded .right {
@@ -221,16 +207,16 @@ a:hover {
 .module {
 	position: relative;
 	left: 0px;
-    width: 795px;
+	width: 795px;
 	margin-top: 0px;
 	padding-top: 0px;
-	min-height: 160px;
+	min-height: 60px;
 }
 .module_bottom{
 	padding-left: 0px;
 	padding-bottom: 0px;
 	height: 9px;
-    width: 795px;	
+	width: 795px;	
 }
 
 .headingcolumn{
@@ -238,7 +224,6 @@ a:hover {
 	font-size: 14px;
 	font-weight: 600;
 	clear: both;
-	height: 25px;
 	margin-top: 5px;
 	margin-bottom: 0px;
 	text-align: center;	
@@ -266,7 +251,7 @@ a:hover {
 	background-color: #FFB3B5;
 	padding: 3px;
 	display: block;
-	margin: 0px 5px 0px 5px;
+	margin: 0px 5px 5px 5px;
 }
 .message {
 	color: #000000;
@@ -282,39 +267,18 @@ a:hover {
 	color: #999999;
 	margin: 5px 0px 10px 10px;
 }
-.breadcrumb a {
-	color: #006699;
-}
-.freedl a {
-	color: #006699;
-}
-.price_old {
-	text-decoration: line-through;
-	text-align: center; /*left; */
-	font-weight: bold;
-	font-size: 11px;
-}
-.price_new {
-	color: #FF0000;
-	font-size: 11px;
-	text-align: center; /*left; */
-	font-weight: bold;
-}
 .remaining {
 	text-align: center;
-	color: #0000FF;
 	font-size: 11px;
 }
 .price_old .tax{
 	font-weight: bold;
-	color: #CC0000;
 }
 .price_new  .tax{
 	font-weight: bold;
-	color: #000000;
 }
 .column_row{
-    width: 790px;
+	width: 790px;
 	margin-bottom: 2px;
 	clear: both;	
 }
@@ -325,7 +289,6 @@ a:hover {
 	margin-right: 2%;
 	text-align: center;
 	width: 96%;
-	border-bottom: 1px solid #CCCCCC;
 	clear: both;
 }
 .module_content { /* for multi-column display in content*/
@@ -346,37 +309,12 @@ a:hover {
 .module_content .options{
 	text-align: center;
 	font-size: 9px;	
-	padding: 5px 0px;	
+	padding: 0px;	
 }
 .module_content .button{
 	font-size: 9px;
 	font-weight: 500;
-}       
-.enlarge{
-	z-index: 5;
-	position: relative;
-	font-size: 9px;
-	text-align: center; 
-	bottom: 5px;
-	color: #6699CC;
-	font-weight: 100;
-	text-decoration: none;
-}
-.enlarge a{
-	background-color: #EEEEEE;
-	border:1px solid #6699CC;
-	color: #6699CC;
-	text-decoration: none;
-	font-size: 9px;
-	padding: 2px;
-	border-radius: 5px;
-}
-.enlarge a:hover{
-	border: 2px solid #6699CC;
-	color: #99CCFF;
-	padding: 2px;
-	border-radius: 5px;
-}
+}     
 .products, .images, .categories {
 	float: left;
 	width: 32%; 
@@ -387,29 +325,31 @@ a:hover {
 }
 .product_desc{
 	padding: 0px;
-	margin: 0px;
+	margin-top: 10px;
 	min-height: 60px;
+	text-align: left;
 }
-.description{
-  padding: 2px 2px 0px 2px;
+.description {
+        padding: 5px 2px 0px 2px;
+	text-align: center;
+	clear: both;
 }
 .onhand{
 	text-align: center;
 	font-size: 11px;
-	color: #006600;
 	font-weight: bold;
 }
 .onhand2{
 	text-align: left;
 	font-size: 11px;
-	color: #006600;
+	/*color: #006600;*/
 	font-weight: bold;
 	padding: 5px 0px;
 }
 .discount{
 	text-align: left;
 	font-size: 11px;
-	color: #000000;
+	/*color: #000000;*/
 	font-weight: bold;
 	padding: 5px 0px;
 }
@@ -418,14 +358,13 @@ a:hover {
 	font-size: 11px;
 	font-weight: bold;
 	padding: 5px 0px;
-	color: #000000;
+	/*color: #000000;*/
 }
 .available{
 	text-align: left;
 	font-size: 11px;
 	font-weight: bold;
 	padding: 5px 0px;
-	color: #000000;
 }
 .categories a {
 	text-decoration: none;
@@ -433,19 +372,17 @@ a:hover {
 .images a {
 	font-size: 10px;
 }
-
-.images img, .categories img {
+.images img {
 	border: 0px;
 	margin-bottom: 10px;
 }
 .results {
 	clear: both;
-	width: 780px;
+	width: 790px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-left: 5px;
 	margin-right: 5px;	
-	height: 20px;
 }
 .results .left {
 	float: left;
@@ -471,19 +408,14 @@ a:hover {
 	font-size: 14px;
 	color: #FFFFFF;
 	font-weight: 600;
-	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-family:  Arial, Verdana, Helvetica, sans-serif;
 }
 .admin_button:hover{
 	border-bottom: 0px;
 }
 .buttons {
-	border: 0px solid #EEEEEE;
 	margin: 10px 5px 0px 5px;
 	
-}
-.buttons input {
-	height: 20px;
-	margin: 3px;
 }
 .buttons table {
 	width: 780px;
@@ -498,10 +430,6 @@ a:hover {
 /*  language */
 .language {
 	position: relative;
-	top: 40px;
-	float: left;
-	margin-top: 3px;
-	padding-left: 20px;
 }
 
 .language div {
@@ -511,23 +439,14 @@ a:hover {
 .currency {
 	z-index: 10;
 	position: absolute;
-	top: 83px;
-	left: 20px;
-	margin-left: 12px;
-	margin-top: 3px;
-	padding-right: 5px;
 }
 .currency div {
 	display: inline;
 }
 /* search */
 .search {
-	z-index: 10;	
+	z-index: 20;	
 	position: absolute; 
-	right: 10px;
-	top: 83px;
-	padding-right: 30px;
-
 }
 .search div {
 	display: inline;
@@ -546,7 +465,6 @@ a:hover {
 }
 .mini_cart .cart{
 	position: relative;
-	width: 194px;
 	z-index: 15;
 	min-height: 10px;
 	padding: 5px 0px 0px 0px;
@@ -561,15 +479,12 @@ a:hover {
 	margin: 0px ;
 	z-index: 15;
 }
-.mini_cart .cart a:hover {
-	color: #0066FF;
-}
 .mini_cart .cart .cart_content .aa{
 	position: relative;
-	text-align: right;
-	border-top: 0px solid #EEEEEE;
+	text-align: center;
+	border-top: 0px solid #DDDDDD;
 	margin: 0px;
-	padding: 0px 2px 0px 0px;
+	padding: 5px;
 }
 .mini_cart .cart .cart_content .bb {
 	position: relative;
@@ -594,23 +509,16 @@ a:hover {
 /*  information */
 .information{
 	padding: 10px 2px 5px 0px;
-    margin-top: 0px;
-    width: 194px;
+	margin-top: 0px;
+	width: 194px;
 }
 .information .tax{
 	font-weight: bold;
-	color: #CC0000;
 }
 .information a {
-	background: url('../image/bullet_1.png') no-repeat 10px 4px;
-	padding: 0px 0px 0px 25px;
 	display: block;
 	font-weight:500;
 	text-decoration: none;
-}
-.information a:hover{
-	background: url('../image/bullet_2.gif') no-repeat 10px 4px;
-	color: #0000FF;
 }
 /*  review */
 .module_review div {
@@ -618,9 +526,6 @@ a:hover {
 }
 .module_review a {
 	text-decoration: none;
-}
-.module_review img {
-	padding: 3px;
 }
 /* success */
 #success {
@@ -639,10 +544,8 @@ a:hover {
 /* error */
 #error {
 	clear: both;
-	border: 1px solid #EEEEEE;
 	margin: 0px 0px 10px 0px;
 	padding: 8px;
-	
 }
 /* category description */
 #category_description {
@@ -655,7 +558,7 @@ a:hover {
 	min-height: 50px;	
 }
 #category_description .center{
-    width: 790px;
+	width: 790px;
 	padding-top: 0px;
 	margin: 0px 0px 0px 5px;
 }
@@ -672,11 +575,9 @@ a:hover {
 	text-align: center;
 	max-width: 790px;
 	margin: 5px 0px 0px 5px;
-	height: 22px;
-	padding-top: 8px;	
 }
 .contentBody {
-    width: 790px;
+	width: 790px;
 	margin: 0px 0px 0px 5px;
 	min-height: 50px;
 	padding-bottom: 2px;
@@ -710,12 +611,12 @@ a:hover {
 	clear: both;
 }
 .tooltip_white {
-   display:none;
-   background: url('../image/white.png'); 
-   font-size: 10px;
-   height:90px;
-   width:190px;
-   padding: 10px 10px 10px 10px;
-   color:#000000;                           
-   z-index: 1000;
+	display:none;
+	background: url('../image/white.png'); 
+	font-size: 10px;
+	height:90px;
+	width:190px;
+	padding: 10px 10px 10px 10px;
+	color:#000000;                           
+	z-index: 1000;
 }

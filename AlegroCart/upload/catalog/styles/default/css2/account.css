@@ -1,5 +1,4 @@
 #account .b, #account .d {
-	border: 1px solid #EEEEEE;
 	padding: 5px;
 	margin-bottom: 10px;
 }
@@ -7,7 +6,6 @@
 #account .a, #account .c {
 	margin-bottom: 2px;
 	font-weight: bold;
-	color: #000000;
 	display: block;
 	padding: 5px 0px 5px 5px;
 }

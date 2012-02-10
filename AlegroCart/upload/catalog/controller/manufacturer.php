@@ -38,6 +38,7 @@ class ControllerManufacturer extends Controller {
 		$view->set('text_error', $language->get('text_error'));
 		$view->set('button_continue', $language->get('button_continue'));
 		$view->set('continue', $url->href('home'));
+		$view->set('location', 'content');
 
 		$view->set('tax_included', $this->config->get('config_tax'));
 		

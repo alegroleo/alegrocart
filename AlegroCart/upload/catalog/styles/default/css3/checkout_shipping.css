@@ -1,5 +1,4 @@
-#shipping .b, #shipping .d, #shipping .f {
-  border: 1px solid #EEEEEE;
+#shipping .b, #shipping .d {
   padding: 5px;
   margin-bottom: 10px;
 }
@@ -7,12 +6,7 @@
 #shipping .a, #shipping .c, #shipping .e {
   margin-bottom: 2px;
   font-weight: bold;
-  color: #000000;
   padding: 5px 0px 2px 5px;
-}
-
-#shipping .f textarea{
-	width: 99%;
 }
 
 #shipping .d table {
@@ -41,19 +35,19 @@
 }
 
 #shipping .j {
-  margin-bottom: 10px;
-  margin-left: 10%;
-  margin-right: 10%;
-  padding: 5px;
+	margin-bottom: 10px;
+	margin-left: 10%;
+	margin-right: 10%;
+	padding: 5px;
 }
 
 #shipping .j table, #shipping .k {
-  width: 100%;
+	width: 100%;
 
 }
 
 #shipping .k td {
-  vertical-align: middle;
+	vertical-align: middle;
 }
 
 #shipping .l {
@@ -63,9 +57,9 @@
 }
 
 #shipping .left {
-  text-align: left;
+	text-align: left;
 }
 
 #shipping .center {
-  text-align: center;
+	text-align: center;
 }

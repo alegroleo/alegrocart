@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']   = '%s Review by %s';
+$_['heading_title']   = '%s Review';
  
 // Text
 $_['text_enlarge']    = 'Click to enlarge';

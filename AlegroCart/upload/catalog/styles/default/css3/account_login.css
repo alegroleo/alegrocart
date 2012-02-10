@@ -19,7 +19,6 @@
 }
 
 #login .c, #login .i {
-	border: 1px solid #EEEEEE;
 	padding: 10px;
 }
 
@@ -34,9 +33,9 @@
 }
 
 #login .e .x{
-	border-top: 1px solid #EEEEEE;
 	margin-top: 6px;
 	margin-bottom: 6px;
+	padding-top: 6px;
 }
 
 #login .f, #login .l {

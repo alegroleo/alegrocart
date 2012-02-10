@@ -768,6 +768,7 @@
 		    <tr>
 			  <td class="set"><?php echo $entry_footer_logo;?></td>
 		      <td><select id="footer_logo_id" name="catalog_config_footer_logo" onchange="$('#footer_logo_image').load('index.php?controller=setting&action=viewFooterLogo&footer_logo='+this.value);">
+			    <option value="0"><?php echo $text_none; ?></option>
 			    <?php foreach ($logos as $logo){?>
 				  <option value="<?php echo $logo['logo'];?>"<?php if($logo['logo'] == $catalog_config_footer_logo){echo ' selected';}?>><?php echo $logo['logo'];?></option>
 			    <?php }?>

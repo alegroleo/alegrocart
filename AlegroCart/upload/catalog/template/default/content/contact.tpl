@@ -64,7 +64,7 @@
       </table>
  </div>
  <?php if (@$captcha) { ?>
-	<div style="margin: 10px;">
+	<div class="captcha">
 		  <img src="<?php echo $captcha;?>" title="<?php echo $text_captcha;?>" alt="<?php echo $text_captcha;?>"> 
 	  <table>
 		<tr>

@@ -43,13 +43,10 @@
   </a>
  </div>
  <div class="pbox">
-  <div class="pheading">
-   <div class="left"><?php echo $product_number.$heading_title; ?></div>
-  </div>
   <?php if($product['model_number'] || $product_options){?>
     <div class="model_number">
 	  <?php echo $text_model_number;?>
-	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>"><?php echo $product['model_number'];?></span>
+	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $product['model_number'];?></span>
 		<?php if($product_options){?>
 		  <script language="JavaScript">
 			$(document).ready(function(){
@@ -62,18 +59,9 @@
 		<?php }?>
     </div>
   <?php }?>
-  <div>
-   <?php if(isset($alt_description)){ echo $alt_description;} ?>
-  </div>
-  <div class="shipping">
-    <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } elseif(!$downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
-	<?php if ($downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
-	<span><?php echo $text_downloadable;?></span>
-	<?php }?>
-  </div>
   <?php if($show_stock || $show_stock_icon){?>
     <div class="ponhand"><?php echo $quantity_available; ?>
-      <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span>
+      <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $stock_level; ?></span>
 	<?php if($show_stock_icon){?>
 	  <?php if($stock_level > 0 && $stock_level > $low_stock_warning){
 		$icon = $stock_status_g;
@@ -92,6 +80,15 @@
 	<?php }?>
 	</div>
   <?php }?>
+  <div class="adesc">
+   <?php if(isset($alt_description)){ echo $alt_description;} ?>
+  </div>
+  <div class="shipping">
+    <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } elseif(!$downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+	<?php if ($downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+	<span><?php echo $text_downloadable;?></span>
+	<?php }?>
+  </div>
   <?php if($product_options){?>
     <script language="JavaScript">
 	  $(document).ready(function(){
@@ -118,8 +115,21 @@
       </tr>
      </table>
    <?php } ?>
-</div>
+  <div class="addthis">
+  <!-- AddThis Button BEGIN -->
+  <div class="addthis_default_style">
+  <a class="addthis_button_twitter"></a>
+  <a class="addthis_button_facebook"></a>
+  <a class="addthis_button_email"></a>
+  <a class="addthis_button_print"></a>
+  <a class="addthis_button_compact"></a>
+  <a class="addthis_counter addthis_bubble_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>
+  <!-- AddThis Button END -->
+  </div>
  </div>
+</div>
  <div class="clearfix"></div>
 <div class="box">
   <?php if($review_status){
@@ -259,7 +269,7 @@
 		  <div class="clearfix"></div>
 		<?php }?>
 		<?php if ($shipping) { ?><br>
-		  <?php echo '<b>' . $text_shipping_yes . '</b>'; } elseif(!$downloads) { echo '<br><b>' . $text_shipping_no. '</b>'; ?> <br>
+		  <?php echo '<br><b>' . $text_shipping_yes . '</b>'; } elseif(!$downloads) { echo '<br><br><b>' . $text_shipping_no. '</b>'; ?> <br>
 		<?php  } ?>
 	  </div>
 	</div>

@@ -45,7 +45,7 @@
 		  $bullet = 'square';
 		  $margin = ($category['level'] * 4) * 10;
 		}
-		$style="list-style-type: $bullet; margin-left: {$margin}px;";
+		$style="margin-left: {$margin}px;";
 		?>
 		<li style="<?php echo $style?>"><a href="<?php echo $category['href']?>"><?php echo $category['name']?></a></li>
 	<?php } ?>

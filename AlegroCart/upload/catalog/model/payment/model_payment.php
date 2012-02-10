@@ -48,32 +48,32 @@ class Model_Payment extends Model{
 		return $result;
 	}
 	function get_orderstatus_id($status, $language_id){
-		$result = $this->database->getRow("select order_status_id from order_status where name = '" . $status . "' and `language_id` = '" . $language_id . "'");
+		$result = $this->database->getRow("select `order_status_id` from `order_status` where `name` = '" . $status . "' and `language_id` = '" . $language_id . "'");
 		return $result;
 	}
 	function get_order_id($reference){
-		$result = $this->database->getrow("select order_id from order where reference = '" . $reference ."'");
+		$result = $this->database->getrow("select `order_id` from `order` where `reference` = '" . $reference . "'");
 		return $result;
 	}
 	function update_order_status($orderStatusId, $orderReference){
-		$this->database->query("update order set order_status_id = '" . $orderStatusId . "' where reference = '" . $orderReference . "'");
+		$this->database->query("update `order` set `order_status_id` = '" . $orderStatusId . "' where `reference` = '" . $orderReference . "'");
 	}
 	function update_order_status_override($finalStatusId,$reference){
-		$result = $this->database->countAffected($this->database->query("update order set order_status_id = '" . $finalStatusId . "' where reference = '" . $reference . "'"));
+		$result = $this->database->countAffected($this->database->query("update `order` set `order_status_id` = '" . $finalStatusId . "' where `reference` = '" . $reference . "'"));
 		return $result;
 	}
 	function update_order_status_paidunconfirmed($finalStatusId, $reference, $paidUnconfirmedStatusId){
-		$result = $this->database->countAffected($this->database->query("update order set order_status_id = '" . $finalStatusId . "' where reference = '" . $reference . "' and order_status_id = '" . $paidUnconfirmedStatusId . "'"));
+		$result = $this->database->countAffected($this->database->query("update `order` set `order_status_id` = '" . $finalStatusId . "' where `reference` = '" . $reference . "' and order_status_id = '" . $paidUnconfirmedStatusId . "'"));
 		return $result;
 	}
 	function update_order_history($order_id, $finalStatusId,$comment){
-		$this->database->query("insert into order_history set order_id = '" . $order_id . "', order_status_id = '" . $finalStatusId . "', date_added = now(), notify = '0', comment = '" . $comment . "'");
+		$this->database->query("insert into `order_history` set `order_id` = '" . $order_id . "', `order_status_id` = '" . $finalStatusId . "', `date_added` = now(), `notify` = '0', `comment` = '" . $comment . "'");
 	}
 	function delete_order_google($orderReference){
-		$this->database->query("delete from order_google where order_reference = '" . $orderReference . "'");
+		$this->database->query("delete from `order_google` where `order_reference` = '" . $orderReference . "'");
 	}
 	function insert_order_google($orderReference, $orderNumber, $orderTotal){
-		$this->database->query("insert into order_google set order_reference = '" . $orderReference . "', order_number = '" . $orderNumber . "', total = '" . $orderTotal . "'");
+		$this->database->query("insert into `order_google` set `order_reference` = '" . $orderReference . "', `order_number` = '" . $orderNumber . "', total = '" . $orderTotal . "'");
 	}
 	function get_google_order($orderNumber){
 		$result = $this->database->getRow("select order_reference, total from order_google where order_number = '" . $orderNumber . "'");

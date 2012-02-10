@@ -27,11 +27,11 @@
 			break;
 	  }?> 
   </div>
-  <div class="ptext"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></b><br>
+    <div class="ptext"><b style="text-transform:uppercase;"><a href="<?php echo $product['href']; ?>" style="font-family:Arial, Verdana, Helvetica, sans-serif;"><?php echo $product['name']; ?></a></b><br>
   <?php if($product['model_number'] || $product['product_options']){?>
     <div class="model_number">
 	  <?php echo $text_model_number;?>
-	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>"><?php echo $product['model_number'];?></span>
+	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $product['model_number'];?></span>
 		<?php if($product['product_options']){?>
 		  <script language="JavaScript">
 			$(document).ready(function(){
@@ -44,26 +44,25 @@
 		<?php }?>
     </div>
   <?php }?>
-   <?php echo $product['description']; ?><br>
-   
-   <?php if ($product['product_discounts']){?>
+<br><?php echo $product['description']; ?>
+ <?php if ($product['product_discounts']){?>
     <?php if($discount_options && $product['product_options']){?>
 	  <script language="JavaScript">
 		$(document).ready(function(){
 		  UpdateDiscounts(<?php echo "'" . $this_controller . "'," . $product['product_id'] . ",". $decimal_place . ",'" . $decimal_point . "'";?>,0);
 		});
 	  </script>
-	  <input id="<?php echo $this_controller.'_discounts_'.$product['product_id'];?>" hidden="hidden" value="<?php echo count($product['product_discounts']);?>">
+	  <input id="<?php echo $this_controller.'_discounts_'.$product['product_id'];?>" type="hidden" value="<?php echo count($product['product_discounts']);?>">
 	<?php }?>
-	<?php echo "<div><div class=\"discount\">".$text_quantity_discount.":</div>&nbsp;";
+	<?php echo "<div><div class=\"discount\">".$text_quantity_discount.":</div>";
 	foreach($product['product_discounts'] as $key => $product_discount){
-	 echo "&nbsp;(".$product_discount['discount_quantity'].")&nbsp;-".$symbol_left.'<span id="'. $this_controller.'_discount_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_amount']."</span>" .$symbol_right."(".'<span id="'. $this_controller.'_percent_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_percent']."</span>%)&nbsp;";
+	 echo "&nbsp;(".$product_discount['discount_quantity'].")&nbsp;-".$symbol_left.'<span id="'. $this_controller.'_discount_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_amount']."</span>" .$symbol_right."&nbsp;(".'<span id="'. $this_controller.'_percent_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_percent']."</span>%)<br>";
 	}
 	echo "</div>";
     }?>
     <?php if($show_stock || $show_stock_icon){?>
       <div class="onhand2"><?php echo $onhand; ?>
-	    <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
+	    <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $product['stock_level']; ?></span>
 	    <?php if($show_stock_icon){?>
 		  <?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
 		    $icon = $stock_status_g;
@@ -75,7 +74,7 @@
 	    <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 		<?php }?>
      </div>
-   <?php }?>
+   <?php }?>  
    <?php if($product['product_options']){?>
     <script language="JavaScript">
 	  $(document).ready(function(){
@@ -86,9 +85,6 @@
 	  <input type="hidden" id="<?php echo $this_controller . '_stock_level_' . $product_option['product_option'];?>" value="<?php echo $product_option['quantity'];?>">
 	<?php }?>
   <?php }?>  
-   
-   
-   
    <?php include $shared_path . 'product_price.tpl' ;?>
    <?php if ($addtocart) { ?>
   <?php if ($product['options']){

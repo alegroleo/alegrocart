@@ -30,7 +30,7 @@ if (isset($products)) {
   if($columns > 1){
     include $shared_path . 'multiple_columns.tpl';
   } else {
-	echo '<div class="heading"><h1>' . $heading_title . $heading_info . '</h1></div>';
+	echo '<div class="heading">' . $heading_title . $heading_info . '</div>';
     include $shared_path . 'single_column.tpl';
   }
   

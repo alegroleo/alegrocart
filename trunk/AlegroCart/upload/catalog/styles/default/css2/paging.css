@@ -1,11 +1,8 @@
 /*pagination*/
 .pagination{
-	margin-top: 2px;
 	position: relative;
-	margin-bottom: 2px;
 	left: 0px;
-	width: 780px;
-	text-align: center;
+	width: 790px;
 	font-size: 11px;
 	min-height:18px;
 	vertical-align: middle;	
@@ -18,26 +15,16 @@
 .pagination a {
 	font-weight: 500;
 	font-size: 11px;
-	color: #000000;
-	text-decoration: none;
 }
 .pagination .prev_next {
-	color: #000000;
 }
 .pagination .prev_next:hover {
-	color: #0000FF;
-	background-color: #FFFFFF;	
 }
 .pagination .num {
-	color: #000000;
-	font-weight: bold;
 }
 .pagination .num_active{
-	color: #0000FF;
 	font-weight: bold;
+
 }
 .pagination .num:hover{
-	color: #336699;
-	font-weight: bold;
-	background-color: #FFFFFF;	
 }

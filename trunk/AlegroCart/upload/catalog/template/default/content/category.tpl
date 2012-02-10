@@ -35,7 +35,7 @@
 ?>
 
 <?php if ($description) { ?>
-<div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
+<div class="headingbody"><?php echo $heading_title; ?></div>
 <div id="category_description">
   <div class="center">
     <div class="text"><?php echo $description; ?></div>
@@ -43,7 +43,7 @@
   <div class="bottom"></div>
 </div>
 <?php } else { ?>
-<div class="heading"><h1><?php echo $heading_title; ?></h1></div>
+<div class="heading"><?php echo $heading_title; ?></div>
 <?php } ?>
 <?php if ($categories) { ?>
   <div class="contentBodyTop"></div>
@@ -80,7 +80,7 @@
 <?php } ?>
 <?php if ($products) { ?>
 <?php if ($categories) { ?>
-<div class="heading"><h1><?php echo $text_product; ?></h1></div>
+<div class="heading"><?php echo $text_product; ?></div>
 <?php } ?>
 <!-- Start of Product ****************************** -->
  <?php if($columns == 1){ ?> <!-- Single column display -->

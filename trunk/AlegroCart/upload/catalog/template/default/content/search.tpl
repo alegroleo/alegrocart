@@ -71,6 +71,12 @@
     </div> 
   </form></div>
   <div class="contentBodyBottom"></div>
+  <?php if($columns == 1) { ?>
+    <div class="e">
+      <?php $heading_info = isset($heading_info) ? " - " . $heading_info : " - ".$text_search;?>
+      <?php echo $heading_title .$heading_info;?> 
+    </div>
+  <?php }?>
   <?php if (isset($products)) { //<!-- Start of Product  -->?>
   <?php if($columns == 1){ //<!-- Single column display -->?> 
    <?php include $shared_path . 'single_column.tpl'; ?>

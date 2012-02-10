@@ -1,8 +1,7 @@
 .productcat{
 	width: 100%;
 	border: 0px solid #000000;
-	margin: 0px 0px 0px 0px;	
-	min-height: 185px;
+	min-height: 195px;
 }
 .productcat_top{
 	width: 590px;
@@ -11,8 +10,6 @@
 }
 .productcat_bottom{
 	height: 9px;
-	margin: 0px 0px 0px 0px;
-	margin-bottom: 5px;
 }
 .productcat .pimage{
 	position: absolute;
@@ -35,7 +32,7 @@
 .productcat .add{
 	position: relative;
 	left: 0px;
-	padding-left: 12px;
+	padding-left: 30px;
 	padding-top: 5px;
 	bottom: 5px;
 }
@@ -45,7 +42,8 @@
 }
 .productcat .price_old {
 	text-align: left;
-	font-size: 11px;
+	font-size: 18px;
+/* 	margin-top: 5px; */
 }
 .productcat .price_new {
 	text-align: left;
@@ -53,7 +51,6 @@
 }
 .productcat .remaining {
 	text-align: left;
-	color: #0000FF;
 	font-size: 11px;
 }
 .button{
@@ -63,7 +60,7 @@
 	color: #CC0000;
 }
 .category_row{
-    width: 100%;
+	width: 100%;
 	min-height: 220px;
 	margin-bottom: 2px;
 	clear: both;	

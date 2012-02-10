@@ -52,6 +52,7 @@ class ControllerSearch extends Controller {
     	$view->set('button_search', $language->get('button_search'));
     
     	$view->set('action', $url->href('search', 'search_page'));
+	$view->set('location', 'content');
 
 		// Set Session Variables for options
 		if ($session->get('search.columns')){

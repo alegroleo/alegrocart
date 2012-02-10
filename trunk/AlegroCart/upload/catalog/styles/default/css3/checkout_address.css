@@ -1,12 +1,10 @@
 #checkout_address .a, #checkout_address .c {
 	margin-bottom: 2px;
 	font-weight: bold;
-	color: #000000;
 	padding: 5px 0px 2px 5px;
 } 
 
 #checkout_address .b, #checkout_address .d {
-	border: 1px solid #EEEEEE;
 	padding: 5px;
 	margin-bottom: 10px;
 }

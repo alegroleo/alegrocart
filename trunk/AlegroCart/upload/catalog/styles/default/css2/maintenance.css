@@ -119,9 +119,8 @@ h1 {
 	font-family: Arial, Verdana, Helvetica,_sans-serif;
 }
 #maintenance .b {
-  border: 0px solid #000000;
-  padding: 25px;
-  margin-bottom: 10px;
+	padding: 25px;
+	margin-bottom: 10px;
 }
 .headingpadded {
 	font-size: 14px;
@@ -136,7 +135,7 @@ h1 {
 }
 .module {
 	left: 0px;
-    width: 795px;
+	width: 795px;
 	margin-top: 0px;
 	padding-top: 0px;
 	min-height: 160px;/* Should set min height to allow some overflow */
@@ -145,5 +144,5 @@ h1 {
 	padding-left: 0px;
 	padding-bottom: 0px;
 	height: 9px;
-    width: 795px;	
+	width: 795px;	
 }

@@ -73,10 +73,10 @@ $_['text_upm']				= 'PM';
 
 // Entry
 $_['entry_page']            = 'Result Pages:';
-$_['previous_page']			= ' Previous ';
+$_['previous_page']			= 'Previous ';
 $_['first_page']            = ' First ';
 $_['last_page']             = ' Last ';
-$_['next_page']				= ' Next';
+$_['next_page']				= 'Next';
 $_['onhand']				= 'Stock: ';
 $_['options_text']			= 'Product Options Available<br>Add From Product Page';
 $_['regular_price']			= 'Regular Price: ';

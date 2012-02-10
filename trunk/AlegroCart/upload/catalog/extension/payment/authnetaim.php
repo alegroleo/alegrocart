@@ -65,7 +65,7 @@ class PaymentAuthNetAim extends Payment {
   	function fields() {
         $output = '';
         if ($this->config->get('authnetaim_test')) { $output .= '<div class="warning">' . $this->language->get('text_testmode') . '</div>'; }
-        $output .= '<div class="cc_form" style="border: 3px solid #0099FF; border-radius: 10px ; margin-bottom: 10px; padding: 2px; background-color: #EEEEEE;">'; 
+        $output .= '<div class="cc_form" style="border: 3px solid #C1002B; border-radius: 10px ; margin-bottom: 10px; padding: 2px; background-color: #EEEEEE; margin-top: 10px;">'; 
         $output .= '<font size="2pt"><strong>' . $this->language->get('text_creditcard') . '</strong></font>' . "\n";
         $output .= '<table>' . "\n";
         //$ouput .= '<tr><td>' . $this->language->get('entry_creditcard_type') . '</td><td><select name="creditcard_type"><option value="none"></option><option value="visa">'. $this->language->get('text_visa') . '</option><option value="mastercard">' . $this->language->get('text_mastercard') . '</option></select></td></tr>' . "\n";

@@ -16,3 +16,12 @@
 	float: right;
 	width: 45%;
 }
+
+#sitemap .a li {
+	z-index: 0;
+	padding: 1px;
+}
+#sitemap .b li {
+	z-index: 0;
+	padding: 1px;
+}

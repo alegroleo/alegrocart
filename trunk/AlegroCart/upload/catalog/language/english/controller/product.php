@@ -4,7 +4,6 @@ $_['text_options']       = 'Available Options:';
 $_['text_images']        = 'Additional Images';
 $_['text_error']         = 'Product not found!';
 $_['text_min_qty']       = 'Minimum Order Quantity for this product is: ';
-$_['product_number']     = 'Product Number: ';
 $_['quantity_available'] = 'Quantity Available: ';
 $_['standard_price']     = 'Price: ';
 $_['text_manufacturer']  = 'Manufacturer: ';

@@ -2,9 +2,11 @@
 	<?php if ($product['options']) { ?>
     <div class="product_options" id="<?php echo $this_controller.'_options_'.$product['product_id']; ?>" >
 	  <?php $options_price = array(); ?>
+    <?php $lines = 1; ?>
         <b><?php echo $text_options; ?></b>
 <?php if(!isset($weight_decimal)){$weight_decimal = $decimal_place;}?>
 	      <?php foreach ($product['options'] as $key => $option) { ?>
+	  <?php $lines = $lines+1; ?>
           <table><tr>	  
             <td rowspan="<?php echo count($option['value']);?>" style="min-width: 60px;"> <?php echo $option['name']; ?></td>
               <?php foreach ($option['value'] as $price_key => $option_value) { ?>
@@ -29,7 +31,7 @@
 				</td></tr>
               <?php } ?>
 			  </table>
-			  <div class="divider"></div>
+			  <?php if ($lines%2==0) { ?><div class="divider"></div><?php } ?>
           <?php } ?>
     </div>
 	<div>

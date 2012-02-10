@@ -1,4 +1,4 @@
-/* HomePage CSS2*/
+/* HomePage CSS3*/
 .homepage{
 	width: 795px;
 	min-height: 100px;
@@ -6,7 +6,6 @@
 .flash{
 	width: 100%;
 	text-align: center;
-	/*margin-left: 2px;*/
 }
 .home_image{
 	width: 95%;

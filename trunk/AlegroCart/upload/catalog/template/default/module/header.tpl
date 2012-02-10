@@ -2,5 +2,5 @@
 <img src="<?php echo $store_logo;?>" alt="<?php echo $store;?>">
 </div>
 <?php if(isset($rss_link)){?>
-<div class="rss"><a href="<?php echo $rss_link;?>"><img src="<?php echo $rss_image;?>" alt="RSS Feeds"></a></div>
+<div class="rss"><a href="<?php echo $rss_link;?>">RSS<img src="<?php echo $rss_image;?>" alt="RSS Feeds"></a></div>
 <?php }?>

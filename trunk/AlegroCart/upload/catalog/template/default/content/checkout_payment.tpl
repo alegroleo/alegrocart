@@ -33,7 +33,7 @@
 	    <?php if ($method['id'] == $default) { ?>
 		  <table style="border: 3px solid #0099FF; border-radius: 10px ;">
 		<?php } else {?>
-		  <table style="border: 1px solid #EEEEEE; border-radius: 10px ;">
+		  <table style="border: 3px solid #DDDDDD; border-radius: 10px ;">
 		<?php }?>
             <tr>
               <td class="i" colspan="2"><label for="<?php echo $method['id']; ?>">

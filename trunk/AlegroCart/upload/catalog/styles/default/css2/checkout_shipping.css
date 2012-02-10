@@ -1,5 +1,4 @@
-#shipping .b, #shipping .d, #shipping .f {
-  border: 1px solid #EEEEEE;
+#shipping .b, #shipping .d {
   padding: 5px;
   margin-bottom: 10px;
 }
@@ -7,7 +6,6 @@
 #shipping .a, #shipping .c, #shipping .e {
   margin-bottom: 2px;
   font-weight: bold;
-  color: #000000;
   padding: 5px 0px 2px 5px;
 }
 
@@ -65,4 +63,3 @@
 #shipping .center {
   text-align: center;
 }
-

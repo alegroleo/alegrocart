@@ -51,6 +51,18 @@
   </div>
   <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
   <?php echo $product['description']; ?><br></div>
+
+  <?php include $shared_path . 'product_price.tpl';?>
+  <?php if ($add_enable && $addtocart) { ?>
+   <?php $option = $product['options'];				
+   If ($option == TRUE) {?>
+	<div class="options"><a href="<?php echo $product['href']; ?>">
+	<?php echo $options_text; ?></a></div>
+   <?php } else { ?>
+	<?php include $shared_path . 'add_to_cart.tpl';?>
+   <?php }?>
+  <?php }?>
+
   <?php if(($show_stock  || $show_stock_icon ) && !$product['options']){?>
     <div class="onhand">
 	  <?php echo $onhand.($show_stock ? $product['stock_level'] : ''); ?>
@@ -66,16 +78,7 @@
 	  <?php }?>
 	</div>
   <?php }?>
-  <?php include $shared_path . 'product_price.tpl';?>
-  <?php if ($add_enable && $addtocart) { ?>
-   <?php $option = $product['options'];				
-   If ($option == TRUE) {?>
-	<div class="options"><a href="<?php echo $product['href']; ?>">
-	<?php echo $options_text; ?></a></div>
-   <?php } else { ?>
-	<?php include $shared_path . 'add_to_cart.tpl';?>
-   <?php }?>
-  <?php }?>
+
   <?php if(($key + 1) < count($products)){
    echo "<div class=\"divider\"></div>";} ?>
   <?php } ?>

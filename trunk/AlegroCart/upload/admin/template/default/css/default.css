@@ -24,6 +24,7 @@ select, textarea, input {
 	color: #000000;
 	border: 1px solid #999999;
 	background-color: #FFFFFF;
+	padding: 3px;
 }
 
 .submit {
@@ -65,6 +66,10 @@ a:visited {
 	color: #FFFFFF;
 	margin: 12px 25px 0px 0px;
 	float: right;
+}
+
+#header .language input {
+	padding: 0px;
 }
 
 .task {

@@ -17,7 +17,6 @@
 #review .b a {
 	font-weight: bold;
 	text-decoration: underline;
-	color: #000000;
 }
 
 #review .c {
@@ -27,7 +26,6 @@
 }
 
 #review table {
-	border: 1px solid #EEEEEE;
 	width: 580px;
 	margin-bottom: 10px;
 	clear: both;
@@ -53,7 +51,7 @@
 /* review write */
 #review_write {
 	margin-left: 10px;
-	padding-top: 5px;
+	padding-top: 50px;
 }
 #review_write .a {
 	float: right;
@@ -63,18 +61,22 @@
 	cursor: pointer;
 }
 
-#review_write .e span {
-	color: #0099FF;
+#review_write .e .bad {
+	color: #C1002B;
 	text-transform: uppercase;
 	font-weight: bold;
 	padding-bottom: 10px;
 }
-
+#review_write .e .good {
+	color: #339900;
+	text-transform: uppercase;
+	font-weight: bold;
+	padding-bottom: 10px;
+}
 #review_write .d {
 	margin-bottom: 10px;
 }
 
 #review_write .d span {
-	color: #FF0000;
 	font-weight: bold;
 }

@@ -30,7 +30,7 @@
     <table class="e">
     <?php for ($i=1; $i<5; $i++) { ?>
       <tr><td><b><?php echo ${'entry_rating'.$i}; ?></b>&nbsp;</td>
-        <td><span><?php echo $entry_bad; ?></span>&nbsp;<?php if (${'rating'.$i} == 1) { ?>
+        <td><span class="bad"><?php echo $entry_bad; ?></span>&nbsp;<?php if (${'rating'.$i} == 1) { ?>
         <input type="radio" name="rating<?php echo $i; ?>" value="1" CHECKED>
         <?php } else { ?>
         <input type="radio" name="rating<?php echo $i; ?>" value="1">
@@ -59,7 +59,7 @@
         <?php } else { ?>
         <input type="radio" name="rating<?php echo $i; ?>" value="5">
         <?php } ?>
-        &nbsp; <span><?php echo $entry_good; ?></span></td></tr>
+        &nbsp; <span class="good"><?php echo $entry_good; ?></span></td></tr>
     <?php } ?></table>
     </div>
   </div>

@@ -1,4 +1,4 @@
-<div class="headingpadded"><h1><?php echo $heading_title . $heading_info; ?></h1></div>
+<div class="headingpadded"><?php echo $heading_title . $heading_info; ?></div>
  <div class="module">
   <?php $column_count=0;
    if (!$columns){
@@ -6,7 +6,7 @@
 	$column_width = (int)(100-$columns)/$columns;
 	if ($columns > 3){
 	 $font_size = 9;
-	 $button_font = 9;
+	 $button_font =11;
 	 $min_height = 220;
 	} else {
 	 $font_size = 10;
@@ -51,9 +51,19 @@
     <div class="product_desc"<?php if($columns == 3){?> style="min-height: 50px;"<?php }?>>
       <?php echo "<span style=\"font-size: ".$font_size."px\">" . $product['description'] . "</span>"; ?>
 	</div></div>
+	<?php include $shared_path . 'product_price.tpl';?>
+	<?php if ($addtocart) { ?>
+	 <?php $option = $product['options'];
+	 If ($option == TRUE) {?>
+	  <div class="options"><a href="<?php echo $product['href']; ?>">
+	  <?php echo "<span style=\"font-size: ".$font_size."px\">" . $options_text . "</span>"; ?></a></div>
+	 <?php } else { ?>
+	  <?php include $shared_path . 'add_to_cart.tpl';?>
+	 <?php } ?>
+	<?php } ?>
 	<?php if(($show_stock  || $show_stock_icon )&& !$product['options']){?>
-		<div class="onhand">
-		  <?php echo $onhand.($show_stock ? $product['stock_level'] : ''); ?>
+		<div class="onhand"><?php echo $onhand; ?>
+	    <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $product['stock_level']; ?></span>
 		  <?php if($show_stock_icon){?>
 		    <?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
 		      $icon = $stock_status_g;
@@ -68,16 +78,6 @@
 	<?php } else if($show_stock && $product['options']){?>
 	  <br>
 	<?php }?>
-	<?php include $shared_path . 'product_price.tpl';?>
-	<?php if ($addtocart) { ?>
-	 <?php $option = $product['options'];
-	 If ($option == TRUE) {?>
-	  <div class="options"><a href="<?php echo $product['href']; ?>">
-	  <?php echo "<span style=\"font-size: ".$font_size."px\">" . $options_text . "</span>"; ?></a></div>
-	 <?php } else { ?>
-	  <?php include $shared_path . 'add_to_cart.tpl';?>
-	 <?php } ?>
-	<?php } ?>
    </div>
    <?php If($column_count == $columns){
 	echo "</div>";

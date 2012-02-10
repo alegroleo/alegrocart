@@ -4,9 +4,10 @@
 }
 
 #contact .a {
-	border: 1px solid #EEEEEE;
+	border: 1px solid #DDDDDD;
 	padding: 5px;
 	min-height: 50px; 
+	border-radius: 5px;
 }
 
 #contact > .a  {
@@ -29,7 +30,6 @@
 
 #contact .d {
 	margin-top: 10px;
-	border: 1px solid #EEEEEE;
 	padding: 5px; 
 	clear: both; 
 }

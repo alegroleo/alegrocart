@@ -21,7 +21,7 @@
 	    <input type="hidden" name="default_order" value="<?php echo $default_order; ?>"><?php echo "\n";}?>
 	  <?php if (isset($default_filter)){?>
 	    <input type="hidden" name="default_filter" value="<?php echo $default_filter; ?>"><?php echo "\n";}?>
-      <input type="submit" value="<?php echo $button_search; ?>">
+     <button class="searchbt" name="submit" type="submit"></button>
     </div>
   </form>
 </div>

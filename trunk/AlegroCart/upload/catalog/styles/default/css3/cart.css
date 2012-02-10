@@ -63,6 +63,7 @@
 	right: 0px;
 	text-align: right;
 	clear: both;
+	float: right;
 }
 
 #cart .n table {
@@ -83,7 +84,7 @@
 #cart .right{
 	text-align: right;
 }
-.tax{
+#cart .tax{
 	font-weight: bold;
 	color: #CC0000;
 }

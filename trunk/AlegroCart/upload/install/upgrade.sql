@@ -1044,11 +1044,11 @@ CREATE TABLE IF NOT EXISTS `product_options` (
 # Add selectable Logo
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_store_logo';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_store_logo', 'aclogo.png') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_store_logo', 'shoppingcart2.png') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_left';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_left', '273') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_left', '385') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_top';
@@ -1056,7 +1056,7 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_width';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_width', '460') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_width', '230') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_height';
@@ -1131,23 +1131,23 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 # Footer Logo
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_footer_logo';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_footer_logo', 'YourSSL-115x65.gif') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_footer_logo', 'paypal-visa-mastercard.png') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'footer_logo_left';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_left', '430') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_left', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'footer_logo_top';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_top', '2') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_top', '15') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'footer_logo_width';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_width', '115') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_width', '170') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'footer_logo_height';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_height', '65') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'footer_logo_height', '30') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 # Add Guest Checkout
 ALTER TABLE `customer`
@@ -1286,12 +1286,28 @@ CREATE TABLE IF NOT EXISTS `watermark`(
 
 # data for table `watermark`
 INSERT INTO `watermark` (`wm_id`, `wm_method`, `wm_text`, `wm_font`, `wm_fontcolor`, `wm_transparency`, `wm_thposition`, `wm_tvposition`, `wm_thmargin`, `wm_tvmargin`, `wm_image`, `wm_ihposition`, `wm_ivposition`, `wm_ihmargin`, `wm_ivmargin`, `wm_scale`) VALUES
-(NULL, 'auto', 'Alegrocart TEST auto watermark', 5, 'CCCCCC', 80, 'CENTER', 'TOP', 10, 15, 'ac_logo.png', 'RIGHT', 'BOTTOM', 12, 21, 50),
+(NULL, 'auto', '', 5, 'CCCCCC', 80, 'CENTER', 'TOP', 10, 15, '0', 'RIGHT', 'BOTTOM', 12, 21, 50),
 (NULL, 'manual', 'Alegrocart TEST manual watermark', 4, '000000', 70, 'CENTER', 'TOP', 15, 25, 'ac_logo.png', 'RIGHT', 'BOTTOM', 15, 25, 60)
  ON DUPLICATE KEY UPDATE wm_id=wm_id;
 
 #Add Show Remaining Days
 ALTER TABLE `product` ADD `remaining` int(1) NOT NULL default '1' After `sale_start_date`;
+
+#Start of Version 1.2.7 ***********
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_discount_options';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_discount_options', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_show_stock_icon';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_show_stock_icon', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_low_stock_warning';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_low_stock_warning', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_session_expire';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_session_expire', '3600') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 #Add free download
 SET @id=NULL;

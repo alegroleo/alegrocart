@@ -44,7 +44,7 @@ a:hover {
 	position: relative;
 	margin: 0 auto;
 	padding-left: 1px;
-	border: 1px solid #EEEEEE;
+	border: 1px solid #DDDDDD;
 }
 #header {
 	min-height: 80px;
@@ -178,7 +178,7 @@ a:hover {
 	padding-left: 0px;
 	padding-bottom: 0px;
 	height: 9px;
-    width: 795px;	
+	width: 795px;	
 }
 .error {
 	color: #FF0000;
@@ -281,7 +281,7 @@ a:hover {
 	text-align: center; 
 	font-size: 10px; 
 	min-height: 220px;
-    padding-bottom: 2px;
+	padding-bottom: 2px;
 }
 .product_desc{
 	padding: 0px;

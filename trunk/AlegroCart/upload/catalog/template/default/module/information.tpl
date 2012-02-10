@@ -23,7 +23,7 @@
 </div>
 <div class="columnBottom"></div>
 <?php } else {?>
-<div class="information" style="background: none; width: 640px; margin-left: 200px;">
+<div class="information" style="background: none; width: 850px; margin-left: 200px; letter-spacing: 2px; border:none;">
 
 <?php foreach ($information as $info) { ?>
 <a style="float: left; background: none;" href="<?php echo $info['href']; ?>"><?php echo $info['title']; ?></a>

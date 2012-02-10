@@ -28,7 +28,7 @@ class ControllerReviewInfo extends Controller {
 		$review_info = $this->modelReview->getRow_review($request->gethtml('review_id'));
     	
 		if ($review_info) {
-	  		$this->template->set('title', $language->get('heading_title', $review_info['name'], $review_info['author']));
+	  		$this->template->set('title', $language->get('heading_title', $review_info['name']));
  
       		$view = $this->locator->create('template');
       		$view->set('heading_title', $language->get('heading_title', $review_info['name'], $review_info['author']));

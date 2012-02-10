@@ -16,9 +16,11 @@
 </div>
 <div class="module">
 <div id="review_info">
+ <div class="left">
   <p><b><?php echo $text_author; ?></b> <?php echo $author; ?></p><br>
   <p><b><?php echo $text_date_added; ?> </b> <?php echo $date_added; ?></p><br>
   <p><b><?php echo $text_rating; ?></b></p><br>
+ </div>
 <div class="a"><a href="<?php echo $href; ?>"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
 <div class="enlarge"><a class="thickbox" href="<?php echo $popup; ?>"><?php echo $text_enlarge; ?></a></div></a>
 </div>

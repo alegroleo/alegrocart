@@ -7,7 +7,6 @@
 }
 #product .a {
 	float: left;
-	margin-left: 5px;
 	font-size: 10px;
 	text-align: center;
 	cursor: pointer;
@@ -34,7 +33,6 @@
 
 .review .a {
 	clear: both;
-	/*border: 1px solid #EEEEEE; 	*/
 	background-color: #FCFCFE;
 }
 
@@ -67,7 +65,7 @@
 }
 
 .pbox{
-	top: 20px;
+	top: 10px;
 	position:relative;
 	float: right;
 	vertical-align: top;	
@@ -91,9 +89,8 @@
 .ponhand{
 	text-align: left;
 	font-size: 11px;
-	padding-top: 5px;
-	padding-bottom: 2px;
-	color: #006600;
+	padding-top: 0px;
+	padding-bottom: 5px;
 	font-weight: bold;
 }
 .pbox .price_regular {
@@ -106,17 +103,17 @@
 .pbox .price_old{
 	padding-bottom: 3px;
 	text-align: left;
-	font-size: 11px;
+	font-size: 18px;
 }
 .pbox .price_new{
 	padding-bottom: 5px;
 	text-align: left;
+	padding-top: 5px;
 }
 .pheading {
 	font-size: 12px;
 	font-weight: 600;
 	font-family:  Arial, Verdana, Helvetica, sans-serif;
-	color: #000000;
 	padding-bottom: 2px;
 	clear: both;
 	margin-bottom: 5px;	
@@ -136,7 +133,6 @@
 	text-align: left;
 	padding-bottom: 5px;
 	font-weight: bold;
-	color: #0000FF;
 }
 .product_total input{
 	text-align: left;
@@ -148,9 +144,10 @@
 }
 .pbox .shipping{
 	height: 36px;
+	display: inline;
 }
 .pbox .shipping img{
-	padding-left: 10px;
+	padding-left: 18px;
 }
 .pbox .shipping  span{
 	position: relative;

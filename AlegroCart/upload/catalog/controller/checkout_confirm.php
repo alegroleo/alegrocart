@@ -397,6 +397,24 @@ class ControllerCheckoutConfirm extends Controller {
 			$email->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
 		}
 
+		if ($this->session->get('payment_method') == 'banktr') {
+
+			$email->set('email_banktr_message', $this->language->get('email_banktr_message', $this->order->getReference()));
+			$email->set('banktr_address', str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('banktr_bank_name')));
+			$email->set('email_banktr_bank_name', $this->language->get('email_banktr_bank_name'));
+			$email->set('email_banktr_owner_name', $this->language->get('email_banktr_owner_name'));
+			$email->set('banktr_owner', $this->config->get('banktr_owner'));
+			
+			$email->set('same_country', $this->customer->country_compare($this->session->get('payment_address_id')));
+			
+			$email->set('email_banktr_ban', $this->language->get('email_banktr_ban'));
+			$email->set('banktr_ban', $this->config->get('banktr_ban'));
+			$email->set('email_banktr_iban', $this->language->get('email_banktr_iban'));
+			$email->set('email_banktr_swift', $this->language->get('email_banktr_swift'));
+			$email->set('banktr_iban', $this->config->get('banktr_iban'));
+			$email->set('banktr_swift', $this->config->get('banktr_swift'));
+		}
+
 		$email->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
 		$email->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));
 		$email->set('payment_method', $this->payment->getTitle($this->session->get('payment_method')));

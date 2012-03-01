@@ -194,6 +194,8 @@ class ControllerCart extends Controller {
                     
       		}
 			
+			$view->set('discount_status', $this->config->get('discount_status'));
+
 			$discount_lprice = $this->config->get('discount_lprice');
 			$discount_gprice = $this->config->get('discount_gprice');
 			if ($discount_lprice != 0 && $discount_lprice > $net_total){

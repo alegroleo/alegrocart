@@ -51,3 +51,4 @@ if (!function_exists('htmlspecialchars_decode')) {
         return php_compat_htmlspecialchars_decode($string, $quote_style);
     }
 }
+?>

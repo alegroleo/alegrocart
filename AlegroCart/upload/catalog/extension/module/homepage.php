@@ -33,6 +33,8 @@ class ModuleHomePage extends Controller {
 				$run_homepage = TRUE;
 			}
 			If($run_homepage != TRUE){return;}
+		} else {
+		   return;
 		}	
 
 		$language->load('extension/module/homepage.php');

@@ -43,3 +43,4 @@ if (!function_exists('sys_get_temp_dir')) {
         return php_compat_sys_get_temp_dir();
     }
 }
+?>

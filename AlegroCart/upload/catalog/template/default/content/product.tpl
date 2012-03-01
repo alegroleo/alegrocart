@@ -208,7 +208,8 @@
 		<?php if($downloads){?>
 		  <?php echo '<br>' . $text_product_download;?>
 		<?php }?>
-		<?php if($fdownloads){?>
+
+		<?php if($fdownloads && $freedownload){?>
 		  <?php echo '<br>' . '<b>'. $text_free_downloads . '</b>';?>
 		<?php foreach ($fdownloads as $fdownload) { ?>
 		<div class="freedl">
@@ -216,6 +217,7 @@
 		</div>
 		<?php } ?>
 	      <?php }?>
+
 		<?php if (isset($manufacturer)) { ?><br>
 		  <?php echo '<b>' . $text_manufacturer . '</b>' . $manufacturer; ?><br>
 		<?php } ?>

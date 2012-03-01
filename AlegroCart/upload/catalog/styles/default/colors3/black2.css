@@ -27,6 +27,9 @@ b, strong, th {
 	background-color: rgba(0,0,0,0.7) !important;
 	background-color: rgb(68,68,68);
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #bar .b {
 	top: 3px;
@@ -116,6 +119,9 @@ b, strong, th {
 	border-left: 1px solid #444444;
 	border-right: 1px solid #444444;
 	border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	-khtml-border-radius: 5px 5px 0 0;
 	color: #FFFFFF; /* Font Color*/
 	background-color: rgba(0,0,0,0.7) !important;
 	background-color: rgb(68,68,68);
@@ -146,6 +152,9 @@ b, strong, th {
 	color: #FFFFFF;
 	background-color: #C1002B;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	border: none;
 	font-weight: bold;
 	height: 25px;
@@ -155,6 +164,9 @@ b, strong, th {
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
 	border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	-khtml-border-radius: 0 0 5px 5px;
 }
 .mini_cart{
 	position: relative; 
@@ -169,6 +181,9 @@ b, strong, th {
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
 	border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	-khtml-border-radius: 0 0 5px 5px;
 }
 .information{
 	 border-left: 1px solid #DDDDDD;
@@ -201,6 +216,9 @@ b, strong, th {
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
 	border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	-khtml-border-radius: 5px 5px 0 0;
 }
 .productcat{
 	border-left: 1px solid #DDDDDD;
@@ -212,6 +230,9 @@ b, strong, th {
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
 	border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	-khtml-border-radius: 0 0 5px 5px;
 }
 .productcat .pimage a img{
 	border: 1px solid #EEEEEE;
@@ -231,6 +252,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .productcat .add select {
@@ -249,6 +273,9 @@ b, strong, th {
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
 	border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	-khtml-border-radius: 0 0 5px 5px;
 }
 .display_options input {
 	border: 1px solid #DDDDDD;
@@ -267,6 +294,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .display_options tr, td input{
@@ -310,6 +340,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .manufacturer_filter .lowerright .data select {
@@ -419,6 +452,9 @@ b, strong, th {
 	border: 1px solid #DDDDDD;
 	height: 35px;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #address .c input {
 	height: 25px;
@@ -428,6 +464,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #account a {
@@ -436,10 +475,16 @@ b, strong, th {
 #account .b, #account .d {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #address .c, #address .f {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 } 
 #address .f input {
 	border: 1px solid #DDDDDD;
@@ -454,6 +499,9 @@ b, strong, th {
 #create .b, #create .d, #create .f {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 } 
 #create .b input, #create .d input, #create .f input{
 	border: 1px solid #DDDDDD;
@@ -479,10 +527,16 @@ b, strong, th {
 #download .d {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #edit .b {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #edit .b input {
 	border: 1px solid #DDDDDD;
@@ -491,6 +545,9 @@ b, strong, th {
 #forgotten .b {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #forgotten .b input {
 	border: 1px solid #DDDDDD;
@@ -499,6 +556,9 @@ b, strong, th {
 #history .d {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #history .d input {
 	height: 25px;
@@ -508,6 +568,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #invoice .a, #invoice .b, #invoice .e {
@@ -516,6 +579,9 @@ b, strong, th {
 #login .c, #login .i {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 	padding-bottom: 18px;
 }
 #login .e .x{
@@ -531,6 +597,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 	height: 25px;
 } 
@@ -540,10 +609,16 @@ b, strong, th {
 #newsletter .b {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 } 
 #password .b {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 } 
 #password .b input {
 	border: 1px solid #DDDDDD;
@@ -581,6 +656,9 @@ b, strong, th {
 #checkout .a, #checkout .b, #checkout .e {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #checkout .a a {
 	color: #339900;
@@ -597,16 +675,25 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #payment .b, #payment .d, #payment .f {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #payment .h textarea{
 	width: 100%;
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
  	margin-bottom: 10px; 
 }
 #payment .b input {
@@ -617,16 +704,25 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #shipping .b, #shipping .d {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #shipping .f textarea{
 	width: 100%;
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 	margin-bottom: 10px; 
 }
 #shipping .b input {
@@ -637,15 +733,24 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #contact .a {
 	border: 1px solid #DDDDDD; 
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #contact .d {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #contact .d input {
 	border: 1px solid #DDDDDD;
@@ -654,6 +759,9 @@ b, strong, th {
 #contact .d table textarea {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #contact .captcha {
 	margin: 10px;
@@ -694,6 +802,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #product .pbox .add select {
@@ -717,10 +828,16 @@ b, strong, th {
 #review_write #c textarea {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #search .b .c {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #search .b .c input {
 	border: 1px solid #DDDDDD;
@@ -734,6 +851,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #search .d {
@@ -784,6 +904,9 @@ b, strong, th {
 	color: #FFFFFF;
 	background-color: #C1002B;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	border: none;
 	font-weight: bold;
 	height: 25px;
@@ -805,12 +928,15 @@ b, strong, th {
 .search input {
 	border: 1px solid #FFFFFF;
 	padding: 3px 3px 2px 3px;
-	font-weight: bold;
+	font-weight: normal;
 	color: #333333;
 	background-color: #FFFFFF;
 	height: 18px;
 	float: left;
 	border-radius: 5px 0px 0px 5px;
+	-webkit-border-radius: 5px 0px 0px 5px;
+	-moz-border-radius: 5px 0px 0px 5px;
+	-khtml-border-radius: 5px 0px 0px 5px;
 }
 .search .searchbt {
 	background: url('../image/search.png') no-repeat scroll 0 0 transparent;
@@ -819,6 +945,9 @@ b, strong, th {
 	width: 24px;
 	border-style: none;
 	border-radius: 0px 5px 5px 0px;
+	-webkit-border-radius: 0px 5px 5px 0px;
+	-moz-border-radius: 0px 5px 5px 0px;
+	-khtml-border-radius: 0px 5px 5px 0px;
 }
 .taxE {
 	font-weight: bold;
@@ -883,6 +1012,9 @@ b, strong, th {
 #review table {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 #review_write .d span {
 	color: #C1002B;
@@ -986,6 +1118,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .buttons input[type="button"] {
@@ -996,6 +1131,9 @@ b, strong, th {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .language {
@@ -1035,4 +1173,21 @@ b, strong, th {
 #error {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+}
+.method {
+	border: 3px solid #DDDDDD; 
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+}
+.default_method {
+	border: 3px solid #0099FF; 
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
 }

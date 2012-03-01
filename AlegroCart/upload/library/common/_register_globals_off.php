@@ -29,3 +29,4 @@ if (ini_get('register_globals')) {
     // Register the change
     ini_set('register_globals', 'off');
 }
+?>

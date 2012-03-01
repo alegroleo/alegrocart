@@ -87,5 +87,15 @@ class Customer {
   	function getNewsLetter() {
 		return (isset($this->data['newsletter']) ? $this->data['newsletter'] : NULL);	
   	}
+
+	function get_address($address_id){
+	        $result = $this->database->getRow("select country_id from address where address_id = '" . (int)$address_id . "'");
+	        return $result;
+	}
+
+	function country_compare($address_id) {
+	        $customer_country_id = $this->get_address($address_id);
+		return ($customer_country_id['country_id'] == $this->config->get('config_country_id') ? TRUE : FALSE);
+	}
 }
 ?>

@@ -137,7 +137,7 @@
 	<table width="100%"><tr>
            <td><span class="tax"><?php echo isset($text_shortfall) ? $text_shortfall : ''; ?></span></td>
         </tr></table>
-	<?php if(isset($text_discount_lprice) or isset($text_discount_gprice)){?>
+	<?php if ($discount_status) {?>
 	  <table width="100%">
 	    <tr>
 		  <?php if(isset($text_discount_lprice)){?>
@@ -149,7 +149,7 @@
 		    <td><?php echo $text_discount_gprice;?></td>
 		  <?php }?>
 		</tr>
-	  </table>
+	  </table> 
 	<?php }?>
 	
 	  <table width="100%">

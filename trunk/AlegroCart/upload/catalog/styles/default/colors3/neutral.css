@@ -482,12 +482,18 @@ a:hover {
 	font-size: 9px;
 	padding: 2px;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 .enlarge a:hover{
 	border: 2px solid #6699CC;
 	color: #99CCFF;
 	padding: 2px;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 .onhand{
 	color: #006600;
@@ -550,4 +556,18 @@ a:hover {
 }
 #error {
 	border: 1px solid #EEEEEE;
+}
+.method {
+	border: 3px solid #DDDDDD; 
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+}
+.default_method {
+	border: 3px solid #0099FF; 
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
 }

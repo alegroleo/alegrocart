@@ -229,7 +229,7 @@ class ControllerProduct extends Controller {
 			$days_remaining = ''; //***
 			if($product_info['special_price'] >0 && date('Y-m-d') >= $product_info['sale_start_date'] && date('Y-m-d') <= $product_info['sale_end_date']){
 			    $number_days = intval((strtotime($product_info['sale_end_date']) - time())/86400);
-			    $days_remaining = $language->get('days_remaining', ($number_days ? $number_days : 1)); //***** 
+			    $days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1)); //***** 
 				$view->set('sale_start',$dates->getDate($language->get('date_format_short'), strtotime($product_info['sale_start_date'])));
 				$view->set('sale_end', $dates->getDate($language->get('date_format_short'), strtotime($product_info['sale_end_date'])));
 			}
@@ -287,7 +287,7 @@ class ControllerProduct extends Controller {
 			$view->set('this_controller', 'product');	
 			$this->template->set('head_def',$head_def);
 			$this->has_related = $product_info['related'];
-			
+			$view->set('freedownload',$this->config->get('config_freedownload'));
 	  		$this->template->set('content', $view->fetch('content/product.tpl'));
 			
     	} else {

@@ -195,8 +195,8 @@ class ControllerSearch extends Controller {
         		foreach ($results as $result) {
 					$days_remaining = ''; //***
 					if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
-					    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400);
-					    $days_remaining = $language->get('days_remaining', ($number_days ? $number_days : 1)); //*****  
+					    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400);  
+					    $days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1)); //***** 
 					}
 					// Product Discounts
 					$discounts = $this->modelProducts->get_product_discount($result['product_id']);

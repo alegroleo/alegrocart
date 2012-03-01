@@ -13,7 +13,7 @@ body, td, th, input, textarea, select {
 #checkout {
 	width: 800px;
 }
-#checkout .a, #checkout .b, #checkout .e {
+#checkout .a, #checkout .b, #checkout .e, #checkout .g {
 	border: 1px solid #EEEEEE;
 	margin-bottom: 10px;
 	padding: 5px;
@@ -247,6 +247,19 @@ body, td, th, input, textarea, select {
       <table><tr><td><?php echo '<span class="tax">* </span>' . $text_tax;?></td></tr></table>
     </div>
   </div>
+<?php if ($email_banktr_message) { ?>
+<div class="g">
+    <?php echo $email_banktr_message; ?><br><br>
+    <b><?php echo $email_banktr_owner_name; ?></b><?php echo $banktr_owner; ?><br>
+    	<?php if ($same_country) { ?>
+	    <b><?php echo $email_banktr_ban; ?></b><?php echo $banktr_ban; ?><br>
+	<?php } else { ?>
+	    <b><?php echo $email_banktr_iban; ?></b><?php echo $banktr_iban; ?><br>
+	    <b><?php echo $email_banktr_swift; ?></b><?php echo $banktr_swift; ?><br>
+	<?php } ?>
+    <b><?php echo $email_banktr_bank_name; ?></b><br><?php echo $banktr_address; ?><br>
+</div>
+<?php } ?>
   <?php if ($comment) { ?>
   <div class="d"><b><?php echo $email_comment; ?></b></div>
   <div class="e"><?php echo $comment; ?></div>

@@ -127,6 +127,8 @@ a:hover {
 	color: #000000;
 	text-align: right;
 	padding-right: 10px;
+	position: relative;
+	z-index: 1;
 }
 #footer .b a {
 	color: #0000FF;
@@ -430,6 +432,7 @@ a:hover {
 /*  language */
 .language {
 	position: relative;
+	z-index: 1;
 }
 
 .language div {

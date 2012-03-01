@@ -61,6 +61,8 @@ class Request {
 		return (isset($_SERVER['HTTPS']))?true:false;
 	}
 	function sanitizer($searchstring){
+		$searchstring = trim($searchstring);
+		$searchstring = str_replace("&", "&amp;", $searchstring);
 		$searchstring = preg_replace('/javascript/i', '', $searchstring );
 		$searchstring = preg_replace('~(\r\n|\r|\n|%0a|%0d|%0D|%0A|http://|ftp://|%|www.)~','', $searchstring);
 		$str = preg_replace ( '/\s*=\s*/', '=', $searchstring );

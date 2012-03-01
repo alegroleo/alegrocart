@@ -106,6 +106,9 @@ a:hover {
 	color: #FFFFFF;
 	background-color: #0099FF;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	border: none;
 	font-weight: bold;
 	height: 25px;
@@ -114,6 +117,9 @@ a:hover {
 	color: #FFFFFF;
 	background-color: #0099FF;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	border: none;
 	font-weight: bold;
 	height: 25px;
@@ -172,6 +178,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .productcat_bottom{
@@ -189,6 +198,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .display_optionsBottom{
@@ -214,6 +226,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .category {
@@ -317,6 +332,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #create .b, #create .d, #create .f {
@@ -342,6 +360,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #invoice .a, #invoice .b, #invoice .e {
@@ -359,6 +380,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 	height: 25px;
 }
@@ -385,6 +409,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #payment .b, #payment .d, #payment .f, #payment .h {
@@ -396,7 +423,7 @@ a:hover {
 	border: 1px solid #EEEEEE;
 	width: 99%;
 }
-#payment input {
+#payment .b input {
 	height: 25px;
 	margin: 3px;
 	color: #FFFFFF;
@@ -404,6 +431,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #shipping .b, #shipping .d, #shipping .f {
@@ -415,7 +445,7 @@ a:hover {
 	border: 1px solid #EEEEEE;
 	width: 99%;
 }
-#shipping input {
+#shipping .b input {
 	height: 25px;
 	margin: 3px;
 	color: #FFFFFF;
@@ -423,6 +453,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #contact .a {
@@ -496,6 +529,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #review table {
@@ -515,6 +551,9 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 #search .d {
@@ -603,12 +642,18 @@ a:hover {
 	font-size: 9px;
 	padding: 2px;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 .enlarge a:hover{
 	border: 2px solid #6699CC;
 	color: #99CCFF;
 	padding: 2px;
 	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 .onhand{
 	color: #006600;
@@ -623,7 +668,7 @@ a:hover {
 .buttons {
 	border: 0px solid #EEEEEE;
 }
-.buttons input {
+.buttons input[type="submit"] {
 	height: 25px;
 	margin: 3px;
 	color: #FFFFFF;
@@ -631,6 +676,22 @@ a:hover {
 	border: none;
 	padding: 3px;
 	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	font-weight: bold;
+}
+.buttons input[type="button"] {
+	height: 25px;
+	margin: 3px;
+	color: #FFFFFF;
+	background-color: #0099FF;
+	border: none;
+	padding: 3px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
 .language {
@@ -677,4 +738,18 @@ a:hover {
 }
 #error {
 	border: 1px solid #EEEEEE;
+}
+.method {
+	border: 3px solid #DDDDDD; 
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+}
+.default_method {
+	border: 3px solid #0099FF; 
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
 }

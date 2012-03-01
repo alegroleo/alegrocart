@@ -35,7 +35,7 @@
    echo '<div class="homepage_desc">';
   echo $description . '</div>';
 }?>
+<?php }?>
 </div>
 <div class="module_bottom"></div>
-<?php }?>
 </div>

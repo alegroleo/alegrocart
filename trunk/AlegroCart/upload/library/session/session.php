@@ -102,11 +102,11 @@ class Session {
 	}
 	
 	private function close_connection(){
-		setcookie('alegro_sid','', time() - 86400 * 2);
-		setcookie('currency','', time() - 86400 * 2);
-		setcookie('catalog_language','', time() - 86400 * 2);
-		setcookie('admin_language','', time() - 86400 * 2);
-		setcookie('alegro',time() - 86400 * 2);
+		setcookie('alegro_sid','', time() - 86400 * 2,'/');
+		setcookie('currency','', time() - 86400 * 2, '/');
+		setcookie('catalog_language','', time() - 86400 * 2,'/');
+		setcookie('admin_language','', time() - 86400 * 2,'/');
+		setcookie('alegro','',time() - 86400 * 2,'/');
 		header("Connection: close\r\n");
 		header("Content-Encoding: none\r\n");
 		$error_response = "Invalid Request!" . "\n";

@@ -71,7 +71,13 @@ $_['email_message']          = 'Thank you for your interest in %s Products. Your
                                'Date Ordered: %s' . "\n\n" .
                                'The comments for your order are:' . "\n\n" . '%s' . "\n\n" .
                                'Please reply to this email if you have any questions.' . "\n\n";
-							   
+$_['email_banktr_message']   = 'We will ship goods only after payment is received. It takes from 2 to 4 days to see your transfer depending on the bank. You can send us the receipt of bank transfer for more efficient tracking. Please ensure that payment is equal to the invoice total on the store site. You must refer to this order-id %s when making the bank transfer to our account:';
+$_['email_banktr_bank_name'] = 'Bank Name and Address:';
+$_['email_banktr_owner_name']= 'Account Owner\'s Name: ';
+$_['email_banktr_ban']       = 'Bank Account Number: ';
+$_['email_banktr_iban']      = 'International Bank Account Number: ';
+$_['email_banktr_swift']     = 'BIC/SWIFT code: ';
+					   
 $_['error_coupon']           = 'Error: Coupon is either invalid, expired or reached its usage limit!';	
 $_['error_product']          = 'Error: You don\'t have any products in your shopping cart that this coupon can be used with!';			
 ?>

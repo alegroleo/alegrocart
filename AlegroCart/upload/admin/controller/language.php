@@ -34,6 +34,22 @@ class ControllerLanguage extends Controller {
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$this->modelLanguage->insert_language();
+
+			$this->modelLanguage->duplicate_category_description();
+			$this->modelLanguage->duplicate_coupon_description();
+			$this->modelLanguage->duplicate_dimension();
+			$this->modelLanguage->duplicate_download_description();
+			$this->modelLanguage->duplicate_extension_description();
+			$this->modelLanguage->duplicate_home_description();
+			$this->modelLanguage->duplicate_image_description();
+			$this->modelLanguage->duplicate_image_display_description();
+			$this->modelLanguage->duplicate_information_description();
+			$this->modelLanguage->duplicate_option();
+			$this->modelLanguage->duplicate_option_value();
+			$this->modelLanguage->duplicate_order_status();
+			$this->modelLanguage->duplicate_product_description();
+			$this->modelLanguage->duplicate_weight_class();
+
 			$this->cache->delete('language');
 			$this->session->set('message', $this->language->get('text_message'));
 

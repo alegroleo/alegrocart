@@ -27,10 +27,11 @@ class Router {
 			$base=(strpos($path, '.php') !== FALSE)?$_SERVER['SCRIPT_NAME']:dirname($_SERVER['SCRIPT_NAME']);
 	        if (strlen($base) > 1) $path=substr($path, strlen($base));
         }
-		//Remove the ? from the query string
+		//Remove the ? from the query string %013
 		$path=trim($path, '?');
 		if(strstr($path,'http')){$path = substr($path,0,strpos($path, 'http'));} // Remove bogus urls from query string
-		$path = preg_replace('~(../|\r\n|\r|\n)~','',$path);
+		//$path = preg_replace('~(../|\r\n|\r|\n)~','',$path);
+		$path = str_replace('../','',$path);
 		if (substr($path,0,1) == '/') {
 			//Remove query string, we don't need it for routing
 			$query_string=parse_url($path,PHP_URL_QUERY);

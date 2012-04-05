@@ -1,0 +1,145 @@
+#invoice {
+	margin-top: 0px;
+	margin-left: 0px;
+}
+
+#invoice .a, #invoice .b, #invoice .e {
+	border: 1px solid #48C4DB;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+#invoice .a td {
+	width: 33.3%;
+	vertical-align: top;
+}
+
+#invoice .d {
+	padding-bottom: 3px;
+}
+ 
+#invoice .a table, #invoice .c {
+	width: 100%;
+}
+
+#invoice .c td {
+	vertical-align: top;
+}
+
+#invoice .f, #invoice .f table {
+	width: 100%;
+	text-align: right;
+}
+#invoice .f td{
+	width: 80px;
+}
+
+#invoice .left {
+	text-align: left;
+}
+
+#invoice .right {
+	text-align: right;
+}
+
+#invoice .center {
+	text-align: center;
+}
+
+#invoice .g, #invoice .h {
+	width: 100%;
+}
+
+.invoice_price_old {
+	text-decoration: line-through;
+	text-align: right;
+	font-weight: 200;
+	font-size: 10px;
+}
+
+.invoice_price_new {
+	color: #FF0000;
+	font-size: 10px;
+	text-align: right;
+	font-weight: 200;
+	padding-left: 0px;
+}
+.tax{
+	font-weight: bold;
+	color: #CC0000;
+}
+
+#create{
+	margin-top: 0px;
+	margin-left: 0px;
+	width: auto;
+}
+#create .a input{
+	border: 0px;
+	background-color: #F9F9F9;
+}
+
+#create .a, #create .b, #create .e {
+	border: 1px solid #48C4DB;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+#create .a td {
+	width: 33.3%;
+	vertical-align: top;
+}
+
+#create .d {
+	padding-bottom: 3px;
+}
+ 
+#create .a table, #create .c {
+	width: 100%;
+}
+
+#create .c td {
+	vertical-align: top;
+}
+
+#create .f, #create .f table {
+	width: 100%;
+	text-align: right;
+}
+#create .f td{
+	width: 80px;
+}
+
+#create .left {
+	text-align: left;
+}
+
+#create .right {
+	text-align: right;
+}
+
+#create .center {
+	text-align: center;
+}
+
+#create .g, #create .h {
+	width: 100%;
+}
+.create_price_old {
+	text-decoration: line-through;
+	text-align: right;
+	font-weight: 200;
+	font-size: 10px;
+}
+
+.create_price_new {
+	color: #FF0000;
+	font-size: 10px;
+	text-align: right;
+	font-weight: 200;
+	padding-left: 0px;
+}
+.tax{
+	font-weight: bold;
+	color: #CC0000;
+}

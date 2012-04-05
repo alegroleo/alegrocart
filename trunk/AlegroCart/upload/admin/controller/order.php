@@ -154,11 +154,19 @@ class ControllerOrder extends Controller {
       		);
 			
 			$action = array();
+			
 			$action[] = array(
         		'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('order', 'update', array('order_id' => $result['order_id']))
       		);
+			
+			$action[] = array(
+        		'icon' => 'order_edit.png',
+				'text' => $this->language->get('button_edit'),
+				'href' => $this->url->ssl('order_edit', 'index', array('order_id' => $result['order_id']))
+      		);
+			
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -273,7 +281,7 @@ class ControllerOrder extends Controller {
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_print', $this->language->get('button_print'));
 
     	$view->set('tab_general', $this->language->get('tab_general'));
 	
@@ -294,6 +302,11 @@ class ControllerOrder extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 
 		$order_info = $this->modelOrder->get_order();
+		if($order_info['modified']){
+			$new_order = $this->modelOrder->get_modified_order($order_info['new_reference']);
+			$new_order_date = $this->language->formatDate($this->language->get('date_format_short'), strtotime($new_order['date_added']));
+			$view->set('modified', $this->language->get('text_modified', $new_order['order_id'], $order_info['new_reference'], $new_order_date));
+		}
 		$view->set('reference', $order_info['reference']);
 		$view->set('invoice_number', $order_info['invoice_number']);
 		$view->set('email', $order_info['email']);
@@ -357,6 +370,9 @@ class ControllerOrder extends Controller {
 		$shipping_tax = 0;
 		$extended_total = 0;
 		$freeshipping_tax = 0;
+		$cart_net_total = 0;
+		$cart_tax_total = 0;
+		$cart_totals_total = 0;
 		$shipping_net = $order_info['shipping_net'];
 		$freeshipping_net = $order_info['freeshipping_net'];
 		$shipping_tax = roundDigits($order_info['shipping_tax_rate'] * $order_info['shipping_net'] / 100, $this->decimal_place);

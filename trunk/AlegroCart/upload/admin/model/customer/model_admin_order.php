@@ -22,6 +22,10 @@ class Model_Admin_Order extends Model {
 		$result = $this->database->getRow("select * from `order` where order_id = '" . (int)$this->request->gethtml('order_id') . "'");
 		return $result;
 	}
+	function get_modified_order($new_reference){
+		$result = $this->database->getRow("select order_id, date_added from `order` where reference = '" . $new_reference . "'");
+		return $result;
+	}
 	function get_products(){
 		$results = $this->database->getRows("select * from order_product where order_id = '" . (int)$this->request->gethtml('order_id') . "'");
 		return $results;

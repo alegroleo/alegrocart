@@ -47,6 +47,7 @@ $_['text_calculate']      = 'Calculate';
 $_['text_customers']      = 'Customers';
 $_['text_customer']       = 'Customer';
 $_['text_order']          = 'Order';
+$_['text_order_edit']     = 'Create Order';
 $_['text_coupon']         = 'Coupon';
 $_['text_mail']           = 'Mail';
 $_['text_newsletter']     = 'Newsletter';

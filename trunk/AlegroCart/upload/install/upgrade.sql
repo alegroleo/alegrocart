@@ -1315,3 +1315,10 @@ SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_freedownload', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 ALTER TABLE `product_to_download` ADD `free` INT( 1 ) NOT NULL DEFAULT '0';
+
+# ADD Modified to orders
+ALTER TABLE `order` ADD `modified` INT(1) NOT NULL DEFAULT '0' AFTER `reference`;
+ALTER TABLE `order` ADD `new_reference` varchar(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' AFTER `modified`;
+ALTER TABLE `order_product` ADD `product_id` int(11) NOT NULL DEFAULT '0' AFTER `name`;
+
+UPDATE `order_product` INNER JOIN `product_description` ON order_product.name = product_description.name and order_product.product_id = '0' set order_product.product_id = product_description.product_id;

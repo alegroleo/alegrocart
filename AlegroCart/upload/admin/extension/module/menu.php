@@ -54,6 +54,7 @@ class ModuleMenu extends Controller {
       		$view->set('text_calculate', $language->get('text_calculate'));
       		$view->set('text_customer', $language->get('text_customer'));
       		$view->set('text_order', $language->get('text_order'));
+			$view->set('text_order_edit', $language->get('text_order_edit'));
 			$view->set('text_coupon', $language->get('text_coupon'));
 			$view->set('text_mail', $language->get('text_mail'));
 			$view->set('text_newsletter', $language->get('text_newsletter'));
@@ -107,6 +108,7 @@ class ModuleMenu extends Controller {
       		$view->set('calculate', $url->rawssl('extension', false, array('type' => 'calculate')));
       		$view->set('customer', $url->rawssl('customer'));
       		$view->set('order', $url->rawssl('order'));
+			$view->set('order_edit', $url->rawssl('order_edit'));
 			$view->set('coupon', $url->rawssl('coupon'));
 			$view->set('mail', $url->rawssl('mail'));
 			$view->set('newsletter', $url->rawssl('newsletter'));

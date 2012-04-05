@@ -41,7 +41,8 @@ $_['text_shipping']         = 'Ship';
 $_['text_shippable']        = 'Shippable';
 $_['text_non_shippable']    = 'Non Shippable';
 $_['text_invoice_number']   = 'Invoice Number';
-$_['text_downloadable']      = 'Downloadable';
+$_['text_downloadable']     = 'Downloadable';
+$_['text_modified']			= ' This order was modified by order number %s, order reference %s on %s.';
 
 // Column
 $_['column_order_id']       = 'Order ID';
@@ -62,6 +63,7 @@ $_['column_action']         = 'Action';
 $_['entry_status']          = 'Status:';
 $_['entry_comment']         = 'Comments:';
 $_['entry_notify']          = 'Notify Customer:';
+$_['button_edit'] 			= 'Edit / Create';
 
 // E-Mail
 $_['email_subject']         = 'Order ID #%s - Order Update';

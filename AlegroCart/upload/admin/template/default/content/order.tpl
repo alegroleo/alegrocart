@@ -238,6 +238,9 @@
             <?php } ?></td>
         </tr>
         <?php } ?>
+		<?php if(isset($modified)){?>
+		  <tr><td colspan="4" class="left"><b><?php echo $modified;?></b></td></tr>  
+		<?php } ?>
       </table>
     </div>
     <?php if ($downloads) { ?>

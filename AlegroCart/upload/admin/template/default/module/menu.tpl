@@ -60,6 +60,7 @@
 	  [null, '<?php echo $text_customers; ?>', null, null, null, 	  
 	    ['<img src="javascript/JSCookMenu/default/customer.png">', '<?php echo $text_customer; ?>', '<?php echo $customer; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/order.png">', '<?php echo $text_order; ?>', '<?php echo $order; ?>', null, null],
+		['<img src="javascript/JSCookMenu/default/order_edit.png">', '<?php echo $text_order_edit; ?>', '<?php echo $order_edit; ?>', null, null],
 		['<img src="javascript/JSCookMenu/default/coupon.png">', '<?php echo $text_coupon; ?>', '<?php echo $coupon; ?>', null, null],
 	    ['<img src="javascript/JSCookMenu/default/mail.png">', '<?php echo $text_mail; ?>', '<?php echo $mail; ?>', null, null],
 		['<img src="javascript/JSCookMenu/default/newsletter.png">', '<?php echo $text_newsletter; ?>', '<?php echo $newsletter; ?>', null, null],

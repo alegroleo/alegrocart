@@ -49,4 +49,9 @@ $_['congrat']          = '&#161;Felicitaciones! Usted ha instalado exitosamente 
 $_['congrat_upg']      = '&#161;Felicidades! AlegroCart ha mejorado.';
 $_['shop']             = 'Tienda Online';
 $_['admin']            = 'Administraci&#243;n';
+$_['method']           = 'Método de instalación:';
+$_['default_install']  = 'Por defecto de instalación';
+$_['clean_install']    = 'Instalación limpia';
+$_['default_expl']     = 'Esto va a instalar productos de la muestra, las categorías, fabricantes, imágenes, etc críticas también. Esto es para comprobar AlegroCart.';
+$_['clean_expl']       = 'Esto eliminará todos los productos y los productos relacionados datos. Esto es para la creación de una instalación limpia sin productos.';
 ?>

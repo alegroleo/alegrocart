@@ -1,18 +1,18 @@
 /* ThemeDefaultMenu Style Sheet */
 
 #myMenuID {
-  border-bottom: 2px solid #FDB016;
-  padding-left: 5px;
-  height: 22px;
-  background: #FDB016;  
+	border-bottom: 1px solid #2F2F2F;
+	padding-left: 5px;
+	height: 30px;
+	background: #FDB016;  
 }
 
 .ThemeDefaultMenu {
 	font-family: verdana, arial, sans-serif;
 	font-size: 12px;
-	padding: 1px 5px 0px 5px;   /*padding: 1px 5px 0px 5px;*/
-	white-space:	nowrap;
-	cursor:		default;
+	padding: 5px 5px 0px 5px;   /*padding: 1px 5px 0px 5px;*/
+	white-space: nowrap;
+	cursor: default;
 	background-color: #FDB016;
 	border-left: 1px solid #FDB016;
 	border-right: 1px solid #FDB016;
@@ -22,8 +22,8 @@
 	font-family: verdana, arial, sans-serif;
 	font-size: 12px;
 	padding: 1px 0px 0px 0px;   /*padding: 1px 5px 0px 5px;*/
-	white-space:	nowrap;
-	cursor:		default;
+	white-space: nowrap;
+	cursor: default;
 	background-color: #FDB016;
 	border-left: 1px solid #FDB016;
 	border-right: 1px solid #FDB016;
@@ -42,10 +42,10 @@
 	z-index:	100;
 	border:		0;
 	padding:	1px;
-  background-color: #E4E5E6;  /*  default background-color: #FFFFFF;  */
+	background-color: #E4E5E6;  /*  default background-color: #FFFFFF;  */
 	overflow:	visible;
 	border:		1px solid #FDB016;
-	
+	margin-top: 2px;
 	font-weight: bold; filter:progid:DXImageTransform.Microsoft.Shadow(color=#BDC3BD, Direction=135, Strength=4);
 }
  

@@ -2,6 +2,12 @@ html, body, form {
 	margin: 0;
 	padding: 0;
 }
+html, body {
+	height: 100%;
+}
+#wrap {
+	min-height: 100%;
+}
 body, td, th {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 11px;
@@ -14,10 +20,10 @@ select, textarea, input {
 	border: 1px solid #999999;
 	background-color: #FFFFFF;
 }
-body{
+body {
 	background-color: #AFDDE5;
 }
-p,div {
+p {
 	padding: 2px 0;
 }
 h1 {
@@ -25,35 +31,60 @@ h1 {
 	text-align: center;
 	padding: 10px 0;
 }
+#header { 
+	background-color: #015666;
+	height: 60px; 
+	border-bottom: 3px solid #222222;
+}
+#header .header_content {
+	background-color: #015666;
+	width: 1000px;
+	margin: auto;
+}
+#header .header_content img {
+	position: absolute;
+ 	height: 38px; 
+ 	width: 200px; 
+	top: 12px;
+	padding-left: 5px;
+}
+#header .header_content .language {
+	position: relative;
+	float: right;
+	top: 23px;
+}
+#header .header_content .language form {
+	display: inline-block;
+}
+#header_bottom {
+	background-color: #CCCCCC;
+	height: 30px; 
+	border-bottom: 1px solid #222222;
+}
+#header_bottom .header_bottom_content {
+	background-color: #CCCCCC;
+	width: 1000px;
+	margin: auto;	
+	padding: 3px;
+}
+#header_bottom .header_bottom_content .header_text {
+	text-align: center;
+	position: relative;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 12px;
+	top: 3px;
+	line-height: 1.5;
+	color: #333333;
+}
 #container {
 	width: 800px;
 	margin: 0 auto;
-	padding: 10px;
-	height: 430px;
-	overflow-y: auto;
-}
-.logo {
-	position: absolute;
-	background:url('../image/aclogo.png') no-repeat;
-	height: 40px;
-	width: 210px;
-	float: left;
-}
-#header { 
-	padding: 10px;
-	margin: 0 auto;
-	height: 40px;
-	font-size: 20px;
-	background-color: #015666;
-	color: #FFFFFF;
-	text-align: center;
-	margin-bottom: 10px;
-}
-#header .language {
-	float: right;
-}
-#header .language form {
-	display: inline-block;
+/* 	padding: 10px; */
+/* 	height: 430px; */
+/* 	overflow-y: auto; */
+ 	overflow: auto;
+ 	padding-bottom: 40px; 
 }
 #content {
 	padding: 5px;
@@ -61,31 +92,43 @@ h1 {
 }
 #content input {
 	padding: 5px;
-	border-radius: 7px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 	width: 190px;
 }
 #content table {
-	padding: 25px;
+	padding: 20px;
 	background-color: #FFFFFF;
 	border: 5px solid #0099FF;
 	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
 	width: 64%;
 	margin-left: 18%;
 	margin-right: 18%;
 }
 #footer {
-	padding: 2px;
+/* 	padding: 2px; */
 	margin: 0 auto;
 	text-align: center;
 	background-color: #015666;
-	width: 700px;
-	border-radius: 10px;
-	margin-top: 10px;
+/* 	margin-top: 10px; */
+	position: relative;
+	margin-top: -40px;
+	height: 40px;
+	clear: both;
 }
-#footer li {
+#footer ul {
+	margin: 0;
+	padding-top: 10px;
+}
+#footer ul li {
 	display: inline;
 }
-#footer li a {
+#footer ul li a {
 	color: #FFFFFF;
 	font-weight: bold;
 	text-decoration: none;
@@ -130,16 +173,22 @@ h1 {
 	background: #FFB000;
 	color: #FFFFFF;
 	font-weight: bold;
-	padding: 5px;
-	border-radius: 5px;
+	height: 25px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 }
 .button {
 	border: none;
 	background: #FFB000;
 	color: #FFFFFF;
 	font-weight: bold;
-	padding: 5px;
-	border-radius: 5px;
+	height: 25px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
 }
 .a {
 	color: #015666;
@@ -147,8 +196,20 @@ h1 {
 }
 #buttons {
 	text-align: center;
+	padding: 5px;
 }
 .b {
 	color: #A61000;
 	font-weight: bold;
+}
+/*Opera Fix by Maleika (Kohoutec)
+Sticky Footer Solution
+by Steve Hatcher 
+*/
+body:before {
+	content:"";
+	height:100%;
+	float:left;
+	width:0;
+	margin-top:-32767px;
 }

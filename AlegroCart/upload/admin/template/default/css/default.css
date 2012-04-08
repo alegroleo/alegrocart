@@ -6,7 +6,7 @@ html {
 body {
 	margin: 0;
 	padding: 0;
-	width: 979px;
+	width: 1000px;
 	margin: 0 auto;
 	position: relative;
 	color: #000000;
@@ -47,24 +47,24 @@ a:visited {
 }
 
 #header {
-	height: 40px;
-	background-color: #000000;
-	border-bottom: 5px solid #FDB016;
+	height: 60px;
+	background-color: #2F2F2F;
+	border-bottom: 3px solid #222222;
 }
 
 #header h1 {
-	font-size: 20px;
+	font-size: 24px;
 	font-weight: normal;
 	color: #FFFFFF;
 	margin: 0px;
 	position: absolute;
-	top: 6px;
+	top: 16px;
 	left: 15px; 
 }
 
 #header .a {
 	color: #FFFFFF;
-	margin: 12px 25px 0px 0px;
+	margin: 26px 25px 0px 0px;
 	float: right;
 }
 
@@ -206,8 +206,10 @@ form {
 
 .heading {
 	color: #BF3313;
-	font-size: 18px;
+	font-size: 26px;
 	margin: 10px 0px 0px 20px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
 }
 
 .description {
@@ -518,19 +520,19 @@ form {
 }
 .version{
 	float: left;
-	height: 30px;
+	height: 20px;
 	margin-top: 0px;
-	padding-top: 12px;
-	padding-left: 200px;
+	padding-top: 38px;
+	padding-left: 15px;
 	width: 200px;
-	font-size: 12px;
-	font-weight: bold;
+	font-size: 11px;
+	font-weight: normal;
 	color: #FFFFFF;
 }
 /* box language */
 .language {
     float: right;
-    margin-top: 12px;
+    margin-top: 26px;
     padding-right: 10px;
 }
 

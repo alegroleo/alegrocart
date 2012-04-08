@@ -1,5 +1,6 @@
 <?php   //Home AlegroCart
 class ControllerHome extends Controller {  
+	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
@@ -19,6 +20,27 @@ class ControllerHome extends Controller {
 		$this->template->set('title', $this->language->get('heading_title'));
 		
     	$view = $this->locator->create('template');
+
+	if (is_dir(DIR_BASE . PATH_INSTALL)) {
+			$this->error['install_dir'] = $this->language->get('error_install_dir');
+		} else {
+			$this->error['install_dir'] = '';
+		}
+
+	if (strtolower(substr(PHP_OS, 0, 5)) == "linux") { 	
+	
+	if (substr(decoct(fileperms(DIR_BASE . 'config.php')), 3) != 644) { 
+			$this->error['config'] = $this->language->get('error_permission_config');
+		}
+
+	if (substr(decoct(fileperms(DIR_BASE . '.htaccess')), 3) != 644) { 
+			$this->error['htaccess'] = $this->language->get('error_permission_htaccess');
+		}
+	}
+
+	$view->set('error_install_dir', @$this->error['install_dir']);
+    	$view->set('error_config', @$this->error['config']);
+    	$view->set('error_htaccess', @$this->error['htaccess']);
 
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));

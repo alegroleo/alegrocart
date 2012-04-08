@@ -49,4 +49,14 @@ $_['congrat']          = '&#161;Felicitats! Vost&#232; ha instal.lat amb &#232;x
 $_['congrat_upg']      = '`&#161;Felicitats! AlegroCart ha millorat.';
 $_['shop']             = 'Botiga Online';
 $_['admin']            = 'Administraci&#243;';
+$_['method']           = 'Install method:';
+$_['default_install']  = 'Default Install';
+$_['clean_install']    = 'Clean Install';
+$_['default_expl']     = 'This will install sample products, categories, manufacturers, images, reviews etc. as well. This is for testing AlegroCart';
+$_['clean_expl']       = 'This will remove every product and product related data. This is for creating a clean installation with no products.';
+$_['method']           = 'Mètode d\'instal·lació:';
+$_['default_install']  = 'Per defecte de fitxers';
+$_['clean_install']    = 'Instal·lació neta';
+$_['default_expl']     = 'Això va a instal·lar productes de la mostra, les categories, fabricants, imatges, etc crítiques també. Això és per a comprovar AlegroCart.';
+$_['clean_expl']       = 'Això eliminarà tots els productes i els productes relacionats dades. Això és per a la creació d\'una instal·lació neta sense productes.';
 ?>

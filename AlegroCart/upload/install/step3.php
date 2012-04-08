@@ -110,6 +110,58 @@ if (!$errors) {
 if ($errors && $step == 3) {
 	require('step2.php');
 } else {
+
+	if ($_POST['method']=='clean') {
+
+	      $unneeded_files=array('BRE_PE4013HWPCAT.jpg',
+				    'Featured1.jpg',
+				    'Featured2.jpg',
+				    'Featured3.jpg',
+				    'Featured4.jpg',
+				    'Featured5.jpg',
+				    'Featured6.jpg',
+				    'Featured7.jpg',
+				    'Featured8.jpg',
+				    'Featured9.jpg',
+				    'HomepageDemo.gif',
+				    'HOP_40955.jpg',
+				    'HoppyLogo.png',
+				    'image_1.jpg',
+				    'image_2.jpg',
+				    'image_3.jpg',
+				    'image_4.jpg',
+				    'Latest1.jpg',
+				    'Latest2.jpg',
+				    'Latest3.jpg',
+				    'PEF_0369-10.jpg',
+				    'PerformanceFriction.jpg',
+				    'Related1.jpg',
+				    'Related2.jpg',
+				    'Related3.jpg',
+				    'Related4.jpg',
+				    'Related5.jpg',
+				    'Related6.jpg',
+				    'Related7.jpg',
+				    'Related8.jpg',
+				    'Related9.jpg',
+				    'Related10.jpg',
+				    'Related11.jpg',
+				    'Shopping.gif',
+				    'Specials1.jpg',
+				    'Specials2.jpg',
+				    'Specials3.jpg',
+				    'Specials4.jpg',
+				    'Specials5.jpg',
+				    'Specials6.jpg'
+				    ); 
+
+		foreach ($unneeded_files as $unneeded_file) {
+			if (file_exists(DIR_IMAGE . $unneeded_file)) {
+				unlink(DIR_IMAGE . $unneeded_file);
+			} 
+		}
+	}
+
 $file = DIR_BASE.'config.php';
 $file2 = DIR_BASE.'.htaccess';
 @chmod($file, 0644);

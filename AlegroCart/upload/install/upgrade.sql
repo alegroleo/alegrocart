@@ -1322,3 +1322,15 @@ ALTER TABLE `order` ADD `new_reference` varchar(32) COLLATE utf8_unicode_ci NOT 
 ALTER TABLE `order_product` ADD `product_id` int(11) NOT NULL DEFAULT '0' AFTER `name`;
 
 UPDATE `order_product` INNER JOIN `product_description` ON order_product.name = product_description.name and order_product.product_id = '0' set order_product.product_id = product_description.product_id;
+
+# Extension Bank Transfer
+# Get language id for english
+SET @lid=1;
+SELECT @lid:=language_id FROM language WHERE `code` = 'en';
+
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_banktr';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'banktr', 'payment', 'payment', 'banktr.php', 'payment_banktr') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_banktr';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Bank Transfer', 'Offline Bank Transfer') ON DUPLICATE KEY UPDATE extension_id=extension_id;

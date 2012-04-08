@@ -413,6 +413,8 @@ class ControllerCheckoutConfirm extends Controller {
 			$email->set('email_banktr_swift', $this->language->get('email_banktr_swift'));
 			$email->set('banktr_iban', $this->config->get('banktr_iban'));
 			$email->set('banktr_swift', $this->config->get('banktr_swift'));
+		} else {
+			$email->set('email_banktr_message', NULL);
 		}
 
 		$email->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));

@@ -23,7 +23,7 @@ if ($language->error) {
 $errors[]=$language->error;
 }
 
-$language->load(isset($_POST['language']) ? $_POST['language'] : 'english');
+$language->load(isset($_POST['language']) ? $_POST['language'] : ($language->detect() ? $language->detect(): 'en'));
 $languages=$language->langs;
 
 $step=(isset($_REQUEST['step']))?$_REQUEST['step']:1;
@@ -95,38 +95,51 @@ foreach ($files as $file) {
 	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	  <title><?php echo $language->get('heading_title')?></title>
 	  <link rel="stylesheet" type="text/css" href="styles/style.css">
+	  <!--[if !IE 7]>
+		  <style type="text/css">
+			  #wrap {display:table;height:100%}
+		  </style>
+	  <![endif]-->
 	</head>
-
 	<body>
+	<div id="wrap">
 	<div id="header">
-	    
-	    <div class="logo"></div>
-	    <?php echo $language->get('heading_step'.$step)?>
+	    <div class="header_content">
+	    <img src="image/aclogo.png" alt="AlegroCart open source E-commerce"/>
 	    <div class="language">
-	    <?php foreach ($languages as $value) { ?>
-	    <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST" enctype="multipart/form-data">
-	    <div>
-	    <input type="image" src="./image/<?php echo $value; ?>.png" alt="<?php echo $value; ?>">
-	    <input type="hidden" name="language" value="<?php echo $value; ?>">
-	    <input type="hidden" name="step" value="<?php echo $step; ?>">
-	    <?php if (isset($_POST['db_host'])) { ?>
-		  <input type="hidden" name="db_host" value="<?php echo $_POST['db_host']; ?>"><?php } ?>
-	    <?php if (isset($_POST['db_user'])) { ?>
-		  <input type="hidden" name="db_user" value="<?php echo $_POST['db_user']; ?>"><?php } ?>
-	    <?php if (isset($_POST['db_name'])) { ?>
-		  <input type="hidden" name="db_name" value="<?php echo $_POST['db_name']; ?>"><?php } ?>
-	    <?php if (isset($_POST['db_pass'])) { ?>
-		  <input type="hidden" name="db_pass" value="<?php echo $_POST['db_pass']; ?>"><?php } ?>
-	    <?php if (isset($_POST['username'])) { ?>
-		  <input type="hidden" name="username" value="<?php echo $_POST['username']; ?>"><?php } ?>
-	    <?php if (isset($_POST['password'])) { ?>
-		  <input type="hidden" name="password" value="<?php echo $_POST['password']; ?>"><?php } ?>
-	    </div>
-	    </form>
-	    <?php } ?>
+	      <?php foreach ($languages as $value) { ?>
+		<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST" enctype="multipart/form-data">
+		<div>
+		<input type="image" src="./image/<?php echo $value; ?>.png" alt="<?php echo $value; ?>" title="<?php echo $value; ?>">
+		<input type="hidden" name="language" value="<?php echo $value; ?>">
+		<input type="hidden" name="step" value="<?php echo $step; ?>">
+		<?php if (isset($_POST['db_host'])) { ?>
+		      <input type="hidden" name="db_host" value="<?php echo $_POST['db_host']; ?>"><?php } ?>
+		<?php if (isset($_POST['db_user'])) { ?>
+		      <input type="hidden" name="db_user" value="<?php echo $_POST['db_user']; ?>"><?php } ?>
+		<?php if (isset($_POST['db_name'])) { ?>
+		      <input type="hidden" name="db_name" value="<?php echo $_POST['db_name']; ?>"><?php } ?>
+		<?php if (isset($_POST['db_pass'])) { ?>
+		      <input type="hidden" name="db_pass" value="<?php echo $_POST['db_pass']; ?>"><?php } ?>
+		<?php if (isset($_POST['method'])) { ?>
+		      <input type="hidden" name="method" value="<?php echo $_POST['method']; ?>"><?php } ?>
+		<?php if (isset($_POST['username'])) { ?>
+		      <input type="hidden" name="username" value="<?php echo $_POST['username']; ?>"><?php } ?>
+		<?php if (isset($_POST['password'])) { ?>
+		      <input type="hidden" name="password" value="<?php echo $_POST['password']; ?>"><?php } ?>
+		</div>
+		</form>
+	      <?php } ?>
+	    </div>	
 	    </div>	
 	</div>
-	
+	<div id="header_bottom">
+	  <div class="header_bottom_content">
+	    <div class="header_text">
+	      <?php echo $language->get('heading_step'.$step)?>
+	    </div>
+	  </div>
+	</div>
 	<div id="container">
 			
 	<?php 
@@ -152,6 +165,7 @@ foreach ($files as $file) {
 	}
 	?>
 			
+	</div>
 	</div>
 	<div id="footer">
 	    <ul>			

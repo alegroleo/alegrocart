@@ -47,6 +47,7 @@ $_['tab_write']          = 'Write a   Review';
 
 // Review
 $_['text_write']	 = 'Write a review on this Product!';
+$_['text_write_short']	 = 'Write a review';
 $_['text_empty']         = 'No product reviews!';
 $_['text_review']        = 'Review';
 $_['text_rating1']       = 'Quality of the Product:';

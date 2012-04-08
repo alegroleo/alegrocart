@@ -49,4 +49,9 @@ $_['congrat']          = 'Gratulálunk! Sikeresen telepítette az AlegroCart-ot.
 $_['congrat_upg']      = 'Gratulálunk! Sikeresen frissítette az AlegroCart-ot.';
 $_['shop']             = 'Online webáruház';
 $_['admin']            = 'Adminisztrációs felület';
+$_['method']           = 'A telepítés módja:';
+$_['default_install']  = 'Alapértelmezett telepítés';
+$_['clean_install']    = 'Tiszta telepítés';
+$_['default_expl']     = 'Ez a módszer minta termékeket, kategóriákat, gyártókat, képeket és értékeléseket is telepíteni fog. Az AlegroCart teszteléséhez ajánljuk.';
+$_['clean_expl']       = 'Ez a módszer minden terméket és minden termékkel kapcsolatos dolgot eltávolít. Egy üres, termékek nélküli webáruházat eredményez.';
 ?>

@@ -26,4 +26,9 @@ $_['column_total']        = 'Total';
 $_['column_product']      = 'Product';
 $_['column_author']       = 'Author';
 $_['column_avgrating']    = 'Average Rating';
+
+//Error
+$_['error_install_dir']   = 'Warning: Immediately delete the Install directory!';
+$_['error_permission_config']    = 'Warning: Make the config.php unwritable!';
+$_['error_permission_htaccess']  = 'Warning: Make the .htaccess unwritable!';
 ?>

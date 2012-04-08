@@ -1,3 +1,12 @@
+<?php if ($error_install_dir) { ?>
+<div class="warning"><?php echo $error_install_dir; ?></div>
+<?php } ?>
+<?php if ($error_config) { ?>
+<div class="warning"><?php echo $error_config; ?></div>
+<?php } ?>
+<?php if ($error_htaccess) { ?>
+<div class="warning"><?php echo $error_htaccess; ?></div>
+<?php } ?>
 <div class="heading"><?php echo $heading_title; ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="home">

@@ -22,7 +22,7 @@ if ($language->error) {
 $errors[]=$language->error;
 }
 
-$language->load(isset($_POST['language']) ? $_POST['language'] : 'english');
+$language->load(isset($_POST['language']) ? $_POST['language'] : ($language->detect() ? $language->detect(): 'en'));
 $languages=$language->langs;
 
 $files=array('config.php');  //,'admin'.DIRECTORY_SEPARATOR.'config.php'  Not Required
@@ -52,13 +52,17 @@ else {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title><?php echo $language->get('heading_title')?></title>
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
+	<!--[if !IE 7]>
+		  <style type="text/css">
+			  #wrap {display:table;height:100%}
+		  </style>
+	  <![endif]-->
 	</head>
-
 	<body>
+	<div id="wrap">
 	<div id="header">
-	    
-	    <div class="logo"></div>
-	    <?php echo $language->get('heading_title')?>
+	    <div class="header_content">
+	    <img src="image/aclogo.png" alt="AlegroCart open source E-commerce"/> 
 	    <div class="language">
 	    <?php foreach ($languages as $value) { ?>
 	    <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST" enctype="multipart/form-data">
@@ -78,10 +82,15 @@ else {
 	    <?php } ?>
 	    </div>	
 	</div>	
-
-	<div id="container">
-		
-		
+	</div>
+	<div id="header_bottom">
+	  <div class="header_bottom_content">
+	    <div class="header_text">
+	      <?php echo $language->get('heading_title')?>
+	    </div>
+	  </div>
+	</div>
+	<div id="container">		
 	<div id="content">
 	<?php
 	if (empty($errors)) {
@@ -143,24 +152,21 @@ else {
 			<div class="warning"><?php echo $language->get('config')?></div>
 		  <?php }?>
 		  <p class="a"><?php echo $language->get('congrat_upg')?></p>
-		  
 	<?php } ?>
 		</div><!--div/content-->
-
 		<div id="buttons">
 		<form>
 		  <input type="button" value="<?php echo $language->get('shop')?>" class="button" onclick="location='<?php echo HTTP_CATALOG; ?>';">
 		  <input type="button" value="<?php echo $language->get('admin')?>" class="button" onclick="location='<?php echo HTTP_ADMIN; ?>';">
 		</form>
-		</div>
-		
+		</div>	
 	   </div><!--div/container-->
+	   </div>
 		 <div id="footer">
 		    <ul>			
 			<li><a href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
 			<li><a href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
 		    </ul>
 	     </div>
- 
 	</body>
 </html>

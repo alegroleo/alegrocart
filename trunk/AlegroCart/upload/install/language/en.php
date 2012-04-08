@@ -49,4 +49,9 @@ $_['congrat']          = 'Congratulations! You have successfully installed Alegr
 $_['congrat_upg']      = 'Congratulations! You have successfully upgraded AlegroCart.';
 $_['shop']             = 'Online Shop';
 $_['admin']            = 'Administration';
+$_['method']           = 'Install method:';
+$_['default_install']  = 'Default Install';
+$_['clean_install']    = 'Clean Install';
+$_['default_expl']     = 'This will install sample products, categories, manufacturers, images, reviews etc. as well. This is for testing AlegroCart';
+$_['clean_expl']       = 'This will remove every product and product related data. This is for creating a clean installation with no products.';
 ?>

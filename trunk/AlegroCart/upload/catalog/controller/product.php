@@ -257,6 +257,7 @@ class ControllerProduct extends Controller {
 			if ($this->config->get('review_status')) {
 			  $view->set('review_status', true);
 			  $view->set('text_write', $language->get('text_write'));
+			  $view->set('text_write_short', $language->get('text_write_short'));
 			  $view->set('write', $url->href('review_write', false, array('product_id' => $request->gethtml('product_id'))));
 			} else {
 			  $view->set('review_status', false);			  

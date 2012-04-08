@@ -308,8 +308,10 @@
 			<?php } ?>
 		  </div>	
 	    </div>
-		<div class="review_write"><br><a href="<?php echo $write; ?>"><img src="catalog/styles/<?php echo $this->style?>/image/write.png" alt="Write"></a><br><br>
+	    <?php if($review_status){?>
+		<div class="review_write"><br><a href="<?php echo $write; ?>"><img src="catalog/styles/<?php echo $this->style?>/image/write.png" alt="<?php echo $text_write_short; ?>"></a><br><br>
 		<a href="<?php echo $write; ?>"><?php echo $text_write; ?></a></div>
+	    <?php } ?>
 	  </div>
     </div>
   </div>

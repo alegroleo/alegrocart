@@ -11,6 +11,7 @@
 ./admin/template/default/module/header.tpl
 ./admin/template/default/module/index.php
 ./admin/template/default/image/list_enabled.png
+./admin/template/default/image/order_edit.png
 ./admin/template/default/image/enabled.png
 ./admin/template/default/image/disable_update.png
 ./admin/template/default/image/insert_enabled.png
@@ -310,6 +311,7 @@
 ./admin/template/default/layout.tpl
 ./admin/template/default/css/default.css
 ./admin/template/default/css/order.css
+./admin/template/default/css/order_create.css
 ./admin/template/default/css/login.css
 ./admin/template/default/css/index.php
 ./admin/template/default/content/report_viewed.tpl
@@ -330,7 +332,7 @@
 ./admin/template/default/content/shipping_zoneplus.tpl
 ./admin/template/default/content/products_with_options.tpl
 ./admin/template/default/content/payment_moneyorder.tpl
-./admin/template/default/content/payment_banktr.tpl
+./admin/template/default/content/checkout_email.tpl
 ./admin/template/default/content/coupon.tpl
 ./admin/template/default/content/image.tpl
 ./admin/template/default/content/manufacturer.tpl
@@ -374,6 +376,7 @@
 ./admin/template/default/content/homepage.tpl
 ./admin/template/default/content/template_module.tpl
 ./admin/template/default/content/language.tpl
+./admin/template/default/content/payment_banktr.tpl
 ./admin/template/default/content/module_extra_related.tpl
 ./admin/template/default/content/module_catalog_converter.tpl
 ./admin/template/default/content/list.tpl
@@ -395,6 +398,7 @@
 ./admin/template/default/content/option_value.tpl
 ./admin/template/default/content/module_extra_latest.tpl
 ./admin/template/default/content/module_catalog_language.tpl
+./admin/template/default/content/order_edit.tpl
 ./admin/template/default/content/payment_paypal.tpl
 ./admin/template/default/content/server_info.tpl
 ./admin/template/default/content/report_online.tpl
@@ -435,12 +439,12 @@
 ./admin/language/english/controller/template_manager.php
 ./admin/language/english/controller/payment_paypal.php
 ./admin/language/english/controller/payment_cheque.php
-./admin/language/english/controller/payment_banktr.php
 ./admin/language/english/controller/homepage.php
 ./admin/language/english/controller/product_option.php
 ./admin/language/english/controller/module_extra_manufactureroptions.php
 ./admin/language/english/controller/information.php
 ./admin/language/english/controller/module_extra_review.php
+./admin/language/english/controller/payment_banktr.php
 ./admin/language/english/controller/country.php
 ./admin/language/english/controller/payment_authnetaim.php
 ./admin/language/english/controller/shipping_warehouse.php
@@ -525,6 +529,7 @@
 ./admin/language/english/controller/index.php
 ./admin/language/english/controller/shipping_australiapost.php
 ./admin/language/english/controller/report_logs.php
+./admin/language/english/controller/order_edit.php
 ./admin/language/english/controller/module_extra_bestseller.php
 ./admin/language/english/index.php
 ./admin/language/.htaccess
@@ -553,9 +558,9 @@
 ./admin/model/payments/model_admin_paymentauthnetaim.php
 ./admin/model/payments/model_admin_paymentccavenue.php
 ./admin/model/payments/model_admin_paymentmoneyorder.php
+./admin/model/payments/model_admin_paymentbanktr.php
 ./admin/model/payments/model_admin_paymentgoogle.php
 ./admin/model/payments/model_admin_paymentpaypal.php
-./admin/model/payments/model_admin_paymentbanktr.php
 ./admin/model/payments/model_admin_currency.php
 ./admin/model/payments/model_admin_coupon.php
 ./admin/model/reports/model_admin_report_viewed.php
@@ -613,6 +618,7 @@
 ./admin/model/customer/model_admin_orderstatus.php
 ./admin/model/customer/model_admin_newsletter.php
 ./admin/model/customer/model_admin_order.php
+./admin/model/customer/model_admin_orderedit.php
 ./admin/model/autoloader2.php
 ./admin/model/.htaccess
 ./admin/model/products/model_admin_productswithoptions.php
@@ -844,6 +850,7 @@
 ./admin/javascript/JSCookMenu/effect.js
 ./admin/javascript/JSCookMenu/default/blank.png
 ./admin/javascript/JSCookMenu/default/setting.png
+./admin/javascript/JSCookMenu/default/order_edit.png
 ./admin/javascript/JSCookMenu/default/logout.png
 ./admin/javascript/JSCookMenu/default/image_display.png
 ./admin/javascript/JSCookMenu/default/geo_zone.png
@@ -915,6 +922,7 @@
 ./admin/controller/module_extra_manufactureroptions.php
 ./admin/controller/information.php
 ./admin/controller/module_extra_review.php
+./admin/controller/payment_banktr.php
 ./admin/controller/country.php
 ./admin/controller/payment_authnetaim.php
 ./admin/controller/usergroup.php
@@ -952,7 +960,6 @@
 ./admin/controller/module_catalog_navigation.php
 ./admin/controller/shipping_flat.php
 ./admin/controller/payment_cod.php
-./admin/controller/payment_banktr.php
 ./admin/controller/shipping_item.php
 ./admin/controller/server_info.php
 ./admin/controller/module_extra_categoryoptions.php
@@ -1000,6 +1007,7 @@
 ./admin/controller/index.php
 ./admin/controller/shipping_australiapost.php
 ./admin/controller/report_logs.php
+./admin/controller/order_edit.php
 ./admin/controller/module_extra_bestseller.php
 ./admin/config.php
 ./admin/index.php
@@ -1010,6 +1018,7 @@
 ./image/logo/YourSSL-115x65.gif
 ./image/logo/aclogo.png
 ./image/logo/shoppingcart2.png
+./image/logo/index.php
 ./image/image_4.jpg
 ./image/BRE_PE4013HWPCAT.jpg
 ./image/Featured9.jpg
@@ -1032,6 +1041,7 @@
 ./image/Related6.jpg
 ./image/Featured5.jpg
 ./image/Specials2.jpg
+./image/barcode/index.php
 ./image/no_image.png
 ./image/Related1.jpg
 ./image/Related11.jpg
@@ -1059,9 +1069,11 @@
 ./image/fonts/luggerbu.txt
 ./image/fonts/FreeSansBold.ttf
 ./image/fonts/luggerbu.ttf
+./image/fonts/index.php
 ./image/HoppyLogo.png
 ./image/Related5.jpg
 ./image/watermark/ac_logo.png
+./image/watermark/index.php
 ./image/stock_status_o.png
 ./image/Featured4.jpg
 ./image/favicon.ico
@@ -1204,9 +1216,9 @@
 ./catalog/extension/shipping/index.php
 ./catalog/extension/payment/cheque.php
 ./catalog/extension/payment/paypal.php
+./catalog/extension/payment/banktr.php
 ./catalog/extension/payment/paymate.php
 ./catalog/extension/payment/cod.php
-./catalog/extension/payment/banktr.php
 ./catalog/extension/payment/moneyorder.php
 ./catalog/extension/payment/authnetaim.php
 ./catalog/extension/payment/ccavenue.php
@@ -1929,8 +1941,8 @@
 ./catalog/language/english/extension/shipping/australiapost.php
 ./catalog/language/english/extension/shipping/index.php
 ./catalog/language/english/extension/payment/cheque.php
-./catalog/language/english/extension/payment/banktr.php
 ./catalog/language/english/extension/payment/paypal.php
+./catalog/language/english/extension/payment/banktr.php
 ./catalog/language/english/extension/payment/ccvalidation.php
 ./catalog/language/english/extension/payment/paymate.php
 ./catalog/language/english/extension/payment/cod.php
@@ -2117,14 +2129,15 @@
 ./cache/.htaccess
 ./cache/index.php
 ./rss.php
+./install/clean.sql
 ./install/default.sql
-./install/image/catalan.png
-./install/image/french.png
+./install/image/en.png
+./install/image/es.png
+./install/image/it.png
 ./install/image/aclogo.png
-./install/image/spanish.png
-./install/image/hungarian.png
-./install/image/english.png
-./install/image/italian.png
+./install/image/ca.png
+./install/image/fr.png
+./install/image/hu.png
 ./install/upgrade.sql
 ./install/default.config.php
 ./install/writable.sh
@@ -2135,12 +2148,12 @@
 ./install/structure.sql
 ./install/upgrade.php
 ./install/step1.php
-./install/language/hungarian.php
-./install/language/english.php
-./install/language/catalan.php
-./install/language/italian.php
-./install/language/spanish.php
-./install/language/french.php
+./install/language/fr.php
+./install/language/en.php
+./install/language/ca.php
+./install/language/hu.php
+./install/language/es.php
+./install/language/it.php
 ./install/common.php
 ./install/language.php
 ./install/index.php

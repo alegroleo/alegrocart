@@ -18,7 +18,12 @@ if (!$errors) {
 }
 
 if (!$errors) {
-	$files='structure.sql,default.sql,upgrade.sql';
+	if ($_POST['method']=='default') {
+	      $files='structure.sql,default.sql,upgrade.sql';
+	} else {
+	      $files='structure.sql,clean.sql,upgrade.sql';
+	}
+
 	$files=explode(',',$files);
 	foreach ($files as $file) {
 		if (!$errors && file_exists($file)) {
@@ -47,6 +52,7 @@ if ($errors && $step == 2) {
 <input type="hidden" name="language" value="<?php echo $_POST['language']; ?>">
 <input type="hidden" name="db_host" value="<?php echo $_POST['db_host']; ?>">
 <input type="hidden" name="db_user" value="<?php echo $_POST['db_user']; ?>">
+<input type="hidden" name="method" value="<?php echo $_POST['method']; ?>">
 <?php if (!empty($_POST['db_pass'])) { ?>
 <input type="hidden" name="db_pass" value="<?php echo $_POST['db_pass']; ?>">
 <?php } ?>

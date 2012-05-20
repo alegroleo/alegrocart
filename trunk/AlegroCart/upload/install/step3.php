@@ -62,7 +62,7 @@ if (!$errors) {
 			$content .= '# AlegroCart REWRITES START'."\n";
 			$content .= 'RewriteCond %{REQUEST_FILENAME} !-f'."\n";
 			$content .= 'RewriteCond %{REQUEST_FILENAME} !-d'."\n";
-			$content .= 'RewriteRule ^(.*) index.php/$1 [L,QSA]'."\n";
+			$content .= 'RewriteRule ^(.*) index.php?$1 [L,QSA]'."\n";
 			$content .= '# AlegroCart REWRITES END'."\n";
 			$content .= "\n";
 			$content .= '</IfModule>'."\n";

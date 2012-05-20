@@ -18,7 +18,7 @@ RewriteBase /
 # AlegroCart REWRITES START
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*) index.php/$1 [L,QSA]
+RewriteRule ^(.*) index.php?$1 [L,QSA]
 # AlegroCart REWRITES END
 
 </IfModule>

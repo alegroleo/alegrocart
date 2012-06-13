@@ -148,7 +148,7 @@
 	    <tr>
 	      <th class="left"><?php echo $text_shipping_cost;?></th>
 	      <td colspan="6"></td>
-		  <td class="right"><?php echo $shipping_net;?></td>
+		  <td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $shipping_net;?></td>
 		  <td class="right"><?php echo $shipping_tax_rate;?></td>
 		  <td class="right"><?php echo $shipping_tax;?></td>
 		  <td></td>
@@ -158,7 +158,7 @@
 		  <tr>
 	        <th class="left"><?php echo $text_free_shipping;?></th>
 	        <td colspan="6"></td>
-		    <td class="right"><?php echo $freeshipping_net;?></td>
+		    <td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $freeshipping_net;?></td>
 		    <td class="right"><?php echo $shipping_tax_rate;?></td>
 		    <td class="right"><?php echo $freeshipping_tax;?></td>
 		    <td></td>

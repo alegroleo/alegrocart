@@ -26,6 +26,7 @@ $_['text_total']            = 'Total';
 $_['text_error']            = 'The invoice you requested could not be found!';
 $_['text_currency']         = 'Currency : ';
 $_['text_tax']              = 'Tax Included in Amount';
+$_['text_tax_percent']		= 'Tax %';
 $_['text_special']	    = 'Special<br>Price';
 $_['text_coupon_value']     = 'Coupon<br>Value';
 $_['text_discount_value']   = 'Discount<br>Amount';

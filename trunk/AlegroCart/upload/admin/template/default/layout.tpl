@@ -8,13 +8,15 @@
 <link rel="shortcut icon" href="template/<?php echo $this->directory; ?>/image/favicon.ico">
 </head>
 <body onload="if (document.form_login && document.form_login.username) document.form_login.username.focus()">
+
 <?php if (isset($header)) { ?>
 <div id="header"><?php echo $header; ?>
-<?php } ?>
 <?php if (isset($language)) { ?>
 <?php echo $language; ?>
 <?php } ?>
 </div>
+<?php } ?>
+
 <?php if (isset($menu)) { ?>
 <?php echo $menu; ?>
 <?php } ?>

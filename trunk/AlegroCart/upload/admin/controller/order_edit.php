@@ -95,6 +95,7 @@ class ControllerOrderEdit extends Controller {
 		$view->set('text_downloadable', $this->language->get('text_downloadable'));
 		$view->set('text_select_shipping', $this->language->get('text_select_shipping'));
 		$view->set('text_select_payment', $this->language->get('text_select_payment'));
+		$view->set('text_tax_percent', $this->language->get('text_tax_percent'));
 	
 		$view->set('column_date_added', $this->language->get('column_date_added'));
     	$view->set('column_status', $this->language->get('column_status'));
@@ -169,18 +170,16 @@ class ControllerOrderEdit extends Controller {
 		if ($this->request->gethtml('order_id')) {
 			$view->set('currency', $order_info['currency']);
 			$this->decimal_place = $this->currency->currencies[$order_info['currency']]['decimal_place'];
+			$this->currency->set($order_info['currency']);
 		} else {
-			$this->currency_code = $this->currency->getCode();
+			$this->currency_code = $this->config->get('config_currency');
 			$view->set('currency', $this->currency_code);
 			$this->decimal_place = $this->currency->currencies[$this->currency_code]['decimal_place'];
+			$this->currency->set($this->config->get('config_currency'));
 		}
 		$view->set('coupon_sort_order', $order_info['coupon_sort_order']);
 		$view->set('discount_sort_order', $order_info['discount_sort_order']);
 		//$view->set('columns', $this->tpl_columns);
-		$view->set('shipping_net', $this->currency->format($order_info['shipping_net']));
-		$view->set('shipping_cost', $this->currency->format($order_info['shipping_net'], NULL, NULL, FALSE));
-		$view->set('shipping_tax_rate', round($order_info['shipping_tax_rate'], $this->decimal_place). '%');
-		$view->set('freeshipping_net', $this->currency->format($order_info['freeshipping_net']));
     	
 		if ($this->request->gethtml('order_id')) {
 			$shipping_address = array(
@@ -280,6 +279,14 @@ class ControllerOrderEdit extends Controller {
 		$freeshipping_tax = roundDigits($order_info['shipping_tax_rate'] * $order_info['freeshipping_net'] / 100, $this->decimal_place);
 		$shipping_total = $order_info['shipping_net'] + $shipping_tax;
 		$freeshipping_total = $order_info['freeshipping_net'] + $freeshipping_tax;
+		$view->set('shipping_net', $this->currency->format($order_info['shipping_net'] + ($order_info['taxed'] ? $shipping_tax : 0), $order_info['currency'], $order_info['value']));
+		$view->set('shipping_cost', $this->currency->format($order_info['shipping_net'], NULL, NULL, FALSE));
+		$view->set('shipping_tax_rate', round($order_info['shipping_tax_rate'], $this->decimal_place). '%');
+		if($order_info['freeshipping_net'] > 0){
+			$view->set('freeshipping_net', $this->currency->format($order_info['freeshipping_net'] + ($order_info['taxed'] ? $freeshipping_tax : 0), $order_info['currency'], $order_info['value']));
+		} else {
+			$view->set('freeshipping_net', NULL);
+		}
 
 		foreach ($products as $product) {
 			$options = $this->modelOrder->get_options($product['order_product_id']);
@@ -315,11 +322,11 @@ class ControllerOrderEdit extends Controller {
 				'quantity' 		=> $product['quantity'],
 				'barcode' 		=> $product['barcode'],
 				'barcode_url' 		=> $product['barcode'] ? $this->barcode->show($product['barcode']) : NULL,
-				'special_price'	=> $special_pr > 0 ? $this->currency->format($special_pr) : NULL,
+				'special_price'	=> $special_pr > 0 ? $this->currency->format($special_pr, $order_info['currency'], $order_info['value']) : NULL,
 				'price'    		=> $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
 				'discount' 		=> (ceil($product['discount']) ? $this->currency->format($product['discount'], $order_info['currency'], $order_info['value']) : NULL),
-				'coupon' 		=> ($product['coupon'] > 0 ? '-' . $this->currency->format($product['coupon']) : NULL),
-				'general_discount' 	=> ($product['general_discount'] > 0 ? '-' . $this->currency->format($product['general_discount']) : NULL),
+				'coupon' 		=> ($product['coupon'] > 0 ? '-' . $this->currency->format($product['coupon'], $order_info['currency'], $order_info['value']) : NULL),
+				'general_discount' 	=> ($product['general_discount'] > 0 ? '-' . $this->currency->format($product['general_discount'], $order_info['currency'], $order_info['value']) : NULL),
 				'tax'     		=> round($product['tax'], $this->decimal_place),
 				'shipping'     		=> $product['shipping'],
 				'total'   		=> $this->currency->format($product['total'],$order_info['currency'], $order_info['value']),
@@ -333,19 +340,19 @@ class ControllerOrderEdit extends Controller {
 		$view->set('taxed', $order_info['taxed']);
       		$view->set('products', $product_data);
 		$view->set('totals',$this->modelOrder->get_totals($order_info['order_id']));
-		$view->set('tax_total', $this->currency->format($tax_total));
-		$view->set('coupon_total', $coupon_total ? '-' . $this->currency->format($coupon_total) : NULL);
-		$view->set('discount_total', $discount_total ? '-' . $this->currency->format($discount_total) : NULL);
-		$view->set('extended_total', $this->currency->format($extended_total));
-		$view->set('net_total', $this->currency->format($net_total));
-		$view->set('cart_net_total', isset($cart_net_total) ? $this->currency->format($cart_net_total) : '');
-		$view->set('shipping_tax', $shipping_tax  ? $this->currency->format($shipping_tax) : NULL);
-		$view->set('freeshipping_tax', $freeshipping_tax ?'-' . $this->currency->format($freeshipping_tax) : NULL);
-		$view->set('cart_tax_total', isset($cart_tax_total) ? $this->currency->format($cart_tax_total) : '');
-		$view->set('totals_total', isset($totals_total) ? $this->currency->format($totals_total) : '');
-		$view->set('shipping_total', $shipping_total ? $this->currency->format($shipping_total) : NULL);
-		$view->set('freeshipping_total', $freeshipping_total ? '-' . $this->currency->format($freeshipping_total) : NULL);
-		$view->set('cart_totals_total', isset($cart_totals_total) ? $this->currency->format($cart_totals_total) : '');
+		$view->set('tax_total', $this->currency->format($tax_total, $order_info['currency'], $order_info['value']));
+		$view->set('coupon_total', $coupon_total ? '-' . $this->currency->format($coupon_total, $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('discount_total', $discount_total ? '-' . $this->currency->format($discount_total, $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('extended_total', $this->currency->format($extended_total, $order_info['currency'], $order_info['value']));
+		$view->set('net_total', $this->currency->format($net_total, $order_info['currency'], $order_info['value']));
+		$view->set('cart_net_total', isset($cart_net_total) ? $this->currency->format($cart_net_total + ($order_info['taxed'] ? ($shipping_tax - $freeshipping_tax) : Null), $order_info['currency'], $order_info['value']) : '');
+		$view->set('shipping_tax', $shipping_tax  ? $this->currency->format($shipping_tax, $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('freeshipping_tax', $freeshipping_tax ?'-' . $this->currency->format($freeshipping_tax, $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('cart_tax_total', isset($cart_tax_total) ? $this->currency->format($cart_tax_total, $order_info['currency'], $order_info['value']) : '');
+		$view->set('totals_total', isset($totals_total) ? $this->currency->format($totals_total, $order_info['currency'], $order_info['value']) : '');
+		$view->set('shipping_total', $shipping_total ? $this->currency->format($shipping_total, $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('freeshipping_total', $freeshipping_total ? '-' . $this->currency->format($freeshipping_total, $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('cart_totals_total', isset($cart_totals_total) ? $this->currency->format($cart_totals_total, $order_info['currency'], $order_info['value']) : '');
 
     	$history_data = array();
     	$results = $this->modelOrder->get_history();
@@ -388,10 +395,12 @@ class ControllerOrderEdit extends Controller {
 	function get_product_values(){
 		$products = $this->request->gethtml('products', 'post');
 		$this->product_tax = 0;
+		$this->product_extended_total = 0;
 		$product_data = array();
 		if(!$products){ return $product_data;}
 		foreach($products as $key => $product){
 			$this->product_tax += $product['tax_amount'];
+			$this->product_extended_total += $product['extended'] + ($this->config->get('config_tax') ? $product['tax_amount'] : 0);
 			$array = explode(':', $product['product_id']);
 			$product_id = $array[0];
 			if (isset($array[1])){
@@ -450,18 +459,19 @@ class ControllerOrderEdit extends Controller {
 				'download'		=> $download_data,
 				'quantity'   	=> $product['quantity'],
 				'barcode'       => isset($product_option['barcode']) ? @$product_option['barcode'] : @$product_info['barcode'],
-				'price'      	=> $this->currency->format($this->tax->calculate($product['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), '', '', FALSE),
-				'base_price' 	=> $this->currency->format($product['price']),
+				'price'      	=> $this->currency->format($this->tax->calculate($product['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), '', 1, FALSE),
+				'base_price' 	=> $this->currency->format($product['price'],'',1,TRUE),
 				'discount'   	=> 0,
 				'special_price' => 0,
 				'base_special_price' => 0,
 				'general_discount'=> 0,
-				'product_tax' => $this->currency->format($product['tax_amount']),
-				'net'        	=> $this->currency->format($product['extended'], '', '', FALSE),
+				'product_tax' => $this->currency->format($product['tax_amount'],'',1,TRUE),
+				//'net'        	=> $this->currency->format($product['extended'], '', 1, FALSE),
+				'net'        	=> $this->currency->format($this->tax->calculate($product['extended'], $product_info['tax_class_id'], $this->config->get('config_tax')), '', 1, FALSE),
 				'coupon'     	=> NULL,
-				'total'      	=> $this->currency->format($this->tax->calculate($product['extended'], $product_info['tax_class_id'], $this->config->get('config_tax')), '', '', FALSE),
-				'total_discounted' => $this->currency->format($product['extended'] + $product['tax_amount']),
-				'tax'        	=> $this->currency->format($this->tax->getRate($product_info['tax_class_id']), '', '', FALSE),
+				'total'      	=> $this->currency->format($this->tax->calculate($product['extended'], $product_info['tax_class_id'], $this->config->get('config_tax')), '', 1, FALSE),
+				'total_discounted' => $this->currency->format($product['extended'] + $product['tax_amount'],'',1,TRUE),
+				'tax'        	=> $this->currency->format($this->tax->getRate($product_info['tax_class_id']), '', 1, FALSE),
 				'shipping'   	=> $product_info['shipping']
 			); 	
 		}
@@ -476,13 +486,12 @@ class ControllerOrderEdit extends Controller {
 			if($this->request->gethtml($method,'post')){
 				$totals[] = array(
 					'title'		=> $this->language->get('entry_' . $method),
-					'text'		=> $this->currency->format($this->request->gethtml( $method,'post')),
+					'text'		=> $this->currency->format($this->request->gethtml( $method,'post'),'',1,TRUE),
 					'value'		=> $this->request->gethtml($method,'post'),
 					'sort_order'=> $key
 				);
 			}
 		}
-		
 		return $totals;
 	}
 	
@@ -496,7 +505,8 @@ class ControllerOrderEdit extends Controller {
 		$this->order->set('order_status_id', $this->config->get('config_order_status_id'));
 		$this->order->set('total', $this->request->gethtml('total_invoice','post'));
 		$this->order->set('currency', $this->request->gethtml('currency','post'));
-		$this->order->set('value', $this->currency->getValue($this->request->gethtml('currency','post')));
+		$this->order->set('value', '1.00');
+		//$this->order->set('value', $this->currency->getValue($this->request->gethtml('currency','post')));
 		$this->order->set('ip', $_SERVER['REMOTE_ADDR']);
 		$this->order->set('coupon_sort_order', 0);
 		$this->order->set('discount_sort_order', 0);
@@ -570,10 +580,12 @@ class ControllerOrderEdit extends Controller {
 		$email->set('email_download', $this->language->get('email_download'));
 		$email->set('text_currency', $this->language->get('text_currency'));
 		
-		$email->set('shipping_net', $this->currency->format($this->request->gethtml('shipping','post')));
-		$shipping_taxamount = $this->currency->format($this->request->gethtml('shipping','post') * ($this->request->gethtml('shipping_tax_rate','post'))/100, '', '', FALSE);
-		$email->set('shipping_tax', $this->currency->format($shipping_taxamount));
-		$email->set('shipping_total', $this->currency->format($this->request->gethtml('shipping','post') + $shipping_taxamount));
+		
+		$shipping_taxamount = $this->request->gethtml('shipping','post') * ($this->request->gethtml('shipping_tax_rate','post') / 100);
+		$email->set('shipping_net', $this->currency->format($this->request->gethtml('shipping','post') +($this->config->get('config_tax') ? $shipping_taxamount : 0), '', 1, True));
+		//$shipping_taxamount = $this->currency->format(($this->request->gethtml('shipping','post') * $this->request->gethtml('shipping_tax_rate','post'))/100, '', 1, FALSE);
+		$email->set('shipping_tax', $this->currency->format($shipping_taxamount, '', 1, True));
+		$email->set('shipping_total', $this->currency->format($this->request->gethtml('shipping','post') + $shipping_taxamount, '', 1, True));
 		$email->set('shipping_tax_rate', $this->request->gethtml('shipping_tax_rate','post') . '%');
 		$email->set('currency', $this->modelOrderEdit->get_currency());
 		
@@ -592,19 +604,21 @@ class ControllerOrderEdit extends Controller {
 		$email->set('payment_method', $this->request->gethtml('payment_method','post'));
 		$email->set('products', $products);
 		$email->set('totals', $totals);
-		$email->set('extended_total', $this->currency->format($this->request->gethtml('subtotal','post')));
+		$email->set('extended_total', $this->currency->format($this->product_extended_total, '', 1, True));
 		$email->set('coupon_total', NULL);
 		$email->set('discount_total', NULL);
-		$email->set('net_total', $this->currency->format($this->request->gethtml('subtotal','post')));
+		$email->set('net_total', $this->currency->format($this->request->gethtml('subtotal','post') + ($this->config->get('config_tax') ? $this->product_tax : 0), '', 1, True));
 		
-		$email->set('tax_total', $this->currency->format($this->product_tax));
-		$email->set('totals_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->product_tax));
+		$email->set('tax_total', $this->currency->format($this->product_tax, '', 1, True));
+		$email->set('totals_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->product_tax, '', 1, True));
 		$email->set('coupon_sort_order', '');
 		$email->set('discount_sort_order', '');
-		$email->set('cart_net_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->request->gethtml('shipping','post')));
-		$cart_tax = $this->currency->format($this->request->gethtml('subtotal','post') * ($this->request->gethtml('shipping_tax_rate','post'))/100, '', '', FALSE);
-		$email->set('cart_tax_total', $this->currency->format($cart_tax + $shipping_taxamount));
-		$email->set('cart_totals_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->request->gethtml('shipping','post') + $cart_tax + $shipping_taxamount));
+		
+		$cart_tax = $this->currency->format($this->product_tax, '', 1, FALSE);
+		//$cart_tax = $this->currency->format($this->request->gethtml('subtotal','post') * ($this->request->gethtml('shipping_tax_rate','post'))/100, '', 1, FALSE);
+		$email->set('cart_net_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->request->gethtml('shipping','post') + ($this->config->get('config_tax') ? $cart_tax + $shipping_taxamount: 0), '', 1, True));
+		$email->set('cart_tax_total', $this->currency->format($cart_tax + $shipping_taxamount, '', 1, True));
+		$email->set('cart_totals_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->request->gethtml('shipping','post') + $cart_tax + $shipping_taxamount, '', 1, True));
 		$email->set('comment', $this->session->get('comment'));
 		
 		$this->order->set('email_subject', $this->language->get('email_subject', $this->order->getReference()));
@@ -669,7 +683,7 @@ class ControllerOrderEdit extends Controller {
 					$output .= '<option value="' . $option_value['product_to_option_id'] . '">';
 					$output .= $option_value['name'];
 					if($option_value['price']){
-						$output .= $option_value['prefix'] . $option_value['price'];
+						$output .= $option_value['prefix'] . $this->currency->format($option_value['price'], '', '', FALSE);
 					}
 					$output .= '</option>';
 				}
@@ -685,34 +699,38 @@ class ControllerOrderEdit extends Controller {
 				foreach($option_ids as $key => $option_id){
 					$option_values[$key] = $this->modelOrderEdit->get_product_option($option_id, $product_id);
 					if ($option_values[$key]['prefix'] == '+') {
-						$option_price = $option_price + $option_values[$key]['price'];
+						$option_price = $option_price + $this->currency->format($option_values[$key]['price'], '', '', FALSE);
 					} elseif ($option_values[$key]['prefix'] == '-') {
-						$option_price = $option_price - $option_values[$key]['price'];
+						$option_price = $option_price - $this->currency->format($option_values[$key]['price'], '', '', FALSE);
 					}
 				}
 				
 			}
-			$price = number_format(($product['price'] + $option_price),4,'.','');
+			$price = number_format(($this->currency->format($product['price'], '', '', FALSE) + $option_price),4,'.','');
 			$tax = $this->tax->getRate($product['tax_class_id']);
 			if($product['shipping']){
 				$weight = $this->weight->convert($product['weight'],$product['weight_class_id'], $this->config->get('config_weight_class_id'));
 			}
 			$row = $this->request->gethtml('row');
-			$output = '<tr id=row[' . $row . ']><td>'. "\n";
+			$output = '<tr id=row[' . $row . ']>'. "\n";
 			$output .= '<input name="products[' . $row . '][product_id]" value="' . $product_o . '" type="hidden">'. "\n";
-			$output .= '<input name="products[' . $row . '][tax_rate]" value="' . $tax . '" id="tax_rate_' . $row . '" type="hidden">'. "\n";
+			//$output .= '<input name="products[' . $row . '][tax_rate]" value="' . $tax . '" id="tax_rate_' . $row . '" type="hidden">'. "\n";
 			$output .= '<input name="products[' . $row . '][weight]" value="' . $weight . '" id="weight_' . $row . '" type="hidden">'. "\n";
-			$output .= '<input name="products[' . $row . '][tax_amount]" value="" id="tax_amount_' . $row . '" type="hidden">'. "\n";
-			$output .= '<td>' . $product['name'];
+			//$output .= '<input name="products[' . $row . '][tax_amount]" value="" id="tax_amount_' . $row . '" type="hidden">'. "\n";
+			$output .= '<td class="left" style="width: 200px;">' . $product['name'];
 			if($option_values){
 				foreach($option_values as $option_value){
 					$output .= '<br><small>' . ' - ' . $option_value['name'] . ' : ' . $option_value['value'] . '</small>';
 				}
 			}
 			$output .= '</td>'. "\n";
-			$output .= '<td>' . '<input name="products[' . $row . '][quantity]" size="10" value="1" id="quantity_' . $row . '" onchange="update_row(' . $row . ')"></td>'. "\n"; 
-			$output .= '<td>' . '<input name="products[' . $row . '][price]" value="' . $price . '" size="12" id="price_' . $row . '" onchange="update_row(' . $row . ')"></td>'. "\n"; 
-			$output .= '<td>' . '<input name="products[' . $row . '][extended]" value="' . $price . '" id="extended_' . $row . '" size="12"  readonly="readonly" style="border: 0px;"></td>'. "\n"; 
+			$output .= '<td class="left" style="width: 100px;">' . '<input name="products[' . $row . '][quantity]" size="6" value="1" id="quantity_' . $row . '" onchange="update_row(' . $row . ')"></td>'. "\n"; 
+			$output .= '<td class="left" style="width: 120px;">' . '<input name="products[' . $row . '][price]" size="12" value="' . $price . '" size="12" id="price_' . $row . '" onchange="update_row(' . $row . ')"></td>'. "\n";
+			
+			$output .= '<td class="left" style="width: 100px;">' . '<input name="products[' . $row . '][tax_rate]" size="10" value="' . $tax . '" id="tax_rate_' . $row . '" readonly="readonly" style="border: 0px;"></td>'. "\n";
+			$output .= '<td class="left" style="width: 120px;">' . '<input name="products[' . $row . '][tax_amount]" size="10" value="" id="tax_amount_' . $row . '" readonly="readonly" style="border: 0px;"></td>'. "\n";
+			
+			$output .= '<td class="left" style="width: 200px;">' . '<input name="products[' . $row . '][extended]" size="12" value="' . $price . '" id="extended_' . $row . '" size="12"  readonly="readonly" style="border: 0px;"></td>'. "\n"; 
 			
 			
 			$output .= '</td></tr>'. "\n";

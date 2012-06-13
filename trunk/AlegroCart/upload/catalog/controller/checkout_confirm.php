@@ -243,20 +243,20 @@ class ControllerCheckoutConfirm extends Controller {
 			$shipping_total = $shipping_net + $shipping_tax;
 			$shipping_tax_rate = round($this->tax->getRate($this->shipping->getTaxClassId($this->session->get('shipping_method'))), $this->decimal_place);
 			$view->set('shipping_tax_rate', $shipping_tax_rate . '%');
-			$view->set('shipping_net', $this->currency->format($shipping_net));
+			$view->set('shipping_net', $this->currency->format($shipping_net + ($this->config->get('config_tax') ? $shipping_tax : NULL)));
 			$view->set('shipping_tax', $this->currency->format($shipping_tax));
 			$view->set('shipping_total', $this->currency->format($shipping_total));
 			if($this->coupon->getShipping()){
 				$freeshipping_net = $shipping_net;
 				$freeshipping_tax = $shipping_tax;
 				$freeshipping_total = $shipping_total;
-				$view->set('freeshipping_net', '-' . $this->currency->format($freeshipping_net));
+				$view->set('freeshipping_net', '-' . $this->currency->format($freeshipping_net + ($this->config->get('config_tax') ? $freeshipping_tax : NULL)));
 				$view->set('freeshipping_tax', '-' . $this->currency->format($freeshipping_tax));
 				$view->set('freeshipping_total', '-' . $this->currency->format($freeshipping_total));
 			}
 		}
 		
-		$cart_net_total = $net_total + (isset($shipping_net) ? $shipping_net : 0) - (isset($freeshipping_net) ? $freeshipping_net : 0);
+		$cart_net_total = $net_total + (isset($shipping_net) ? $shipping_net : 0) - (isset($freeshipping_net) ? $freeshipping_net : 0) + ($this->config->get('config_tax') ? (isset($shipping_tax) ? $shipping_tax : 0) - (isset($freeshipping_tax) ? $freeshipping_tax : 0) : 0);
 		$cart_tax_total = $tax_total + (isset($shipping_tax) ? $shipping_tax : 0) - (isset($freeshipping_tax) ? $freeshipping_tax : 0);
 		$cart_totals_total = $totals_total + (isset($shipping_total) ? $shipping_total : 0) - (isset($freeshipping_total) ? $freeshipping_total : 0);
 		
@@ -368,12 +368,12 @@ class ControllerCheckoutConfirm extends Controller {
 		$email->set('text_currency', $this->language->get('text_currency'));
 		
 		if ($this->cart->hasShipping()){
-			$email->set('shipping_net', $this->currency->format($shipping_net));
+			$email->set('shipping_net', $this->currency->format($shipping_net + ($this->config->get('config_tax') ? $shipping_tax : NULL)));
 			$email->set('shipping_tax', $this->currency->format($shipping_tax));
 			$email->set('shipping_total', $this->currency->format($shipping_total));
 			$email->set('shipping_tax_rate', $shipping_tax_rate . '%');
 			if($this->coupon->getShipping()){
-				$email->set('freeshipping_net', '-' . $this->currency->format($freeshipping_net));
+				$email->set('freeshipping_net', '-' . $this->currency->format($freeshipping_net + ($this->config->get('config_tax') ? $freeshipping_tax : NULL)));
 				$email->set('freeshipping_tax', '-' . $this->currency->format($freeshipping_tax));
 				$email->set('freeshipping_total', '-' . $this->currency->format($freeshipping_total));
 			}

@@ -131,11 +131,13 @@
 			  <table class="c">
 			    <tr>
 				  <th class="left" style="width: 200px;"><?php echo $text_product; ?></th>
-				  <th class="left" style="width: 200px;"><?php echo $text_quantity; ?></th>
-				  <th class="left" style="width: 200px;"><?php echo $text_price; ?></th>
+				  <th class="left" style="width: 100px;"><?php echo $text_quantity; ?></th>
+				  <th class="left" style="width: 120px;"><?php echo $text_price; ?></th>
+				  <th class="left" style="width: 100px;"><?php echo $text_tax_percent; ?></th>
+				  <th class="left" style="width: 120px;"><?php echo $text_tax_amount; ?></th>
 				  <th class="left" style="width: 200px;"><?php echo $text_total; ?></th>
 			    </tr>
-			    <tr><td colspan="4"><hr></td></tr>
+			    <tr><td colspan="6"><hr></td></tr>
 			  
 			  </table>
 			  <table id="products" class="c">
@@ -339,7 +341,7 @@
 				<tr>
 				  <th class="left"><?php echo $text_shipping_cost;?></th>
 				  <td colspan="6"></td>
-				  <td class="right"><?php echo $shipping_net;?></td>
+				  <td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $shipping_net;?></td>
 				  <td class="right"><?php echo $shipping_tax_rate;?></td>
 				  <td class="right"><?php echo $shipping_tax;?></td>
 				  <td></td>
@@ -349,7 +351,7 @@
 				  <tr>
 					<th class="left"><?php echo $text_free_shipping;?></th>
 					<td colspan="6"></td>
-					<td class="right"><?php echo $freeshipping_net;?></td>
+					<td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $freeshipping_net;?></td>
 					<td class="right"><?php echo $shipping_tax_rate;?></td>
 					<td class="right"><?php echo $freeshipping_tax;?></td>
 					<td></td>

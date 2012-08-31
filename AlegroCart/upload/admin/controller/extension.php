@@ -70,7 +70,16 @@ class ControllerExtension extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
- 
+
+	function changeStatus() { 
+		
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
+
+			$this->modelExtension->change_extension_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+		}
+	
+	}
+
 	function getList() {
 		$this->session->set('extension_validation', md5(time()));
         if($this->session->get('extension_type') != $this->request->gethtml('type')){
@@ -140,10 +149,21 @@ class ControllerExtension extends Controller {
 			} else {
 			  $extension_status = $this->modelExtension->get_status($result['controller']);
 			}
+			if ($this->validateChangeStatus() && isset($extension_status)) {
+			$cell[] = array(
+				'status'  => $extension_status,
+				'text' => $this->language->get('button_status'),
+				'align' => 'center',
+				'status_id' => $result['extension_id'],
+				'status_controller' => 'extension'
+			);
+
+			} else {
 			$cell[] = array(
 				'icon'  => ($extension_status ? 'enabled.png' : 'disabled.png'),
 				'align' => 'center'
 			);
+			}
 			if ($sort_status){
 				$cell[] = array(
 					'value' => $this->config->get($module_sort . '_sort_order') ? $this->config->get($module_sort . '_sort_order') : '0',
@@ -235,6 +255,9 @@ class ControllerExtension extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_status', $this->language->get('button_status'));
+
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		if ($this->session->has('error')) {
 			$view->set('error', $this->session->get('error'));
@@ -454,6 +477,14 @@ class ControllerExtension extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
+		}
+	}
+
+	function validateChangeStatus(){
+		if (!$this->user->hasPermission('modify', 'extension')) {
+	      		return FALSE;
+	    	}  else {
+			return TRUE;
 		}
 	}
 

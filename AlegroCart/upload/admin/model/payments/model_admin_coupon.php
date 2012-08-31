@@ -96,5 +96,10 @@ class Model_Admin_Coupon extends Model {
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
 	}
+	function change_coupon_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update coupon set status = '?' where coupon_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 }
 ?>

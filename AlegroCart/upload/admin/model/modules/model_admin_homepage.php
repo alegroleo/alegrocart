@@ -105,5 +105,10 @@ class Model_Admin_Homepage extends Model {
 		$text_results = $this->language->get('text_results', $this->database->getFrom(), $this->database->getTo(), $this->database->getTotal());
 		return $text_results;
 	}
+	function change_homepage_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update home_page set status = '?' where home_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 }
 ?>

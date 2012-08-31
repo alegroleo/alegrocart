@@ -76,6 +76,15 @@ class ControllerZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
+	function changeStatus() { 
+		
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
+
+			$this->modelZone->change_zone_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+		}
+	
+	}
+
 	function getList() {
 		$this->session->set('zone_validation', md5(time()));
 		$cols = array();
@@ -96,7 +105,7 @@ class ControllerZone extends Controller {
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_zone_status'),
-			'sort'  => 'zone_status',
+			'sort'  => 'z.zone_status',
 			'align' => 'right'
 		);		
     	$cols[] = array(
@@ -121,10 +130,22 @@ class ControllerZone extends Controller {
 				'value' => $result['code'],
 				'align' => 'center'
 			);
+			if ($this->validateChangeStatus()) {
 			$cell[] = array(
-        		'icon'  => ($result['zone_status'] ? 'enabled.png' : 'disabled.png'),
-        		'align' => 'right'
-      		);			
+				'status'  => $result['zone_status'],
+				'text' => $this->language->get('button_status'),
+				'align' => 'right',
+				'status_id' => $result['zone_id'],
+				'status_controller' => 'zone'
+			);
+
+			} else {
+
+			$cell[] = array(
+				'icon'  => ($result['zone_status'] ? 'enabled.png' : 'disabled.png'),
+				'align' => 'right'
+			);
+			}		
 			$action = array();
 			$action[] = array(
         		'icon' => 'update.png',
@@ -166,6 +187,9 @@ class ControllerZone extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_status', $this->language->get('button_status'));
+
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
 
@@ -343,6 +367,14 @@ class ControllerZone extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
+		}
+	}
+
+	function validateChangeStatus(){
+		if (!$this->user->hasPermission('modify', 'zone')) {
+	      		return FALSE;
+	    	}  else {
+			return TRUE;
 		}
 	}
 

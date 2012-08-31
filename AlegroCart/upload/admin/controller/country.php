@@ -99,6 +99,15 @@ class ControllerCountry extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
+	function changeStatus() { 
+		
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
+
+			$this->modelCountry->change_country_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+		}
+	
+	}
+
 	private function getList() {
 		$this->session->set('country_validation', md5(time()));
 		$cols = array();
@@ -136,10 +145,21 @@ class ControllerCountry extends Controller {
 				'align'   => 'left',
 				'default' => ($result['country_id'] == $this->config->get('config_country_id'))
 			);
+			if ($this->validateChangeStatus() && $this->config->get('config_country_id') !== $result['country_id']) {
 			$cell[] = array(
-        		'icon'  => ($result['country_status'] ? 'enabled.png' : 'disabled.png'),
-        		'align' => 'center'
-      		);
+				'status'  => $result['country_status'],
+				'text' => $this->language->get('button_status'),
+				'align' => 'center',
+				'status_id' => $result['country_id'],
+				'status_controller' => 'country'
+			);
+
+			} else {
+			$cell[] = array(
+				'icon'  => ($result['country_status'] ? 'enabled.png' : 'disabled.png'),
+				'align' => 'center'
+			);
+			}
 			$cell[] = array(
 				'value' => $result['iso_code_2'],
 				'align' => 'right'
@@ -190,6 +210,9 @@ class ControllerCountry extends Controller {
  		$view->set('button_refresh', $this->language->get('button_enable_disable'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete')); // In English.php
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_status', $this->language->get('button_status'));
+
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
@@ -393,7 +416,15 @@ class ControllerCountry extends Controller {
 			return FALSE;
 		}
 	}
-	
+
+	function validateChangeStatus(){
+		if (!$this->user->hasPermission('modify', 'country')) {
+	      		return FALSE;
+	    	}  else {
+			return TRUE;
+		}
+	}
+
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('country.search', $this->request->gethtml('search', 'post'));

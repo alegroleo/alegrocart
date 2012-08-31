@@ -106,5 +106,23 @@ class Model_Admin_Extension extends Model {
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
 	}
+	function change_extension_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$extension_controller = $this->database->getRow("select controller from extension where extension_id ='" . $status_id . "'");
+		$extension_type = explode('_', $extension_controller['controller']);
+			if (strstr($extension_type[0], 'module')) {
+			$extension_type[1] = $extension_type[1] == 'extra' ? 'catalog' : $extension_type[1];
+			$extension_type[1] = $extension_type[2] == 'developer' ? 'global' : $extension_type[1];
+				if (strstr($extension_type[2], 'options')){
+					$start = substr($extension_type[2],0,strpos($extension_type[2],'options'));
+					$extension_type[2] = $start . '_options';
+				}
+			$this->database->query("delete from setting where `type` = '" . $extension_type[1] . "' and `group`= '" . $extension_type[2] . "' and `key` = '" . $extension_type[2] . '_status' . "'");
+			$this->database->query($this->database->parse("insert into setting set type = '?', `group` = '?', `key` = '?' , `value` = '?'", $extension_type[1],$extension_type[2],  $extension_type[2] . '_status', (int)$new_status));
+			} else {
+			$this->database->query("delete from setting where `key` = '" . $extension_type[1] . '_status' . "'");
+			$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = '?', `key` = '?' , `value` = '?'", $extension_type[1],  $extension_type[1] . '_status', (int)$new_status));
+			} 
+	}
 }
 ?>

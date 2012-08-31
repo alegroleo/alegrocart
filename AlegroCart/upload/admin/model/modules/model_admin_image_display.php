@@ -57,7 +57,7 @@ class Model_Admin_Image_Display extends Model {
 		} else {
 			$sql = "select id.image_display_id, id.name, id.status, id.location_id, id.sort_order, tpl.location from image_display id left join tpl_location tpl on (id.location_id = tpl.location_id) where id.name like '?'";
 		}
-		$sort = array('id.name', 'id.location_id', 'id.sort_order' );
+		$sort = array('id.name', 'id.location_id', 'id.sort_order', 'id.status');
 		if (in_array($this->session->get('imagedisplay.sort'), $sort)){
 			$sql .= " order by " . $this->session->get('imagedisplay.sort') . " " . (($this->session->get('imagedisplay.order') == 'desc') ? 'desc' : 'asc');
 		} else {
@@ -95,6 +95,11 @@ class Model_Admin_Image_Display extends Model {
 	function get_languages(){
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
+	}
+	function change_imagedisplay_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update image_display set status = '?' where image_display_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
 }	
 ?>

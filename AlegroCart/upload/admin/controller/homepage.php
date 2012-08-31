@@ -73,6 +73,16 @@ class ControllerHomepage extends Controller {
 		$this->template->set($this->module->fetch());
     	$this->response->set($this->template->fetch('layout.tpl'));
 	}
+
+	function changeStatus() { 
+		
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
+
+			$this->modelAdminHomepage->change_homepage_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+		}
+	
+	}
+
   	function getList() {
 		$this->session->set('home_validation', md5(time()));
 		$cols = array();
@@ -114,11 +124,23 @@ class ControllerHomepage extends Controller {
         		'value' => $result['title'],
         		'align' => 'left'
 		  	);
-      		$cell[] = array(
-        		'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-        		'align' => 'center'
-      		);
-			$cell[] = array(
+      		if ($this->validateChangeStatus()) {
+		$cell[] = array(
+			'status'  => $result['status'],
+			'text' => $this->language->get('button_status'),
+			'align' => 'center',
+			'status_id' => $result['home_id'],
+			'status_controller' => 'homepage'
+		);
+
+		} else {
+
+		$cell[] = array(
+			'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+			'align' => 'center'
+		);
+		}
+		$cell[] = array(
                'image' => $result['filename']?$this->image->resize($result['filename'], '26', '26'):$this->image->resize('no_image.png', '26', '26'),
                'align' => 'right'
              );
@@ -160,6 +182,9 @@ class ControllerHomepage extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+	$view->set('button_status', $this->language->get('button_status'));
+
+	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
     	$view->set('error', @$this->error['message']);
  		$view->set('message', $this->session->get('message'));
@@ -411,6 +436,14 @@ class ControllerHomepage extends Controller {
 		$this->response->redirect($this->url->ssl('homepage', 'update', array('home_id' => $this->request->gethtml('home_id'))));	
 		} else {
 		$this->response->redirect($this->url->ssl('homepage', 'insert'));	
+		}
+	}
+
+	function validateChangeStatus(){
+		if (!$this->user->hasPermission('modify', 'homepage')) {
+	      		return FALSE;
+	    	}  else {
+			return TRUE;
 		}
 	}
 

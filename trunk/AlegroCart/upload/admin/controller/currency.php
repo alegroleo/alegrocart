@@ -109,6 +109,15 @@ class ControllerCurrency extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
+	function changeStatus() { 
+		
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
+
+			$this->modelCurrency->change_currency_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+		}
+	
+	}
+
 	function getList() {
 		$this->session->set('currency_validation', md5(time()));
 		$cols = array();
@@ -163,10 +172,21 @@ class ControllerCurrency extends Controller {
 				'value' => $result['value'],
 				'align' => 'center'
 			);
+			if ($this->validateChangeStatus() && $this->config->get('config_currency') !== $result['code']) {
+			$cell[] = array(
+				'status'  => $result['status'],
+				'text' => $this->language->get('button_status'),
+				'align' => 'center',
+				'status_id' => $result['currency_id'],
+				'status_controller' => 'currency'
+			);
+
+			} else {
 			$cell[] = array(
 				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-				'align'  => 'center'
+				'align' => 'center'
 			);
+			}
 			$cell[] = array(
 				'icon'  => ($result['lock_rate'] || ($result['code'] == $this->config->get('config_currency')) ? 'disable_update.png' : 'enable_update.png'),
 				'align'  => 'center'
@@ -220,6 +240,9 @@ class ControllerCurrency extends Controller {
 		$view->set('button_enable_disable', $this->language->get('button_enable_disable'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_status', $this->language->get('button_status'));
+
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
 
@@ -450,7 +473,16 @@ class ControllerCurrency extends Controller {
 			return FALSE;
 		}
 	}	
-	
+
+	function validateChangeStatus(){
+				
+		if (!$this->user->hasPermission('modify', 'currency')) {
+	      		return FALSE;
+	    	}  else {
+			return TRUE;
+		}
+	}
+
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('currency.search', $this->request->gethtml('search', 'post'));

@@ -24,7 +24,7 @@ $_['text_default']      = 'Default';
 $_['text_previous']     = 'Previous';
 $_['text_results']      = 'Results %s - %s of %s';
 $_['text_pages']        = '%s of %s';
-$_['text_confirm']      = 'Are you sure?';
+$_['text_confirm_delete'] = 'Are you sure you want to delete?';
 
 //DateTime
 $_['text_january']          = 'January';
@@ -91,6 +91,7 @@ $_['button_uninstall']  = 'Uninstall';
 $_['button_configure']  = 'Configure';
 $_['button_send']       = 'Send E-Mail';
 $_['button_enable_delete'] = 'Enable/Disable Delete Icon';
+$_['button_status']     = 'Change Status';
 
 // Tab
 $_['tab_general']       = 'General';

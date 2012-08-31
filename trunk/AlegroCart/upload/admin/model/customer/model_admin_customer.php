@@ -87,5 +87,10 @@ class Model_Admin_Customer extends Model {
 		$pages = $this->database->getpages();
 		return $pages;
 	}
+	function change_customer_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update customer set status = '?' where customer_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 }
 ?>

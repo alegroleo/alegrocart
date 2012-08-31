@@ -135,6 +135,10 @@
       <td class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>"></td>
       <?php } elseif (isset($cell['path'])) { ?>
       <td width="30" class="<?php echo $cell['align']; ?>"><a href="<?php echo $cell['path']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a></td>
+      <?php } elseif (isset($cell['status'])) { ?>
+      <td class="<?php echo $cell['align']; ?>">
+      <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$(this.id).load('index.php?controller=<?php echo ($cell['status_controller'])?>&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
+      </td>
       <?php } elseif (isset($cell['icon'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php if (isset($cell['href'])) { ?>
         <a href="<?php echo $cell['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a>
@@ -144,7 +148,7 @@
       </td>
       <?php } elseif (isset($cell['action'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php foreach ($cell['action'] as $action) { 
-		if (preg_match('/action=delete/',$action['href'])) { $action['href'].='" onClick="return confirm(\'Are you sure you want to delete?\')'; }
+		if (preg_match('/action=delete/',$action['href'])) { $action['href'].='" onClick="return confirm(\''. $text_confirm_delete .'\')'; }
       ?>
         <a href="<?php echo $action['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $action['icon']; ?>" alt="<?php echo $action['text']; ?>" title="<?php echo $action['text']; ?>" class="png"></a>
         <?php } ?></td>
@@ -154,3 +158,15 @@
     <?php } ?>
   </table>
 </div>
+<script type="text/javascript"><!--
+$("input").click(function (event) {
+              	var imgstatus = $(this).attr('name')
+		var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png')
+                var urlid = $(this).attr('id')
+                var isclass = $(this).attr('class')
+                if (isclass == "status") {
+		$(this).attr('src','template/<?php echo $this->directory?>/image/'+imgstatus2);   
+                $(this).attr('name', imgstatus == '0' ? '1' : '0'); 
+                }
+});
+//--></script>

@@ -274,5 +274,10 @@ class Model_Admin_Product extends Model {
 		$fdownloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and p2d.free = ' 1 ' and dd.language_id = '" . (int)$this->language->getId() . "'");
 		return $fdownloads ? TRUE : FALSE;
 	}
+	function change_product_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update product set status = '?' where product_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 }
 ?>

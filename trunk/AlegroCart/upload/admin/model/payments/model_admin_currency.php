@@ -73,5 +73,10 @@ class Model_Admin_Currency extends Model {
 		$result = $this->database->getRow("select * from currency where currency_id = '" . (int)$this->request->gethtml('currency_id') . "'");
 		return $result;
 	}
+	function change_currency_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update currency set status = '?' where currency_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 }
 ?>

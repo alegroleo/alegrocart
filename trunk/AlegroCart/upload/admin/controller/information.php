@@ -149,6 +149,8 @@ class ControllerInformation extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));

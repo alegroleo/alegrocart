@@ -32,7 +32,7 @@ class Model_Admin_Zone extends Model {
 		} else {
 			$sql = "select z.zone_id, z.name, z.zone_status, z.code, c.name as country from zone z left join country c on (z.country_id = c.country_id) where c.name like '?' or z.name like '?'";
 		}
-		$sort = array('z.name',	'z.zone.status', 'z.code', 'c.name');
+		$sort = array('z.name',	'z.zone_status', 'z.code', 'c.name');
 		if (in_array($this->session->get('zone.sort'), $sort)) {
 			$sql .= " order by " . $this->session->get('zone.sort') . " " . (($this->session->get('zone.order') == 'desc') ? 'desc' : 'asc');
 		} else {
@@ -66,6 +66,11 @@ class Model_Admin_Zone extends Model {
 	function check_zone_to_geo(){
 		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where (zone_id = '" . (int)$this->request->gethtml('zone_id') . "') or (country_id = '" .  $this->request->gethtml('country_id', 'post') . "' and  zone_id = '0')");
 		return $result;
+	}
+	function change_zone_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update zone set zone_status = '?' where zone_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
 }
 ?>

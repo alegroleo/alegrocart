@@ -70,6 +70,15 @@ class ControllerReview extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
+	function changeStatus() { 
+		
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
+
+			$this->modelReview->change_review_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+		}
+	
+	}
+
 	function getList() {
 		$this->session->set('review_validation', md5(time()));
 		$cols = array();
@@ -141,11 +150,26 @@ class ControllerReview extends Controller {
 				'value' => $result['rating4'],
 				'align' => 'center'
 			);
+
+			if ($this->validateChangeStatus()) {
+			$cell[] = array(
+				'status'  => $result['status'],
+				'text' => $this->language->get('button_status'),
+				'align' => 'center',
+				'status_id' => $result['review_id'],
+				'status_controller' => 'review'
+			);
+
+			} else {
+
 			$cell[] = array(
 				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
 				'align' => 'center'
 			);
+			}
+
 			
+
 			$action = array();
 			$action[] = array(
         		'icon' => 'update.png',
@@ -186,6 +210,9 @@ class ControllerReview extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_status', $this->language->get('button_status'));
+
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
@@ -193,7 +220,7 @@ class ControllerReview extends Controller {
 		
 		$view->set('action', $this->url->ssl('review', 'page'));
 		$view->set('action_delete', $this->url->ssl('review', 'enableDelete'));
- 
+
 		$view->set('search', $this->session->get('review.search'));
 		$view->set('sort', $this->session->get('review.sort'));
 		$view->set('order', $this->session->get('review.order'));
@@ -379,6 +406,14 @@ class ControllerReview extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
+		}
+	}
+
+	function validateChangeStatus(){
+		if (!$this->user->hasPermission('modify', 'review')) {
+	      		return FALSE;
+	    	}  else {
+			return TRUE;
 		}
 	}
 

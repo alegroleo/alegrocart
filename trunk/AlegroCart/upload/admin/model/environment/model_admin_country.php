@@ -74,5 +74,10 @@ class Model_Admin_Country extends Model {
 		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
 		return $result;
 	}
+	function change_country_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update country set country_status = '?' where country_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 }
 ?>

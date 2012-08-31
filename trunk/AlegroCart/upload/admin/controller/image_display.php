@@ -72,6 +72,15 @@ class ControllerImageDisplay extends Controller {
     	$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
+	function changeStatus() { 
+		
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
+
+			$this->modelImageDisplay->change_imagedisplay_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+		}
+	
+	}
+
 	function getList() {
 		$this->session->set('image_display_validation', md5(time()));
 		$cols = array();
@@ -92,6 +101,7 @@ class ControllerImageDisplay extends Controller {
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_status'),
+			'sort'  => 'id.status',
 			'align' => 'right'
 		);
 		$cols[] = array(
@@ -116,11 +126,22 @@ class ControllerImageDisplay extends Controller {
         		'value' => $result['sort_order'],
         		'align' => 'center'
 		  	);
+			if ($this->validateChangeStatus()) {
 			$cell[] = array(
-        		'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-        		'align' => 'right'
-      		);
-			
+				'status'  => $result['status'],
+				'text' => $this->language->get('button_status'),
+				'align' => 'right',
+				'status_id' => $result['image_display_id'],
+				'status_controller' => 'image_display'
+			);
+
+			} else {
+
+			$cell[] = array(
+				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+				'align' => 'right'
+			);
+			}
 			$action = array();
 			$action[] = array(
         		'icon' => 'update.png',
@@ -158,6 +179,9 @@ class ControllerImageDisplay extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_status', $this->language->get('button_status'));
+
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
  		$view->set('message', $this->session->get('message'));
@@ -442,6 +466,14 @@ class ControllerImageDisplay extends Controller {
 		$this->response->redirect($this->url->ssl('image_display', 'update', array('image_display_id' => (int)$this->request->gethtml('image_display_id'))));	
 		} else {
 		$this->response->redirect($this->url->ssl('image_display', 'insert'));	
+		}
+	}
+
+	function validateChangeStatus(){
+		if (!$this->user->hasPermission('modify', 'image_display')) {
+	      		return FALSE;
+	    	}  else {
+			return TRUE;
 		}
 	}
 

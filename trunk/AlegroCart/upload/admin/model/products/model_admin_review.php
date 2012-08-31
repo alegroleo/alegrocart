@@ -15,6 +15,11 @@ class Model_Admin_Review extends Model {
 		$sql = "update review set author = '?', product_id = '?', text = '?', rating1 = '?', rating2 = '?', rating3 = '?', rating4 = '?', status = '?', date_added = now() where review_id = '?'";
 		$this->database->query($this->database->parse($sql, $this->request->gethtml('author', 'post'), (int)$this->request->gethtml('product_id', 'post'), $this->request->gethtml('text', 'post'), $this->request->gethtml('rating1', 'post'), $this->request->gethtml('rating2', 'post'), $this->request->gethtml('rating3', 'post'), $this->request->gethtml('rating4', 'post'), $this->request->gethtml('status', 'post'), (int)$this->request->gethtml('review_id')));
 	}
+	function change_review_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update review set status = '?' where review_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 	function get_review(){
 		$result = $this->database->getRow("select distinct * from review where review_id = '" . (int)$this->request->gethtml('review_id') . "'");
 		return $result;

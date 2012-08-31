@@ -90,5 +90,10 @@ class Model_Admin_Tpl_Manager extends Model {
 		$text_results = $this->language->get('text_results', $this->database->getFrom(), $this->database->getTo(), $this->database->getTotal());
 		return $text_results;
 	}	
+	function change_template_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update tpl_manager set tpl_status = '?' where tpl_manager_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 }
 ?>

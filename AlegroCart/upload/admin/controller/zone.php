@@ -130,7 +130,7 @@ class ControllerZone extends Controller {
 				'value' => $result['code'],
 				'align' => 'center'
 			);
-			if ($this->validateChangeStatus()) {
+			if ($this->validateChangeStatus() && $this->config->get('config_zone_id') !== $result['zone_id']) {
 			$cell[] = array(
 				'status'  => $result['zone_status'],
 				'text' => $this->language->get('button_status'),

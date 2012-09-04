@@ -142,9 +142,10 @@ class ControllerHomepage extends Controller {
 		}
 		$cell[] = array(
                'image' => $result['filename']?$this->image->resize($result['filename'], '26', '26'):$this->image->resize('no_image.png', '26', '26'),
+	       'previewimage' => $result['filename']?$this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')):$this->image->resize('no_image.png', $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+               'title' => $result['filename']?$result['filename']:$this->language->get('text_no_image'),
                'align' => 'right'
-             );
-			
+            	);	
 			$action = array();
 			$action[] = array(
         		'icon' => 'update.png',
@@ -217,7 +218,7 @@ class ControllerHomepage extends Controller {
 		$view->set('text_runtimes', $this->language->get('text_runtimes'));
 		$view->set('text_continous', $this->language->get('text_continous'));
 		$view->set('text_noflash', $this->language->get('text_noflash'));
-		$view->set('text_noimage', $this->language->get('text_noimage'));
+		$view->set('text_no_image', $this->language->get('text_no_image'));
 		$view->set('text_browse', $this->language->get('text_browse'));
 
 		$view->set('entry_name', $this->language->get('entry_name'));

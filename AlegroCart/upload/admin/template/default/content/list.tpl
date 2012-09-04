@@ -132,7 +132,7 @@
         <b>(<?php echo $text_default; ?>)</b>
         <?php } ?></td>
       <?php } elseif (isset($cell['image'])) { ?>
-      <td class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>"></td>
+      <td id="image_to_preview" class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>" rel="<?php echo $cell['previewimage']; ?>" title="<?php echo $cell['title']; ?>"></td>
       <?php } elseif (isset($cell['path'])) { ?>
       <td width="30" class="<?php echo $cell['align']; ?>"><a href="<?php echo $cell['path']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a></td>
       <?php } elseif (isset($cell['status'])) { ?>
@@ -170,3 +170,38 @@ $("input").click(function (event) {
                 }
 });
 //--></script>
+<script type="text/javascript"><!--original idea by Alen Grakalic
+$(function() {
+
+	var xOffset = 10;
+	var yOffset = 20;
+
+	if (typeof window.innerHeight != 'undefined') effectiveHeight = window.innerHeight;
+	else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientHeight !='undefined' && document.documentElement.clientHeight != 0) effectiveHeight = document.documentElement.clientHeight;
+	else effectiveHeight = document.getElementsByTagName('body')[0].clientHeight;
+
+	var scrolled = 0;
+
+$("#image_to_preview img").hover(function (event) {
+	this.t = this.title;
+	this.title = "";	
+	var c = (this.t != "") ? "<br>" + this.t : "";
+
+	if (typeof window.pageYOffset == 'number') scrolled = window.pageYOffset;
+	else if (document.body && (document.body.scrollLeft || document.body.scrolled)) scrolled = document.body.scrolled;
+	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrolled)) scrolled = document.documentElement.scrolled;
+
+	$("body").append("<p id='preview'><img src='"+ $(this).attr('rel') + "' >" + c + "</p>");								 
+	$("#preview").css("top", (event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(event.pageX - yOffset - 2*($(this).attr('rel').substr(-7,3))) + "px").fadeIn("fast");		
+},
+function() {
+	this.title = this.t;	
+	$("#preview").remove();
+}
+);
+
+$("#image_to_preview img").mousemove(function(event){
+	$("#preview").css("top",(event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(event.pageX - yOffset - 2*($(this).attr('rel').substr(-7,3))) + "px");
+});
+});
+  //--></script>

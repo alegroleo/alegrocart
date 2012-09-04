@@ -130,10 +130,12 @@ class ControllerManufacturer extends Controller {
         		'value' => $result['name'],
         		'align' => 'left'
       		);
-			$cell[] = array(
-               'image' => $this->image->resize($result['filename'], '26', '26'),
-               'align' => 'right'
-            );
+		$cell[] = array(
+		       'image' => $this->image->resize($result['filename'], '26', '26'),
+		       'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+		       'title' => $result['filename'],
+		       'align' => 'right'
+                );
       		$cell[] = array(
         		'value' => $result['sort_order'],
         		'align' => 'right'

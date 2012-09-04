@@ -336,10 +336,12 @@ class ControllerProduct extends Controller {
 				'align' => 'center'
 		);
 		}
-			$cell[] = array(
+		$cell[] = array(
                'image' => $this->image->resize($result['filename'], '26', '26'),
+	       'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+               'title' => $result['filename'],
                'align' => 'right'
-            );
+                );
       		$cell[] = array(
         		'value' => $result['sort_order'],
         		'align' => 'right'
@@ -918,6 +920,7 @@ class ControllerProduct extends Controller {
       		$image_data[] = array(
         		'image_id'   => $result['image_id'],
         		'title'      => $result['title'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
         		'product_id' => (isset($product_to_image_info) ? $product_to_image_info : in_array($result['image_id'], $this->request->gethtml('image', 'post', array())))
       		);
     	}
@@ -959,6 +962,7 @@ class ControllerProduct extends Controller {
 			} 		
 			$category_data[] = array(
         		'category_id' => $result['category_id'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
         		'name'        => str_repeat('&nbsp;&nbsp;&nbsp;', count(explode('_', $result['path'])) - 1) . $result['name'],
         		'product_id'  => (isset($product_to_category_info) ? $product_to_category_info : in_array($result['category_id'], $this->request->gethtml('category', 'post', array())))
       		);
@@ -973,8 +977,9 @@ class ControllerProduct extends Controller {
 			}
 			$related_data[] = array(
         		'product_id' => $result['product_id'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
         		'name'        => $result['name'],
-				'relateddata'	=> (isset($related_info) ? $related_info : in_array($result['product_id'], $this->request->gethtml('relateddata', 'post', array()))));
+			'relateddata'	=> (isset($related_info) ? $related_info : in_array($result['product_id'], $this->request->gethtml('relateddata', 'post', array()))));
     	}
     	$view->set('relateddata', $related_data);
 

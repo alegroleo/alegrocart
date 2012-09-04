@@ -322,12 +322,12 @@
             </tr>
             <tr>
               <td valign="top" class="set"><?php echo $entry_images; ?></td>
-              <td><select name="image[]" multiple="multiple" size="15">
+              <td><select id="image_to_preview" name="image[]" multiple="multiple" size="15">
                   <?php foreach ($images as $image) { ?>
                   <?php if (!$image['product_id']) { ?>
-                  <option value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
+                  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
+                  <option title="<?php echo $image['previewimage']; ?>"value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>
@@ -368,12 +368,12 @@
           <table>
             <tr>
               <td width="185" valign="top" class="set"><?php echo $entry_category; ?></td>
-              <td><select name="category[]" multiple="multiple" size="15">
+              <td><select id="image_to_preview" name="category[]" multiple="multiple" size="15">
                   <?php foreach ($categories as $category) { ?>
                   <?php if (!$category['product_id']) { ?>
-                  <option value="<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></option>
+                  <option title="<?php echo $category['previewimage']; ?>" value="<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $category['category_id']; ?>" selected><?php echo $category['name']; ?></option>
+                  <option title="<?php echo $category['previewimage']; ?>" value="<?php echo $category['category_id']; ?>" selected><?php echo $category['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>
@@ -424,12 +424,12 @@
             </tr>			
 			<tr>
               <td width="185" valign="top" class="set"><?php echo $entry_related; ?></td>
-              <td><select name="relateddata[]" multiple="multiple" size="15">
+              <td><select id="image_to_preview" name="relateddata[]" multiple="multiple" size="15">
                   <?php foreach ($relateddata as $product) { ?>
                   <?php if (!$product['relateddata']) { ?>
-                  <option value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
+                  <option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $product['product_id']; ?>" selected><?php echo $product['name']; ?></option>
+                  <option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>" selected><?php echo $product['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>
@@ -799,5 +799,39 @@ function removeDiscount(row) {
   //--></script>
   <script type="text/javascript"><!--
   tabview_initialize('tabmini2');
+  //--></script>
+<script type="text/javascript"><!--original idea by Alen Grakalic
+$(function() {
+
+	var xOffset = 10;
+	var yOffset = 20;
+
+	if (typeof window.innerHeight != 'undefined') effectiveHeight = window.innerHeight;
+	else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientHeight !='undefined' && document.documentElement.clientHeight != 0) effectiveHeight = document.documentElement.clientHeight;
+	else effectiveHeight = document.getElementsByTagName('body')[0].clientHeight;
+
+	var scrolled = 0;
+
+$("#image_to_preview option").hover(function (event) {
+	this.t = this.title;
+	this.title = "";
+	
+	if (typeof window.pageYOffset == 'number') scrolled = window.pageYOffset;
+	else if (document.body && (document.body.scrollLeft || document.body.scrolled)) scrolled = document.body.scrolled;
+	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrolled)) scrolled = document.documentElement.scrolled;
+
+	$("body").append("<p id='preview'><img src='"+ this.t + "' >" + "</p>");								 
+	$("#preview").css("top", (event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - (this.t.substr(-7,3))) + "px").css("left",(event.pageX + yOffset) + "px").fadeIn("fast");		
+},
+function() {
+	this.title = this.t;
+	$("#preview").remove();
+}
+);
+
+$("#image_to_preview option").mousemove(function(event){
+	$("#preview").css("top",(event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - (this.t.substr(-7,3))) + "px").css("left",(event.pageX + yOffset) + "px");
+});
+});
   //--></script>
 </form>

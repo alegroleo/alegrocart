@@ -187,7 +187,7 @@ class Model_Admin_Product extends Model {
 		return $result;
 	}
 	function get_categories(){
-		$results = $this->database->getRows("select c.category_id, cd.name, c.parent_id, c.path from category c left join category_description cd on (c.category_id = cd.category_id) where cd.language_id = '" . (int)$this->language->getId() . "' order by c.path");
+		$results = $this->database->getRows("select c.category_id, cd.name, c.parent_id, c.path, i.filename from category c left join category_description cd on (c.category_id = cd.category_id) left join image i on (c.image_id = i.image_id) where cd.language_id = '" . (int)$this->language->getId() . "' order by c.path");
 		return $results;
 	}
 	function get_productToCategory($category_id){
@@ -195,7 +195,7 @@ class Model_Admin_Product extends Model {
 		return $result;
 	}
 	function get_related_products(){
-		$results = $this->database->getRows("select p.product_id, pd.name from product p left join product_description pd on (p.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "' order by pd.name asc");
+		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' order by pd.name asc");
 		return $results;
 	}
 	function get_relatedToProduct($product_id){

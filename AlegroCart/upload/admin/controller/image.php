@@ -187,8 +187,10 @@ class ControllerImage extends Controller {
 				'align' => 'left'
 			);
 			$cell[] = array(
-				'image' => $this->image->resize($result['filename'], '26', '26'),
-				'align' => 'center'
+			       'image' => $this->image->resize($result['filename'], '26', '26'),
+			       'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+			       'title' => $result['filename'],
+			       'align' => 'center'
 			);
 			$action = array();
 			$action[] = array(
@@ -327,7 +329,7 @@ class ControllerImage extends Controller {
 			$result = $this->modelImage->get_image();
 			$image_photo[] = array(
 				'filename' => $result[0]['filename'],
-				'thumb'    => $this->image->resize($result[0]['filename'], $this->size, $this->size)
+				'thumb'    => $this->image->resize($result[0]['filename'], $this->config->get('config_image_width')?$this->config->get('config_image_width'):$this->size, $this->config->get('config_image_height')?$this->config->get('config_image_height'):$this->size)
 			);
 			$view->set('image_data', $image_photo);
 		}
@@ -454,7 +456,7 @@ class ControllerImage extends Controller {
 	function view() {
 		$image_info = $this->modelImage->get_image_data();
 
-		$this->response->set(sprintf($this->html,$this->image->resize($image_info['filename'], $this->size, $this->size), $image_info['title'], $image_info['title'], $this->size, $this->size));
+		$this->response->set(sprintf($this->html,$this->image->resize($image_info['filename'], $this->config->get('config_image_width')?$this->config->get('config_image_width'):$this->size, $this->config->get('config_image_height')?$this->config->get('config_image_height'):$this->size), $image_info['title'], $image_info['title'], $this->config->get('config_image_width')?$this->config->get('config_image_width'):$this->size, $this->config->get('config_image_height')?$this->config->get('config_image_height'):$this->size));
 	}	
 }
 ?>

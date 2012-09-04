@@ -74,7 +74,7 @@
 			<table>
 			  <tr>
 			    <td class="set"><?php echo $text_image_filename . '<b style="color:#0099FF;">' . $image_data[0]['filename'] . '</b>';?></td>
-				<td id="image"><img src="<?php echo $image_data[0]['thumb'];?>" alt="" title="" width="100" height="100"></td>
+				<td id="image"><img src="<?php echo $image_data[0]['thumb'];?>" alt="" title=""></td>
 			  </tr>
 			</table>
 		  <?php }?>

@@ -135,8 +135,10 @@ class ControllerProductsWithOptions extends Controller {
             );
 			$cell[] = array(
                'image' => $result['filename']?$this->image->resize($result['filename'], '26', '26'):$this->image->resize('no_image.png', '26', '26'),
+	       'previewimage' => $result['filename']?$this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')):$this->image->resize('no_image.png', $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+               'title' => $result['filename']?$result['filename']:$this->language->get('text_no_image'),
                'align' => 'right'
-             );
+            	);
 			 $action = array();
 			 $action[] =array(
 				'icon' => 'update.png',

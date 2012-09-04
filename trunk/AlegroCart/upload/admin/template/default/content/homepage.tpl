@@ -145,7 +145,7 @@
 				  <tr>
 				    <td style="width: 165px" class="set"><?php echo $entry_image; ?></td>
                     <td><select name="image_id[<?php echo $home_description['language_id']; ?>]" id="image_id<?php echo $home_description['language_id']; ?>" onchange="$('#image<?php echo $home_description['language_id']; ?>').load('index.php?controller=image&action=view&image_id='+this.value);">
-						  <option value=""><?php echo $text_noimage;?></option>
+						  <option value=""><?php echo $text_no_image;?></option>
                       <?php foreach ($images as $image) { ?>
                         <?php if ($image['image_id'] == $home_description['image_id']) { ?>
 						  <option value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>

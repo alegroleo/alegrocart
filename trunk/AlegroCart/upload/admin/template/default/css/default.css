@@ -658,6 +658,17 @@ form {
 	-khtml-opacity: 0; 
 	-moz-opacity: 0;
 }
+#preview{
+	position: absolute;
+	display:none;
+	background:#0099FF;
+	padding:4px;
+	color:#FFFFFF;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	z-index: 999;
+}
 }
 @media print {  
      body {

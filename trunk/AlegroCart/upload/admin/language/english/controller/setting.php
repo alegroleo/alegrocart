@@ -169,8 +169,9 @@ $_['entry_addtocart_maximum']  = 'Add Maximum Quantity:';
 $_['entry_dimension_decimal']  = 'Decimal places:';
 $_['entry_weight_decimal']     = 'Decimal places:'; 
 $_['entry_rss_limit']          = 'Rss Feed Limit:';
-$_['entry_rss_status']         = 'Enable RSS Feed';
+$_['entry_rss_status']         = 'Enable RSS Feed:';
 $_['entry_rss_source']         = 'RSS Source:';
+$_['entry_sitemap_status']      = 'Enable Sitemap Feed:';
 $_['entry_error_handler_status']= 'Enable Error Handler:';
 $_['entry_error_email']         = 'Email Address:';
 $_['entry_error_show_user']     = 'Show User:';
@@ -219,6 +220,7 @@ $_['explanation_session_expire']  = 'Time before session is deleted or has timed
 $_['explanation_pr_download']     = 'You can enable/disable here with one click the whole payment required download process.';
 $_['explanation_pr_download_status']     = 'As soon as you change the order status to this one, customers can download the purchased file(s).';
 $_['explanation_free_download']   = 'You can enable/disable here with one click the whole free download process.';
+$_['explanation_sitemap']         = 'The URL of your sitemap (e.g. for Google Webmaster Tools): ';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

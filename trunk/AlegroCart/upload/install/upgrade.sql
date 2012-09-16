@@ -1334,3 +1334,8 @@ INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_banktr';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Bank Transfer', 'Offline Bank Transfer') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+# Add Sitemap
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'sitemap_status';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'sitemap_status', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;

@@ -104,6 +104,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_rss_limit', `value` = '" . $this->request->gethtml('global_config_rss_limit', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_rss_status', `value` = '" . $this->request->gethtml('global_config_rss_status', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_rss_source', `value` = '" . $this->request->gethtml('global_config_rss_source', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_sitemap_status', `value` = '" . $this->request->gethtml('global_config_sitemap_status', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_barcode_encoding', `value` = '" . $this->request->gethtml('global_config_barcode_encoding', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_dimension_decimal', `value` = '" . $this->request->gethtml('global_config_dimension_decimal', 'post')  . "'");
 		

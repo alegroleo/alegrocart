@@ -224,7 +224,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_rss_status',$this->language->get('entry_rss_status'));
 		$view->set('entry_rss_source',$this->language->get('entry_rss_source'));
 		$view->set('quantity_selects', array('selectbox', 'textbox'));
-
+		$view->set('entry_sitemap_status',$this->language->get('entry_sitemap_status'));
  		$view->set('entry_wm_text',$this->language->get('entry_wm_text'));
 		$view->set('font_sizes', array('1', '2', '3', '4', '5'));
  		$view->set('entry_wm_fontsize',$this->language->get('entry_wm_fontsize'));
@@ -266,6 +266,7 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_pr_download',$this->language->get('explanation_pr_download'));
 		$view->set('explanation_pr_download_status',$this->language->get('explanation_pr_download_status'));
 		$view->set('explanation_free_download',$this->language->get('explanation_free_download'));
+		$view->set('explanation_sitemap',$this->language->get('explanation_sitemap'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -1072,6 +1073,15 @@ class ControllerSetting extends Controller {
 							'rss_specials' => $this->language->get('text_rss_specials'));
 		$view->set('rss_sources', $rss_sources);
 		
+		if ($this->request->has('global_config_sitemap_status')) {
+			$view->set('global_config_sitemap_status', $this->request->gethtml('global_config_sitemap_status'));
+		} else {
+			$view->set('global_config_sitemap_status', @$setting_info['global']['config_sitemap_status']);
+		}
+
+		$sitemap_path = HTTP_BASE . 'sitemap.php';
+		$view->set('sitemap_path', $sitemap_path);
+
 		if ($this->request->has('catalog_captcha_contactus')) {
 			$view->set('catalog_captcha_contactus', $this->request->gethtml('catalog_captcha_contactus'));
 		} else {

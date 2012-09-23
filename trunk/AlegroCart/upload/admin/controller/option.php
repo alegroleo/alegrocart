@@ -286,10 +286,17 @@ class ControllerOption extends Controller {
     	if (!$this->user->hasPermission('modify', 'option')) {
       		$this->error['message'] = $this->language->get('error_permission');
     	}	
-  		$product_info = $this->modelOptions->check_product_to_option();
+  		
+		$product_info = $this->modelOptions->check_product_to_option();
 		if ($product_info['total']) {
-	  		$this->error['message'] = $this->language->get('error_product', $product_info['total']);	
-		}  
+			$this->error['message'] = $product_info['total'] == 1 ? $this->language->get('error_product') : $this->language->get('error_products', $product_info['total']) ;
+			$product_list = $this-> modelOptions->get_optionToProducts();
+				$this->error['message'] .= '<br>';
+				foreach ($product_list as $product) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('product_option', '', array('product_id' => $product['product_id'])) . '">' . $product['name'] . '</a>&nbsp;';
+				}
+		}
+
 		if (!$this->error) {
 	  		return TRUE;
 		} else {

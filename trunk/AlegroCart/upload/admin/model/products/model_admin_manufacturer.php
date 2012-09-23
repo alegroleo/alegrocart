@@ -17,7 +17,7 @@ class Model_Admin_Manufacturer extends Model {
 	}
 	function update_manufacturer(){
 		$sql = "update manufacturer set name = '?', image_id = '?', sort_order = '?' where manufacturer_id = '?'";
-      	$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('image_id', 'post'), $this->request->gethtml('sort_order', 'post'), $this->request->gethtml('manufacturer_id')));
+      	$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('image_id', 'post'), $this->request->gethtml('sort_order', 'post'), (int)$this->request->gethtml('manufacturer_id')));
 	}
 	function delete_manufacturer(){
 		$this->database->query("delete from manufacturer where manufacturer_id = '" . (int)$this->request->gethtml('manufacturer_id') . "'");
@@ -69,6 +69,27 @@ class Model_Admin_Manufacturer extends Model {
 	}
 	function delete_SEO($query_path){
 		$this->database->query("delete from url_alias where query = '".$query_path."'");
+	}
+	function get_products(){
+		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' order by pd.name asc");
+		return $results;
+	}
+	function get_manufacturerToProduct($product_id){
+		$result = $this->database->getRow("select * from product where manufacturer_id = '" . (int)$this->request->gethtml('manufacturer_id') . "' and product_id = '" . (int)$product_id . "'");
+		return $result;
+	}
+	function write_product($product_id, $manufacturer_id){
+		$this->database->query("update product set manufacturer_id = '" . (int)$manufacturer_id . "' where product_id = '" . (int)$product_id . "'");
+	}
+	function delete_manufacturerToProduct(){
+		$this->database->query("update product set manufacturer_id = '0' where manufacturer_id = '" . (int)$this->request->gethtml('manufacturer_id') . "'");
+	}
+	function update_product($product_id){
+		$this->database->query("update product set manufacturer_id = '" . (int)$this->request->gethtml('manufacturer_id') . "' where product_id = '" . (int)$product_id . "'");
+	}
+	function get_manufacturerToProducts(){
+		$result = $this->database->getRows("select p.product_id, pd.name from product p left join product_description pd on (p.product_id=pd.product_id) where manufacturer_id = '" . (int)$this->request->gethtml('manufacturer_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
 	}
 }
 ?>

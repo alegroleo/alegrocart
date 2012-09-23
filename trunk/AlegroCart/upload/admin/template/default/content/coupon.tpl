@@ -158,7 +158,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
-	      <td valign="top" class="expl"><?php echo $explanation_entry_product; ?></td>
+	      <td valign="top" class="expl"><?php echo $explanation_entry_product; ?><br><br><?php echo $explanation_multiselect;?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_status; ?></td>

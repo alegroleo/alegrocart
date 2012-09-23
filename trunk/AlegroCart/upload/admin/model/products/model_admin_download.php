@@ -81,5 +81,9 @@ class Model_Admin_Download extends Model {
 		$pages = $this->database->getpages();
 		return $pages;
 	}
+	function get_downloadToProducts(){
+		$result = $this->database->getRows("select p2d.product_id, pd.name from product_to_download p2d left join product_description pd on (p2d.product_id=pd.product_id) where download_id = '" . (int)$this->request->gethtml('download_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
 }
 ?>

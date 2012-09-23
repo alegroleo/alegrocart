@@ -300,12 +300,22 @@ class ControllerGeoZone extends Controller {
 
 		$tax_rate_info = $this->modelGeoZone->check_tax();
 		if ($tax_rate_info['total']) {
-			$this->error['message'] = $this->language->get('error_tax_rate', $tax_rate_info['total']);
+			$this->error['message'] = $tax_rate_info['total'] == 1 ? $this->language->get('error_tax_rate') : $this->language->get('error_tax_rates', $tax_rate_info['total']) ;
+			$tax_rate_list = $this-> modelGeoZone->get_geozoneToTaxRate();
+				$this->error['message'] .= '<br>';
+				foreach ($tax_rate_list as $tax_rate) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('tax_rate', 'update', array('tax_rate_id' => $tax_rate['tax_rate_id'], 'tax_class_id' => $tax_rate['tax_class_id'])) . '">' . $tax_rate['title'] . ' (' . round($tax_rate['rate'],2) . '%)' .'</a>&nbsp;';
+				}
 		}
 
 		$zone_to_geo_zone_info = $this->modelGeoZone->check_zoneToGeozone();
 		if ($zone_to_geo_zone_info['total']) {
-			$this->error['message'] = $this->language->get('error_zone_to_geo_zone', $zone_to_geo_zone_info['total']);
+			$this->error['message'] = $zone_to_geo_zone_info['total'] == 1 ? $this->language->get('error_zone_to_geo_zone') : $this->language->get('error_zone_to_geo_zones', $zone_to_geo_zone_info['total']);
+			$zone_to_geo_zone_list = $this-> modelGeoZone->get_geozoneToZoneToGeoZone();
+				$this->error['message'] .= '<br>';
+				foreach ($zone_to_geo_zone_list as $geo_zone) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('zone_to_geo_zone', 'update', array('zone_to_geo_zone_id' => $geo_zone['zone_to_geo_zone_id'], 'geo_zone_id' => $this->request->gethtml('geo_zone_id'))) . '">' . $geo_zone['countryname'] . ' (' . ($geo_zone['zonename'] ? $geo_zone['zonename'] : $this->language->get('text_all_zones')) . ')'. '</a>&nbsp;';
+				}
 		}
 
 		if (!$this->error) {

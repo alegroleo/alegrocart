@@ -369,6 +369,14 @@ form {
 	margin-top: 5px;
 }
 
+.warning a {
+    	color: #006600;
+}
+
+.warning a:hover {
+    	text-decoration: none;
+}
+
 .message {
 	color: #000000;
 	text-align: center;
@@ -668,6 +676,7 @@ form {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	z-index: 999;
+	text-align: center;
 }
 }
 @media print {  

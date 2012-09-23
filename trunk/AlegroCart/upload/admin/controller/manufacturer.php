@@ -37,11 +37,14 @@ class ControllerManufacturer extends Controller {
 			$url_alias = $this->config->get('config_url_alias');
 			$url_seo = $this->config->get('config_seo');
       		$this->modelManufacturer->insert_manufacturer();
-			if($url_alias && $url_seo){
-				$manufacturer_id = $this->modelManufacturer->get_last_id();
+		$manufacturer_id = $this->modelManufacturer->get_last_id();			
+		if($url_alias && $url_seo){
 				$this->manufacturer_seo($manufacturer_id,$this->request->gethtml('name', 'post'));
 				$this->cache->delete('url');
 			}
+		foreach ($this->request->gethtml('productdata', 'post', array()) as $product_id) {
+				$this->modelManufacturer->write_product($product_id, $manufacturer_id);
+	  		}
 			$this->cache->delete('manufacturer');
 			$this->session->set('message', $this->language->get('text_message'));
 			
@@ -65,6 +68,10 @@ class ControllerManufacturer extends Controller {
 				$this->manufacturer_seo($this->request->gethtml('manufacturer_id'),$this->request->gethtml('name', 'post'));
 				$this->cache->delete('url');
 			}
+			$this->modelManufacturer->delete_manufacturerToProduct();
+			foreach ($this->request->gethtml('productdata', 'post', array()) as $product_id) {
+				$this->modelManufacturer->update_product($product_id);
+	  		}
 			$this->cache->delete('manufacturer');
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -218,7 +225,8 @@ class ControllerManufacturer extends Controller {
     	$view->set('entry_name', $this->language->get('entry_name'));
     	$view->set('entry_image', $this->language->get('entry_image'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
-  
+      	$view->set('entry_product', $this->language->get('entry_product'));
+
     	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
     	$view->set('button_update', $this->language->get('button_update'));
@@ -228,8 +236,10 @@ class ControllerManufacturer extends Controller {
 	$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
-	  
-    	$view->set('error', @$this->error['message']);
+	  	$view->set('tab_product', $this->language->get('tab_product'));
+	$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
+    	
+	$view->set('error', @$this->error['message']);
     	$view->set('error_name', @$this->error['name']);
     
     	$view->set('action', $this->url->ssl('manufacturer', $this->request->gethtml('action'), array('manufacturer_id' => $this->request->gethtml('manufacturer_id'))));
@@ -280,6 +290,20 @@ class ControllerManufacturer extends Controller {
     	} else {
       		$view->set('sort_order', @$manufacturer_info['sort_order']);
     	}
+
+	$product_data = array();
+    	$results = $this->modelManufacturer->get_products();
+    	foreach ($results as $result) {
+			if (($this->request->gethtml('manufacturer_id')) && (!$this->request->isPost())) {
+	  			$product_info = $this->modelManufacturer->get_manufacturerToProduct($result['product_id']);
+			}
+			$product_data[] = array(
+        		'product_id' => $result['product_id'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+        		'name'        => $result['name'],
+			'productdata'	=> (isset($product_info) ? $product_info : in_array($result['product_id'], $this->request->gethtml('productdata', 'post', array()))));
+    	}
+    	$view->set('productdata', $product_data);
 
 		return $view->fetch('content/manufacturer.tpl');
 	}  
@@ -338,7 +362,12 @@ class ControllerManufacturer extends Controller {
     	}	
   		$product_info = $this->modelManufacturer->check_products();
 		if ($product_info['total']) {
-	  		$this->error['message'] = $this->language->get('error_product', $product_info['total']);	
+			$this->error['message'] = $product_info['total'] == 1 ? $this->language->get('error_product') : $this->language->get('error_products', $product_info['total']) ;
+			$product_list = $this-> modelManufacturer->get_manufacturerToProducts();
+				$this->error['message'] .= '<br>';
+				foreach ($product_list as $product) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('product', 'update', array('product_id' => $product['product_id'])) . '">' . $product['name'] . '</a>&nbsp;';
+				}
 		}
 		if (!$this->error) {
 	  		return TRUE;

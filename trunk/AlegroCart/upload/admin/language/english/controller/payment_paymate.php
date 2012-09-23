@@ -29,6 +29,7 @@ $_['explanation_entry_test']          = 'For test mode to work, you need to use 
 $_['explanation_entry_currency']      = 'If this parameter is not specified, or is invalid, the default currency code is AUD.';
 $_['explanation_entry_sort_order']    = 'The order payment method appears in checkout';
 $_['explanation_entry_order_status']  = 'The order status that will be set when PayMate confirms the payment';
+$_['explanation_multiselect']         = 'To select/deselect multiple currencies press and hold &lt;Ctrl&gt; while you are clicking.';
 
 // Error
 $_['error_permission']    = 'Sorry: You do not have permission to modify the PayMate payment extension.';

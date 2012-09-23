@@ -26,7 +26,7 @@
 <script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-    <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><a><div class="tab_text"><?php echo $tab_image; ?></div></a> </div>
+    <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_product; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div id="tabmini">
@@ -107,6 +107,26 @@
           </table>
         </div>
       </div>
+     <div class="page">
+       <div class="pad">
+         <table>
+          <tr>
+            <td width="185" valign="top" class="set"><?php echo $entry_product; ?></td>
+            <td><select id="image_to_preview" name="productdata[]" multiple="multiple" size="15">
+          	<?php foreach ($productdata as $product) { ?>
+	        <?php if (!$product['productdata']) { ?>
+         	<option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
+          	<?php } else { ?>
+          	<option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>" selected><?php echo $product['name']; ?></option>
+          	<?php } ?>
+          	<?php } ?>
+        	</select>
+	    </td>
+ 	    <td class="expl"><?php echo $explanation_multiselect;?></td>
+         </tr>		
+       </table>
+     </div>
+    </div>
     </div>
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
@@ -123,5 +143,39 @@
   //--></script>
   <script type="text/javascript"><!--
   $('#image').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id').value);
+  //--></script>
+  <script type="text/javascript"><!--original idea by Alen Grakalic
+  $(function() {
+
+	var xOffset = 10;
+	var yOffset = 20;
+
+	if (typeof window.innerHeight != 'undefined') effectiveHeight = window.innerHeight;
+	else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientHeight !='undefined' && document.documentElement.clientHeight != 0) effectiveHeight = document.documentElement.clientHeight;
+	else effectiveHeight = document.getElementsByTagName('body')[0].clientHeight;
+
+	var scrolled = 0;
+
+  $("#image_to_preview option").hover(function (event) {
+	this.t = this.title;
+	this.title = "";
+	
+	if (typeof window.pageYOffset == 'number') scrolled = window.pageYOffset;
+	else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) scrolled = document.body.scrollTop;
+	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) scrolled = document.documentElement.scrollTop;
+
+	$("body").append("<p id='preview'><img src='"+ this.t + "' >" + "</p>");								 
+	$("#preview").css("top", (event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - (this.t.substr(-7,3))) + "px").css("left",(event.pageX + yOffset) + "px").fadeIn("fast");		
+  },
+  function() {
+	this.title = this.t;
+	$("#preview").remove();
+  }
+  );
+
+  $("#image_to_preview option").mousemove(function(event){
+	$("#preview").css("top",(event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - (this.t.substr(-7,3))) + "px").css("left",(event.pageX + yOffset) + "px");
+  });
+  });
   //--></script>
 </form>

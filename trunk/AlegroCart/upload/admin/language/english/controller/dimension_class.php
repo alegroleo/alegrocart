@@ -25,5 +25,6 @@ $_['error_permission']    = 'Warning: You do not have permission to modify dimen
 $_['error_title']         = '* Dimension Title must be between 1 and 32 characters!';
 $_['error_unit']          = '* Dimension Unit must be between 1 and 4 characters!';
 $_['error_default']       = 'Warning: This Dimension Class cannot be deleted as it is currently assigned as the default store order Dimension class!';
-$_['error_product']       = 'Warning: This Dimension Class cannot be deleted as it is currently assigned to %s products!';
+$_['error_product']       = 'Warning: This Dimension Class cannot be deleted as it is currently assigned to 1 product:';
+$_['error_products']      = 'Warning: This Dimension Class cannot be deleted as it is currently assigned to %s products:';
 ?>

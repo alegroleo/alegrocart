@@ -68,5 +68,13 @@ class Model_Admin_GeoZone extends Model {
 		$results =  $this->database->getRows("select zone_to_geo_zone_id from zone_to_geo_zone where geo_zone_id = '" . $path . "'");
 		return $results;
 	}
+	function get_geozoneToZoneToGeoZone(){
+		$result = $this->database->getRows("select c.name as countryname, z2g.zone_to_geo_zone_id, z.name as zonename from country c left join zone_to_geo_zone z2g on (c.country_id=z2g.country_id) left join zone z on (z2g.zone_id=z.zone_id) where geo_zone_id = '" . (int)$this->request->gethtml('geo_zone_id') . "'");
+		return $result;
+	}
+	function get_geozoneToTaxRate(){
+		$result = $this->database->getRows("select tr.tax_rate_id, tr.rate, tc.title, tr.tax_class_id from tax_rate tr left join tax_class tc on (tr.tax_class_id=tc.tax_class_id) where geo_zone_id = '" . (int)$this->request->gethtml('geo_zone_id') . "'");
+		return $result;
+	}
 }
 ?>

@@ -58,6 +58,7 @@ class ControllerPaymentccAvenue extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
+		$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
 		
 		$view->set('error', @$this->error['message']);
 		

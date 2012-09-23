@@ -198,6 +198,7 @@ class ControllerProduct extends Controller {
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 
 			$this->modelProduct->change_product_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+			$this->cache->delete('product');
 		}
 	
 	}
@@ -368,7 +369,9 @@ class ControllerProduct extends Controller {
 			$rows[] = array('cell' => $cell);
     	}
 
-    	$view = $this->locator->create('template');
+	$this->get_orphans();
+
+	$view = $this->locator->create('template');
 
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
@@ -391,7 +394,10 @@ class ControllerProduct extends Controller {
 	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
     	$view->set('error', @$this->error['message']);
- 
+
+        if(!@$this->error['message']){	
+		$view->set('error', @$this->error['error_orphans']);
+	}
  		$view->set('message', $this->session->get('message'));
 		
 		$this->session->delete('message');
@@ -514,7 +520,11 @@ class ControllerProduct extends Controller {
 		$view->set('tab_dated_special', $this->language->get('tab_dated_special'));	
 		$view->set('tab_alt_description', $this->language->get('tab_alt_description')); 
 		$view->set('tab_product_options', $this->language->get('tab_product_options')); 
-		
+	
+		$view->set('explanation_multiselect_img', $this->language->get('explanation_multiselect_img'));	
+		$view->set('explanation_multiselect_cat', $this->language->get('explanation_multiselect_cat'));
+		$view->set('explanation_multiselect_pr', $this->language->get('explanation_multiselect_pr'));
+
     	$view->set('error', @$this->error['message']);
     	$view->set('error_name', @$this->error['name']);
     	$view->set('error_description', @$this->error['description']);
@@ -523,7 +533,11 @@ class ControllerProduct extends Controller {
     	$view->set('error_start_date', @$this->error['start_date']); 
     	$view->set('error_end_date', @$this->error['end_date']); 
 		$view->set('error_barcode', @$this->error['barcode']);
-		$view->set('error', @$this->error['warning']);
+	
+	if(!@$this->error['message']){
+        $view->set('error', @$this->error['warning']);
+	}
+
         $view->set('error_duplicate_name', @$this->error['duplicate_name']);
 	
     	$view->set('action', $this->url->ssl('product', $this->request->gethtml('action'), array('product_id' => $this->request->gethtml('product_id'))));
@@ -1404,7 +1418,18 @@ class ControllerProduct extends Controller {
 			return TRUE;
 		}
 	}
+		
+	function get_orphans(){
+		$orphans = $this->modelProduct->check_orphans();
+		if ($orphans) {
+			$this->error['error_orphans'] = $this->language->get('error_orphans');
+			$this->error['error_orphans'] .= '<br>';
+				foreach ($orphans as $orphan) {
+					$this->error['error_orphans'] .= '<a href="' . $this->url->ssl('product', 'update', array('product_id' => $orphan['product_id'])) . '">' . $orphan['name'] . '</a>&nbsp;';
+		}
+	}
 
+	}	
   	function page() {
 		if ($this->request->has('search', 'post')) {
 	  		$this->session->set('product.search', $this->request->gethtml('search', 'post'));

@@ -290,7 +290,12 @@ class ControllerTaxClass extends Controller {
 
 		$product_info = $this->modelTaxClass->check_products();
 		if ($product_info['total']) {
-			$this->error['message'] = $this->language->get('error_product', $product_info['total']);
+			$this->error['message'] = $product_info['total'] == 1 ? $this->language->get('error_product') : $this->language->get('error_products', $product_info['total']) ;
+			$product_list = $this-> modelTaxClass->get_taxclassToProducts();
+				$this->error['message'] .= '<br>';
+				foreach ($product_list as $product) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('product', 'update', array('product_id' => $product['product_id'])) . '">' . $product['name'] . '</a>&nbsp;';
+				}
 		}
 
 		if (!$this->error) {

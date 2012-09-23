@@ -17,6 +17,9 @@ $_['entry_access']        = 'Access:';
 $_['entry_all_modify']    = 'All Modify:';
 $_['entry_modify']        = 'Modify:';
 
+//Explanation
+$_['explanation_multiselect'] = 'To select/deselect multiple controllers press and hold &lt;Ctrl&gt; while you are clicking.';
+
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify user groups';
 $_['error_name']          = '* User Group Name must be between 1 and 64 characters!';

@@ -20,5 +20,6 @@ $_['error_permission']    = 'Warning: You do not have permission to modify weigh
 $_['error_title']         = '* Weight Title must be between 1 and 32 characters!';
 $_['error_unit']          = '* Weight Unit must be between 1 and 4 characters!';
 $_['error_default']       = 'Warning: This Weight Class cannot be deleted as it is currently assigned as the default store order weight class!';
-$_['error_product']       = 'Warning: This Weight Class cannot be deleted as it is currently assigned to %s products!';
+$_['error_product']       = 'Warning: This Weight Class cannot be deleted as it is currently assigned to 1 product:';
+$_['error_products']      = 'Warning: This Weight Class cannot be deleted as it is currently assigned to %s products:';
 ?>

@@ -25,6 +25,8 @@ $_['explanation_description']= 'The description is used for internal store purpo
 $_['error_permission']       = 'Warning: You do not have permission to modify geo zones';
 $_['error_name']             = '* Geo Zone Name must be between 1 and 32 characters!';
 $_['error_description']      = '* Description must be between 1 and 255 characters!';
-$_['error_tax_rate']         = 'Warning: This Geo Zone cannot be deleted as it is currently assigned to one or more tax rates!';
-$_['error_zone_to_geo_zone'] = 'Warning: This Geo Zone cannot be deleted as it is currently assigned to %s zones to geo zones!';
+$_['error_tax_rate']         = 'Warning: This Geo Zone cannot be deleted as it is currently assigned to 1 tax rate:';
+$_['error_tax_rates']        = 'Warning: This Geo Zone cannot be deleted as it is currently assigned to %s tax rates:';
+$_['error_zone_to_geo_zone'] = 'Warning: This Geo Zone cannot be deleted as it is currently assigned to 1 zones to geo zone:';
+$_['error_zone_to_geo_zones']= 'Warning: This Geo Zone cannot be deleted as it is currently assigned to %s zones to geo zones:';
 ?>

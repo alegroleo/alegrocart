@@ -29,7 +29,7 @@ class Model_Admin_OrderStatus extends Model {
 		return $result;
 	}
 	function check_orders(){
-		$results = $this->database->getRow("select count(*) as total from order_history where order_status_id = '" . (int)$this->request->gethtml('order_status_id') . "' group by order_id");
+		$results = $this->database->getRow("select count(*) as total from order_history where order_status_id = '" . (int)$this->request->gethtml('order_status_id') . "'");
 		return $results;
 	}
 	function get_page(){
@@ -67,6 +67,10 @@ class Model_Admin_OrderStatus extends Model {
 	function get_languages(){
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
+	}
+	function get_orderstatusToOrders(){
+		$result = $this->database->getRows("select order_id, invoice_number from `order` where order_status_id = '" . (int)$this->request->gethtml('order_status_id') . "'");
+		return $result;
 	}
 }
 ?>

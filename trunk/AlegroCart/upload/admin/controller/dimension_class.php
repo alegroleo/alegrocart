@@ -382,14 +382,25 @@ class ControllerDimensionClass extends Controller {
 		if (!$this->user->hasPermission('modify', 'dimension_class')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-		if ($this->config->get('config_dimension_id') == $this->request->gethtml('dimension_id')) {
+		if ($this->config->get('config_dimension_1_id') == $this->request->gethtml('dimension_id')) {
 			$this->error['message'] = $this->language->get('error_default');
 		}
-
+		if ($this->config->get('config_dimension_2_id') == $this->request->gethtml('dimension_id')) {
+			$this->error['message'] = $this->language->get('error_default');
+		}
+		if ($this->config->get('config_dimension_3_id') == $this->request->gethtml('dimension_id')) {
+			$this->error['message'] = $this->language->get('error_default');
+		}
 		$product_info = $this->modelDimensions->check_products();
 		if ($product_info['total']) {
-			$this->error['message'] = $this->language->get('error_product', $product_info['total']);
+			$this->error['message'] = $product_info['total'] == 1 ? $this->language->get('error_product') : $this->language->get('error_products', $product_info['total']) ;
+			$product_list = $this-> modelDimensions->get_dimensionToProducts();
+				$this->error['message'] .= '<br>';
+				foreach ($product_list as $product) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('product', 'update', array('product_id' => $product['product_id'])) . '">' . $product['name'] . '</a>&nbsp;';
+				}
 		}
+
 		if (!$this->error) {
 			return TRUE;
 		} else {

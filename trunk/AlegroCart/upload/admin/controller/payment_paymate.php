@@ -54,7 +54,8 @@ class ControllerPaymentPayMate extends Controller{
 		$view->set('explanation_entry_currency', $this->language->get('explanation_entry_currency'));
 		$view->set('explanation_entry_sort_order', $this->language->get('explanation_entry_sort_order'));
 		$view->set('explanation_entry_order_status', $this->language->get('explanation_entry_order_status'));
-
+		$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
+		
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));

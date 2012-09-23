@@ -111,6 +111,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+	      <td class="expl"><?php echo $explanation_multiselect;?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>

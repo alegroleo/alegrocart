@@ -331,6 +331,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+	      <td class="expl"><?php echo $explanation_multiselect_img;?></td>
             </tr>
           </table>
         </div>
@@ -377,6 +378,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+ 	      <td class="expl"><?php echo $explanation_multiselect_cat;?></td>
             </tr>
           </table>
         </div>
@@ -433,6 +435,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+ 	      <td class="expl"><?php echo $explanation_multiselect_pr;?></td>
             </tr>
           </table>
         </div>
@@ -817,8 +820,8 @@ $("#image_to_preview option").hover(function (event) {
 	this.title = "";
 	
 	if (typeof window.pageYOffset == 'number') scrolled = window.pageYOffset;
-	else if (document.body && (document.body.scrollLeft || document.body.scrolled)) scrolled = document.body.scrolled;
-	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrolled)) scrolled = document.documentElement.scrolled;
+	else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) scrolled = document.body.scrollTop;
+	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) scrolled = document.documentElement.scrollTop;
 
 	$("body").append("<p id='preview'><img src='"+ this.t + "' >" + "</p>");								 
 	$("#preview").css("top", (event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - (this.t.substr(-7,3))) + "px").css("left",(event.pageX + yOffset) + "px").fadeIn("fast");		

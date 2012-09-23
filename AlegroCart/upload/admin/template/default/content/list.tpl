@@ -174,7 +174,7 @@ $("input").click(function (event) {
 $(function() {
 
 	var xOffset = 10;
-	var yOffset = 20;
+	var yOffset = 50;
 
 	if (typeof window.innerHeight != 'undefined') effectiveHeight = window.innerHeight;
 	else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientHeight !='undefined' && document.documentElement.clientHeight != 0) effectiveHeight = document.documentElement.clientHeight;
@@ -188,8 +188,8 @@ $("#image_to_preview img").hover(function (event) {
 	var c = (this.t != "") ? "<br>" + this.t : "";
 
 	if (typeof window.pageYOffset == 'number') scrolled = window.pageYOffset;
-	else if (document.body && (document.body.scrollLeft || document.body.scrolled)) scrolled = document.body.scrolled;
-	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrolled)) scrolled = document.documentElement.scrolled;
+	else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) scrolled = document.body.scrollTop;
+	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) scrolled = document.documentElement.scrollTop;
 
 	$("body").append("<p id='preview'><img src='"+ $(this).attr('rel') + "' >" + c + "</p>");								 
 	$("#preview").css("top", (event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(event.pageX - yOffset - 2*($(this).attr('rel').substr(-7,3))) + "px").fadeIn("fast");		

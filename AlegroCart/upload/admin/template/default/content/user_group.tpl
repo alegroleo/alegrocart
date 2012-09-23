@@ -48,6 +48,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+	      <td class="expl"><?php echo $explanation_multiselect;?></td>
             </tr>
             <tr>
               <td valign="top" class="set"><?php echo $entry_modify; ?></td>
@@ -61,6 +62,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+	      <td class="expl"><?php echo $explanation_multiselect;?></td>
             </tr>
           </table>
         </div>

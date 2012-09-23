@@ -38,12 +38,15 @@ class Model_Admin_Category extends Model {
 				$path = $this->request->gethtml('category_id');
 			}
 		if($path){
-			$subcats = $this->database->getRows("select category_id from category where category.path like '" . $path . "%'");
+			$subcats = $this->database->getRows("select category_id from category where category.path ='" . $path . "' or category.path like '" . $path . '\_'. "%'");
 			if($subcats){
+				$results = array();
 				foreach($subcats as $subcat){
-					$results = $this->database->getRows("select * from product_to_category where category_id = '" . $subcat['category_id'] . "'");
-					if($results) {return $results;}
+				$results[] = $this->database->getRows("select p2c.product_id, pd.name from product_to_category p2c left join product_description pd on p2c.product_id=pd.product_id where p2c.category_id = '" . $subcat['category_id'] . "' and pd.language_id = '" . (int)$this->language->getId() . "'");	
 				}
+				$result = call_user_func_array('array_merge', $results);
+				$result = array_map("unserialize", array_unique(array_map("serialize", $result)));
+				if($result) {return $result;}
 			}
 		}
 	}
@@ -126,6 +129,23 @@ class Model_Admin_Category extends Model {
 	}
 	function delete_SEO($query_path){
 		$this->database->query("delete from url_alias where query = '".$query_path."'");
+	}
+	function get_products(){
+		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' order by pd.name asc");
+		return $results;
+	}
+	function get_categoryToProduct($product_id){
+		$result = $this->database->getRow("select * from product_to_category where category_id = '" . (int)$this->request->gethtml('category_id') . "' and product_id = '" . (int)$product_id . "'");
+		return $result;
+	}
+	function write_product($product_id, $insert_id){
+		$this->database->query("insert into product_to_category set category_id = '" . (int)$insert_id . "', product_id = '" . (int)$product_id . "'");
+	}
+	function delete_categoryToProduct(){
+		$this->database->query("delete from product_to_category where category_id = '" . (int)$this->request->gethtml('category_id') . "'");
+	}
+	function update_product($product_id){
+		$this->database->query("insert into product_to_category set category_id = '" . (int)$this->request->gethtml('category_id') . "' , product_id = '" . (int)$product_id . "'");
 	}
 }
 ?>

@@ -27,7 +27,8 @@ $_['error_upload']        = '* File could not be uploaded!';
 $_['error_filename']      = '* Filename must be between 1 and 128 characters!';
 $_['error_filetype']      = '* Invalid file type!';
 $_['error_mask']          = '* Mask must be between 1 and 128 characters!';
-$_['error_product']       = 'Warning: This Download cannot be deleted as it is currently assigned to %s products!';
+$_['error_product']       = 'Warning: This Download cannot be deleted as it is currently assigned to 1 product:';
+$_['error_products']      = 'Warning: This Download cannot be deleted as it is currently assigned to %s products:';
 
 //Explanations
 $_['explanation_name']         = 'The file name displayed both for your customers in the catalog and for you in the administration.';

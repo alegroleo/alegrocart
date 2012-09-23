@@ -17,5 +17,6 @@ $_['entry_name']          = 'Option Name:';
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify options';
 $_['error_name']          = '* Option Name must be between 1 and 32 characters!';
-$_['error_product']       = 'Warning: This Option cannot be deleted as it is currently assigned to %s products!';
+$_['error_product']       = 'Warning: This Option cannot be deleted as it is currently assigned to 1 product:';
+$_['error_products']      = 'Warning: This Option cannot be deleted as it is currently assigned to %s products:';
 ?>

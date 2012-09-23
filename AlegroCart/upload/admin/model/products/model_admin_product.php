@@ -279,5 +279,9 @@ class Model_Admin_Product extends Model {
 		$sql = "update product set status = '?' where product_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
+	function check_orphans(){
+		$results = $this->database->getRows("select pd.product_id, pd.name from product_description pd inner join product p on (p.product_id = pd.product_id) where p.status = '1' and not exists (select * from product_to_category p2c  where pd.product_id = p2c.product_id)");
+		return $results;
+	}
 }
 ?>

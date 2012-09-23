@@ -72,5 +72,13 @@ class Model_Admin_Zone extends Model {
 		$sql = "update zone set zone_status = '?' where zone_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
+	function get_zoneToAddress(){
+		$result = $this->database->getRows("select customer_id, firstname, lastname from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
+		return $result;
+	}
+	function get_zoneToZoneToGeoZone(){
+		$result = $this->database->getRows("select distinct z2g.geo_zone_id, gz.name from zone_to_geo_zone z2g left join geo_zone gz on (z2g.geo_zone_id=gz.geo_zone_id) where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
+		return $result;
+	}
 }
 ?>

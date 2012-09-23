@@ -66,7 +66,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
-              <td class="expl"><?php echo $text_currency; ?></td>
+              <td class="expl"><?php echo $text_currency; ?><br><br><?php echo $explanation_multiselect;?></td>
             </tr>
 
 			<tr>

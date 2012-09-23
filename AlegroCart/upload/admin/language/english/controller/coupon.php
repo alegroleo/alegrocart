@@ -34,7 +34,8 @@ $_['entry_product']        = 'Valid Products:';
 $_['entry_status']         = 'Status:';
 
 //Explanation
-$_['explanation_entry_product'] = 'Selecting no products applies the coupon to the whole cart';
+$_['explanation_entry_product'] = 'Selecting no products applies the coupon to the whole cart.';
+$_['explanation_multiselect'] = 'To select/deselect multiple products press and hold &lt;Ctrl&gt; while you are clicking.';
 
 // Error
 $_['error_discount']       = "* Discount cannot exceed 100 % !";

@@ -104,6 +104,8 @@ class ControllerCountry extends Controller {
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 
 			$this->modelCountry->change_country_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+			$this->cache->delete('country');
+			$this->cache->delete('zone');
 		}
 	
 	}
@@ -400,16 +402,34 @@ class ControllerCountry extends Controller {
 		}
 		$address_info = $this->modelCountry->check_address();
 		if ($address_info['total']) {
-			$this->error['message'] = $this->language->get('error_address', $address_info['total']);
+			$this->error['message'] = $address_info['total'] ==1 ? $this->language->get('error_address') : $this->language->get('error_addresses', $address_info['total']);
+			$address_list = $this-> modelCountry->get_countryToAddress();
+				$this->error['message'] .= '<br>';
+				foreach ($address_list as $address) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('customer', 'update', array('customer_id' => $address['customer_id'])) . '">' . $address['firstname'] . '&nbsp;' . $address['lastname'] .'</a>&nbsp;';
+				}
 		}
+
 		$zone_info = $this->modelCountry->check_zone();
 		if ($zone_info['total']) {
-			$this->error['message'] = $this->language->get('error_zone', $zone_info['total']);
+			$this->error['message'] = $zone_info['total'] ==1 ? $this->language->get('error_zone') : $this->language->get('error_zones', $zone_info['total']);
+			$zone_list = $this-> modelCountry->get_countryToZone();
+				$this->error['message'] .= '<br>';
+				foreach ($zone_list as $zone) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('zone', 'update', array('zone_id' => $zone['zone_id'])) . '">' . $zone['name'] . '</a>&nbsp;';
+				}
 		}
+
 		$zone_to_geo_zone_info = $this->modelCountry->check_zone_to_geo();
 		if ($zone_to_geo_zone_info['total']) {
-			$this->error['message'] = $this->language->get('error_zone_to_geo_zone', $zone_to_geo_zone_info['total']);
+			$this->error['message'] = $zone_to_geo_zone_info['total'] ==1 ? $this->language->get('error_zone_to_geo_zone') : $this->language->get('error_zone_to_geo_zones', $zone_to_geo_zone_info['total']);
+			$zone_to_geo_zone_list = $this-> modelCountry->get_countryToZoneToGeoZone();
+				$this->error['message'] .= '<br>';
+				foreach ($zone_to_geo_zone_list as $geo_zone) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('zone_to_geo_zone', '', array('geo_zone_id' => $geo_zone['geo_zone_id'])) . '">' . $geo_zone['name'] . '</a>&nbsp;';
+				}
 		}
+
 		if (!$this->error) {
 			return TRUE;
 		} else {

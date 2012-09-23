@@ -78,5 +78,9 @@ class Model_Admin_Weight_Class extends Model {
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
 	}
+	function get_weightclassToProducts(){
+		$result = $this->database->getRows("select p.product_id, pd.name from product p left join product_description pd on (p.product_id=pd.product_id) where weight_class_id = '" . (int)$this->request->gethtml('weight_class_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
 }
 ?>

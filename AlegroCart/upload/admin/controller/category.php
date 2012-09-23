@@ -51,6 +51,9 @@ class ControllerCategory extends Controller {
 				$this->category_seo($insert_id, $path);
 				$this->cache->delete('url');
 			}
+			foreach ($this->request->gethtml('productdata', 'post', array()) as $product_id) {
+				$this->modelCategory->write_product($product_id, $insert_id);
+	  		}
 			$this->cache->delete('category');
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -79,6 +82,10 @@ class ControllerCategory extends Controller {
 				$this->category_seo($this->request->gethtml('category_id'), $category_info['path']);
 				$this->cache->delete('url');
 			}
+			$this->modelCategory->delete_categoryToProduct();
+			foreach ($this->request->gethtml('productdata', 'post', array()) as $product_id) {
+				$this->modelCategory->update_product($product_id);
+	  		}
 			$this->cache->delete('category');
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -279,6 +286,7 @@ class ControllerCategory extends Controller {
 		$view->set('entry_meta_keywords', $this->language->get('entry_meta_keywords'));	
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 		$view->set('entry_image', $this->language->get('entry_image'));
+		$view->set('entry_product', $this->language->get('entry_product'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -291,6 +299,9 @@ class ControllerCategory extends Controller {
 		$view->set('tab_general', $this->language->get('tab_general'));
 		$view->set('tab_data', $this->language->get('tab_data'));
 		$view->set('tab_image', $this->language->get('tab_image'));
+		$view->set('tab_product', $this->language->get('tab_product'));
+
+		$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
 
 		$view->set('error_description', @$this->error['message']);
 
@@ -371,6 +382,21 @@ class ControllerCategory extends Controller {
 		}
 		$view->set('images', $image_data);
 
+		$product_data = array();
+    		$results = $this->modelCategory->get_products();
+    		foreach ($results as $result) {
+			if (($this->request->gethtml('category_id')) && (!$this->request->isPost())) {
+	  			$product_info = $this->modelCategory->get_categoryToProduct($result['product_id']);
+			}
+			$product_data[] = array(
+        		'product_id' => $result['product_id'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+        		'name'        => $result['name'],
+			'productdata'	=> (isset($product_info) ? $product_info : in_array($result['product_id'], $this->request->gethtml('productdata', 'post', array()))));
+    		}
+    		$view->set('productdata', $product_data);
+
+
 		return $view->fetch('content/category.tpl');
 	}
 
@@ -428,8 +454,13 @@ class ControllerCategory extends Controller {
 		if (!$this->user->hasPermission('modify', 'category')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-		if($this->modelCategory->check_products()){
+		$product_list= $this->modelCategory->check_products();
+		if ($product_list) {
 			$this->error['message'] = $this->language->get('error_has_products');
+			$this->error['message'] .= '<br>';
+				foreach ($product_list as $product) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('product', 'update', array('product_id' => $product['product_id'])) . '">' . $product['name'] . '</a>&nbsp;';
+				}
 		}
 		if (!$this->error) {
 			return TRUE; 

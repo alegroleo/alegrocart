@@ -23,6 +23,8 @@ $_['entry_country']          = 'Country:';
 $_['error_permission']       = 'Warning: You do not have permission to modify zones';
 $_['error_name']             = '* Zone Name must be between 1 and 32 characters!';
 $_['error_default']          = 'Warning: This Zone cannot be deleted as it is currently assigned as the default store zone!';
-$_['error_address']          = 'Warning: This Zone cannot be deleted as it is currently assigned to %s address book entries!';
-$_['error_zone_to_geo_zone'] = 'Warning: This Zone cannot be deleted as it is currently assigned to %s zones to geo zones!';
+$_['error_address']          = 'Warning: This Zone cannot be deleted as it is currently assigned to 1 address book entry:';
+$_['error_addresses']        = 'Warning: This Zone cannot be deleted as it is currently assigned to %s address book entries:';
+$_['error_zone_to_geo_zone'] = 'Warning: This Zone cannot be deleted as it is currently assigned to 1 zones to geo zone:';
+$_['error_zone_to_geo_zones']= 'Warning: This Zone cannot be deleted as it is currently assigned to %s zones to geo zones:';
 ?>

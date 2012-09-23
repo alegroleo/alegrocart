@@ -413,22 +413,74 @@ class ControllerImage extends Controller {
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('image_validation');
-    	if (!$this->user->hasPermission('modify', 'image')) {
-      		$this->error['message'] = $this->language->get('error_permission');
-    	}	
+    		if (!$this->user->hasPermission('modify', 'image')) {
+      			$this->error['message'] = $this->language->get('error_permission');
+    		}	
   		$product_info = $this->modelImage->check_product();
 		if ($product_info['total']) {
-	  		$this->error['message'] = $this->language->get('error_product', $product_info['total']);	
-		}	
-  		$category_info = $this->modelImage->check_category();
+			$this->error['message'] = $product_info['total'] ==1 ? $this->language->get('error_product') : $this->language->get('error_products', $product_info['total']);
+			$product_list = $this-> modelImage->get_imageToProducts();
+				$this->error['message'] .= '<br>';
+				foreach ($product_list as $product) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('product', 'update', array('product_id' => $product['product_id'])) . '">' . $product['name'] . '</a>&nbsp;';
+				}
+		}	 	
+		$category_info = $this->modelImage->check_category();
 		if ($category_info['total']) {
-	  		$this->error['message'] = $this->language->get('error_category', $category_info['total']);
-		}	 
+			$this->error['message'] = $category_info['total'] ==1 ? $this->language->get('error_category') : $this->language->get('error_categories', $category_info['total']);
+			$category_list = $this-> modelImage->get_imageToCategory();
+				$this->error['message'] .= '<br>';
+				foreach ($category_list as $category) {
+					if ($category['parent_id']) {
+						$path = explode('_', $category['path']);
+						array_pop($path);
+						$path = implode('_', $path);
+					$this->error['message'] .= '<a href="' . $this->url->ssl('category', 'update', array('category_id' => $category['category_id'], 'path' => $path)) . '">' . $category['name'] . '</a>&nbsp;';
+					} else {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('category', 'update', array('category_id' => $category['category_id'])) . '">' . $category['name'] . '</a>&nbsp;';
+					}
+				}	
+		}
 		$manufacturer_info = $this->modelImage->check_manufacturer();
 		if ($manufacturer_info['total']) {
-	  		$this->error['message'] = $this->language->get('error_manufacturer', $manufacturer_info['total']);
-		}	
-	
+			$this->error['message'] = $manufacturer_info['total'] ==1 ? $this->language->get('error_manufacturer') : $this->language->get('error_manufacturers', $manufacturer_info['total']);
+			$manufacturer_list = $this-> modelImage->get_imageToManufacturer();
+				$this->error['message'] .= '<br>';
+				foreach ($manufacturer_list as $manufacturer) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('manufacturer', 'update', array('manufacturer_id' => $manufacturer['manufacturer_id'])) . '">' . $manufacturer['name'] . '</a>&nbsp;';
+				}
+		}
+
+		$imagedisplay_info = $this->modelImage->check_imagedisplay();
+		if ($imagedisplay_info['total']) {
+			$this->error['message'] = $imagedisplay_info['total'] ==1 ? $this->language->get('error_imagedisplay') : $this->language->get('error_imagedisplays', $imagedisplay_info['total']);
+			$imagedisplay_list = $this-> modelImage->get_imageToImageDisplay();
+				$this->error['message'] .= '<br>';
+				foreach ($imagedisplay_list as $imagedisplay) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('image_display', 'update', array('image_display_id' => $imagedisplay['image_display_id'])) . '">' . $imagedisplay['name'] . '</a>&nbsp;';
+				}
+		}
+
+		$homepage_info = $this->modelImage->check_homepage();
+		if ($homepage_info['total']) {
+			$this->error['message'] = $homepage_info['total'] ==1 ? $this->language->get('error_homepage') : $this->language->get('error_homepages', $homepage_info['total']);
+			$homepage_list = $this-> modelImage->get_imageToHomePage();
+				$this->error['message'] .= '<br>';
+				foreach ($homepage_list as $homepage) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('homepage', 'update', array('home_id' => $homepage['home_id'])) . '">' . $homepage['name'] . '</a>&nbsp;';
+				}
+		}
+
+		$additional_info = $this->modelImage->check_additional();
+		if ($additional_info['total']) {
+			$this->error['message'] = $additional_info['total'] ==1 ? $this->language->get('error_additional') : $this->language->get('error_additionals', $additional_info['total']);
+			$additional_list = $this-> modelImage->get_imageToAdditional();
+				$this->error['message'] .= '<br>';
+				foreach ($additional_list as $additional) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('product', 'update', array('product_id' => $additional['product_id'])) . '">' . $additional['name'] . '</a>&nbsp;';
+				}
+		}
+
 		if (!$this->error) {
 	  		return TRUE;
 		} else {

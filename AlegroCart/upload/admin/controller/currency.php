@@ -114,6 +114,7 @@ class ControllerCurrency extends Controller {
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 
 			$this->modelCurrency->change_currency_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+			$this->cache->delete('currency');
 		}
 	
 	}

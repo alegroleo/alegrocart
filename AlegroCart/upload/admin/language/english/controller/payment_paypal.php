@@ -37,7 +37,7 @@ $_['entry_pdt_token']     = 'PDT Token:';
 $_['entry_ipn_debug']     = 'Enable IPN Debug';
 $_['entry_itemized']      = 'Show Paypal Itemized Cart';
 
-// Extra
+// Explanation
 $_['extra_auth_type']     = 'Sale = Instant / Authorization = Manual accept';
 $_['extra_pdt_token']     = 'Payment Data Transfer Token. (Please see support notes below). Leave blank to not use';
 $_['extra_ipn_debug']     = 'Use to test IPN callbacks to your server. A file named "paypal_ipn_debug.txt" should be in your root';
@@ -57,8 +57,7 @@ $_['text_support']        = '<strong>Support Notes:</strong> <br>' . "\n" .
                             '<li>On the next screen, Copy and Paste the \'Identity Token\' from PayPal into the PDT Token field above.</li>' . "\n" .
 							'<li>Note: No need to enable IPN as the paypal module automatically sets it.</li>' . "\n" .
                             '</ol>' . "\n";
-                            
-
+$_['explanation_multiselect'] = 'To select/deselect multiple currencies press and hold &lt;Ctrl&gt; while you are clicking.';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify payment PayPal';

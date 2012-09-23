@@ -55,6 +55,7 @@ class ControllerPaymentPayPal extends Controller {
         $view->set('extra_itemized', $this->language->get('extra_itemized'));
         $view->set('extra_ipn_debug', $this->language->get('extra_ipn_debug'));
         $view->set('text_support', $this->language->get('text_support'));
+	$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));

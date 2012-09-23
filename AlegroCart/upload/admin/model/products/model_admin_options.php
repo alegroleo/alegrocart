@@ -64,12 +64,16 @@ class Model_Admin_Options extends Model {
 		return $result;
 	}
 	function check_product_to_option(){
-		$result = $this->database->getRow("select count(*) as total from product_to_option where option_id = '" . (int)$this->request->gethtml('option_id') . "'");
+		$result = $this->database->getRow("select count(distinct product_id) as total from product_to_option where option_id = '" . (int)$this->request->gethtml('option_id') . "'");
 		return $result;
 	}
 	function check_children($path){
 		$results =  $this->database->getRows("select option_value_id from option_value where option_id = '" . $path . "'");
 		return $results;
+	}
+	function get_optionToProducts(){
+		$result = $this->database->getRows("select distinct p2o.product_id, pd.name from product_to_option p2o left join product_description pd on (p2o.product_id=pd.product_id) where option_id = '" . (int)$this->request->gethtml('option_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
 	}
 }
 ?>

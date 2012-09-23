@@ -79,5 +79,17 @@ class Model_Admin_Country extends Model {
 		$sql = "update country set country_status = '?' where country_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
+	function get_countryToAddress(){
+		$result = $this->database->getRows("select customer_id, firstname, lastname from address where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
+		return $result;
+	}
+	function get_countryToZone(){
+		$result = $this->database->getRows("select zone_id, name from zone where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
+		return $result;
+	}
+	function get_countryToZoneToGeoZone(){
+		$result = $this->database->getRows("select distinct z2g.geo_zone_id, gz.name from zone_to_geo_zone z2g left join geo_zone gz on (z2g.geo_zone_id=gz.geo_zone_id) where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
+		return $result;
+	}
 }
 ?>

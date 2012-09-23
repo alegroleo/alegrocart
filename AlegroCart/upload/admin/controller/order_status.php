@@ -282,10 +282,16 @@ class ControllerOrderStatus extends Controller {
     	if ($this->config->get('config_order_status_id') == $this->request->gethtml('order_status_id')) {
 	  		$this->error['message'] = $this->language->get('error_default');	
 		}  
-  		$order_info = $this->modelOrderStatus->check_orders();
+
+		$order_info = $this->modelOrderStatus->check_orders();
 		if ($order_info['total']) {
-	  		$this->error['message'] = $this->language->get('error_order', $order_info['total']);	
-		}  
+			$this->error['message'] = $order_info['total'] ==1 ? $this->language->get('error_order') : $this->language->get('error_orders', $order_info['total']);
+			$order_list = $this-> modelOrderStatus->get_orderstatusToOrders();
+				$this->error['message'] .= '<br>';
+				foreach ($order_list as $order) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('order', 'update', array('order_id' => $order['order_id'])) . '">' . $order['invoice_number'] . '</a>&nbsp;';
+				}
+		} 
 	  	
 		if (!$this->error) { 
 	  		return TRUE;

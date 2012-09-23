@@ -111,6 +111,10 @@ $_['tab_category']      = 'Product<br>Category';
 $_['tab_image']         = 'Product Image<br>Additional Images';
 $_['tab_data']          = 'Product Detail<br>Information';
 
+//Explanation
+$_['explanation_multiselect_img'] = 'To select/deselect multiple images press and hold &lt;Ctrl&gt; while you are clicking.';
+$_['explanation_multiselect_cat'] = 'To select/deselect multiple categories press and hold &lt;Ctrl&gt; while you are clicking.';
+$_['explanation_multiselect_pr'] = 'To select/deselect multiple products press and hold &lt;Ctrl&gt; while you are clicking.';
 // Error
 $_['error_permission']     = 'Warning: You do not have permission to modify products';
 $_['error_name']           = '* Product Name must be between 1 and 64 characters!';
@@ -124,4 +128,5 @@ $_['error_upc']            = 'UPC barcode must be 11 or 12 digit!'; // New
 $_['error_barcode_already_exists'] = '* ERROR - This barcode already EXISTS *';
 $_['error_warning']        = '* You have errors. Please check all tabs for error messages!';
 $_['error_duplicate_barcode'] = '* ERROR - DUPLICATE BARCODE *';
+$_['error_orphans']        = 'Warning! The following products are not assigned to any category or subcategory:';
 ?>

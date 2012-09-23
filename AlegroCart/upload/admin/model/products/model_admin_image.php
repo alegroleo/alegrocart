@@ -91,8 +91,44 @@ class Model_Admin_Image extends Model {
 		$result = $this->database->getRow("select count(*) as total from manufacturer where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
 		return $result;
 	}
+	function check_imagedisplay(){
+		$result = $this->database->getRow("select count(distinct image_display_id) as total from image_display_description where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
+		return $result;
+	}
+	function check_homepage(){
+		$result = $this->database->getRow("select count(distinct home_id) as total from home_description where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
+		return $result;
+	}
+	function check_additional(){
+		$result = $this->database->getRow("select count(*) as total from product_to_image where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
+		return $result;
+	}
 	function get_image_data(){
 		$result = $this->database->getRow("select * from image i left join image_description id on (i.image_id = id.image_id) where i.image_id = '" . (int)$this->request->gethtml('image_id') . "' and id.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
+	function get_imageToProducts(){
+		$result = $this->database->getRows("select p.product_id, pd.name from product p left join product_description pd on (p.product_id=pd.product_id) where image_id = '" . (int)$this->request->gethtml('image_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
+	function get_imageToManufacturer(){
+		$result = $this->database->getRows("select manufacturer_id, name from manufacturer where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
+		return $result;
+	}
+	function get_imageToCategory(){
+		$result = $this->database->getRows("select c.category_id, c.parent_id, c.path, cd.name from category c left join category_description cd on (c.category_id=cd.category_id) where image_id = '" . (int)$this->request->gethtml('image_id') . "' and cd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
+	function get_imageToImageDisplay(){
+		$result = $this->database->getRows("select idd.image_display_id, id.name from image_display_description idd left join image_display id on (idd.image_display_id=id.image_display_id) where image_id = '" . (int)$this->request->gethtml('image_id') . "' and idd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
+function get_imageToHomePage(){
+		$result = $this->database->getRows("select hd.home_id, hp.name from home_description hd left join home_page hp on (hd.home_id=hp.home_id) where image_id = '" . (int)$this->request->gethtml('image_id') . "' and hd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
+function get_imageToAdditional(){
+		$result = $this->database->getRows("select p2i.product_id, pd.name from product_to_image p2i left join product_description pd on (p2i.product_id=pd.product_id) where image_id = '" . (int)$this->request->gethtml('image_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
 		return $result;
 	}
 }

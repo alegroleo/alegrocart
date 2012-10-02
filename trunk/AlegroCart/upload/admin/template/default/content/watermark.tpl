@@ -38,14 +38,14 @@
 		  </select>
 		  </td>
 		  <td>
-		  <input type="button" class="button leftbutton" name="preview" id="preview_id" value="<?php echo $button_preview; ?>" onclick="$('#preview').load('index.php?controller=watermark&action=previewImage&preview='+wm_wmimage_id.value),$('#save_button').show();">
+		  <input type="button" class="button leftbutton" name="pre_view" id="preview_id" value="<?php echo $button_preview; ?>" onclick="$('#pre_view').load('index.php?controller=watermark&action=previewImage&pre_view='+wm_wmimage_id.value),$('#save_button').show();">
 		  <input id="save_button" hidden="hidden" type="button" class="button rightbutton" name="save" value="<?php echo $button_save_wmi; ?>" onclick="$('#save').load('index.php?controller=watermark&action=previewSave&save='+wm_wmimage_id.value),RefreshImage();">
 		  </td>	
 	     </tr>
 	     <tr> 
 		  <td class="wm_wmimage" id="wm_wmimage" colspan="1">
 		  </td>
-		  <td class="preview" id="preview" colspan="1">
+		  <td class="pre_view" id="pre_view" colspan="1">
 		  </td>
 	    </tr>  
 	    <tr> 

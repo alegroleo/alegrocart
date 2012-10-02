@@ -250,8 +250,8 @@ class ControllerWatermark extends Controller {
 	function previewImage(){
 		$this->watermark->deleteTmp(DIR_WATERMARK);
 		$this->watermark->deleteTmp(DIR_IMAGE_CACHE);
-		if($this->request->gethtml('preview')){
-			$output = '<img src="' . HTTP_IMAGE . $this->watermark->resize_preview($this->watermark->preview(HTTP_IMAGE . $this->request->gethtml('preview'), $this->wm_method),300,300) . '"';
+		if($this->request->gethtml('pre_view')){
+			$output = '<img src="' . HTTP_IMAGE . $this->watermark->resize_preview($this->watermark->preview(HTTP_IMAGE . $this->request->gethtml('pre_view'), $this->wm_method),300,300) . '"';
 			$output .= 'alt="' . $this->language->get('text_watermarked'). '" title="'. $this->language->get('text_watermarked') .'">';
 		} else {
 			$output = '';

@@ -92,6 +92,7 @@ $_['button_configure']  = 'Configure';
 $_['button_send']       = 'Send E-Mail';
 $_['button_enable_delete'] = 'Enable/Disable Delete Icon';
 $_['button_status']     = 'Change Status';
+$_['button_save_as']    = 'Save As...';
 
 // Tab
 $_['tab_general']       = 'General';

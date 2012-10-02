@@ -250,6 +250,34 @@ class Model_Admin_Product extends Model {
 			$this->database->query($this->database->parse($sql, $product_option['product_id'], $product_option['product_option'], $product_option['quantity'], $this->barcode->check($product_option['barcode'], $product_option['encoding']), $product_option['image_id'], $product_option['dimension_id'], $product_option['dimension_value'], $product_option['model_number']));
 		}
 	}
+	function create_options($insert_id){
+		foreach($this->request->gethtml('product_options', 'post', array()) as $product_option){
+			
+			list($old_id, $options) = explode(":", $product_option['product_option']);
+			$optionids = explode(".", $options);
+			$optionarray = array();
+
+			foreach ($optionids as $optionid) {
+
+				$result = $this->database->getRow("select option_value_id from `product_to_option` where product_to_option_id = '" . $optionid . "' and product_id = '" . $old_id . "'");
+				$newoptionid = $this->database->getRow("select product_to_option_id from `product_to_option` where option_value_id = '" . $result['option_value_id'] . "' and product_id = '" . (int)$insert_id ."'");
+
+				$optionarray[]= $newoptionid['product_to_option_id'];
+			}
+
+		$new_product_option = (int)$insert_id . ":". (implode(".", $optionarray)); 
+
+		$sql = "insert into product_options set product_id = '?', product_option = '?', quantity = '?', barcode = '?', image_id = '?', dimension_id = '?', dimension_value = '?', model_number = '?'";			
+		$this->database->query($this->database->parse($sql, (int)$insert_id, $new_product_option, $product_option['quantity'], $this->barcode->check($product_option['barcode'], $product_option['encoding']), $product_option['image_id'], $product_option['dimension_id'], $product_option['dimension_value'], $product_option['model_number']));
+		}
+	}
+	function clone_product_to_options($insert_id, $product_id){
+		$results= $this->database->getRows("select * from product_to_option where product_id = '" . (int)$product_id . "' order by option_value_id desc");
+		foreach ($results as $result) {
+		$sql ="insert into product_to_option set product_id = '?', option_id = '?', option_value_id = '?', prefix = '?', price = '?', option_weight = '?', option_weightclass_id = '?', sort_order = '?'";
+		$this->database->query($this->database->parse($sql, $insert_id, $result['option_id'], $result['option_value_id'], $result['prefix'], $result['price'], $result['option_weight'], $result['option_weightclass_id'], $result['sort_order']));
+		}
+	}
 	function get_options($product_id){
 		$results = $this->database->getRows("select distinct option_id from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
 		return $results;

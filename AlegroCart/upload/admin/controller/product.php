@@ -193,6 +193,64 @@ class ControllerProduct extends Controller {
     	$this->response->set($this->template->fetch('layout.tpl'));
   	}
 
+
+	function saveas() {
+    	$this->template->set('title', $this->language->get('heading_title'));
+    	if (($this->request->isPost()) && ($this->validateForm())) {
+			$url_alias = $this->config->get('config_url_alias');
+			$url_seo = $this->config->get('config_seo');
+		   	
+      		$this->modelProduct->insert_product();
+			$insert_id = $this->modelProduct->get_insert_id();
+			$name        = $this->request->get('name', 'post');
+			$this->modelProduct->get_description_post();
+      		foreach ($this->request->get('name', 'post', array()) as $key => $value) {
+				if($key == (int)$this->language->getId() && $url_alias && $url_seo){
+					$this->product_seo($insert_id, @htmlspecialchars($name[$key]));
+				}
+				$this->modelProduct->write_description($key, $insert_id,$name[$key]);
+      		}
+			foreach ($this->request->gethtml('product_discount', 'post', array()) as $product_discount) {
+				$this->modelProduct->write_discount($insert_id, $product_discount['quantity'], $product_discount['discount']);
+			}
+      		foreach ($this->request->gethtml('image', 'post', array()) as $image_id) {
+        		$this->modelProduct->write_PtoImage($insert_id, $image_id);
+      		}
+      		foreach ($this->request->gethtml('download', 'post', array()) as $download_id) {
+        		$this->modelProduct->write_download($insert_id, $download_id);
+      		}
+		foreach ($this->request->gethtml('fdownload', 'post', array()) as $download_id) {
+        		$this->modelProduct->write_download($insert_id, $download_id, 1);
+      		}
+      		foreach ($this->request->gethtml('category', 'post', array()) as $category_id) {
+        		$this->modelProduct->write_PtoCategory($insert_id, $category_id);
+				if($url_alias && $url_seo){
+					$this->product_to_category_seo($insert_id,$category_id);
+				}
+	  		}
+			if($url_alias && $url_seo){
+				$this->manufacturer_to_product_seo($insert_id, $this->request->gethtml('manufacturer_id', 'post'));
+				$this->cache->delete('url');
+			}
+            foreach ($this->request->gethtml('relateddata', 'post', array()) as $product_id) {
+				$this->modelProduct->write_related($insert_id, $product_id);
+	  		}			
+			
+			$this->modelProduct->clone_product_to_options($insert_id, $this->request->gethtml('product_id','post'));
+			$this->modelProduct->create_options($insert_id);
+
+	  		$this->cache->delete('product');
+			$this->session->set('message', $this->language->get('text_message'));
+	  
+	  		$this->response->redirect($this->url->ssl('product'));
+    	}
+    
+    	$this->template->set('content', $this->getForm());
+		$this->template->set($this->module->fetch());
+	
+    	$this->response->set($this->template->fetch('layout.tpl'));
+  	}
+
 	function changeStatus() { 
 		
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
@@ -348,8 +406,15 @@ class ControllerProduct extends Controller {
         		'align' => 'right'
       		);
 			$action = array();
+
 			$action[] = array(
-        		'icon' => 'update.png',
+        			'icon' => 'save_as.png',
+				'text' => $this->language->get('button_save_as'),
+				'href' => $this->url->ssl('product', 'saveas', array('product_id' => $result['product_id']))
+      		);
+
+			$action[] = array(
+        			'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('product', 'update', array('product_id' => $result['product_id']))
       		);
@@ -390,6 +455,7 @@ class ControllerProduct extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 	$view->set('button_status', $this->language->get('button_status'));
+    	$view->set('button_save_as', $this->language->get('button_save_as'));
 
 	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
@@ -906,7 +972,10 @@ class ControllerProduct extends Controller {
 
 		if ($this->request->has('barcode', 'post')) {
 			$view->set('barcode', !$this->option_status ? $this->request->gethtml('barcode', 'post') : '');
-		} else {
+		
+} elseif ($this->request->gethtml('action') == 'saveas'){
+$view->set('barcode', !$this->option_status ? '' : '');
+} else {
 			$view->set('barcode', !$this->option_status ? @$product_info['barcode'] : '');
 		}
 
@@ -1035,7 +1104,7 @@ class ControllerProduct extends Controller {
 				'product_id'		=> $result['product_id'],
 				'product_option'	=> $result['product_option'],
 				'quantity'			=> $result['quantity'],
-				'barcode'			=> $result['barcode'],
+				'barcode'			=> $this->request->gethtml('action') != 'saveas' ? $result['barcode'] : '',
 				'image_id'			=> $result['image_id'],
 				'dimension_id'		=> $result['dimension_id'],
 				'dimension_value'	=> $result['dimension_value'],
@@ -1331,7 +1400,7 @@ class ControllerProduct extends Controller {
 	    }
       
 	    foreach ($this->request->get('name', 'post', array()) as $key =>$value) {
-		  if ($this->request->gethtml('product_id')) {
+		  if ($this->request->gethtml('product_id') && $this->request->gethtml('action') != 'saveas') {
 			if($this->modelProduct->check_product_id_name($value)){
 			    $this->error['duplicate_name'][$key] =  $this->language->get('error_duplicate_name');
 			}

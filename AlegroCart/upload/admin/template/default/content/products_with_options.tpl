@@ -36,6 +36,7 @@
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
+<script type="text/javascript" src="javascript/preview/preview.js"></script>
 <?php if(!$productwo_id){ ?>
   <form action="<?php echo $action_product; ?>" method="post" enctype="multipart/form-data">
 	<table style="width: 100%;"><tr><td><hr></td></tr></table>
@@ -109,10 +110,10 @@
 	  <tr>
         <td width="185" class="set"><?php echo $entry_image; ?></td>
         <td><select name="image_id" id="image_id" onchange="$('#image').load('index.php?controller=image&action=view&image_id='+this.value);">
-		  <option value="<?php echo $no_image_id;?>"<?php if($image_id == '0'){ echo ' selected';}?>><?php echo $text_no_image;?></option>
+		  <option title="<?php echo $no_image_filename; ?>" value="<?php echo $no_image_id;?>"<?php if($image_id == '0'){ echo ' selected';}?>><?php echo $text_no_image;?></option>
           <?php foreach ($images as $image) { ?>
 		    <?php if ($image['image_id'] != $no_image_id){?>
-			  <option value="<?php echo $image['image_id']; ?>"<?php if ($image['image_id'] == $image_id) {echo ' selected';} ?>><?php echo $image['title']; ?></option>
+			  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>"<?php if ($image['image_id'] == $image_id) {echo ' selected';} ?>><?php echo $image['title']; ?></option>
 			<?php }?>
           <?php } ?>
         </select></td>

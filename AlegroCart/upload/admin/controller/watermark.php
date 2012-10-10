@@ -9,6 +9,7 @@ class ControllerWatermark extends Controller {
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
+		$this->config   	=& $locator->get('config');
 		$this->image    	=& $locator->get('image');  
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
@@ -229,7 +230,8 @@ class ControllerWatermark extends Controller {
 			$pattern='/\.('.implode('|',$this->image_types).')$/';
 			if (preg_match($pattern,$filename)) {
 				$wm_images_data[] = array(
-					'image'	=> $filename
+					'image'	=> $filename,
+					'previewimage'    => $this->image->resize($filename, $this->config->get('config_image_width'), $this->config->get('config_image_height'))
 				);
 			}
 		}

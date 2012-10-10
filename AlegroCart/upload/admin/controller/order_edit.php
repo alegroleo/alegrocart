@@ -6,6 +6,7 @@ class ControllerOrderEdit extends Controller {
 		$model 				=& $locator->get('model');
 		$this->address  	=& $locator->get('address');
 		$this->config   	=& $locator->get('config');
+		$this->image    	=& $locator->get('image');   
 		$this->currency 	=& $locator->get('currency');
 		$this->language 	=& $locator->get('language');
 		$this->mail         =& $locator->get('mail');
@@ -740,11 +741,12 @@ class ControllerOrderEdit extends Controller {
 	
 	function get_products(){
 		$products = $this->modelOrderEdit->get_products();
-		$output = '<tr><td>';
+		$output = '<script type="text/javascript" src="javascript/preview/preview.js"></script>';
+		$output .= '<tr><td>';
 		$output .= '<select id="get_products" onchange="' . "$('#product_select').load('index.php?controller=order_edit&action=get_product&product_id='+this.value);" . '">';
-		$output .= '<option value="0">' . $this->language->get('entry_select_product') . '</option>';
+		$output .= '<option value="0" title="">' . $this->language->get('entry_select_product') . '</option>';
 		foreach ($products as $product){
-			$output .= '<option value="' . $product['product_id'] . '">' . $product['name'] . '</option>';
+			$output .= '<option title="'. $this->image->resize($product['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')) .'" value="' . $product['product_id'] . '">' . $product['name'] . '</option>';
 		}
 		$output .= '</select>';
 		$output .= '</td></tr>';

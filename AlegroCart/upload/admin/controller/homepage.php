@@ -335,7 +335,8 @@ class ControllerHomepage extends Controller {
 			$image_data[] = array(
         		'image_id'   => $result['image_id'],
         		'title'      => $result['title'],
-				'filename'   => $result['filename']
+			'filename'   => $result['filename'],
+			'previewimage'    => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
 			);
 		}
 		$view->set('images', $image_data);

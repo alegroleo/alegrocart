@@ -21,6 +21,8 @@
 <div class="heading"><?php echo $heading_title; ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/preview/preview.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -38,12 +40,12 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_product; ?></td>
-              <td><select name="product_id">
+              <td><select id="image_to_preview" name="product_id">
                   <?php foreach ($products as $product) { ?>
                   <?php if ($product['product_id'] == $product_id) { ?>
-                  <option value="<?php echo $product['product_id']; ?>" selected><?php echo $product['name']; ?></option>
+                  <option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>" selected><?php echo $product['name']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
+                  <option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>

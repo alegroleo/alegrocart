@@ -109,6 +109,7 @@ $_['tab_mail']          = 'Mail';
 $_['tab_cache']         = 'Cache';
 $_['tab_customer']      = 'Customer';
 $_['tab_discount']      = 'Quantity Discount';
+$_['tab_validity']      = 'Validity';
 
 //Error Message
 $_['error_language']		= 'ERROR : %s does not exist in language file*';

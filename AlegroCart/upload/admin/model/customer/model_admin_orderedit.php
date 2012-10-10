@@ -20,7 +20,7 @@ class Model_Admin_OrderEdit extends Model {
 	}
 	
 	function get_products(){
-		$results = $this->database->getRows("select p.product_id, pd.name from product p left join product_description pd on (p.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1'");
+		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (i.image_id=p.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1'");
 		return $results;
 	}
 	

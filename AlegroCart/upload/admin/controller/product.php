@@ -647,8 +647,8 @@ class ControllerProduct extends Controller {
 			$model			  = $this->request->get('model', 'post');
 			$model_number     = $this->request->get('model_number', 'post');
 			$description      = $this->request->get('description', 'post');
-			$technical        = $this->request->get('technical', ' post');
-			$technical_name   = $this->request->get('technical_name', ' post');
+			$technical        = $this->request->get('technical', 'post');
+			$technical_name   = $this->request->get('technical_name', 'post');
 			$alt_description  = $this->request->get('alt_destription', 'post');
 			$meta_title       = $this->request->gethtml('meta_title', 'post');
 			$meta_description = $this->request->gethtml('meta_description', 'post');
@@ -681,8 +681,17 @@ class ControllerProduct extends Controller {
     	}
 		
 		$view->set('product_id', $this->request->gethtml('product_id'));
-		
-    	$view->set('manufacturers', $this->modelProduct->get_manufacturers());
+	
+	$manufacturer_data = array();
+    	$results = $this->modelProduct->get_manufacturers();
+    	foreach ($results as $result) {
+      		$manufacturer_data[] = array(
+        		'manufacturer_id' => $result['manufacturer_id'],
+			'previewimage'    => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+        		'name'            => $result['name']
+      		);
+    	}
+    	$view->set('manufacturers', $manufacturer_data);
 
     	if ($this->request->has('manufacturer_id', 'post')) {
       		$view->set('manufacturer_id', $this->request->gethtml('manufacturer_id', 'post'));

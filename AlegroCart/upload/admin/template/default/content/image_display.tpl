@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/preview/preview.js"></script>
 <script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
 
 <form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
@@ -146,6 +147,9 @@
 				    </select></td>
 					<td class="flash_image" id="flash_name<?php echo $image_display_description['language_id']; ?>"></td>
 				  </tr>
+				  <tr>
+	                            <td colspan="2"><hr></td>
+	   			  </tr>
 				</table>
 				<table>
 				  <tr>
@@ -163,12 +167,12 @@
 				  <tr>
 				    <td style="width: 185px" class="set"><?php echo $entry_image; ?></td>
                     <td><select name="image_id[<?php echo $image_display_description['language_id']; ?>]" id="image_id<?php echo $image_display_description['language_id']; ?>" onchange="$('#image<?php echo $image_display_description['language_id']; ?>').load('index.php?controller=image&action=view&image_id='+this.value);">
-						  <option value=""><?php echo $text_noimage;?></option>
+						  <option title="" value=""><?php echo $text_noimage;?></option>
                       <?php foreach ($images as $image) { ?>
                         <?php if ($image['image_id'] == $image_display_description['image_id']) { ?>
-						  <option value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
+						  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
 					    <?php } else { ?>
-						  <option value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
+						  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
 					    <?php } ?>
 					  <?php } ?>
 				    </select></td>

@@ -151,7 +151,7 @@ class Model_Admin_Product extends Model {
 		return $result;
 	}
 	function get_manufacturers(){
-		$results = $this->database->cache('manufacturer', "select * from manufacturer order by sort_order, name asc");
+		$results = $this->database->getRows("select m.manufacturer_id, m.name, i.filename from manufacturer m left join image i on (i.image_id=m.image_id) order by sort_order, name asc");
 		return $results;
 	}
 	function get_tax_classes(){

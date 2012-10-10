@@ -377,6 +377,7 @@ class ControllerCategory extends Controller {
 		foreach ($results as $result) {
 			$image_data[] = array(
 				'image_id' => $result['image_id'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
 				'title'    => $result['title']
 			);
 		}

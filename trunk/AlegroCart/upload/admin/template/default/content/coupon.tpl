@@ -23,9 +23,10 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/preview/preview.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
-    <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a></div>
+    <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><a><div class="tab_text"><?php echo $tab_validity; ?></div></a></div>
     <div class="pages">
       <div class="page">
         <div id="tabmini">
@@ -70,6 +71,55 @@
                 <span class="error"><?php echo $error_code; ?></span>
                 <?php } ?></td>
             </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_status; ?></td>
+              <td><select name="status">
+                  <?php if ($status) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+            </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_date_start; ?></td>
+              <td><input name="date_start_day" value="<?php echo $date_start_day; ?>" size="2" maxlength="2">
+                <select name="date_start_month">
+                  <?php foreach ($months as $month) { ?>
+                  <?php if ($month['value'] == $date_start_month) { ?>
+                  <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select>
+                <input name="date_start_year" value="<?php echo $date_start_year; ?>" size="4" maxlength="4">
+                <?php if ($error_date_start) { ?>
+                <span class="error"><?php echo $error_date_start; ?></span>
+                <?php } ?></td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_date_end; ?></td>
+              <td><input name="date_end_day" value="<?php echo $date_end_day; ?>" size="2" maxlength="2">
+                <select name="date_end_month">
+                  <?php foreach ($months as $month) { ?>
+                  <?php if ($month['value'] == $date_end_month) { ?>
+                  <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select>
+                <input name="date_end_year" value="<?php echo $date_end_year; ?>" size="4" maxlength="4">
+                <?php if ($error_date_end) { ?>
+                <span class="error"><?php echo $error_date_end; ?></span>
+                <?php } ?></td>
+            </tr>
+	    <tr>
+	      <td colspan="2"><hr></td>
+	    </tr>
             <tr>
               <td class="set"><?php echo $entry_discount; ?></td>
               <td><input type="text" name="discount" id="discount" value="<?php echo $discount; ?>" onchange="check_discount()"></td>
@@ -105,40 +155,9 @@
                 <label for="no"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
-            <tr>
-              <td class="set"><?php echo $entry_date_start; ?></td>
-              <td><input name="date_start_day" value="<?php echo $date_start_day; ?>" size="2" maxlength="2">
-                <select name="date_start_month">
-                  <?php foreach ($months as $month) { ?>
-                  <?php if ($month['value'] == $date_start_month) { ?>
-                  <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select>
-                <input name="date_start_year" value="<?php echo $date_start_year; ?>" size="4" maxlength="4">
-                <?php if ($error_date_start) { ?>
-                <span class="error"><?php echo $error_date_start; ?></span>
-                <?php } ?></td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_date_end; ?></td>
-              <td><input name="date_end_day" value="<?php echo $date_end_day; ?>" size="2" maxlength="2">
-                <select name="date_end_month">
-                  <?php foreach ($months as $month) { ?>
-                  <?php if ($month['value'] == $date_end_month) { ?>
-                  <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select>
-                <input name="date_end_year" value="<?php echo $date_end_year; ?>" size="4" maxlength="4">
-                <?php if ($error_date_end) { ?>
-                <span class="error"><?php echo $error_date_end; ?></span>
-                <?php } ?></td>
-            </tr>
+	    <tr>
+	      <td colspan="2"><hr></td>
+	    </tr>
             <tr>
               <td class="set"><?php echo $entry_uses_total; ?></td>
               <td><input type="text" name="uses_total" value="<?php echo $uses_total; ?>"></td>
@@ -147,32 +166,26 @@
               <td class="set"><?php echo $entry_uses_customer; ?></td>
               <td><input type="text" name="uses_customer" value="<?php echo $uses_customer; ?>"></td>
             </tr>
-            <tr>
+          </table>
+        </div>
+      </div>
+      <div class="page">
+        <div class="pad">
+          <table>
+	    <tr>
               <td valign="top" class="set"><?php echo $entry_product; ?></td>
-              <td><select name="product[]" multiple="multiple" size="15">
+              <td><select id="image_to_preview" name="product[]" multiple="multiple" size="15">
                   <?php foreach ($products as $product) { ?>
                   <?php if ($product['coupon_id']) { ?>
-                  <option value="<?php echo $product['product_id']; ?>" selected><?php echo $product['name']; ?></option>
+                  <option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>" selected><?php echo $product['name']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
+                  <option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>
 	      <td valign="top" class="expl"><?php echo $explanation_entry_product; ?><br><br><?php echo $explanation_multiselect;?></td>
             </tr>
-            <tr>
-              <td class="set"><?php echo $entry_status; ?></td>
-              <td><select name="status">
-                  <?php if ($status) { ?>
-                  <option value="1" selected><?php echo $text_enabled; ?></option>
-                  <option value="0"><?php echo $text_disabled; ?></option>
-                  <?php } else { ?>
-                  <option value="1"><?php echo $text_enabled; ?></option>
-                  <option value="0" selected><?php echo $text_disabled; ?></option>
-                  <?php } ?>
-                </select></td>
-            </tr>
-          </table>
+	  </table>
         </div>
       </div>
     </div>

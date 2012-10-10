@@ -101,8 +101,8 @@ class Model_Admin_ProductsWithOptions extends Model {
 		return $results;
 	}
 	function get_no_image(){
-		$result = $this->database->getRow("select image_id from image_description where language_id = '1' and title = 'no image'");
-		return $result['image_id'];
+		$result = $this->database->getRow("select id.image_id, i.filename from image_description id inner join image i on (i.image_id=id.image_id) where id.language_id = '1' and id.title = 'no image'");
+		return $result;
 	}
 	function check_barcode_id($value, $product_option = ''){
 	      $result = $this->database->getRow("select barcode, product_id from product where barcode = '". htmlspecialchars_deep($value) ."' and product_id != '".(int)$this->request->gethtml('product_id') ."'union select barcode, product_option from product_options where barcode = '". htmlspecialchars_deep($value) ."' and product_option != '".$product_option."'");

@@ -4,8 +4,8 @@ class ControllerCoupon extends Controller {
     function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
-		//$this->cache    	=& $locator->get('cache');
-		//$this->config   	=& $locator->get('config');
+		$this->image    	=& $locator->get('image');
+		$this->config   	=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->request  	=& $locator->get('request');
@@ -309,6 +309,7 @@ class ControllerCoupon extends Controller {
 
     	$view->set('tab_general', $this->language->get('tab_general'));
     	$view->set('tab_data', $this->language->get('tab_data'));
+    	$view->set('tab_validity', $this->language->get('tab_validity'));
 
     	$view->set('error', @$this->error['message']);
     	$view->set('error_name', @$this->error['name']);
@@ -530,6 +531,7 @@ class ControllerCoupon extends Controller {
       		$product_data[] = array(
         		'product_id' => $result['product_id'],
         		'name'       => $result['name'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
         		'coupon_id'  => (isset($coupon_product_info) ? $coupon_product_info : in_array($result['product_id'], $this->request->gethtml('product', 'post', array())))
       		);
     	}

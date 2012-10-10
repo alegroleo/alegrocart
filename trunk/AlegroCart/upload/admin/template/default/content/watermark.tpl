@@ -15,6 +15,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" />
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/preview/preview.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_watermark; ?></div></a></div>
@@ -33,7 +34,7 @@
 		  <select id="wm_wmimage_id" name="wm_wmimage" onchange="$('#wm_wmimage').load('index.php?controller=watermark&action=viewWmImage&wm_wmimage='+this.value);">
 <option value="">None</option>
 		  <?php foreach ($wmimages as $wmimage){?>
-		  <option value="<?php echo $wmimage['image'];?>"><?php echo $wmimage['image'];?></option>
+		  <option title="<?php echo $wmimage['previewimage']; ?>" value="<?php echo $wmimage['image'];?>"><?php echo $wmimage['image'];?></option>
 		  <?php }?>
 		  </select>
 		  </td>

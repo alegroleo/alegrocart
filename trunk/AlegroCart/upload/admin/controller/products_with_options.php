@@ -331,12 +331,15 @@ class ControllerProductsWithOptions extends Controller {
     	foreach ($results as $result) {
       		$image_data[] = array(
         		'image_id'   => $result['image_id'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
         		'title'      => $result['title'],
       		);
     	}
     	$view->set('images', $image_data);
-		$view->set('no_image_id', $this->modelProductOptions->get_no_image());
-		
+		$no_image_data=$this->modelProductOptions->get_no_image();
+		$view->set('no_image_id', $no_image_data['image_id']);
+		$view->set('no_image_filename', $this->image->resize($no_image_data['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')));
+
 		return $view->fetch('content/products_with_options.tpl');
 	}
 	

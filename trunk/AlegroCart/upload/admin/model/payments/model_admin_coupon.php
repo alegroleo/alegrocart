@@ -56,7 +56,7 @@ class Model_Admin_Coupon extends Model {
 		return $result;
 	}
 	function get_products(){
-		$results = $this->database->cache('product', "select * from product p left join product_description pd on (p.product_id = pd.product_id) where pd.language_id = '" . (int)$this->language->getId() . "' order by pd.name");
+		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' order by pd.name asc");
 		return $results;
 	}
 	function get_page(){

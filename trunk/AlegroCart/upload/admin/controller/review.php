@@ -6,6 +6,8 @@ class ControllerReview extends Controller {
 		$model 				=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
+		$this->config   	=& $locator->get('config');
+		$this->image    	=& $locator->get('image');   
 		$this->request  	=& $locator->get('request');
 		$this->response 	=& $locator->get('response');
 		$this->session 		=& $locator->get('session');
@@ -296,7 +298,16 @@ class ControllerReview extends Controller {
 			$view->set('product_id', @$review_info['product_id']);
 		}
 
-		$view->set('products', $this->modelReview->get_products());
+		$product_data = array();
+		$results=$this->modelReview->get_products();
+		foreach ($results as $result) {
+		$product_data[] = array(
+        		'product_id' => $result['product_id'],
+			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+        		'name'        => $result['name']
+			);
+		}
+    		$view->set('products', $product_data);
 
 		if ($this->request->has('author', 'post')) {
 			$view->set('author', $this->request->gethtml('author', 'post'));

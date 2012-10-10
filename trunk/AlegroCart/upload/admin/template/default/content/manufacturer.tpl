@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/preview/preview.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_product; ?></div></a></div>
@@ -42,9 +43,9 @@
               <td><select name="image_id" id="image_id" onchange="$('#image').load('index.php?controller=image&action=view&image_id='+this.value);">
                   <?php foreach ($images as $image) { ?>
                   <?php if ($image['image_id'] == $image_id) { ?>
-                  <option value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
+                  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
+                  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>
@@ -88,39 +89,5 @@
   //--></script>
   <script type="text/javascript"><!--
   $('#image').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id').value);
-  //--></script>
-<script type="text/javascript"><!--original idea by Alen Grakalic
-$(function() {
-
-	var xOffset = 10;
-	var yOffset = 20;
-
-	if (typeof window.innerHeight != 'undefined') effectiveHeight = window.innerHeight;
-	else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientHeight !='undefined' && document.documentElement.clientHeight != 0) effectiveHeight = document.documentElement.clientHeight;
-	else effectiveHeight = document.getElementsByTagName('body')[0].clientHeight;
-
-	var scrolled = 0;
-
-$("#image_to_preview option").hover(function (event) {
-	this.t = this.title;
-	this.title = "";
-	
-	if (typeof window.pageYOffset == 'number') scrolled = window.pageYOffset;
-	else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) scrolled = document.body.scrollTop;
-	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) scrolled = document.documentElement.scrollTop;
-
-	$("body").append("<p id='preview'><img src='"+ this.t + "' >" + "</p>");								 
-	$("#preview").css("top", (event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - (this.t.substr(-7,3))) + "px").css("left",(event.pageX + yOffset) + "px").fadeIn("fast");		
-},
-function() {
-	this.title = this.t;
-	$("#preview").remove();
-}
-);
-
-$("#image_to_preview option").mousemove(function(event){
-	$("#preview").css("top",(event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - (this.t.substr(-7,3))) + "px").css("left",(event.pageX + yOffset) + "px");
-});
-});
   //--></script>
 </form>

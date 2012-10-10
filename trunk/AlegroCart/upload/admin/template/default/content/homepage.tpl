@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/preview/preview.js"></script>
 <script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 
 <form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
@@ -91,7 +92,10 @@
                       <?php if ($error_title) { ?>
                       <span class="error"><?php echo $error_title; ?></span>
                       <?php } ?></td>
-                  </tr> 
+                  		  </tr> 
+		 		  <tr>
+	                            <td colspan="2"><hr></td>
+	   			  </tr>
 				  <tr>
 				    <td class="set"><?php echo $entry_flash_width; ?></td>
 					<td><input name="flash_width[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_width'];?>"></td>
@@ -128,6 +132,9 @@
 				    </select></td>
 					<td class="flash_image" id="flash_name<?php echo $home_description['language_id']; ?>"></td>
 				  </tr>
+		 		  <tr>
+	                            <td colspan="2"><hr></td>
+	   			  </tr>
 				  </table>
 				  <table>
                   <tr>
@@ -145,12 +152,12 @@
 				  <tr>
 				    <td style="width: 165px" class="set"><?php echo $entry_image; ?></td>
                     <td><select name="image_id[<?php echo $home_description['language_id']; ?>]" id="image_id<?php echo $home_description['language_id']; ?>" onchange="$('#image<?php echo $home_description['language_id']; ?>').load('index.php?controller=image&action=view&image_id='+this.value);">
-						  <option value=""><?php echo $text_no_image;?></option>
+						  <option title="" value=""><?php echo $text_no_image;?></option>
                       <?php foreach ($images as $image) { ?>
                         <?php if ($image['image_id'] == $home_description['image_id']) { ?>
-						  <option value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
+						  <option title="<?php echo $image['previewimage']; ?> "value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
 					    <?php } else { ?>
-						  <option value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
+						  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
 					    <?php } ?>
 					  <?php } ?>
 				    </select></td>

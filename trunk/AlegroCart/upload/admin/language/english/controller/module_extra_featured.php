@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Featured Product Module';
+$_['heading_title']       = 'Featured Product';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit featured product module details here.';
 
 // Text

@@ -1,6 +1,6 @@
 <div class="task">
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $insert; ?>'"><img src="template/<?php echo $this->directory?>/image/insert_enabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } else { ?>
@@ -18,7 +18,7 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><em></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
@@ -167,14 +167,16 @@
 				  <tr>
 				    <td style="width: 185px" class="set"><?php echo $entry_image; ?></td>
                     <td><select name="image_id[<?php echo $image_display_description['language_id']; ?>]" id="image_id<?php echo $image_display_description['language_id']; ?>" onchange="$('#image<?php echo $image_display_description['language_id']; ?>').load('index.php?controller=image&action=view&image_id='+this.value);">
-						  <option title="" value=""><?php echo $text_noimage;?></option>
+						  <option title="<?php echo $no_image_filename; ?>" value="<?php echo $no_image_id;?>"<?php if($image_display_description['image_id'] == '0'){ echo ' selected';}?>><?php echo $text_noimage;?></option>
                       <?php foreach ($images as $image) { ?>
+			<?php if ($image['image_id'] != $no_image_id){?>
                         <?php if ($image['image_id'] == $image_display_description['image_id']) { ?>
 						  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
 					    <?php } else { ?>
 						  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
 					    <?php } ?>
 					  <?php } ?>
+					<?php } ?>
 				    </select></td>
 				    <td></td>
 				    <td class="product_image" id="image<?php echo $image_display_description['language_id']; ?>"></td>
@@ -188,6 +190,7 @@
 	  </div>
 	</div>
   </div>
+  <input type="hidden" name="no_image_id" value="<?php echo $no_image_id;?>">
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
 </form> 
  
@@ -207,4 +210,9 @@
   <script type="text/javascript"><!--
   tabview_initialize('tabmini');
   //--></script>
-  
+  <script type="text/javascript"><!--
+    $('input[name="name"]').change(function () {
+      var value = $(this).val();
+      $(".heading em").text(value);
+    }).change();
+  //--></script>

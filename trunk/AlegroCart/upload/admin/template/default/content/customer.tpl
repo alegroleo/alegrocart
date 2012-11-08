@@ -1,6 +1,6 @@
 <div class="task">
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $insert; ?>'"><img src="template/<?php echo $this->directory?>/image/insert_enabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } else { ?>
@@ -18,7 +18,7 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><em></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
@@ -183,3 +183,17 @@
 <script type="text/javascript"><!--
 $('#zone').load('index.php?controller=customer&action=zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
 //--></script>
+  <script type="text/javascript"><!--
+    $('input[name="firstname"]').change(function () {
+      var first = $(this).val();
+      var last = $('input[name="lastname"]').val();
+      $(".heading em").text(first+' '+last);
+    }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $('input[name="lastname"]').change(function () {
+      var last2 = $(this).val();
+      var first2 = $('input[name="firstname"]').val();
+      $(".heading em").text(first2+' '+last2);
+    }).change();
+  //--></script>

@@ -155,10 +155,6 @@ class ModuleRelated extends Controller {
 			$view->set('show_stock_icon',$config->get('config_show_stock_icon'));
 			if($config->get('config_show_stock_icon')){
 				$view->set('low_stock_warning',$config->get('config_low_stock_warning'));
-				$view->set('stock_status_g', $image->href('stock_status_g.png'));
-				$view->set('stock_status_o', $image->href('stock_status_o.png'));
-				$view->set('stock_status_r', $image->href('stock_status_r.png'));
-				$view->set('stock_status_y', $image->href('stock_status_y.png'));
 			}
 			$view->set('text_stock_icon', $language->get('text_stock_icon'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));

@@ -1,6 +1,6 @@
 <div class="task">
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $insert; ?>'"><img src="template/<?php echo $this->directory?>/image/insert_enabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } else { ?>
@@ -18,7 +18,7 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><em></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
@@ -44,7 +44,7 @@
                 <table>
                   <tr>
                     <td style="width: 185px;" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
-                    <td style="width: 265px;"><input name="name[<?php echo $product['language_id']; ?>]" value="<?php echo $product['name']; ?>">
+                    <td style="width: 265px;"><input name="name[<?php echo $product['language_id']; ?>]" value="<?php echo $product['name']; ?>" size="32">
                       <?php if (@$error_name[$product['language_id']]) { ?>
                       <span class="error"><?php echo $error_name[$product['language_id']]; ?></span>
                       <?php } ?>
@@ -477,14 +477,11 @@
       <div class="page">
         <div class="pad">
 	      <table>
-		    <tr><td><p><b style="color:#0099FF;">
-			<?php echo $products['0']['name']?>
-			</b></p></td></tr>		  
-			<tr>
-			  <td class="set"><?php echo $entry_regular_price;?></td>
-			  <td>  <input type="text" id="regular_price" value="<?php echo $price; ?>"onchange="regular_price_update()">
-			  </td>
-			</tr>
+		    <tr>
+			<td class="set"><?php echo $entry_regular_price;?></td>
+			<td>  <input type="text" id="regular_price" value="<?php echo $price; ?>"onchange="regular_price_update()">
+			</td>
+		    </tr>
 		    <tr>
 		      <td class="set"><?php echo $entry_dated_special; ?></td>
 		      <td><input id="special_price" name="special_price" value="<?php echo $special_price; ?>" onchange="calculate_percent()"></td>
@@ -803,5 +800,11 @@ function removeDiscount(row) {
   //--></script>
   <script type="text/javascript"><!--
   tabview_initialize('tabmini2');
+  //--></script>
+  <script type="text/javascript"><!--
+    $('input[name="name[1]"]').change(function () {
+      var value = $(this).val();
+      $(".heading em").text(value);
+    }).change();
   //--></script>
 </form>

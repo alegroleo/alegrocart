@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Image Display Module';
+$_['heading_title']       = 'Image Display';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You set Image Display module Status here with Link to Image Display entry.';
 
 // Text

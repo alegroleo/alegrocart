@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Payment Google Checkout';
+$_['heading_title']       = 'Google Checkout';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit your Google Checkout account details here.';
 
 // Text 

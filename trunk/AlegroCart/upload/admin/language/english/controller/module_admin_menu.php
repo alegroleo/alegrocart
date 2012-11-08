@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Module Menu';
+$_['heading_title']       = 'Admin Menu';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit your menu module here.';
 
 // Text

@@ -38,9 +38,10 @@ class Model_Admin_Image_Display extends Model {
 		$image_id = $this->request->gethtml('image_id', 'post');
 		$image_width = $this->request->gethtml('image_width', 'post');
 		$image_height = $this->request->gethtml('image_height','post');
+		$no_image_id = $this->request->gethtml('no_image_id', 'post');
 		foreach($this->request->get('flash', 'post', array()) as $key => $value){
 			$sql = "insert into image_display_description set image_display_id = '?', language_id = '?', flash = '?', flash_width = '?', flash_height = '?', flash_loop = '?', image_id = '?', image_width = '?', image_height = '?'";
-			$this->database->query($this->database->parse($sql, $insert_id, $key, $flash[$key], $flash_width[$key], $flash_height[$key], $flash_loop[$key], $image_id[$key], $image_width[$key], $image_height[$key]));
+			$this->database->query($this->database->parse($sql, $insert_id, $key, $flash[$key], $flash_width[$key], $flash_height[$key], $flash_loop[$key], $image_id[$key] != $no_image_id ? $image_id[$key]: '0', $image_width[$key], $image_height[$key]));
 		}
 	}
 	function getRow_image_display_info($image_display_id){
@@ -87,6 +88,10 @@ class Model_Admin_Image_Display extends Model {
 	function get_images(){
 		$results = $this->database->cache('image', "select i.image_id, i.filename, id.title from image i left join image_description id on (i.image_id = id.image_id) where id.language_id = '" . (int)$this->language->getId() . "' order by id.title");
 		return $results;
+	}
+	function get_no_image(){
+		$result = $this->database->getRow("select id.image_id, i.filename from image_description id inner join image i on (i.image_id=id.image_id) where id.language_id = '1' and id.title = 'no image'");
+		return $result;
 	}
 	function get_locations(){
 		$results = $this->database->getRows("select location_id, location from tpl_location");

@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Latest Product Module';
+$_['heading_title']       = 'Latest Product';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit latest product module details here.';
 
 // Text

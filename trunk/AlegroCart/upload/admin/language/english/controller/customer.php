@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Customer';
+$_['heading_title']       = 'Customers';
+$_['heading_form_title']  = 'Customer:';
 $_['heading_description'] = 'You can edit customer details here.';
 
 // Text
@@ -38,11 +39,11 @@ $_['entry_confirm']       = 'Confirm:';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify customers';
-$_['error_firstname']     = '* First Name must be between 1 and 32 characters!';
-$_['error_lastname']      = '* Last Name must be between 1 and 32 characters!';
+$_['error_firstname']     = '* First Name must be between 2 and 32 characters!';
+$_['error_lastname']      = '* Last Name must be between 2 and 32 characters!';
 $_['error_email']         = '* E-Mail Address does not appear to be valid!';
-$_['error_telephone']     = '* Telephone must be between 1 and 32 characters!';
-$_['error_password']      = '* Password must be between 4 and 20 characters!';
+$_['error_telephone']     = '* Telephone must be between 6 and 32 characters!';
+$_['error_password']      = '* Password must be between 5 and 20 characters!';
 $_['error_confirm']       = '* Password and password confirmation do not match!';
 $_['error_address_1']   = '* Address must be greater than 3 and less than 64 characters!';
 $_['error_city']        = '* City must be greater than 3 and less than 32 characters!';

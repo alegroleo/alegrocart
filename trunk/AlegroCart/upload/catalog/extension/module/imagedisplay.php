@@ -21,9 +21,9 @@ class ModuleImageDisplay extends Controller {
 		
 		$image_display_data = array();
 		foreach($results as $result){
-			$imagename = strlen($result['filename']) > 3 ? $result['filename'] : '';
+			$imagename = strlen($result['filename']) > 3 && $result['image_id'] != '0' ? $result['filename'] : '';
 			if(strlen($imagename) > 6){
-				If($result['image_width'] && $result['image_height']){
+				if($result['image_width'] && $result['image_height']){
 					$imagename = $image->resize($imagename, $result['image_width'], $result['image_height']);
 				} else {
 					$imagename = $image->href($imagename);

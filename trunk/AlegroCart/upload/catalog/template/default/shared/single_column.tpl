@@ -1,7 +1,7 @@
 <?php if($show_stock_icon){?>
-	<input type="hidden" id="stock_status_g" value="<?php echo $stock_status_g;?>">
-	<input type="hidden" id="stock_status_o" value="<?php echo $stock_status_o;?>">
-	<input type="hidden" id="stock_status_r" value="<?php echo $stock_status_r;?>">
+	<input type="hidden" id="stock_status_g" value="catalog/styles/<?php echo $this->style?>/image/stock_status_g.png">
+	<input type="hidden" id="stock_status_o" value="catalog/styles/<?php echo $this->style?>/image/stock_status_o.png">
+	<input type="hidden" id="stock_status_r" value="catalog/styles/<?php echo $this->style?>/image/stock_status_r.png">
 	<input type="hidden" id="low_stock_warning" value="<?php echo $low_stock_warning;?>">
 <?php }?>
 <?php foreach ($products as $key =>$product) { ?>
@@ -65,11 +65,11 @@
 	    <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $product['stock_level']; ?></span>
 	    <?php if($show_stock_icon){?>
 		  <?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
-		    $icon = $stock_status_g;
+		    $icon ='catalog/styles/'.$this->style.'/image/stock_status_g.png';
 		  }else if($product['stock_level'] > 0 && $product['stock_level'] <= $low_stock_warning){
-	        $icon = $stock_status_o;
+	        $icon = 'catalog/styles/'.$this->style.'/image/stock_status_o.png';
 	      } else {
-		    $icon = $stock_status_r;
+		    $icon = 'catalog/styles/'.$this->style.'/image/stock_status_r.png';
 	      }?>
 	    <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 		<?php }?>

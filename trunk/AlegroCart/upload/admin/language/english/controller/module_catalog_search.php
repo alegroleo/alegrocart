@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Module Search';
+$_['heading_title']       = 'Catalog Search';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit your search module here.';
 
 // Text

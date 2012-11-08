@@ -1,6 +1,6 @@
 <?php //Order Edit
 // Heading
-$_['heading_title']         = 'Order Create';
+$_['heading_title']         = 'Order Create:';
 $_['heading_description']   = 'You can create orders here.';
 
 // Text

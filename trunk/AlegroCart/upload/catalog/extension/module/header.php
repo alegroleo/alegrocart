@@ -18,7 +18,6 @@ class ModuleHeader extends Controller {
 			$view = $this->locator->create('template');
 			if ($session->get('maintenance') != 'enabled') {
 				if($config->get('config_rss_status')){
-					$view->set('rss_image', $image->href('rss.png'));
 					$view->set('rss_link', $url->get_server().'rss.php');
 				}
 				

@@ -143,7 +143,7 @@ class ControllerTaxRate extends Controller {
 
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_title', $this->language->get('heading_title').'<em>'.$this->modelTaxRate->get_taxclass_name($this->request->gethtml('tax_class_id')).'</em>');
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_previous', $this->language->get('text_previous'));
@@ -234,6 +234,9 @@ class ControllerTaxRate extends Controller {
 			$view->set('update', 'enable');
 			$view->set('delete', $this->url->ssl('tax_rate', 'delete', $query));
 		}
+
+		$view->set('tax_name', $this->modelTaxRate->get_taxclass_name($this->request->gethtml('tax_class_id')));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));

@@ -68,11 +68,11 @@
 	  <?php echo $onhand.($show_stock ? $product['stock_level'] : ''); ?>
 	  <?php if($show_stock_icon){?>
 		<?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
-		  $icon = $stock_status_g;
+		  $icon = 'catalog/styles/'.$this->style.'/image/stock_status_g.png';
 		}else if($product['stock_level'] > 0 && $product['stock_level'] <= $low_stock_warning){
-	      $icon = $stock_status_o;
+	      $icon = 'catalog/styles/'.$this->style.'/image/stock_status_o.png';
 		} else {
-		  $icon = $stock_status_r;
+		  $icon = 'catalog/styles/'.$this->style.'/image/stock_status_r.png';
 		}?>
 		<img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 	  <?php }?>

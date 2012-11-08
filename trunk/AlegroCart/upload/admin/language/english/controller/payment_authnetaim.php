@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Payment Authorize.net (AIM)';
+$_['heading_title']       = 'Authorize.net (AIM)';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit payment Authorize.net (AIM) account details here.';
 
 // Text 

@@ -164,19 +164,19 @@ class ControllerAccountEdit extends Controller {
 	}
 	
 	function validate() {
-		if ((strlen($this->request->sanitize('firstname', 'post')) < 3) || (strlen($this->request->sanitize('firstname', 'post')) > 32)) {
+		if ((strlen($this->request->sanitize('firstname', 'post')) < 2) || (strlen($this->request->sanitize('firstname', 'post')) > 32)) {
 			$this->error['firstname'] = $this->language->get('error_firstname');
 		}
-		if ((strlen($this->request->sanitize('lastname', 'post')) < 3) || (strlen($this->request->sanitize('lastname', 'post')) > 32)) {
+		if ((strlen($this->request->sanitize('lastname', 'post')) < 2) || (strlen($this->request->sanitize('lastname', 'post')) > 32)) {
 			$this->error['lastname'] = $this->language->get('error_lastname');
 		}
-		if ((!$this->validate->strlen($this->request->gethtml('email', 'post'), 6, 32)) || (!$this->validate->email($this->request->gethtml('email', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('email', 'post')) == FALSE) {
+		if ((!$this->validate->strlen($this->request->gethtml('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('email', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('email', 'post')) == FALSE) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
 		if ($this->modelAccountCreate->check_email($this->customer->getId())) {
 			$this->error['message'] = $this->language->get('error_exists');
 		}
-		if ((strlen($this->request->sanitize('telephone', 'post')) < 3) || (strlen($this->request->sanitize('telephone', 'post')) > 32)) {
+		if ((strlen($this->request->sanitize('telephone', 'post')) < 6) || (strlen($this->request->sanitize('telephone', 'post')) > 32)) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 		if (!$this->error) {

@@ -1,6 +1,7 @@
 <?php //Specials AlegroCart
 // Heading
-$_['heading_title']       = 'Special Offer Product Module';
+$_['heading_title']       = 'Special Offer Product';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit special offer product module details here.';
 
 // Text

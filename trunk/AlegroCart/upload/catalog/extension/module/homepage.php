@@ -55,7 +55,7 @@ class ModuleHomePage extends Controller {
 			$view->set('flash_loop', ($home_data['flash_loop'] ? 'true' : 'false'));
 			
 		}
-		if(strlen($home_data['filename']) > 3){
+		if(strlen($home_data['filename']) > 3 && $home_data['image_id'] != '0'){
 			$view->set('image', $image->href($home_data['filename']));
 		}
 		$view->set('close_homepage', $url->href('home'));

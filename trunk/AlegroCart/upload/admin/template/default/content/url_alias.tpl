@@ -1,6 +1,6 @@
 <div class="task">
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $insert; ?>'"><img src="template/<?php echo $this->directory?>/image/insert_enabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } else { ?>
@@ -18,9 +18,10 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><em></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -31,14 +32,14 @@
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_query; ?></td>
-              <td><input type="text" name="query" value="<?php echo $query; ?>">
+              <td><input type="text" name="query" value="<?php echo $query; ?>" size="50">
                 <?php if ($error_query) { ?>
                 <span class="error"><?php echo $error_query; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_alias; ?></td>
-              <td><input type="text" name="alias" value="<?php echo $alias; ?>"></td>
+              <td><input type="text" name="alias" value="<?php echo $alias; ?>" size="50"></td>
             </tr>
           </table>
         </div>
@@ -48,5 +49,11 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $('input[name="alias"]').change(function () {
+      var value = $(this).val();
+      $(".heading em").text(value);
+    }).change();
   //--></script>
 </form>

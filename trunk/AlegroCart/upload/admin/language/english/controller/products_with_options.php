@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']        = 'Products with Options';
+$_['heading_form_title']   = 'Product with Options:';
 $_['heading_description']  = 'You can edit your products with options here.';
 
 // Text
@@ -38,7 +39,6 @@ $_['entry_area']           = 'Area:';
 $_['entry_volume']         = 'Volume:';
 $_['entry_quantity']       = 'In Stock Quantity:';
 $_['entry_model_number']   = 'Model Number:';
-$_['entry_product_option'] = 'Product Option: ';
 $_['entry_image']          = 'Image:';
 $_['entry_barcode']        = 'Barcode Digits:';
 $_['entry_barcode_encoding'] = 'Barcode Encoding:';

@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Option Value';
+$_['heading_title']       = 'Option Values:';
+$_['heading_form_title']  = 'Option Value:';
 $_['heading_description'] = 'You can edit option values here.';
 
 // Text

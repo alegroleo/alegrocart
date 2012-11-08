@@ -184,7 +184,7 @@ class ControllerProductOption extends Controller {
 
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_title', $this->language->get('heading_title').'<em>'.$this->modelOption->get_product_name($this->request->gethtml('product_id')).'</em>');
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_previous', $this->language->get('text_previous'));
@@ -233,7 +233,7 @@ class ControllerProductOption extends Controller {
 	private function getForm() {
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_plus', $this->language->get('text_plus'));
@@ -313,6 +313,8 @@ class ControllerProductOption extends Controller {
 		}
 
 		$view->set('options', $option_data);
+
+		$view->set('option_name', $this->modelOption->get_product_name($this->request->gethtml('product_id')));
 
 		if (($this->request->gethtml('product_to_option_id')) && (!$this->request->isPost())) {
 			$product_option_info = $this->modelOption->get_product_option();

@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Weight Class';
+$_['heading_title']       = 'Weight Classes';
+$_['heading_form_title']  = 'Weight Class:';
 $_['heading_description'] = 'You can edit your weight classes here.';
 
 // Text

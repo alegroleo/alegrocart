@@ -2,6 +2,7 @@
 
 // Heading
 $_['heading_title']       = 'PayMate';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit the PayMate payment extension details here.';
 
 // Text

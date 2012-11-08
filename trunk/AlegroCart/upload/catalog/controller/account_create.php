@@ -243,14 +243,14 @@ class ControllerAccountCreate extends Controller {
 		if (!$this->validate->strlen($this->request->sanitize('lastname', 'post'),2,32)) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
-    	if ((!$this->validate->strlen($this->request->sanitize('email', 'post'), 6, 32)) || (!$this->validate->email($this->request->sanitize('email', 'post'))) || $this->mail_check->final_mail_check($this->request->sanitize('email', 'post')) == FALSE) {
+    	if ((!$this->validate->strlen($this->request->sanitize('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->sanitize('email', 'post'))) || $this->mail_check->final_mail_check($this->request->sanitize('email', 'post')) == FALSE) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
 		if($this->modelAccountCreate->check_customer($this->request->sanitize('email', 'post'))){
       		$this->error['message'] = $this->language->get('error_exists');
     	}
 		if(!$this->session->get('guest_account')){
-			if (!$this->validate->strlen($this->request->sanitize('password', 'post'),4,20)) {
+			if (!$this->validate->strlen($this->request->sanitize('password', 'post'),5,20)) {
 				$this->error['password'] = $this->language->get('error_password');
 			}
 			if ($this->request->sanitize('confirm', 'post') != $this->request->sanitize('password', 'post')) {
@@ -266,7 +266,7 @@ class ControllerAccountCreate extends Controller {
 		if (!$this->validate->strlen($this->request->sanitize('postcode', 'post'),4,10)){
 			$this->error['postcode'] = $this->language->get('error_postcode');
 		}
-		if (!$this->validate->strlen($this->request->sanitize('telephone', 'post'),7,32)) {
+		if (!$this->validate->strlen($this->request->sanitize('telephone', 'post'),6,32)) {
       		$this->error['telephone'] = $this->language->get('error_telephone');
     	}
     	if (!$this->error) {

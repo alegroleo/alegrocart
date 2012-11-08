@@ -105,7 +105,7 @@ class ControllerAccountPassword extends Controller {
 	}
 
   	function validate() {
-    	if ((strlen($this->request->sanitize('password', 'post')) < 4) || (strlen($this->request->sanitize('password', 'post')) > 20)) {
+    	if ((strlen($this->request->sanitize('password', 'post')) < 5) || (strlen($this->request->sanitize('password', 'post')) > 20)) {
       		$this->error['password'] = $this->language->get('error_password');
     	}
     	if ($this->request->sanitize('confirm', 'post') != $this->request->sanitize('password', 'post')) {

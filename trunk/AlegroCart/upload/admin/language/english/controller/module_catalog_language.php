@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Module Language';
+$_['heading_title']       = 'Catalog Language';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit your language module here.';
 
 // Text

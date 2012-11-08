@@ -35,6 +35,7 @@ class ControllerPaymentbanktr extends Controller {
         $view = $this->locator->create('template');
         
         $view->set('heading_title', $this->language->get('heading_title'));
+	$view->set('heading_payment', $this->language->get('heading_payment'));
         $view->set('heading_description', $this->language->get('heading_description'));        
 
         $view->set('text_enabled', $this->language->get('text_enabled'));

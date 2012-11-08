@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'User Group';
+$_['heading_title']       = 'User Groups';
+$_['heading_form_title']  = 'User Group:';
 $_['heading_description'] = 'You can edit your admin users groups here.';
 
 // Text

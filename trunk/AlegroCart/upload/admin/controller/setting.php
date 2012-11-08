@@ -82,6 +82,7 @@ class ControllerSetting extends Controller {
 		$view->set('text_check_stock_explantion', $this->language->get('text_check_stock_explantion'));
 		$view->set('text_allow_checkout_explantion', $this->language->get('text_allow_checkout_explantion'));
 		$view->set('text_subtract_stock_explantion', $this->language->get('text_subtract_stock_explantion'));
+		$view->set('text_favicons', $this->language->get('text_favicons'));
 
 		$view->set('text_stock_help', $this->language->get('text_stock_help'));
 		$view->set('text_address_explantion', $this->language->get('text_address_explantion'));
@@ -129,6 +130,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_captcha_contactus', $this->language->get('entry_captcha_contactus'));
 		$view->set('entry_captcha_reg', $this->language->get('entry_captcha_reg'));
 		$view->set('entry_captcha_length', $this->language->get('entry_captcha_length'));
+		$view->set('entry_admin_favicon', $this->language->get('entry_admin_favicon'));
+		$view->set('entry_catalog_favicon', $this->language->get('entry_catalog_favicon'));
 		$view->set('entry_footer_logo', $this->language->get('entry_footer_logo'));
 		$view->set('entry_footer_logo_top', $this->language->get('entry_footer_logo_top'));
 		$view->set('entry_footer_logo_left', $this->language->get('entry_footer_logo_left'));
@@ -267,6 +270,7 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_pr_download_status',$this->language->get('explanation_pr_download_status'));
 		$view->set('explanation_free_download',$this->language->get('explanation_free_download'));
 		$view->set('explanation_sitemap',$this->language->get('explanation_sitemap'));
+		$view->set('explanation_favicon',$this->language->get('explanation_favicon'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -1081,6 +1085,12 @@ class ControllerSetting extends Controller {
 
 		$sitemap_path = HTTP_BASE . 'sitemap.php';
 		$view->set('sitemap_path', $sitemap_path);
+
+		$admin_favicon = DIR_BASE . 'admin/template/'. @$setting_info['admin']['config_template'] .'/image/favicon.ico';
+		$view->set('admin_favicon', $admin_favicon);
+
+		$catalog_favicon = DIR_BASE . 'image/favicon.ico';
+		$view->set('catalog_favicon', $catalog_favicon);
 
 		if ($this->request->has('catalog_captcha_contactus')) {
 			$view->set('catalog_captcha_contactus', $this->request->gethtml('catalog_captcha_contactus'));

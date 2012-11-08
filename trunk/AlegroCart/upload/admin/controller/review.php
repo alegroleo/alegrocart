@@ -242,7 +242,7 @@ class ControllerReview extends Controller {
 	function getForm() {
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));

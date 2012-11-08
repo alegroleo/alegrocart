@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Order Status';
+$_['heading_title']       = 'Order Statuses';
+$_['heading_form_title']  = 'Order Status:';
 $_['heading_description'] = 'You can edit order statuses here.';
 
 // Text

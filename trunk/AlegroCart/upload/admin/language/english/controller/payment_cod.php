@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Cash On Delivery';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit cash on delivery payment module here.';
 
 // Text

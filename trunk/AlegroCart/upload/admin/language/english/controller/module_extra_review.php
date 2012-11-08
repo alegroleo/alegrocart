@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Module Review';
+$_['heading_title']       = 'Review';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit review module details here.';
 
 // Text

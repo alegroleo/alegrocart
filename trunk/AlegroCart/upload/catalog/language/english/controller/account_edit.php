@@ -15,9 +15,9 @@ $_['entry_telephone']     = 'Telephone:';
 $_['entry_fax']           = 'Fax:';
 
 // Error
-$_['error_firstname']     = '* First Name must be greater than 3 and less than 32 characters!';
-$_['error_lastname']      = '* Last Name must be greater than 3 and less than 32 characters!';
+$_['error_firstname']     = '* First Name must be greater than 2 and less than 32 characters!';
+$_['error_lastname']      = '* Last Name must be greater than 2 and less than 32 characters!';
 $_['error_email']         = '* E-Mail Address does not appear to be valid!';
 $_['error_exists']        = '* E-Mail address is already registered!!';
-$_['error_telephone']     = '* Telephone must be greater than 3 and less than 32 characters!';
+$_['error_telephone']     = '* Telephone must be greater than 6 and less than 32 characters!';
 ?>

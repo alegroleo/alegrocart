@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']			= 'Template Manager';
+$_['heading_title']		= 'Templates';
+$_['heading_form_title']	= 'Template:';
 $_['heading_description']	= 'You can Setup Templates here.';
 
 // Text

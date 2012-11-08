@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Payment PayPal';
+$_['heading_title']       = 'PayPal';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit payment PayPal account details here.';
 
 // Text 

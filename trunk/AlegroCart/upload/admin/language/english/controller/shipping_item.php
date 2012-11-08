@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Shipping Per Item Rate';
+$_['heading_title']       = 'Per Item Rate';
+$_['heading_shipping']    = 'Shipping:';
 $_['heading_description'] = 'You can edit shipping per item rates here.';
 
 // Text

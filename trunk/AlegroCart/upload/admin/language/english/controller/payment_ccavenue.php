@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Payment ccAvenue';
+$_['heading_title']       = 'ccAvenue';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit payment ccAvenue account details here.';
 
 // Text 

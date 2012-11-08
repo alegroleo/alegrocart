@@ -28,3 +28,9 @@ RewriteRule ^(.*) index.php?$1 [L,QSA]
 # Focus on one domain - Uncomment to use
 # RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]
 # RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]
+
+ServerSignature Off
+
+#Modify max uploadable file size if needed
+#php_value upload_max_filesize 128M
+#php_value post_max_size 128M

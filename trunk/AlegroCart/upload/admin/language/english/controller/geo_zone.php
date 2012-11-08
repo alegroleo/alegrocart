@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']          = 'Geo Zones';
+$_['heading_form_title']     = 'Geo Zone:';
 $_['heading_description']    = 'You can edit geo zones here.';
 
 // Text

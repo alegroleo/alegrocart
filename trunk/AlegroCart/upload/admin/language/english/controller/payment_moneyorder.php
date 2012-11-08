@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Money Order';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit money order payment module here.';
 
 // Text

@@ -30,7 +30,7 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><?php if($productwo_id){ ?><em><?php echo $product_name;?></em><?php } ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
@@ -55,17 +55,11 @@
 <?php } else { ?>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
     <table style="width: 100%;"><tr><td><hr></td></tr></table>
-    <table>
-	  <tr><td style="width: 85px;" class="set"><?php echo $entry_product_option;?></td>
-	    <td style="width: 60px; color:#0099FF;"><b><?php echo $product_option;?></b><td>
-		<td style="width: 250px; color:#0099FF;"><b><?php echo $product_name;?></b></td>
-	  </tr>
-	</table>
 	<table>
-	  <tr><td class="set"><?php echo $entry_model_number;?></td>
+	  <tr><td style="width: 185px;" class="set"><?php echo $entry_model_number;?></td>
 	    <td><input Type="test" size="32" maxlength="32" name="model_number" value="<?php echo $model_number;?>"></td>
 	  </tr>
-	  <tr><td class="set"><?php echo $entry_quantity;?></td>
+	  <tr><td style="width: 185px;" class="set"><?php echo $entry_quantity;?></td>
 	    <td><input type="text" size="6" name="quantity" value="<?php echo $quantity;?>"></td>
 	  </tr>
 	  <input id="product_option" type="hidden" name="product_option" value="<?php echo $product_option;?>">
@@ -74,7 +68,7 @@
 	<table>
 	  <tr><td colspan="2"><hr></td></tr>
 	  <tr>
-              <td class="set"><?php echo $entry_barcode_encoding; ?></td>
+              <td style="width: 185px;" class="set"><?php echo $entry_barcode_encoding; ?></td>
               <td><select id="encoding" name="encoding" onchange="$('#barcode').val('')">
                   <?php if ($encoding == 'upc') { ?>
                   <option value="upc" selected><?php echo $text_upc; ?></option>
@@ -86,7 +80,7 @@
                 </select></td>
             </tr>
 	    <tr>
-              <td class="set"><?php echo $entry_barcode; ?></td>
+              <td style="width: 185px;" class="set"><?php echo $entry_barcode; ?></td>
               <td id="barcodefield"><input id="barcode" type="text" size="14" maxlength="13" name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode()">
 			</td>
         </tr>
@@ -94,7 +88,7 @@
 	<table>
 	  <tr><td colspan="2"><hr></td></tr>
 	  <tr>
-		<td class="set"><?php echo $entry_dimension_class;?></td>
+		<td style="width: 185px;" class="set"><?php echo $entry_dimension_class;?></td>
 		<td><select id="type_id" name="type_id" onchange="$('#dimensions').load('index.php?controller=products_with_options&action=dimensions&type_id='+this.value);">
 		  <?php foreach($types as $type){?>
 			 <option value="<?php echo $type['type_id'];?>"<?php if($type['type_id'] == $type_id){echo ' selected';}?>><?php echo $type['type_text'];?></option>
@@ -108,7 +102,7 @@
 	<table style="width: 100%;"><tr><td><hr></td></tr></table>
 	<table>
 	  <tr>
-        <td width="185" class="set"><?php echo $entry_image; ?></td>
+        <td width="185px" class="set"><?php echo $entry_image; ?></td>
         <td><select name="image_id" id="image_id" onchange="$('#image').load('index.php?controller=image&action=view&image_id='+this.value);">
 		  <option title="<?php echo $no_image_filename; ?>" value="<?php echo $no_image_id;?>"<?php if($image_id == '0'){ echo ' selected';}?>><?php echo $text_no_image;?></option>
           <?php foreach ($images as $image) { ?>

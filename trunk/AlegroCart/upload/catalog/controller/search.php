@@ -297,10 +297,6 @@ class ControllerSearch extends Controller {
 		$view->set('show_stock_icon',$this->config->get('config_show_stock_icon'));
 		if($this->config->get('config_show_stock_icon')){
 			$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
-			$view->set('stock_status_g', $image->href('stock_status_g.png'));
-			$view->set('stock_status_o', $image->href('stock_status_o.png'));
-			$view->set('stock_status_r', $image->href('stock_status_r.png'));
-			$view->set('stock_status_y', $image->href('stock_status_y.png'));
 		}
 		$view->set('text_stock_icon', $language->get('text_stock_icon'));
 		$view->set('addtocart',$this->config->get('search_addtocart'));

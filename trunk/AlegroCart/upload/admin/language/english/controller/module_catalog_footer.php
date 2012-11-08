@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Module Footer';
+$_['heading_title']       = 'Catalog Footer';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit footer module details here.';
 
 // Text

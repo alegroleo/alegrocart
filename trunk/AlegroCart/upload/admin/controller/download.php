@@ -1,9 +1,12 @@
 <?php // Admin Download AlegroCart
 class ControllerDownload extends Controller {  
 	var $error = array();
-  	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+	var $prohibited_types = array('php');
+	function __construct(&$locator){
+		$this->locator		=& $locator;
+		$this->config		=& $locator->get('config');
+		$this->download		=& $locator->get('download');
+		$model			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->request 	 	=& $locator->get('request');
@@ -17,37 +20,103 @@ class ControllerDownload extends Controller {
 		$this->modelDownload = $model->get('model_admin_download');
 		$this->language->load('controller/download.php');
 	}
-  	function index() {
-    	$this->template->set('title', $this->language->get('heading_title'));
-    	$this->template->set('content', $this->getList());
+	function index() {
+	$this->template->set('title', $this->language->get('heading_title'));
+	$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-  	        
-  	function insert() {
-    	$this->template->set('title', $this->language->get('heading_title'));
-			
+	$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
+	function checkFiles() {
+		$files=glob(DIR_DOWNLOAD.'*.*');
+		if (!$files) { return; }
+		foreach ($files as $file) {
+			$pattern='/\.('.implode('|',$this->prohibited_types).')$/';
+			$filename=basename($file);
+			if (!preg_match($pattern,$file) && $this->validate->strlen($filename,1,128)) {
+				$result = $this->modelDownload->check_download($filename);
+				if (!$result) { $this->init($filename); }
+			}
+		}
+	}
+
+	function init($filename) {
+		$mask = $this->getMask($filename);
+		$this->modelDownload->insert_downloads($filename, $mask);
+		$insert_id = $this->modelDownload->get_insert_id();
+		$downloadname = $this->getDownloadName($filename);
+		$results = $this->modelDownload->get_languages();
+			foreach ($results as $result) {
+			$key = $result['language_id'];
+			$this->modelDownload->insert_description($insert_id, $key, $downloadname);
+			}
+	}
+
+	function getDownloadName($file) {
+		$str=$file;
+		$str=pathinfo_filename($file);
+		$str=str_replace(array('_','-'),' ',$str);
+		$str=ucwords($str);
+		return $str;
+	}
+
+	function getMask($file) {
+		$seed=pathinfo_filename($file);
+		$ext=pathinfo_extension($file);
+		$filecount = strlen($seed);
+		$NumberSeed = '';
+		for($i = 0; $i < $filecount; ++$i){
+		$NumberSeed += $this->uniord($seed{$i});
+		}
+		list($sec, $msec) = explode('.', microtime(true));
+		$mask = $msec*(int)$NumberSeed;
+		return $mask.'.'.$ext;
+	}
+
+	function uniord($char) {
+	$h = ord($char{0});
+	if (!isset($char{1})) $char{1}='';
+	if (!isset($char{2})) $char{2}='';
+	if (!isset($char{3})) $char{3}='';
+		if ($h <= 0x7F) {
+			return $h;
+		} else if ($h < 0xC2) {
+			return false;
+		} else if ($h <= 0xDF) {
+			return ($h & 0x1F) << 6 | (ord($char{1}) & 0x3F);
+		} else if ($h <= 0xEF) {
+			return ($h & 0x0F) << 12 | (ord($char{1}) & 0x3F) << 6 | (ord($char{2}) & 0x3F);
+		} else if ($h <= 0xF4) {
+			return ($h & 0x0F) << 18 | (ord($char{1}) & 0x3F) << 12 | (ord($char{2}) & 0x3F) << 6 | (ord($char{3}) & 0x3F);
+		} else {
+			return false;
+		}
+	}
+
+	function insert() {
+	$this->template->set('title', $this->language->get('heading_title'));
+
 		if ($this->request->isPost() && $this->upload->has('download') && $this->validateForm()) {
 			$this->modelDownload->insert_download();
-      		$insert_id = $this->modelDownload->get_insert_id();
-      		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
+		$insert_id = $this->modelDownload->get_insert_id();
+		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 				$this->modelDownload->insert_description($insert_id, $key, $value['name']);
-      		}     
-			$this->session->set('message', $this->language->get('text_message'));
-	  		$this->response->redirect($this->url->ssl('download'));
 		}
-    	$this->template->set('content', $this->getForm());
+			$this->session->set('message', $this->language->get('text_message'));
+			$this->response->redirect($this->url->ssl('download'));
+		}
+	$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
 
-  	function update() {
-    	$this->template->set('title', $this->language->get('heading_title'));
+	$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
+	function update() {
+	$this->template->set('title', $this->language->get('heading_title'));
 			
-    	if ($this->request->isPost() && $this->request->has('download_id') && $this->validateForm()) {
-        	$this->modelDownload->update_download();
+	if ($this->request->isPost() && $this->request->has('download_id') && $this->validateForm()) {
+		$this->modelDownload->update_download();
 			$this->modelDownload->delete_description();
       		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 				$this->modelDownload->insert_description((int)$this->request->gethtml('download_id'), $key, $value['name']);
@@ -61,23 +130,30 @@ class ControllerDownload extends Controller {
     	$this->response->set($this->template->fetch('layout.tpl'));
   	}
 
-  	function delete() {
-    	$this->template->set('title', $this->language->get('heading_title'));
+	function delete() {
+	$this->template->set('title', $this->language->get('heading_title'));
 			
-    	if (($this->request->gethtml('download_id')) && ($this->validateDelete())) {
+	if (($this->request->gethtml('download_id')) && ($this->validateDelete())) {
+			$result = $this->modelDownload->get_download();
+			$result = array_shift($result); // Only delete the actual file if there's 1 database entry remaining
+			$rows = $this->modelDownload->check_filename($result['filename']);
+			if (count($rows) <= 1) {
+				$this->download->delete($result['filename']);
+			}
 			$this->modelDownload->delete_download();
-	  		$this->modelDownload->delete_description();
+			$this->modelDownload->delete_description();
 			$this->session->set('message', $this->language->get('text_message'));
-      		$this->response->redirect($this->url->ssl('download'));
-    	}
-    	$this->template->set('content', $this->getList());
+		$this->response->redirect($this->url->ssl('download'));
+	}
+	$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-    
+	$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
   	function getList() {
-		$this->session->set('download_validation', md5(time()));
+	$this->session->set('download_validation', md5(time()));
+	$this->checkFiles();
     	$cols = array();
     	$cols[] = array(
       		'name'  => $this->language->get('column_name'),
@@ -151,7 +227,7 @@ class ControllerDownload extends Controller {
     	$view = $this->locator->create('template');
 
     	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+    	$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 
     	$view->set('text_results',$this->modelDownload->get_text_results());
 
@@ -178,26 +254,26 @@ class ControllerDownload extends Controller {
     	$view->set('action', $this->url->ssl('download', 'page'));
 		$view->set('action_delete', $this->url->ssl('download', 'enableDelete'));
 
-    	$view->set('search', $this->session->get('download.search'));
-    	$view->set('sort', $this->session->get('download.sort'));
-    	$view->set('order', $this->session->get('download.order'));
-    	$view->set('page', $this->session->get('download.page'));
-    	$view->set('cols', $cols);
-    	$view->set('rows', $rows);
+	$view->set('search', $this->session->get('download.search'));
+	$view->set('sort', $this->session->get('download.sort'));
+	$view->set('order', $this->session->get('download.order'));
+	$view->set('page', $this->session->get('download.page'));
+	$view->set('cols', $cols);
+	$view->set('rows', $rows);
 
-    	$view->set('list', $this->url->ssl('download'));
-    	$view->set('insert', $this->url->ssl('download', 'insert'));
+	$view->set('list', $this->url->ssl('download'));
+	$view->set('insert', $this->url->ssl('download', 'insert'));
 
-    	$view->set('pages', $this->modelDownload->get_pagination());
+	$view->set('pages', $this->modelDownload->get_pagination());
 
 		return $view->fetch('content/list.tpl');
-  	}
-  
+	}
+
   	function getForm() {
     	$view = $this->locator->create('template');
   
-    	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+    	$view->set('heading_title', $this->language->get('heading_form_title'));
+    	$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
    
     	$view->set('entry_name', $this->language->get('entry_name'));
     	$view->set('entry_filename', $this->language->get('entry_filename'));
@@ -224,13 +300,13 @@ class ControllerDownload extends Controller {
     	$view->set('error_name', @$this->error['name']);
     	$view->set('error_file', @$this->error['file']);
 		$view->set('error_mask', @$this->error['mask']);
-	  
+
     	$view->set('action', $this->url->ssl('download', $this->request->gethtml('action'), array('download_id' => $this->request->gethtml('download_id'))));
 
     	$view->set('list', $this->url->ssl('download'));
     	$view->set('insert', $this->url->ssl('download', 'insert'));
 		$view->set('cancel', $this->url->ssl('download'));
-  
+
     	if ($this->request->gethtml('download_id')) {	  
       		$view->set('update', 'enable');
 	  		$view->set('delete', $this->url->ssl('download', 'delete', array('download_id' => $this->request->gethtml('download_id'),'download_validation' =>$this->session->get('download_validation'))));
@@ -315,7 +391,7 @@ class ControllerDownload extends Controller {
 	  		return FALSE;
 		}
   	}
-	
+
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -363,7 +439,14 @@ class ControllerDownload extends Controller {
 		} else {
 	  		return FALSE;
 		} 
-  	}
+	}
+
+	function get_uploadable(){
+	$upload_max = convert_bytes(ini_get('upload_max_filesize'));
+	$post_max = convert_bytes(ini_get('post_max_size'));
+	$memory_limit = convert_bytes(ini_get('memory_limit'));
+	return $uploadable = floor(min($upload_max, $post_max, $memory_limit)/1048576).'MB';
+	}
 
 	function page() {
 		if ($this->request->has('search', 'post')) {
@@ -380,6 +463,6 @@ class ControllerDownload extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('download'));
-	}	    
+	}
 }
 ?>

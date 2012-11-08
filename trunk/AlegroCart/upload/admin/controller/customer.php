@@ -222,7 +222,7 @@ class ControllerCustomer extends Controller {
   	function getForm() {
     	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+    	$view->set('heading_title', $this->language->get('heading_form_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
  
     	$view->set('text_enabled', $this->language->get('text_enabled'));
@@ -401,15 +401,15 @@ class ControllerCustomer extends Controller {
       		$this->error['message'] = $this->language->get('error_permission');
     	}
 
-    	if (!$this->validate->strlen($this->request->gethtml('firstname', 'post'),1,32)) {
+    	if (!$this->validate->strlen($this->request->gethtml('firstname', 'post'),2,32)) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
 
-    	if (!$this->validate->strlen($this->request->gethtml('lastname', 'post'),1,32)) {
+    	if (!$this->validate->strlen($this->request->gethtml('lastname', 'post'),2,32)) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
-    	if ((!$this->validate->strlen($this->request->gethtml('email', 'post'), 1, 32)) || (!$this->validate->email($this->request->gethtml('email', 'post')))) {
+    	if ((!$this->validate->strlen($this->request->gethtml('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('email', 'post')))) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
 		
@@ -423,12 +423,12 @@ class ControllerCustomer extends Controller {
 			$this->error['postcode'] = $this->language->get('error_postcode');
 		}
 
-    	if (!$this->validate->strlen($this->request->gethtml('telephone', 'post'),1,32)) {
+    	if (!$this->validate->strlen($this->request->gethtml('telephone', 'post'),6,32)) {
       		$this->error['telephone'] = $this->language->get('error_telephone');
     	}
 
     	if (($this->request->gethtml('password', 'post')) || ($this->request->gethtml('action') == 'insert')) {
-      		if (!$this->validate->strlen($this->request->gethtml('password', 'post'),4,20)) {
+      		if (!$this->validate->strlen($this->request->gethtml('password', 'post'),5,20)) {
         		$this->error['password'] = $this->language->get('error_password');
       		}
 	

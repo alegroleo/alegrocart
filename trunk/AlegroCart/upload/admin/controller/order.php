@@ -227,7 +227,7 @@ class ControllerOrder extends Controller {
   	function getForm() {
     	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title') . ' #' . $this->request->gethtml('order_id'));
+    	$view->set('heading_title', $this->language->get('heading_form_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 
     	$view->set('text_order', $this->language->get('text_order'));
@@ -311,6 +311,7 @@ class ControllerOrder extends Controller {
 		}
 		$view->set('reference', $order_info['reference']);
 		$view->set('invoice_number', $order_info['invoice_number']);
+		$view->set('order_id', $order_info['order_id']);
 		$view->set('email', $order_info['email']);
 		$view->set('telephone', $order_info['telephone']);
 		$view->set('fax', $order_info['fax']);

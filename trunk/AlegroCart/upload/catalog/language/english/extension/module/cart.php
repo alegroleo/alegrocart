@@ -3,8 +3,8 @@
 $_['heading_title'] = 'Cart  ^';
 
 // Text 
-$_['text_products'] = 'Products - ';
-$_['text_items']    = 'Items - ';
+$_['text_products'] = 'Product(s)';
+$_['text_items']    = 'Item(s)';
 
 $_['text_subtotal'] = 'Subtotal:';
 $_['text_view_cart']  = 'View Cart';

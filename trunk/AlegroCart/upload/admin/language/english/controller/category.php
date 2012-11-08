@@ -1,6 +1,8 @@
 <?php
 // Heading
-$_['heading_title']       = 'Category';
+$_['heading_title']       = 'Categories';
+$_['heading_form_title']  = 'Category:';
+$_['heading_subcat_title']= 'Sub-Categories:';
 $_['heading_description'] = 'You can edit your product categories here.';
 
 // Text

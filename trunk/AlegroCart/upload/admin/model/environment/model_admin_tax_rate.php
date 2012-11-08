@@ -59,5 +59,9 @@ class Model_Admin_Tax_Rate extends Model {
 		$pages = $this->database->getpages();
 		return $pages;
 	}
+	function get_taxclass_name($tax_class_id){
+		$result = $this->database->getRow("select title from tax_class where tax_class_id = '" . $tax_class_id . "'");
+		return $result['title'];
+	}
 }
 ?>

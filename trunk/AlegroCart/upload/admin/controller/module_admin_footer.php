@@ -27,11 +27,12 @@ class ControllerModuleAdminFooter extends Controller {
 
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 		}
-		
+
 		$view = $this->locator->create('template');
 		
 		$view->set('heading_title', $this->language->get('heading_title'));
-		$view->set('heading_description', $this->language->get('heading_description'));		
+		$view->set('heading_module', $this->language->get('heading_module'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
@@ -92,7 +93,7 @@ class ControllerModuleAdminFooter extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
 	
 	function install() {
@@ -102,7 +103,7 @@ class ControllerModuleAdminFooter extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
+		}
 
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));	
 	}

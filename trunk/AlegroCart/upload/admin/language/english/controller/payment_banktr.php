@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Payment Bank Transfer';
+$_['heading_title']       = 'Bank Transfer';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit payment Bank Transfer details here.';
 
 // Text 

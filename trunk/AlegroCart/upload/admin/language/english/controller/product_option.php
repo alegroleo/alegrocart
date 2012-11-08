@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Product Option';
+$_['heading_title']       = 'Product Options:';
+$_['heading_form_title']  = 'Product Option:';
 $_['heading_description'] = 'You can edit your product options here.';
 
 // Text

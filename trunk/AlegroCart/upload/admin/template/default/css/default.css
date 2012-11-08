@@ -215,6 +215,13 @@ form {
 	text-transform: uppercase;
 }
 
+.heading em {
+	color: #006600;
+	font-style: normal;
+	margin-left: 5px;
+	text-decoration: none;
+	text-transform: none;
+}
 .description {
 	color: #333333;
 	margin: 0px 0px 5px 20px;
@@ -566,12 +573,19 @@ form {
 	width: 500px;
 	height: 70px;
 	text-align: center;
+	background: url('../image/trbg.png');
 }
 .logo_image{
 	border: 1px solid #999999;
 	width: 500px;
 	height: 70px;
 	text-align: center;
+	background: url('../image/trbg.png');
+}
+#favicon{
+	text-align: center;
+	background: url('../image/trbg.png');
+	height: 40px;
 }
 .wm_image{
 	border: 1px solid #999999;
@@ -597,17 +611,17 @@ form {
 	height:250px;
 	width:450px;
 	padding: 20px 20px 20px 20px;
-	color:#006600;                           
+	color:#006600;
 	z-index: 1000;
 }
 .tooltip_white {
 	display:none;
 	background: url('../image/optionwhite.png');
 	font-size: 12px;
-	height:180px;
-	width:370px;
-	padding: 20px 20px 20px 20px;
-	color:#000000;                           
+	height:160px;
+	width:350px;
+	padding: 30px 30px 30px 30px;
+	color:#006600;
 	z-index: 1000;
 }
 .set{

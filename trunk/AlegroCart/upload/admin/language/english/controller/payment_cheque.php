@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Cheque';
+$_['heading_payment']     = 'Payment:';
 $_['heading_description'] = 'You can edit cheque payment module here.';
 
 // Text

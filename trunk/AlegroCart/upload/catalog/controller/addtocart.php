@@ -44,14 +44,15 @@ class ControllerAddToCart extends Controller {
 						$output .= '<tr>' . "\n";
 						$output .= '<td>' . $product['quantity'] . '&nbsp;x&nbsp;</td>' . "\n";
 						$output .= '<td style="width: 100px;"><a href="' . $product['href'] . '">' . $product['name'] . '</a></td>' . "\n";
-						$output .= '<td> ' . $product['total'] . '</td>' . "\n";
+						$output .= '<td class="ee"> ' . $product['total'] . '</td>' . "\n";
 						$output .= '</tr>' . "\n";
 					}
 					$output .= '</table>' . "\n";
-					$output .= '<div class="aa">' . $language->get('text_subtotal') . $currency->format($cart->getsubTotal()) . '</div>' . "\n";
 					$output .= '</div>' . "\n";
-					$output .= '<div class="cc">' . $language->get('text_products') . count($products);
-					$output .= '<div class="dd">' . $language->get('text_items') . $cart->countProducts() . '</div></div>' . "\n";
+					$output .= '<div class="aa">' . $language->get('text_subtotal') . $currency->format($cart->getsubTotal()) . '</div>' . "\n";
+					
+					$output .= '<div class="cc">' . count($products) .' '. $language->get('text_products') .' - ';
+					$output .= '<div class="dd">' . $cart->countProducts() .' '. $language->get('text_items') . '</div></div>' . "\n";
 					$output .= '<div class="bb"><a href="' . $url->href('cart') . '">' . $language->get('text_view_cart') . '</a></div>'  . "\n";
 				} else {
 					$output .= '<div class="bb">' . $language->get('text_empty') . '</div>' . "\n"; 

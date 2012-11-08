@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Language';
+$_['heading_title']       = 'Languages';
+$_['heading_form_title']  = 'Language:';
 $_['heading_description'] = 'You can edit languages here.';
 
 // Text

@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Calculate Coupon';
+$_['heading_calculate']   = 'Calculate:';
 $_['heading_description'] = 'You can edit calculate coupon discount settings here.';
 
 // Text

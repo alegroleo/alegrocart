@@ -44,7 +44,7 @@ $_['error_password']       = '* Password must be greater than 5 and less than 20
 $_['error_confirm']        = '* Password confirmation does not match password!';
 $_['error_address_1']      = '* Address 1 must be greater than 3 and less than 64 characters!';
 $_['error_city']           = '* City must be greater than 3 and less than 32 characters!';
-$_['error_telephone']      = '* Telephone must be greater than 7 and less than 32 characters!';
+$_['error_telephone']      = '* Telephone must be greater than 6 and less than 32 characters!';
 $_['error_postcode']       = '* Postal Code must be greater than 4 and less than 10 characters!';
 $_['error_captcha'] 	   = '* Incorrect Text entered!';
 ?>

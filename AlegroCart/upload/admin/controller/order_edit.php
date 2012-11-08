@@ -52,14 +52,11 @@ class ControllerOrderEdit extends Controller {
 	
 	function getForm() {
 		$view = $this->locator->create('template');
-		
-		if($this->request->gethtml('order_id')){
-			$view->set('heading_title', $this->language->get('heading_title') . ' #' . $this->request->gethtml('order_id'));
-		} else {
-			$view->set('heading_title', $this->language->get('heading_title'));
-		}
+
+		$view->set('heading_title', $this->language->get('heading_title'));
+
 		$view->set('heading_description', $this->language->get('heading_description'));
-		
+
 		$view->set('text_order', $this->language->get('text_order'));
 		$view->set('text_invoice_number', $this->language->get('text_invoice_number'));
 		$view->set('text_email', $this->language->get('text_email'));
@@ -335,9 +332,11 @@ class ControllerOrderEdit extends Controller {
 				'product_tax'		=> $this->currency->format($producttax, $order_info['currency'], $order_info['value']),				'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value'])
 			);
 		}
-		
-		$view->set('order_id',$this->request->gethtml('order_id')); 
-		
+		if($this->request->gethtml('order_id')){
+		$view->set('order_id', '#'.$this->request->gethtml('order_id')); 
+		} else {
+		$view->set('order_id', $this->request->gethtml('order_id')); 
+		}
 		$view->set('taxed', $order_info['taxed']);
       		$view->set('products', $product_data);
 		$view->set('totals',$this->modelOrder->get_totals($order_info['order_id']));

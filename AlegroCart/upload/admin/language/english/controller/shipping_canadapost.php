@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Canada Post Shipping';
+$_['heading_title']       = 'Canada Post';
+$_['heading_shipping']    = 'Shipping:';
 $_['heading_description'] = 'You can edit Canada Post shipping here.';
 
 // Text

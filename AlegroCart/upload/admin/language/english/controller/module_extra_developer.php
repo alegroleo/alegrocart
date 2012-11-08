@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Developer Information Module';
+$_['heading_title']       = 'Developer Information';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit developer information module details here.';
 
 // Text

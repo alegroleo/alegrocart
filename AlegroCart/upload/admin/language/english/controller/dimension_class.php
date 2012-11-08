@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Dimension Class';
+$_['heading_title']       = 'Dimension Classes';
+$_['heading_form_title']  = 'Dimension Class:';
 $_['heading_description'] = 'You can edit your dimension classes here.';
 
 // Text

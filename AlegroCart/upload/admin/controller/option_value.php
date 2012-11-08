@@ -129,7 +129,7 @@ class ControllerOptionValue extends Controller {
 
    		$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+    	$view->set('heading_title', $this->language->get('heading_title').'<em>'.$this->modelOptionvalue->get_option_name($this->request->gethtml('option_id')).'</em>');
     	$view->set('heading_description', $this->language->get('heading_description'));
 
     	$view->set('text_previous', $this->language->get('text_previous'));
@@ -177,7 +177,7 @@ class ControllerOptionValue extends Controller {
   	function getForm() {
     	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+    	$view->set('heading_title', $this->language->get('heading_form_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 
     	$view->set('entry_name', $this->language->get('entry_name'));
@@ -233,8 +233,10 @@ class ControllerOptionValue extends Controller {
 	    		'name'        => (isset($option_value_description_info[$result['language_id']]) ? $option_value_description_info[$result['language_id']]['name'] : @$option_value_description_info['name']),
 	  		);
     	}
-    	$view->set('option_values', $option_value_data);  
-  
+    	$view->set('option_values', $option_value_data);
+
+		$view->set('option_name', $this->modelOptionvalue->get_option_name($this->request->gethtml('option_id')));
+
  		return $view->fetch('content/option_value.tpl');
   	}
 

@@ -1161,6 +1161,23 @@ b, strong, th {
 .mini_cart .cart .cart_content .aa{
 	color: #C1002B;
 }
+.mini_cart .cart .cart_content .bb a {
+	height: 25px;
+	margin: 0px;
+	color: #FFFFFF;
+	background-color: #C1002B;
+	border: none;
+	padding: 6px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	font-weight: bold;
+	text-decoration: none;
+}
+.mini_cart .cart .cart_content .bb {
+	padding: 10px;
+}
 .information .tax{
 	color: #C1002B;
 }

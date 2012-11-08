@@ -18,7 +18,7 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><em><?php echo $order_id; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 
 <div class="tab" id="tab">

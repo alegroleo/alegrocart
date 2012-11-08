@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'URL Alias';
+$_['heading_title']       = 'URL Aliases';
+$_['heading_form_title']  = 'URL Alias:';
 $_['heading_description'] = 'You can edit your URL aliases here.';
 
 // Text

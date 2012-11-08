@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'User';
+$_['heading_title']       = 'Users';
+$_['heading_form_title']  = 'User:';
 $_['heading_description'] = 'You can edit your administrator users here.';
 
 // Text

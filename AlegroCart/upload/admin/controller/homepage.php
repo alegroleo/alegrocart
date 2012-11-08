@@ -210,7 +210,7 @@ class ControllerHomepage extends Controller {
   	function getForm() {
     	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+    	$view->set('heading_title', $this->language->get('heading_form_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 
     	$view->set('text_enabled', $this->language->get('text_enabled'));
@@ -340,6 +340,9 @@ class ControllerHomepage extends Controller {
 			);
 		}
 		$view->set('images', $image_data);
+		$no_image_data=$this->modelAdminHomepage->get_no_image();
+		$view->set('no_image_id', $no_image_data['image_id']);
+		$view->set('no_image_filename', $this->image->resize($no_image_data['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')));
 		$view->set('flash_files', $this->checkFiles());
 		return $view->fetch('content/homepage.tpl');
 	}

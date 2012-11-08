@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Related Products Module';
+$_['heading_title']       = 'Related Products';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit related products module details here.';
 
 // Text

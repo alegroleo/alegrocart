@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Module Currency Converter';
+$_['heading_title']       = 'Catalog Currency Converter';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit your Currency Converter module here.';
 
 // Text

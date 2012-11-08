@@ -539,6 +539,11 @@ a:hover {
 .mini_cart .cart .cart_content a:hover {
 	color: #0066FF;
 }
+.mini_cart .cart .cart_content .bb {
+	border: 0px;
+	padding: 0px; 
+	margin: 0px;
+}
 .information .tax{
 	color: #CC0000;
 }

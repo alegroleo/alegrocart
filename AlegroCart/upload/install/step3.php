@@ -72,6 +72,12 @@ if (!$errors) {
 			$content .= '# Focus on one domain - Uncomment to use'."\n";
 			$content .= '# RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]'."\n";
 			$content .= '# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]'."\n";
+			$content .= "\n";
+			$content .= 'ServerSignature Off'."\n";
+			$content .= "\n";
+			$content .= '#Modify max uploadable file size if needed'."\n";
+			$content .= '#php_value upload_max_filesize 128M'."\n";
+			$content .= '#php_value post_max_size 128M'."\n";
 
 		if (fwrite($handle2, $content)) {
 			echo "<p class=\"a\">".$language->get('success',$file2)."</p>\n";

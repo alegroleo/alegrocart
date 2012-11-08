@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Calculate Total';
+$_['heading_calculate']   = 'Calculate:';
 $_['heading_description'] = 'You can edit calculate total settings here.';
 
 // Text

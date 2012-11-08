@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Reviews';
+$_['heading_form_title']  = 'Review:';
 $_['heading_description'] = 'You can edit reviews here.';
 
 // Text

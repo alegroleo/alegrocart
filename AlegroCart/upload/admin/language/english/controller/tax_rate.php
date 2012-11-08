@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']       = 'Tax Rate';
+$_['heading_title']       = 'Tax Rate:';
 $_['heading_description'] = 'You can edit tax rates here.';
 
 // Text

@@ -155,7 +155,7 @@ class ControllerProductsWithOptions extends Controller {
 		
 		$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+    	$view->set('heading_title', $this->language->get('heading_form_title').'<em>'.$result['name'].'</em>');
     	$view->set('heading_description', $this->language->get('heading_description'));
 		
 		$view->set('text_results', $this->modelProductOptions->get_text_results());
@@ -191,11 +191,11 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('pages', $this->modelProductOptions->get_pagination());
 		return $view->fetch('content/list.tpl');
 	}
-	
+
 	private function getForm() {
     	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+    	$view->set('heading_title', $this->language->get('heading_form_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 		
 		$view->set('text_no_image', $this->language->get('text_no_image'));
@@ -203,7 +203,6 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('entry_quantity', $this->language->get('entry_quantity'));
 		$view->set('entry_model_number', $this->language->get('entry_model_number'));
 		$view->set('entry_dimension_class', $this->language->get('entry_dimension_class'));
-		$view->set('entry_product_option',$this->language->get('entry_product_option'));
 		$view->set('entry_image', $this->language->get('entry_image'));
 		
 		$view->set('button_list', $this->language->get('button_list'));
@@ -393,10 +392,7 @@ class ControllerProductsWithOptions extends Controller {
 		$dimension_data = array();
 		$results = $this->modelProductOptions->get_dimension_classes($type_id);
 		if ($results){
-			if ($type_id > 1){
-				$output .= '<tr><td colspan="4"></td><td colspan="9">' . $this->language->get('text_dimension_ship') . '</td></tr>' . "\n";
-			}
-			$output .= '<tr><td>' . $this->language->get('entry_dimension') . '</td>';
+			$output .= '<tr><td style="width: 185px;" class="set">' . $this->language->get('entry_dimension') . '</td>';
 			$output .= '<td><select id="dimension_id" name="dimension_id">' . "\n";
 			foreach ($results as $result) {
 				$output .= '<option value="' . $result['dimension_id'] . '"';
@@ -406,7 +402,7 @@ class ControllerProductsWithOptions extends Controller {
 				$output .= '>' . $result['title'] . ' (' . $result['unit'] . ')</option>' . "\n";
 			}
 			$output .= '</select></td>' . "\n";
-			$output .= $this->dimension_value($type_id, $dimension_value) . '</tr>' . "\n";
+			$output .= $this->dimension_value($type_id, $dimension_value) . "\n";
 		} else {
 			$type_info = $this->modelProductOptions->get_type($type_id);
 			$output = '<tr><td>' . $this->language->get('text_no_dimensions', $this->language->get('text_'. $type_info['type_name'])) . "</td></tr>\n";
@@ -422,50 +418,52 @@ class ControllerProductsWithOptions extends Controller {
 		$default_dimension = $this->config->get('config_dimension_1_id');
 		switch($type_id){
 			case '1':
-				$output .= '<td>' . $this->language->get('entry_length') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[0]" value="' . (array_key_exists(0, $dimensions) ? @$dimensions[0] : 0) . '"></td>' . "\n";
-				$output .= '<td>' . $this->language->get('entry_width') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td>' . "\n";
-				$output .= '<td>' . $this->language->get('entry_height') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[2]" value="' . (array_key_exists(2, $dimensions) ? @$dimensions[2] : 0) . '"></td>' . "\n";
+				$output .= '<tr><td style="width: 185px;" class="set">' . $this->language->get('entry_length') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[0]" value="' . (array_key_exists(0, $dimensions) ? @$dimensions[0] : 0) . '"></td></tr>' . "\n";
+				$output .= '<tr><td>' . $this->language->get('entry_width') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td></tr>' . "\n";
+				$output .= '<tr><td>' . $this->language->get('entry_height') . '</td>' . "\n";
+				$output .= '<td><input size ="6" name="dimension_value[2]" value="' . (array_key_exists(2, $dimensions) ? @$dimensions[2] : 0) . '"></td></tr>' . "\n";
 				break;
 			case '2':
-				$output .= '<td>' . $this->language->get('entry_area') . '</td>' . "\n";
+				$output .= '<tr><td style="width: 185px;" class="set">' . $this->language->get('entry_area') . '</td>' . "\n";
 				$output .= '<td><input size ="6" name="dimension_value[0]" value="' . (array_key_exists(0, $dimensions) ? @$dimensions[0] : 0) . '"></td>' . "\n";
-				$output .= '<td>' . $this->language->get('entry_length') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td>' . "\n";
+				$output .= '<td class="expl" style="font-weight:normal">' . $this->language->get('text_dimension_ship') . '</td></tr>' . "\n";
+				$output .= '<td style="width: 185px;" class="set">' . $this->language->get('entry_length') . '</td>' . "\n";
+				$output .= '<td><input name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td>' . "\n";
 				$output .= '<td><select name="dimension_value[2]">' . "\n";
 				$output .= $this->dimension_select($dimension_info, (array_key_exists(2, $dimensions) ? @$dimensions[2] : $default_dimension));
-				$output .= '</select></td>' . "\n";
-				$output .= '<td>' . $this->language->get('entry_width') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[3]" value="' . (array_key_exists(3, $dimensions) ? @$dimensions[3] : 0) . '"></td>' . "\n";
+				$output .= '</select></td></tr>' . "\n";
+				$output .= '<td style="width: 185px;" class="set">' . $this->language->get('entry_width') . '</td>' . "\n";
+				$output .= '<td><input name="dimension_value[3]" value="' . (array_key_exists(3, $dimensions) ? @$dimensions[3] : 0) . '"></td>' . "\n";
 				$output .= '<td><select name="dimension_value[4]">' . "\n";
 				$output .= $this->dimension_select($dimension_info, (array_key_exists(4, $dimensions) ? @$dimensions[4] : $default_dimension));
-				$output .= '</select></td>' . "\n";
-				$output .= '<td>' . $this->language->get('entry_height') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[5]" value="' . (array_key_exists(5, $dimensions) ? @$dimensions[5] : 0) . '"></td>' . "\n";
+				$output .= '</select></td></tr>' . "\n";
+				$output .= '<td style="width: 185px;" class="set">' . $this->language->get('entry_height') . '</td>' . "\n";
+				$output .= '<td><input name="dimension_value[5]" value="' . (array_key_exists(5, $dimensions) ? @$dimensions[5] : 0) . '"></td>' . "\n";
 				$output .= '<td><select name="dimension_value[6]">' . "\n";
 				$output .= $this->dimension_select($dimension_info, (array_key_exists(6, $dimensions) ? @$dimensions[6] : $default_dimension));
-				$output .= '</select></td>' . "\n";
+				$output .= '</select></td></tr>' . "\n";
 				break;
 			case '3':
-				$output .= '<td>' . $this->language->get('entry_volume') . '</td>' . "\n";
+				$output .= '<tr><td style="width: 185px;" class="set">' . $this->language->get('entry_volume') . '</td>' . "\n";
 				$output .= '<td><input size ="6" name="dimension_value[0]" value="' . (array_key_exists(0, $dimensions) ? @$dimensions[0] : 0) . '"></td>' . "\n";
-				$output .= '<td>' . $this->language->get('entry_length') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td>' . "\n";
+				$output .= '<td class="expl" style="font-weight:normal">' . $this->language->get('text_dimension_ship') . '</td></tr>' . "\n";
+				$output .= '<td style="width: 185px;" class="set">' . $this->language->get('entry_length') . '</td>' . "\n";
+				$output .= '<td><input name="dimension_value[1]" value="' . (array_key_exists(1, $dimensions) ? @$dimensions[1] : 0) . '"></td>' . "\n";
 				$output .= '<td><select name="dimension_value[2]">' . "\n";
 				$output .= $this->dimension_select($dimension_info, (array_key_exists(2, $dimensions) ? @$dimensions[2] : $default_dimension));
-				$output .= '</select></td>' . "\n";
-				$output .= '<td>' . $this->language->get('entry_width') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[3]" value="' . (array_key_exists(3, $dimensions) ? @$dimensions[3] : 0) . '"></td>' . "\n";
+				$output .= '</select></td></tr>' . "\n";
+				$output .= '<td style="width: 185px;" class="set">' . $this->language->get('entry_width') . '</td>' . "\n";
+				$output .= '<td><input name="dimension_value[3]" value="' . (array_key_exists(3, $dimensions) ? @$dimensions[3] : 0) . '"></td>' . "\n";
 				$output .= '<td><select name="dimension_value[4]">' . "\n";
 				$output .= $this->dimension_select($dimension_info, (array_key_exists(4, $dimensions) ? @$dimensions[4] : $default_dimension));
-				$output .= '</select></td>' . "\n";
-				$output .= '<td>' . $this->language->get('entry_height') . '</td>' . "\n";
-				$output .= '<td><input size ="6" name="dimension_value[5]" value="' . (array_key_exists(5, $dimensions) ? @$dimensions[5] : 0) . '"></td>' . "\n";
+				$output .= '</select></td></tr>' . "\n";
+				$output .= '<td style="width: 185px;" class="set">' . $this->language->get('entry_height') . '</td>' . "\n";
+				$output .= '<td><input name="dimension_value[5]" value="' . (array_key_exists(5, $dimensions) ? @$dimensions[5] : 0) . '"></td>' . "\n";
 				$output .= '<td><select name="dimension_value[6]">' . "\n";
 				$output .= $this->dimension_select($dimension_info, (array_key_exists(6, $dimensions) ? @$dimensions[6] : $default_dimension));
-				$output .= '</select></td>' . "\n";
+				$output .= '</select></td></tr>' . "\n";
 				break;
 		}
 		return $output;

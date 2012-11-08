@@ -1,7 +1,8 @@
 <?php
 // Heading
-$_['heading_title']       = 'Image Display Entry';
-$_['heading_description']  = 'You can edit Image Display sessions here.';
+$_['heading_title']       = 'Image Display Entries';
+$_['heading_form_title']  = 'Image Display Entry:';
+$_['heading_description'] = 'You can edit Image Display sessions here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated homepage!';

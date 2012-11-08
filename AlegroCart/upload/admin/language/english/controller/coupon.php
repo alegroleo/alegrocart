@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']        = 'Coupon';
+$_['heading_title']        = 'Coupons';
+$_['heading_form_title']   = 'Coupon:';
 $_['heading_description']  = 'You can edit your discount coupons here.';
 
 // Text

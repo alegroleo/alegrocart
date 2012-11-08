@@ -84,5 +84,9 @@ class Model_Admin_Zone_GeoZone extends Model {
 		$pages = $this->database->getpages();
 		return $pages;
 	}
+	function get_geozone_name($geo_zone_id){
+		$result = $this->database->getRow("select name from geo_zone where geo_zone_id = '" . $geo_zone_id . "'");
+		return $result['name'];
+	}
 }
 ?>

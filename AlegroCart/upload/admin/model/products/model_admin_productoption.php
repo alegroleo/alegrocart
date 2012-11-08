@@ -69,5 +69,9 @@ class Model_Admin_Productoption extends Model {
 		$sql = "insert into product_options set product_id = '?', product_option = '?', quantity = '?', barcode = '?', image_id = '?', dimension_id = '?', dimension_value = '?', model_number = '?'";
 		$this->database->query($this->database->parse($sql, $product_option['product_id'], $product_option['product_option'], $product_option['quantity'], $product_option['barcode'],$product_option['image_id'], $product_option['dimension_id'], $product_option['dimension_value'], $product_option['model_number']));
 	}
+	function get_product_name($product_id){
+		$result = $this->database->getRow("select distinct name from product_description where product_id = '" . $product_id . "' and language_id = '" . (int)$this->language->getId() . "'");
+		return $result['name'];
+	}
 }
 ?>

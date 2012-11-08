@@ -171,7 +171,7 @@ class ControllerZoneToGeoZone extends Controller {
 
     	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+    	$view->set('heading_title', $this->language->get('heading_title').'<em>'.$this->modelZonetoGeo->get_geozone_name($this->request->gethtml('geo_zone_id')).'</em>');
     	$view->set('heading_description', $this->language->get('heading_description'));
 
     	$view->set('text_previous', $this->language->get('text_previous'));
@@ -251,17 +251,20 @@ class ControllerZoneToGeoZone extends Controller {
     	$view->set('list', $this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
     	$view->set('insert', $this->url->ssl('zone_to_geo_zone', 'insert', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 		$view->set('cancel', $this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
-  
+
     	if ($this->request->gethtml('zone_to_geo_zone_id')) {
       		$query = array(
         		'zone_to_geo_zone_id' => $this->request->gethtml('zone_to_geo_zone_id'),
 	    		'geo_zone_id'         => $this->request->gethtml('geo_zone_id'),
 				'zone_geo_validation' =>$this->session->get('zone_geo_validation')
       		);
-	  
+
       		$view->set('update', 'enable');
 	  		$view->set('delete', $this->url->ssl('zone_to_geo_zone', 'delete', $query));
     	}
+
+		$view->set('geozone_name', $this->modelZonetoGeo->get_geozone_name($this->request->gethtml('geo_zone_id')));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
@@ -273,7 +276,7 @@ class ControllerZoneToGeoZone extends Controller {
 		if(!isset($zone_to_geo_zone_info)){ // Add to get a default country when adding new geo zone
 			$geo_zone_id_info = $this->modelZonetoGeo->get_geo_zone_id();
 		}
-		
+
     	if ($this->request->has('country_id', 'post')) {
       		$view->set('country_id', $this->request->gethtml('country_id', 'post'));
 		} else if(!isset($zone_to_geo_zone_info)){

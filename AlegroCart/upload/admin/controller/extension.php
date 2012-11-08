@@ -223,22 +223,26 @@ class ControllerExtension extends Controller {
 
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_title'));
-		switch ($this->request->gethtml('type')){
+		switch ($this->session->get('extension_type')){
 			case 'payment':
+				$view->set('heading_title', $this->language->get('heading_list_title').'<em>'.$this->language->get('heading_title_payment').'</em>');
 				$view->set('heading_description', $this->language->get('heading_payment'));
 				break;
 			case 'shipping':
+				$view->set('heading_title', $this->language->get('heading_list_title').'<em>'.$this->language->get('heading_title_shipping').'</em>');
 				$view->set('heading_description', $this->language->get('heading_shipping'));
 				break;
 			case 'calculate':
+				$view->set('heading_title', $this->language->get('heading_list_title').'<em>'.$this->language->get('heading_title_calculate').'</em>');
 				$view->set('heading_description', $this->language->get('heading_calculate'));
 				break;
 			case 'module':
+				$view->set('heading_title', $this->language->get('heading_list_title').'<em>'.$this->language->get('heading_title_module').'</em>');
 				$view->set('heading_description', $this->language->get('heading_module'));
 				break;
 			default:
 				$view->set('heading_description', $this->language->get('heading_description'));
+				$view->set('heading_title', $this->language->get('heading_title'));
 				break;
 			}
 
@@ -291,7 +295,24 @@ class ControllerExtension extends Controller {
 	function getForm() {
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_title'));
+		switch ($this->session->get('extension_type')){
+			case 'payment':
+				$view->set('heading_title', $this->language->get('heading_form_payment'));
+				break;
+			case 'shipping':
+				$view->set('heading_title', $this->language->get('heading_form_shipping'));
+				break;
+			case 'calculate':
+				$view->set('heading_title', $this->language->get('heading_form_calculate'));
+				break;
+			case 'module':
+				$view->set('heading_title', $this->language->get('heading_form_module'));
+				break;
+			default:
+				$view->set('heading_title', $this->language->get('heading_title'));
+				break;
+			}
+
 		$view->set('heading_description', $this->language->get('heading_description'));
 
     	$view->set('text_enabled', $this->language->get('text_enabled'));

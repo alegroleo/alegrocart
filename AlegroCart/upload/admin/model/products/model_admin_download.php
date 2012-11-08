@@ -10,7 +10,11 @@ class Model_Admin_Download extends Model {
 	}
 	function insert_download(){
 		$sql = "insert into download set filename = '?', mask = '?', remaining = '?', date_added = now()";
-      	$this->database->query($this->database->parse($sql, $this->upload->getName('download'), $this->request->gethtml('mask', 'post') ? $this->request->gethtml('mask', 'post') : $this->upload->getName('download'), $this->request->gethtml('remaining', 'post')));
+	$this->database->query($this->database->parse($sql, $this->upload->getName('download'), $this->request->gethtml('mask', 'post') ? $this->request->gethtml('mask', 'post') : $this->upload->getName('download'), $this->request->gethtml('remaining', 'post')));
+	}
+	function insert_downloads($filename, $mask){
+		$sql = "insert into download set filename = '?', mask = '?', remaining = '?', date_added = now()";
+	$this->database->query($this->database->parse($sql, $filename, $mask, '1'));
 	}
 	function get_insert_id(){
 		$insert_id = $this->database->getLastId();
@@ -34,6 +38,10 @@ class Model_Admin_Download extends Model {
 	}
 	function check_products(){
 		$results = $this->database->getRow("select count(*) as total from product_to_download where download_id = '" . (int)$this->request->gethtml('download_id') . "'");
+		return $results;
+	}
+	function check_filename($filename){
+		$results = $this->database->getRows("select filename from download where filename = '" . $filename . "'");
 		return $results;
 	}
 	function get_page(){
@@ -83,6 +91,14 @@ class Model_Admin_Download extends Model {
 	}
 	function get_downloadToProducts(){
 		$result = $this->database->getRows("select p2d.product_id, pd.name from product_to_download p2d left join product_description pd on (p2d.product_id=pd.product_id) where download_id = '" . (int)$this->request->gethtml('download_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
+	function check_download($filename){
+		$result = $this->database->getRow("select * from download where filename = '".$filename."'");
+		return $result;
+	}
+	function get_download(){
+		$result = $this->database->getRows("select * from download where download_id = '" . (int)$this->request->gethtml('download_id') . "'");
 		return $result;
 	}
 }

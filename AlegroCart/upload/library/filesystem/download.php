@@ -47,5 +47,8 @@ class Download {
 	function getError() { 
 		return $this->error; 
 	}
+	function delete($filename) {
+		@unlink(DIR_DOWNLOAD.$filename);
+	}
 }
 ?>

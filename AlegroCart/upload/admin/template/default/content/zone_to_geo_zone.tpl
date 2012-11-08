@@ -18,7 +18,7 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><em></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
@@ -63,5 +63,12 @@
   $(document).ready(function(){
 	$('#zone').load('index.php?controller=zone_to_geo_zone&action=zone&zone_id=<?php echo $zone_id; ?>&country_id='+document.getElementById('country_id').value);
   });  
-  //--></script>  
+  //--></script>
+  <script type="text/javascript">
+  $(function(){
+	$('#country_id').change(function(){
+	$(".heading em").text("<?php echo $geozone_name;?>"+" : "+$('#country_id option:selected').text());
+  }).change();
+  });
+  //--></script>
 </form>

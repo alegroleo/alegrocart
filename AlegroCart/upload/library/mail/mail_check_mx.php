@@ -20,7 +20,7 @@ class mail_check_mx {
 			} else 	{							
 					if(!empty($this -> hostName))
 						{ 
-						exec("nslookup -type=".$this->recType." ".$this -> hostName, $result); 
+						@exec("nslookup -type=".$this->recType." ".$this -> hostName, $result); 
 						if (preg_replace('#\s#','',$result[0]) == 'Server:UnKnown'){return true;}
 						foreach ($result as $line) 
 							{

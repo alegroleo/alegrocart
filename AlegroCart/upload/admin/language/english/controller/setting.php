@@ -20,6 +20,7 @@ $_['text_cart_quantity']    = 'Only applicable with select box';
 $_['text_store_logo']       = '<b>Store Logo Image</b>';
 $_['text_footer_logo']      = '<b>Footer Logo Image</b>';
 $_['text_captcha']          = 'Captcha';
+$_['text_favicons']          = 'Favicons';
 $_['text_captcha_contactus'] = 'This will enable Captcha on the Contact Us form if the customer is not logged in. We do not recommend you to enable it automatically. Use it in case of unmanageable number of spammers.';
 $_['text_captcha_reg']      = 'This will enable Captcha on the Create Account form. We do not recommend you to enable it automatically. Use it in case of unmanageable number of spammers.';
 $_['text_captcha_length']   = 'The length of the displayed text. Default value is 5.';
@@ -94,6 +95,9 @@ $_['entry_footer_logo_height']= 'Logo Height:';
 $_['entry_captcha_contactus'] = 'Use Captcha on Contact Us:';
 $_['entry_captcha_reg']       = 'Use Captcha on Registration:';
 $_['entry_captcha_length']    = 'Captcha Length:';
+$_['entry_admin_favicon']	= 'Admin Favicon:';
+$_['entry_catalog_favicon']	= 'Catalog Favicon:';
+$_['entry_ssl']             = 'Use SSL:';
 $_['entry_show_stock']		= 'Show Stock:';
 $_['entry_show_stock_icon']	= 'Show Stock Image:';
 $_['entry_low_stock_warning']= 'Stock Warning Level:';
@@ -221,6 +225,7 @@ $_['explanation_pr_download']     = 'You can enable/disable here with one click 
 $_['explanation_pr_download_status']     = 'As soon as you change the order status to this one, customers can download the purchased file(s).';
 $_['explanation_free_download']   = 'You can enable/disable here with one click the whole free download process.';
 $_['explanation_sitemap']         = 'The URL of your sitemap (e.g. for Google Webmaster Tools): ';
+$_['explanation_favicon']	  = 'To change the current favicon, create your own keeping the original name "favicon.ico", then overwrite the original one: ';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

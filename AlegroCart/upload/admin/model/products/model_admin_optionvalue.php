@@ -69,5 +69,9 @@ class Model_Admin_Optionvalue extends Model {
 		$result = $this->database->getRows("select p2o.product_id, pd.name from product_to_option p2o left join product_description pd on (p2o.product_id=pd.product_id) where option_value_id = '" . (int)$this->request->gethtml('option_value_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
 		return $result;
 	}
+	function get_option_name($option_id){
+		$result = $this->database->getRow("select distinct name from `option` where option_id = '" . $option_id . "' and language_id = '" . (int)$this->language->getId() . "'");
+		return $result['name'];
+	}
 }
 ?>

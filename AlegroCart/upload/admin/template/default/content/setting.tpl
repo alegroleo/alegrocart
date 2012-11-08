@@ -691,7 +691,7 @@
                   <?php } ?>
                 </select></td>
             </tr>
-			
+		<tr><td colspan="2"><hr></td></tr>	
 			<tr>
               <td class="set"><?php echo $entry_rss_status; ?></td>
               <td><?php if ($global_config_rss_status) { ?>
@@ -723,6 +723,24 @@
 			  <td><input type="text" name="global_config_rss_limit" value="<?php echo $global_config_rss_limit; ?>" size="6"></td>
 			  <td class="expl"><?php echo $text_rss_info;?></td>
 			</tr>
+		<tr>
+		      <td class="set"><?php echo $entry_sitemap_status; ?></td>
+		      <td><?php if ($global_config_sitemap_status) { ?>
+		        <input type="radio" name="global_config_sitemap_status" value="1" id="smyes" checked>
+		        <label for="smyes"><?php echo $text_yes; ?></label>
+		        <input type="radio" name="global_config_sitemap_status" value="0" id="smno">
+		        <label for="smno"><?php echo $text_no; ?></label>
+		        <?php } else { ?>
+		        <input type="radio" name="global_config_sitemap_status" value="1" id="smyes">
+		        <label for="smyes"><?php echo $text_yes; ?></label>
+		        <input type="radio" name="global_config_sitemap_status" value="0" id="smno" checked>
+		        <label for="smno"><?php echo $text_no; ?></label>
+		        <?php } ?>
+		      </td>
+			<td class="expl">
+			<?php echo $explanation_sitemap . $sitemap_path; ?> 
+		      </td>
+           	</tr>
 			<tr><td colspan="2"><hr></td></tr>
           </table>
 		  
@@ -793,6 +811,22 @@
 			<tr>
 			  <td class="set"><?php echo $entry_footer_logo_height;?></td>
 			  <td><input type="text" name="catalog_footer_logo_height" value="<?php echo $catalog_footer_logo_height; ?>" size="6"></td>
+			</tr>
+		  <tr><td colspan="2"><hr></td></tr>
+		</table>
+		<table>
+		    <tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_favicons;?></p></td>
+			<td width="130"></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_admin_favicon;?></td>
+			  <td id="favicon"><img src="template/<?php echo $this->directory; ?>/image/favicon.ico"></td>
+			  <td class="expl"><?php echo $explanation_favicon.'<br>'.$admin_favicon;?></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_catalog_favicon;?></td>
+			  <td id="favicon"><img src="../image/favicon.ico"></td>
+			  <td class="expl"><?php echo $explanation_favicon.'<br>'.$catalog_favicon;?></td>
 			</tr>
 		  <tr><td colspan="2"><hr></td></tr>
 		</table>

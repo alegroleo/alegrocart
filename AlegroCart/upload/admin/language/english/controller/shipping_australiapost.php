@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Australia Post Shipping';
+$_['heading_title']       = 'Australia Post';
+$_['heading_shipping']    = 'Shipping:';
 $_['heading_description'] = 'You can edit Australia Post shipping here.';
 
 // Text

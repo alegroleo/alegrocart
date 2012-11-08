@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Zone Shipping';
+$_['heading_title']       = 'Zone';
+$_['heading_shipping']    = 'Shipping:';
 $_['heading_description'] = 'You can edit zone shipping rates here.';
 
 // Text

@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']        = 'Currency';
+$_['heading_title']        = 'Currencies';
+$_['heading_form_title']   = 'Currency:';
 $_['heading_description']  = 'You can edit the different currencies here. Conversion rates will reflect a %s surcharge.<br>Checkbox <b>All</b> will include disabled currencies in automatic update';
 
 // Text

@@ -18,9 +18,10 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><em></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -31,7 +32,7 @@
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_geo_zone; ?></td>
-              <td><select name="geo_zone_id">
+              <td><select name="geo_zone_id" id="geozones">
                   <?php foreach ($geo_zones as $geo_zone) { ?>
                   <?php if ($geo_zone['geo_zone_id'] == $geo_zone_id) { ?>
                   <option value="<?php echo $geo_zone['geo_zone_id']; ?>" selected><?php echo $geo_zone['name']; ?></option>
@@ -70,5 +71,12 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+<script type="text/javascript">
+$(function(){
+	$('#geozones').change(function(){
+	$(".heading em").text("<?php echo $tax_name;?>"+" : "+$('#geozones option:selected').text());
+}).change();
+});
   //--></script>
 </form>

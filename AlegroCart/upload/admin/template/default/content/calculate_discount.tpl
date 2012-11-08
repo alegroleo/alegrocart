@@ -10,7 +10,7 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_calculate; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">

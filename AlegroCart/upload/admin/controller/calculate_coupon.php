@@ -30,7 +30,8 @@ class ControllerCalculateCoupon extends Controller {
 		$view = $this->locator->create('template');
 
 		$view->set('heading_title', $this->language->get('heading_title'));
-		$view->set('heading_description', $this->language->get('heading_description'));		
+		$view->set('heading_calculate', $this->language->get('heading_calculate'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));

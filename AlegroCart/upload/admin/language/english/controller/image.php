@@ -1,7 +1,8 @@
 <?php
 // Heading
 $_['heading_title']       = 'Images';
-$_['heading_description'] = 'You can upload and edit images here.';
+$_['heading_form_title']  = 'Image:';
+$_['heading_description'] = 'You can upload and edit images here. Maximum file size for upload to this server is: <b>%s</b>.<br>Larger files can be uploaded only with bulk upload, or you can try to modify your .htaccess file to increase max uploadable file size.<br>Bulk upload possibility: upload your images via FTP connection to the /image directory, then reload this page. Modify image title according to your needs.';
 
 // Text
 $_['text_message']        = 'Success: You have updated images!';

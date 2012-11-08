@@ -1,7 +1,8 @@
 <?php
 // Heading
 $_['heading_title']       = 'Downloads';
-$_['heading_description'] = 'You can upload and edit downloads here.';
+$_['heading_form_title']  = 'Download:';
+$_['heading_description'] = 'You can upload and edit downloads here. Maximum file size for upload to this server is: <b>%s</b>.<br>Larger files can be uploaded only with bulk upload, or you can try to modify your .htaccess file to increase max uploadable file size.<br>Bulk upload possibility: upload your files via FTP connection to the /download directory, then reload this page. Modify download name, mask and max count according to your needs.';
 
 // Text
 $_['text_message']        = 'Success: You have updated downloads!';

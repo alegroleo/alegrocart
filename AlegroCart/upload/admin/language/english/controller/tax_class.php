@@ -1,11 +1,12 @@
 <?php
 // Heading
-$_['heading_title']       = 'Tax Class';
+$_['heading_title']       = 'Tax Classes';
+$_['heading_form_title']  = 'Tax Class:';
 $_['heading_description'] = 'You can edit tax classes here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated tax classes!';
-$_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to Tax Rates.<br>You can add or delete tax rates for each Tax Class here.<br>Click the Icon to enter and edit your tax rates.';
+$_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to Tax Rates.<br>You can add or delete tax rates for each Tax Class here.<br>Click the Icon to enter and edit your tax rates.<br>You must create tax zones in geo zone before adding taxes here.';
 // Column
 $_['column_title']        = 'Tax Class Title';
 $_['column_action']       = 'Action';

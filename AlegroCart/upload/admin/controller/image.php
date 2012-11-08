@@ -3,13 +3,14 @@ class ControllerImage extends Controller {
 	var $html='<img src="%s" alt="%s" title="%s" width="%s" height="%s">';
 	var $size=100;
 	var $types=array('jpg','gif','jpeg','png');
-  	var $error = array(); 
+	var $error = array(); 
 	var $wm_method = 'auto';
 	var $wm_active = FALSE;
+	var $system_files=array('no_image.png');
 
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -30,21 +31,21 @@ class ControllerImage extends Controller {
 		$this->language->load('controller/image.php');
 	}
 
-  	function index() {
-	   	$this->template->set('title', $this->language->get('heading_title'));
-    	$this->template->set('content', $this->getList());
+	function index() {
+		$this->template->set('title', $this->language->get('heading_title'));
+	$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
+	$this->response->set($this->template->fetch('layout.tpl'));
+	}
 
 	function checkFiles() {
 		$files=glob(DIR_IMAGE.'*.*');
 		if (!$files) { return; }
 		foreach ($files as $file) {
 			$pattern='/\.('.implode('|',$this->types).')$/';
-			if (preg_match($pattern,$file)) {
-				$filename=basename($file);
+			$filename=basename($file);
+			if (preg_match($pattern,$file) && $this->validate->strlen($filename,1,128)){
 				$result = $this->modelImage->check_image($filename);
 				if (!$result) { $this->init($filename); }
 			}
@@ -56,9 +57,12 @@ class ControllerImage extends Controller {
 		$this->modelImage->insert_image($filename);
 		$insert_id = $this->modelImage->get_insert_id();
 		$title = $this->getTitle($filename);
-		$key = $this->language->languages[$this->config->get('config_language')]['language_id'];
-		$this->modelImage->insert_description($insert_id, $key, $title);
-	}
+		$results = $this->modelImage->get_languages();
+			foreach ($results as $result) {
+			$key = $result['language_id'];
+			$this->modelImage->insert_description($insert_id, $key, $title);
+			}
+		}
 
 	function getTitle($file) {
 		$str=$file;
@@ -68,15 +72,15 @@ class ControllerImage extends Controller {
 		return $str;
 	}
 
-  	function insert() {
+	function insert() {
 
-    	$this->template->set('title', $this->language->get('heading_title'));
-    
+	$this->template->set('title', $this->language->get('heading_title'));
+
 		if ($this->request->isPost() && $this->upload->has('image') && $this->validateForm() ) {
 			if ($this->upload->save('image', DIR_IMAGE . $this->upload->getName('image'))) {
 				$this->modelImage->insert_image($this->upload->getName('image'));
 				$insert_id = $this->modelImage->get_insert_id();
-                foreach ($this->request->gethtml('language', 'post') as $key => $value) {
+		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 				    if (empty($value['title'])) { $value['title']=$this->getTitle($this->upload->getName('image')); }
         		    $this->modelImage->insert_description($insert_id, $key, $value['title']);
       		    }
@@ -90,16 +94,16 @@ class ControllerImage extends Controller {
             }
             $this->error['file'] = $this->language->get('error_upload');
 		}
-    	$this->template->set('content', $this->getForm());
+	$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
+	$this->response->set($this->template->fetch('layout.tpl'));
+	}
 
-  	function update() {
+	function update() {
 	
 		$this->template->set('title', $this->language->get('heading_title'));
-    
+
 		if ($this->request->isPost() && $this->request->has('image_id') && $this->validateForm() ) {
       		if ($this->upload->has('image') && ($this->upload->save('image', DIR_IMAGE . $this->upload->getName('image')))) {
 					$this->modelImage->update_image($this->upload->getName('image'));
@@ -135,17 +139,17 @@ class ControllerImage extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 	  
 		  	$this->response->redirect($this->url->ssl('image'));
-    	}
+	}
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-  
-  	function getList() {
+	$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
+	function getList() {
 		$this->session->set('image_validation', md5(time()));
 		$this->checkFiles();
- 		$cols = array();
+		$cols = array();
 		$cols[] = array(
 			'name'  => $this->language->get('column_title'),
 			'sort'  => 'id.title',
@@ -165,14 +169,17 @@ class ControllerImage extends Controller {
 			'name'  => $this->language->get('column_image'),
 			'align' => 'center'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+	);
 
 		$results = $this->modelImage->get_page();
 		$rows = array();
+		$sf_pattern='/^('.implode('|',$this->system_files).')$/';
+
 		foreach ($results as $result) {
+			if (!preg_match($sf_pattern, $result['filename'])){
 			$cell = array();
 			$cell[] = array(
 				'value' => $result['title'],
@@ -214,12 +221,13 @@ class ControllerImage extends Controller {
 			$rows[] = array(
 				'cell' => $cell
 			);
+			}
 		}
-		
+
     	$view = $this->locator->create('template');
 
     	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+    	$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 
     	$view->set('text_results', $this->modelImage->get_text_results());
     	$view->set('entry_page', $this->language->get('entry_page'));
@@ -259,13 +267,13 @@ class ControllerImage extends Controller {
     	$view->set('pages', $this->modelImage->get_pagination());
 
 		return $view->fetch('content/list.tpl');
-  	}
-  
-  	function getForm() {	
+	}
+
+	function getForm() {	
     	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+    	$view->set('heading_title', $this->language->get('heading_form_title'));
+    	$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 
     	$view->set('text_image_filename', $this->language->get('text_image_filename'));
 	$view->set('text_browse', $this->language->get('text_browse'));
@@ -382,7 +390,7 @@ class ControllerImage extends Controller {
 	  		return FALSE;
 		}
   	}
-	
+
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -487,7 +495,14 @@ class ControllerImage extends Controller {
 	  		return FALSE;
 		} 
   	}
-   
+
+	function get_uploadable(){
+	$upload_max = convert_bytes(ini_get('upload_max_filesize'));
+	$post_max = convert_bytes(ini_get('post_max_size'));
+	$memory_limit = convert_bytes(ini_get('memory_limit'));
+	return $uploadable = floor(min($upload_max, $post_max, $memory_limit)/1048576).'MB';
+	}
+
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('image.search', $this->request->gethtml('search', 'post'));

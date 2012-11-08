@@ -1,7 +1,8 @@
 <?php
 // Heading
-$_['heading_title']       = 'Home Page Entry';
-$_['heading_description']  = 'You can edit homepage sessions here.';
+$_['heading_title']       = 'Home Page Entries';
+$_['heading_form_title']  = 'Home Page Entry:';
+$_['heading_description'] = 'You can edit homepage sessions here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated homepage!';

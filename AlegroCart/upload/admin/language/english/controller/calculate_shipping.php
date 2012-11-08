@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Calculate Shipping';
+$_['heading_calculate']   = 'Calculate:';
 $_['heading_description'] = 'You can edit calculate shipping settings here.';
 
 // Text

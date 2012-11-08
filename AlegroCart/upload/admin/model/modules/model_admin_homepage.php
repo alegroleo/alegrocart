@@ -50,10 +50,11 @@ class Model_Admin_Homepage extends Model {
 		$flash_loop = $this->request->gethtml('flash_loop','post');
 		$image_id = $this->request->gethtml('image_id', 'post');
 		$run_times = $this->request->gethtml('run_times', 'post');
-			
+		$no_image_id = $this->request->gethtml('no_image_id', 'post');
+
 		foreach($this->request->get('title', 'post', array()) as $key => $value){
 			$sql = "insert into home_description set home_id = '?', language_id = '?', title = '?', description = '?', welcome = '?', meta_title ='?', meta_description = '?', 	meta_keywords = '?', flash = '?', flash_width = '?', flash_height = '?', flash_loop = '?', image_id = '?', run_times = '?'";
-			$this->database->query($this->database->parse($sql, $insert_id, $key, @htmlspecialchars($title[$key]), $description[$key], $welcome[$key], strip_tags($meta_title[$key]), strip_tags($meta_description[$key]), strip_tags($meta_keywords[$key]), $flash[$key], $flash_width[$key], $flash_height[$key], $flash_loop[$key], $image_id[$key], $run_times[$key]));
+			$this->database->query($this->database->parse($sql, $insert_id, $key, @htmlspecialchars($title[$key]), $description[$key], $welcome[$key], strip_tags($meta_title[$key]), strip_tags($meta_description[$key]), strip_tags($meta_keywords[$key]), $flash[$key], $flash_width[$key], $flash_height[$key], $flash_loop[$key], $image_id[$key] != $no_image_id ? $image_id[$key]: '0', $run_times[$key]));
 		}
 	}
 	function get_descriptions($home_id, $language_id){
@@ -67,6 +68,10 @@ class Model_Admin_Homepage extends Model {
 	function get_images(){
 		$results = $this->database->cache('image', "select i.image_id, i.filename, id.title from image i left join image_description id on (i.image_id = id.image_id) where id.language_id = '" . (int)$this->language->getId() . "' order by id.title");
 		return $results;
+	}
+	function get_no_image(){
+		$result = $this->database->getRow("select id.image_id, i.filename from image_description id inner join image i on (i.image_id=id.image_id) where id.language_id = '1' and id.title = 'no image'");
+		return $result;
 	}
 	function get_languages(){
 		$results = $this->database->cache('language', "select * from language order by sort_order");

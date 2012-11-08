@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']       = 'Zones to Geo Zones';
+$_['heading_title']       = 'Zones to Geo Zone:';
 $_['heading_description'] = 'You can edit which zones belong to which geo zones here.';
 
 // Text

@@ -131,7 +131,7 @@ class Model_Admin_Category extends Model {
 		$this->database->query("delete from url_alias where query = '".$query_path."'");
 	}
 	function get_products(){
-		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' order by pd.name asc");
+		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.status = 1 order by pd.name asc");
 		return $results;
 	}
 	function get_categoryToProduct($product_id){

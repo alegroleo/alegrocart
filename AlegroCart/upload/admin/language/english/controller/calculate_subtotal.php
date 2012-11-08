@@ -1,6 +1,7 @@
 <?php 
 // Heading
 $_['heading_title']       = 'Calculate Subtotal';
+$_['heading_calculate']   = 'Calculate:';
 $_['heading_description'] = 'You can edit calculate subtotal settings here.';
 
 // Text

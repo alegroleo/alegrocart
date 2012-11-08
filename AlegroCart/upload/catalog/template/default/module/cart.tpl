@@ -13,13 +13,13 @@
       <tr>
         <td><?php echo $product['quantity']; ?>&nbsp;x&nbsp;</td>
         <td style="width: 100px;"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></td>
-		<td><?php echo ' '.$product['total']; ?></td>
+		<td class="ee"><?php echo ' '.$product['total']; ?></td>
       </tr>
       <?php } ?>
     </table>
-    <div class="aa"><?php echo $text_subtotal; ?>&nbsp;<?php echo $subtotal; ?></div>
 	</div>
-	<div class="cc"><?php echo $text_products.$product_total;?><div class="dd"><?php echo $text_items.$item_total;?></div></div>
+<div class="aa"><?php echo $text_subtotal; ?>&nbsp;<?php echo $subtotal; ?></div>
+	<div class="cc"><?php echo $product_total.' '.$text_products .' - ';?><div class="dd"><?php echo $item_total.' '.$text_items;?></div></div>
     <div class="bb"><a href="<?php echo $view_cart; ?>"><?php echo $text_view_cart; ?></a></div>
     <?php } else { ?>
     <div class="bb"><?php echo $text_empty; ?></div>

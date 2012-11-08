@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Calculate Global Discount';
+$_['heading_calculate']   = 'Calculate:';
 $_['heading_description'] = 'You can edit Global discount settings here.';
 
 // Text

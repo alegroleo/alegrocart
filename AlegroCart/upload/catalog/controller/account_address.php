@@ -329,10 +329,10 @@ class ControllerAccountAddress extends Controller {
 			$this->session->set('message', $this->language->get('error_referer'));
 			$this->response->redirect($this->url->ssl('account_address'));
 		}
-    	if ((strlen($this->request->sanitize('firstname', 'post')) < 3) || (strlen($this->request->sanitize('firstname', 'post')) > 32)) {
+    	if ((strlen($this->request->sanitize('firstname', 'post')) < 2) || (strlen($this->request->sanitize('firstname', 'post')) > 32)) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
-    	if ((strlen($this->request->sanitize('lastname', 'post')) < 3) || (strlen($this->request->sanitize('lastname', 'post')) > 32)) {
+    	if ((strlen($this->request->sanitize('lastname', 'post')) < 2) || (strlen($this->request->sanitize('lastname', 'post')) > 32)) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
     	if ((strlen($this->request->sanitize('address_1', 'post')) < 3) || (strlen($this->request->sanitize('address_1', 'post')) > 64)) {

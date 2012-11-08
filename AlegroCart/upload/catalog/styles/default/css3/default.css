@@ -495,22 +495,21 @@ a:hover {
 .mini_cart .cart .cart_content .bb {
 	position: relative;
 	text-align: center;
-	border: 0px;
-	padding: 0px; 
-	margin: 0px;
 }
 .mini_cart .cart .cart_content .cc {
 	position: relative;
 	border: 0px;
 	margin: 0px;
 	padding-left: 2px;
-	text-align: left;
+	text-align: center;
 	display: block;
 }
 .mini_cart .cart .cart_content .dd {
 	position: relative;
 	display: inline;
-	left: 30px;
+}
+.mini_cart .cart .cart_content .ee {
+	text-align: right;
 }
 /*  information */
 .information{

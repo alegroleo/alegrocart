@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Manufacturer';
+$_['heading_title']       = 'Manufacturers';
+$_['heading_form_title']  = 'Manufacturer:';
 $_['heading_description'] = 'You can edit your product manufacturer pages here.';
 
 // Text

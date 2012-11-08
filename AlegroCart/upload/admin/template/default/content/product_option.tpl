@@ -1,6 +1,6 @@
 <div class="task">
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $insert; ?>'"><img src="template/<?php echo $this->directory?>/image/insert_enabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } else { ?>
@@ -18,9 +18,10 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?><em></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -31,12 +32,12 @@
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_option; ?></td>
-              <td><select name="option">
+              <td><select name="option" id="productoption">
                   <?php foreach ($options as $option) { ?>
                   <optgroup label="<?php echo $option['name']; ?>">
                   <?php foreach ($option['value'] as $option_value) { ?>
                   <?php if ($option_value['option_value_id'] == $option_value_id) { ?>
-                  <option value="<?php echo $option_value['option_value_id']; ?>" selected><?php echo $option_value['name']; ?></option>
+                  <option value="<?php echo $option_value['option_value_id']; ?>" selected="selected"><?php echo $option_value['name']; ?></option>
                   <?php } else { ?>
                   <option value="<?php echo $option_value['option_value_id']; ?>"><?php echo $option_value['name']; ?></option>
                   <?php } ?>
@@ -92,5 +93,12 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript">
+  $(function(){
+	$('#productoption').change(function(){
+	$(".heading em").text("<?php echo $option_name;?>"+" : "+$('#productoption option:selected').text());
+  }).change();
+  });
   //--></script>
 </form>

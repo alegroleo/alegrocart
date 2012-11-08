@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Manufacturer Options Module';
+$_['heading_title']       = 'Manufacturer Options';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit manufacturer options module details here.';
 
 // Text

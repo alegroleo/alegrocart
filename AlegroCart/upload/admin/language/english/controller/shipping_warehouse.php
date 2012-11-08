@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']       = 'Warehouse Pickup';
+$_['heading_shipping']    = 'Shipping:';
 $_['heading_description'] = 'You can edit shipping warehouse pickup here.';
 
 // Text

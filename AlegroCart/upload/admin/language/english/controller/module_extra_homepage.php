@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']       = 'Home Page Module';
+$_['heading_title']       = 'Home Page';
+$_['heading_module']      = 'Module:';
 $_['heading_description'] = 'You can edit HomePage module Status here with link to Homepage Entry.';
 
 // Text

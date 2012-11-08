@@ -221,7 +221,13 @@ class ControllerCategory extends Controller {
 
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_title'));
+		if ($this->request->gethtml('path')) {
+			$path = explode('_', $this->request->gethtml('path'));
+			$catname=$this->modelCategory->get_category_name(count($path) > 1 ? end($path) : (int)$this->request->gethtml('path'), (int)$this->language->getId());
+			$view->set('heading_title', $this->language->get('heading_subcat_title').'<em>'.$catname['name'].'</em>');
+		} else {
+			$view->set('heading_title', $this->language->get('heading_title'));
+		}
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_previous', $this->language->get('text_previous'));
@@ -276,7 +282,7 @@ class ControllerCategory extends Controller {
 	function getForm() {
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
         $view->set('entry_name', $this->language->get('entry_name'));

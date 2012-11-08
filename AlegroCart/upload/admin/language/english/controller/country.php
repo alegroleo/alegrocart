@@ -1,6 +1,7 @@
 <?php
 // Heading
-$_['heading_title']          = 'Country';
+$_['heading_title']          = 'Countries';
+$_['heading_form_title']     = 'Country:';
 $_['heading_description']    = 'You can edit the different countries here.';
 
 // Text

@@ -267,10 +267,6 @@ class ControllerProduct extends Controller {
 			$view->set('show_stock_icon',$this->config->get('config_show_stock_icon'));
 			if($this->config->get('config_show_stock_icon')){
 				$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
-				$view->set('stock_status_g', $this->image->href('stock_status_g.png'));
-				$view->set('stock_status_o', $this->image->href('stock_status_o.png'));
-				$view->set('stock_status_r', $this->image->href('stock_status_r.png'));
-				$view->set('stock_status_y', $this->image->href('stock_status_y.png'));
 			}
 			
 			$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));

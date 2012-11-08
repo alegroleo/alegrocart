@@ -1,6 +1,15 @@
 <?php
 // Heading
-$_['heading_title']       = 'Extensions';
+$_['heading_title_module']        = 'Module';
+$_['heading_title_payment']       = 'Payments';
+$_['heading_title_shipping']      = 'Shipping';
+$_['heading_title_calculate']     = 'Calculate';
+$_['heading_form_module']         = 'Module:';
+$_['heading_form_payment']        = 'Payments:';
+$_['heading_form_shipping']       = 'Shipping:';
+$_['heading_form_calculate']      = 'Calculate:';
+$_['heading_title']               = 'Extensions';
+$_['heading_list_title']          = 'Extension:';
 $_['heading_calculate'] = 'You can add / remove calculate extensions here.';
 $_['heading_payment'] = 'You can add / remove payment extensions here.';
 $_['heading_shipping'] = 'You can add / remove shipping extensions here.';

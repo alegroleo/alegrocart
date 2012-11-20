@@ -72,7 +72,7 @@
 		    <script type="text/javascript">
 			  $(document).ready(function(){
 				$('.folderE[title]').tooltip({
-				offset: [0,-30], tipClass: 'tooltip_white'});
+				offset: [0,60], tipClass: 'tooltip_white'});
 			  });
 			</script>
 		    <?php echo '<div title="' . $col['folder_help'] . '" class="folderE" >'. $col['name'] . '</div>';?>

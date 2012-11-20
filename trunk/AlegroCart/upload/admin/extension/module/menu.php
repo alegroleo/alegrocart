@@ -1,5 +1,7 @@
 <?php
 class ModuleMenu extends Controller { 
+	var $menu_info = array();
+	var $image_path = "javascript/ACMenu/image/";
 	function fetch() {
 		$config   =& $this->locator->get('config');
 		$language =& $this->locator->get('language');
@@ -11,115 +13,78 @@ class ModuleMenu extends Controller {
        	
 	  		$view = $this->locator->create('template');
 
-      		$view->set('text_system', $language->get('text_system'));
-    	  	$view->set('text_configuration', $language->get('text_configuration'));
-      		$view->set('text_users', $language->get('text_users'));
-      		$view->set('text_localisation', $language->get('text_localisation'));
-     	 	$view->set('text_catalog', $language->get('text_catalog'));
-     	 	$view->set('text_extension', $language->get('text_extension'));
-     		$view->set('text_customers', $language->get('text_customers'));
-      		$view->set('text_reports', $language->get('text_reports'));
-      		$view->set('text_home', $language->get('text_home'));
-      		$view->set('text_shop', $language->get('text_catalog'));
-     		$view->set('text_setting', $language->get('text_setting'));
-      		$view->set('text_user', $language->get('text_user'));
-      		$view->set('text_user_group', $language->get('text_user_group'));
-      		$view->set('text_language', $language->get('text_language'));
-      		$view->set('text_currency', $language->get('text_currency'));
-      		$view->set('text_order_status', $language->get('text_order_status'));
-      		$view->set('text_country', $language->get('text_country'));
-      		$view->set('text_zone', $language->get('text_zone'));
-      		$view->set('text_geo_zone', $language->get('text_geo_zone'));
-      		$view->set('text_tax_class', $language->get('text_tax_class'));
-      		$view->set('text_weight_class', $language->get('text_weight_class'));
-			$view->set('text_dimension_class', $language->get('text_dimension_class'));
-      		$view->set('text_url_alias', $language->get('text_url_alias'));
-      		$view->set('text_backup', $language->get('text_backup'));
-			$view->set('text_server_info', $language->get('text_server_info'));
-      		$view->set('text_logout', $language->get('text_logout'));
-      		$view->set('text_category', $language->get('text_category'));
-      		$view->set('text_product', $language->get('text_product'));
-      		$view->set('text_option', $language->get('text_option'));
-			$view->set('text_manufacturer', $language->get('text_manufacturer'));
-      		$view->set('text_image', $language->get('text_image'));
-      		$view->set('text_watermark', $language->get('text_watermark'));
-			$view->set('text_image_display', $language->get('text_image_display'));
-			$view->set('text_minov', $language->get('text_minov'));
-      		$view->set('text_download', $language->get('text_download'));
-      		$view->set('text_review', $language->get('text_review'));
-      		$view->set('text_information', $language->get('text_information'));
-      		$view->set('text_module', $language->get('text_module'));
-			$view->set('text_shipping', $language->get('text_shipping'));
-      		$view->set('text_payment', $language->get('text_payment'));
-      		$view->set('text_calculate', $language->get('text_calculate'));
-      		$view->set('text_customer', $language->get('text_customer'));
-      		$view->set('text_order', $language->get('text_order'));
-			$view->set('text_order_edit', $language->get('text_order_edit'));
-			$view->set('text_coupon', $language->get('text_coupon'));
-			$view->set('text_mail', $language->get('text_mail'));
-			$view->set('text_newsletter', $language->get('text_newsletter'));
-      		$view->set('text_online', $language->get('text_online'));
-      		$view->set('text_sale', $language->get('text_sale'));
-      		$view->set('text_viewed', $language->get('text_viewed'));
-      		$view->set('text_purchased', $language->get('text_purchased'));
-			$view->set('text_logs', $language->get('text_logs'));
+			// new code
+			$menu = array('system', 'configuration', 'catalog', 'extension', 'customers', 'reports');
+			$submenu1[$menu[0]]= array('home', 'shop', 'maintenance', 'backup', 'server_info', 'logout');
+			$submenu1[$menu[1]]= array('setting', 'users', 'localisation', 'url_alias', 'homepage', 'template_manager', 'image_display', 'minov');
+			$submenu2[$submenu1[$menu[1]][1]] = array('user', 'usergroup');
+			$submenu2[$submenu1[$menu[1]][2]] = array('language', 'currency', 'order_status', 'country' ,'zone', 'geo_zone', 'tax_class', 'weight_class', 'dimension_class');
+			$submenu1[$menu[2]]= array('category', 'product', 'products_with_options', 'option', 'manufacturer', 'image', 'watermark', 'download', 'review', 'information');
+			$submenu1[$menu[3]]= array('module', 'shipping', 'payment', 'calculate');
+			$submenu1[$menu[4]]= array('customer', 'order', 'order_edit', 'coupon', 'mail', 'newsletter');
+			$submenu1[$menu[5]]= array('report_online', 'report_sale', 'report_viewed', 'report_purchased', 'report_logs');
 			
-			$view->set('text_maintenance', $language->get('text_maintenance'));
-			$view->set('text_homepage', $language->get('text_homepage'));
-			$view->set('text_tpl_manager',$language->get('text_tpl_manager'));
-			$view->set('text_products_with_options',$language->get('text_products_with_options'));
-			$view->set('homepage', $url->rawssl('homepage'));
-			$view->set('template_manager', $url->rawssl('template_manager'));
-			$view->set('maintenance', $url->rawssl('maintenance')); 
-    	  	$view->set('home', $url->rawssl('home')); 
-      		$view->set('shop', HTTP_CATALOG);
-      		$view->set('setting', $url->rawssl('setting'));
-      		$view->set('user', $url->rawssl('user'));
-      		$view->set('usergroup', $url->rawssl('usergroup'));
-      		$view->set('language', $url->rawssl('language'));
-      		$view->set('currency', $url->rawssl('currency'));
-      		$view->set('order_status', $url->rawssl('order_status'));
-      		$view->set('country', $url->rawssl('country'));
-      		$view->set('zone', $url->rawssl('zone'));
-      		$view->set('geo_zone', $url->rawssl('geo_zone'));
-      		$view->set('tax_class', $url->rawssl('tax_class'));
-      		$view->set('weight_class', $url->rawssl('weight_class'));
-			$view->set('dimension_class', $url->rawssl('dimension_class'));
-      		$view->set('url_alias', $url->rawssl('url_alias'));
-			$view->set('backup', $url->rawssl('backup'));
-      		$view->set('server_info', $url->rawssl('server_info'));
-      		$view->set('logout', $url->rawssl('logout'));
-      		$view->set('category', $url->rawssl('category'));
-      		$view->set('product', $url->rawssl('product'));
-			$view->set('products_with_options', $url->rawssl('products_with_options'));
-     		$view->set('option', $url->rawssl('option'));
-      		$view->set('manufacturer', $url->rawssl('manufacturer'));
-			$view->set('image', $url->rawssl('image'));
-			$view->set('watermark', $url->rawssl('watermark'));
-			$view->set('image_display', $url->rawssl('image_display'));
-			$view->set('minov', $url->rawssl('minov'));
-      		$view->set('download', $url->rawssl('download'));
-     	 	$view->set('review', $url->rawssl('review'));
-    	  	$view->set('information', $url->rawssl('information'));
-      		$view->set('information', $url->rawssl('information'));
-      		$view->set('module', $url->rawssl('extension', false, array('type' => 'module')));
-			$view->set('shipping', $url->rawssl('extension', false, array('type' => 'shipping')));
-      		$view->set('payment', $url->rawssl('extension', false, array('type' => 'payment')));
-      		$view->set('calculate', $url->rawssl('extension', false, array('type' => 'calculate')));
-      		$view->set('customer', $url->rawssl('customer'));
-      		$view->set('order', $url->rawssl('order'));
-			$view->set('order_edit', $url->rawssl('order_edit'));
-			$view->set('coupon', $url->rawssl('coupon'));
-			$view->set('mail', $url->rawssl('mail'));
-			$view->set('newsletter', $url->rawssl('newsletter'));
-      		$view->set('online', $url->rawssl('report_online'));
-      		$view->set('sale', $url->rawssl('report_sale'));
-      		$view->set('viewed', $url->rawssl('report_viewed'));
-      		$view->set('purchased', $url->rawssl('report_purchased'));
-			$view->set('logs', $url->rawssl('report_logs'));
-
+			foreach($menu as $key => $name){
+				$text = $language->get('text_' . $name);
+				$href = '';
+				$new_tab = false;
+				$this->create_menu(NULL, $name, $text, $href, 0, $new_tab);
+				if(isset($submenu1[$name])){
+					foreach($submenu1[$name] as $key1 => $s1name){
+						$text = $language->get('text_' . $s1name);
+						if(isset($submenu2[$s1name])){
+							$href= NULL;
+							$new_tab= false;
+						} else if($name == 'system' && $s1name == 'shop'){
+							$href = HTTP_CATALOG;
+							$new_tab = true;
+						} else if($name == 	'extension') {
+							$href = $url->rawssl($name, false, array('type' => $s1name));
+							$new_tab = false;
+						} else {
+							$href = $url->rawssl($s1name);
+							$new_tab = false;
+						}
+						$this->create_menu($name, $s1name, $text, $href, 1, $new_tab);
+						if(isset($submenu2[$s1name])){
+							foreach($submenu2[$s1name] as $s2name){
+								$text = $language->get('text_' . $s2name);
+								$href = $url->rawssl($s2name);
+								$this->create_menu($s1name, $s2name, $text, $href, 2, $new_tab);
+							}
+						}
+					}
+				}
+			}
+			
+			$view->set('menus', $this->menu_info);
       		return $view->fetch('module/menu.tpl');
 		}
   	}
+	function create_menu($parent, $menu_key, $name, $href, $level, $new_tab){
+		if($level == 0){
+			$type = "block";
+			$status = "enabled";
+			$image = '';
+		} else {
+			$type = "none";
+			$status = "disabled";
+			$image = $this->image_path . $menu_key . '.png';
+		}
+		
+		$this->menu_info[] = array(
+			'parent'	=> $parent,
+			'name'		=> $name,
+			'href'		=> $href,
+			'level'		=> $level,
+			'image'		=> $image,
+			'status' 	=> $status,
+			'state' 	=> '',
+			'type'   	=> $type,
+			'class'		=> 'menu_lvl_' . $level,
+			'id'		=> 'menu_level_' . $level,
+			'new_tab'	=> $new_tab
+		);
+	}
 }
 ?>

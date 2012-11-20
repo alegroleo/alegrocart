@@ -5,6 +5,5 @@ $_['heading_description'] = 'Administration Header';
 
 // Text
 $_['text_heading']        = 'Administration';
-$_['text_version']    = ' Version - ';
 $_['text_user']           = 'You are logged in as <b>%s</b>';
 ?>

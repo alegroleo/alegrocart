@@ -9,10 +9,10 @@ class ModuleHeader extends Controller {
 			$language->load('extension/module/header.php');
 
 			$view = $this->locator->create('template');
- 
+
 			$view->set('text_heading', $language->get('text_heading'));
 			$view->set('version', $config->get('version'));
-			$view->set('text_version', $language->get('text_version'));
+
 			if ($user->isLogged()) {
 				$view->set('user', $language->get('text_user', $user->getUserName()));
 			} else {

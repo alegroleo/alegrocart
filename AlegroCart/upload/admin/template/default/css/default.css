@@ -6,7 +6,8 @@ html {
 body {
 	margin: 0;
 	padding: 0;
-	width: 1000px;
+	min-width: 1000px;
+	max-width: 1200px;
 	margin: 0 auto;
 	position: relative;
 	color: #000000;
@@ -50,24 +51,24 @@ a:visited {
 }
 
 #header {
-	height: 60px;
-	background-color: #2F2F2F;
-	border-bottom: 3px solid #222222;
+	height: 40px;
+/*	background-color: #2F2F2F;*/
+/*	border-bottom: 3px solid #222222;*/
 }
 
 #header h1 {
 	font-size: 24px;
 	font-weight: normal;
-	color: #FFFFFF;
+	color: #2F2F2F;
 	margin: 0px;
 	position: absolute;
-	top: 16px;
+	top: 8px;
 	left: 15px; 
 }
 
 #header .a {
-	color: #FFFFFF;
-	margin: 26px 25px 0px 0px;
+	color: #2F2F2F;
+	margin: 14px 25px 0px 0px;
 	float: right;
 }
 
@@ -107,7 +108,7 @@ a:visited {
 
 .task .enabled {
 	cursor: pointer;
-	border: 5px solid #0099FF;
+	border: 5px solid #FDB016;
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -126,7 +127,7 @@ a:visited {
 
 .task .hover {
 	cursor: pointer;
-	border: 5px solid #FDB016;
+	border: 5px solid #0099FF;
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -173,6 +174,14 @@ a:visited {
 	width: 60%;
 }
 
+#login_form input[type="text"], #login_form input[type="password"]{
+	padding: 8px;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+}
+
 form {
 	margin: 0px;
 }
@@ -181,9 +190,13 @@ form {
 	background-color: #949CA1;
 	border: 2px outset #949CA1;
 	font-weight: bold;
-	padding: 3px;
+	padding: 4px 10px;
 	margin-top: 5px;
 	color: #FFFFFF;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
 }
 
 .button {
@@ -417,6 +430,7 @@ form {
 	font-size: 11px; 
 	text-align: left;
 	width: 919px;
+	margin: auto;
 }
 
 #phpinfo .p {
@@ -545,12 +559,12 @@ form {
 	width: 200px;
 	font-size: 11px;
 	font-weight: normal;
-	color: #FFFFFF;
+	color: #2F2F2F;
 }
 /* box language */
 .language {
     float: right;
-    margin-top: 26px;
+    margin-top: 14px;
     padding-right: 10px;
 }
 

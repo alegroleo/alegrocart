@@ -1,0 +1,178 @@
+/* Admin Menu */
+#myMenuID {
+	height: 30px;
+	background: #0099FF;  
+	text-decoration: none;
+}
+#menu_lvl_0 {
+	left: 0px;
+	margin: 0px;
+	padding: 0px;
+	border: 0;
+	list-style-type: none;
+	display: inline;
+	position: relative;
+	list-style-position: outside;
+	overflow: visible;
+	white-space: nowrap;
+	z-index: 10;
+}
+#menu_level_0{
+	position: relative;
+	top: 7px;
+	display: inline;
+	background: url("./image/divider.gif") no-repeat scroll 100% 0px #0099FF;
+}
+#menu_level_0 > a .arrow{
+	display: none;
+}
+#myMenuID ul li:hover a{
+	background: url("./image/hover.png") no-repeat scroll center bottom #0099FF;
+	}
+#menu_level_1 img.icon, #menu_level_2 img.icon{
+	position: absolute;
+	left: 0px;
+	width: 16px;
+	height: 16px;
+	padding: 7px 10px 0px;
+}
+#menu_level_1 img.arrow{
+	position: absolute;
+	right: 0px;
+	width: 16px;
+	height: 16px;
+	padding: 7px 10px 0px;
+}
+#menu_level_1 img.icon, #menu_level_2 img.icon, #menu_level_1 span, #menu_level_2 span, #menu_level_1 img.arrow{
+	display:block;
+}
+#menu_level_1 span, #menu_level_2 span{
+	padding-left: 30px;
+}
+#myMenuID a {
+	background: none;
+	padding: 1px 0px 1px 10px; 
+	font-weight: bold;
+	margin-bottom: 0px;
+	text-decoration: none;
+}
+#menu_level_0 a{
+	height: 14px;
+
+}
+#menu_level_1 a, #menu_level_2 a{
+	position: relative;
+	background-color: #0099FF;
+	display: inline-block;
+	line-height: 30px;
+}
+#menu_lvl_1, #menu_level_1, #menu_lvl_2, #menu_level_2{
+	display: block;
+	left: 0px;
+	margin: 0;
+	padding: 0;
+	height: 30px;
+	list-style-type: none;
+	position: relative;
+	background-color:	#0099FF;
+	list-style-position: outside;
+	overflow: visible;
+	white-space: nowrap;
+	z-index: 10;
+}
+#menu_lvl_1, #menu_lvl_2{
+	position:	absolute;
+	z-index:	100;
+	padding:	0px;
+	display: inline-block;
+	width: 100%;
+}
+#menu_lvl_1{
+	position: absolute;
+	top: 21px;
+	margin: 0px 0px 0px 0px;
+	min-width: 184px;
+	background-color:	#0099FF;
+	border-top: 1px dotted #EEEEEE;
+}
+#menu_lvl_2{
+	position: absolute;
+	left: 100%;
+	top: -1px;
+	min-width: 184px;
+	padding: 0px;
+	background-color: #0099FF;
+	border-top: 1px dotted #EEEEEE;
+}
+#myMenuID .menu .menu_lvl_1, #myMenuID .menu .menu_lvl_2{
+	background: none repeat scroll 0 0 transparent;
+	min-width: 174px;
+}
+#myMenuID a {
+	color: #FFFFFF; /* Font Color*/
+}
+#myMenuID .menu_breadcrumb{
+	background-color: #0099FF;
+	color: #000000;
+}
+#myMenuID .menu_lvl_0 {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	margin-top: 5px;
+	padding: 0px 25px 8px 25px;
+	white-space: nowrap;
+	cursor: default;
+	background-color: #0099FF;
+	color: #FFFFFF;
+}
+#myMenuID .menu_lvl_0:hover{
+	color: #000000;
+}
+#myMenuID .menu_lvl_0:active {
+	background-color: #0099FF;
+	color: #FFFFFF;
+}
+#myMenuID .menu_lvl_1 {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	margin-top: 0px;
+	padding: 0px 5px 8px 5px;
+	white-space: nowrap;
+	cursor: default;
+	background-color: #0099FF;
+	height: 22px;
+	color: #FFFFFF;
+}
+#myMenuID .menu_lvl_1:hover{
+	color: #000000;
+	background: none repeat scroll 0 0 transparent;
+}
+#myMenuID .menu_lvl_1:active { 
+	background-color: #0099FF;
+	color: #FFFFFF;
+}
+#myMenuID .menu_lvl_2 {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	margin-top: 0px;
+	padding: 0px 5px 0px 5px;
+	white-space: nowrap;
+	cursor: default;
+	background-color: #0099FF;
+	height: 22px;
+	color: #FFFFFF;
+}
+#myMenuID .menu_lvl_2:hover{
+	color: #000000;
+	background: none repeat scroll 0 0 transparent;
+}
+#myMenuID .menu_lvl_2:active {
+	background-color: #0099FF;
+	color: #FFFFFF;
+}
+#menu_level_1:hover, #menu_level_2:hover{
+	background-color: #0099FF;
+}
+#menu_level_1, #menu_level_2{
+	border-bottom: 1px dotted #EEEEEE;
+}

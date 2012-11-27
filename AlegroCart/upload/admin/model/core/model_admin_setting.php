@@ -178,5 +178,15 @@ class Model_Admin_Setting extends Model {
 		$results = $this->database->getRows("select * from dimension where type_id = '" . $type_id . "' and language_id = '" . (int)$this->language->getId() . "'");
 		return $results;
 	}
+	function set_default_currency(){
+		$this->database->query("update currency set status = '1', lock_rate = '1', value = '1.0000' where code = '" . $this->request->gethtml('global_config_currency', 'post') . "'");
+	}
+	function get_codes(){
+		$results = $this->database->getRows("select code, status, lock_rate from currency where code != '" . $this->request->gethtml('global_config_currency', 'post') . "' and status = '1'");
+		return $results;
+	}
+	function update_rates($rate, $code){
+		$this->database->query("update `currency` set value ='" . $rate . "', lock_rate = '0', date_modified = now() where code = '" . $code . "'"); 
+	}
 }
 ?>

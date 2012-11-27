@@ -226,7 +226,8 @@ $_['explanation_pr_download_status']     = 'As soon as you change the order stat
 $_['explanation_free_download']   = 'You can enable/disable here with one click the whole free download process.';
 $_['explanation_sitemap']         = 'The URL of your sitemap (e.g. for Google Webmaster Tools): ';
 $_['explanation_favicon']	  = 'To change the current favicon, create your own keeping the original name "favicon.ico", then overwrite the original one: ';
-
+$_['explanation_mr_loaded']       = 'The module mod_rewrite is loaded on this server.';
+$_['explanation_mr_not_loaded']   = 'The module mod_rewrite is not loaded on this server. URL alias cannot work.';
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';
 $_['tab_admin']         = 'Admin Settings<br>Error Handling';

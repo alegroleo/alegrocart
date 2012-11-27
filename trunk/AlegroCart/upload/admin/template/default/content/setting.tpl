@@ -125,30 +125,36 @@
             <tr>
               <td class="set"><?php echo $entry_url_alias; ?></td>
               <td><?php if ($global_config_url_alias) { ?>
-                <input type="radio" name="global_config_url_alias" value="1" id="gcuayes" checked>
+                <input type="radio" name="global_config_url_alias" value="1" id="gcuayes" checked <?php echo $mr_status ? '' : 'disabled';?> >
                 <label for="gcuayes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_url_alias" value="0" id="gcuano">
+                <input type="radio" name="global_config_url_alias" value="0" id="gcuano" <?php echo $mr_status ? '' : 'disabled';?>>
                 <label for="gcuano"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_url_alias" value="1" id="gcuayes">
+                <input type="radio" name="global_config_url_alias" value="1" id="gcuayes" <?php echo $mr_status ? '' : 'disabled';?>>
                 <label for="gcuayes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_url_alias" value="0" id="gcuano" checked>
+                <input type="radio" name="global_config_url_alias" value="0" id="gcuano" checked <?php echo $mr_status ? '' : 'disabled';?>>
                 <label for="gcuano"><?php echo $text_no; ?></label>
                 <?php } ?></td>
+		<?php if (isset($mr_status)) { ?>
+		<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
+		<?php } ?>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_seo; ?></td>
               <td><?php if ($global_config_seo) { ?>
-                <input type="radio" name="global_config_seo" value="1" id="gcsyes" checked>
+                <input type="radio" name="global_config_seo" value="1" id="gcsyes" checked <?php echo $mr_status ? '' : 'disabled';?> >
                 <label for="gcsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_seo" value="0" id="gcsno">
+                <input type="radio" name="global_config_seo" value="0" id="gcsno" <?php echo $mr_status ? '' : 'disabled';?> >
                 <label for="gcsno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_seo" value="1" id="gcsyes">
+                <input type="radio" name="global_config_seo" value="1" id="gcsyes" <?php echo $mr_status ? '' : 'disabled';?> >
                 <label for="gcsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_seo" value="0" id="gcsno" checked>
+                <input type="radio" name="global_config_seo" value="0" id="gcsno" checked <?php echo $mr_status ? '' : 'disabled';?> >
                 <label for="gcsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
+		<?php if (isset($mr_status)) { ?>
+		<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
+		<?php } ?>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_parse_time; ?></td>
@@ -408,6 +414,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+				<input type="hidden" name="default_currency" value="<?php echo $default_currency;?>"> 
             </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_currency_surcharge;?></td>

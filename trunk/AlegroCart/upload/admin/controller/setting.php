@@ -5,6 +5,7 @@ class ControllerSetting extends Controller {
 	var $logo_types = array('jpg','gif','jpeg','png');
 	var $wm_types = array('png');
 	var $wm_method = 'auto';
+	var $mr_status = NULL;
 
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
@@ -32,6 +33,10 @@ class ControllerSetting extends Controller {
 		if ($this->request->isPost() && $this->request->has('global_config_store', 'post') && $this->validate_update()) {
 			$this->modelSetting->delete_setting();
 			$this->modelWatermark->delete_watermark($this->wm_method);
+			
+			if($this->request->gethtml('global_config_currency', 'post') != $this->request->gethtml('default_currency', 'post')){
+				$this->updateRates();
+			}
 
 			$this->modelSetting->update_setting();
 			$this->modelWatermark->update_watermark($this->wm_method);
@@ -271,6 +276,8 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_free_download',$this->language->get('explanation_free_download'));
 		$view->set('explanation_sitemap',$this->language->get('explanation_sitemap'));
 		$view->set('explanation_favicon',$this->language->get('explanation_favicon'));
+		$view->set('explanation_mr_loaded',$this->language->get('explanation_mr_loaded'));
+		$view->set('explanation_mr_not_loaded',$this->language->get('explanation_mr_not_loaded'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -313,7 +320,16 @@ class ControllerSetting extends Controller {
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		if(function_exists('apache_get_modules')){
+			if(in_array('mod_rewrite', apache_get_modules())) {
+				$mr_status = 1;
+			} else {
+				$mr_status = 0;
+			}
+		}
+		$view->set('mr_status', $mr_status);
+
 		$results = $this->modelSetting->get_settings();
 		foreach ($results as $result) {
 			$setting_info[$result['type']][$result['key']] = $result['value'];
@@ -981,11 +997,13 @@ class ControllerSetting extends Controller {
 		$view->set('languages', $this->modelSetting->get_languages());
 
 		if ($this->request->has('global_config_currency')) {
-			$view->set('global_config_currency', $this->request->gethtml('global_config_currency'));
+			$default_currency = $this->request->gethtml('global_config_currency');
 		} else {
-			$view->set('global_config_currency', @$setting_info['global']['config_currency']);
+			$default_currency = @$setting_info['global']['config_currency'];
 		}
-
+		$view->set('global_config_currency', $default_currency);
+		$view->set('default_currency', $default_currency);
+		
 		if ($this->request->has('global_config_currency_surcharge')) {
 			$view->set('global_config_currency_surcharge', $this->request->gethtml('global_config_currency_surcharge'));
 		} else {
@@ -1143,6 +1161,31 @@ class ControllerSetting extends Controller {
 		$this->template->set($this->module->fetch());
 
 		$this->response->set($this->template->fetch('layout.tpl'));
+	}
+	
+	function updateRates(){
+		$this->modelSetting->set_default_currency();
+		set_time_limit(90);
+		$start_time = microtime(true);
+		$from = $this->request->gethtml('global_config_currency', 'post');
+		$results = $this->modelSetting->get_codes();
+		$base_rate = 1.00 + $this->request->gethtml('global_config_currency_surcharge', 'post');
+		foreach ($results as $to) {	
+			if ($to['status']){
+				$rate = $this->currency->currency_converter($base_rate, $from, $to['code']);
+				$rate = str_replace(',','.',$rate);
+				if ($rate > 0){
+					$this->modelSetting->update_rates($rate, $to['code']);
+				}	
+			}
+			if((microtime(true)-$start_time)>88){
+				$this->session->set('message', $this->language->get('error_time'));
+				$this->cache->delete('currency');
+				$this->response->redirect($this->url->ssl('currency'));
+			}
+		}
+		$this->cache->delete('currency');
+		
 	}
 	
 	function getLogos(){

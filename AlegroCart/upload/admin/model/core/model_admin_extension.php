@@ -113,12 +113,18 @@ class Model_Admin_Extension extends Model {
 			if (strstr($extension_type[0], 'module')) {
 			$extension_type[1] = $extension_type[1] == 'extra' ? 'catalog' : $extension_type[1];
 			$extension_type[1] = $extension_type[2] == 'developer' ? 'global' : $extension_type[1];
+
 				if (strstr($extension_type[2], 'options')){
+					$group = $extension_type[2];
 					$start = substr($extension_type[2],0,strpos($extension_type[2],'options'));
 					$extension_type[2] = $start . '_options';
-				}
+					$this->database->query("delete from setting where `type` = '" . $extension_type[1] . "' and `group`= '" . $group . "' and `key` = '" . $extension_type[2] . '_status' . "'");
+					$this->database->query($this->database->parse("insert into setting set type = '?', `group` = '?', `key` = '?' , `value` = '?'", $extension_type[1], $group,  $extension_type[2] . '_status', (int)$new_status));
+				} else {
+
 			$this->database->query("delete from setting where `type` = '" . $extension_type[1] . "' and `group`= '" . $extension_type[2] . "' and `key` = '" . $extension_type[2] . '_status' . "'");
 			$this->database->query($this->database->parse("insert into setting set type = '?', `group` = '?', `key` = '?' , `value` = '?'", $extension_type[1],$extension_type[2],  $extension_type[2] . '_status', (int)$new_status));
+				}
 			} else {
 			$this->database->query("delete from setting where `key` = '" . $extension_type[1] . '_status' . "'");
 			$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = '?', `key` = '?' , `value` = '?'", $extension_type[1],  $extension_type[1] . '_status', (int)$new_status));

@@ -1339,3 +1339,12 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'sitemap_status';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'sitemap_status', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#Manufacturer Model filter settings
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'options_manufacturer';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'options_manufacturer', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'options_model';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'options_model', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;

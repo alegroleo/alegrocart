@@ -199,6 +199,8 @@ $_['entry_wm_ivposition']       = 'Position Vertical:';
 $_['entry_wm_ihmargin']         = 'Margin Left:';
 $_['entry_wm_ivmargin']         = 'Margin Top:';
 $_['entry_discount_options']	= 'Discount Options:';
+$_['entry_options_manufacturer']= 'Allow Manufacturer Filter:';
+$_['entry_options_model']       = 'Allow Model Filter:';
 
 //Explanations
 $_['explanation_wm_text']         = 'If you fill in this field (maximum 64 characters) every image that you upload will be watermarked automatically from now on with this text. Leave it empty to not to use.';

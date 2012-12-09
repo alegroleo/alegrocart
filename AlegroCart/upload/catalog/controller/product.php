@@ -162,12 +162,14 @@ class ControllerProduct extends Controller {
 			
             
 			// New manufaturer
-			$result = $this->modelProducts->getRow_manufacturer((int)$product_info['manufacturer_id']);
-			if ($result){
-			     $manufacturer = array(
-					'name'  => $result['name']
-			    );
-				$view->set('manufacturer', $manufacturer['name']);
+			if($this->config->get('manufacturer_status')){
+				$result = $this->modelProducts->getRow_manufacturer((int)$product_info['manufacturer_id']);
+				if ($result){
+					$manufacturer = array(
+						'name'  => $result['name']
+					);
+					$view->set('manufacturer', $manufacturer['name']);
+				}
 			}
 			// Currency
 			$currency_code = $currency->code;

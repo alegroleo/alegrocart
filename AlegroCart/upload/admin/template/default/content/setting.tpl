@@ -1199,7 +1199,35 @@
 			<tr>
               <td class="set"><?php echo $entry_lines_char; ?></td>
               <td><input type="text" name="catalog_content_lines_char" value="<?php echo $catalog_content_lines_char; ?>" size="3" /></td>
-            </tr><tr><td colspan="4"><hr></td>
+            </tr>
+			
+			<tr>
+              <td class="set"><?php echo $entry_options_manufacturer; ?></td>
+              <td><select name="catalog_options_manufacturer">
+                  <?php if ($catalog_options_manufacturer) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+            </tr>
+			<tr>
+              <td class="set"><?php echo $entry_options_model; ?></td>
+              <td><select name="catalog_options_model">
+                  <?php if ($catalog_options_model) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+            </tr>
+						
+			
+			<tr><td colspan="4"><hr></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_addtocart_quantity; ?></td>

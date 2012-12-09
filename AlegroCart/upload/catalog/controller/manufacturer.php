@@ -134,6 +134,7 @@ class ControllerManufacturer extends Controller {
 			} else{
 				$model_data = "";
 			}
+			$view->set('options_model', $this->config->get('options_model'));
 			$view->set('model', $model);
 			$view->set('models_data', $model_data);			
 			$view->set('default_max_rows', $max_rows);

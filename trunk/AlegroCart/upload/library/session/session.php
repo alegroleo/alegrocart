@@ -10,12 +10,12 @@ class Session {
 		$this->database = $locator->get('database');
 		$this->request  = $locator->get('request');
 		$this->config   = $locator->get('config');
- 
+
     	register_shutdown_function(array($this, 'save_session'));
 		$this->expire = ($this->config->get('config_session_expire') > 1800) ? $this->config->get('config_session_expire') : 1800;
 		if (!$this->request->has('alegro', 'cookie') && $this->request->isPost()) {
 			$this->log_access();
-			if(strtolower($_SERVER['HTTP_CONNECTION']) == 'keep-alive'){
+			if(strtolower(@$_SERVER['HTTP_CONNECTION']) == 'keep-alive'){
 				echo $this->close_connection();
 				exit;
 			}

@@ -26,6 +26,8 @@ class ModuleCategoryOptions extends Controller{
 		$view->set('default_columns', $session->get('category.columns'));
 		$view->set('columns', $session->get('category.columns'));
 		$view->set('display_lock', $config->get('category_display_lock'));
+		$view->set('options_manufacturer', $config->get('options_manufacturer'));
+		$view->set('options_model', $config->get('options_model'));
 		
 		$manufacturer_id = (int)substr($session->get('category.manufacturer'),0,strpos($session->get('category.manufacturer'),"_"));
 		$model = substr($session->get('category.model'),0,strpos($session->get('category.model'),"_"));

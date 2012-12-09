@@ -25,28 +25,32 @@
 	  <?php }?>
 	</table>
 	<div class="divider"></div>
-	<?php switch($this_controller){
-	 case 'search':
-	  include $shared_path . 'search_manufacturer.tpl';
-	  break;
-	 case 'category':
-	  include $shared_path . 'category_manufacturer.tpl';
-	  break;
-	} ?>
-	<table id="model">
-	  <?php if (count($models_data) > 1){?>
-	    <tr><td><?php echo $text_model;?></td></tr>
-	    <tr><td style="width: 190px;">
-	      <select style="width: 180px;" name="model">
-		    <option value="all" <?php if($model == "all"){?>selected <?php }?>><?php echo $text_all;?></option>
-			<?php foreach($models_data as $model_data){?>
-			  <option value="<?php echo $model_data['model_value'];?>" <?php if($model_data['model'] == $model){?>selected <?php }?>><?php echo $model_data['model'];?></option>
-			<?php }?>
-		  </select>
-		  <div class="divider"></div>
-	    </td></tr>
-	  <?php }?>
-	</table>
+	<?php if($options_manufacturer){
+	  switch($this_controller){
+	    case 'search':
+	      include $shared_path . 'search_manufacturer.tpl';
+	      break;
+	    case 'category':
+	      include $shared_path . 'category_manufacturer.tpl';
+	      break;
+	  } 
+	}?>
+	<?php if($options_model){?>
+	  <table id="model">
+	    <?php if (count($models_data) > 1){?>
+	      <tr><td><?php echo $text_model;?></td></tr>
+	      <tr><td style="width: 190px;">
+	        <select style="width: 180px;" name="model">
+		      <option value="all" <?php if($model == "all"){?>selected <?php }?>><?php echo $text_all;?></option>
+			  <?php foreach($models_data as $model_data){?>
+			    <option value="<?php echo $model_data['model_value'];?>" <?php if($model_data['model'] == $model){?>selected <?php }?>><?php echo $model_data['model'];?></option>
+			  <?php }?>
+		    </select>
+		    <div class="divider"></div>
+	      </td></tr>
+	    <?php }?>
+	  </table>
+	<?php }?>
 	<?php if($display_lock == False){ ?>
 	<table>
 	  <tr>

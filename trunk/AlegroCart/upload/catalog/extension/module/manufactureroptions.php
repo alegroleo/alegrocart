@@ -26,6 +26,8 @@ class ModuleManufacturerOptions extends Controller{
 		$view->set('columns', $session->get('manufacturer.columns'));
 		$view->set('display_lock', $config->get('manufacturer_display_lock'));
 		$view->set('model', substr($session->get('manufacturer.model'),0,strpos($session->get('manufacturer.model'),"_"))); //Strip Manufaturer ID
+		$view->set('options_manufacturer', $config->get('options_manufacturer'));
+		$view->set('options_model', $config->get('options_model'));
 		
 		$results = $this->modelManufacturer->get_models($session->get('manufacturer.manufacturer_id'));
 		if (count($results) > 1){

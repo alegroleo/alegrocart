@@ -52,21 +52,23 @@
 	   <?php }?>
 	  </div>
 	 </div>	
-	 <div class="right">
-	  <?php if (count($models_data ) > 1){ ?>
-	   <table>
-	    <tr><td><?php echo $text_model; ?></td></tr>
-		<tr><td>
-		 <select name="model">
-		  <option value="all" <?php if($model == "all"){?>selected <?php }?>><?php echo $text_all;?></option>
-		  <?php foreach($models_data as $model_data){?>
-		   <option value="<?php echo $model_data['model_value'];?>" <?php if($model_data['model'] == $model){?>selected <?php }?>><?php echo $model_data['model'];?></option>
-		  <?php }?>
-		 </select>
-		</td></tr>
-	   </table>
-	  <?php }?>		
-	 </div>
+	 <?php if($options_model){?>
+	   <div class="right">
+	     <?php if (count($models_data ) > 1){ ?>
+	       <table>
+	         <tr><td><?php echo $text_model; ?></td></tr>
+		     <tr><td>
+		       <select name="model">
+		         <option value="all" <?php if($model == "all"){?>selected <?php }?>><?php echo $text_all;?></option>
+		         <?php foreach($models_data as $model_data){?>
+		           <option value="<?php echo $model_data['model_value'];?>" <?php if($model_data['model'] == $model){?>selected <?php }?>><?php echo $model_data['model'];?></option>
+		         <?php }?>
+		       </select>
+		     </td></tr>
+	       </table>
+	     <?php }?>		
+	   </div>
+	 <?php }?>
 	</div>
 	<div class="divider"></div>
 	<?php if($display_lock == False){ ?>

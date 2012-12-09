@@ -29,6 +29,9 @@ class ModuleSearchOptions extends Controller{
 		$view->set('default_columns', $session->get('search.columns'));
 		$view->set('columns', $session->get('search.columns'));
 		$view->set('display_lock', $config->get('search_display_lock'));
+		$view->set('options_manufacturer', $config->get('options_manufacturer'));
+		$view->set('options_model', $config->get('options_model'));
+		
 		$search = wildcardsearch($session->get('search.search'));		
 		$description = $session->get('search.description');
 		$view->set('description', $description);

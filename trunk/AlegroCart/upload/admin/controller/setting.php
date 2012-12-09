@@ -216,6 +216,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
+		$view->set('entry_options_manufacturer',$this->language->get('entry_options_manufacturer'));
+		$view->set('entry_options_model',$this->language->get('entry_options_model'));
 		$view->set('image_displays_product',array('thickbox', 'fancybox', 'lightbox'));
 		$view->set('image_displays_content',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 		$view->set('page_columns', array('2', '3'));
@@ -875,6 +877,17 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_content_lines_char', $this->request->gethtml('catalog_content_lines_char', 'post'));
 		} else {
 			$view->set('catalog_content_lines_char', @$setting_info['catalog']['content_lines_char']);
+		}
+		
+		if ($this->request->has('catalog_options_manufacturer', 'post')) {
+			$view->set('catalog_options_manufacturer', $this->request->gethtml('catalog_options_manufacturer', 'post'));
+		} else {
+			$view->set('catalog_options_manufacturer', @$setting_info['catalog']['options_manufacturer']);
+		}
+		if ($this->request->has('catalog_options_model', 'post')) {
+			$view->set('catalog_options_model', $this->request->gethtml('catalog_options_model', 'post'));
+		} else {
+			$view->set('catalog_options_model', @$setting_info['catalog']['options_model']);
 		}
 		
 		if ($this->request->has('catalog_search_rows')) {

@@ -10,7 +10,6 @@ define('CODE_VERSION','1.2.7');
 
 // PATH
 define('PATH_CATALOG','catalog');
-define('PATH_ADMIN','admin');
 define('PATH_IMAGE','image');
 define('PATH_FLASH','flash');
 define('PATH_LIBRARY','library');
@@ -32,6 +31,7 @@ define('PATH_FONTS','fonts');
 if (!defined('APP')) { define('APP','CATALOG'); }
 
 // DIR
+if (!defined('PATH_ADMIN')) define('PATH_ADMIN', 'admin');
 if (!defined('DIR_LOGS')) define('DIR_LOGS',DIR_BASE.PATH_LOGS.D_S);
 if (!defined('DIR_CATALOG')) define('DIR_CATALOG',DIR_BASE.PATH_CATALOG.D_S);
 if (!defined('DIR_ADMIN')) define('DIR_ADMIN',DIR_BASE.PATH_ADMIN.D_S);

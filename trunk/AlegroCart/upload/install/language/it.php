@@ -23,10 +23,17 @@ $_['error_dbname']     = 'Il nome del Database e\'richiesto';
 $_['error_dbconnect']  = 'Non potresti connetterti al server database usando lo username and password provvisoria.';
 $_['error_dbperm']     = 'Il database potrebbe non essere accessibile. Controlla che tu hai i permessi e che esista sul server.';
 $_['error_sql']        = 'Il file Install SQL %s potrebbe non essere stato trovato.';
+$_['error_new_admin_name']= 'Si richiede un nuovo nome per la directory di Amministrazione!';
 $_['error_admin_uname']= 'Lo username Admin e\' richiesto';
 $_['error_admin_passw']= 'La password Admin e\' richiesta';
 $_['error_write']      = 'Potresti non scrivere nel file %s .';
 $_['error_open']       = 'Potrebbe non essere aperto il file %s per essere scritto.';
+$_['error_rename']     = 'La directory di Amministrazione non si rinomina. Fai la rename a mano via FTP e dopo ricarica la pagina.';
+$_['error_alphanumeric']= 'Usa solo caratteri minuscoli dell\' alfabeto inglese, lo underscore, l\'apostrofo ed i numeri, senza usare spazi,';
+$_['error_length']     = 'La lunghezza del nuovo nome deve essere compresa tra 6 e 14 caratteri!';
+$_['error_restricted'] = 'Il nome \'%s\' non e\' permesso.';
+$_['error_dir']        = 'Errore nella struttura della directory.';
+$_['error_post']       = 'Il nome immesso della directory non coincide con quella rinominata.';
 
 // Text
 $_['ac']               = 'AlegroCart Home';
@@ -38,11 +45,12 @@ $_['dbuser']           = 'Username Database :';
 $_['dbpassw']          = 'Password Database :';
 $_['dbname']           = 'Nome Database :';
 $_['continue']         = 'Continua';
+$_['rename']           = 'Per proteggere la directory di amministrazione da malintenzionati indica un nuovo nome. Il nome dovra\' essere diverso da \'admin\' oppure \'administration\' perche\' non sono nomi permessi. Il nome della directory di amministrazione verra\' cambiato al nuovo nome indicato e conterra\' tutti i file di amministrazione.';
+$_['new_admin']        = 'Nuovo nome per la directory di Admin:';
 $_['admin_details']    = 'Per favore immetti un username e password per la amministrazione.';
 $_['uname']            = 'Username:';
 $_['passw']            = 'Password:';
 $_['success']          = '%s e\'stato aggiornato con successo.';
-$_['del_inst']         = 'Tu DEVI cancellare questa cartella di installazione!';
 $_['config']           = 'Modifica \'config.php\' non scrivibile (chmod go-w or chmod 644).';
 $_['htaccess']         = 'Modifica \'.htaccess\' non scrivibile (chmod go-w 644).';
 $_['congrat']          = 'Congratulazioni! Hai installato AlegroCart con successo.';
@@ -54,4 +62,5 @@ $_['default_install']  = 'Installazione di default';
 $_['clean_install']    = 'Installazione vergine'; 
 $_['default_expl']     = 'Questo installa anche esempi di prodotti, categorie, produttori, immagini, opinioni, ecc. E\' qundi l\'opzione consigliata per provare AlegroCart.'; 
 $_['clean_expl']       = 'Questo cancella tutti i prodotti e le informazioni correlate ai prodotti. In tal modo si crea una installazione pulita, senza prodotti.';
+$_['rename_expl']      = 'Usa solo caratteri minuscoli dell\' alfabeto inglese, lo underscore, l\'apostrofo ed  i numeri, senza usare spazi. La lunghezza del nuovo nome deve essere compresa tra 6 e 14 caratteri!';
 ?>

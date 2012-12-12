@@ -12,5 +12,4 @@ $_['button_login']        = 'Login';
 
 // Error
 $_['error_login']         = 'No match for Username and/or Password.';
-$_['error_attempts']      = '* Maximum login Attempts * You must restart your browser to attempt login again!';
 ?>

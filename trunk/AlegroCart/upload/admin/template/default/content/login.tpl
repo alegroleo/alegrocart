@@ -5,9 +5,6 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<?php if ($error_attempts){ ?>
-<div class="warning"><?php echo $error_attempts; ?></div>
-<?php } ?>
 <table cellspacing="5" cellpadding="6" id="login">
   <tr>
     <td><img src="template/<?php echo $this->directory?>/image/login.png" alt="<?php echo $button_login; ?>"></td>

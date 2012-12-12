@@ -51,7 +51,7 @@ else {
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title><?php echo $language->get('heading_title')?></title>
-	<link rel="stylesheet" type="text/css" href="styles/style.css">
+	<link rel="stylesheet" type="text/css" href="../image/install/style.css">
 	<!--[if !IE 7]>
 		  <style type="text/css">
 			  #wrap {display:table;height:100%}
@@ -62,12 +62,12 @@ else {
 	<div id="wrap">
 	<div id="header">
 	    <div class="header_content">
-	    <img src="image/aclogo.png" alt="AlegroCart open source E-commerce"/> 
+	    <img src="../image/install/aclogo.png" alt="AlegroCart open source E-commerce"/> 
 	    <div class="language">
 	    <?php foreach ($languages as $value) { ?>
 	    <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST" enctype="multipart/form-data">
 	    <div>
-	    <input type="image" src="./image/<?php echo $value; ?>.png" alt="<?php echo $value; ?>">
+	    <input type="image" src="../image/install/<?php echo $value; ?>.png" alt="<?php echo $value; ?>">
 	    <input type="hidden" name="language" value="<?php echo $value; ?>">
 	    <?php if (isset($_POST['db_host'])) { ?>
 		  <input type="hidden" name="db_host" value="<?php echo $_POST['db_host']; ?>"><?php } ?>
@@ -80,7 +80,7 @@ else {
 	    </div>
 	    </form>
 	    <?php } ?>
-	    </div>	
+	    </div>
 	</div>	
 	</div>
 	<div id="header_bottom">
@@ -90,7 +90,7 @@ else {
 	    </div>
 	  </div>
 	</div>
-	<div id="container">		
+	<div id="container">
 	<div id="content">
 	<?php
 	if (empty($errors)) {
@@ -100,13 +100,14 @@ else {
 		$str=file_get_contents($newfile);
 		if($handle = fopen($file, 'w')) {
 			$reps=array(
+				'DIR_BASE' => addslashes(DIR_BASE),
+				'HTTP_BASE' => HTTP_BASE,
 				'DB_HOST' => DB_HOST,
 				'DB_USER' => DB_USER,
 				'DB_PASSWORD' => DB_PASSWORD,
 				'DB_NAME' => DB_NAME,
-				'DIR_BASE' => addslashes(DIR_BASE),
-				'HTTP_BASE' => HTTP_BASE,
-				'HTTPS_BASE' => HTTPS_SERVER
+				'HTTPS_BASE' => HTTPS_SERVER,
+				'PATH_ADMIN' => PATH_ADMIN
 			);
 
 			foreach ($reps as $key => $val) {
@@ -147,7 +148,6 @@ else {
 		$file = DIR_BASE.'config.php';
 		@chmod($file, 0644);
 	?>
-		  <div class="warning"><?php echo $language->get('del_inst')?></div>
 		  <?php if(is_writable($file)) { ?>
 			<div class="warning"><?php echo $language->get('config')?></div>
 		  <?php }?>
@@ -155,18 +155,57 @@ else {
 	<?php } ?>
 		</div><!--div/content-->
 		<div id="buttons">
-		<form>
-		  <input type="button" value="<?php echo $language->get('shop')?>" class="button" onclick="location='<?php echo HTTP_CATALOG; ?>';">
-		  <input type="button" value="<?php echo $language->get('admin')?>" class="button" onclick="location='<?php echo HTTP_ADMIN; ?>';">
-		</form>
-		</div>	
+		<div class="left">
+		<a onclick="location='<?php echo HTTP_CATALOG; ?>';" >
+		<img src="../image/install/Shopping_Cart.png" alt="<?php echo $language->get('shop')?>" title="<?php echo $language->get('shop')?>">
+		</a>
+		<p class="a"><?php echo HTTP_CATALOG; ?></p>
+		</div>
+		<div class="right">
+		<a onclick="location='<?php echo HTTP_BASE.PATH_ADMIN; ?>';">
+		<img src="../image/install/Admin.png" alt="<?php echo $language->get('admin')?>" title="<?php echo $language->get('admin')?>">
+		</a>
+		<p class="a"><?php echo HTTP_BASE.PATH_ADMIN; ?></p>
+		</div>
+		</div>
 	   </div><!--div/container-->
 	   </div>
 		 <div id="footer">
-		    <ul>			
+		    <ul>
 			<li><a href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
 			<li><a href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
 		    </ul>
 	     </div>
 	</body>
 </html>
+<?php
+$dir = '..' . DIRECTORY_SEPARATOR. 'install';
+getFiles($dir);
+
+arsort($directories);
+foreach($installfiles as $installfile){
+	unlink($installfile);
+}
+foreach($directories as $directory){
+	rmdir($directory);
+}
+rmdir($dir);
+
+function getFiles($dir){
+	$directories = array();
+	global $directories;
+	$installfiles = array();
+	global $installfiles;
+	$sdir = scandir($dir);
+	foreach($sdir as $key => $value){
+		if (!in_array($value,array(".",".."))){
+			if (is_dir($dir . DIRECTORY_SEPARATOR . $value)){
+			$directories[] = $dir . DIRECTORY_SEPARATOR . $value;
+			getFiles($dir . DIRECTORY_SEPARATOR . $value);
+			} else {
+			$installfiles[] = $dir . DIRECTORY_SEPARATOR . $value;
+			}
+		}
+	}
+}
+?>

@@ -8,5 +8,5 @@ define('DB_NAME', '');
 define('DIR_BASE', '');
 define('HTTP_BASE', '');
 define('HTTPS_BASE', '');
-
+define('PATH_ADMIN', '');
 ?>

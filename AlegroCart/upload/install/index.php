@@ -10,7 +10,8 @@ define('DB_NAME', '');
 define('DIR_BASE', getbasepath());
 define('HTTP_BASE', getbaseurl());
 define('HTTPS_BASE', '');
-define('UPLOAD', 'install/upload.txt');
+define('UPLOADC', 'install/upload_common.txt');
+define('UPLOADA', 'install/upload_admin.txt');
 require('../common.php');
 
 $errors = array();
@@ -29,15 +30,15 @@ $languages=$language->langs;
 $step=(isset($_REQUEST['step']))?$_REQUEST['step']:1;
 if (filesize('../config.php') > 0) { $step=3; }
 
-if (file_exists(DIR_BASE.UPLOAD)) {
+if (file_exists(DIR_BASE.UPLOADC)) {
 $lines=array();
-$lines = file(DIR_BASE.UPLOAD);
+$lines = file(DIR_BASE.UPLOADC);
 foreach ($lines as $line) {
 $line=DIR_BASE.(substr(trim($line),2));
 	if (!file_exists($line)) { $errors[]=$language->get('error_not_found',$line);}
 }
 } else {  
-$errors[]= DIR_BASE.UPLOAD.$language->get('error_not_found'); 
+$errors[]= DIR_BASE.UPLOADC.$language->get('error_not_found'); 
 }
 
 $files=array('image'.D_S, 'image'.D_S.'cache'.D_S, 'image'.D_S.'flash'.D_S, 'image'.D_S.'mask'.D_S, 'image'.D_S.'barcode'.D_S, 'image'.D_S.'watermark'.D_S ,'download'.D_S);
@@ -94,7 +95,7 @@ foreach ($files as $file) {
 	<head>
 	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	  <title><?php echo $language->get('heading_title')?></title>
-	  <link rel="stylesheet" type="text/css" href="styles/style.css">
+	  <link rel="stylesheet" type="text/css" href="../image/install/style.css">
 	  <!--[if !IE 7]>
 		  <style type="text/css">
 			  #wrap {display:table;height:100%}
@@ -105,12 +106,12 @@ foreach ($files as $file) {
 	<div id="wrap">
 	<div id="header">
 	    <div class="header_content">
-	    <img src="image/aclogo.png" alt="AlegroCart open source E-commerce"/>
+	    <img src="../image/install/aclogo.png" alt="AlegroCart open source E-commerce"/>
 	    <div class="language">
 	      <?php foreach ($languages as $value) { ?>
 		<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST" enctype="multipart/form-data">
 		<div>
-		<input type="image" src="./image/<?php echo $value; ?>.png" alt="<?php echo $value; ?>" title="<?php echo $value; ?>">
+		<input type="image" src="../image/install/<?php echo $value; ?>.png" alt="<?php echo $value; ?>" title="<?php echo $value; ?>">
 		<input type="hidden" name="language" value="<?php echo $value; ?>">
 		<input type="hidden" name="step" value="<?php echo $step; ?>">
 		<?php if (isset($_POST['db_host'])) { ?>
@@ -127,6 +128,10 @@ foreach ($files as $file) {
 		      <input type="hidden" name="username" value="<?php echo $_POST['username']; ?>"><?php } ?>
 		<?php if (isset($_POST['password'])) { ?>
 		      <input type="hidden" name="password" value="<?php echo $_POST['password']; ?>"><?php } ?>
+		<?php if (isset($_POST['new_admin_name'])) { ?>
+		      <input type="hidden" name="new_admin_name" value="<?php echo $_POST['new_admin_name']; ?>"><?php } ?>
+		<?php if (isset($_POST['root_dirs'])) { ?>
+		      <input type="hidden" name="root_dirs" value="<?php echo $_POST['root_dirs']; ?>"><?php } ?>
 		</div>
 		</form>
 	      <?php } ?>

@@ -23,10 +23,17 @@ $_['error_dbname']     = 'Nama Database diperlukan';
 $_['error_dbconnect']  = 'Tidak dapat terhubung ke server database menggunakan username dan password yang diberikan.';
 $_['error_dbperm']     = 'Database tidak dapat diakses. Periksa apakah Anda memiliki hak akses, dan tersedia di server.';
 $_['error_sql']        = 'Berkas Installasi SQL %s tidak dapat ditemukan.';
+$_['error_new_admin_name']= 'New name for the admin directory is required!';
 $_['error_admin_uname']= 'Username admin diperlukan';
 $_['error_admin_passw']= 'Password admin diperlukan';
 $_['error_write']      = 'Tidak dapat menulis ke berkas %s.';
 $_['error_open']       = 'Tidak dapat membuka berkas %s untuk ditulis.';
+$_['error_rename']     = 'The admin directory cannot be renamed. Rename it manually e.g. via FTP connection then reload this page.';
+$_['error_alphanumeric']= 'Use only the lower case letters of the English alphabet, the underscore, the hyphen and the numbers, without space,';
+$_['error_length']     = 'The new name must be greater than 5 and less than 15 characters!';
+$_['error_restricted'] = 'The \'%s\' is not permitted name.';
+$_['error_dir']        = 'Error in the directory structure.';
+$_['error_post']       = 'The given directory name doesn\'t match the renamed one.';
 
 // Text
 $_['ac']               = 'AlegroCart Depan';
@@ -38,11 +45,12 @@ $_['dbuser']           = 'Username Database:';
 $_['dbpassw']          = 'Database Password:';
 $_['dbname']           = 'Nama Database:';
 $_['continue']         = 'Lanjutkan';
+$_['rename']           = 'To hide your administration directory from malicious activity, please enter new name for the main admin directory. This directory name must differ from \'admin\' or \'administration\' because those are not permitted under the new security structure. The uploaded admin directory will be changed to this new name and this directory will contain all your admin files.';
+$_['new_admin']        = 'New name for the admin directory:';
 $_['admin_details']    = 'Silakan masukkan username dan password untuk administrasi';
 $_['uname']            = 'Nama pengguna:';
 $_['passw']            = 'Sandi:';
 $_['success']          = '%s telah berhasil diperbarui.';
-$_['del_inst']         = 'Anda HARUS menghapus direktori installasi ini!';
 $_['config']           = 'Buatlah \'config.php\' tidak dapat diubah (chmod go-w atau chmod 644).';
 $_['htaccess']         = 'Buatlah \'.htaccess\' tidak dapat diubah (chmod go-w atau chmod 644).';
 $_['congrat']          = 'Selamat! Anda telah berhasil memasang AlegroCart.';
@@ -54,4 +62,5 @@ $_['default_install']  = 'Installasi Standar';
 $_['clean_install']    = 'Installasi \'Bersih\'';
 $_['default_expl']     = 'Ini juga akan memasang contoh produk, kategori, pabrikan, gambar, tinjauan dll. Ini untuk menguji AlegroCart';
 $_['clean_expl']       = 'Ini kan menghapus setiap produk dan data yang berkaitan. Ini untuk membuat installasi bersih tanpa produk.';
+$_['rename_expl']      = 'Use only the lower case letters of the English alphabet, the underscore, the hyphen and the numbers, without space. The new name must be greater than 5 and less than 15 characters!';
 ?>

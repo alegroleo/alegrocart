@@ -1,9 +1,9 @@
 <?php //Admin Login AlegroCart
 class ControllerLogin extends Controller { 
 	var $error = array();
-	
+
 	function __construct(&$locator){
-		$this->locator 		=& $locator;
+		$this->locator 	=& $locator;
 		$this->language =& $locator->get('language');
 		$this->module   =& $locator->get('module');
 		$this->request  =& $locator->get('request');
@@ -15,7 +15,7 @@ class ControllerLogin extends Controller {
 		
 		$this->language->load('controller/login.php');
 	}
-	
+
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -36,26 +36,22 @@ class ControllerLogin extends Controller {
 				$this->response->redirect($this->url->referer($this->url->ssl($controller))); 
 			}
 		}
-	
-    	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+	$view = $this->locator->create('template');
 
-    	$view->set('entry_username', $this->language->get('entry_username'));
-    	$view->set('entry_password', $this->language->get('entry_password'));
+	$view->set('heading_title', $this->language->get('heading_title'));
+	$view->set('heading_description', $this->language->get('heading_description'));
 
-    	$view->set('button_login', $this->language->get('button_login'));
-		
+	$view->set('entry_username', $this->language->get('entry_username'));
+	$view->set('entry_password', $this->language->get('entry_password'));
+
+	$view->set('button_login', $this->language->get('button_login'));
+
 		$view->set('error', @$this->error['message']);
-		$view->set('error_attempts', @$this->error_attempts);
 		$view->set('message', $this->session->get('message'));
- 
+
 		$view->set('action', $this->url->requested($this->url->ssl('home')));
-		
-		$attemps = $this->session->get('attemps');
-		$attemps ++;
-		$this->session->set('attemps',$attemps);
+
 		$rand = mt_rand();
 		$this->session->set('cdx',md5($rand));
 		$view->set('cdx', $this->session->get('cdx'));
@@ -63,46 +59,30 @@ class ControllerLogin extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 
 		$view->set('username', $this->request->sanitize('username', 'post'));
-    
+
 		$this->template->set('content', $view->fetch('content/login.tpl'));
 
 		$this->template->set($this->module->fetch());
-			 
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-	
+
+	$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
 	function validate() {
-		if($this->session->get('attemps')>5){
-			if($this->session->get('attemps')>6){
-				$this->response->redirect(HTTP_CATALOG);
-			}
-			$this->error_attempts = $this->language->get('error_attempts');
-		}
-		
-		if(($this->session->get('validation') == $this->request->sanitize($this->session->get('cdx'),'post')) && (strlen($this->session->get('validation')) > 10)){
-			if (!$this->user->login($this->request->sanitize('username', 'post'), $this->request->sanitize('password', 'post'))) {
+
+		if (!$this->user->login($this->request->sanitize('username', 'post'), $this->request->sanitize('password', 'post'))) {
 				$this->error['message'] = $this->language->get('error_login');
-			} else {
-				$this->session->delete('attemps');
-			}
-		} else {
-			$this->error['message'] = $this->language->get('error_referer');
-		}
-		
-		$this->session->delete('cdx');
-		$this->session->delete('validation');
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	
+
 	function isLogged() {
 		if (!$this->user->isLogged()) {
 			return $this->forward('login', 'index');
 		}
 	}
-	
-}  
+
+}
 ?>

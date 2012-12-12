@@ -4,8 +4,47 @@ if (!$step) { header('Location: .'); die(); }
 
 if (filesize('../config.php') == 0) { //install is already done...
 
+$length = function_exists('mb_strlen')?mb_strlen($_POST['new_admin_name'],'UTF-8'):strlen($_POST['new_admin_name']);
+$restricted = array('admin','administration');
+$existing = array('cache','library', 'logs','catalog','image','download','install');
+
 if (empty($_POST['username'])) { $errors[] = $language->get('error_admin_uname'); }
 if (empty($_POST['password'])) { $errors[] = $language->get('error_admin_passw'); }
+
+if (empty($_POST['new_admin_name'])) {
+$errors[] = $language->get('error_new_admin_name');
+}
+elseif ($length<5 || $length>15) {
+	$errors[] = $language->get('error_length'); 
+}
+elseif (in_array($_POST['new_admin_name'], $restricted) || in_array($_POST['new_admin_name'], $existing)) {
+	$errors[] = $language->get('error_restricted', $_POST['new_admin_name']); 
+}
+elseif (!preg_match('/^[a-z0-9_\-]+$/', $_POST['new_admin_name'])) {
+	$errors[] = $language->get('error_alphanumeric'); 
+} else {
+	if ($_POST['root_dirs']=='admin'){
+	//not renamed yet, let us rename it
+		if (!$renamed=rename(DIR_BASE.'admin', DIR_BASE.$_POST['new_admin_name'])) {
+		$errors[] = $language->get('error_rename'); 
+		}
+		if (file_exists(DIR_BASE.UPLOADA)) {
+		$lines=array();
+		$lines = file(DIR_BASE.UPLOADA);
+		foreach ($lines as $line) {
+		$line=DIR_BASE.$_POST['new_admin_name'].(substr(trim($line),1));
+			if (!file_exists($line)) { $errors[]=$language->get('error_not_found',$line);}
+		}
+		} else {
+		$errors[]= DIR_BASE.UPLOADA.$language->get('error_not_found'); 
+		}
+	} else {
+		//already renamed manually?
+		if ($_POST['root_dirs']!==$_POST['new_admin_name']){
+			$errors[] = $language->get('error_post'); 
+		}
+	}
+}
 
 if (!$errors) {
 		//replace existing config with new one
@@ -19,7 +58,8 @@ if (!$errors) {
 				'DB_HOST' => isset($_POST['db_host'])?$_POST['db_host']:'',
 				'DB_USER' => isset($_POST['db_user'])?$_POST['db_user']:'',
 				'DB_PASSWORD' => isset($_POST['db_pass'])?$_POST['db_pass']:'',
-				'DB_NAME' => isset($_POST['db_name'])?$_POST['db_name']:''
+				'DB_NAME' => isset($_POST['db_name'])?$_POST['db_name']:'',
+				'PATH_ADMIN' => isset($_POST['new_admin_name'])?$_POST['new_admin_name']:''
 			);
 			foreach ($reps as $key => $val) {
 				$str=preg_replace("/($key', ')(.*?)(')/", '${1}'.addslashes($val).'$3', $str);
@@ -175,7 +215,6 @@ $file2 = DIR_BASE.'.htaccess';
 ?>
 
 <div id="content">
-  <div class="warning"><?php echo $language->get('del_inst')?></div>
   <?php if(is_writable($file)) { ?>
 	<div class="warning"><?php echo $language->get('config')?></div>
         <div class="warning"><?php echo $language->get('htaccess')?></div>
@@ -183,9 +222,49 @@ $file2 = DIR_BASE.'.htaccess';
   <p class="a"><?php echo $language->get('congrat')?></p>
 </div>
 <div id="buttons">
-<form>
-	<input type="button" value="<?php echo $language->get('shop')?>" class="button" onclick="location='<?php echo HTTP_CATALOG; ?>';">
-	<input type="button" value="<?php echo $language->get('admin')?>" class="button" onclick="location='<?php echo HTTP_ADMIN; ?>';">
-</form>
+<div class="left">
+<a onclick="location='<?php echo HTTP_CATALOG; ?>';" >
+<img src="../image/install/Shopping_Cart.png" alt="<?php echo $language->get('shop')?>" title="<?php echo $language->get('shop')?>">
+</a>
+<p class="a"><?php echo HTTP_CATALOG; ?></p>
+</div>
+<div class="right">
+<a onclick="location='<?php echo HTTP_BASE.$_POST['new_admin_name']; ?>';">
+<img src="../image/install/Admin.png" alt="<?php echo $language->get('admin')?>" title="<?php echo $language->get('admin')?>">
+</a>
+<p class="a"><?php echo HTTP_BASE.$_POST['new_admin_name']; ?></p>
+</div>
 </div>
 <?php } ?>
+
+<?php
+$dir = '..' . DIRECTORY_SEPARATOR. 'install';
+getFiles($dir);
+
+arsort($directories);
+foreach($installfiles as $installfile){
+	unlink($installfile);
+}
+foreach($directories as $directory){
+	rmdir($directory);
+}
+rmdir($dir);
+
+function getFiles($dir){
+	$directories = array();
+	global $directories;
+	$installfiles = array();
+	global $installfiles;
+	$sdir = scandir($dir);
+	foreach($sdir as $key => $value){
+		if (!in_array($value,array(".",".."))){
+			if (is_dir($dir . DIRECTORY_SEPARATOR . $value)){
+			$directories[] = $dir . DIRECTORY_SEPARATOR . $value;
+			getFiles($dir . DIRECTORY_SEPARATOR . $value);
+			} else {
+			$installfiles[] = $dir . DIRECTORY_SEPARATOR . $value;
+			}
+		}
+	}
+}
+?>

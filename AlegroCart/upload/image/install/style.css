@@ -98,6 +98,9 @@ h1 {
 	-khtml-border-radius: 2px;
 	width: 190px;
 }
+#content input[readonly] {
+	background-color: #DDDDDD;
+}
 #content table {
 	padding: 20px;
 	background-color: #FFFFFF;
@@ -185,6 +188,7 @@ h1 {
 	color: #FFFFFF;
 	font-weight: bold;
 	height: 25px;
+	cursor: pointer;
 	border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
@@ -197,6 +201,24 @@ h1 {
 #buttons {
 	text-align: center;
 	padding: 5px;
+}
+#buttons img {
+	border: 1px solid #015666;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+}
+#buttons img:hover {
+	cursor: pointer;
+}
+.right {
+	float: right;
+	padding-right: 30px;
+}
+.left {
+	float: left;
+	padding-left: 30px;
 }
 .b {
 	color: #A61000;

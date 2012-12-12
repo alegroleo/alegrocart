@@ -5,7 +5,7 @@ class Url {
 	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
-		if ($this->config->get('config_url_alias') && (!preg_match('#/admin/#i',$_SERVER['PHP_SELF']))) {
+		if ($this->config->get('config_url_alias') && (!preg_match('#/' . PATH_ADMIN . '/#i',$_SERVER['PHP_SELF']))) {
 	  		$results = $this->database->cache('url', "select * from url_alias");
 	
 	  		foreach ($results as $result) {
@@ -90,7 +90,7 @@ class Url {
 	}
 
 	function Remaster($link) {
-		if ((!preg_match('#/admin/#i',$_SERVER['PHP_SELF'])) && ($this->config->get('config_url_alias'))) {
+		if ((!preg_match('#/' . PATH_ADMIN . '/#i',$_SERVER['PHP_SELF'])) && ($this->config->get('config_url_alias'))) {
 			$query_string=parse_url($link,PHP_URL_QUERY); //get query string
 			$link=str_replace('?'.$query_string,'',$link); //strip query string
 			$query_string=str_replace('controller=','',$query_string); //first one is the controller

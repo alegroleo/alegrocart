@@ -208,18 +208,22 @@ if ($errors && $step == 3) {
 		}
 	}
 
-$file = DIR_BASE.'config.php';
-$file2 = DIR_BASE.'.htaccess';
-@chmod($file, 0644);
-@chmod($file2, 0644);
+@chmod(DIR_BASE.'config.php', 0644);
+@chmod(DIR_BASE.'.htaccess', 0644);
 ?>
 
 <div id="content">
-  <?php if(is_writable($file)) { ?>
-	<div class="warning"><?php echo $language->get('config')?></div>
-        <div class="warning"><?php echo $language->get('htaccess')?></div>
- <?php }?>
-  <p class="a"><?php echo $language->get('congrat')?></p>
+<?php if (strtolower(substr(PHP_OS, 0, 5)) == "linux") {
+
+if (substr(decoct(fileperms(DIR_BASE . 'config.php')), 3) != 644) { ?>
+		<div class="warning"><?php echo $language->get('config')?></div>
+	<?php }
+
+if (substr(decoct(fileperms(DIR_BASE . '.htaccess')), 3) != 644) { ?>
+		<div class="warning"><?php echo $language->get('htaccess')?></div>
+	<?php }
+}?>
+<p class="a"><?php echo $language->get('congrat')?></p>
 </div>
 <div id="buttons">
 <div class="left">

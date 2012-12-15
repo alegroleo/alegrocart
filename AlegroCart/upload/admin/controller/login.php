@@ -71,6 +71,7 @@ class ControllerLogin extends Controller {
 
 		if (!$this->user->login($this->request->sanitize('username', 'post'), $this->request->sanitize('password', 'post'))) {
 				$this->error['message'] = $this->language->get('error_login');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {

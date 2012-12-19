@@ -164,6 +164,8 @@
 ./gbase_rss.php
 ./install/structure.sql
 ./install/upgrade.php
+./install/upgrade_step1.php
+./install/upgrade_step2.php
 ./install/language/hu.php
 ./install/language/it.php
 ./install/language/es.php

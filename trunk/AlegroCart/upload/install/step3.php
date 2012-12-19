@@ -208,51 +208,51 @@ if ($errors && $step == 3) {
 		}
 	}
 
-@chmod(DIR_BASE.'config.php', 0644);
-@chmod(DIR_BASE.'.htaccess', 0644);
-?>
+	@chmod(DIR_BASE.'config.php', 0644);
+	@chmod(DIR_BASE.'.htaccess', 0644);
+	?>
 
-<div id="content">
-<?php if (strtolower(substr(PHP_OS, 0, 5)) == "linux") {
+	<div id="content">
+	<?php if (strtolower(substr(PHP_OS, 0, 5)) == "linux") {
 
-if (substr(decoct(fileperms(DIR_BASE . 'config.php')), 3) != 644) { ?>
-		<div class="warning"><?php echo $language->get('config')?></div>
-	<?php }
+	if (substr(decoct(fileperms(DIR_BASE . 'config.php')), 3) != 644) { ?>
+			<div class="warning"><?php echo $language->get('config')?></div>
+		<?php }
 
-if (substr(decoct(fileperms(DIR_BASE . '.htaccess')), 3) != 644) { ?>
-		<div class="warning"><?php echo $language->get('htaccess')?></div>
-	<?php }
-}?>
-<p class="a"><?php echo $language->get('congrat')?></p>
-</div>
-<div id="buttons">
-<div class="left">
-<a onclick="location='<?php echo HTTP_CATALOG; ?>';" >
-<img src="../image/install/Shopping_Cart.png" alt="<?php echo $language->get('shop')?>" title="<?php echo $language->get('shop')?>">
-</a>
-<p class="a"><?php echo HTTP_CATALOG; ?></p>
-</div>
-<div class="right">
-<a onclick="location='<?php echo HTTP_BASE.$_POST['new_admin_name']; ?>';">
-<img src="../image/install/Admin.png" alt="<?php echo $language->get('admin')?>" title="<?php echo $language->get('admin')?>">
-</a>
-<p class="a"><?php echo HTTP_BASE.$_POST['new_admin_name']; ?></p>
-</div>
-</div>
-<?php } ?>
+	if (substr(decoct(fileperms(DIR_BASE . '.htaccess')), 3) != 644) { ?>
+			<div class="warning"><?php echo $language->get('htaccess')?></div>
+		<?php }
+	}?>
+	<p class="a"><?php echo $language->get('congrat')?></p>
+	</div>
+	<div id="buttons">
+	<div class="left">
+	<a onclick="location='<?php echo HTTP_CATALOG; ?>';" >
+	<img src="../image/install/Shopping_Cart.png" alt="<?php echo $language->get('shop')?>" title="<?php echo $language->get('shop')?>">
+	</a>
+	<p class="a"><?php echo HTTP_CATALOG; ?></p>
+	</div>
+	<div class="right">
+	<a onclick="location='<?php echo HTTP_BASE.$_POST['new_admin_name']; ?>';">
+	<img src="../image/install/Admin.png" alt="<?php echo $language->get('admin')?>" title="<?php echo $language->get('admin')?>">
+	</a>
+	<p class="a"><?php echo HTTP_BASE.$_POST['new_admin_name']; ?></p>
+	</div>
+	</div>
 
-<?php
-$dir = '..' . DIRECTORY_SEPARATOR. 'install';
-getFiles($dir);
+	<?php
+	$dir = '..' . DIRECTORY_SEPARATOR. 'install';
+	getFiles($dir);
 
-arsort($directories);
-foreach($installfiles as $installfile){
-	unlink($installfile);
+	arsort($directories);
+	foreach($installfiles as $installfile){
+		unlink($installfile);
+	}
+	foreach($directories as $directory){
+		rmdir($directory);
+	}
+	rmdir($dir);
 }
-foreach($directories as $directory){
-	rmdir($directory);
-}
-rmdir($dir);
 
 function getFiles($dir){
 	$directories = array();

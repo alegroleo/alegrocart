@@ -1,6 +1,6 @@
 <?php
 if(!defined('VALID_ACCESS')){ header('Location: index.php');exit('Forbidden Path');}
-define('CONFIG_VERSION', '1.2.7');
+define('CONFIG_VERSION', '1.2.8');
 define('DB_HOST', '');
 define('DB_USER', '');
 define('DB_PASSWORD', '');

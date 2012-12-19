@@ -1,5 +1,5 @@
 #Version Setting
-SET @ver='1.2.7';
+SET @ver='1.2.8';
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `type` = 'global' and `group` = 'version' and `key` = 'version';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'version', 'version', @ver) ON DUPLICATE KEY UPDATE value=@ver;
@@ -1348,3 +1348,5 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'options_model';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'options_model', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+# Version 1.2.8

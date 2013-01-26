@@ -91,7 +91,7 @@
 	position: absolute;
 	top: 21px;
 	margin: 0px 0px 0px 0px;
-	min-width: 184px;
+	min-width: 200px;
 	background-color:	#0099FF;
 	border-top: 1px dotted #EEEEEE;
 }
@@ -99,14 +99,14 @@
 	position: absolute;
 	left: 100%;
 	top: -1px;
-	min-width: 184px;
+	min-width: 200px;
 	padding: 0px;
 	background-color: #0099FF;
 	border-top: 1px dotted #EEEEEE;
 }
 #myMenuID .menu .menu_lvl_1, #myMenuID .menu .menu_lvl_2{
 	background: none repeat scroll 0 0 transparent;
-	min-width: 174px;
+	min-width: 190px;
 }
 #myMenuID a {
 	color: #FFFFFF; /* Font Color*/

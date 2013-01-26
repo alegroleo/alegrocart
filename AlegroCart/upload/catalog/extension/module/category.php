@@ -12,7 +12,7 @@ class ModuleCategory extends Controller
 		$request  =& $this->locator->get('request');
 		$template =& $this->locator->get('template');       
 		$head_def =& $this->locator->get('HeaderDefinition'); 
-		$this->modelCore = $this->model->get('model_core'); 
+		$this->modelCore = $this->model->get('model_core');
 		if ($config->get('category_status'))
 		{
 			$language->load('extension/module/category.php');
@@ -54,7 +54,9 @@ class ModuleCategory extends Controller
 					} else {
 						$state = '';
 					}
-				
+
+				$products_in_category = $config->get('category_count') ? $this->modelCore->getPrInCat($result['category_id']): 0;
+
 				if ($class) {
 					$category_data[$result['category_id']] = array(
 						'state'  => $state,
@@ -65,6 +67,7 @@ class ModuleCategory extends Controller
 						'level'  => ($path_count-1),
 						'status' => $status,
 						'sort_order' => (int)$result['sort_order'],
+						'products_in_category' => $products_in_category
 					);
 					$list_data[] = $result['path'];
 				}

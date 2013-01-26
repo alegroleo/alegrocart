@@ -15,14 +15,14 @@
 		if($categories[$key+1]['level'] > $level){
 		  $output .= "\t".'<li class="'. $category['status'].'">';
 		  $output .= '<a class="'. $category['class'].$category['state'] . '" href="' . $category['href'] . '">';
-		  $output .= $category['name'] . '<img src="catalog/styles/' . $this->style . '/image/arrow.png"></a>' . "\n";
+		  $output .= $category['name'] . ($category['products_in_category'] != 0 ? ' (' . $category['products_in_category'].')':'').'<img src="catalog/styles/' . $this->style . '/image/arrow.png"></a>' . "\n";
 		  $ul = ($categories[$key+1]['status'] == 'enabled') ? '<ul style="display:'.$categories[$key+1]['type'].'">': '<ul class="menu" style="display:'.$categories[$key+1]['type'].'">';
 		  $output .= $ul . "\n";
 		  $level++;
 		} else if($categories[$key+1]['level'] < $level){
 		  $output .= "\t".'<li class="'. $category['status'] . '">';
 		  $output .= '<a class="'. $category['class'].$category['state'] . '" href="' . $category['href'] . '">';
-		  $output .= $category['name'] . '</a></li>' . "\n";
+		  $output .= $category['name'] . ($category['products_in_category'] != 0 ? ' (' . $category['products_in_category'].')':'').'</a></li>' . "\n";
 		  while ($categories[$key+1]['level'] < $level){
 		    $output .= '</ul></li>'. "\n";
 			$level--;
@@ -30,12 +30,12 @@
 		} else{
 		  $output .= "\t".'<li class="'. $category['status'] . '">';
 		  $output .= '<a class="'. $category['class'].$category['state'] . '" href="' . $category['href'] . '">';
-		  $output .= $category['name'] . '</a></li>' . "\n";
+		  $output .= $category['name'] . ($category['products_in_category'] != 0 ? ' (' . $category['products_in_category'].')':'').'</a></li>' . "\n";
 		}
 	  } else {
 		$output .= "\t".'<li class="'. $category['status'] . '">';
 		$output .= '<a class="'. $category['class'].$category['state'] . '" href="' . $category['href'] . '">';
-		$output .= $category['name'] . '</a></li>' . "\n";
+		$output .= $category['name'] . ($category['products_in_category'] != 0 ? ' (' . $category['products_in_category'].')':'').'</a></li>' . "\n";
 	  }
 	}
 	while ($level >0){

@@ -28,7 +28,7 @@
   $head_def->set_MetaKeywords("products, manufacturer, brands");
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
 ?>
-<?php if ((isset($products) && $columns == 1) || (isset($products) && $display_options == FALSE) || ($tpl_columns == 2)) { ?>
+<?php if ((isset($products) && $columns == 1) || (isset($products) && $display_options == FALSE) || (isset($products) && $tpl_columns == 2)) { ?>
  <div class="headingbody"><?php echo $heading_title." - ". $manufacturer; ?></div>
  <div class="contentBody">
   <div class="manufacturer_filter">	

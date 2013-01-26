@@ -236,5 +236,9 @@ class Model_Core extends Model {
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
 	}
+	function getPrInCat($category_id){
+		$result = $this->database->countRows("select p2c.product_id from product_to_category p2c inner join category c on c.category_id = p2c.category_id and (c.path = '" . $category_id . "' or c.path like '" . $category_id . "\_%' or c.path like '%\_" . $category_id . "' or c.path like '%\_" . $category_id . "\_%') inner join product p on p.product_id = p2c.product_id where p.status = '1'");
+		return $result;
+	}
 }
 ?>

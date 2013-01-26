@@ -330,7 +330,7 @@ class ControllerSetting extends Controller {
 				$mr_status = 0;
 			}
 		}
-		$view->set('mr_status', $mr_status);
+		$view->set('mr_status', @$mr_status);
 
 		$results = $this->modelSetting->get_settings();
 		foreach ($results as $result) {

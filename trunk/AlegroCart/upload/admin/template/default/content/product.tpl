@@ -190,6 +190,7 @@
             <tr>
               <td class="set"><?php echo $entry_tax_class; ?></td>
               <td><select name="tax_class_id">
+		  <option value="0" selected><?php echo $text_none; ?></option>
                   <?php foreach ($tax_classes as $tax_class) { ?>
                   <?php if ($tax_class['tax_class_id'] == $tax_class_id) { ?>
                   <option value="<?php echo $tax_class['tax_class_id']; ?>" selected><?php echo $tax_class['title']; ?></option>
@@ -197,7 +198,6 @@
                   <option value="<?php echo $tax_class['tax_class_id']; ?>"><?php echo $tax_class['title']; ?></option>
                   <?php } ?>
                   <?php } ?>
-				  <option value="0"><?php echo $text_none; ?></option>
                 </select></td>
             </tr>
             <tr>

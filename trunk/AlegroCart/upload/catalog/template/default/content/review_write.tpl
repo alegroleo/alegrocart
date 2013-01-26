@@ -20,7 +20,12 @@
   <div class="warning"><?php echo $error; ?></div>
   <?php } ?>
   <div id="review_write">
-    <div class="a"><a href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" class="thickbox"><img src="<?php echo $thumb; ?>" title="<?php echo $product; ?>" alt="<?php echo $product; ?>"><div class="enlarge"><?php echo $text_enlarge; ?></div></a></div>
+	<div class="a">
+	<a href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" class="thickbox">
+	<img src="<?php echo $thumb; ?>" title="<?php echo $product; ?>" alt="<?php echo $product; ?>"></a>
+	<div class="enlarge"><a class="thickbox" href="<?php echo $popup; ?>"><?php echo $text_enlarge; ?></a></div>
+	</a>
+	</div>
     <div class="b"><b><?php echo $text_author; ?></b> <?php echo $author; ?><br>
       <br>
       <b><?php echo $entry_review; ?></b></div>

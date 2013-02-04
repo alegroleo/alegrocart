@@ -97,12 +97,13 @@ class ControllerCategory extends Controller {
 
         		$category_data = array();
                 $results = $this->modelCategory->get_categories($request->gethtml('path'));
-				
+
         		foreach ($results as $result) {
           			$category_data[] = array(
             			'name'  => $result['name'],
             			'href'  => $url->href('category', FALSE, array('path' => ($request->gethtml('path')) ? $request->gethtml('path').'_'.$result['category_id'] : $result['category_id'])),
-                        'thumb' => (isset($result['filename']) && file_exists(DIR_IMAGE.$result['filename'])) ? $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')) : NULL
+                        'thumb' => (isset($result['filename']) && file_exists(DIR_IMAGE.$result['filename'])) ? $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')) : NULL,
+				'products_in_category' => $this->config->get('category_pcount') ? $this->modelCore->getPrInCat($result['category_id']) : 0
           			);
         		}
 

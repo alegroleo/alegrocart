@@ -850,7 +850,6 @@
 ./template/default/image/language/ir.png
 ./template/default/image/language/li.png
 ./template/default/image/language/cl.png
-./template/default/image/language/cs.png
 ./template/default/image/language/tf.png
 ./template/default/image/language/bh.png
 ./template/default/image/language/gb.png
@@ -870,7 +869,6 @@
 ./template/default/image/language/sm.png
 ./template/default/image/language/tn.png
 ./template/default/image/language/td.png
-./template/default/image/language/fam.png
 ./template/default/image/language/vu.png
 ./template/default/image/language/fm.png
 ./template/default/image/language/an.png

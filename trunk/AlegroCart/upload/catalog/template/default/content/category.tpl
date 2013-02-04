@@ -65,7 +65,7 @@
 	  <img src="<?php echo $category['thumb']; ?>" title="<?php echo $category['name']; ?>" alt="<?php echo $category['name']; ?>">
 	  </a><br>
   <?php } ?> 
-	  <b><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></b>
+	  <b><a href="<?php echo $category['href']; ?>"><?php echo $category['name'] . ($category['products_in_category'] != 0 ? ' (' . $category['products_in_category'] . ')':''); ?></a></b>
 </div>
 	<?php If($column_count == '3'){
 	    echo "</div>";

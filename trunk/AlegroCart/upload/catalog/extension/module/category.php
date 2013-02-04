@@ -55,7 +55,7 @@ class ModuleCategory extends Controller
 						$state = '';
 					}
 
-				$products_in_category = $config->get('category_count') ? $this->modelCore->getPrInCat($result['category_id']): 0;
+				$products_in_category = $config->get('category_mcount') ? $this->modelCore->getPrInCat($result['category_id']): 0;
 
 				if ($class) {
 					$category_data[$result['category_id']] = array(

@@ -37,7 +37,8 @@ class ControllerModuleCatalogCategory extends Controller {
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 
 		$view->set('entry_status', $this->language->get('entry_status'));
-		$view->set('entry_product_count', $this->language->get('entry_product_count'));
+		$view->set('entry_product_count_menu', $this->language->get('entry_product_count_menu'));
+		$view->set('entry_product_count_page', $this->language->get('entry_product_count_page'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 
 		$view->set('explanation_product_count', $this->language->get('explanation_product_count'));
@@ -75,10 +76,16 @@ class ControllerModuleCatalogCategory extends Controller {
 			$view->set('catalog_category_status', @$setting_info['catalog']['category_status']);
 		}
 
-		if ($this->request->has('catalog_category_count', 'post')) {
-			$view->set('catalog_category_count', $this->request->gethtml('catalog_category_count', 'post'));
+		if ($this->request->has('catalog_category_mcount', 'post')) {
+			$view->set('catalog_category_mcount', $this->request->gethtml('catalog_category_mcount', 'post'));
 		} else {
-			$view->set('catalog_category_count', @$setting_info['catalog']['category_count']);
+			$view->set('catalog_category_mcount', @$setting_info['catalog']['category_mcount']);
+		}
+
+		if ($this->request->has('catalog_category_pcount', 'post')) {
+			$view->set('catalog_category_pcount', $this->request->gethtml('catalog_category_pcount', 'post'));
+		} else {
+			$view->set('catalog_category_pcount', @$setting_info['catalog']['category_pcount']);
 		}
 
 		$this->template->set('content', $view->fetch('content/module_catalog_category.tpl'));

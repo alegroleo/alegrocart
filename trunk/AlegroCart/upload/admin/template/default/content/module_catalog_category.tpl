@@ -34,9 +34,24 @@
                 </select></td>
             </tr>
             <tr>
-              <td width="185" class="set"><?php echo $entry_product_count; ?></td>
-              <td><select name="catalog_category_count">
-                  <?php if ($catalog_category_count) { ?>
+              <td width="185" class="set"><?php echo $entry_product_count_menu; ?></td>
+              <td><select name="catalog_category_mcount">
+                  <?php if ($catalog_category_mcount) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+		<td class="expl">
+			<?php echo $explanation_product_count; ?>
+		</td>
+            </tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_product_count_page; ?></td>
+              <td><select name="catalog_category_pcount">
+                  <?php if ($catalog_category_pcount) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
                   <option value="0"><?php echo $text_disabled; ?></option>
                   <?php } else { ?>

@@ -9,7 +9,8 @@ $_['text_message']        = 'Success: You have updated category module!';
 
 // Entry
 $_['entry_status']        = 'Status:';
-$_['entry_product_count'] = 'Product Count:';
+$_['entry_product_count_menu'] = 'Product Count in Category Menu:';
+$_['entry_product_count_page'] = 'Product Count on Category Page:';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify module category';

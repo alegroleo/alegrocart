@@ -635,7 +635,6 @@
 ./catalog/styles/default/image/language/ir.png
 ./catalog/styles/default/image/language/li.png
 ./catalog/styles/default/image/language/cl.png
-./catalog/styles/default/image/language/cs.png
 ./catalog/styles/default/image/language/tf.png
 ./catalog/styles/default/image/language/bh.png
 ./catalog/styles/default/image/language/gb.png
@@ -655,7 +654,6 @@
 ./catalog/styles/default/image/language/sm.png
 ./catalog/styles/default/image/language/tn.png
 ./catalog/styles/default/image/language/td.png
-./catalog/styles/default/image/language/fam.png
 ./catalog/styles/default/image/language/vu.png
 ./catalog/styles/default/image/language/fm.png
 ./catalog/styles/default/image/language/an.png

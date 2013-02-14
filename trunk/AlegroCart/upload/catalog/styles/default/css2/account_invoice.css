@@ -12,14 +12,20 @@
 	padding: 0px 0px 3px 5px;
 }
 
-#invoice .a table, #invoice .c {
+#invoice .a table, #invoice .c, #invoice .cur {
 	width: 100%;
 }
-
+#invoice .b table {
+	border-collapse: collapse;
+}
 #invoice .c td {
 	vertical-align: top;
+	padding: 5px 0px;
 }
-
+#invoice .c tr:first-child {
+	border-bottom: 1px solid #BBBBBB;
+	height: 35px;
+}
 #invoice .f, #invoice .f table {
 	width: 100%;
 	text-align: right;
@@ -42,6 +48,13 @@
 
 #invoice .g {
 	width: 100%;
+}
+#invoice .ptotals, #invoice .stotals, #invoice .ftotals, #invoice .ctotals{
+	border-top: 1px solid #BBBBBB;
+	height: 35px;
+}
+#invoice .ctotals .right{
+	border-bottom: 1px solid #BBBBBB;
 }
 .invoice_price_old {
 	text-decoration: line-through;

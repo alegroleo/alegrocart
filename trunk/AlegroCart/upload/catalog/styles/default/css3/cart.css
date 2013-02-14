@@ -1,6 +1,12 @@
 #cart .a {
 	width: 100%;
 	clear: both;
+	border-bottom: 1px solid #BBBBBB;
+	border-collapse: collapse;
+}
+#cart .a tr:first-child {
+	border-bottom: 1px solid #BBBBBB;
+	height: 35px;
 }
 #cart .i {
 	text-align: center;
@@ -15,7 +21,7 @@
 #cart .b {
 	text-align: center;
 	width: 50px;
-	vertical-align: top;	
+	vertical-align: top;
 }
 #cart .h {
 	text-align: center;
@@ -64,6 +70,7 @@
 	text-align: right;
 	clear: both;
 	float: right;
+	padding-top: 5px;
 }
 
 #cart .n table {

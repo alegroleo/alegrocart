@@ -12,14 +12,20 @@
   padding-bottom: 3px;
 }
 
-#checkout .a table, #checkout .c {
+#checkout .a table, #checkout .c, #checkout .cur {
   width: 100%;
 }
-
-#checkout .c td {
-  vertical-align: top;
+#checkout .b table {
+	border-collapse: collapse;
 }
-
+#checkout .c td {
+	vertical-align: top;
+	padding: 5px 0px;
+}
+#checkout .c th {
+	border-bottom: 1px solid #BBBBBB;
+	height: 35px;
+}
 #checkout .f {
 	text-align: right;
 }

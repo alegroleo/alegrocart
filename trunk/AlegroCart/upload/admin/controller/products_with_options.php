@@ -52,13 +52,14 @@ class ControllerProductsWithOptions extends Controller {
 	
 	function getProduct(){
 		$view = $this->locator->create('template');
-
+		
 		if($this->request->isPost()){
 			$this->session->set('productwoptions.page', (INT)'1');
+			$this->session->set('productwoptions.search', '');
 			$this->session->set('productwo_id', (int)$this->request->gethtml('productwo_id', 'post'));
 			$this->response->redirect($this->url->ssl('products_with_options'));
 		}
-
+		
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 		$view->set('entry_select_product', $this->language->get('entry_select_product'));
@@ -155,8 +156,9 @@ class ControllerProductsWithOptions extends Controller {
 		}
 		
 		$view = $this->locator->create('template');
-
-    	$view->set('heading_title', $this->language->get('heading_form_title').'<em>'.$result['name'].'</em>');
+		
+		$view->set('heading_title', $this->language->get('heading_form_title').'<em>'. (isset($result['name']) ? $result['name']  : '') .'</em>');
+		
     	$view->set('heading_description', $this->language->get('heading_description'));
 		
 		$view->set('text_results', $this->modelProductOptions->get_text_results());

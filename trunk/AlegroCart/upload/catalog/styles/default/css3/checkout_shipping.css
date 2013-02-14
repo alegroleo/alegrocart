@@ -43,13 +43,18 @@
 
 #shipping .j table, #shipping .k {
 	width: 100%;
-
 }
-
+#shipping .j table{
+	border-collapse: collapse;
+}
 #shipping .k td {
 	vertical-align: middle;
+	padding: 5px 0px;
 }
-
+#shipping .k th{
+	border-bottom: 1px solid #BBBBBB;
+	height: 30px;
+}
 #shipping .l {
 	text-align: center;
 	width: 90px;

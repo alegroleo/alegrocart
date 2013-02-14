@@ -12,20 +12,33 @@
   padding-bottom: 3px;
 }
 
-#checkout .a table, #checkout .c {
+#checkout .a table, #checkout .c, #checkout .cur {
   width: 100%;
 }
-
-#checkout .c td {
-  vertical-align: middle;
+#checkout .b table {
+	border-collapse: collapse;
 }
-
+#checkout .c td {
+	vertical-align: middle;
+	padding: 5px 0px;
+}
+#checkout .c tr:first-child {
+	border-bottom: 1px solid #BBBBBB;
+	height: 35px;
+}
 #checkout .f {
   text-align: right;
 }
 
 #checkout .totals {
 	width: 60px;
+}
+#checkout .ptotals, #checkout .stotals, #checkout .ftotals, #checkout .ctotals{
+	border-top: 1px solid #BBBBBB;
+	height: 35px;
+}
+#checkout .ctotals .right{
+	border-bottom: 1px solid #BBBBBB;
 }
 #checkout .f table {
 	width: 100%;

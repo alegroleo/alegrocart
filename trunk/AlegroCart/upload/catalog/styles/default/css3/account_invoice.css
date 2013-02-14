@@ -2,7 +2,9 @@
 	margin-bottom: 10px;
 	padding: 0px 5px 5px 5px;
 }
- 
+#invoice .b table {
+	border-collapse: collapse;
+}
 #invoice .a td {
 	width: 33.3%;
 	vertical-align: top;
@@ -12,14 +14,18 @@
 	padding: 0px 0px 3px 5px;
 }
 
-#invoice .a table, #invoice .c {
+#invoice .a table, #invoice .c, #invoice .cur {
 	width: 100%;
 }
 
 #invoice .c td {
 	vertical-align: top;
+	padding: 5px 0px;
 }
-
+#invoice .c th {
+	border-bottom: 1px solid #BBBBBB;
+	height: 35px;
+}
 #invoice .f, #invoice .f table {
 	width: 100%;
 	text-align: right;

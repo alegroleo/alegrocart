@@ -46,7 +46,7 @@
     </table>
   </div>
   <div style="padding-left: 5px;">
-    <table class="c">
+    <table class="cur">
       <tr>
 		<th class="left" width="80px"><?php echo $text_currency;?></th>
 		<td class="left"><?php echo $currency;?></td>
@@ -77,7 +77,7 @@
 		<th class="right"><?php echo $text_shipping; ?></th>
         <th class="right"><?php echo $text_total; ?></th>
       </tr>
-	  <tr><td colspan="12"><hr></td></tr>
+<!--	  <tr><td colspan="12"><hr></td></tr> -->
       <?php foreach ($products as $product) { ?>
       <tr>
         <td class="left"><?php echo $product['name']; ?></a>
@@ -125,8 +125,8 @@
       </tr>
       <?php } ?>
 	  <?php if($columns == 2){?>
-	  <tr><td colspan="12"><hr></td></tr>
-	  <tr>
+<!--	  <tr><td colspan="12"><hr></td></tr> -->
+	  <tr class="ptotals">
 	    <th class="left"><?php echo $text_product_totals;?></th>
 	    <td colspan="3"></td>
 	    <td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $extended_total;?></td>
@@ -143,9 +143,9 @@
 		<td></td>
 		<td class="right"><?php echo '<span class="tax">*</span>' . $totals_total;?></td>
 	  </tr>
-	  <tr><td colspan="12"><hr></td></tr>
+<!--	  <tr><td colspan="12"><hr></td></tr> -->
 	  <?php if(isset($shipping_total)){?>
-	    <tr>
+	    <tr class="stotals">
 	      <th class="left"><?php echo $text_shipping_cost;?></th>
 	      <td colspan="6"></td>
 		  <td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $shipping_net;?></td>
@@ -155,7 +155,7 @@
 		  <td class="right"><?php echo '<span class="tax">*</span>' . $shipping_total;?></td>
 	    </tr>
 	    <?php if(isset($freeshipping_total)){?>
-		  <tr>
+		  <tr class="ftotals">
 	        <th class="left"><?php echo $text_free_shipping;?></th>
 	        <td colspan="6"></td>
 		    <td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $freeshipping_net;?></td>
@@ -165,9 +165,9 @@
 		    <td class="right"><?php echo '<span class="tax">*</span>' . $freeshipping_total;?></td>
 	      </tr>
 		<?php }?>
-		<tr><td colspan="12"><hr></td></tr>
+<!--		<tr><td colspan="12"><hr></td></tr> -->
 	  <?php }?>
-	  <tr>
+	  <tr class="ctotals">
 	    <th class="left"><?php echo $text_cart_totals;?></th>
 		<td colspan="3"></td>
 		<td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $extended_total;?></td>
@@ -179,12 +179,12 @@
 		  <td class="right"><?php echo ($taxed && $coupon_total ? '<span class="tax">* </span>' : '') . $coupon_total;?></td>
 		<?php } ?>
 		<td class="right"><?php echo ($taxed ? '<span class="tax">* </span>' : '') . $cart_net_total;?></td>
-		<td></td>
+		<td class="right"></td>
 		<td class="right"><?php echo $cart_tax_total;?></td>
-		<td></td>
+		<td class="right"></td>
 		<td class="right"><?php echo '<span class="tax">*</span>' . $cart_totals_total;?></td>
 	  </tr>
-	  <tr><td colspan="6"></td><td colspan="6"><hr></td></tr>
+<!--	  <tr><td colspan="6"></td><td colspan="6"><hr></td></tr> -->
 	  <?php } ?>
     </table>
     <br>

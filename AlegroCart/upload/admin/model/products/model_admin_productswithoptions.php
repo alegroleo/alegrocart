@@ -51,7 +51,7 @@ class Model_Admin_ProductsWithOptions extends Model {
 		if (!$this->session->get('productwoptions.search')) {
 			$sql = "select po.product_option, po.quantity, po.product_id, po.model_number, i.filename, pd.name from product_options po left join product_description pd on (po.product_id = pd.product_id) left join image i on (po.image_id = i.image_id) where po.product_id = '" . (int)$this->session->get('productwo_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'";
 		} else {
-			$sql = "select po.product_option, po.quantity, po.product_id, po.model_number, i.filename, pd.name from product_options po left join product_description pd on (po.product_id = pd.product_id) left join image i on (po.image_id = i.image_id) where po.product_id = '" . (int)$this->session->get('productwo_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "' and (po.product_option like '?' or po.model_number like '?')";
+			$sql = "select po.product_option, po.quantity, po.product_id, po.model_number, i.filename, pd.name from product_options po left join product_description pd on (po.product_id = pd.product_id) left join image i on (po.image_id = i.image_id) where po.product_id = '" . (int)$this->session->get('productwo_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "' and (po.product_option like '?' or po.model_number like '?' or pd.name like '?')";
 		}
 		$sort = array('po.product_option', 'po.model_number');
 		if (in_array($this->session->get('productwoptions.sort'), $sort)) {
@@ -59,7 +59,7 @@ class Model_Admin_ProductsWithOptions extends Model {
 		} else {
 			$sql .= " order by po.product_option asc";
 		}
-		$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('productwoptions.search') . '%', '%' . $this->session->get('productwoptions.search') . '%'), $this->session->get('productwoptions.page'), $this->config->get('config_max_rows')));
+		$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('productwoptions.search') . '%', '%' . $this->session->get('productwoptions.search') . '%',  '%' . $this->session->get('productwoptions.search') . '%'), $this->session->get('productwoptions.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}
 	function get_text_results(){

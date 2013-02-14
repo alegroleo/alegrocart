@@ -31,7 +31,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  cursor: pointer;  
+  cursor: pointer;
 }
 
 #shipping .j {
@@ -41,15 +41,20 @@
   padding: 5px;
 }
 
-#shipping .j table, #shipping .k {
-  width: 100%;
-
+#shipping .j table, #shipping .k{
+	width: 100%;
 }
-
+#shipping .j table{
+	border-collapse: collapse;
+}
 #shipping .k td {
-  vertical-align: middle;
+	vertical-align: middle;
+	padding-top: 5px;
 }
-
+#shipping .k th{
+	border-bottom: 1px solid #BBBBBB;
+	height: 30px;
+}
 #shipping .l {
 	text-align: center;
 	width: 90px;

@@ -22,7 +22,7 @@
         <th class="center"><?php echo $text_quantity; ?></th>
        	<th class="center"><?php echo $text_ship; ?></th>
       </tr>
-	  <tr><td colspan="4"><hr></td></tr>
+<!--	  <tr><td colspan="4"><hr></td></tr> -->
       <?php foreach ($products as $product) { ?>
       <tr>
 	  <td class="l"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>"></a></td>

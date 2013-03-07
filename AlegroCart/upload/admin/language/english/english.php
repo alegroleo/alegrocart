@@ -93,6 +93,7 @@ $_['button_send']       = 'Send E-Mail';
 $_['button_enable_delete'] = 'Enable/Disable Delete Icon';
 $_['button_status']     = 'Change Status';
 $_['button_save_as']    = 'Save As...';
+$_['button_visibility'] = 'Change Visibility';
 
 // Tab
 $_['tab_general']       = 'General';

@@ -1350,3 +1350,9 @@ SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'option
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'options_model', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 # Version 1.2.8
+
+# Add hide Category
+ALTER TABLE `category` ADD `category_hide` int(1) NOT NULL default '0' After `sort_order`;
+
+# Add hide Information
+ALTER TABLE `information` ADD `information_hide` int(1) NOT NULL default '0' After `sort_order`;

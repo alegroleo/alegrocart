@@ -9,6 +9,7 @@ $_['text_message']        = 'Success: You have updated information!';
 
 // Column
 $_['column_title']        = 'Information Title';
+$_['column_visibility']   = 'Hidden';
 $_['column_sort_order']   = 'Sort Order';
 $_['column_action']       = 'Action';
 
@@ -16,6 +17,11 @@ $_['column_action']       = 'Action';
 $_['entry_title']         = 'Information Title:';
 $_['entry_description']   = 'Description:';
 $_['entry_sort_order']    = 'Sort Order:';
+$_['entry_hide']          = 'Hide Information in the Menu:';
+
+//Explanation
+$_['explanation_sort_order']  = 'The order information appears in the menu.';
+$_['explanation_hide']        = 'Hides this information in the information menu.';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify information';

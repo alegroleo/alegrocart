@@ -13,12 +13,14 @@ $_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to add
 $_['column_category']     = "Sub Categories!";
 $_['column_name']         = 'Category Name';
 $_['column_image']        = 'Image';
+$_['column_visibility']   = 'Hidden';
 $_['column_sort_order']   = 'Sort Order';
 $_['column_action']       = 'Action';
 
 // Entry
 $_['entry_name']          = 'Category Name:';
 $_['entry_sort_order']    = 'Sort Order:';
+$_['entry_hide']          = 'Hide Category in the Menu:';
 $_['entry_image']         = 'Category Image:';
 $_['entry_description']   = 'Description:';
 $_['entry_meta_title']     = 'Meta Title:'; // New
@@ -29,11 +31,13 @@ $_['entry_product']       = 'Assigned Products:';
 // Tab
 $_['tab_general']       = 'Category Name<br>Description';
 $_['tab_image']         = 'Category Image';
-$_['tab_data']          = 'Sort Order';
+$_['tab_data']          = 'General';
 $_['tab_product']       = 'Products';
 
 //Explanation
 $_['explanation_multiselect'] = 'To select/deselect multiple products press and hold &lt;Ctrl&gt; while you are clicking.';
+$_['explanation_sort_order']  = 'The order category appears in the menu.';
+$_['explanation_hide']        = 'Hides this category and its all sub-caterories in the category menu.';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify categories';

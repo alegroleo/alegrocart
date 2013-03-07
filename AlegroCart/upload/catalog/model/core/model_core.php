@@ -213,7 +213,7 @@ class Model_Core extends Model {
 		return $results;
 	}
 	function get_categories(){
-		$results = $this->database->getRows("select c.category_id, c.parent_id, c.path, c.sort_order, cd.name from category c left join category_description cd on (c.category_id = cd.category_id) where cd.language_id = '" . (int)$this->language->getId() . "' order by c.path");
+		$results = $this->database->getRows("select c.category_id, c.parent_id, c.path, c.sort_order, cd.name from category c left join category_description cd on (c.category_id = cd.category_id) where cd.language_id = '" . (int)$this->language->getId() . "' and c.category_hide = '0' order by c.path");
 		return $results;
 	}
 	function get_currencies(){
@@ -225,11 +225,11 @@ class Model_Core extends Model {
 		return $results;
 	}
 	function get_information(){ 
-		$results = $this->database->cache('information-' . (int)$this->language->getId(), "select * from information i left join information_description id on (i.information_id = id.information_id) where id.language_id = '" . (int)$this->language->getId() . "' order by i.sort_order");
+		$results = $this->database->cache('information-' . (int)$this->language->getId(), "select * from information i left join information_description id on (i.information_id = id.information_id) where id.language_id = '" . (int)$this->language->getId() . "' and i.information_hide = '0' order by i.sort_order");
 		return $results;
 	}
 	function getRow_information($information_id){ 
-			$result = $this->database->getRow("select * from information i left join information_description id on (i.information_id = id.information_id) where i.information_id = '" . (int)$information_id . "' and id.language_id = '" . (int)$this->language->getId() . "'");
+			$result = $this->database->getRow("select * from information i left join information_description id on (i.information_id = id.information_id) where i.information_id = '" . (int)$information_id . "' and id.language_id = '" . (int)$this->language->getId() . "' and i.information_hide = '0'");
 		return $result;
 	}
 	function get_languages(){

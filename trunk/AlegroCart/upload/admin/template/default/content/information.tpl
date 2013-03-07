@@ -65,8 +65,24 @@
         <div class="pad">
           <table>
             <tr>
+              <td class="set"><?php echo $entry_hide; ?></td>
+              <td><?php if ($information_hide) { ?>
+                <input type="radio" name="information_hide" value="1" id="ihyes" checked>
+                <label for="ihyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="information_hide" value="0" id="ihno">
+                <label for="ihno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="information_hide" value="1" id="ihyes">
+                <label for="ihyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="information_hide" value="0" id="ihno" checked>
+                <label for="ihno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+		<td class="expl"><?php echo $explanation_hide; ?></td>
+            </tr>
+            <tr>
               <td width="185" class="set"><?php echo $entry_sort_order; ?></td>
               <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
+		<td class="expl"><?php echo $explanation_sort_order; ?></td>
             </tr>
           </table>
         </div>

@@ -124,7 +124,16 @@ class ControllerCategory extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-  
+
+	function changeStatus() {
+
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeVisibility()) {
+
+			$this->modelCategory->change_category_visibility($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+		}
+	
+	}
+
 	function getList() {
 		$this->session->set('category_validation', md5(time()));
 		if($this->session->get('category_path') != $this->request->gethtml('path')){
@@ -148,6 +157,11 @@ class ControllerCategory extends Controller {
              'name'  => $this->language->get('column_image'),
              'sort'  => 'i.filename',
              'align' => 'center'
+		);
+		$cols[] = array(
+		'name'  => $this->language->get('column_visibility'),
+		'sort'  => 'c.category_hide',
+		'align' => 'center'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_sort_order'),
@@ -184,6 +198,24 @@ class ControllerCategory extends Controller {
 		       'title' => $result['filename'],
 		       'align' => 'center'
 		        );
+
+		if ($this->validateChangeVisibility()) {
+			$cell[] = array(
+				'status'  => $result['category_hide'],
+				'text' => $this->language->get('button_visibility'),
+				'align' => 'center',
+				'status_id' => $result['category_id'],
+				'status_controller' => 'category'
+			);
+
+		} else {
+
+			$cell[] = array(
+				'icon'  => ($result['category_hide'] ? 'enabled.png' : 'disabled.png'),
+				'align' => 'center'
+		);
+		}
+
 			$cell[] = array(
 				'value' => $result['sort_order'],
 				'align' => 'right'
@@ -244,6 +276,7 @@ class ControllerCategory extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_visibility', $this->language->get('button_visibility'));
 
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
@@ -293,6 +326,10 @@ class ControllerCategory extends Controller {
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 		$view->set('entry_image', $this->language->get('entry_image'));
 		$view->set('entry_product', $this->language->get('entry_product'));
+		$view->set('entry_hide', $this->language->get('entry_hide'));
+
+		$view->set('text_yes', $this->language->get('text_yes'));
+		$view->set('text_no', $this->language->get('text_no'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -308,6 +345,8 @@ class ControllerCategory extends Controller {
 		$view->set('tab_product', $this->language->get('tab_product'));
 
 		$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
+		$view->set('explanation_sort_order', $this->language->get('explanation_sort_order'));
+		$view->set('explanation_hide', $this->language->get('explanation_hide'));
 
 		$view->set('error_description', @$this->error['message']);
 
@@ -370,6 +409,12 @@ class ControllerCategory extends Controller {
 			$view->set('sort_order', $this->request->gethtml('sort_order', 'post'));
 		} else {
 			$view->set('sort_order', @$category_info['sort_order']);
+		}
+
+		if ($this->request->has('category_hide', 'post')) {
+			$view->set('category_hide', $this->request->gethtml('category_hide', 'post'));
+		} else {
+			$view->set('category_hide', @$category_info['category_hide']);
 		}
 
 		if ($this->request->has('image_id', 'post')) {
@@ -494,8 +539,16 @@ class ControllerCategory extends Controller {
 		$query_path = 'controller=category&path=' . $path;
 		$this->modelCategory->delete_SEO($query_path);
 	}
-	
-	  	function page() {
+
+	function validateChangeVisibility(){
+		if (!$this->user->hasPermission('modify', 'category')) {
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
+		function page() {
 		$this->session->delete('category.search');
 		if ($this->request->has('search', 'post') && $this->request->gethtml('search','post') != '') {
 	  		$this->session->set('category.search', $this->request->gethtml('search', 'post'));

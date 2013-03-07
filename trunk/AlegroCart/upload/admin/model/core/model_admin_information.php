@@ -8,7 +8,8 @@ class Model_Admin_Information extends Model {
 		$this->session 	=& $locator->get('session');
 	}
 	function insert_information(){
-		$this->database->query("insert into information set sort_order = '" . (int)$this->request->gethtml('sort_order', 'post') . "'");
+		$sql = "insert into information set sort_order = '?', information_hide = '?'";
+		$this->database->query($this->database->parse($sql, (int)$this->request->gethtml('sort_order', 'post'), $this->request->gethtml('information_hide', 'post')));
 	}
 	function get_insert_id(){
 		$insert_id = $this->database->getLastId();
@@ -21,8 +22,8 @@ class Model_Admin_Information extends Model {
 		}
 	}
 	function update_information(){
-		$sql = "update information set sort_order = '?' where information_id = '?'";
-			$this->database->query($this->database->parse($sql, (int)$this->request->gethtml('sort_order', 'post'), (int)$this->request->gethtml('information_id')));
+		$sql = "update information set sort_order = '?', information_hide = '?' where information_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$this->request->gethtml('sort_order', 'post'), $this->request->gethtml('information_hide', 'post'), (int)$this->request->gethtml('information_id')));
 	}
 	function delete_information(){
 		$this->database->query("delete from information where information_id = '" . (int)$this->request->gethtml('information_id') . "'");
@@ -32,11 +33,11 @@ class Model_Admin_Information extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('information.search')) {
-			$sql = "select i.information_id, id.title, i.sort_order from information i left join information_description id on i.information_id = id.information_id where id.language_id = '" . (int)$this->language->getId() . "'";
+			$sql = "select i.information_id, id.title, i.information_hide, i.sort_order from information i left join information_description id on i.information_id = id.information_id where id.language_id = '" . (int)$this->language->getId() . "'";
 		} else {
-			$sql = "select i.information_id, id.title, i.sort_order from information i left join information_description id on i.information_id = id.information_id where id.language_id = '" . (int)$this->language->getId() . "' and id.title like '?'";
+			$sql = "select i.information_id, id.title, i.information_hide, i.sort_order from information i left join information_description id on i.information_id = id.information_id where id.language_id = '" . (int)$this->language->getId() . "' and id.title like '?'";
 		}
-		$sort = array('id.title', 'i.sort_order');
+		$sort = array('id.title', 'i.information_hide', 'i.sort_order');
 		if (in_array($this->session->get('information.sort'), $sort)) {
 			$sql .= " order by " . $this->session->get('information.sort') . " " . (($this->session->get('information.order') == 'desc') ? 'desc' : 'asc');
 		} else {
@@ -74,6 +75,11 @@ class Model_Admin_Information extends Model {
 	function get_pages(){
 		$pages = $this->database->getpages();
 		return $pages;
+	}
+	function change_information_visibility($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update information set information_hide = '?' where information_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
 }
 ?>

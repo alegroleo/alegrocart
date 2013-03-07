@@ -9,8 +9,8 @@ class Model_Admin_Category extends Model {
 	}
 	function insert_category(){
 		$cat_path = explode('_', $this->request->gethtml('path'));
-		$sql = "insert into category set image_id = '?', sort_order = '?', parent_id = '?', date_added = now()";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('image_id', 'post'), $this->request->gethtml('sort_order', 'post'), end($cat_path)));
+		$sql = "insert into category set image_id = '?', sort_order = '?', category_hide = '?', parent_id = '?', date_added = now()";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('image_id', 'post'), $this->request->gethtml('sort_order', 'post'), $this->request->gethtml('category_hide', 'post'), end($cat_path)));
 	}
 	function get_description_post(){
 		$this->description = $this->request->get('description', 'post');
@@ -23,14 +23,13 @@ class Model_Admin_Category extends Model {
 		$this->database->query($this->database->parse($sql, $insert_id, $key, $name, $this->description[$key], strip_tags($this->meta_title[$key]), strip_tags($this->meta_description[$key]), strip_tags($this->meta_keywords[$key])));
 	}
 	function update_category(){
-		$sql = "update category set image_id = '?', sort_order = '?', date_modified = now() where category_id = '?'";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('image_id', 'post'), $this->request->gethtml('sort_order', 'post'), $this->request->gethtml('category_id')));
+		$sql = "update category set image_id = '?', sort_order = '?', category_hide = '?', date_modified = now() where category_id = '?'";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('image_id', 'post'), $this->request->gethtml('sort_order', 'post'), $this->request->gethtml('category_hide', 'post'), $this->request->gethtml('category_id')));
 	}
 	function delete_subcats($path){
 		$sql = "delete category, category_description from category left join category_description on category.category_id = category_description.category_id where category.path like '?'";
-		$this->database->query($this->database->parse($sql, $path . '%'));
+		$this->database->query($this->database->parse($sql, $path . '\_%'));
 	}
-	
 	function check_products(){
 		if ($this->request->gethtml('path')) {
 				$path = $this->request->gethtml('path') . '_' . $this->request->gethtml('category_id');
@@ -88,11 +87,11 @@ class Model_Admin_Category extends Model {
 	function get_page(){
 		if ((!$this->session->has('category.search')) || ($this->request->gethtml('path'))) {
 			$cat_path = explode('_', $this->request->gethtml('path'));
-			$sql = "select c.category_id, cd.name, i.filename, c.sort_order from category c left join category_description cd on (c.category_id = cd.category_id) left join image i on (c.image_id = i.image_id) where c.parent_id = '" . (int)end($cat_path) . "' and language_id = '" . (int)$this->language->getId() . "'";
+			$sql = "select c.category_id, cd.name, i.filename, c.category_hide, c.sort_order from category c left join category_description cd on (c.category_id = cd.category_id) left join image i on (c.image_id = i.image_id) where c.parent_id = '" . (int)end($cat_path) . "' and language_id = '" . (int)$this->language->getId() . "'";
 		} else {
-			$sql = "select c.category_id, cd.name, i.filename, c.sort_order from category c left join category_description cd on (c.category_id = cd.category_id) left join image i on (c.image_id = i.image_id) where language_id = '" . (int)$this->language->getId() . "' and cd.name like '?'";
+			$sql = "select c.category_id, cd.name, i.filename, c.category_hide, c.sort_order from category c left join category_description cd on (c.category_id = cd.category_id) left join image i on (c.image_id = i.image_id) where language_id = '" . (int)$this->language->getId() . "' and cd.name like '?'";
 		}
-		$sort = array('cd.name', 'c.sort_order', 'i.filename');
+		$sort = array('cd.name', 'c.category_hide', 'c.sort_order', 'i.filename');
 		if (in_array($this->session->get('category.sort'), $sort)) {
 			$sql .= " order by " . $this->session->get('category.sort') . " " . (($this->session->get('category.order') == 'desc') ? 'desc' : 'asc');
 		} else {
@@ -146,6 +145,11 @@ class Model_Admin_Category extends Model {
 	}
 	function update_product($product_id){
 		$this->database->query("insert into product_to_category set category_id = '" . (int)$this->request->gethtml('category_id') . "' , product_id = '" . (int)$product_id . "'");
+	}
+	function change_category_visibility($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update category set category_hide = '?' where category_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
 }
 ?>

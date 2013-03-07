@@ -78,6 +78,16 @@ class ControllerInformation extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
+	function changeStatus() {
+
+		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeVisibility()) {
+
+			$this->modelInformation->change_information_visibility($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+			$this->cache->delete('information');
+		}
+	
+	}
+
 	function getList() {
 		$this->session->set('information_validation', md5(time()));
 		$cols = array();
@@ -85,6 +95,11 @@ class ControllerInformation extends Controller {
 			'name'  => $this->language->get('column_title'),
 			'sort'  => 'id.title',
 			'align' => 'left'
+		);
+		$cols[] = array(
+		'name'  => $this->language->get('column_visibility'),
+		'sort'  => 'i.information_hide',
+		'align' => 'center'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_sort_order'),
@@ -105,6 +120,24 @@ class ControllerInformation extends Controller {
 				'value' => $result['title'],
 				'align' => 'left'
 			);
+
+		if ($this->validateChangeVisibility()) {
+			$cell[] = array(
+				'status'  => $result['information_hide'],
+				'text' => $this->language->get('button_visibility'),
+				'align' => 'center',
+				'status_id' => $result['information_id'],
+				'status_controller' => 'information'
+			);
+
+		} else {
+
+			$cell[] = array(
+				'icon'  => ($result['information_hide'] ? 'enabled.png' : 'disabled.png'),
+				'align' => 'center'
+		);
+		}
+
 			$cell[] = array(
 				'value' => $result['sort_order'],
 				'align' => 'right'
@@ -183,6 +216,10 @@ class ControllerInformation extends Controller {
 		$view->set('entry_title', $this->language->get('entry_title'));
 		$view->set('entry_description', $this->language->get('entry_description'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
+		$view->set('entry_hide', $this->language->get('entry_hide'));
+
+		$view->set('text_yes', $this->language->get('text_yes'));
+		$view->set('text_no', $this->language->get('text_no'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -194,6 +231,9 @@ class ControllerInformation extends Controller {
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 		$view->set('tab_data', $this->language->get('tab_data'));
+
+		$view->set('explanation_sort_order', $this->language->get('explanation_sort_order'));
+		$view->set('explanation_hide', $this->language->get('explanation_hide'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('error_title', @$this->error['title']);
@@ -235,6 +275,12 @@ class ControllerInformation extends Controller {
 
 		if (($this->request->gethtml('information_id')) && (!$this->request->isPost())) {
 			$information_info = $this->modelInformation->get_information();
+		}
+
+		if ($this->request->has('information_hide', 'post')) {
+			$view->set('information_hide', $this->request->gethtml('information_hide', 'post'));
+		} else {
+			$view->set('information_hide', @$information_info['information_hide']);
 		}
 
 		if ($this->request->has('sort_order', 'post')) {
@@ -310,6 +356,14 @@ class ControllerInformation extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
+		}
+	}
+
+	function validateChangeVisibility(){
+		if (!$this->user->hasPermission('modify', 'information')) {
+			return FALSE;
+		} else {
+			return TRUE;
 		}
 	}
 

@@ -11,7 +11,8 @@ $_['decimal_point']     = '.';
 $_['thousand_point']    = ',';
 
 // Text
-$_['text_time']         = 'Page created in %s seconds';
+$_['text_time']             = 'Page created in %s seconds ';
+$_['text_query_count']      = '(with %s database queries)';
 $_['text_yes']          = 'Yes';
 $_['text_no']           = 'No';
 $_['text_plus']         = '+';

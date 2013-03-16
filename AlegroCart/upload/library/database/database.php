@@ -11,11 +11,19 @@ class Database {
   	var $total;
   	var $from;
   	var $to;
-	
-	function __construct(&$locator) {	
+	var $queries = 0;
+	var $query_text;
+	var $log_message = NULL;
+
+	function __construct(&$locator) {
+		$this->locator =& $locator;
   		$this->config =& $locator->get('config');
 		$this->cache  =& $locator->get('cache');
 		$this->mail     =& $locator->get('mail');
+		$this->query_text = "time: ".date("j-m-d H:i:s (T)", mktime())."\n";
+		if(isset($_SERVER['REQUEST_URI'])) {
+			$this->query_text .= 'Path: '.$_SERVER['REQUEST_URI']."\n";
+		}
   	}
 
   	function connect($server, $username, $password, $database) {
@@ -33,10 +41,14 @@ class Database {
 		mysql_set_charset('utf8');
 		mysql_query('set @@session.sql_mode="MYSQL40"');
   	}
-    
+
   	function query($sql) {
 		$this->result = mysql_query($sql);
-		if ($this->result) { return $this->result; }
+		if ($this->result) {
+			++$this->queries;
+			$this->query_text .= $this->queries . " - "  . $sql . "\n";
+			return $this->result;
+		}
 		
 		//exit(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
 		$this->SQL_handler(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
@@ -305,6 +317,25 @@ class Database {
 	function nslookup($ip) {
 		$host_name = gethostbyaddr($ip);
 		return $host_name;
+	}
+	function countQueries() {
+		return $this->queries;
+	}
+	function log_queries(){
+		$request =&  $this->locator->get('request');
+		$controller =& $this->locator->get('controller');
+		$class = $controller->getClass($request);
+		$query_log = DIR_BASE . 'logs' . D_S . 'query_log' . D_S . date("YmdHis") . '_' . $class  . '.txt';
+		if (!$fp = fopen($query_log, 'a+')){ 
+			$this->log_message = "Could not open/create file: " . $query_log . " to log error."; $log_error = true;
+		}
+		if (!fwrite($fp, $this->query_text)){
+			$this->log_message = "Could not log error to file: " . $query_log . " Write Error."; $log_error = true;
+		}
+		if(!$this->log_message){
+			$this->log_message = "Error was logged to file: " . $query_log. ".";
+		}
+		fclose($fp); 
 	}
 }
 ?>

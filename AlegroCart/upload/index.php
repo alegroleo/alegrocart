@@ -90,5 +90,13 @@ $controller->dispatch($request);
 $response->output();
 
 // Parse Time
-if ($config->get('config_parse_time')) echo($language->get('text_time', round((time() + microtime()) - $time, 4)));
+if ($config->get('config_parse_time')) {
+	echo($language->get('text_time', round((time() + microtime()) - $time, 4)));
+}
+if ($config->get('config_query_count')) {
+	echo($language->get('text_query_count', $database->countQueries()));
+}
+if ($config->get('config_query_log')) {
+	$database->log_queries();
+}
 ?>

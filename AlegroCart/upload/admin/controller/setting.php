@@ -146,6 +146,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_url_alias', $this->language->get('entry_url_alias'));
 		$view->set('entry_seo', $this->language->get('entry_seo'));
 		$view->set('entry_parse_time', $this->language->get('entry_parse_time'));
+		$view->set('entry_query_log', $this->language->get('entry_query_log'));
+		$view->set('entry_query_count', $this->language->get('entry_query_count'));
 		$view->set('entry_ssl', $this->language->get('entry_ssl'));
 		$view->set('entry_rows_per_page', $this->language->get('entry_rows_per_page'));
 		$view->set('entry_items_per_page', $this->language->get('entry_items_per_page'));
@@ -253,7 +255,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_discount_options',$this->language->get('entry_discount_options'));
 		$view->set('entry_session_expire',$this->language->get('entry_session_expire'));
 
- 		$view->set('explanation_session_expire',$this->language->get('explanation_session_expire'));
+ 		$view->set('explanation_query_log',$this->language->get('explanation_query_log'));
+		$view->set('explanation_session_expire',$this->language->get('explanation_session_expire'));
  		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
 		$view->set('explanation_stock_icon',$this->language->get('explanation_stock_icon'));
 		$view->set('explanation_stock_warning',$this->language->get('explanation_stock_warning'));
@@ -615,6 +618,18 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_config_parse_time', $this->request->gethtml('catalog_config_parse_time', 'post'));
 		} else {
 			$view->set('catalog_config_parse_time', @$setting_info['catalog']['config_parse_time']);
+		}
+		
+		if ($this->request->has('global_config_query_log', 'post')) {
+			$view->set('global_config_query_log', $this->request->gethtml('global_config_query_log', 'post'));
+		} else {
+			$view->set('global_config_query_log', @$setting_info['global']['config_query_log']);
+		}
+		
+		if ($this->request->has('global_config_query_count', 'post')) {
+			$view->set('global_config_query_count', $this->request->gethtml('global_config_query_count', 'post'));
+		} else {
+			$view->set('global_config_query_count', @$setting_info['global']['config_query_count']);
 		}
 
 		if ($this->request->has('global_config_session_expire', 'post')) {

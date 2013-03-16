@@ -105,6 +105,8 @@ $_['entry_columns'] 		= 'Page Columns:';
 $_['entry_url_alias']       = 'Use URL Alias:';
 $_['entry_seo']             = 'Auto Update SEO:';
 $_['entry_parse_time']      = 'Display Parse Time:';
+$_['entry_query_log']       = 'Create Query Log File:';
+$_['entry_query_count']     = 'Display Number of Queries:';
 $_['entry_session_expire']  = 'Session Expire:';
 $_['entry_ssl']             = 'Use SSL:';
 $_['entry_rows_per_page']   = 'Rows Per Page:';
@@ -203,6 +205,7 @@ $_['entry_options_manufacturer']= 'Allow Manufacturer Filter:';
 $_['entry_options_model']       = 'Allow Model Filter:';
 
 //Explanations
+$_['explanation_query_log']       = 'Use this only for testing. This process requires disc space and time to process. Not for production use.';
 $_['explanation_wm_text']         = 'If you fill in this field (maximum 64 characters) every image that you upload will be watermarked automatically from now on with this text. Leave it empty to not to use.';
 $_['explanation_wm_fontsize']     = 'Varies from 1 up to 5';
 $_['explanation_wm_fontcolor']    = 'The hexadecimal code of the color.';

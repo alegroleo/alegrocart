@@ -166,9 +166,10 @@ class ControllerProduct extends Controller {
 				$result = $this->modelProducts->getRow_manufacturer((int)$product_info['manufacturer_id']);
 				if ($result){
 					$manufacturer = array(
-						'name'  => $result['name']
+						'name'  => $result['name'],
+						'href'  => $url->href('manufacturer', FALSE, array('manufacturer_id'  => $result['manufacturer_id']))
 					);
-					$view->set('manufacturer', $manufacturer['name']);
+					$view->set('manufacturer', $manufacturer);
 				}
 			}
 			// Currency

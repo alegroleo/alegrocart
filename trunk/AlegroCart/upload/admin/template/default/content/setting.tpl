@@ -170,6 +170,37 @@
                 <label for="ccptno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
+			<tr>
+              <td class="set"><?php echo $entry_query_count; ?></td>
+              <td><?php if ($global_config_query_count) { ?>
+                <input type="radio" name="global_config_query_count" value="1" id="ccptyes" checked>
+                <label for="ccptyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_query_count" value="0" id="ccptno">
+                <label for="ccptno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_config_query_count" value="1" id="ccptyes">
+                <label for="ccptyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_query_count" value="0" id="ccptno" checked>
+                <label for="ccptno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+            </tr>
+			<tr>
+              <td class="set"><?php echo $entry_query_log; ?></td>
+              <td><?php if ($global_config_query_log) { ?>
+                <input type="radio" name="global_config_query_log" value="1" id="ccptyes" checked>
+                <label for="cqltyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_query_log" value="0" id="ccptno">
+                <label for="cqltno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_config_query_log" value="1" id="ccptyes">
+                <label for="cqltyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_query_log" value="0" id="ccptno" checked>
+                <label for="cqltno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+			  <td class="expl">
+			    <?php echo $explanation_query_log; ?> 
+			  </td>
+            </tr>
             <tr>
               <td class="set"><?php echo $entry_ssl; ?></td>
               <td><?php if ($catalog_config_ssl) { ?>

@@ -217,9 +217,10 @@
 		</div>
 		<?php } ?>
 	      <?php }?>
-
 		<?php if (isset($manufacturer)) { ?><br>
-		  <?php echo '<b>' . $text_manufacturer . '</b>' . $manufacturer; ?><br>
+		  <?php echo '<b>' . $text_manufacturer . '</b>' ?>
+				 <a href="<?php echo $manufacturer['href']; ?>" class="url"><?php echo $manufacturer['name']; ?></a>
+		<br>
 		<?php } ?>
 		<?php if ($weight) { ?><br>
 		  <?php echo '<b>' . $text_weight . '</b>' . ' '; ?>
@@ -228,7 +229,7 @@
 		  <?php if($option_weights){?>
 		    <input type="hidden" id="weight_<?php echo $product['product_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',$weight),4,'.','');?>">
 			<script language="JavaScript">
-			  $(document).ready(function(){
+			  $(document).ready(function(){<?php echo $fdownload['name']; ?>
 			    UpdateWeight(<?php echo $weight_decimal . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "'";?>);
 			  });
 			</script>

@@ -51,7 +51,7 @@ foreach ($files as $file) {
 		}
 	}
 }
-$files=array('cache'.D_S, 'logs'.D_S, 'logs'.D_S.'error_log'.D_S, 'logs'.D_S.'access_log'.D_S);
+$files=array('cache'.D_S, 'logs'.D_S, 'logs'.D_S.'error_log'.D_S, 'logs'.D_S.'access_log'.D_S, 'logs'.D_S.'query_log'.D_S);
 foreach ($files as $file) {
 	$file=DIR_BASE.$file;
 	if (!is_writable($file)) { 

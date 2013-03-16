@@ -575,3 +575,6 @@ a:hover {
 	-moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 }
+.url {
+	color: #006699;
+}

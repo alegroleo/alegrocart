@@ -61,6 +61,9 @@ body, td, th, input, textarea, select {
 #checkout .center {
 	text-align: center;
 }
+#checkout .i{
+	padding-left: 30px;
+}
 .price_old {
 	text-decoration: line-through;
 }
@@ -75,6 +78,9 @@ body, td, th, input, textarea, select {
 </head>
 <body>
 <div id="checkout">
+  <div class="i">
+    <p><b><?php echo $store;?><br><?php echo $store_address; ?></b></p>
+  </div>	
   <p><?php echo $email_greeting; ?></p>
   <p><?php echo $email_thanks; ?></p>
   <?php echo $email_order; ?><br>

@@ -6,8 +6,6 @@ class ControllerReview extends Controller {
 		$model 				=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
-		$this->config   	=& $locator->get('config');
-		$this->image    	=& $locator->get('image');   
 		$this->request  	=& $locator->get('request');
 		$this->response 	=& $locator->get('response');
 		$this->session 		=& $locator->get('session');
@@ -74,7 +72,7 @@ class ControllerReview extends Controller {
 
 	function changeStatus() { 
 		
-		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
+		if (($this->request->has('stat_id')) && ($this->request->has('stat'))) {
 
 			$this->modelReview->change_review_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
@@ -152,26 +150,13 @@ class ControllerReview extends Controller {
 				'value' => $result['rating4'],
 				'align' => 'center'
 			);
-
-			if ($this->validateChangeStatus()) {
 			$cell[] = array(
 				'status'  => $result['status'],
 				'text' => $this->language->get('button_status'),
 				'align' => 'center',
-				'status_id' => $result['review_id'],
-				'status_controller' => 'review'
+				'status_id' => $result['review_id']
 			);
-
-			} else {
-
-			$cell[] = array(
-				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-				'align' => 'center'
-			);
-			}
-
 			
-
 			$action = array();
 			$action[] = array(
         		'icon' => 'update.png',
@@ -242,7 +227,7 @@ class ControllerReview extends Controller {
 	function getForm() {
 		$view = $this->locator->create('template');
 
-		$view->set('heading_title', $this->language->get('heading_form_title'));
+		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
@@ -298,16 +283,7 @@ class ControllerReview extends Controller {
 			$view->set('product_id', @$review_info['product_id']);
 		}
 
-		$product_data = array();
-		$results=$this->modelReview->get_products();
-		foreach ($results as $result) {
-		$product_data[] = array(
-        		'product_id' => $result['product_id'],
-			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-        		'name'        => $result['name']
-			);
-		}
-    		$view->set('products', $product_data);
+		$view->set('products', $this->modelReview->get_products());
 
 		if ($this->request->has('author', 'post')) {
 			$view->set('author', $this->request->gethtml('author', 'post'));
@@ -417,14 +393,6 @@ class ControllerReview extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
-		}
-	}
-
-	function validateChangeStatus(){
-		if (!$this->user->hasPermission('modify', 'review')) {
-	      		return FALSE;
-	    	}  else {
-			return TRUE;
 		}
 	}
 

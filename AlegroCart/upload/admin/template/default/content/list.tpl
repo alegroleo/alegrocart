@@ -72,7 +72,7 @@
 		    <script type="text/javascript">
 			  $(document).ready(function(){
 				$('.folderE[title]').tooltip({
-				offset: [0,60], tipClass: 'tooltip_white'});
+				offset: [230,-30], tipClass: 'tooltip_white'});
 			  });
 			</script>
 		    <?php echo '<div title="' . $col['folder_help'] . '" class="folderE" >'. $col['name'] . '</div>';?>
@@ -126,19 +126,22 @@
     ?>
     <tr class="<?php echo $class; ?>" onmouseover="this.className='highlight'" onmouseout="this.className='<?php echo $class; ?>'">
       <?php foreach ($row['cell'] as $cell) { ?>
-      <?php if (isset($cell['value'])) { ?>
+<?php if (isset($cell['value'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php echo $cell['value']; ?>
         <?php if (@$cell['default']) { ?>
         <b>(<?php echo $text_default; ?>)</b>
         <?php } ?></td>
       <?php } elseif (isset($cell['image'])) { ?>
-      <td id="image_to_preview" class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>" rel="<?php echo $cell['previewimage']; ?>" title="<?php echo $cell['title']; ?>"></td>
+      <td class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>"></td>
       <?php } elseif (isset($cell['path'])) { ?>
       <td width="30" class="<?php echo $cell['align']; ?>"><a href="<?php echo $cell['path']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a></td>
-      <?php } elseif (isset($cell['status'])) { ?>
-      <td class="<?php echo $cell['align']; ?>">
-      <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$(this.id).load('index.php?controller=<?php echo ($cell['status_controller'])?>&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
+
+
+<?php } elseif (isset($cell['status'])) { ?>
+ <td class="<?php echo $cell['align']; ?>">
+       <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$(this.id).load('index.php?controller=review&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
       </td>
+
       <?php } elseif (isset($cell['icon'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php if (isset($cell['href'])) { ?>
         <a href="<?php echo $cell['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a>
@@ -168,40 +171,5 @@ $("input").click(function (event) {
 		$(this).attr('src','template/<?php echo $this->directory?>/image/'+imgstatus2);   
                 $(this).attr('name', imgstatus == '0' ? '1' : '0'); 
                 }
-});
-//--></script>
-<script type="text/javascript"><!--original idea by Alen Grakalic
-$(function() {
-
-	var xOffset = 10;
-	var yOffset = 50;
-
-	if (typeof window.innerHeight != 'undefined') effectiveHeight = window.innerHeight;
-	else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientHeight !='undefined' && document.documentElement.clientHeight != 0) effectiveHeight = document.documentElement.clientHeight;
-	else effectiveHeight = document.getElementsByTagName('body')[0].clientHeight;
-
-	var scrolled = 0;
-
-$("#image_to_preview img").hover(function (event) {
-	this.t = this.title;
-	this.title = "";	
-	var c = (this.t != "") ? "<br>" + this.t : "";
-
-	if (typeof window.pageYOffset == 'number') scrolled = window.pageYOffset;
-	else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) scrolled = document.body.scrollTop;
-	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) scrolled = document.documentElement.scrollTop;
-
-	$("body").append("<p id='preview'><img src='"+ $(this).attr('rel') + "' >" + c + "</p>");								 
-	$("#preview").css("top", (event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(event.pageX - yOffset - 2*($(this).attr('rel').substr(-7,3))) + "px").fadeIn("fast");		
-},
-function() {
-	this.title = this.t;	
-	$("#preview").remove();
-}
-);
-
-$("#image_to_preview img").mousemove(function(event){
-	$("#preview").css("top",(event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(event.pageX - yOffset - 2*($(this).attr('rel').substr(-7,3))) + "px");
-});
 });
   //--></script>

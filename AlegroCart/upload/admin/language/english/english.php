@@ -11,8 +11,7 @@ $_['decimal_point']     = '.';
 $_['thousand_point']    = ',';
 
 // Text
-$_['text_time']             = 'Page created in %s seconds ';
-$_['text_query_count']      = '(with %s database queries)';
+$_['text_time']         = 'Page created in %s seconds';
 $_['text_yes']          = 'Yes';
 $_['text_no']           = 'No';
 $_['text_plus']         = '+';
@@ -93,8 +92,6 @@ $_['button_configure']  = 'Configure';
 $_['button_send']       = 'Send E-Mail';
 $_['button_enable_delete'] = 'Enable/Disable Delete Icon';
 $_['button_status']     = 'Change Status';
-$_['button_save_as']    = 'Save As...';
-$_['button_visibility'] = 'Change Visibility';
 
 // Tab
 $_['tab_general']       = 'General';
@@ -111,7 +108,6 @@ $_['tab_mail']          = 'Mail';
 $_['tab_cache']         = 'Cache';
 $_['tab_customer']      = 'Customer';
 $_['tab_discount']      = 'Quantity Discount';
-$_['tab_validity']      = 'Validity';
 
 //Error Message
 $_['error_language']		= 'ERROR : %s does not exist in language file*';

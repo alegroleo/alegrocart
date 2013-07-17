@@ -386,6 +386,10 @@ class ControllerCheckoutConfirm extends Controller {
 		$email->set('text_cart_totals', $this->language->get('text_cart_totals'));
 		$email->set('text_tax', $this->language->get('text_tax'));
 		$email->set('store', $this->config->get('config_store'));
+		
+		$store_address = $this->config->get('config_address');
+		$email->set('store_address', str_replace(array("\r\n", "\r", "\n"), '<br>', $store_address));
+		
 		$email->set('email', $this->customer->getEmail());
 		$email->set('telephone', $this->customer->getTelephone());
 		$email->set('fax', $this->customer->getFax());

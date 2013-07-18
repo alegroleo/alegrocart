@@ -18,14 +18,14 @@ class Model_Admin_Review extends Model {
 	function change_review_status($status, $status_id){
 		$new_status = $status ? 0 : 1;
 		$sql = "update review set status = '?' where review_id = '?'";
-		$this->database->query($this->database->parse($sql, $new_status, $status_id));
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
 	function get_review(){
 		$result = $this->database->getRow("select distinct * from review where review_id = '" . (int)$this->request->gethtml('review_id') . "'");
 		return $result;
 	}
 	function get_products(){
-		$results = $this->database->cache('product', "select product_id, name from product_description where language_id = '" . (int)$this->language->getId() . "'");
+		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' order by pd.name asc");
 		return $results;
 	}
 	function delete_review(){

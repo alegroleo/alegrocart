@@ -96,7 +96,7 @@
 				  </td>
 				  <td>
 				      <b><?php echo $text_shipping_method; ?></b><br>
-					  <select id="shipping_method" name="shipping_method" onchange="open_body()">
+					  <select name="shipping_method">
 						<option value=""><?php echo $text_select_shipping;?></option>
 					    <?php foreach($shipping_methods as $shipping_meth){?>
 						  <option value="<?php echo $shipping_meth['description'];?>"<?php if($shipping_meth['description'] == $shipping_method){ echo ' selected';}?>><?php echo $shipping_meth['description'];?></option>
@@ -106,7 +106,7 @@
 				  </td>
 				  <td>
 					<b><?php echo $text_payment_method; ?></b><br>
-					<select id="payment_method" name="payment_method" onchange="open_body()">
+					<select name="payment_method">
 						<option value=""><?php echo $text_select_payment;?></option>
 					    <?php foreach($payment_methods as $payment_meth){?>
 						  <option value="<?php echo $payment_meth['description'];?>"<?php if($payment_meth['description'] == $payment_method){ echo ' selected';}?>><?php echo $payment_meth['description'];?></option>
@@ -127,7 +127,7 @@
 			    </tr>
 			  </table> 
 		    </div>  
-		    <div id="invoice_products" class="b">
+		    <div class="b">
 			  <table class="c">
 			    <tr>
 				  <th class="left" style="width: 200px;"><?php echo $text_product; ?></th>
@@ -281,14 +281,6 @@
 					  <br>
 					  &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 					<?php } ?>
-					<?php if ($product['model_number']) { ?>
-					<br>
-					&nbsp;<small>(<?php echo $text_model_number; ?> <?php echo $product['model_number']; ?>)</small>
-					<?php } ?>
-					<br>
-					<?php if ($product['vendor_name']) { ?>
-						<span class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></span>
-					<?php } ?>
 				  </td>
 				  <td class="center"><?php echo $product['quantity']; ?></td>
 				  <td class="right"><?php if (!$product['discount']) { ?>
@@ -430,18 +422,6 @@
   tabview_initialize('tab');
   //--></script>
   <script type="text/javascript"><!--
-    $(document).ready(function() {
-      $('#invoice_products').hide();
-   });
-  //--></script>
-  <script type="text/javascript"><!--
-  function open_body(){
-	if($('#shipping_method').val()!="" && $('#payment_method').val()!=""){
-	  $('#invoice_products').show();
-	}
-  }
-  //--></script>
-  <script type="text/javascript"><!--
   function submit_form(){
 	var customer_id = $('#customer_id').val();
 	if(!customer_id > 0){
@@ -488,7 +468,7 @@
 	var extended = quantity * price;
 	extended = ((extended*1000)/1000).toFixed([4]);
 	$('#extended_'+row).val(extended);
-	if(tax_rate > 0){quantity
+	if(tax_rate > 0){
 		tax_rate = tax_rate/100;
 		var tax_amount =  (((extended * tax_rate)*1000)/1000).toFixed([4]);
 		$('#tax_amount_'+row).val(tax_amount);

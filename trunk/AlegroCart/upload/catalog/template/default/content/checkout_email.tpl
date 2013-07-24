@@ -61,6 +61,9 @@ body, td, th, input, textarea, select {
 #checkout .center {
 	text-align: center;
 }
+#checkout .i{
+	padding-left: 30px;
+}
 .price_old {
 	text-decoration: line-through;
 }
@@ -75,6 +78,9 @@ body, td, th, input, textarea, select {
 </head>
 <body>
 <div id="checkout">
+  <div class="i">
+    <p><b><?php echo $store;?><br><?php echo $store_address; ?></b></p>
+  </div>	
   <p><?php echo $email_greeting; ?></p>
   <p><?php echo $email_thanks; ?></p>
   <?php echo $email_order; ?><br>
@@ -146,7 +152,6 @@ body, td, th, input, textarea, select {
 		<th class="right"><?php echo $email_shipping; ?></th>
         <th class="right"><?php echo $email_total; ?></th>
       </tr>
-<!--	  <tr><td colspan="12"><hr></td></tr> -->
       <?php foreach ($products as $product) { ?>
       <tr>
         <td class="left"><?php echo $product['name']; ?>
@@ -186,7 +191,6 @@ body, td, th, input, textarea, select {
         <td class="right"><?php echo '<span class="tax">*</span>' . $product['total_discounted']; ?></td>
       </tr>
       <?php } ?>
-<!--	  <tr><td colspan="12"><hr></td></tr> -->
 	  <tr class="ptotals">
 	    <th class="left"><?php echo $text_product_totals;?></th>
 	    <td colspan="3"></td>
@@ -204,7 +208,6 @@ body, td, th, input, textarea, select {
 		<td></td>
 		<td class="right"><?php echo '<span class="tax">*</span>' . $totals_total;?></td>
 	  </tr>
-<!--	  <tr><td colspan="12"><hr></td></tr> -->
 	  <?php if(isset($shipping_total)){?>
 	    <tr class="stotals">
 	      <th class="left"><?php echo $text_shipping_cost;?></th>
@@ -226,7 +229,6 @@ body, td, th, input, textarea, select {
 		    <td class="right"><?php echo '<span class="tax">*</span>' . $freeshipping_total;?></td>
 	      </tr>
 		<?php }?>
-<!--		<tr><td colspan="12"><hr></td></tr> -->
 	  <?php }?>
 	  <tr class="ctotals">
 	    <th class="left"><?php echo $text_cart_totals;?></th>
@@ -245,7 +247,6 @@ body, td, th, input, textarea, select {
 		<td class="right"></td>
 		<td class="right"><?php echo '<span class="tax">*</span>' . $cart_totals_total;?></td>
 	  </tr>
-<!--	  <tr><td colspan="6"></td><td colspan="6"><hr></td></tr> -->
     </table>
     <br>
     <div class="f">

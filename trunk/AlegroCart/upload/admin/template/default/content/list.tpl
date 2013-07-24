@@ -57,6 +57,20 @@
 		  </form>
 		</td>
 	  <?php }?>
+	  
+	  <?php if(isset($controller) && $controller == 'order') {?>
+	    <td class="d">
+		  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
+		    <select id="default_order_status" name="default_order_status" onchange="this.form.submit()">
+		      <option value=''><?php echo $text_select_status;?></option>
+			  <?php foreach ($order_statuses as $order_status) { ?>
+			    <option value="<?php echo $order_status['order_status_id']; ?>"<?php if($order_status['order_status_id'] == $default_status){ echo " selected";}?>><?php echo $order_status['name']; ?></option>
+			  <?php } ?>
+			</select>
+		  </form>
+	    </td>
+	  <?php }?>
+	  
       <td class="e"><form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
           <?php echo $entry_search; ?>
           <input type="input" name="search" value="<?php echo $search; ?>">
@@ -139,6 +153,15 @@
       <td class="<?php echo $cell['align']; ?>">
       <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$(this.id).load('index.php?controller=<?php echo ($cell['status_controller'])?>&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
       </td>
+	  
+	  <?php } elseif (isset($cell['update_status'])) { ?>
+		<td class="<?php echo $cell['align']; ?>">
+		<input type="image" name="" src="template/<?php echo $this->directory?>/image/enable_update.png" style="border:none" onclick="update_status('<?php echo $cell['order_id'];?>')">
+	  </td>
+	  <?php } elseif (isset($cell['status_name'])) { ?>
+	    <td class="<?php echo $cell['align']; ?>" id="<?php echo $cell['status_name_id'];?>"><?php echo $cell['status_name']; ?>
+	  </td>
+	  
       <?php } elseif (isset($cell['icon'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php if (isset($cell['href'])) { ?>
         <a href="<?php echo $cell['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a>
@@ -158,6 +181,33 @@
     <?php } ?>
   </table>
 </div>
+<script type="text/javascript"><!--
+function update_status(order_id){
+  var Order_id = order_id;
+  var Default_Order_Status_id = $('#default_order_status').val();
+  if(Default_Order_Status_id==undefined || Default_Order_Status_id<1){
+	alert('<?php echo $text_status_error;?>');
+	return;
+  }
+  var Default_Status_Name = $('#default_order_status option:selected').text();
+  Default_Status_Name = $.trim(Default_Status_Name);
+  var Status_name = $('#status_name_'+Order_id).text();
+  Status_name = $.trim(Status_name);
+  if(Status_name == Default_Status_Name){
+	return
+  }
+  $.ajax({
+	type: 'GET',
+	url:'index.php?controller=order&action=update_status&order_id='+Order_id+'&order_status_id='+Default_Order_Status_id,
+	async: false,
+	success: function(data) {
+		if(data = 1){
+			$('#status_name_'+Order_id).text(Default_Status_Name);
+		}
+	}
+  });
+}
+//--></script>
 <script type="text/javascript"><!--
 $("input").click(function (event) {
               	var imgstatus = $(this).attr('name')

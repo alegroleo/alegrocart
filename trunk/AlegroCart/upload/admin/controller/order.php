@@ -79,6 +79,7 @@ class ControllerOrder extends Controller {
       
   	function getList() {	
 		$this->session->set('order_validation', md5(time()));
+		
     	$cols = array();
     	$cols[] = array(
       		'name'  => $this->language->get('column_order_id'),
@@ -105,6 +106,10 @@ class ControllerOrder extends Controller {
       		'sort'  => 'os.name',
       		'align' => 'left'
     	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_update_status'),
+			'align' => 'center'
+		);
     	$cols[] = array(
       		'name'  => $this->language->get('column_date_added'),
       		'sort'  => 'o.date_added',
@@ -136,14 +141,20 @@ class ControllerOrder extends Controller {
         		'value' => $result['invoice_number'],
         		'align' => 'left'
       		);
-		$cell[] = array(
+			$cell[] = array(
         		'value' => $result['firstname'] . ' ' . $result['lastname'],
         		'align' => 'left'
       		);
       		$cell[] = array(
-        		'value' => $result['status'],
+        		'status_name' => $result['status'],
+				'status_name_id' => 'status_name_' . $result['order_id'],
         		'align' => 'left'
       		);
+			$cell[] = array(
+				'update_status' => TRUE,
+				'order_id' =>$result['order_id'],
+				'align' => 'center'
+			);
       		$cell[] = array(
         		'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
         		'align' => 'left'
@@ -198,9 +209,14 @@ class ControllerOrder extends Controller {
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_print', $this->language->get('button_print'));
+	$view->set('controller', 'order');
+	$view->set('order_statuses', $this->modelOrder->get_order_statuses());
+	$view->set('default_status', $this->session->get('default_order_status'));
+	$view->set('text_select_status', $this->language->get('text_select_status'));
+	$view->set('text_status_error', $this->language->get('text_status_error'));
 	
-	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
     	$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
@@ -475,6 +491,29 @@ class ControllerOrder extends Controller {
 		return $view->fetch('content/order.tpl');
   	}
   	
+	function update_status(){
+		$order_id = $this->request->gethtml('order_id');
+		$order_status_id = $this->request->gethtml('order_status_id');
+		$this->modelOrder->update_order_status($order_id, $order_status_id);
+		$this->modelOrder->update_status_history($order_id, $order_status_id);
+		if ($this->config->get('config_email_send')){
+			$order_info = $this->modelOrder->get_order_info();
+			$order_id = $order_info['reference'];
+			$invoice_number = $order_info['invoice_number'];
+			$invoice  = $this->url->create(HTTP_CATALOG, 'account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id')));
+			$date     = $this->language->formatDate($this->language->get('date_format_long'),strtotime($order_info['date_added']));
+	    	$status   = $order_info['status'];
+	    	$comment  = '';
+	    	$this->mail->setTo($order_info['email']);
+			$this->mail->setFrom($this->config->get('config_email'));
+	    	$this->mail->setSender($this->config->get('config_store'));
+	    	$this->mail->setSubject($this->language->get('email_subject', $order_id));
+	    	$this->mail->setText($this->language->get('email_message', $order_id, $invoice_number, $invoice, $date, $status, $comment));
+	    	$this->mail->send();
+		}
+		$this->response->set(TRUE);
+	}
+	
 	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -548,6 +587,10 @@ class ControllerOrder extends Controller {
 		
 		if ($this->request->has('sort', 'post')) {
 			$this->session->set('order.sort', $this->request->gethtml('sort', 'post'));
+		}
+		
+		if ($this->request->has('default_order_status', 'post')){
+			$this->session->set('default_order_status', $this->request->get('default_order_status', 'post'));
 		}
 				
 		$this->response->redirect($this->url->ssl('order'));

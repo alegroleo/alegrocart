@@ -10,9 +10,17 @@ class Model_Admin_Order extends Model {
 	function update_order(){
 		$this->database->query("update `order` set order_status_id = '" . (int)$this->request->gethtml('order_status_id', 'post') . "', date_modified = now() where order_id = '" . (int)$this->request->gethtml('order_id') . "'");
 	}
+	function update_order_status($order_id, $order_status_id){
+		$this->database->query("update `order` set order_status_id = '" . $order_status_id . "', date_modified = now() where order_id = '" . $order_id . "'");
+	}
+	function update_status_history($order_id, $order_status_id){
+		$notify = $this->config->get('config_email_send') ? TRUE : FALSE;
+		$sql = "insert into order_history set order_id = '?', order_status_id = '?', date_added = now(), notify = '?', comment = '?'";
+		$this->database->query($this->database->parse($sql, $order_id, $order_status_id, $notify, ''));
+	}
 	function insert_order_history(){
 		$sql = "insert into order_history set order_id = '?', order_status_id = '?', date_added = now(), notify = '?', comment = '?'";
-      		$this->database->query($this->database->parse($sql, $this->request->gethtml('order_id'), $this->request->gethtml('order_status_id', 'post'), $this->request->gethtml('notify', 'post'), ($this->request->gethtml('comment', 'post'))));
+      	$this->database->query($this->database->parse($sql, $this->request->gethtml('order_id'), $this->request->gethtml('order_status_id', 'post'), $this->request->gethtml('notify', 'post'), ($this->request->gethtml('comment', 'post'))));
 	}
 	function get_order_info(){
 		$result = $this->database->getRow("select o.reference, o.invoice_number, o.firstname, o.lastname, o.email, o.date_added, os.name as status from `order` o left join order_status os on o.order_status_id = os.order_status_id where o.order_id = '" . (int)$this->request->gethtml('order_id') . "' and os.language_id = '" . (int)$this->language->getId() . "'");

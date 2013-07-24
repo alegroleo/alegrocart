@@ -595,6 +595,10 @@ class ControllerOrderEdit extends Controller {
 		$email->set('text_cart_totals', $this->language->get('text_cart_totals'));
 		$email->set('text_tax', $this->language->get('text_tax'));
 		$email->set('store', $this->config->get('config_store'));
+		
+		$store_address = $this->config->get('config_address');
+		$email->set('store_address', str_replace(array("\r\n", "\r", "\n"), '<br>', $store_address));
+		
 		$email->set('email', $this->request->gethtml('email','post'));
 		$email->set('telephone', $this->request->gethtml('telephone','post'));
 		$email->set('fax', $this->request->gethtml('fax','post'));

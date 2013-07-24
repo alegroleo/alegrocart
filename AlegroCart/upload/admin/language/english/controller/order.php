@@ -44,6 +44,8 @@ $_['text_non_shippable']    = 'Non Shippable';
 $_['text_invoice_number']   = 'Invoice Number';
 $_['text_downloadable']     = 'Downloadable';
 $_['text_modified']			= ' This order was modified by order number %s, order reference %s on %s.';
+$_['text_select_status']	= 'Select Status';
+$_['text_status_error']		= 'You must select a status';
 
 // Column
 $_['column_order_id']       = 'Order ID';
@@ -51,6 +53,7 @@ $_['column_reference']      = 'Reference';
 $_['column_invoice_number'] = 'Invoice Number';
 $_['column_name']           = 'Customer Name';
 $_['column_status']         = 'Status';
+$_['column_update_status']	= 'Update Status';
 $_['column_date_added']     = 'Date Added';
 $_['column_total']          = 'Total';
 $_['column_notify']         = 'Customer Notified';

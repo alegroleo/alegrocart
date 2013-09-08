@@ -1,11 +1,11 @@
 <?php //AdminModelSetting AlegroCart
 class Model_Admin_Setting extends Model {
 	function __construct(&$locator) {
-		$this->config   	=& $locator->get('config');
-		$this->database 	=& $locator->get('database');
-		$this->language 	=& $locator->get('language');
-		$this->request  	=& $locator->get('request');
-		$this->session 		=& $locator->get('session');
+		$this->config		=& $locator->get('config');
+		$this->database		=& $locator->get('database');
+		$this->language		=& $locator->get('language');
+		$this->request		=& $locator->get('request');
+		$this->session		=& $locator->get('session');
 	}
 	function delete_setting(){
 		$this->database->query("delete from setting where `group` = 'config'");
@@ -18,6 +18,8 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_address_format', `value` = '" . $this->request->gethtml('global_config_address_format', 'post'). "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_telephone', `value` = '" . $this->request->gethtml('global_config_telephone', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_fax', `value` = '" . $this->request->gethtml('global_config_fax', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_unregistered', `value` = '" . $this->request->gethtml('catalog_config_unregistered', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_registered', `value` = '" . $this->request->gethtml('catalog_config_registered', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_template', `value` = '" . $this->request->gethtml('catalog_config_template', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_max_rows', `value` = '" . $this->request->gethtml('catalog_config_max_rows', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_url_alias', `value` = '" . $this->request->gethtml('global_config_url_alias', 'post') . "'");

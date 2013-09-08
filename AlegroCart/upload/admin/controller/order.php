@@ -151,6 +151,10 @@ class ControllerOrder extends Controller {
         		'align' => 'left'
       		);
 			$cell[] = array(
+        		'value' => $result['status'],
+        		'align' => 'left'
+      		);
+			$cell[] = array(
 				'update_status' => TRUE,
 				'order_id' =>$result['order_id'],
 				'align' => 'center'
@@ -261,6 +265,7 @@ class ControllerOrder extends Controller {
     	$view->set('text_order_update', $this->language->get('text_order_update'));
     	$view->set('text_product', $this->language->get('text_product'));
     	$view->set('text_model_number', $this->language->get('text_model_number'));
+	$view->set('text_soldby', $this->language->get('text_soldby'));
     	$view->set('text_quantity', $this->language->get('text_quantity'));
     	$view->set('text_price', $this->language->get('text_price'));
     	$view->set('text_total', $this->language->get('text_total'));
@@ -428,6 +433,7 @@ class ControllerOrder extends Controller {
 			$product_data[] = array(
 				'name'     		=> $product['name'],
 				'model_number'		=> $product['model_number'],
+				'vendor_name'		=> $product['vendor_id'] !='0' ? $product['vendor_name'] : NULL,
 				'option'   		=> $option_data,
 				'download'      => $download,
 				'quantity' 		=> $product['quantity'],

@@ -39,18 +39,18 @@ class Model_Admin_Image extends Model {
 		$this->database->query("insert into image_description set image_id = '" . $insert_id . "', language_id = '" . $language_id . "', title = '" . $title . "'");
 	}
 	function get_page(){
-    	if (!$this->session->get('image.search')) {
-      		$sql = "select i.image_id, id.title, i.filename, i.date_added from image i left join image_description id on (i.image_id = id.image_id) where id.language_id = '" . (int)$this->language->getId() . "'";
-    	} else {
+		if (!$this->session->get('image.search')) {
+		$sql = "select i.image_id, id.title, i.filename, i.date_added from image i left join image_description id on (i.image_id = id.image_id) where id.language_id = '" . (int)$this->language->getId() . "'";
+		} else {
 			$sql = "select i.image_id, id.title, i.filename, i.date_added from image i left join image_description id on (i.image_id = id.image_id) where id.language_id = '" . (int)$this->language->getId() . "' and id.title like '?'";
-    	}
+		}
 		$sort = array('id.title', 'i.filename',	'i.date_added');
 		if (in_array($this->session->get('image.sort'), $sort)) {
 			$sql .= " order by " . $this->session->get('image.sort') . " " . (($this->session->get('image.order') == 'desc') ? 'desc' : 'asc');
 		} else {
 			$sql .= " order by id.title asc";
 		}
-    	$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('image.search') . '%'), $this->session->get('image.page'), $this->config->get('config_max_rows')));
+		$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('image.search') . '%'), $this->session->get('image.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}
 	function get_text_results(){
@@ -58,13 +58,13 @@ class Model_Admin_Image extends Model {
 		return $text_results;
 	}
 	function get_pagination(){
-    	$page_data = array();
-    	for ($i = 1; $i <= $this->get_pages(); $i++) {
-      		$page_data[] = array(
-        		'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
-        		'value' => $i
-      		);
-    	}
+		$page_data = array();
+		for ($i = 1; $i <= $this->get_pages(); $i++) {
+		$page_data[] = array(
+			'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
+			'value' => $i
+		);
+	}
 		return $page_data;
 	}
 	function get_pages(){
@@ -91,6 +91,10 @@ class Model_Admin_Image extends Model {
 		$result = $this->database->getRow("select count(*) as total from manufacturer where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
 		return $result;
 	}
+	function check_vendor(){
+		$result = $this->database->getRow("select count(*) as total from vendor where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
+		return $result;
+	}
 	function check_imagedisplay(){
 		$result = $this->database->getRow("select count(distinct image_display_id) as total from image_display_description where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
 		return $result;
@@ -113,6 +117,10 @@ class Model_Admin_Image extends Model {
 	}
 	function get_imageToManufacturer(){
 		$result = $this->database->getRows("select manufacturer_id, name from manufacturer where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
+		return $result;
+	}
+	function get_imageToVendor(){
+		$result = $this->database->getRows("select vendor_id, name from vendor where image_id = '" . (int)$this->request->gethtml('image_id') . "'");
 		return $result;
 	}
 	function get_imageToCategory(){

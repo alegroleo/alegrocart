@@ -198,6 +198,12 @@ class ControllerSearch extends Controller {
 					    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400);  
 					    $days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1)); //***** 
 					}
+					if($result['vendor_id']!='0' && $this->config->get('config_unregistered')){
+						$vendor = $this->modelProducts->get_vendor($result['vendor_id']);
+						$vendor_name = $vendor['name'];
+					} else {
+						$vendor_name = NULL;
+					}
 					// Product Discounts
 					$discounts = $this->modelProducts->get_product_discount($result['product_id']);
 					$product_discounts = array();
@@ -260,7 +266,8 @@ class ControllerSearch extends Controller {
 						'options'         => $options,
 						'model_number'    => $result['model_number'],
 						'product_options' => $product_options,
-						'days_remaining'  => $days_remaining
+						'days_remaining'  => $days_remaining,
+						'vendor_name'     => $vendor_name
           			);
         		}
 				if($max_rows == $this->modelSearch->get_total()){
@@ -273,6 +280,7 @@ class ControllerSearch extends Controller {
  		       	$view->set('page', $session->get('search.page'));
 				$view->set('onhand', $language->get('onhand'));
 				$view->set('text_model_number', $language->get('text_model_number'));
+				$view->set('text_soldby', $language->get('text_soldby'));
       			$view->set('previous' , $language->get('previous_page'));
 				$view->set('next' , $language->get('next_page'));
 				$view->set('first_page', $language->get('first_page'));

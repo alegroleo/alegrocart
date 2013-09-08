@@ -72,6 +72,12 @@ class ModulePopular extends Controller {
 					    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400); 
 					    $days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1)); //***** 
 					}
+					if($result['vendor_id']!='0' && $config->get('config_unregistered')){
+						$vendor = $this->modelProducts->get_vendor($result['vendor_id']);
+						$vendor_name = $vendor['name'];
+					} else {
+						$vendor_name = NULL;
+					}
 				if ($location == 'content' && $columns == 1) {
 					$desc = formatedstring($result['description'],$config->get('popular_lines_single'));
 					// Product Discounts
@@ -130,7 +136,8 @@ class ModulePopular extends Controller {
 					'options'         => $options,
 					'model_number'    => $result['model_number'],
 					'product_options' => $product_options,
-					'days_remaining'  => $days_remaining
+					'days_remaining'  => $days_remaining,
+					'vendor_name'     => $vendor_name
     	  		);
     	  	}
 			
@@ -163,6 +170,7 @@ class ModulePopular extends Controller {
 				$view->set('low_stock_warning',$config->get('config_low_stock_warning'));
 			}
 			$view->set('text_stock_icon', $language->get('text_stock_icon'));
+			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
 			$view->set('options_text', $language->get('options_text'));

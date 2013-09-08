@@ -1356,3 +1356,45 @@ ALTER TABLE `category` ADD `category_hide` int(1) NOT NULL default '0' After `so
 
 # Add hide Information
 ALTER TABLE `information` ADD `information_hide` int(1) NOT NULL default '0' After `sort_order`;
+
+#
+# TABLE STRUCTURE FOR: `vendor`
+#
+
+CREATE TABLE IF NOT EXISTS `vendor` (
+  `vendor_id` int(11) NOT NULL auto_increment,
+  `name` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `image_id` int(11) NOT NULL default '0',
+  `description` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `discount` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `status` int(1) NOT NULL,
+  `email` varchar(96) collate utf8_unicode_ci NOT NULL default '',
+  `telephone` varchar(32) collate utf8_unicode_ci NOT NULL default '',
+  `fax` varchar(32) collate utf8_unicode_ci NOT NULL default '',
+  `website` varchar(96) collate utf8_unicode_ci NOT NULL default '',
+  `trade` varchar(96) collate utf8_unicode_ci NOT NULL default '',
+  `address_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`vendor_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+#Modify `product` table
+#
+ALTER TABLE `product`
+ADD `vendor_id` int(11) NOT NULL default '0' AFTER `manufacturer_id`;
+
+#
+#Modify `order_product` table
+#
+ALTER TABLE `order_product`
+ADD `vendor_id` int(11) NOT NULL default '0' AFTER `model_number`;
+ALTER TABLE `order_product`
+ADD `vendor_name` varchar(64) collate utf8_unicode_ci NOT NULL default '' AFTER `model_number`;
+
+#
+#Modify `address` table
+#
+ALTER TABLE `address`
+ADD `vendor_id` int(11) NOT NULL default '0' AFTER `customer_id`;
+ALTER TABLE `address`
+ADD KEY `vendor_id` (`vendor_id`);

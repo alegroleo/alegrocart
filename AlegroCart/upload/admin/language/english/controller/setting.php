@@ -71,6 +71,10 @@ $_['text_bottom']             = 'Bottom';
 $_['text_watermark']          = 'Watermark';
 $_['text_slogo']              = 'Store Logo';
 $_['text_flogo']              = 'Footer Logo';
+$_['text_own_store']		= '<b>My own Store</b>';
+$_['text_vendors']		= '<b>My Vendors</b>';
+$_['text_appearance']		= '<b>Appearance</b>';
+$_['text_developer']		= '<b>Developer\'s Information </b>';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
@@ -203,6 +207,8 @@ $_['entry_wm_ivmargin']         = 'Margin Top:';
 $_['entry_discount_options']	= 'Discount Options:';
 $_['entry_options_manufacturer']= 'Allow Manufacturer Filter:';
 $_['entry_options_model']       = 'Allow Model Filter:';
+$_['entry_unregistered']	= 'Display on public pages:';
+$_['entry_registered']		= 'Display on protected pages:';
 
 //Explanations
 $_['explanation_query_log']       = 'Use this only for testing. This process requires disc space and time to process. Not for production use.';
@@ -233,6 +239,9 @@ $_['explanation_sitemap']         = 'The URL of your sitemap (e.g. for Google We
 $_['explanation_favicon']	  = 'To change the current favicon, create your own keeping the original name "favicon.ico", then overwrite the original one: ';
 $_['explanation_mr_loaded']       = 'The module mod_rewrite is loaded on this server.';
 $_['explanation_mr_not_loaded']   = 'The module mod_rewrite is not loaded on this server. URL alias cannot work.';
+$_['explanation_unregistered']		= 'This will display vendor name in cart, on product page and in every single and multiple column layout.';
+$_['explanation_registered']		= 'This will display vendor name on invoice, on invoice sent to the customer and on checkout confirmation page as well.';
+
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';
 $_['tab_admin']         = 'Admin Settings<br>Error Handling';

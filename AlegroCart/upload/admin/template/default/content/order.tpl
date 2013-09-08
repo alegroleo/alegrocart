@@ -101,6 +101,14 @@
           <br>
           &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
           <?php } ?>
+	<?php if ($product['model_number']) { ?>
+          <br>
+          &nbsp;<small>(<?php echo $text_model_number; ?> <?php echo $product['model_number']; ?>)</small>
+	<?php } ?>
+          <br>
+		<?php if ($product['vendor_name']) { ?>
+			<span class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></span>
+		<?php } ?>
         </td>
 
         <td class="center"><?php echo $product['quantity']; ?></td>

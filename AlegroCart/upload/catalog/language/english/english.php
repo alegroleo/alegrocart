@@ -23,6 +23,8 @@ $_['text_separator']        = ' &raquo; ';
 $_['text_price']            = 'Price: ';
 $_['text_enlarge']       	= 'Click to enlarge';
 $_['text_stock_icon']       = 'Stock Status';
+$_['text_soldby']		= 'Dispatched from:';
+$_['email_soldby']		= 'Dispatched from:';
 
 //DateTime
 $_['text_january']          = 'January';

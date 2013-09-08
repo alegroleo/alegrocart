@@ -54,6 +54,7 @@ $_['entry_model']          = 'Model:';
 $_['entry_model_number']   = 'Model Number:';
 $_['entry_model_numbers']   = 'Model Number';
 $_['entry_manufacturer']   = 'Manufacturer:';
+$_['entry_vendor']         = 'Vendor:';
 $_['entry_shipping']       = 'Shippable Product:';
 $_['entry_date_available'] = 'Date Available:';
 $_['entry_quantity']       = 'In Stock Quantity:';

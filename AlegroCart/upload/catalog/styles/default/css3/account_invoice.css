@@ -45,9 +45,12 @@
 #invoice .center {
 	text-align: center;
 }
-
 #invoice .g {
 	width: 100%;
+}
+#invoice .vendor{
+	font-size: smaller;
+	color: #0099FF;
 }
 .invoice_price_old {
 	text-decoration: line-through;

@@ -1,6 +1,6 @@
 <?php //ModelCheckout AlegroCart
 class Model_Checkout extends Model {
-	
+
 	function __construct(&$locator) {
 		$this->currency =& $locator->get('currency');
 		$this->database =& $locator->get('database');
@@ -12,6 +12,10 @@ class Model_Checkout extends Model {
 	}
 	function get_currency(){
 		$result = $this->database->getRow("select code, title from currency where code = '" . $this->currency->getCode() . "'");
+		return $result;
+	}
+	function get_vendor($vendor_id){
+		$result = $this->database->getRow("select name from vendor where vendor_id = '" . $vendor_id . "'");
 		return $result;
 	}
 }

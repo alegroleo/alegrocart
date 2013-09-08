@@ -37,11 +37,10 @@ class ControllerProduct extends Controller {
       		$response->redirect($url->href('cart'));
     	}
 
-    	$language->load('controller/product.php');
-		
+	$language->load('controller/product.php');
+
 		$product_info = $this->modelProducts->getRow_product((int)$request->gethtml('product_id'));
 
-    	
 		if ($product_info) {
 			$this->modelProducts->update_viewed((int)$request->gethtml('product_id'));
       		$breadcrumb = array();
@@ -109,6 +108,7 @@ class ControllerProduct extends Controller {
       		$view->set('text_rating4', $language->get('text_rating4'));
       		$view->set('text_error', $language->get('text_empty'));	
 			$view->set('text_model_number', $language->get('text_model_number'));
+			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('text_downloadable', $language->get('text_downloadable'));
 			$view->set('text_product_download', $language->get('text_product_download'));
 			$view->set('text_product_detail', $language->get('text_product_detail'));
@@ -141,11 +141,11 @@ class ControllerProduct extends Controller {
 			$dimension_class = $this->modelProducts->get_dimension_class($product_info['dimension_id']);
 			$dimension_value = $this->dimension->getValues($product_info['dimension_value'], $dimension_class['type_id'], $product_info['dimension_id']);
 			$view->set('dimensions', $this->modelProducts->dimensionView($dimension_class, $dimension_value));
-			
+
 			$view->set('shipping',$product_info['shipping']);
       		$view->set('description', formatedstring($product_info['description'],40));
 			$view->set('technical', formatedstring($product_info['technical'],40));
-			
+
 			if ($product_info['alt_description'] && $this->config->get('alternate_description')){
 			  $view->set('alt_description', formatedstring($product_info['alt_description'],4));
 			}
@@ -153,7 +153,7 @@ class ControllerProduct extends Controller {
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
 			$view->set('regular_price', $language->get('regular_price'));
-			$view->set('sale_price', $language->get('sale_price'));			
+			$view->set('sale_price', $language->get('sale_price'));
 			$view->set('stock_level', $product_info['quantity']);
 			$view->set('meta_title', $product_info['meta_title']);
 			$view->set('meta_description', $product_info['meta_description']);
@@ -237,11 +237,19 @@ class ControllerProduct extends Controller {
 				$view->set('sale_end', $dates->getDate($language->get('date_format_short'), strtotime($product_info['sale_end_date'])));
 			}
 
+			if($product_info['vendor_id']!='0' && $this->config->get('config_unregistered')){
+				$vendor = $this->modelProducts->get_vendor($product_info['vendor_id']);
+				$vendor_name = $vendor['name'];
+			} else {
+				$vendor_name = NULL;
+			}
+
 			$product_data = array(
 				'product_id'=> $request->gethtml('product_id'),
 				'thumb'     => $this->image->resize($product_info['filename'], $this->config->get('product_image_width'), $this->config->get('product_image_height')),
 				'name'      => $product_info['name'],
 				'model_number' => $product_info['model_number'],
+				'vendor_name'  => $vendor_name,
 				'barcode'   => $product_info['barcode'],
 				'barcode_url'	=> $product_info['barcode'] ? $this->barcode->show($product_info['barcode']) : NULL,
 				'popup'     => $this->image->href($product_info['filename']),

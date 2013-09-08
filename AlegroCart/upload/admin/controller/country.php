@@ -139,15 +139,22 @@ class ControllerCountry extends Controller {
     	);
 
 		$results = $this->modelCountry->get_page();
+		$vendors = $this->modelCountry->get_vendors();
+			$vendorcountry = array();
+			foreach ($vendors as $vendor){
+				$vendorcountry[] = $vendor['country_id'];
+			}
+
 		$rows = array();
 		foreach ($results as $result) {
 			$cell = array();
 			$cell[] = array(
 				'value'   => $result['name'],
 				'align'   => 'left',
-				'default' => ($result['country_id'] == $this->config->get('config_country_id'))
+				'default' => ($result['country_id'] == $this->config->get('config_country_id')),
+				'vendor'  => in_array($result['country_id'], $vendorcountry)
 			);
-			if ($this->validateChangeStatus() && $this->config->get('config_country_id') !== $result['country_id']) {
+			if ($this->validateChangeStatus() && $this->config->get('config_country_id') !== $result['country_id'] && !in_array($result['country_id'], $vendorcountry)) {
 			$cell[] = array(
 				'status'  => $result['country_status'],
 				'text' => $this->language->get('button_status'),
@@ -198,6 +205,7 @@ class ControllerCountry extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_default', $this->language->get('text_default'));
+		$view->set('text_vendor', $this->language->get('text_vendor'));
 		$view->set('text_results', $this->modelCountry->get_text_results());
 
 		$view->set('entry_page', $this->language->get('entry_page'));
@@ -417,6 +425,16 @@ class ControllerCountry extends Controller {
 				$this->error['message'] .= '<br>';
 				foreach ($zone_list as $zone) {
 					$this->error['message'] .= '<a href="' . $this->url->ssl('zone', 'update', array('zone_id' => $zone['zone_id'])) . '">' . $zone['name'] . '</a>&nbsp;';
+				}
+		}
+
+		$vendor_info = $this->modelCountry->check_vendor();
+		if ($vendor_info['total']) {
+			$this->error['message'] = $vendor_info['total'] ==1 ? $this->language->get('error_vendor') : $this->language->get('error_vendors', $vendor_info['total']);
+			$vendor_list = $this-> modelCountry->get_countryToVendor();
+				$this->error['message'] .= '<br>';
+				foreach ($vendor_list as $vendor) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('vendor', 'update', array('vendor_id' => $vendor['vendor_id'])) . '">' . $vendor['name'] . '</a>&nbsp;';
 				}
 		}
 

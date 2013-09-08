@@ -48,6 +48,9 @@ body, td, th, input, textarea, select {
 }
 #checkout .i{
 	padding-left: 30px;
+#checkout .vendor{
+	font-size: smaller;
+	color: #0099FF;
 }
 .price_old {
 	text-decoration: line-through;
@@ -144,7 +147,12 @@ body, td, th, input, textarea, select {
           <?php foreach ($product['option'] as $option) { ?>
           <br>
           <small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
-          <?php } ?></td>
+          <?php } ?>
+          <br>
+		<?php if ($product['vendor_name']) { ?>
+			<span class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></span>
+		<?php } ?>
+	 </td>
         <td class="right"><?php echo $product['quantity']; ?></td>
 		
         <td class="right"><?php if (!$product['discount']) { ?>

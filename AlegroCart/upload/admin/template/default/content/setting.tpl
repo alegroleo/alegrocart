@@ -26,6 +26,9 @@
       <div class="page">
         <div class="pad">
           <table>
+		<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_own_store;?></p></td>
+			<td width="130"></td>
+		</tr>
             <tr>
               <td width="185" class="set"><span class="required">*</span> <?php echo $entry_store; ?></td>
               <td><input type="text" name="global_config_store" value="<?php echo $global_config_store; ?>">
@@ -64,6 +67,49 @@
 	    <tr>
 	      <td colspan="2"><hr></td>
 	    </tr>
+		<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_vendors;?></p></td>
+			<td width="130"></td>
+		</tr>
+            <tr>
+              <td class="set"><?php echo $entry_unregistered; ?></td>
+              <td><?php if ($catalog_config_unregistered) { ?>
+                <input type="radio" name="catalog_config_unregistered" value="1" id="ccuryes" checked>
+                <label for="ccuryes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_unregistered" value="0" id="ccurno">
+                <label for="ccurno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_unregistered" value="1" id="ccuryes">
+                <label for="ccuryes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_unregistered" value="0" id="ccurno" checked>
+                <label for="ccurno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+		<td class="expl">
+			<?php echo $explanation_unregistered; ?> 
+		</td>
+            </tr>
+		<tr>
+              <td class="set"><?php echo $entry_registered; ?></td>
+              <td><?php if ($catalog_config_registered) { ?>
+                <input type="radio" name="catalog_config_registered" value="1" id="ccryes" checked>
+                <label for="ccryes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_registered" value="0" id="ccrno">
+                <label for="ccrno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_registered" value="1" id="ccryes">
+                <label for="ccryes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_registered" value="0" id="ccrno" checked>
+                <label for="ccrno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+		<td class="expl">
+			<?php echo $explanation_registered; ?> 
+		</td>
+            </tr>
+	    <tr>
+	      <td colspan="2"><hr></td>
+	    </tr>
+		<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_appearance;?></p></td>
+			<td width="130"></td>
+		</tr>
             <tr>
               <td class="set"><?php echo $entry_template; ?></td>
               <td><select name="catalog_config_template">
@@ -139,7 +185,7 @@
 		<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
 		<?php } ?>
             </tr>
-			<tr>
+		<tr>
               <td class="set"><?php echo $entry_seo; ?></td>
               <td><?php if ($global_config_seo) { ?>
                 <input type="radio" name="global_config_seo" value="1" id="gcsyes" checked <?php echo $mr_status ? '' : 'disabled';?> >
@@ -155,7 +201,27 @@
 		<?php if (isset($mr_status)) { ?>
 		<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
 		<?php } ?>
+		</tr>
+            <tr>
+              <td class="set"><?php echo $entry_ssl; ?></td>
+              <td><?php if ($catalog_config_ssl) { ?>
+                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes" checked>
+                <label for="ccsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno">
+                <label for="ccsno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes">
+                <label for="ccsyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno" checked>
+                <label for="ccsno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
             </tr>
+		<tr>
+			<td colspan="2"><hr></td>
+		</tr>
+		<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_developer;?></p></td>
+			<td width="130"></td>
+		</tr>
             <tr>
               <td class="set"><?php echo $entry_parse_time; ?></td>
               <td><?php if ($catalog_config_parse_time) { ?>
@@ -173,47 +239,33 @@
 			<tr>
               <td class="set"><?php echo $entry_query_count; ?></td>
               <td><?php if ($global_config_query_count) { ?>
-                <input type="radio" name="global_config_query_count" value="1" id="ccptyes" checked>
-                <label for="ccptyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_query_count" value="0" id="ccptno">
-                <label for="ccptno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_config_query_count" value="1" id="gcqcyes" checked>
+                <label for="gcqcyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_query_count" value="0" id="gcqcno">
+                <label for="gcqcno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_query_count" value="1" id="ccptyes">
-                <label for="ccptyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_query_count" value="0" id="ccptno" checked>
-                <label for="ccptno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_config_query_count" value="1" id="gcqcyes">
+                <label for="gcqcyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_query_count" value="0" id="gcqcno" checked>
+                <label for="gcqcno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_query_log; ?></td>
               <td><?php if ($global_config_query_log) { ?>
-                <input type="radio" name="global_config_query_log" value="1" id="ccptyes" checked>
-                <label for="cqltyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_query_log" value="0" id="ccptno">
-                <label for="cqltno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_config_query_log" value="1" id="gcqlyes" checked>
+                <label for="gcqlyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_query_log" value="0" id="gcqlno">
+                <label for="gcqlno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="global_config_query_log" value="1" id="ccptyes">
-                <label for="cqltyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="global_config_query_log" value="0" id="ccptno" checked>
-                <label for="cqltno"><?php echo $text_no; ?></label>
+                <input type="radio" name="global_config_query_log" value="1" id="gcqlyes">
+                <label for="gcqlyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_query_log" value="0" id="gcqlno" checked>
+                <label for="gcqlno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 			  <td class="expl">
 			    <?php echo $explanation_query_log; ?> 
 			  </td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_ssl; ?></td>
-              <td><?php if ($catalog_config_ssl) { ?>
-                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes" checked>
-                <label for="ccsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno">
-                <label for="ccsno"><?php echo $text_no; ?></label>
-                <?php } else { ?>
-                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes">
-                <label for="ccsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno" checked>
-                <label for="ccsno"><?php echo $text_no; ?></label>
-                <?php } ?></td>
             </tr>
           </table>
         </div>

@@ -68,7 +68,7 @@
 	top: 10px;
 	position:relative;
 	float: right;
-	vertical-align: top;	
+	vertical-align: top;
 	padding-bottom: 5px;
 	margin-bottom: 10px;
 	width: 310px;
@@ -84,7 +84,7 @@
 .buttons {
 	left: 0px;
 	border: 0px ;
-	padding-right: 10px;	
+	padding-right: 10px;
 }
 .ponhand{
 	text-align: left;
@@ -116,7 +116,7 @@
 	font-family:  Arial, Verdana, Helvetica, sans-serif;
 	padding-bottom: 2px;
 	clear: both;
-	margin-bottom: 5px;	
+	margin-bottom: 5px;
 	height: 16px;
 }
 
@@ -166,4 +166,11 @@
 .barcode img{
 	padding: 2px;
 	vertical-align: middle;
+}
+#product .vendor{
+	font-size: smaller;
+	color: #0099FF;
+}
+#product .remaining{
+	text-align: left;
 }

@@ -1,5 +1,5 @@
 <?php
-class ModuleMenu extends Controller { 
+class ModuleMenu extends Controller {
 	var $menu_info = array();
 	var $image_path = "javascript/ACMenu/image/";
 	function fetch() {
@@ -9,9 +9,9 @@ class ModuleMenu extends Controller {
 		$user     =& $this->locator->get('user');
 
 		if (($user->isLogged()) && ($config->get('menu_status'))) {
-	  		$language->load('extension/module/menu.php');
-       	
-	  		$view = $this->locator->create('template');
+			$language->load('extension/module/menu.php');
+
+			$view = $this->locator->create('template');
 
 			// new code
 			$menu = array('system', 'configuration', 'catalog', 'extension', 'customers', 'reports');
@@ -19,11 +19,11 @@ class ModuleMenu extends Controller {
 			$submenu1[$menu[1]]= array('setting', 'users', 'localisation', 'url_alias', 'homepage', 'template_manager', 'image_display', 'minov');
 			$submenu2[$submenu1[$menu[1]][1]] = array('user', 'usergroup');
 			$submenu2[$submenu1[$menu[1]][2]] = array('language', 'currency', 'order_status', 'country' ,'zone', 'geo_zone', 'tax_class', 'weight_class', 'dimension_class');
-			$submenu1[$menu[2]]= array('category', 'product', 'products_with_options', 'option', 'manufacturer', 'image', 'watermark', 'download', 'review', 'information');
+			$submenu1[$menu[2]]= array('category', 'product', 'products_with_options', 'option', 'manufacturer', 'vendor', 'image', 'watermark', 'download', 'review', 'information');
 			$submenu1[$menu[3]]= array('module', 'shipping', 'payment', 'calculate');
 			$submenu1[$menu[4]]= array('customer', 'order', 'order_edit', 'coupon', 'mail', 'newsletter');
 			$submenu1[$menu[5]]= array('report_online', 'report_sale', 'report_viewed', 'report_purchased', 'report_logs');
-			
+
 			foreach($menu as $key => $name){
 				$text = $language->get('text_' . $name);
 				$href = '';
@@ -56,11 +56,11 @@ class ModuleMenu extends Controller {
 					}
 				}
 			}
-			
+
 			$view->set('menus', $this->menu_info);
-      		return $view->fetch('module/menu.tpl');
+		return $view->fetch('module/menu.tpl');
 		}
-  	}
+	}
 	function create_menu($parent, $menu_key, $name, $href, $level, $new_tab){
 		if($level == 0){
 			$type = "block";
@@ -71,7 +71,7 @@ class ModuleMenu extends Controller {
 			$status = "disabled";
 			$image = $this->image_path . $menu_key . '.png';
 		}
-		
+
 		$this->menu_info[] = array(
 			'parent'	=> $parent,
 			'name'		=> $name,

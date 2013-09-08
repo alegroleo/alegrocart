@@ -46,13 +46,13 @@ class Model_Admin_Zone extends Model {
 		return $text_results;
 	}
 	function get_pagination(){
-    	$page_data = array();
-    	for ($i = 1; $i <= $this->get_pages(); $i++) {
-      		$page_data[] = array(
-        		'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
-        		'value' => $i
-      		);
-    	}
+		$page_data = array();
+		for ($i = 1; $i <= $this->get_pages(); $i++) {
+		$page_data[] = array(
+			'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
+			'value' => $i
+		);
+	}
 		return $page_data;
 	}
 	function get_pages(){
@@ -60,11 +60,15 @@ class Model_Admin_Zone extends Model {
 		return $pages;
 	}
 	function check_address(){
-		$result = $this->database->getRow("select count(*) as total from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
+		$result = $this->database->getRow("select count(*) as total from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "' and customer_id !='0'");
 		return $result;
 	}
 	function check_zone_to_geo(){
 		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where (zone_id = '" . (int)$this->request->gethtml('zone_id') . "') or (country_id = '" .  $this->request->gethtml('country_id', 'post') . "' and  zone_id = '0')");
+		return $result;
+	}
+	function check_vendor(){
+		$result = $this->database->getRow("select count(*) as total from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "' and vendor_id !='0'");
 		return $result;
 	}
 	function change_zone_status($status, $status_id){
@@ -73,11 +77,19 @@ class Model_Admin_Zone extends Model {
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
 	function get_zoneToAddress(){
-		$result = $this->database->getRows("select customer_id, firstname, lastname from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
+		$result = $this->database->getRows("select customer_id, firstname, lastname from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "' and customer_id !='0'");
 		return $result;
 	}
 	function get_zoneToZoneToGeoZone(){
 		$result = $this->database->getRows("select distinct z2g.geo_zone_id, gz.name from zone_to_geo_zone z2g left join geo_zone gz on (z2g.geo_zone_id=gz.geo_zone_id) where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
+		return $result;
+	}
+	function get_zoneToVendor(){
+		$result = $this->database->getRows("select a.vendor_id, v.name from vendor v left join address a on (a.vendor_id=v.vendor_id) where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
+		return $result;
+	}
+	function get_vendors(){
+		$result = $this->database->getRows("select distinct zone_id from address where vendor_id !='0'");
 		return $result;
 	}
 }

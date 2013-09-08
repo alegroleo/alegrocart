@@ -459,6 +459,16 @@ class ControllerImage extends Controller {
 				}
 		}
 
+		$vendor_info = $this->modelImage->check_vendor();
+		if ($vendor_info['total']) {
+			$this->error['message'] = $vendor_info['total'] ==1 ? $this->language->get('error_vendor') : $this->language->get('error_vendors', $vendor_info['total']);
+			$vendor_list = $this-> modelImage->get_imageToVendor();
+				$this->error['message'] .= '<br>';
+				foreach ($vendor_list as $vendor) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('vendor', 'update', array('vendor_id' => $vendor['vendor_id'])) . '">' . $vendor['name'] . '</a>&nbsp;';
+				}
+		}
+
 		$imagedisplay_info = $this->modelImage->check_imagedisplay();
 		if ($imagedisplay_info['total']) {
 			$this->error['message'] = $imagedisplay_info['total'] ==1 ? $this->language->get('error_imagedisplay') : $this->language->get('error_imagedisplays', $imagedisplay_info['total']);

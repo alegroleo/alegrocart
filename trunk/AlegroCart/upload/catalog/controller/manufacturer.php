@@ -244,6 +244,14 @@ class ControllerManufacturer extends Controller {
 							$desc = strippedstring($result['description'],$lines);
 						}
 					} // End Description
+
+			if($result['vendor_id']!='0' && $this->config->get('config_unregistered')){
+				$vendor = $this->modelProducts->get_vendor($result['vendor_id']);
+				$vendor_name = $vendor['name'];
+			} else {
+				$vendor_name = NULL;
+			}
+
           			$product_data[] = array(
             			'name'  => $result['name'],
 						'product_id'  => $result['product_id'],
@@ -262,7 +270,8 @@ class ControllerManufacturer extends Controller {
 						'options'         => $options,
 						'model_number'    => $result['model_number'],
 						'product_options' => $product_options,
-						'days_remaining'  => $days_remaining
+						'days_remaining'  => $days_remaining,
+						'vendor_name'     => $vendor_name
           			);
         		}
        			$view->set('products', $product_data);
@@ -297,6 +306,7 @@ class ControllerManufacturer extends Controller {
 				$view->set('text_page_rows', $language->get('text_page_rows'));
 				$view->set('text_columns', $language->get('text_columns'));
 				$view->set('text_model', $language->get('text_model'));
+				$view->set('text_soldby', $language->get('text_soldby'));
 				$view->set('text_all', $language->get('text_all'));
 				$view->set('entry_submit', $language->get('entry_submit'));
 				$view->set('display_options', $this->config->get('manufacturer_options_status'));	

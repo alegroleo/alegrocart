@@ -144,6 +144,9 @@
       <td class="<?php echo $cell['align']; ?>"><?php echo $cell['value']; ?>
         <?php if (@$cell['default']) { ?>
         <b>(<?php echo $text_default; ?>)</b>
+        <?php } ?>
+        <?php if (@$cell['vendor']) { ?>
+        <b>(<?php echo $text_vendor; ?>)</b>
         <?php } ?></td>
       <?php } elseif (isset($cell['image'])) { ?>
       <td id="image_to_preview" class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>" rel="<?php echo $cell['previewimage']; ?>" title="<?php echo $cell['title']; ?>"></td>
@@ -186,7 +189,7 @@ function update_status(order_id){
   var Order_id = order_id;
   var Default_Order_Status_id = $('#default_order_status').val();
   if(Default_Order_Status_id==undefined || Default_Order_Status_id<1){
-	alert('<?php echo $text_status_error;?>');
+	alert('<?php echo (ISSET($text_status_error) ? $text_status_error : '');?>');
 	return;
   }
   var Default_Status_Name = $('#default_order_status option:selected').text();

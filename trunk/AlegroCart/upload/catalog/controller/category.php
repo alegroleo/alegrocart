@@ -231,7 +231,12 @@ class ControllerCategory extends Controller {
 					    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400);
 					    $days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1)); //*****  
 					}
-
+					if($result['vendor_id']!='0' && $this->config->get('config_unregistered')){
+						$vendor = $this->modelProducts->get_vendor($result['vendor_id']);
+						$vendor_name = $vendor['name'];
+					} else {
+						$vendor_name = NULL;
+					}
           			$query = array(
             			'path'       => $request->gethtml('path'),
             			'product_id' => $result['product_id']
@@ -298,7 +303,8 @@ class ControllerCategory extends Controller {
 						'options'         => $options,
 						'model_number'    => $result['model_number'],
 						'product_options' => $product_options,
-						'days_remaining'  => $days_remaining 
+						'days_remaining'  => $days_remaining,
+						'vendor_name'     => $vendor_name
           			);
         		}
 
@@ -306,6 +312,7 @@ class ControllerCategory extends Controller {
 				$view->set('description', $category_info['description']);
         		$view->set('text_product', $language->get('text_product'));
 				$view->set('text_model_number', $language->get('text_model_number'));
+				$view->set('text_soldby', $language->get('text_soldby'));
         		$view->set('text_results', $this->modelCategory->get_text_results());
 	      		$view->set('entry_page', $language->get('entry_page'));
 				$view->set('onhand', $language->get('onhand'));

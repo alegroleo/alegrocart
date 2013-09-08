@@ -62,7 +62,7 @@ class Model_Products extends Model {
 		return $result;
 	}
 	function check_options($product_id){   // Check for Products with Options
-	    $results = $this->database->getRows("select * from product_to_option where product_id = '" . (int)$product_id . "'");
+		$results = $this->database->getRows("select * from product_to_option where product_id = '" . (int)$product_id . "'");
 		$option_status = $results ? TRUE : FALSE;
 		return $option_status;
 	}
@@ -75,62 +75,62 @@ class Model_Products extends Model {
 		$option_weight = array();
 		foreach ($results as $result) {
 			$option_weight[] = array(
-				'product_to_option_id' => $result['product_to_option_id'],
-				'option_weight'		   => $this->weight->convert($result['option_weight'], $result['option_weightclass_id'], $weight_class_id)
+				'product_to_option_id'	=> $result['product_to_option_id'],
+				'option_weight'		=> $this->weight->convert($result['option_weight'], $result['option_weightclass_id'], $weight_class_id)
 			);
 		}
 		return $option_weight;
 	}
 	function get_options($product_id, $tax_class_id){  // Get product Options
 		$options = array();
-      		$results = $this->database->getRows("select * from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
-      		foreach ($results as $result) {
-        		$options[$result['option_id']][] = array(
-          			'product_to_option_id' => $result['product_to_option_id'],
-          			'option_value_id'      => $result['option_value_id'],
-          			'price'                => $result['price'],
-          			'prefix'               => $result['prefix']
-        		);
-      		}
-      		$option_data = array();
-      		foreach ($options as $key => $values) {
-        		$option_value_data = array();
-        		foreach ($values as $value) {
-          			$option_value_info = $this->database->getRow("select * from option_value where option_value_id = '" . (int)$value['option_value_id'] . "' and option_id = '" . (int)$key . "' and language_id = '" . (int)$this->language->getId() . "'");
-          			$option_value_data[] = array(
-            			'product_to_option_id' => $value['product_to_option_id'],
-            			'option_value_id'      => $value['option_value_id'],
-            			'name'                 => $option_value_info['name'],
-            			'price'                => (($value['price'] != '0.00') ? $this->currency->format($this->tax->calculate($value['price'], $tax_class_id, $this->config->get('config_tax'))) : null),
-            			'prefix'               => $value['prefix']
-          			);
-        		}
-        		$option = $this->database->getRow("select * from `option` where option_id = '" . (int)$key . "' and language_id = '" . (int)$this->language->getId() . "'");
-        		$option_data[] = array(
-          			'option_id' => $key,
-          			'name'      => $option['name'],
-          			'value'     => $option_value_data
-        		);
-      		}
-      	return $option_data;
+		$results = $this->database->getRows("select * from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
+		foreach ($results as $result) {
+			$options[$result['option_id']][] = array(
+				'product_to_option_id' => $result['product_to_option_id'],
+				'option_value_id'      => $result['option_value_id'],
+				'price'                => $result['price'],
+				'prefix'               => $result['prefix']
+			);
+		}
+		$option_data = array();
+		foreach ($options as $key => $values) {
+			$option_value_data = array();
+			foreach ($values as $value) {
+				$option_value_info = $this->database->getRow("select * from option_value where option_value_id = '" . (int)$value['option_value_id'] . "' and option_id = '" . (int)$key . "' and language_id = '" . (int)$this->language->getId() . "'");
+				$option_value_data[] = array(
+				'product_to_option_id' => $value['product_to_option_id'],
+				'option_value_id'      => $value['option_value_id'],
+				'name'                 => $option_value_info['name'],
+				'price'                => (($value['price'] != '0.00') ? $this->currency->format($this->tax->calculate($value['price'], $tax_class_id, $this->config->get('config_tax'))) : null),
+				'prefix'               => $value['prefix']
+			);
+			}
+			$option = $this->database->getRow("select * from `option` where option_id = '" . (int)$key . "' and language_id = '" . (int)$this->language->getId() . "'");
+			$option_data[] = array(
+				'option_id' => $key,
+				'name'      => $option['name'],
+				'value'     => $option_value_data
+			);
+		}
+	return $option_data;
 	}
 	function update_viewed($product_id){
 		$this->database->query("update product set viewed = viewed + 1 where product_id = '" . (int)$product_id . "'");
 	}
-	
+
 	function get_downloads($product_id){
 		$downloads = $this->database->getRows("select * from product_to_download p2d left join download d on (p2d.download_id = d.download_id) left join download_description dd on (d.download_id = dd.download_id) where p2d.product_id = '" . (int)$product_id . "' and p2d.free = ' 0 ' and dd.language_id = '" . (int)$this->language->getId() . "'");
-			
+
 		$download_data = array();
-			
+
 		foreach ($downloads as $download) {
-        	$download_data[] = array(
-          		'download_id' => $download['download_id'],
+		$download_data[] = array(
+			'download_id' => $download['download_id'],
 				'name'        => $download['name'],
 				'filename'    => $download['filename'],
 				'mask'        => $download['mask'],
 				'remaining'   => $download['remaining']
-        	);			
+		);
 		}
 		return $download_data;
 	
@@ -149,14 +149,14 @@ class Model_Products extends Model {
 					$size = $size / 1024;
 					$i++;
 				}
-        	$fdownload_data[] = array(
+		$fdownload_data[] = array(
 				'download_id' => $fdownload['download_id'],
 				'name'        => $fdownload['name'],
 				'filename'    => $fdownload['filename'],
 				'mask'        => $fdownload['mask'],
 				'size'        => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
 				'href'        => $this->url->ssl('product', 'download', array('product_id' => $fdownload['product_id'],'download_id' => $fdownload['download_id']))
-        	);			
+		);
 		}
 		return $fdownload_data;
 	
@@ -178,7 +178,7 @@ class Model_Products extends Model {
 			} else {
 				$dimensions = '';
 			}
-				
+
 			$product_options[$result['product_option']] = array(
 				'product_id'		=> $result['product_id'],
 				'product_option'	=> $result['product_option'],
@@ -194,7 +194,7 @@ class Model_Products extends Model {
 		}
 		return $product_options;
 	}
-	
+
 	function dimensionView($dimension_class, $dimension_value){
 		
 		if($dimension_class && $dimension_value){
@@ -241,7 +241,7 @@ class Model_Products extends Model {
 		}
 		return $dimensions;
 	}
-	function currentpage($current_page){  
+	function currentpage($current_page){
 		switch($current_page){
 			case '':
 			case 'home':
@@ -259,6 +259,10 @@ class Model_Products extends Model {
 			break;
 		}
 		return $add_enable;
+	}
+	function get_vendor($vendor_id){
+		$result = $this->database->getRow("select name from vendor where vendor_id = '" . $vendor_id . "'");
+		return $result;
 	}
 }
 ?>

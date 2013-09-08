@@ -90,7 +90,8 @@ class ControllerCart extends Controller {
 			$view->set('text_tax_explantion', $this->language->get('text_tax_explantion'));
 			$view->set('text_product_totals', $this->language->get('text_product_totals'));
 			$view->set('text_downloadable', $this->language->get('text_downloadable'));
-            
+			$view->set('text_soldby', $this->language->get('text_soldby'));
+
       		$view->set('column_remove', $this->language->get('column_remove'));
       		$view->set('column_image', $this->language->get('column_image'));
       		$view->set('column_name', $this->language->get('column_name'));
@@ -172,6 +173,7 @@ class ControllerCart extends Controller {
 					'download'      => $result['download'],
           			'thumb'         => $this->image->resize($result['image'], 40, 40),
           			'option'        => $option_data,
+				'vendor_name'   => $result['vendor_name'],
           			'quantity'      => $result['quantity'],
                     'min_qty'       => $result['min_qty'],
                     'min_qty_error' => ($line_min_error || $this->session->get('line_min_error['.$result['key'].']') ? '1' : '0'),
@@ -185,7 +187,7 @@ class ControllerCart extends Controller {
 					'total'      => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'href'          => $this->url->href('product', FALSE, array('product_id' => $result['product_id']))
         		);
-				
+
                 if ($min_qty_error == '1' || $this->session->get('min_qty_error['.$result['key'].']')) {
                     $view->set('error', $this->language->get('error_min_qty'));
                     $this->session->set('min_qty_error['.$result['key'].']', '0');
@@ -193,7 +195,7 @@ class ControllerCart extends Controller {
                 }
                     
       		}
-			
+
 			$view->set('discount_status', $this->config->get('discount_status'));
 
 			$discount_lprice = $this->config->get('discount_lprice');

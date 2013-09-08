@@ -625,3 +625,7 @@ a:hover {
 	color:#000000;                           
 	z-index: 1000;
 }
+.vendor{
+	font-size: smaller;
+	color: #0099FF;
+}

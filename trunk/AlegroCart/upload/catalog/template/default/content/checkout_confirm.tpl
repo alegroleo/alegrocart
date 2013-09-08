@@ -67,7 +67,6 @@
 		<th class="right"><?php echo $text_shipping; ?></th>
         <th class="right"><?php echo $text_total; ?></th>
       </tr>
-<!--	  <tr><td colspan="12"><hr></td></tr> -->
       <?php foreach ($products as $product) { ?>
       <tr>
         <td class="left"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
@@ -75,6 +74,10 @@
           <br>
           &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
           <?php } ?>
+          <br>
+		<?php if ($product['vendor_name']) { ?>
+			<span class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></span>
+		<?php } ?>
         </td>
 
         <td class="center"><?php echo $product['quantity']; ?></td>
@@ -115,7 +118,6 @@
       </tr>
       <?php } ?>
 	  <?php if($columns == 2){?>
-<!--	  <tr><td colspan="12"><hr></td></tr> -->
 	  <tr class="ptotals">
 	    <th class="left"><?php echo $text_product_totals;?></th>
 	    <td colspan="3"></td>
@@ -133,7 +135,6 @@
 		<td></td>
 		<td class="right"><?php echo '<span class="tax">*</span>' . $totals_total;?></td>
 	  </tr>
-<!--	  <tr><td colspan="12"><hr></td></tr> -->
 	  <?php if(isset($shipping_total)){?>
 	    <tr class="stotals">
 	      <th class="left"><?php echo $text_shipping_cost;?></th>
@@ -155,7 +156,6 @@
 		    <td class="right"><?php echo '<span class="tax">*</span>' . $freeshipping_total;?></td>
 	      </tr>
 		<?php }?>
-<!--		<tr><td colspan="12"><hr></td></tr> -->
 	  <?php }?>
 	  <tr class="ctotals">
 	    <th class="left"><?php echo $text_cart_totals;?></th>
@@ -174,7 +174,6 @@
 		<td class="right"></td>
 		<td class="right"><?php echo '<span class="tax">*</span>' . $cart_totals_total;?></td>
 	  </tr>
-<!--	  <tr><td colspan="6"></td><td colspan="6"><hr></td></tr> -->
 	  <?php } ?>
     </table>
     <br>

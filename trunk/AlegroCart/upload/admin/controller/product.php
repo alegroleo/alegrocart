@@ -525,6 +525,7 @@ class ControllerProduct extends Controller {
 		$view->set('entry_model_number', $this->language->get('entry_model_number'));
 		$view->set('entry_model_numbers', $this->language->get('entry_model_numbers'));
 		$view->set('entry_manufacturer', $this->language->get('entry_manufacturer'));
+		$view->set('entry_vendor', $this->language->get('entry_vendor'));
     	$view->set('entry_shipping', $this->language->get('entry_shipping'));
     	$view->set('entry_date_available', $this->language->get('entry_date_available'));
     	$view->set('entry_quantity', $this->language->get('entry_quantity'));
@@ -698,7 +699,24 @@ class ControllerProduct extends Controller {
     	} else {
       		$view->set('manufacturer_id', @$product_info['manufacturer_id']);
     	} 
-		
+
+	$vendor_data = array();
+	$results = $this->modelProduct->get_vendors();
+	foreach ($results as $result) {
+		$vendor_data[] = array(
+			'vendor_id'	=> $result['vendor_id'],
+			'previewimage'	=> $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+			'name'		=> $result['name']
+		);
+	}
+	$view->set('vendors', $vendor_data);
+
+	if ($this->request->has('vendor_id', 'post')) {
+		$view->set('vendor_id', $this->request->gethtml('vendor_id', 'post'));
+	} else {
+		$view->set('vendor_id', @$product_info['vendor_id']);
+	}
+
     	if ($this->request->has('shipping', 'post')) {
       		$view->set('shipping', $this->request->gethtml('shipping', 'post'));
     	} else if(isset($product_info)){

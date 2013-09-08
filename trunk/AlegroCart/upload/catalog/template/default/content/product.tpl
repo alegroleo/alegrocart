@@ -106,11 +106,14 @@
    } else {
 	 include $shared_path . 'product_options.tpl';
   }} ?>
-   <?php if ($product_addtocart) { ?>	
+	<?php if ($product['vendor_name']) { ?>
+		<div class="vendor"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
+	<?php } ?>
+   <?php if ($product_addtocart) { ?>
      <table>
       <tr>
-	   <td align="left">		  
-		<?php include $shared_path . 'add_to_cart.tpl';?>		  
+	   <td align="left">
+		<?php include $shared_path . 'add_to_cart.tpl';?>
 	   </td>
       </tr>
      </table>
@@ -229,7 +232,7 @@
 		  <?php if($option_weights){?>
 		    <input type="hidden" id="weight_<?php echo $product['product_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',$weight),4,'.','');?>">
 			<script language="JavaScript">
-			  $(document).ready(function(){<?php echo $fdownload['name']; ?>
+			  $(document).ready(function(){
 			    UpdateWeight(<?php echo $weight_decimal . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "'";?>);
 			  });
 			</script>

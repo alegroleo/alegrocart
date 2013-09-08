@@ -3,8 +3,8 @@ class Order {
 	var $reference = NULL;
 	var $data      = array();
 	var $expire    = 3600;
- 	
-	function __construct(&$locator) {		
+
+	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
 		$this->coupon   =& $locator->get('coupon');
 		$this->database =& $locator->get('database');
@@ -20,41 +20,41 @@ class Order {
 		if ($this->session->has('reference')) {
 			$sql        = "select distinct * from order_data where reference = '?'";
 			$order_info = $this->database->getRow($this->database->parse($sql, $this->session->get('reference')));
-			
+
 			if ($order_info) {
 				$this->reference = $this->session->get('reference');
 			} else {
 				$this->reference = $reference;
-				
+
 				$this->session->set('reference', $reference);
 			}
 		} else {
 			$this->reference = $reference;
 			
 			$this->session->set('reference', $reference);
-		}	
+		}
 	}
-		
+
 	function getReference() {
 		return $this->reference;
 	}
-	
+
 	function set($key, $value) {
 		$this->data[$key] = $value;
 	}
-	
+
 	function get($key) {
 		return (isset($this->data[$key]) ? $this->data[$key] : NULL);
 	}
-		
-	function load($reference) {			
+
+	function load($reference) {
 		$sql        = "select distinct * from order_data where reference = '?'";
 		$order_info = $this->database->getRow($this->database->parse($sql, $reference));
-		
+
 		if ($order_info) {
 			$this->reference = $reference;
 			$this->data      = unserialize($order_info['data']);
-			
+
 			return TRUE;
 		} else {
 			return FALSE;
@@ -73,12 +73,12 @@ class Order {
 			$this->database->query($this->database->parse($sql, serialize($this->data), time() + $this->expire, $reference));
 		}
 	}
-	
+
 	function get_invoice_number(){
 		$result = $this->database->getRow("select value from setting where `key` = 'invoice_number'");
 		return $result['value'];
 	}
-	
+
 	private function update_invoice_number($invoice_number){
 		$next_invoice = increment_number($invoice_number);
 		$this->database->query("update `setting` set value='" . $next_invoice . "' where `key` = 'invoice_number'");
@@ -94,8 +94,8 @@ class Order {
 			$order_id = $this->database->getLastId();
 
 			foreach ($this->data['products'] as $product) {
-				$sql = "insert into order_product set order_id = '?', product_id = '?', name = '?', model_number = '?', price = '?', discount = '?', special_price = '?', coupon = '?', general_discount = '?', total = '?', tax = '?', quantity = '?', barcode = '?', shipping = '?'";
-				$this->database->query($this->database->parse($sql, $order_id, $product['product_id'], $product['name'], $product['model_number'], $product['price'], $product['discount'], $product['special_price'], $product['coupon'], $product['general_discount'], $product['total'], $product['tax'], $product['quantity'], $product['barcode'], $product['shipping']));
+				$sql = "insert into order_product set order_id = '?', product_id = '?', name = '?', model_number = '?', vendor_name = '?', vendor_id = '?', price = '?', discount = '?', special_price = '?', coupon = '?', general_discount = '?', total = '?', tax = '?', quantity = '?', barcode = '?', shipping = '?'";
+				$this->database->query($this->database->parse($sql, $order_id, $product['product_id'], $product['name'], $product['model_number'], $product['vendor_name'], $product['vendor_id'], $product['price'], $product['discount'], $product['special_price'], $product['coupon'], $product['general_discount'], $product['total'], $product['tax'], $product['quantity'], $product['barcode'], $product['shipping']));
  
 				$order_product_id = $this->database->getLastId();
 
@@ -103,11 +103,11 @@ class Order {
 					$sql = "insert into order_option set order_id = '?', order_product_id = '?', name = '?', `value` = '?', price = '?', prefix = '?'";
 					$this->database->query($this->database->parse($sql, $order_id, $order_product_id, $option['name'], $option['value'], $product['price'], $option['prefix']));
 				}
-				
+
 				foreach ($product['download'] as $download) {
 					$sql = "insert into order_download set order_id = '?', order_product_id = '?', name = '?', filename = '?', mask = '?', remaining = '?'";
 					$this->database->query($this->database->parse($sql, $order_id, $order_product_id, $download['name'], $download['filename'], $download['mask'], $download['remaining'] * $product['quantity']));
-				}	
+				}
 				
 				if ($this->config->get('config_stock_subtract')) {
 					if($product['option']){
@@ -117,7 +117,7 @@ class Order {
 					}
 				}
 			}
-		
+
 			$sql = "insert into order_history set order_id = '?', order_status_id = '?', date_added = now(), notify = '1', comment = '?'";
 			$this->database->query($this->database->parse($sql, $order_id, ($order_status_id ? $order_status_id : $this->data['order_status_id']), strip_tags($this->data['comment'])));
 
@@ -125,13 +125,13 @@ class Order {
 				$sql = "insert into order_total set order_id = '?', title = '?', text = '?', `value` = '?', sort_order = '?'";
 				$this->database->query($this->database->parse($sql, $order_id, $total['title'], $total['text'], $total['value'], $total['sort_order']));
 			}
-			
+
 			if ($this->data['coupon_id']) {
 				$this->coupon->redeem($this->data['coupon_id'], $this->data['customer_id'], $order_id);
 			}
-            
+
             $this->database->query("update customer set cart = '' where customer_id = '" . (int)$this->data['customer_id'] . "'");
-			
+
             if ($this->session->get('skipmail') == true) { 
                 $this->session->set('order_data', $this->data);
             } else {

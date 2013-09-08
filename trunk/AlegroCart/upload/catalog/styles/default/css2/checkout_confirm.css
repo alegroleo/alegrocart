@@ -55,6 +55,10 @@
 #checkout .center {
   text-align: center;
 }
+#checkout .vendor{
+	font-size: smaller;
+	color: #0099FF;
+}
 .tax{
 	font-weight: bold;
 	color: #CC0000;

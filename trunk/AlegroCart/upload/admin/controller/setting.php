@@ -88,6 +88,10 @@ class ControllerSetting extends Controller {
 		$view->set('text_allow_checkout_explantion', $this->language->get('text_allow_checkout_explantion'));
 		$view->set('text_subtract_stock_explantion', $this->language->get('text_subtract_stock_explantion'));
 		$view->set('text_favicons', $this->language->get('text_favicons'));
+		$view->set('text_own_store', $this->language->get('text_own_store'));
+		$view->set('text_vendors', $this->language->get('text_vendors'));
+		$view->set('text_appearance', $this->language->get('text_appearance'));
+		$view->set('text_developer', $this->language->get('text_developer'));
 
 		$view->set('text_stock_help', $this->language->get('text_stock_help'));
 		$view->set('text_address_explantion', $this->language->get('text_address_explantion'));
@@ -124,6 +128,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_address', $this->language->get('entry_address'));
 		$view->set('entry_telephone', $this->language->get('entry_telephone'));
 		$view->set('entry_fax', $this->language->get('entry_fax'));
+		$view->set('entry_unregistered', $this->language->get('entry_unregistered'));
+		$view->set('entry_registered', $this->language->get('entry_registered'));
 		$view->set('entry_template', $this->language->get('entry_template'));
 		$view->set('entry_styles', $this->language->get('entry_styles'));
 		$view->set('entry_colors', $this->language->get('entry_colors'));
@@ -255,6 +261,8 @@ class ControllerSetting extends Controller {
 		$view->set('entry_discount_options',$this->language->get('entry_discount_options'));
 		$view->set('entry_session_expire',$this->language->get('entry_session_expire'));
 
+ 		$view->set('explanation_unregistered',$this->language->get('explanation_unregistered'));
+ 		$view->set('explanation_registered',$this->language->get('explanation_registered'));
  		$view->set('explanation_query_log',$this->language->get('explanation_query_log'));
 		$view->set('explanation_session_expire',$this->language->get('explanation_session_expire'));
  		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
@@ -380,6 +388,18 @@ class ControllerSetting extends Controller {
 			$view->set('global_config_fax', $this->request->gethtml('global_config_fax', 'post'));
 		} else {
 			$view->set('global_config_fax', @$setting_info['global']['config_fax']);
+		}
+
+		if ($this->request->has('catalog_config_unregistered')) {
+			$view->set('catalog_config_unregistered', $this->request->gethtml('catalog_config_unregistered'));
+		} else {
+			$view->set('catalog_config_unregistered', @$setting_info['catalog']['config_unregistered']);
+		}
+
+		if ($this->request->has('catalog_config_registered')) {
+			$view->set('catalog_config_registered', $this->request->gethtml('catalog_config_registered'));
+		} else {
+			$view->set('catalog_config_registered', @$setting_info['catalog']['config_registered']);
 		}
 
 		if ($this->request->has('global_config_url_alias', 'post')) {

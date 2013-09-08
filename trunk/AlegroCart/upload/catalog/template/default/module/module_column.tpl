@@ -62,7 +62,9 @@
 	<?php include $shared_path . 'add_to_cart.tpl';?>
    <?php }?>
   <?php }?>
-
+  <?php if ($product['vendor_name']) { ?>
+	<div class="vendor" style="text-align: center;"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
+  <?php } ?>
   <?php if(($show_stock  || $show_stock_icon ) && !$product['options']){?>
     <div class="onhand">
 	  <?php echo $onhand.($show_stock ? $product['stock_level'] : ''); ?>

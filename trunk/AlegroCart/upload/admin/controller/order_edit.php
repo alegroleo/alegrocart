@@ -68,21 +68,22 @@ class ControllerOrderEdit extends Controller {
     	$view->set('text_payment_method', $this->language->get('text_payment_method'));
     	$view->set('text_currency', $this->language->get('text_currency'));
 		$view->set('text_order_history', $this->language->get('text_order_history'));
-    	$view->set('text_order_download', $this->language->get('text_order_download'));
-    	$view->set('text_order_update', $this->language->get('text_order_update'));
-    	$view->set('text_product', $this->language->get('text_product'));
-    	$view->set('text_model_number', $this->language->get('text_model_number'));
-    	$view->set('text_quantity', $this->language->get('text_quantity'));
-    	$view->set('text_price', $this->language->get('text_price'));
-    	$view->set('text_total', $this->language->get('text_total'));
-		$view->set('text_special', $this->language->get('text_special'));
-      	$view->set('text_extended', $this->language->get('text_extended'));
-      	$view->set('text_coupon_value', $this->language->get('text_coupon_value'));
-      	$view->set('text_discount_value', $this->language->get('text_discount_value'));
-      	$view->set('text_net', $this->language->get('text_net'));
-      	$view->set('text_tax_rate', $this->language->get('text_tax_rate'));
-      	$view->set('text_tax', $this->language->get('text_tax'));
-      	$view->set('text_tax_amount', $this->language->get('text_tax_amount'));
+	$view->set('text_order_download', $this->language->get('text_order_download'));
+	$view->set('text_order_update', $this->language->get('text_order_update'));
+	$view->set('text_product', $this->language->get('text_product'));
+	$view->set('text_model_number', $this->language->get('text_model_number'));
+	$view->set('text_soldby', $this->language->get('text_soldby'));
+	$view->set('text_quantity', $this->language->get('text_quantity'));
+	$view->set('text_price', $this->language->get('text_price'));
+	$view->set('text_total', $this->language->get('text_total'));
+	$view->set('text_special', $this->language->get('text_special'));
+	$view->set('text_extended', $this->language->get('text_extended'));
+	$view->set('text_coupon_value', $this->language->get('text_coupon_value'));
+	$view->set('text_discount_value', $this->language->get('text_discount_value'));
+	$view->set('text_net', $this->language->get('text_net'));
+	$view->set('text_tax_rate', $this->language->get('text_tax_rate'));
+	$view->set('text_tax', $this->language->get('text_tax'));
+	$view->set('text_tax_amount', $this->language->get('text_tax_amount'));
 		$view->set('text_product_totals', $this->language->get('text_product_totals'));
 		$view->set('text_shipping_cost', $this->language->get('text_shipping_cost'));
 		$view->set('text_free_shipping', $this->language->get('text_free_shipping'));
@@ -296,7 +297,8 @@ class ControllerOrderEdit extends Controller {
 				);
 			}
 			$download = $this->modelOrder->check_downloads($product['order_product_id']);
-      	 
+ 			$vendor_data = $this->modelOrder->get_vendor($product['order_product_id']);
+
 			$special_pr = $product['special_price'];
 			$net = $product['total'] - ($product['coupon'] ? $product['coupon'] : NULL ) - ($product['general_discount'] ? $product['general_discount'] : NULL );
 			$producttax = $order_info['taxed'] ? $net - roundDigits($net / ((100 + $product['tax'])/100), $this->decimal_place) : roundDigits($net * ($product['tax'] / 100), $this->decimal_place);
@@ -315,6 +317,7 @@ class ControllerOrderEdit extends Controller {
 			$product_data[] = array(
 				'name'     		=> $product['name'],
 				'model_number'		=> $product['model_number'],
+				'vendor_name'		=> $vendor_data['vendor_id'] !='0' ? $vendor_data['vendor_name'] : NULL,
 				'option'   		=> $option_data,
 				'download'      => $download,
 				'quantity' 		=> $product['quantity'],
@@ -449,12 +452,16 @@ class ControllerOrderEdit extends Controller {
 					'remaining'   => $download['remaining']
         		);			
 			}
+			$vendor_data = $this->modelOrderEdit->get_vendor($product_id);
+
 			$product_data[] = array(
 				'product_key'	=> $product['product_id'],
 				'product_id' 	=> $product_id,
 				'href'       	=> $this->url->href('product', FALSE, array('product_id' => $product_id)),
 				'name'       	=> $product_info['name'],
 				'model_number'  => (isset($product_option['model_number']) ? @$product_option['model_number'] : @$product_info['model_number']),
+				'vendor_id'	=> $vendor_data['vendor_id'],
+				'vendor_name'	=> $vendor_data['vendor_id'] !='0' ? $vendor_data['name'] : NULL,
 				'option'     	=> $option_data,
 				'download'		=> $download_data,
 				'quantity'   	=> $product['quantity'],
@@ -563,6 +570,7 @@ class ControllerOrderEdit extends Controller {
     	$email->set('email_thanks_again', $this->language->get('email_thanks_again', $this->config->get('config_store')));
     	$email->set('email_product', $this->language->get('email_product'));
     	$email->set('email_model_number', $this->language->get('email_model_number'));
+	$email->set('email_soldby', $this->language->get('email_soldby'));
     	$email->set('email_quantity', $this->language->get('text_quantity'));
     	$email->set('email_price', $this->language->get('text_price'));
 		$email->set('email_specialprice', $this->language->get('text_special'));
@@ -669,6 +677,7 @@ class ControllerOrderEdit extends Controller {
 		$product_id = $array[0];
 		if (isset($array[1])){
 			$option_ids = explode('.', $array[1]);
+			$option_model_number = $this->modelOrderEdit->get_model_number($this->request->gethtml('product_id'));
 		} else {
 			$option_ids = array();
 		}
@@ -676,6 +685,9 @@ class ControllerOrderEdit extends Controller {
 		$product = $this->modelOrderEdit->get_product($product_id);
 		
 		$product_options = $this->modelOrderEdit->check_options($product_id);
+
+		$vendor_data = $this->modelOrderEdit->get_vendor($product_id);
+
 		if($product_options && !$option_ids || !$this->request->has('row')){
 			$options = $this->modelOrderEdit->get_options($product_id, $product['tax_class_id']);
 			$output = '<tr><td>' . $product['name'] . '</td></tr>';
@@ -726,7 +738,18 @@ class ControllerOrderEdit extends Controller {
 				foreach($option_values as $option_value){
 					$output .= '<br><small>' . ' - ' . $option_value['name'] . ' : ' . $option_value['value'] . '</small>';
 				}
+				if($option_model_number['model_number']){
+					$output .= '<br><small>(' . $this->language->get('text_model_number') . ' '.$option_model_number['model_number'] . ')</small>';
+				}
+			} else {
+				if($product['model_number']){
+						$output .= '<br><small>(' . $this->language->get('text_model_number') . ' '.$product['model_number'] . ')</small>';
+				}
 			}
+			if($vendor_data['name']){
+					$output .= '<br><span class="vendor">' . $this->language->get('text_soldby') . '<br>' . $vendor_data['name'] . '</span>';
+			}
+
 			$output .= '</td>'. "\n";
 			$output .= '<td class="left" style="width: 100px;">' . '<input name="products[' . $row . '][quantity]" size="6" value="1" id="quantity_' . $row . '" onchange="update_row(' . $row . ')"></td>'. "\n"; 
 			$output .= '<td class="left" style="width: 120px;">' . '<input name="products[' . $row . '][price]" size="12" value="' . $price . '" size="12" id="price_' . $row . '" onchange="update_row(' . $row . ')"></td>'. "\n";

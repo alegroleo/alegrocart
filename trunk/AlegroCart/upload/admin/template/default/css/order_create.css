@@ -49,7 +49,10 @@
 #invoice .g, #invoice .h {
 	width: 100%;
 }
-
+#invoice .vendor{
+	font-size: smaller;
+	color: #0099FF;
+}
 .invoice_price_old {
 	text-decoration: line-through;
 	text-align: right;
@@ -124,6 +127,10 @@
 
 #create .g, #create .h {
 	width: 100%;
+}
+#create .vendor{
+	font-size: smaller;
+	color: #0099FF;
 }
 .create_price_old {
 	text-decoration: line-through;

@@ -52,6 +52,9 @@
             <?php foreach ($product['option'] as $option) { ?>
             - <small><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br>
             <?php } ?>
+		<?php if ($product['vendor_name']) { ?>
+			<div class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></div>
+		<?php } ?>
           </div></td>
         <td class="l">
           <input type="text" name="quantity[<?php echo $product['key']; ?>]" value="<?php echo $product['quantity']; ?>" size="3">

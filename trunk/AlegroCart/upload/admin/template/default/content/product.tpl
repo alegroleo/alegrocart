@@ -173,6 +173,19 @@
                   <?php } ?>
                 </select></td>
             </tr>
+	     <tr>
+              <td class="set"><?php echo $entry_vendor; ?></td>
+              <td><select id="vendor_id" name="vendor_id">
+                  <option value="0" selected><?php echo $text_none; ?></option>
+                  <?php foreach ($vendors as $vendor) { ?>
+                  <?php if ($vendor['vendor_id'] == $vendor_id) { ?>
+                  <option title="<?php echo $vendor['previewimage']; ?>" value="<?php echo $vendor['vendor_id']; ?>" selected><?php echo $vendor['name']; ?></option>
+                  <?php } else { ?>
+                  <option title="<?php echo $vendor['previewimage']; ?>" value="<?php echo $vendor['vendor_id']; ?>"><?php echo $vendor['name']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select></td>
+            </tr>
             <tr>
               <td class="set"><?php echo $entry_shipping; ?></td>
               <td><?php if ($shipping == 1) { ?>

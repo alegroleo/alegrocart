@@ -115,6 +115,12 @@ class ControllerZone extends Controller {
     	);
 		
 		$results = $this->modelZone->get_page();
+		$vendors = $this->modelZone->get_vendors();
+			$vendorzone = array();
+			foreach ($vendors as $vendor){
+				$vendorzone[] = $vendor['zone_id'];
+			}
+
 		$rows = array();
 		foreach ($results as $result) {
 			$cell = array();
@@ -125,7 +131,8 @@ class ControllerZone extends Controller {
 			$cell[] = array(
 				'value'   => $result['name'],
 				'align'   => 'left',
-				'default' => ($result['zone_id'] == $this->config->get('config_zone_id'))
+				'default' => ($result['zone_id'] == $this->config->get('config_zone_id')),
+				'vendor'  => in_array($result['zone_id'], $vendorzone)
 			);
 			$cell[] = array(
 				'value' => $result['code'],
@@ -175,6 +182,7 @@ class ControllerZone extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_default', $this->language->get('text_default'));
+		$view->set('text_vendor', $this->language->get('text_vendor'));
 		$view->set('text_results', $this->modelZone->get_text_results());
 
 		$view->set('entry_page', $this->language->get('entry_page'));
@@ -364,6 +372,17 @@ class ControllerZone extends Controller {
 					$this->error['message'] .= '<a href="' . $this->url->ssl('customer', 'update', array('customer_id' => $address['customer_id'])) . '">' . $address['firstname'] . '&nbsp;' . $address['lastname'] .'</a>&nbsp;';
 				}
 		}
+
+		$vendor_info = $this->modelZone->check_vendor();
+		if ($vendor_info['total']) {
+			$this->error['message'] = $vendor_info['total'] ==1 ? $this->language->get('error_vendor') : $this->language->get('error_vendors', $vendor_info['total']);
+			$vendor_list = $this-> modelZone->get_zoneToVendor();
+				$this->error['message'] .= '<br>';
+				foreach ($vendor_list as $vendor) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('vendor', 'update', array('vendor_id' => $vendor['vendor_id'])) . '">' . $vendor['name'] . '</a>&nbsp;';
+				}
+		}
+
 		$zone_to_geo_zone_info = $this->modelZone->check_zone_to_geo();
 		if ($zone_to_geo_zone_info['total']) {
 			$this->error['message'] = $zone_to_geo_zone_info['total'] ==1 ? $this->language->get('error_zone_to_geo_zone') : $this->language->get('error_zone_to_geo_zones', $zone_to_geo_zone_info['total']);

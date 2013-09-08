@@ -28,6 +28,9 @@
 	  }?> 
   </div>
     <div class="ptext"><b style="text-transform:uppercase;"><a href="<?php echo $product['href']; ?>" style="font-family:Arial, Verdana, Helvetica, sans-serif;"><?php echo $product['name']; ?></a></b><br>
+<?php if ($product['vendor_name']) { ?>
+	<div class="vendor" style="text-align: left;"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
+<?php } ?>
   <?php if($product['model_number'] || $product['product_options']){?>
     <div class="model_number">
 	  <?php echo $text_model_number;?>

@@ -41,8 +41,16 @@ $line=DIR_BASE.(substr(trim($line),2));
 $errors[]= DIR_BASE.UPLOADC.$language->get('error_not_found'); 
 }
 
-$files=array('image'.D_S, 'image'.D_S.'cache'.D_S, 'image'.D_S.'flash'.D_S, 'image'.D_S.'mask'.D_S, 'image'.D_S.'barcode'.D_S, 'image'.D_S.'watermark'.D_S ,'download'.D_S);
-foreach ($files as $file) {
+$files0755=array(
+		'image'.D_S,
+		'image'.D_S.'cache'.D_S,
+		'image'.D_S.'flash'.D_S,
+		'image'.D_S.'mask'.D_S,
+		'image'.D_S.'barcode'.D_S,
+		'image'.D_S.'watermark'.D_S,
+		'download'.D_S
+);
+foreach ($files0755 as $file) {
 	$file=DIR_BASE.$file;
 	if (!is_writable($file)) { 
 		@chmod($file, 0755);
@@ -51,8 +59,15 @@ foreach ($files as $file) {
 		}
 	}
 }
-$files=array('cache'.D_S, 'logs'.D_S, 'logs'.D_S.'error_log'.D_S, 'logs'.D_S.'access_log'.D_S, 'logs'.D_S.'query_log'.D_S);
-foreach ($files as $file) {
+$files0750=array(
+		'cache'.D_S,
+		'logs'.D_S,
+		'logs'.D_S.'error_log'.D_S,
+		'logs'.D_S.'access_log'.D_S,
+		'logs'.D_S.'query_log'.D_S,
+		'logs'.D_S.'email_log'.D_S
+);
+foreach ($files0750 as $file) {
 	$file=DIR_BASE.$file;
 	if (!is_writable($file)) { 
 		@chmod($file, 0750);
@@ -61,8 +76,12 @@ foreach ($files as $file) {
 		}
 	}	
 }
-$files=array('config.php', '.htaccess');
-foreach ($files as $file) {
+
+$files0666=array(
+		'config.php',
+		'.htaccess'
+);
+foreach ($files0666 as $file) {
 	$file=DIR_BASE.$file;
 	if (!is_writable($file)) { 
 		@chmod($file, 0666);

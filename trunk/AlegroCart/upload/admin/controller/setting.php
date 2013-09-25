@@ -7,26 +7,27 @@ class ControllerSetting extends Controller {
 	var $wm_method = 'auto';
 	var $mr_status = NULL;
 
- 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
+	function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->mail_check	=& $locator->get('mail_check_mx');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
 		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelSetting = $model->get('model_admin_setting');
-		$this->modelWatermark = $model->get('model_admin_watermark');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user');
+		$this->validate		=& $locator->get('validate');
+		$this->modelSetting	= $model->get('model_admin_setting');
+		$this->modelWatermark	= $model->get('model_admin_watermark');
 
 		$this->language->load('controller/setting.php');
-	}	
+	}
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -61,10 +62,12 @@ class ControllerSetting extends Controller {
 		$view->set('text_prices_tax', $this->language->get('text_prices_tax'));
 		$view->set('text_tax_products', $this->language->get('text_tax_products'));
 		$view->set('text_invoice_number', $this->language->get('text_invoice_number'));
-		
+
 		$view->set('text_surcharge', $this->language->get('text_surcharge'));
 		$view->set('text_instruction', $this->language->get('text_instruction'));
 		$view->set('text_emails', $this->language->get('text_emails'));
+		$view->set('text_email_general', $this->language->get('text_email_general'));
+		$view->set('text_email_smtp', $this->language->get('text_email_smtp'));
 		$view->set('text_items_per_page', $this->language->get('text_items_per_page'));
 		$view->set('text_default_rows', $this->language->get('text_default_rows'));
 		$view->set('text_cart_quantity', $this->language->get('text_cart_quantity'));
@@ -185,13 +188,21 @@ class ControllerSetting extends Controller {
 		$view->set('entry_account', $this->language->get('entry_account'));
 		$view->set('entry_checkout', $this->language->get('entry_checkout'));
 		$view->set('entry_email', $this->language->get('entry_email'));
+		$view->set('entry_email_log', $this->language->get('entry_email_log'));
 		$view->set('entry_email_send', $this->language->get('entry_email_send'));
+		$view->set('entry_email_auth', $this->language->get('entry_email_auth'));
+		$view->set('entry_email_user', $this->language->get('entry_email_user'));
+		$view->set('entry_email_passw', $this->language->get('entry_email_passw'));
+		$view->set('entry_email_host', $this->language->get('entry_email_host'));
+		$view->set('entry_email_localhost', $this->language->get('entry_email_localhost'));
+		$view->set('entry_email_port', $this->language->get('entry_email_port'));
+		$view->set('entry_email_timeout', $this->language->get('entry_email_timeout'));
 		$view->set('entry_cache_query', $this->language->get('entry_cache_query'));
 		$view->set('entry_compress_output', $this->language->get('entry_compress_output'));
 		$view->set('entry_compress_level', $this->language->get('entry_compress_level'));
 		$view->set('entry_download', $this->language->get('entry_download'));
 		$view->set('entry_free_download', $this->language->get('entry_free_download'));
-		$view->set('entry_download_status', $this->language->get('entry_download_status'));		
+		$view->set('entry_download_status', $this->language->get('entry_download_status'));
 		$view->set('entry_image_resize', $this->language->get('entry_image_resize'));
 		$view->set('entry_image_width', $this->language->get('entry_image_width'));
 		$view->set('entry_image_height', $this->language->get('entry_image_height'));
@@ -243,44 +254,52 @@ class ControllerSetting extends Controller {
 		$view->set('entry_rss_source',$this->language->get('entry_rss_source'));
 		$view->set('quantity_selects', array('selectbox', 'textbox'));
 		$view->set('entry_sitemap_status',$this->language->get('entry_sitemap_status'));
- 		$view->set('entry_wm_text',$this->language->get('entry_wm_text'));
+		$view->set('entry_wm_text',$this->language->get('entry_wm_text'));
 		$view->set('font_sizes', array('1', '2', '3', '4', '5'));
- 		$view->set('entry_wm_fontsize',$this->language->get('entry_wm_fontsize'));
- 		$view->set('entry_wm_fontcolor',$this->language->get('entry_wm_fontcolor'));
- 		$view->set('entry_wm_transparency',$this->language->get('entry_wm_transparency'));
- 		$view->set('entry_wm_thposition',$this->language->get('entry_wm_thposition'));
- 		$view->set('entry_wm_tvposition',$this->language->get('entry_wm_tvposition'));
- 		$view->set('entry_wm_thmargin',$this->language->get('entry_wm_thmargin'));
- 		$view->set('entry_wm_tvmargin',$this->language->get('entry_wm_tvmargin'));
+		$view->set('entry_wm_fontsize',$this->language->get('entry_wm_fontsize'));
+		$view->set('entry_wm_fontcolor',$this->language->get('entry_wm_fontcolor'));
+		$view->set('entry_wm_transparency',$this->language->get('entry_wm_transparency'));
+		$view->set('entry_wm_thposition',$this->language->get('entry_wm_thposition'));
+		$view->set('entry_wm_tvposition',$this->language->get('entry_wm_tvposition'));
+		$view->set('entry_wm_thmargin',$this->language->get('entry_wm_thmargin'));
+		$view->set('entry_wm_tvmargin',$this->language->get('entry_wm_tvmargin'));
 		$view->set('entry_wm_image',$this->language->get('entry_wm_image'));
- 		$view->set('entry_wm_scale',$this->language->get('entry_wm_scale'));
- 		$view->set('entry_wm_ihposition',$this->language->get('entry_wm_ihposition'));
- 		$view->set('entry_wm_ivposition',$this->language->get('entry_wm_ivposition'));
- 		$view->set('entry_wm_ihmargin',$this->language->get('entry_wm_ihmargin'));
- 		$view->set('entry_wm_ivmargin',$this->language->get('entry_wm_ivmargin'));
+		$view->set('entry_wm_scale',$this->language->get('entry_wm_scale'));
+		$view->set('entry_wm_ihposition',$this->language->get('entry_wm_ihposition'));
+		$view->set('entry_wm_ivposition',$this->language->get('entry_wm_ivposition'));
+		$view->set('entry_wm_ihmargin',$this->language->get('entry_wm_ihmargin'));
+		$view->set('entry_wm_ivmargin',$this->language->get('entry_wm_ivmargin'));
 		$view->set('entry_discount_options',$this->language->get('entry_discount_options'));
 		$view->set('entry_session_expire',$this->language->get('entry_session_expire'));
 
- 		$view->set('explanation_unregistered',$this->language->get('explanation_unregistered'));
- 		$view->set('explanation_registered',$this->language->get('explanation_registered'));
- 		$view->set('explanation_query_log',$this->language->get('explanation_query_log'));
+		$view->set('explanation_email_log',$this->language->get('explanation_email_log'));
+		$view->set('explanation_email_auth',$this->language->get('explanation_email_auth'));
+		$view->set('explanation_email_user',$this->language->get('explanation_email_user'));
+		$view->set('explanation_email_passw',$this->language->get('explanation_email_passw'));
+		$view->set('explanation_email_host',$this->language->get('explanation_email_host'));
+		$view->set('explanation_email_localhost',$this->language->get('explanation_email_localhost'));
+		$view->set('explanation_email_port',$this->language->get('explanation_email_port'));
+		$view->set('explanation_email_timeout',$this->language->get('explanation_email_timeout'));
+		$view->set('explanation_unregistered',$this->language->get('explanation_unregistered'));
+		$view->set('explanation_registered',$this->language->get('explanation_registered'));
+		$view->set('explanation_query_log',$this->language->get('explanation_query_log'));
 		$view->set('explanation_session_expire',$this->language->get('explanation_session_expire'));
- 		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
+		$view->set('explanation_option_discount',$this->language->get('explanation_option_discount'));
 		$view->set('explanation_stock_icon',$this->language->get('explanation_stock_icon'));
 		$view->set('explanation_stock_warning',$this->language->get('explanation_stock_warning'));
 		$view->set('explanation_wm_text',$this->language->get('explanation_wm_text'));
- 		$view->set('explanation_wm_fontsize',$this->language->get('explanation_wm_fontsize'));
- 		$view->set('explanation_wm_fontcolor',$this->language->get('explanation_wm_fontcolor'));
- 		$view->set('explanation_wm_transparency',$this->language->get('explanation_wm_transparency'));
- 		$view->set('explanation_wm_thposition',$this->language->get('explanation_wm_thposition'));
- 		$view->set('explanation_wm_tvposition',$this->language->get('explanation_wm_tvposition'));
- 		$view->set('explanation_wm_thmargin',$this->language->get('explanation_wm_thmargin'));
- 		$view->set('explanation_wm_tvmargin',$this->language->get('explanation_wm_tvmargin'));
+		$view->set('explanation_wm_fontsize',$this->language->get('explanation_wm_fontsize'));
+		$view->set('explanation_wm_fontcolor',$this->language->get('explanation_wm_fontcolor'));
+		$view->set('explanation_wm_transparency',$this->language->get('explanation_wm_transparency'));
+		$view->set('explanation_wm_thposition',$this->language->get('explanation_wm_thposition'));
+		$view->set('explanation_wm_tvposition',$this->language->get('explanation_wm_tvposition'));
+		$view->set('explanation_wm_thmargin',$this->language->get('explanation_wm_thmargin'));
+		$view->set('explanation_wm_tvmargin',$this->language->get('explanation_wm_tvmargin'));
 		$view->set('explanation_wm_scale',$this->language->get('explanation_wm_scale'));
- 		$view->set('explanation_wm_ihposition',$this->language->get('explanation_wm_ihposition'));
- 		$view->set('explanation_wm_ivposition',$this->language->get('explanation_wm_ivposition'));
- 		$view->set('explanation_wm_ihmargin',$this->language->get('explanation_wm_ihmargin'));
- 		$view->set('explanation_wm_ivmargin',$this->language->get('explanation_wm_ivmargin'));
+		$view->set('explanation_wm_ihposition',$this->language->get('explanation_wm_ihposition'));
+		$view->set('explanation_wm_ivposition',$this->language->get('explanation_wm_ivposition'));
+		$view->set('explanation_wm_ihmargin',$this->language->get('explanation_wm_ihmargin'));
+		$view->set('explanation_wm_ivmargin',$this->language->get('explanation_wm_ivmargin'));
 		$view->set('explanation_wm_image',$this->language->get('explanation_wm_image'));
 		$view->set('explanation_default_weight',$this->language->get('explanation_default_weight'));
 		$view->set('explanation_address',$this->language->get('explanation_address'));
@@ -322,6 +341,13 @@ class ControllerSetting extends Controller {
 		$view->set('error_wm_fontcolor', @$this->error['wm_fontcolor']);
 		$view->set('error_wm_transparency', @$this->error['wm_trancparency']);
 		$view->set('error_wm_scale', @$this->error['wm_scale']);
+		$view->set('error_error_email', @$this->error['error_email']);
+		$view->set('error_email', @$this->error['email']);
+		$view->set('error_email_orders', @$this->error['email_orders']);
+		$view->set('error_email_accounts', @$this->error['email_accounts']);
+		$view->set('error_email_newsletter', @$this->error['email_newsletter']);
+		$view->set('error_email_mail', @$this->error['email_mail']);
+		$view->set('error_email_contact', @$this->error['email_contact']);
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
@@ -334,7 +360,7 @@ class ControllerSetting extends Controller {
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
 
-		if(function_exists('apache_get_modules')){
+		if (function_exists('apache_get_modules')) {
 			if(in_array('mod_rewrite', apache_get_modules())) {
 				$mr_status = 1;
 			} else {
@@ -554,13 +580,13 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_invoice_number', @$setting_info['global']['invoice_number']);
 		}
-		
+
 		if ($this->request->has('global_config_time_zone', 'post')) {
 			$view->set('global_config_time_zone', $this->request->gethtml('global_config_time_zone', 'post'));
 		} else {
 			$view->set('global_config_time_zone', @$setting_info['global']['config_time_zone']);
 		}
-		
+
 		if ($this->request->has('global_error_developer_ip', 'post')) {
 			$view->set('global_error_developer_ip', $this->request->gethtml('global_error_developer_ip', 'post'));
 		} else {
@@ -591,37 +617,37 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_error_handler_status', @$setting_info['global']['error_handler_status']);
 		}
-		
+
 		if ($this->request->has('global_config_email', 'post')) {
 			$view->set('global_config_email', $this->request->gethtml('global_config_email', 'post'));
 		} else {
 			$view->set('global_config_email', @$setting_info['global']['config_email']);
 		}
-		
+
 		if ($this->request->has('global_config_email_orders', 'post')) {
 			$view->set('global_config_email_orders', $this->request->gethtml('global_config_email_orders', 'post'));
 		} else {
 			$view->set('global_config_email_orders', @$setting_info['global']['config_email_orders']);
 		}
-		
+
 		if ($this->request->has('global_config_email_accounts', 'post')) {
 			$view->set('global_config_email_accounts', $this->request->gethtml('global_config_email_accounts', 'post'));
 		} else {
 			$view->set('global_config_email_accounts', @$setting_info['global']['config_email_accounts']);
 		}
-		
+
 		if ($this->request->has('global_config_email_newsletter', 'post')) {
 			$view->set('global_config_email_newsletter', $this->request->gethtml('global_config_email_newsletter', 'post'));
 		} else {
 			$view->set('global_config_email_newsletter', @$setting_info['global']['config_email_newsletter']);
 		}
-		
+
 		if ($this->request->has('global_config_email_mail', 'post')) {
 			$view->set('global_config_email_mail', $this->request->gethtml('global_config_email_mail', 'post'));
 		} else {
 			$view->set('global_config_email_mail', @$setting_info['global']['config_email_mail']);
 		}
-		
+
 		if ($this->request->has('global_config_email_contact', 'post')) {
 			$view->set('global_config_email_contact', $this->request->gethtml('global_config_email_contact', 'post'));
 		} else {
@@ -633,19 +659,58 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_email_send', @$setting_info['global']['config_email_send']);
 		}
-
+		if ($this->request->has('global_config_email_log', 'post')) {
+			$view->set('global_config_email_log', $this->request->gethtml('global_config_email_log', 'post'));
+		} else {
+			$view->set('global_config_email_log', @$setting_info['global']['config_email_log']);
+		}
+		if ($this->request->has('global_config_email_auth', 'post')) {
+			$view->set('global_config_email_auth', $this->request->gethtml('global_config_email_auth', 'post'));
+		} else {
+			$view->set('global_config_email_auth', @$setting_info['global']['config_email_auth']);
+		}
+		if ($this->request->has('global_config_email_user', 'post')) {
+			$view->set('global_config_email_user', $this->request->gethtml('global_config_email_user', 'post'));
+		} else {
+			$view->set('global_config_email_user', @$setting_info['global']['config_email_user']);
+		}
+		if ($this->request->has('global_config_email_passw', 'post')) {
+			$view->set('global_config_email_passw', $this->request->gethtml('global_config_email_passw', 'post'));
+		} else {
+			$view->set('global_config_email_passw', @$setting_info['global']['config_email_passw']);
+		}
+		if ($this->request->has('global_config_email_host', 'post')) {
+			$view->set('global_config_email_host', $this->request->gethtml('global_config_email_host', 'post'));
+		} else {
+			$view->set('global_config_email_host', @$setting_info['global']['config_email_host']);
+		}
+		if ($this->request->has('global_config_email_lhost', 'post')) {
+			$view->set('global_config_email_lhost', $this->request->gethtml('global_config_email_lhost', 'post'));
+		} else {
+			$view->set('global_config_email_lhost', @$setting_info['global']['config_email_lhost']);
+		}
+		if ($this->request->has('global_config_email_port', 'post')) {
+			$view->set('global_config_email_port', $this->request->gethtml('global_config_email_port', 'post'));
+		} else {
+			$view->set('global_config_email_port', @$setting_info['global']['config_email_port']);
+		}
+		if ($this->request->has('global_config_email_tout', 'post')) {
+			$view->set('global_config_email_tout', $this->request->gethtml('global_config_email_tout', 'post'));
+		} else {
+			$view->set('global_config_email_tout', @$setting_info['global']['config_email_tout']);
+		}
 		if ($this->request->has('catalog_config_parse_time', 'post')) {
 			$view->set('catalog_config_parse_time', $this->request->gethtml('catalog_config_parse_time', 'post'));
 		} else {
 			$view->set('catalog_config_parse_time', @$setting_info['catalog']['config_parse_time']);
 		}
-		
+
 		if ($this->request->has('global_config_query_log', 'post')) {
 			$view->set('global_config_query_log', $this->request->gethtml('global_config_query_log', 'post'));
 		} else {
 			$view->set('global_config_query_log', @$setting_info['global']['config_query_log']);
 		}
-		
+
 		if ($this->request->has('global_config_query_count', 'post')) {
 			$view->set('global_config_query_count', $this->request->gethtml('global_config_query_count', 'post'));
 		} else {
@@ -693,31 +758,31 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_config_stock_subtract', @$setting_info['catalog']['config_stock_subtract']);
 		}
-		
+
 		if ($this->request->has('catalog_config_show_stock')) {
 			$view->set('catalog_config_show_stock', $this->request->gethtml('catalog_config_show_stock'));
 		} else {
 			$view->set('catalog_config_show_stock', @$setting_info['catalog']['config_show_stock']);
 		}
-		
+
 		if ($this->request->has('catalog_config_show_stock_icon')) {
 			$view->set('catalog_config_show_stock_icon', $this->request->gethtml('catalog_config_show_stock_icon'));
 		} else {
 			$view->set('catalog_config_show_stock_icon', @$setting_info['catalog']['config_show_stock_icon']);
 		}
-		
+
 		if ($this->request->has('catalog_config_low_stock_warning')) {
 			$view->set('catalog_config_low_stock_warning', $this->request->gethtml('catalog_config_low_stock_warning'));
 		} else {
 			$view->set('catalog_config_low_stock_warning', @$setting_info['catalog']['config_low_stock_warning']);
 		}
-		
+
 		if ($this->request->has('catalog_config_discount_options')) {
 			$view->set('catalog_config_discount_options', $this->request->gethtml('catalog_config_discount_options'));
 		} else {
 			$view->set('catalog_config_discount_options', @$setting_info['catalog']['config_discount_options']);
 		}
-		
+
 		if ($this->request->has('catalog_config_guest_checkout')) {
 			$view->set('catalog_config_guest_checkout', $this->request->gethtml('catalog_config_guest_checkout'));
 		} else {
@@ -840,19 +905,19 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_category_addtocart', @$setting_info['catalog']['category_addtocart']);
 		}
-		
+
 		if ($this->request->has('catalog_addtocart_quantity_box')) {
 			$view->set('catalog_addtocart_quantity_box', $this->request->gethtml('catalog_addtocart_quantity_box'));
 		} else {
 			$view->set('catalog_addtocart_quantity_box', @$setting_info['catalog']['addtocart_quantity_box']);
 		}
-		
+
 		if ($this->request->has('catalog_addtocart_quantity_max')) {
 			$view->set('catalog_addtocart_quantity_max', $this->request->gethtml('catalog_addtocart_quantity_max'));
 		} else {
 			$view->set('catalog_addtocart_quantity_max', @$setting_info['catalog']['addtocart_quantity_max']);
 		}
-		
+
 		if ($this->request->has('catalog_search_image_width')) {
 			$view->set('catalog_search_image_width', $this->request->gethtml('catalog_search_image_width'));
 		} else {
@@ -913,7 +978,7 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_content_lines_char', @$setting_info['catalog']['content_lines_char']);
 		}
-		
+
 		if ($this->request->has('catalog_options_manufacturer', 'post')) {
 			$view->set('catalog_options_manufacturer', $this->request->gethtml('catalog_options_manufacturer', 'post'));
 		} else {
@@ -924,7 +989,7 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_options_model', @$setting_info['catalog']['options_model']);
 		}
-		
+
 		if ($this->request->has('catalog_search_rows')) {
 			$view->set('catalog_search_rows', $this->request->gethtml('catalog_search_rows'));
 		} else {
@@ -1035,12 +1100,12 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_config_language', @$setting_info['catalog']['config_language']);
 		}
-        
-        if ($this->request->has('admin_config_language')) {
-            $view->set('admin_config_language', $this->request->gethtml('admin_config_language'));
-        } else {
-            $view->set('admin_config_language', @$setting_info['admin']['config_language']);
-        }
+
+		if ($this->request->has('admin_config_language')) {
+			$view->set('admin_config_language', $this->request->gethtml('admin_config_language'));
+		} else {
+			$view->set('admin_config_language', @$setting_info['admin']['config_language']);
+		}
 
 		$view->set('languages', $this->modelSetting->get_languages());
 
@@ -1105,8 +1170,8 @@ class ControllerSetting extends Controller {
 			foreach ($results as $result){
 				$dimensions[$i][] = array(
 					'dimension_id'	=> $result['dimension_id'],
-					'unit'			=> $result['unit'],
-					'title'			=> $result['title']
+					'unit'		=> $result['unit'],
+					'title'		=> $result['title']
 				);
 			}
 		}
@@ -1117,32 +1182,32 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_rss_limit', @$setting_info['global']['config_rss_limit']);
 		}
-		
+
 		if ($this->request->has('global_config_rss_status')) {
 			$view->set('global_config_rss_status', $this->request->gethtml('global_config_rss_status'));
 		} else {
 			$view->set('global_config_rss_status', @$setting_info['global']['config_rss_status']);
 		}
-		
+
 		if ($this->request->has('global_config_rss_status')) {
 			$view->set('global_config_rss_status', $this->request->gethtml('global_config_rss_status'));
 		} else {
 			$view->set('global_config_rss_status', @$setting_info['global']['config_rss_status']);
 		}
-		
+
 		if ($this->request->has('global_config_rss_source')) {
 			$view->set('global_config_rss_source', $this->request->gethtml('global_config_rss_source'));
 		} else {
 			$view->set('global_config_rss_source', @$setting_info['global']['config_rss_source']);
 		}
-		
+
 		$rss_sources = array(
 							'rss_featured' => $this->language->get('text_rss_featured'),
 							'rss_latest'   => $this->language->get('text_rss_latest'),
 							'rss_popular'  => $this->language->get('text_rss_popular'),
 							'rss_specials' => $this->language->get('text_rss_specials'));
 		$view->set('rss_sources', $rss_sources);
-		
+
 		if ($this->request->has('global_config_sitemap_status')) {
 			$view->set('global_config_sitemap_status', $this->request->gethtml('global_config_sitemap_status'));
 		} else {
@@ -1187,7 +1252,7 @@ class ControllerSetting extends Controller {
 		}
 
 		$view->set('order_statuses', $this->modelSetting->get_order_statuses());
- 
+
 		if ($this->request->has('catalog_config_download')) {
 			$view->set('catalog_config_download', $this->request->gethtml('catalog_config_download'));
 		} else {
@@ -1210,7 +1275,7 @@ class ControllerSetting extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
+
 	function updateRates(){
 		$this->modelSetting->set_default_currency();
 		set_time_limit(90);
@@ -1218,13 +1283,13 @@ class ControllerSetting extends Controller {
 		$from = $this->request->gethtml('global_config_currency', 'post');
 		$results = $this->modelSetting->get_codes();
 		$base_rate = 1.00 + $this->request->gethtml('global_config_currency_surcharge', 'post');
-		foreach ($results as $to) {	
+		foreach ($results as $to) {
 			if ($to['status']){
 				$rate = $this->currency->currency_converter($base_rate, $from, $to['code']);
 				$rate = str_replace(',','.',$rate);
 				if ($rate > 0){
 					$this->modelSetting->update_rates($rate, $to['code']);
-				}	
+				}
 			}
 			if((microtime(true)-$start_time)>88){
 				$this->session->set('message', $this->language->get('error_time'));
@@ -1235,7 +1300,7 @@ class ControllerSetting extends Controller {
 		$this->cache->delete('currency');
 		
 	}
-	
+
 	function getLogos(){
 		$logos_data = array();
 		$files = glob(DIR_IMAGE.'logo'.D_S.'*.*');
@@ -1277,7 +1342,7 @@ class ControllerSetting extends Controller {
 		}
 		$this->response->set($output);
 	}
-	
+
 	function viewLogo(){
 		if($this->request->gethtml('store_logo')){
 			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('store_logo') . '"';
@@ -1308,12 +1373,12 @@ class ControllerSetting extends Controller {
 				$filename = basename($file);
 				$colors_data[] = array(
 					'colorcss'   => $filename
-				);	
+				);
 			}
 		}
 		return $colors_data;
 	}
-	
+
 	function validate_update() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -1323,48 +1388,69 @@ class ControllerSetting extends Controller {
 		if (!$this->user->hasPermission('modify', 'setting')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-        if (!$this->validate->strlen($this->request->gethtml('global_config_store', 'post'),1,32)) {
+		if (!$this->validate->strlen($this->request->gethtml('global_config_store', 'post'),1,32)) {
 			$this->error['store'] = $this->language->get('error_store');
 		}
-        if (!$this->validate->strlen($this->request->gethtml('global_config_owner', 'post'),1,32)) {
+		if (!$this->validate->strlen($this->request->gethtml('global_config_owner', 'post'),1,32)) {
 			$this->error['owner'] = $this->language->get('error_owner');
 		}
-        if (!$this->validate->strlen($this->request->gethtml('global_config_address', 'post'),1,128)) {
+		if (!$this->validate->strlen($this->request->gethtml('global_config_address', 'post'),1,128)) {
 			$this->error['address'] = $this->language->get('error_address');
 		}
-        if (!$this->validate->strlen($this->request->gethtml('global_config_telephone', 'post'),5,32)) {
+		if (!$this->validate->strlen($this->request->gethtml('global_config_telephone', 'post'),5,32)) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
+		}
+		if (((!$this->validate->strlen($this->request->gethtml('global_config_error_email', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('global_config_error_email', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('global_config_error_email', 'post')) == FALSE) && $this->request->gethtml('global_config_error_email', 'post')) {
+		$this->error['error_email'] = $this->language->get('error_email');
+		}
+		if (((!$this->validate->strlen($this->request->gethtml('global_config_email', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('global_config_email', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('global_config_email', 'post')) == FALSE) && $this->request->gethtml('global_config_email', 'post')) {
+		$this->error['email'] = $this->language->get('error_email');
+		}
+		if (((!$this->validate->strlen($this->request->gethtml('global_config_email_accounts', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('global_config_email_accounts', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('global_config_email_accounts', 'post')) == FALSE) && $this->request->gethtml('global_config_email_accounts', 'post')) {
+		$this->error['email_accounts'] = $this->language->get('error_email');
+		}
+		if (((!$this->validate->strlen($this->request->gethtml('global_config_email_contact', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('global_config_email_contact', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('global_config_email_contact', 'post')) == FALSE) && $this->request->gethtml('global_config_email_contact', 'post')) {
+		$this->error['email_contact'] = $this->language->get('error_email');
+		}
+		if (((!$this->validate->strlen($this->request->gethtml('global_config_email_mail', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('global_config_email_mail', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('global_config_email_mail', 'post')) == FALSE) && $this->request->gethtml('global_config_email_mail', 'post')) {
+		$this->error['email_mail'] = $this->language->get('error_email');
+		}
+		if (((!$this->validate->strlen($this->request->gethtml('global_config_email_newsletter', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('global_config_email_newsletter', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('global_config_email_newsletter', 'post')) == FALSE) && $this->request->gethtml('global_config_email_newsletter', 'post')) {
+		$this->error['email_newsletter'] = $this->language->get('error_email');
+		}
+		if (((!$this->validate->strlen($this->request->gethtml('global_config_email_orders', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('global_config_email_orders', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('global_config_email_orders', 'post')) == FALSE) && $this->request->gethtml('global_config_email_orders', 'post')) {
+		$this->error['email_orders'] = $this->language->get('error_email');
 		}
 		if (!$this->validate->strlen($this->request->gethtml('catalog_config_colors','post'),6,32)){
 			$this->error['color'] = $this->language->get('error_color');
 		}
-	if ($this->request->gethtml('wm_text', 'post') !='') {
-		if (!$this->validate->strlen($this->request->gethtml('wm_text', 'post'),0,64)) {
-			$this->error['wm_text'] = $this->language->get('error_wm_text');
+		if ($this->request->gethtml('wm_text', 'post') !='') {
+			if (!$this->validate->strlen($this->request->gethtml('wm_text', 'post'),0,64)) {
+				$this->error['wm_text'] = $this->language->get('error_wm_text');
+			}
 		}
-	}
-	if ($this->request->gethtml('wm_fontcolor', 'post') !='') {
-		if (!$this->validate->strlen($this->request->gethtml('wm_fontcolor', 'post'),6,6) || !$this->validate->is_hexcolor($this->request->gethtml('wm_fontcolor', 'post'))) {
-			$this->error['wm_fontcolor'] = $this->language->get('error_wm_fontcolor');
+		if ($this->request->gethtml('wm_fontcolor', 'post') !='') {
+			if (!$this->validate->strlen($this->request->gethtml('wm_fontcolor', 'post'),6,6) || !$this->validate->is_hexcolor($this->request->gethtml('wm_fontcolor', 'post'))) {
+				$this->error['wm_fontcolor'] = $this->language->get('error_wm_fontcolor');
+			}
 		}
-	}
-	if ($this->request->gethtml('wm_transparency', 'post') !='') {
-		if ($this->request->gethtml('wm_transparency', 'post') < 0 || $this->request->gethtml('wm_transparency', 'post') > 100) {
-			$this->error['wm_trancparency'] = $this->language->get('error_wm_transparency');
+		if ($this->request->gethtml('wm_transparency', 'post') !='') {
+			if ($this->request->gethtml('wm_transparency', 'post') < 0 || $this->request->gethtml('wm_transparency', 'post') > 100) {
+				$this->error['wm_trancparency'] = $this->language->get('error_wm_transparency');
+			}
 		}
-	}
-	if ($this->request->gethtml('wm_scale', 'post') !='') {
-		if ($this->request->gethtml('wm_scale', 'post') < 0 || $this->request->gethtml('wm_scale', 'post') > 100) {
-			$this->error['wm_scale'] = $this->language->get('error_wm_scale');
+		if ($this->request->gethtml('wm_scale', 'post') !='') {
+			if ($this->request->gethtml('wm_scale', 'post') < 0 || $this->request->gethtml('wm_scale', 'post') > 100) {
+				$this->error['wm_scale'] = $this->language->get('error_wm_scale');
+			}
 		}
-	}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	
+
 	function getToken(){
 		$token = $this->request->gethtml('token');
 		$output = '<input type="text" size="40"';
@@ -1376,7 +1462,7 @@ class ControllerSetting extends Controller {
 		}
 		$this->response->set($output);
 	}
-	
+
 	function getColors(){
 		$style = $this->request->gethtml('style');
 		$columns = $this->request->gethtml('columns');
@@ -1393,6 +1479,7 @@ class ControllerSetting extends Controller {
 		}
 		$this->response->set($output);
 	}
+
 	function zone() {
 		$output = '<select name="global_config_zone_id">';
 		$results = $this->modelSetting->get_country_zones();

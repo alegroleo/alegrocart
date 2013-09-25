@@ -1398,3 +1398,15 @@ ALTER TABLE `address`
 ADD `vendor_id` int(11) NOT NULL default '0' AFTER `customer_id`;
 ALTER TABLE `address`
 ADD KEY `vendor_id` (`vendor_id`);
+
+#
+#Add SMTP support
+#
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_email_port';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_email_port', '25') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_email_tout';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_email_tout', '10') ON DUPLICATE KEY UPDATE setting_id=setting_id;

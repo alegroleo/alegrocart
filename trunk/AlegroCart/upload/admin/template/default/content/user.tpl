@@ -53,7 +53,10 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_email; ?></td>
-              <td><input type="text" name="email" value="<?php echo $email; ?>"></td>
+              <td><input type="text" name="email" value="<?php echo $email; ?>">
+                <?php if ($error_email) { ?>
+                <span class="error"><?php echo $error_email; ?></span>
+                <?php  } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_user_group; ?></td>

@@ -20,7 +20,7 @@ class Database {
   		$this->config =& $locator->get('config');
 		$this->cache  =& $locator->get('cache');
 		$this->mail     =& $locator->get('mail');
-		$this->query_text = "time: ".date("j-m-d H:i:s (T)", mktime())."\n";
+		$this->query_text = "time: ".@date("j-m-d H:i:s (T)", time())."\n";
 		if(isset($_SERVER['REQUEST_URI'])) {
 			$this->query_text .= 'Path: '.$_SERVER['REQUEST_URI']."\n";
 		}

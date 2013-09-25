@@ -136,7 +136,7 @@ class ErrorHandler{
 	}
 		
 	function log_error_msg(){
-		$message =  "time: ".date("j-m-d H:i:s (T)", mktime())."\n";
+		$message =  "time: ".date("j-m-d H:i:s (T)", time())."\n";
 		$message .= "file: ".print_r( $this->errfile, true)."\n";
 		$message .= "line: ".print_r( $this->errline, true)."\n";
 		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true)."\n";

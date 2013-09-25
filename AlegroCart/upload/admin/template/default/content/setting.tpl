@@ -395,7 +395,10 @@
 			
 			<tr>
               <td width="185" class="set"><?php echo $entry_error_email; ?></td>
-              <td><input size="64" type="text" name="global_config_error_email" value="<?php echo $global_config_error_email; ?>"></td>
+              <td><input size="64" type="text" name="global_config_error_email" value="<?php echo $global_config_error_email; ?>">
+                <?php if ($error_error_email) { ?>
+                <span class="error"><?php echo $error_error_email; ?></span>
+                <?php  } ?></td>
 			  <td class="expl">
 			    <?php echo $text_error_email; ?> 
 			  </td>
@@ -978,9 +981,15 @@
       <div class="page">
         <div class="pad">
           <table>
+		<tr>
+		  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_email_general; ?></p></td>
+		</tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email; ?></td>
-              <td><input size="64" type="text" name="global_config_email" value="<?php echo $global_config_email; ?>"></td>
+              <td><input size="64" type="text" name="global_config_email" value="<?php echo $global_config_email; ?>">
+                <?php if ($error_email) { ?>
+                <span class="error"><?php echo $error_email; ?></span>
+                <?php  } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_email_send; ?></td>
@@ -995,35 +1004,127 @@
                 <input type="radio" name="global_config_email_send" value="0" id="gcesno" checked>
                 <label for="gcesno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-            </tr> 
+            </tr>
+		<tr>
+              <td class="set"><?php echo $entry_email_log; ?></td>
+              <td><?php if ($global_config_email_log) { ?>
+                <input type="radio" name="global_config_email_log" value="1" id="gcelyes" checked>
+                <label for="gcelyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_email_log" value="0" id="gcelno">
+                <label for="gcelno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_config_email_log" value="1" id="gcelyes">
+                <label for="gcelyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_email_log" value="0" id="gcelno" checked>
+                <label for="gcelno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+			  <td class="expl">
+			    <?php echo $explanation_email_log; ?> 
+			  </td>
+            </tr>
 	    <tr><td colspan="2"><hr></td>
 	    </tr>
-	 
+		<tr>
+		  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_email_smtp; ?></p></td>
+		</tr>
+		<tr>
+              <td class="set"><?php echo $entry_email_auth; ?></td>
+              <td><?php if ($global_config_email_auth) { ?>
+                <input type="radio" name="global_config_email_auth" value="1" id="gceayes" checked="checked">
+                <label for="gceayes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_email_auth" value="0" id="gceano">
+                <label for="gceano"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_config_email_auth" value="1" id="gceayes">
+                <label for="gceayes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_email_auth" value="0" id="gceano" checked="checked">
+                <label for="gceano"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+			  <td class="expl">
+			    <?php echo $explanation_email_auth; ?> 
+			  </td>
+            </tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_email_user; ?></td>
+              <td><input size="64" type="text" name="global_config_email_user" id="global_config_email_user" value="<?php echo $global_config_email_user; ?>" disabled="disabled"></td>
+		<td class="expl">
+		  <?php echo $explanation_email_user; ?> 
+		</td>
+            </tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_email_passw; ?></td>
+              <td><input size="64" type="text" name="global_config_email_passw" id="global_config_email_passw" value="<?php echo $global_config_email_passw; ?>" disabled="disabled"></td>
+		<td class="expl">
+		  <?php echo $explanation_email_passw; ?> 
+		</td>
+            </tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_email_host; ?></td>
+              <td><input size="64" type="text" name="global_config_email_host" id="global_config_email_host" value="<?php echo $global_config_email_host; ?>" disabled="disabled"></td>
+		<td class="expl">
+		  <?php echo $explanation_email_host; ?> 
+		</td>
+            </tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_email_localhost; ?></td>
+              <td><input size="64" type="text" name="global_config_email_lhost" id="global_config_email_lhost" value="<?php echo $global_config_email_lhost; ?>" disabled="disabled"></td>
+		<td class="expl">
+		  <?php echo $explanation_email_localhost; ?> 
+		</td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_email_port; ?></td>
+              <td><input type="text" name="global_config_email_port" id="global_config_email_port" value="<?php echo $global_config_email_port; ?>" size="3" disabled="disabled"></td>
+		<td class="expl">
+		  <?php echo $explanation_email_port; ?> 
+		</td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_email_timeout; ?></td>
+              <td><input type="text" name="global_config_email_tout" id="global_config_email_tout" value="<?php echo $global_config_email_tout; ?>" size="3" disabled="disabled"></td>
+		<td class="expl">
+		  <?php echo $explanation_email_timeout; ?> 
+		</td>
+            </tr>
+	    <tr><td colspan="2"><hr></td>
+	    </tr>
 			<tr>
 			  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_emails; ?></p></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_orders; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_orders" value="<?php echo $global_config_email_orders; ?>"></td>
+			  <td><input size="64" type="text" name="global_config_email_orders" value="<?php echo $global_config_email_orders; ?>">
+			  <?php if ($error_email_orders) { ?>
+			  <span class="error"><?php echo $error_email_orders; ?></span>
+			  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_accounts; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_accounts" value="<?php echo $global_config_email_accounts; ?>"></td>
-			</tr>
+			  <td><input size="64" type="text" name="global_config_email_accounts" value="<?php echo $global_config_email_accounts; ?>">
+			  <?php if ($error_email_accounts) { ?>
+			  <span class="error"><?php echo $error_email_accounts; ?></span>
+			  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_newsletter; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_newsletter" value="<?php echo $global_config_email_newsletter; ?>"></td>
-			</tr>
+			  <td><input size="64" type="text" name="global_config_email_newsletter" value="<?php echo $global_config_email_newsletter; ?>">
+			  <?php if ($error_email_newsletter) { ?>
+			  <span class="error"><?php echo $error_email_newsletter; ?></span>
+			  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_mail; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_mail" value="<?php echo $global_config_email_mail; ?>"></td>
-			</tr>
+			  <td><input size="64" type="text" name="global_config_email_mail" value="<?php echo $global_config_email_mail; ?>">
+			  <?php if ($error_email_mail) { ?>
+			  <span class="error"><?php echo $error_email_mail; ?></span>
+			  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_contact; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_contact" value="<?php echo $global_config_email_contact; ?>"></td>
+			  <td><input size="64" type="text" name="global_config_email_contact" value="<?php echo $global_config_email_contact; ?>">
+			  <?php if ($error_email_contact) { ?>
+			  <span class="error"><?php echo $error_email_contact; ?></span>
+			  <?php  } ?></td>
 			</tr>
           </table>
         </div>
@@ -1588,5 +1689,37 @@
   //--></script>
   <script type="text/javascript"><!--
       $('#wm_image').load('index.php?controller=setting&action=viewWmImage&wm_image='+document.getElementById('wm_image_id').value);
+    //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+    $('#gceayes:checked').each(function() {
+		$('#global_config_email_user').attr("disabled", false);
+		$('#global_config_email_passw').attr("disabled", false);
+		$('#global_config_email_host').attr("disabled", false);
+		$('#global_config_email_lhost').attr("disabled", false);
+		$('#global_config_email_port').attr("disabled", false);
+		$('#global_config_email_tout').attr("disabled", false);
+    });
+});
+    //--></script>
+  <script type="text/javascript"><!--
+  $('#gceayes').click(function() {
+		$('#global_config_email_user').attr("disabled", false);
+		$('#global_config_email_passw').attr("disabled", false);
+		$('#global_config_email_host').attr("disabled", false);
+		$('#global_config_email_lhost').attr("disabled", false);
+		$('#global_config_email_port').attr("disabled", false);
+		$('#global_config_email_tout').attr("disabled", false);
+  });
+    //--></script>
+  <script type="text/javascript"><!--
+  $('#gceano').click(function() {
+		$('#global_config_email_user').attr("disabled", true);
+		$('#global_config_email_passw').attr("disabled", true);
+		$('#global_config_email_host').attr("disabled", true);
+		$('#global_config_email_lhost').attr("disabled", true);
+		$('#global_config_email_port').attr("disabled", true);
+		$('#global_config_email_tout').attr("disabled", true);
+});
     //--></script>
 </form>

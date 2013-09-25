@@ -61,6 +61,14 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'error_handler_status', `value` = '" . $this->request->gethtml('global_error_handler_status', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email', `value` = '" . $this->request->gethtml('global_config_email', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_send', `value` = '" . $this->request->gethtml('global_config_email_send', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_log', `value` = '" . $this->request->gethtml('global_config_email_log', 'post') . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_auth', `value` = '" . $this->request->gethtml('global_config_email_auth', 'post') . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_user', `value` = '" . $this->request->gethtml('global_config_email_user', 'post') . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_passw', `value` = '" . $this->request->gethtml('global_config_email_passw', 'post') . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_host', `value` = '" . $this->request->gethtml('global_config_email_host', 'post') . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_lhost', `value` = '" . $this->request->gethtml('global_config_email_lhost', 'post') . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_port', `value` = '" . $this->request->gethtml('global_config_email_port', 'post') . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_tout', `value` = '" . $this->request->gethtml('global_config_email_tout', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_orders', `value` = '" . $this->request->gethtml('global_config_email_orders', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_accounts', `value` = '" . $this->request->gethtml('global_config_email_accounts', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_newsletter', `value` = '" . $this->request->gethtml('global_config_email_newsletter', 'post')  . "'");

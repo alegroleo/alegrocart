@@ -1,6 +1,6 @@
 <?php //AdminModelCustomer AlegroCart
 class Model_Admin_Customer extends Model {
-	function __construct(&$locator) {	
+	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
 		$this->language =& $locator->get('language');
@@ -8,8 +8,8 @@ class Model_Admin_Customer extends Model {
 		$this->session 	=& $locator->get('session');
 	}
 	function insert_customer(){
-		$sql = "insert into customer set firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', newsletter = '?', password = '?', status = '?', date_added = now()";
-      	$this->database->query($this->database->parse($sql, $this->request->gethtml('firstname', 'post'), $this->request->gethtml('lastname', 'post'), $this->request->gethtml('email', 'post'), $this->request->gethtml('telephone', 'post'), $this->request->gethtml('fax', 'post'), $this->request->gethtml('newsletter', 'post'), md5($this->request->gethtml('password', 'post')), $this->request->gethtml('status', 'post')));
+		$sql = "insert into customer set firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', newsletter = '?', status = '?', date_added = now()";
+	$this->database->query($this->database->parse($sql, $this->request->gethtml('firstname', 'post'), $this->request->gethtml('lastname', 'post'), $this->request->gethtml('email', 'post'), $this->request->gethtml('telephone', 'post'), $this->request->gethtml('fax', 'post'), $this->request->gethtml('newsletter', 'post'), $this->request->gethtml('status', 'post')));
 	}
 	function get_insert_id(){
 		$insert_id = $this->database->getLastId();
@@ -24,7 +24,7 @@ class Model_Admin_Customer extends Model {
 	}
 	function update_customer(){
 		$sql = "update customer set firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', newsletter = '?', status = '?' where customer_id = '?'";
-      	$this->database->query($this->database->parse($sql, $this->request->gethtml('firstname', 'post'), $this->request->gethtml('lastname', 'post'), $this->request->gethtml('email', 'post'), $this->request->gethtml('telephone', 'post'), $this->request->gethtml('fax', 'post'), $this->request->gethtml('newsletter', 'post'), $this->request->gethtml('status', 'post'), (int)$this->request->gethtml('customer_id')));
+	$this->database->query($this->database->parse($sql, $this->request->gethtml('firstname', 'post'), $this->request->gethtml('lastname', 'post'), $this->request->gethtml('email', 'post'), $this->request->gethtml('telephone', 'post'), $this->request->gethtml('fax', 'post'), $this->request->gethtml('newsletter', 'post'), $this->request->gethtml('status', 'post'), (int)$this->request->gethtml('customer_id')));
 	}
 	function update_address(){
 		$sql = "update address set company = '?', firstname = '?', lastname = '?', address_1 = '?', address_2 = '?', postcode = '?', city = '?', zone_id = '?', country_id = '?' where address_id  = '?' and customer_id = '?'";
@@ -32,7 +32,7 @@ class Model_Admin_Customer extends Model {
 	}
 	function delete_customer(){
 		$this->database->query("delete from customer where customer_id = '" . (int)$this->request->gethtml('customer_id') . "'");
-      	$this->database->query("delete from address where customer_id = '" . (int)$this->request->gethtml('customer_id') . "'"); 
+	$this->database->query("delete from address where customer_id = '" . (int)$this->request->gethtml('customer_id') . "'"); 
 	}
 	function get_customer(){
 		$result = $this->database->getRow("select distinct * from customer where customer_id = '" . (int)$this->request->gethtml('customer_id') . "'");
@@ -56,17 +56,17 @@ class Model_Admin_Customer extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('customer.search')) {
-      		$sql = "select customer_id, lastname, firstname, status, date_added from customer";
+		$sql = "select customer_id, lastname, firstname, status, date_added from customer";
 		} else {
-      		$sql = "select customer_id, lastname, firstname, status, date_added from customer where lastname like '?' or firstname like '?'";
-    	}
+		$sql = "select customer_id, lastname, firstname, status, date_added from customer where lastname like '?' or firstname like '?'";
+	}
 		$sort = array('lastname', 'firstname', 'status', 'date_added');
 		if (in_array($this->session->get('customer.sort'), $sort)) {
-      		$sql .= " order by " . $this->session->get('customer.sort') . " " . (($this->session->get('customer.order') == 'desc') ? 'desc' : 'asc');
-    	} else {
-      		$sql .= " order by lastname, firstname asc";
-    	}
-    	$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('customer.search') . '%', '%' . $this->session->get('customer.search') . '%'), $this->session->get('customer.page'), $this->config->get('config_max_rows')));
+		$sql .= " order by " . $this->session->get('customer.sort') . " " . (($this->session->get('customer.order') == 'desc') ? 'desc' : 'asc');
+	} else {
+		$sql .= " order by lastname, firstname asc";
+	}
+	$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('customer.search') . '%', '%' . $this->session->get('customer.search') . '%'), $this->session->get('customer.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}
 	function get_text_results(){
@@ -74,13 +74,13 @@ class Model_Admin_Customer extends Model {
 		return $text_results;
 	}
 	function get_pagination(){
-    	$page_data = array();
-    	for ($i = 1; $i <= $this->get_pages(); $i++) {
-      		$page_data[] = array(
-        		'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
-        		'value' => $i
-      		);
-    	}
+	$page_data = array();
+	for ($i = 1; $i <= $this->get_pages(); $i++) {
+		$page_data[] = array(
+			'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
+			'value' => $i
+		);
+	}
 		return $page_data;
 	}
 	function get_pages(){

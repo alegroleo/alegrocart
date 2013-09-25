@@ -34,8 +34,6 @@ $_['entry_telephone']     = 'Telephone:';
 $_['entry_fax']           = 'Fax:';
 $_['entry_status']        = 'Status:';
 $_['entry_newsletter']    = 'Newsletter:';
-$_['entry_password']      = 'Password:';
-$_['entry_confirm']       = 'Confirm:';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify customers';

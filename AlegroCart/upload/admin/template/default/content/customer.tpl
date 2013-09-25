@@ -63,32 +63,6 @@
               <td><input type="text" name="fax" value="<?php echo $fax; ?>"></td>
             </tr>
             <tr>
-              <td class="set"><?php echo $entry_password; ?></td>
-              <td>
-			    <?php if (@$update) { ?>
-				  <input type="password" readonly="readonly" name="password" value="<?php echo $password; ?>" >
-				<?php } else { ?>
-			      <input type="password" name="password" value="<?php echo $password; ?>" >
-                  <?php if ($error_password) { ?>
-                    <span class="error"><?php echo $error_password; ?></span>
-                  <?php  } ?>
-				<?php  } ?>
-			  </td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_confirm; ?></td>
-              <td>
-			    <?php if (@$update) { ?>
-				  <input type="password" readonly="readonly" name="confirm" value="<?php echo $confirm; ?>">
-				<?php } else { ?>
-				  <input type="password" name="confirm" value="<?php echo $confirm; ?>">
-                  <?php if ($error_confirm) { ?>
-                    <span class="error"><?php echo $error_confirm; ?></span>
-                  <?php  } ?>
-				<?php  } ?>
-			  </td>
-            </tr>
-            <tr>
               <td class="set"><?php echo $entry_newsletter; ?></td>
               <td><select name="newsletter">
                   <?php if ($newsletter) { ?>

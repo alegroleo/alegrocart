@@ -101,7 +101,7 @@ class Locator {
 
 	function createMail() {
 		require_once(DIR_LIBRARY.'mail/mail.php');
-		return new Mail();
+		return new Mail($this);
 	}
 	
 	function createModel() {

@@ -44,13 +44,13 @@
 #prevLink, #nextLink{
 	width: 49%;
 	height: 100%;
-	background: transparent url('../image/lightbox/blank.gif') no-repeat; /* Trick IE into showing hover */
+	background: transparent url(../image/lightbox/blank.gif) no-repeat; /* Trick IE into showing hover */
 	display: block;
 	}
 #prevLink { left: 0; float: left;}
 #nextLink { right: 0; float: right;}
-#prevLink:hover, #prevLink:visited:hover { background: url('../image/lightbox/prev.gif') left 50% no-repeat; }
-#nextLink:hover, #nextLink:visited:hover { background: url('../image/lightbox/next.gif') right 50% no-repeat; }
+#prevLink:hover, #prevLink:visited:hover { background: url(../image/lightbox/prev.gif) left 50% no-repeat; }
+#nextLink:hover, #nextLink:visited:hover { background: url(../image/lightbox/next.gif) right 50% no-repeat; }
 
 /*** START : next / previous text links ***/
 #nextLinkText, #prevLinkText{
@@ -74,7 +74,7 @@ padding-right: 20px;
 /*** END : added padding when navbar is on top ***/
 
 #imageDataContainer{
-	font: 10px Arial, Verdana, Helvetica, sans-serif;
+	font: 10px Verdana, Helvetica, sans-serif;
 	background-color: #fff;
 	margin: 0 auto;
 	line-height: 1.4em;
@@ -100,7 +100,7 @@ padding-right: 20px;
 	background-color: #000;
 	filter:alpha(opacity=60);
 	-moz-opacity: 0.6;
-	opacity: 0.6;
+	opacity: 0.6 !important;
 	display: none;
 	}
 	

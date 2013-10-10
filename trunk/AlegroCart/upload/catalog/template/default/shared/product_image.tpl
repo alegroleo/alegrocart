@@ -3,7 +3,7 @@
   <img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>"></a>
   <div class="enlarge"><a class="thickbox" href="<?php echo $product['popup']; ?>"><?php echo $text_enlarge; ?></a></div></a>
 <?php } elseif ($image_display == 'fancybox') {?>
-<script type="text/javascript">$(document).ready(function(){$("a#<?php echo $this_controller.$product['product_id']; ?>").fancybox({'titleShow'  : false, 'transitionIn' : 'elastic',  'transitionOut' : 'elastic'}); });</script>
+<script type="text/javascript">$(document).ready(function(){$("a#<?php echo $this_controller.$product['product_id']; ?>").fancybox({openEffect : 'elastic', closeEffect : 'elastic'}); });</script>
 <a href="<?php echo $product['popup']; ?>" id="<?php echo $this_controller.$product['product_id']; ?>">
 <img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>"></a><div class="enlarge"><a href="<?php echo $product['popup']; ?>" id="<?php echo $this_controller.$product['product_id']; ?>"><?php echo $text_enlarge; ?></a></div></a>
 <?php } elseif ($image_display == 'lightbox') { ?>

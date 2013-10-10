@@ -1703,7 +1703,7 @@
 });
     //--></script>
   <script type="text/javascript"><!--
-  $('#gceayes').click(function() {
+  $('#gceayes').on("click", function() {
 		$('#global_config_email_user').attr("disabled", false);
 		$('#global_config_email_passw').attr("disabled", false);
 		$('#global_config_email_host').attr("disabled", false);
@@ -1713,7 +1713,7 @@
   });
     //--></script>
   <script type="text/javascript"><!--
-  $('#gceano').click(function() {
+  $('#gceano').on("click", function() {
 		$('#global_config_email_user').attr("disabled", true);
 		$('#global_config_email_passw').attr("disabled", true);
 		$('#global_config_email_host').attr("disabled", true);

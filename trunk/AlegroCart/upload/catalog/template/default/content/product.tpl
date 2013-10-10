@@ -9,8 +9,8 @@
 	$head_def->setcss($this->style . "/css/thickbox.css");  
 	$head_def->set_javascript("thickbox/thickbox-compressed.js");
   } else if ($image_display == 'fancybox'){
-	$head_def->setcss($this->style . "/css/jquery.fancybox-1.3.1.css\" media=\"screen" ); 
-	$head_def->set_javascript("fancybox/jquery.fancybox-1.3.1.js");
+	$head_def->setcss($this->style . "/css/jquery.fancybox.css\" media=\"screen" ); 
+	$head_def->set_javascript("fancybox/jquery.fancybox.js");
 	} else if ($image_display == 'lightbox'){
     $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 	$head_def->set_javascript("lightbox/lightbox.js");
@@ -164,7 +164,7 @@
 	<?php if (isset($Technical_tabs)) { ?>
 	<div class="page">
       <div class="pad">  	
-	    <Div>
+	    <div>
 		  <?php echo $technical; ?>
 		</div>
 	  </div>

@@ -33,7 +33,7 @@
 ?>
   <script type="text/javascript"><!--
     $(document).ready(function() {
-	  $('#printMe').click(function() {
+	  $('#printMe').on("click", function() {
 		window.print();
 		return false;
 	  });

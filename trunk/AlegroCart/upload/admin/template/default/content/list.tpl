@@ -154,9 +154,9 @@
       <td width="30" class="<?php echo $cell['align']; ?>"><a href="<?php echo $cell['path']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a></td>
       <?php } elseif (isset($cell['status'])) { ?>
       <td class="<?php echo $cell['align']; ?>">
-      <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$(this.id).load('index.php?controller=<?php echo ($cell['status_controller'])?>&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
+      <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$('#'+this.id).load('index.php?controller=<?php echo ($cell['status_controller'])?>&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
       </td>
-	  
+
 	  <?php } elseif (isset($cell['update_status'])) { ?>
 		<td class="<?php echo $cell['align']; ?>">
 		<input type="image" name="" src="template/<?php echo $this->directory?>/image/enable_update.png" style="border:none" onclick="update_status('<?php echo $cell['order_id'];?>')">
@@ -164,7 +164,7 @@
 	  <?php } elseif (isset($cell['status_name'])) { ?>
 	    <td class="<?php echo $cell['align']; ?>" id="<?php echo $cell['status_name_id'];?>"><?php echo $cell['status_name']; ?>
 	  </td>
-	  
+
       <?php } elseif (isset($cell['icon'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php if (isset($cell['href'])) { ?>
         <a href="<?php echo $cell['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a>
@@ -212,49 +212,70 @@ function update_status(order_id){
 }
 //--></script>
 <script type="text/javascript"><!--
-$("input").click(function (event) {
-              	var imgstatus = $(this).attr('name')
+$("input").on("click", function (event) {
+		var imgstatus = $(this).attr('name')
 		var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png')
-                var urlid = $(this).attr('id')
-                var isclass = $(this).attr('class')
-                if (isclass == "status") {
-		$(this).attr('src','template/<?php echo $this->directory?>/image/'+imgstatus2);   
-                $(this).attr('name', imgstatus == '0' ? '1' : '0'); 
-                }
+		var urlid = $(this).attr('id')
+		var isclass = $(this).attr('class')
+		if (isclass == "status") {
+		$(this).attr('src','template/<?php echo $this->directory?>/image/'+imgstatus2);
+		$(this).attr('name', imgstatus == '0' ? '1' : '0'); 
+		}
 });
 //--></script>
 <script type="text/javascript"><!--original idea by Alen Grakalic
 $(function() {
 
-	var xOffset = 10;
-	var yOffset = 50;
+	var xOffset = 50;
+	var yOffset = 10;
+	var scrolled = 0;
+	var posx = 0;
+	var posy = 0;
 
 	if (typeof window.innerHeight != 'undefined') effectiveHeight = window.innerHeight;
 	else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientHeight !='undefined' && document.documentElement.clientHeight != 0) effectiveHeight = document.documentElement.clientHeight;
 	else effectiveHeight = document.getElementsByTagName('body')[0].clientHeight;
 
-	var scrolled = 0;
-
-$("#image_to_preview img").hover(function (event) {
+$("#image_to_preview img").hover(function (e) {
 	this.t = this.title;
-	this.title = "";	
+	this.title = "";
 	var c = (this.t != "") ? "<br>" + this.t : "";
+
+	e = e || window.event;
+	if (e.pageX || e.pageY) {
+		posx = parseInt(e.pageX,10);
+		posy = parseInt(e.pageY,10);
+	}
+	else if (e.clientX || e.clientY) {
+		posx = parseInt(e.clientX + document.documentElement.scrollLeft,10);
+		posy = parseInt(e.clientY + document.documentElement.scrollTop,10);
+	}
 
 	if (typeof window.pageYOffset == 'number') scrolled = window.pageYOffset;
 	else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) scrolled = document.body.scrollTop;
 	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) scrolled = document.documentElement.scrollTop;
 
-	$("body").append("<p id='preview'><img src='"+ $(this).attr('rel') + "' >" + c + "</p>");								 
-	$("#preview").css("top", (event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(event.pageX - yOffset - 2*($(this).attr('rel').substr(-7,3))) + "px").fadeIn("fast");		
+	$("body").append("<p id='preview'><img src='"+ $(this).attr('rel') + "' >" + c + "</p>");
+	$("#preview").css("top", (posy - scrolled < effectiveHeight/2 ? (posy - yOffset) : posy - yOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(posx - xOffset - 2*($(this).attr('rel').substr(-7,3))) + "px").fadeIn("fast");
 },
 function() {
-	this.title = this.t;	
+	this.title = this.t;
 	$("#preview").remove();
 }
 );
 
-$("#image_to_preview img").mousemove(function(event){
-	$("#preview").css("top",(event.pageY - scrolled < effectiveHeight/2 ? (event.pageY - xOffset) : event.pageY - xOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(event.pageX - yOffset - 2*($(this).attr('rel').substr(-7,3))) + "px");
+$("#image_to_preview img").mousemove(function(e){
+	e = e || window.event;
+
+	if (e.pageX || e.pageY) {
+		posx = parseInt(e.pageX,10);
+		posy = parseInt(e.pageY,10);
+	}
+	else if (e.clientX || e.clientY) {
+		posx = parseInt(e.clientX + document.documentElement.scrollLeft,10);
+		posy = parseInt(e.clientY + document.documentElement.scrollTop,10);
+	}
+	$("#preview").css("top",(posy - scrolled < effectiveHeight/2 ? (posy - yOffset) : posy - yOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(posx - xOffset - 2*($(this).attr('rel').substr(-7,3))) + "px");
 });
 });
   //--></script>

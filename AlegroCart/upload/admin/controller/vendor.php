@@ -10,6 +10,7 @@ class ControllerVendor extends Controller {
 		$this->generate_seo	=& $locator->get('generateseo');
 		$this->image		=& $locator->get('image');   
 		$this->language		=& $locator->get('language');
+		$this->mail_check	=& $locator->get('mail_check_mx');
 		$this->module		=& $locator->get('module');
 		$this->request		=& $locator->get('request');
 		$this->response 	=& $locator->get('response');
@@ -465,7 +466,7 @@ class ControllerVendor extends Controller {
 		$this->error['name'] = $this->language->get('error_name');
 		}
 
-		if ((!$this->validate->strlen($this->request->gethtml('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('email', 'post')))) {
+		if (((!$this->validate->strlen($this->request->sanitize('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->sanitize('email', 'post'))) || $this->mail_check->final_mail_check($this->request->sanitize('email', 'post')) == FALSE) && $this->request->sanitize('email', 'post')) {
 		$this->error['email'] = $this->language->get('error_email');
 		}
 

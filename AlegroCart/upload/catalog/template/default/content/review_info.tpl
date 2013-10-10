@@ -1,9 +1,25 @@
-<?php 
+<?php
   $head_def->setcss($this->style . "/css/review.css");
-  $head_def->setcss($this->style . "/css/thickbox.css");  
   $head_def->set_javascript("ajax/jquery.js");
-  $head_def->set_javascript("thickbox/thickbox-compressed.js");
+  if($image_display == 'thickbox'){
+	$head_def->setcss($this->style . "/css/thickbox.css");  
+	$head_def->set_javascript("thickbox/thickbox-compressed.js");
+  } else if ($image_display == 'fancybox'){
+	$head_def->setcss($this->style . "/css/jquery.fancybox.css\" media=\"screen" ); 
+	$head_def->set_javascript("fancybox/jquery.fancybox.js");
+  } else if ($image_display == 'lightbox'){
+    $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
+	$head_def->set_javascript("lightbox/lightbox.js");
 ?>
+  <script>
+	$(document).ready(function(){
+		$(".lightbox").lightbox({
+			fitToScreen: true,
+			imageClickClose: true
+		});
+	});
+  </script>
+  <?php } ?>
 <div class="headingpadded">
   <div class="left"><?php echo $heading_title; ?></div>
   <div class="right">
@@ -21,8 +37,20 @@
   <p><b><?php echo $text_date_added; ?> </b> <?php echo $date_added; ?></p><br>
   <p><b><?php echo $text_rating; ?></b></p><br>
  </div>
-<div class="a"><a href="<?php echo $href; ?>"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
-<div class="enlarge"><a class="thickbox" href="<?php echo $popup; ?>"><?php echo $text_enlarge; ?></a></div></a>
+<div class="a">
+
+<?php if($image_display == 'thickbox'){?>
+<a href="<?php echo $href; ?>"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
+<div class="enlarge"><a class="thickbox" href="<?php echo $popup; ?>"><?php echo $text_enlarge; ?></a></div>
+<?php } elseif ($image_display == 'fancybox') {?>
+<script type="text/javascript">$(document).ready(function(){$("a#<?php echo $this_controller.$id; ?>").fancybox({openEffect : 'elastic', closeEffect : 'elastic'}); });</script>
+<a href="<?php echo $href; ?>"><img src="<?php echo $thumb;?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
+<div class="enlarge"> <a id="<?php echo $this_controller.$id; ?>" href="<?php echo $popup; ?>"> <?php echo $text_enlarge; ?></a></div>
+<?php } elseif ($image_display == 'lightbox') { ?>
+<a href="<?php echo $href; ?>"><img src="<?php echo $thumb;?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
+<div class="enlarge"> <a class="lightbox" id="<?php echo $this_controller.$id; ?>" href="<?php echo $popup; ?>"><?php echo $text_enlarge; ?></a></div>
+<?php } ?>
+
 </div>
 <table><?php for ($i=1; $i<5; $i++) { ?>
   <tr><td style="width:15px;"></td><td><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo ${'rating'.$i} . '.png'; ?>" alt="<?php echo ${'text_out_of'.$i}; ?>" class="png"></td></tr><tr><td style="width:15px;"></td><td></td><td><?php echo ${'text_out_of'.$i}; ?></td></tr>

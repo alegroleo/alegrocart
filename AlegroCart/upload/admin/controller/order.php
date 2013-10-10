@@ -150,14 +150,10 @@ class ControllerOrder extends Controller {
 				'status_name_id' => 'status_name_' . $result['order_id'],
         		'align' => 'left'
       		);
-			$cell[] = array(
-        		'value' => $result['status'],
-        		'align' => 'left'
-      		);
-			$cell[] = array(
-				'update_status' => TRUE,
-				'order_id' =>$result['order_id'],
-				'align' => 'center'
+		$cell[] = array(
+			'update_status' => TRUE,
+			'order_id' =>$result['order_id'],
+			'align' => 'center'
 			);
       		$cell[] = array(
         		'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),

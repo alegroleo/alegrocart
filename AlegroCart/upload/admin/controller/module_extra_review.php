@@ -3,44 +3,45 @@ class ControllerModuleExtraReview extends Controller {
 	var $error = array();
 	// All References change to module_extra_ due to new module loader  
 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
-		$this->language 	=& $locator->get('language');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->language		=& $locator->get('language');
 		$this->module		=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->template 	=& $locator->get('template');
-		$this->session  	=& $locator->get('session');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user');
-		$this->modelReview = $model->get('model_admin_reviewmodule');
-		
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->template		=& $locator->get('template');
+		$this->session		=& $locator->get('session');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user');
+		$this->modelReview	= $model->get('model_admin_reviewmodule');
+
 		$this->language->load('controller/module_extra_review.php');
 	}
 
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
-				
+
 		if ($this->request->isPost() && $this->request->has('catalog_review_status', 'post') && $this->validate()) {
 			$this->modelReview->delete_review();
 			$this->modelReview->update_review();
 			$this->session->set('message', $this->language->get('text_message'));
-			
+
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 		}
-		
+
 		$view = $this->locator->create('template');
-		
+
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_module', $this->language->get('heading_module'));
-		$view->set('heading_description', $this->language->get('heading_description'));		
+		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
-		
+
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
-		
+		$view->set('entry_image_display', $this->language->get('entry_image_display'));
+		$view->set('image_displays_review',array('thickbox', 'fancybox', 'lightbox'));
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -74,6 +75,11 @@ class ControllerModuleExtraReview extends Controller {
 		} else {
 			$view->set('catalog_review_status', @$setting_info['catalog']['review_status']);
 		}
+		if ($this->request->has('catalog_review_image_display', 'post')) {
+			$view->set('catalog_review_image_display', $this->request->gethtml('catalog_review_image_display', 'post'));
+		} else {
+			$view->set('catalog_review_image_display', @$setting_info['catalog']['review_image_display']);
+		}
 
 		$this->template->set('content', $view->fetch('content/module_extra_review.tpl'));
 
@@ -81,7 +87,7 @@ class ControllerModuleExtraReview extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
+
 	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -91,14 +97,14 @@ class ControllerModuleExtraReview extends Controller {
 		if (!$this->user->hasPermission('modify', 'module_extra_review')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-		
+
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
-	
+
 	function install() {
 		if ($this->user->hasPermission('modify', 'module_extra_review')) {
 			$this->modelReview->delete_review();
@@ -106,11 +112,11 @@ class ControllerModuleExtraReview extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-				
+		}
+
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));	
 	}
-	
+
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'module_extra_review')) {
 			$this->modelReview->delete_review();
@@ -118,7 +124,7 @@ class ControllerModuleExtraReview extends Controller {
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
 		}	
-				
+
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
 }

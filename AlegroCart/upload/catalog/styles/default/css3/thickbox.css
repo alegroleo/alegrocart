@@ -1,6 +1,7 @@
 /* ----------------------------------------------------------------------------------------------------------------*/
 /* ---------->>> global settings needed for thickbox <<<-----------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------*/
+*{padding: 0; margin: 0;}
 
 /* ----------------------------------------------------------------------------------------------------------------*/
 /* ---------->>> thickbox specific link and font settings <<<------------------------------------------------------*/
@@ -36,9 +37,14 @@
 .TB_overlayMacFFBGHack {background: url(macFFBgHack.png) repeat;}
 .TB_overlayBG {
 	background-color:#000;
-	/*filter:alpha(opacity=50);
-	-moz-opacity: 0.75; */
-	opacity: 0.50;
+	filter:alpha(opacity=75);
+	-moz-opacity: 0.75;
+	opacity: 0.75;
+}
+
+* html #TB_overlay { /* ie6 hack */
+     position: absolute;
+     height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
 }
 
 #TB_window {
@@ -53,6 +59,10 @@
 	left:50%;
 }
 
+* html #TB_window { /* ie6 hack */
+position: absolute;
+margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
+}
 
 #TB_window img#TB_Image {
 	display:block;
@@ -120,6 +130,11 @@
 	margin: -6px 0 0 -104px; /* -height/2 0 0 -width/2 */
 }
 
+* html #TB_load { /* ie6 hack */
+position: absolute;
+margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
+}
+
 #TB_HideSelect{
 	z-index:99;
 	position:fixed;
@@ -127,11 +142,16 @@
 	left: 0;
 	background-color:#fff;
 	border:none;
-	/*filter:alpha(opacity=0);
+	filter:alpha(opacity=0);
 	-moz-opacity: 0;
-	opacity: 0;*/
+	opacity: 0;
 	height:100%;
 	width:100%;
+}
+
+* html #TB_HideSelect { /* ie6 hack */
+     position: absolute;
+     height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
 }
 
 #TB_iframeContent{
@@ -139,5 +159,5 @@
 	border:none;
 	margin-bottom:-1px;
 	margin-top:1px;
-	/*_margin-bottom:1px;*/
+	_margin-bottom:1px;
 }

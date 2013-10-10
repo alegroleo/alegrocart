@@ -1,132 +1,135 @@
 <?php //ReviewWrite AlegroCart
-class ControllerReviewWrite extends controller { 
+class ControllerReviewWrite extends controller {
 	var $error = array();
 		function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
-		$this->config  		=& $locator->get('config');
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
-		$this->address  	=& $locator->get('address');
-		$this->currency 	=& $locator->get('currency');
-		$this->customer 	=& $locator->get('customer');
-		$this->head_def 	=& $locator->get('HeaderDefinition');
-		$this->image    	=& $locator->get('image');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->response 	=& $locator->get('response');
-		$this->request  	=& $locator->get('request');
-		$this->session  	=& $locator->get('session');
-		$this->tax      	=& $locator->get('tax');
-		$this->template 	=& $locator->get('template');
-		$this->url     	 	=& $locator->get('url');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelCore 	= $model->get('model_core');
+		$this->address		=& $locator->get('address');
+		$this->currency		=& $locator->get('currency');
+		$this->customer		=& $locator->get('customer');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->image		=& $locator->get('image');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->response		=& $locator->get('response');
+		$this->request		=& $locator->get('request');
+		$this->session		=& $locator->get('session');
+		$this->tax		=& $locator->get('tax');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->validate		=& $locator->get('validate');
+		$this->modelCore	= $model->get('model_core');
 		$this->modelAccountAddress = $model->get('model_accountaddress');
-		$this->modelReview 	= $model->get('model_review');
-		$this->tpl_manager = $this->modelCore->get_tpl_manager('review_write'); // Template Manager
-		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
-		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
+		$this->modelReview	= $model->get('model_review');
+		$this->tpl_manager	= $this->modelCore->get_tpl_manager('review_write'); // Template Manager
+		$this->locations	= $this->modelCore->get_tpl_locations();// Template Manager
+		$this->tpl_columns	= $this->modelCore->get_columns();// Template Manager
 	}
 
-  	function index() {
+	function index() {
 
-    	if (!$this->customer->isLogged()) {
-	  		$query = array(
-	    		'product_id' => $this->request->gethtml('product_id'),
+	if (!$this->customer->isLogged()) {
+			$query = array(
+			'product_id' => $this->request->gethtml('product_id'),
 				'review_id'  => $this->request->gethtml('review_id')
-	  		);
-	
-      		$this->session->set('redirect', $this->url->ssl('review_write', FALSE, $query));
+			);
 
-      		$this->response->redirect($this->url->ssl('account_login'));
-    	} 
-	
-    	$this->language->load('controller/review_write.php');
-	
+		$this->session->set('redirect', $this->url->ssl('review_write', FALSE, $query));
+
+		$this->response->redirect($this->url->ssl('account_login'));
+	}
+
+	$this->language->load('controller/review_write.php');
+
 		if ($this->request->isPost() && $this->request->has('product_id') && $this->validate()) {
-      		$this->modelReview->insert_review($this->request->gethtml('product_id'));
-	  		$this->response->redirect($this->url->ssl('review_success'));
-    	}
-    	
+		$this->modelReview->insert_review($this->request->gethtml('product_id'));
+			$this->response->redirect($this->url->ssl('review_success'));
+	}
+
 		$product_info = $this->modelReview->get_product($this->request->gethtml('product_id'));
-		
-		if ($product_info) {	  
-	  		$this->template->set('title', $this->language->get('heading_title'));
-	  
-	  		$view = $this->locator->create('template');
-    
-	  		$view->set('heading_title', $this->language->get('heading_title'));
-			
+
+		if ($product_info) {
+			$this->template->set('title', $this->language->get('heading_title'));
+
+			$view = $this->locator->create('template');
+
+			$view->set('heading_title', $this->language->get('heading_title'));
+
 			$view->set('tax_included', $this->config->get('config_tax'));
 
-      		$view->set('text_enlarge', $this->language->get('text_enlarge'));
-      		$view->set('text_author', $this->language->get('text_author'));
-      		$view->set('text_note', $this->language->get('text_note'));
-      		$view->set('text_product', $this->language->get('text_product'));
+		$view->set('text_enlarge', $this->language->get('text_enlarge'));
+		$view->set('text_author', $this->language->get('text_author'));
+		$view->set('text_note', $this->language->get('text_note'));
+		$view->set('text_product', $this->language->get('text_product'));
 
-      		$view->set('entry_review', $this->language->get('entry_review'));
-      		$view->set('entry_rating1', $this->language->get('entry_rating1'));
-      		$view->set('entry_rating2', $this->language->get('entry_rating2'));
-      		$view->set('entry_rating3', $this->language->get('entry_rating3'));
-      		$view->set('entry_rating4', $this->language->get('entry_rating4'));
-      		
-      		$view->set('entry_good', $this->language->get('entry_good'));
-      		$view->set('entry_bad', $this->language->get('entry_bad'));
+		$view->set('entry_review', $this->language->get('entry_review'));
+		$view->set('entry_rating1', $this->language->get('entry_rating1'));
+		$view->set('entry_rating2', $this->language->get('entry_rating2'));
+		$view->set('entry_rating3', $this->language->get('entry_rating3'));
+		$view->set('entry_rating4', $this->language->get('entry_rating4'));
 
-      		$view->set('button_continue', $this->language->get('button_continue'));
-      		$view->set('button_back', $this->language->get('button_back'));
-    
-	  		$view->set('error', @$this->error['message']);
+		$view->set('entry_good', $this->language->get('entry_good'));
+		$view->set('entry_bad', $this->language->get('entry_bad'));
 
-	  		$query = array(
-	    		'product_id' => $this->request->gethtml('product_id'),
+		$view->set('button_continue', $this->language->get('button_continue'));
+		$view->set('button_back', $this->language->get('button_back'));
+
+		$view->set('error', @$this->error['message']);
+
+			$query = array(
+			'product_id' => $this->request->gethtml('product_id'),
 				'review_id'  => $this->request->gethtml('review_id')
-	  		);
-	      
-	  		$view->set('action', $this->url->ssl('review_write', FALSE, $query));
-      
-	  		$view->set('product', $product_info['name']);
-	  		$view->set('price', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))));
+			);
+
+			$view->set('action', $this->url->ssl('review_write', FALSE, $query));
+
+			$view->set('product', $product_info['name']);
+			$view->set('price', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))));
 			$view->set('special_price', $product_info['special_price']>0 ? $this->currency->format($this->tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))): ""); // New
-	  		$view->set('popup', $this->image->href($product_info['filename']));
-	  		$view->set('thumb', $this->image->resize($product_info['filename'], 160,160));
-	  		$view->set('author', $this->customer->getFirstName() . ' ' . $this->customer->getLastName());
-	  		$view->set('text', $this->request->sanitize('text', 'post'));
-	  		$view->set('rating1', $this->request->gethtml('rating1', 'post'));
-      	  		$view->set('rating2', $this->request->gethtml('rating2', 'post'));
-	  		$view->set('rating3', $this->request->gethtml('rating3', 'post'));
-	  		$view->set('rating4', $this->request->gethtml('rating4', 'post'));
-	  		
-	  		$query = array(
-	    		'product_id' => $this->request->gethtml('product_id')
-	  		);
-	  
-	  		$view->set('back', $this->url->href('review', FALSE, $query));
+			$view->set('popup', $this->image->href($product_info['filename']));
+			$view->set('thumb', $this->image->resize($product_info['filename'], 160,160));
+			$view->set('author', $this->customer->getFirstName() . ' ' . $this->customer->getLastName());
+			$view->set('text', $this->request->sanitize('text', 'post'));
+			$view->set('rating1', $this->request->gethtml('rating1', 'post'));
+			$view->set('rating2', $this->request->gethtml('rating2', 'post'));
+			$view->set('rating3', $this->request->gethtml('rating3', 'post'));
+			$view->set('rating4', $this->request->gethtml('rating4', 'post'));
+			$view->set('image_display', $this->config->get('review_image_display'));
+			$view->set('id', $this->request->gethtml('product_id'));
+
+			$query = array(
+			'product_id' => $this->request->gethtml('product_id')
+			);
+
+			$view->set('this_controller', 'review_write');
+			$view->set('back', $this->url->href('review', FALSE, $query));
 			$view->set('head_def',$this->head_def);
 			$this->template->set('head_def',$this->head_def);
-	  		$this->template->set('content', $view->fetch('content/review_write.tpl'));
+			$this->template->set('content', $view->fetch('content/review_write.tpl'));
 
-    	} else {
-      		$this->template->set('title', $this->language->get('text_error'));
+	} else {
+		$this->template->set('title', $this->language->get('text_error'));
 
-      		$view = $this->locator->create('template');
-      		$view->set('heading_title', $this->language->get('text_error'));
-      		$view->set('text_error', $this->language->get('text_error'));
+		$view = $this->locator->create('template');
+		$view->set('heading_title', $this->language->get('text_error'));
+		$view->set('text_error', $this->language->get('text_error'));
 
-      		$view->set('button_continue', $this->language->get('button_continue'));
-      		$view->set('continue', $this->url->href('home'));
+		$view->set('button_continue', $this->language->get('button_continue'));
+		$view->set('continue', $this->url->href('home'));
 			$view->set('head_def',$this->head_def);
 			$this->template->set('head_def',$this->head_def);
-	  		$this->template->set('content', $view->fetch('content/error.tpl'));
-	
+			$this->template->set('content', $view->fetch('content/error.tpl'));
+
 		}
 
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
-      	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-	
+	$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){
@@ -160,27 +163,27 @@ class ControllerReviewWrite extends controller {
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 	
-  	function validate() {
-    	if ((strlen($this->request->sanitize('text', 'post')) < 25) || (strlen($this->request->sanitize('text', 'post')) > 1000)) {
-      		$this->error['message'] = $this->language->get('error_text');
-    	}
-    	if (!$this->request->gethtml('rating1', 'post')) {
-      		$this->error['message'] = $this->language->get('error_rating');
-    	}
+	function validate() {
+	if ((strlen($this->request->sanitize('text', 'post')) < 25) || (strlen($this->request->sanitize('text', 'post')) > 1000)) {
+		$this->error['message'] = $this->language->get('error_text');
+	}
+	if (!$this->request->gethtml('rating1', 'post')) {
+		$this->error['message'] = $this->language->get('error_rating');
+	}
 	if (!$this->request->gethtml('rating2', 'post')) {
-      		$this->error['message'] = $this->language->get('error_rating');
-    	}
+		$this->error['message'] = $this->language->get('error_rating');
+	}
 	if (!$this->request->gethtml('rating3', 'post')) {
-      		$this->error['message'] = $this->language->get('error_rating');
-    	}
+		$this->error['message'] = $this->language->get('error_rating');
+	}
 	if (!$this->request->gethtml('rating4', 'post')) {
-      		$this->error['message'] = $this->language->get('error_rating');
-    	}
+		$this->error['message'] = $this->language->get('error_rating');
+	}
 	if (!$this->error) {
-      		return TRUE;
-    	} else {
-      		return FALSE;
-    	}	
+		return TRUE;
+	} else {
+		return FALSE;
+	}	
 	}
 }
 ?>

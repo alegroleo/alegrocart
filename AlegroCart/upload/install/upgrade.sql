@@ -1410,3 +1410,10 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_email_tout';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_email_tout', '10') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#
+# Add Image display to review
+#
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'review_image_display';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'review', 'review_image_display', 'thickbox') ON DUPLICATE KEY UPDATE setting_id=setting_id;

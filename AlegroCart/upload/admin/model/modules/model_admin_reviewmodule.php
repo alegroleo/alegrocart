@@ -1,11 +1,11 @@
 <?php //AdminModelReviewModule AlegroCart
 class Model_Admin_ReviewModule extends Model {
 	function __construct(&$locator) {
-		$this->config   	=& $locator->get('config');
-		$this->database 	=& $locator->get('database');
-		$this->language 	=& $locator->get('language');
-		$this->request  	=& $locator->get('request');
-		$this->session 		=& $locator->get('session');
+		$this->config		=& $locator->get('config');
+		$this->database		=& $locator->get('database');
+		$this->language		=& $locator->get('language');
+		$this->request		=& $locator->get('request');
+		$this->session		=& $locator->get('session');
 	}
 	function delete_review(){
 		$this->database->query("delete from setting where type = 'catalog' and `group` = 'review'");
@@ -15,6 +15,7 @@ class Model_Admin_ReviewModule extends Model {
 	}
 	function update_review(){
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'review', `key` = 'review_status', `value` = '?'", (int)$this->request->gethtml('catalog_review_status', 'post')));
+		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'review', `key` = 'review_image_display', `value` = '?'", $this->request->gethtml('catalog_review_image_display', 'post')));
 	}
 	function get_review(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'review'");

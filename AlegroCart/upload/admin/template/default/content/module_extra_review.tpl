@@ -33,6 +33,18 @@
                   <?php } ?>
                 </select></td>
             </tr>
+	    <tr>
+	      <td class="set"><?php echo $entry_image_display;?></td>
+	      <td><select name="catalog_review_image_display">
+		<?php foreach($image_displays_review as $image_display_review){?>
+		  <?php if($image_display_review == $catalog_review_image_display){?>
+		    <option value="<?php echo $image_display_review;?>" selected><?php echo $image_display_review;?></option>
+		  <?php } else {?>
+		    <option value="<?php echo $image_display_review;?>"><?php echo $image_display_review;?></option>
+		  <?php }?>
+		<?php }?> 
+		</select></td>
+	    </tr> 
           </table>
         </div>
       </div>

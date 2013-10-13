@@ -2,8 +2,8 @@
 class ControllerWeightClass extends Controller {
 	var $error = array();
 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$this->locator		=& $locator;
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
@@ -214,6 +214,10 @@ class ControllerWeightClass extends Controller {
 		$view->set('error_title', @$this->error['title']);
 		$view->set('error_unit', @$this->error['unit']);
 
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
+
 		$view->set('action', $this->url->ssl('weight_class', $this->request->gethtml('action'), array('weight_class_id' => $this->request->gethtml('weight_class_id'))));
 
 		$view->set('list', $this->url->ssl('weight_class'));
@@ -289,14 +293,16 @@ class ControllerWeightClass extends Controller {
 				$this->error['unit'] = $this->language->get('error_unit');
 			}
 		}
-
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	
+
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -366,6 +372,6 @@ class ControllerWeightClass extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('weight_class'));
-	}	
+	}
 }
 ?>

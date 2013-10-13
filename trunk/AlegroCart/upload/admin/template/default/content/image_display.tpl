@@ -50,7 +50,10 @@
           <table>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
-	      <td><input size="32" maxlength="64" name="name" value="<?php echo $name;?>"></td>
+	      <td><input size="32" maxlength="64" name="name" value="<?php echo $name;?>">
+                 <?php if ($error_name) { ?>
+                 <span class="error"><?php echo $error_name; ?></span>
+                 <?php } ?></td>
 	      <td class="expl">
                 <?php echo($explanation_entry_name); ?>
               </td>

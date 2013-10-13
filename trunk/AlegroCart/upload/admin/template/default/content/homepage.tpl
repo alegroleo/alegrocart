@@ -24,10 +24,9 @@
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
-<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
-
+<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script>
 <form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
-  <table align="center">			
+  <table align="center">
 	<tr>
 	  <td class="set"><?php echo $entry_filename;?></td>
 	      <td><input size="64" type="text" id="fileName" class="file_input_textbox" readonly="readonly">
@@ -40,7 +39,6 @@
 	</tr>
   </table>
 </form>
- 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
 	<div class="tabs"><a><div class="tab_text"><?php echo $tab_name; ?></div></a><a><div class="tab_text"><?php echo $tab_description; ?></div></a><a><div class="tab_text"><?php echo $tab_meta; ?></div></a></div>
@@ -50,7 +48,10 @@
           <table>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
-			  <td><input size="32" maxlength="64" name="name" value="<?php echo $name;?>"></td>
+			  <td><input size="32" maxlength="64" name="name" value="<?php echo $name;?>">
+                      <?php if ($error_name) { ?>
+                      <span class="error"><?php echo $error_name; ?></span>
+                      <?php } ?></td>
 			</tr>
             <tr>
               <td class="set"><?php echo $entry_status; ?></td>

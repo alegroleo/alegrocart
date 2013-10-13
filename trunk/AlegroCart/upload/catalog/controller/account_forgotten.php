@@ -2,26 +2,26 @@
 class ControllerAccountForgotten extends Controller {
 	var $error = array();
 	function __construct(&$locator){ // Template Manager
-		$this->locator		=& $locator;
+		$this->locator			=& $locator;
 		$model				=& $locator->get('model');
-		$this->config  		=& $locator->get('config');
-		$this->customer 	=& $locator->get('customer');
-		$this->head_def 	=& $locator->get('HeaderDefinition');
-		$this->language 	=& $locator->get('language');
-		$this->mail         =& $locator->get('mail');
-		$this->mail_check   =& $locator->get('mail_check_mx');
-		$this->module   	=& $locator->get('module');
-		$this->response 	=& $locator->get('response');
-		$this->request 		=& $locator->get('request');
-		$this->session  	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelCore 	= $model->get('model_core');
-		$this->modelAccountCreate = $model->get('model_accountcreate');
-		$this->tpl_manager 	= $this->modelCore->get_tpl_manager('account_forgotten'); // Template Manager
-		$this->locations 	= $this->modelCore->get_tpl_locations();// Template Manager
-		$this->tpl_columns 	= $this->modelCore->get_columns();// Template Manager
+		$this->config			=& $locator->get('config');
+		$this->customer			=& $locator->get('customer');
+		$this->head_def			=& $locator->get('HeaderDefinition');
+		$this->language			=& $locator->get('language');
+		$this->mail			=& $locator->get('mail');
+		$this->mail_check		=& $locator->get('mail_check_mx');
+		$this->module			=& $locator->get('module');
+		$this->response			=& $locator->get('response');
+		$this->request			=& $locator->get('request');
+		$this->session			=& $locator->get('session');
+		$this->template			=& $locator->get('template');
+		$this->url			=& $locator->get('url');
+		$this->validate			=& $locator->get('validate');
+		$this->modelCore		= $model->get('model_core');
+		$this->modelAccountCreate	= $model->get('model_accountcreate');
+		$this->tpl_manager		= $this->modelCore->get_tpl_manager('account_forgotten'); // Template Manager
+		$this->locations 		= $this->modelCore->get_tpl_locations();// Template Manager
+		$this->tpl_columns		= $this->modelCore->get_columns();// Template Manager
 	}
 
 	function index() {
@@ -35,7 +35,7 @@ class ControllerAccountForgotten extends Controller {
 
 		if (($this->request->isPost()) && ($this->validate()) && $this->request->has('email', 'post')) {
 			if(($this->session->get('account_validation') == $this->request->gethtml('account_validation','post')) && (strlen($this->session->get('account_validation')) > 10)){
-				
+
 				$password = substr(md5(rand()), 0, 7);
 				$this->mail->setTo($this->request->gethtml('email', 'post'));
 				$this->mail->setFrom($this->config->get('config_email'));
@@ -89,6 +89,7 @@ class ControllerAccountForgotten extends Controller {
 			}
 		}
 	}
+
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
@@ -115,7 +116,9 @@ class ControllerAccountForgotten extends Controller {
 	function validate() {
 		if (!$this->request->gethtml('email', 'post')) {
 			$this->error['message'] = $this->language->get('error_email');
-		}  elseif (!$this->modelAccountCreate->check_customer($this->request->gethtml('email', 'post'))){
+		} elseif ((!$this->validate->strlen($this->request->gethtml('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('email', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('email', 'post')) == FALSE) {
+			$this->error['message'] = $this->language->get('error_emails');
+		} elseif (!$this->modelAccountCreate->check_customer($this->request->gethtml('email', 'post'))){
 			$this->error['message'] = $this->language->get('error_email');
 		}
 		if (!$this->error) {

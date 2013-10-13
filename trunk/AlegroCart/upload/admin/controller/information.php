@@ -2,8 +2,8 @@
 class ControllerInformation extends Controller {
 	var $error = array();
 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
@@ -239,6 +239,10 @@ class ControllerInformation extends Controller {
 		$view->set('error_title', @$this->error['title']);
 		$view->set('error_description', @$this->error['description']);
 
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
+
 		$view->set('action', $this->url->ssl('information', $this->request->gethtml('action'), array('information_id' => $this->request->gethtml('information_id'))));
 
 		$view->set('list', $this->url->ssl('information'));
@@ -310,14 +314,16 @@ class ControllerInformation extends Controller {
                 $this->error['description'] = $this->language->get('error_description');
             }
 		}
-
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	
+
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){

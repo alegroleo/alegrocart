@@ -349,6 +349,10 @@ class ControllerSetting extends Controller {
 		$view->set('error_email_mail', @$this->error['email_mail']);
 		$view->set('error_email_contact', @$this->error['email_contact']);
 
+		if(!@$this->error['message']){
+		$view->set('error', @$this->error['warning']);
+		}
+
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 		
@@ -1443,6 +1447,9 @@ class ControllerSetting extends Controller {
 			if ($this->request->gethtml('wm_scale', 'post') < 0 || $this->request->gethtml('wm_scale', 'post') > 100) {
 				$this->error['wm_scale'] = $this->language->get('error_wm_scale');
 			}
+		}
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
 		}
 		if (!$this->error) {
 			return TRUE;

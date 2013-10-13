@@ -318,7 +318,11 @@ class ControllerCoupon extends Controller {
     	$view->set('error_date_start', @$this->error['date_start']);
 		$view->set('error_date_end', @$this->error['date_end']);
 		$view->set('error_discount',$this->language->get('error_discount'));
-		
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
+
     	$view->set('action', $this->url->ssl('coupon', $this->request->gethtml('action'), array('coupon_id' => $this->request->gethtml('coupon_id'))));
   
     	$view->set('list', $this->url->ssl('coupon'));
@@ -546,48 +550,50 @@ class ControllerCoupon extends Controller {
 		 
  		return $view->fetch('content/coupon.tpl');
   	}
-	
+
   	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-    	if (!$this->user->hasPermission('modify', 'coupon')) {
-      		$this->error['message'] = $this->language->get('error_permission');
-    	}
-	      
-    	foreach ($this->request->gethtml('language', 'post') as $value) {
-      		if (!$this->validate->strlen($value['name'],1,64)) {
-        		$this->error['name'] = $this->language->get('error_name');
-      		}
-    	}
-		
-		foreach ($this->request->gethtml('language', 'post') as $value) {
-      		if (!$this->validate->strlen($value['description'],1)) {
-        		$this->error['description'] = $this->language->get('error_description');
-      		}
-    	}
+	    	if (!$this->user->hasPermission('modify', 'coupon')) {
+	      		$this->error['message'] = $this->language->get('error_permission');
+	    	}
 
-    	if (!$this->validate->strlen($this->request->gethtml('code', 'post'),1,10)) {
-      		$this->error['code'] = $this->language->get('error_code');
-    	}
+	    	foreach ($this->request->gethtml('language', 'post') as $value) {
+	      		if (!$this->validate->strlen($value['name'],1,64)) {
+				$this->error['name'] = $this->language->get('error_name');
+	      		}
+	    	}
 
-    	if (!checkdate($this->request->gethtml('date_start_month', 'post'), $this->request->gethtml('date_start_day', 'post'), $this->request->gethtml('date_start_year', 'post'))) {
-	  		$this->error['date_start'] = $this->language->get('error_date_start');
+			foreach ($this->request->gethtml('language', 'post') as $value) {
+	      		if (!$this->validate->strlen($value['description'],1)) {
+				$this->error['description'] = $this->language->get('error_description');
+	      		}
+	    	}
+
+	    	if (!$this->validate->strlen($this->request->gethtml('code', 'post'),1,10)) {
+	      		$this->error['code'] = $this->language->get('error_code');
+	    	}
+
+	    	if (!checkdate($this->request->gethtml('date_start_month', 'post'), $this->request->gethtml('date_start_day', 'post'), $this->request->gethtml('date_start_year', 'post'))) {
+		  		$this->error['date_start'] = $this->language->get('error_date_start');
+			}
+
+	    	if (!checkdate($this->request->gethtml('date_end_month', 'post'), $this->request->gethtml('date_end_day', 'post'), $this->request->gethtml('date_end_year', 'post'))) {
+		  		$this->error['date_end'] = $this->language->get('error_date_end');
+			}
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
 		}
-
-    	if (!checkdate($this->request->gethtml('date_end_month', 'post'), $this->request->gethtml('date_end_day', 'post'), $this->request->gethtml('date_end_year', 'post'))) {
-	  		$this->error['date_end'] = $this->language->get('error_date_end');
-		}
-		
-    	if (!$this->error) {
-      		return TRUE;
-    	} else {
-      		return FALSE;
-    	}
+	    	if (!$this->error) {
+	      		return TRUE;
+	    	} else {
+	      		return FALSE;
+	    	}
   	}
-	
+
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){

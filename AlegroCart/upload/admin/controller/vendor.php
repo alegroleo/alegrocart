@@ -274,6 +274,10 @@ class ControllerVendor extends Controller {
 	$view->set('error_name', @$this->error['name']);
 	$view->set('error_email', @$this->error['email']);
 
+	if(!@$this->error['message']){
+	$view->set('error', @$this->error['warning']);
+	}
+
 	$view->set('action', $this->url->ssl('vendor', $this->request->gethtml('action'), array('vendor_id' => $this->request->gethtml('vendor_id'))));
 
 	$view->set('list', $this->url->ssl('vendor'));
@@ -468,6 +472,10 @@ class ControllerVendor extends Controller {
 
 		if (((!$this->validate->strlen($this->request->sanitize('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->sanitize('email', 'post'))) || $this->mail_check->final_mail_check($this->request->sanitize('email', 'post')) == FALSE) && $this->request->sanitize('email', 'post')) {
 		$this->error['email'] = $this->language->get('error_email');
+		}
+
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
 		}
 
 		if (!$this->error) {

@@ -252,10 +252,14 @@ class ControllerHomepage extends Controller {
 		$view->set('tab_description', $this->language->get('tab_description'));
 		$view->set('tab_meta', $this->language->get('tab_meta'));
 		
-    	$view->set('error_name', @$this->error['name']);	
-		$view->set('error_title', @$this->error['title']);	
-    	$view->set('error', @$this->error['message']);
+		$view->set('error_name', @$this->error['name']);
+		$view->set('error_title', @$this->error['title']);
+		$view->set('error', @$this->error['message']);
 		$view->set('error_file', "");
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
     	$view->set('action', $this->url->ssl('homepage', $this->request->gethtml('action'), array('home_id' => (int)$this->request->gethtml('home_id'))));
     	$view->set('list', $this->url->ssl('homepage'));
@@ -271,8 +275,8 @@ class ControllerHomepage extends Controller {
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-	
-    	$home_description_data = array();	
+
+    	$home_description_data = array();
 		$results = $this->modelAdminHomepage->get_languages();
 		$view->set('languages', $results);
 		
@@ -280,7 +284,7 @@ class ControllerHomepage extends Controller {
 			if (($this->request->gethtml('home_id')) && (!$this->request->isPost())) {
 				$home_description_info = $this->modelAdminHomepage->get_descriptions($this->request->gethtml('home_id'),$result['language_id']);
 			}
-			
+
 			$title			= $this->request->get('title', 'post');
 			$description	= $this->request->get('description', 'post');
 			$welcome		= $this->request->get('welcome', 'post');
@@ -293,7 +297,7 @@ class ControllerHomepage extends Controller {
 			$flash_loop = $this->request->gethtml('flash_loop','post');
 			$image_id		= $this->request->gethtml('image_id', 'post');
 			$run_times		= $this->request->gethtml('run_times', 'post');
-			
+
 			$home_description_data[] = array(
 				'language_id' 	=> $result['language_id'],
 	    		'language'    	=> $result['name'],
@@ -312,17 +316,17 @@ class ControllerHomepage extends Controller {
 			);
 		}
 		$view->set('home_descriptions', $home_description_data);
-	
+
 		If(($this->request->gethtml('home_id')) && (!$this->request->isPost())){
 			$homepage_info = $this->modelAdminHomepage->getRow_homepage_info($this->request->gethtml('home_id'));
 		}
-	
+
 		if ($this->request->has('name', 'post')){
 			$view->set('name', $this->request->get('name', 'post'));
 		} else {
 			$view->set('name', @$homepage_info['name']);
 		}
-		
+
     	if ($this->request->has('status', 'post')) {
       		$view->set('status', $this->request->gethtml('status', 'post'));
     	} else {
@@ -361,29 +365,31 @@ class ControllerHomepage extends Controller {
 		}
 		return $flash_data;
 	}
-  	function validateForm() {
+	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-    	if (!$this->user->hasPermission('modify', 'homepage')) {
-      		$this->error['message'] = $this->language->get('error_permission');
-    	}
+		if (!$this->user->hasPermission('modify', 'homepage')) {
+			$this->error['message'] = $this->language->get('error_permission');
+		}
 		if(!$this->validate->strlen($this->request->get('name', 'post'),1,64)){
 			$this->error['name'] = $this->language->get('error_name');
 		}
 		
-    	foreach ($this->request->get('title', 'post', array()) as $value) {
-            if (!$this->validate->strlen($value,1,64)) {
-                $this->error['title'] = $this->language->get('error_title');
-            }
-    	}
-
+		foreach ($this->request->get('title', 'post', array()) as $value) {
+			if (!$this->validate->strlen($value,1,64)) {
+				$this->error['title'] = $this->language->get('error_title');
+			}
+		}
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 	function enableDelete(){
@@ -415,7 +421,7 @@ class ControllerHomepage extends Controller {
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('home_validation');
-    
+
     	if (!$this->user->hasPermission('modify', 'homepage')) {
       		$this->error['message'] = $this->language->get('error_permission');  
     	}
@@ -426,7 +432,7 @@ class ControllerHomepage extends Controller {
 	  		return FALSE;
 		}
 	}
-  	
+
 	function flash_upload(){
 
 		if ($this->user->hasPermission('modify', 'homepage')) {

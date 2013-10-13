@@ -264,6 +264,9 @@ class ControllerCustomer extends Controller {
 	$view->set('error_postcode', @$this->error['postcode']);
 	$view->set('error_email', @$this->error['email']);
 	$view->set('error_telephone', @$this->error['telephone']);
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
 	$view->set('action', $this->url->ssl('customer', $this->request->gethtml('action'), array('customer_id' => $this->request->gethtml('customer_id'))));
 
@@ -391,36 +394,38 @@ class ControllerCustomer extends Controller {
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-	if (!$this->user->hasPermission('modify', 'customer')) {
-		$this->error['message'] = $this->language->get('error_permission');
-	}
-
-	if (!$this->validate->strlen($this->request->gethtml('firstname', 'post'),2,32)) {
-		$this->error['firstname'] = $this->language->get('error_firstname');
-	}
-
-	if (!$this->validate->strlen($this->request->gethtml('lastname', 'post'),2,32)) {
-		$this->error['lastname'] = $this->language->get('error_lastname');
-	}
-
-	if ((!$this->validate->strlen($this->request->gethtml('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('email', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('email', 'post')) == FALSE) {
-		$this->error['email'] = $this->language->get('error_email');
-	}
-
-		if ((strlen($this->request->gethtml('address_1', 'post')) < 3) || (strlen($this->request->gethtml('address_1', 'post')) > 64)) {
-		$this->error['address_1'] = $this->language->get('error_address_1');
-	}
-	if ((strlen($this->request->gethtml('city', 'post')) < 3) || (strlen($this->request->gethtml('city', 'post')) > 32)) {
-		$this->error['city'] = $this->language->get('error_city');
-	}
-		if (!$this->validate->strlen($this->request->gethtml('postcode', 'post'),4,10)){
-			$this->error['postcode'] = $this->language->get('error_postcode');
+		if (!$this->user->hasPermission('modify', 'customer')) {
+			$this->error['message'] = $this->language->get('error_permission');
 		}
 
-	if (!$this->validate->strlen($this->request->gethtml('telephone', 'post'),6,32)) {
-		$this->error['telephone'] = $this->language->get('error_telephone');
-	}
+		if (!$this->validate->strlen($this->request->gethtml('firstname', 'post'),2,32)) {
+			$this->error['firstname'] = $this->language->get('error_firstname');
+		}
 
+		if (!$this->validate->strlen($this->request->gethtml('lastname', 'post'),2,32)) {
+			$this->error['lastname'] = $this->language->get('error_lastname');
+		}
+
+		if ((!$this->validate->strlen($this->request->gethtml('email', 'post'), 6, 96)) || (!$this->validate->email($this->request->gethtml('email', 'post'))) || $this->mail_check->final_mail_check($this->request->gethtml('email', 'post')) == FALSE) {
+			$this->error['email'] = $this->language->get('error_email');
+		}
+
+			if ((strlen($this->request->gethtml('address_1', 'post')) < 3) || (strlen($this->request->gethtml('address_1', 'post')) > 64)) {
+			$this->error['address_1'] = $this->language->get('error_address_1');
+		}
+		if ((strlen($this->request->gethtml('city', 'post')) < 3) || (strlen($this->request->gethtml('city', 'post')) > 32)) {
+			$this->error['city'] = $this->language->get('error_city');
+		}
+			if (!$this->validate->strlen($this->request->gethtml('postcode', 'post'),4,10)){
+				$this->error['postcode'] = $this->language->get('error_postcode');
+			}
+
+		if (!$this->validate->strlen($this->request->gethtml('telephone', 'post'),6,32)) {
+			$this->error['telephone'] = $this->language->get('error_telephone');
+		}
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {

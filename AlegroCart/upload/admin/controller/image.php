@@ -269,7 +269,7 @@ class ControllerImage extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {	
+	function getForm() {
     	$view = $this->locator->create('template');
 
     	$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -297,6 +297,10 @@ class ControllerImage extends Controller {
     	$view->set('error_title', @$this->error['title']);
 		$view->set('error_file', @$this->error['file']);
     	$view->set('error_delete', @$this->error['message']);
+
+	if(!@$this->error['message']){
+		$view->set('error', @$this->error['warning']);
+	}
 
     	$view->set('action', $this->url->ssl('image', $this->request->gethtml('action'), array('image_id' => $this->request->gethtml('image_id'))));
   
@@ -383,7 +387,10 @@ class ControllerImage extends Controller {
         		$this->error['title'] = $this->language->get('error_title');
       		}
     	}
-		
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
+
 		if (!$this->error) {
 	  		return TRUE;
 		} else {

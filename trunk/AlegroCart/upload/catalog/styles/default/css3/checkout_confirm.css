@@ -29,7 +29,11 @@
 #checkout .f {
 	text-align: right;
 }
-
+#checkout .g {
+	margin-bottom: 2px;
+	font-weight: bold;
+	padding-left: 5px;
+}
 #checkout .totals {
 	width: 60px;
 }

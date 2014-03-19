@@ -2,9 +2,9 @@
 class ErrorHandler{
 	var $ErrorCode = array();
 	function __construct(&$locator){
-		$this->config   =& $locator->get('config');
-		$this->mail     =& $locator->get('mail');
-		
+		$this->config	=& $locator->get('config');
+		$this->mail	=& $locator->get('mail');
+
 		$this->ip = $this->config->get('error_developer_ip') ? $this->config->get('error_developer_ip') : $_SERVER['REMOTE_ADDR'];
 		$this->show_user = $this->config->get('error_show_user') ? TRUE : FALSE;
 		$this->show_developer = $this->config->get('error_show_developer') ? TRUE : FALSE;
@@ -18,7 +18,7 @@ class ErrorHandler{
 		}
 		$this->log_message = NULL;
 		$this->email_sent = FALSE;
-		
+
 		$this->error_codes =  E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_NOTICE;
 		$this->warning_codes =  E_WARNING | E_CORE_WARNING | E_COMPILE_WARNING | E_USER_WARNING;
 		$this->error_names = array('E_ERROR',
@@ -37,7 +37,7 @@ class ErrorHandler{
 			$this->error_numbers[$j] = $this->error_names[$i];
 		}
 	}
-	
+
 	//error handling function...
 	function handler($errno, $errstr, $errfile, $errline)
 		{
@@ -47,7 +47,7 @@ class ErrorHandler{
 		$this->errline = $errline;
 
 		if(error_reporting() != 0){
-		  
+
 			if($this->log_file){
 				$this->log_error_msg();
 			}
@@ -69,7 +69,7 @@ class ErrorHandler{
 		}
 		
 	}
-		
+
 	function error_msg_user(){
 		$message = NULL;
 
@@ -85,17 +85,17 @@ class ErrorHandler{
 		
 		echo $message;
 	}
-		
+
 	function error_msg_developer(){
 		//settings for error display...
 		$silent = (2 & $this->show_developer) ? true : false;
-			
+
 		switch(true){
 			case (16 & $this->show_developer): $color='white'; break;
 			case (32 & $this->show_developer): $color='black'; break;
 			default: $color='red';
 		}
-		
+
 		$message =  ($silent)?"<!--\n":'';
 		$message .= "<span style='color:$color;font-size: 12px'>";
 		$message .= "file: ".print_r( $this->errfile, true);
@@ -106,22 +106,22 @@ class ErrorHandler{
 		$message .= "---------------------------------------------------<br>\n";
 		$message .= "</span>";
 		$message .= ($silent)?"-->\n":'';
-			
+
 		echo $message;
 	}
-		
-	function send_error_msg(){		
-		$message = "file: ".print_r( $this->errfile, true)."\n";
-		$message .= "line: ".print_r( $this->errline, true)."\n";
-		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true)."\n";
-		$message .= "message: ".print_r( $this->errstr, true)."\n";
-		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. @$_SERVER['REQUEST_URI'] . "\n" : "";
-		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\n" : "";
-		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\n" : "";
-		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\n";
-		$message .= "log: ".print_r( $this->log_message, true)."\n";
-		$message .= "##################################################\n\n";
-		
+
+	function send_error_msg(){
+		$message = "file: ".print_r( $this->errfile, true)."\r\n";
+		$message .= "line: ".print_r( $this->errline, true)."\r\n";
+		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true)."\r\n";
+		$message .= "message: ".print_r( $this->errstr, true)."\r\n";
+		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. @$_SERVER['REQUEST_URI'] . "\r\n" : "";
+		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\r\n" : "";
+		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\r\n" : "";
+		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\r\n";
+		$message .= "log: ".print_r( $this->log_message, true)."\r\n";
+		$message .= "##################################################\r\n\r\n";
+
 		$this->email_sent = false;
 		
 		$this->mail->setTo($this->email);
@@ -130,11 +130,11 @@ class ErrorHandler{
 		$this->mail->setSubject('ERROR');
 		$this->mail->setText($message);
 		$this->mail->send();
-		
+
 		$this->email_sent = true;
 
 	}
-		
+
 	function log_error_msg(){
 		$message =  "time: ".date("j-m-d H:i:s (T)", time())."\n";
 		$message .= "file: ".print_r( $this->errfile, true)."\n";

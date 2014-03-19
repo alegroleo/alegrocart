@@ -1,5 +1,5 @@
 body {
-	background:  url('../image/color3/grey/headerbackground.png') top repeat-x;
+	background: url('../image/color3/grey/headerbackground.png') top repeat-x;
 	background-color: #CCCCCC; /*Background Color*/
 }
 body, td, th, input, textarea, select, a {
@@ -77,7 +77,7 @@ a:hover {
 	color: #FFFFFF; /* Font Color*/
 }
 .headingpadded {
-	background: url('../image/color3/grey/heading600.png') top left no-repeat;	
+	background: url('../image/color3/grey/heading600.png') top left no-repeat;
 	color: #FFFFFF; /* Font Color*/
 	height: 25px;
 	padding-top: 5px;
@@ -89,7 +89,7 @@ a:hover {
 	color: #FFFFFF; /* Font Color*/
 }
 .module {
-	background: url('../image/color3/grey/contentCenter600.png') top left repeat-y; 
+	background: url('../image/color3/grey/contentCenter600.png') top left repeat-y;
 }
 .module_bottom{
 	background: url('../image/color3/grey/contentBottom600.png') bottom no-repeat;
@@ -165,7 +165,7 @@ a:hover {
 	background: url('../image/color3/grey/contentBottom590.png') bottom no-repeat;
 }
 .productcat_top{
-	background: url('../image/color3/grey/contentTop590.png') top center no-repeat;	
+	background: url('../image/color3/grey/contentTop590.png') top center no-repeat;
 }
 .productcat{
 	background: url('../image/color3/grey/contentCenter590.png') top center repeat-y;
@@ -216,7 +216,7 @@ a:hover {
 	border-right: 1px solid #EEEEEE;
 }
 .manufacturer_filter .lowerleft{
-	border-right: 1px solid #EEEEEE;	
+	border-right: 1px solid #EEEEEE;
 }
 .manufacturer_filter .entry input {
 	height: 25px;
@@ -242,20 +242,20 @@ a:hover {
 	color: #000000;
 }
 .category .cat_lvl_0 {
-        border: 2px solid rgba(0,0,0,0);
-        background-color: #FFFFFF; 
+	border: 2px solid rgba(0,0,0,0);
+background-color: #FFFFFF; 
 }
 .category .cat_lvl_0:hover{
-       	background-color: #D0D0D0;
+	background-color: #D0D0D0;
 	color: #000000;
 }
 .category .cat_lvl_0active {
-        border: 2px solid rgba(0,0,0,0);
-        background-color: #B2B2B2;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #B2B2B2;
 	color: #FFFFFF;
 }
 .category .cat_lvl_1 {
-        margin-left: 15px;
+	margin-left: 15px;
 	border: 2px solid rgba(0,0,0,0);
 	background-color: #FFFFFF; 
 }
@@ -264,9 +264,9 @@ a:hover {
 	color: #000000;
 }
 .category .cat_lvl_1active {
-        margin-left: 15px;
-        border: 2px solid rgba(0,0,0,0);
-        background-color: #B2B2B2;
+	margin-left: 15px;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #B2B2B2;
 	color: #FFFFFF;
 }
 .category .cat_lvl_2 {
@@ -280,8 +280,8 @@ a:hover {
 }
 .category .cat_lvl_2active {
 	margin-left: 30px;
-        border: 2px solid rgba(0,0,0,0);
-        background-color: #B2B2B2;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #B2B2B2;
 	color: #FFFFFF;
 }
 .category .cat_lvl_3 {
@@ -295,8 +295,8 @@ a:hover {
 }
 .category .cat_lvl_3active {
 	margin-left: 45px;
-        border: 2px solid rgba(0,0,0,0);
-        background-color: #B2B2B2;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #B2B2B2;
 	color: #FFFFFF;
 }
 .category .cat_lvl_4 {
@@ -310,8 +310,8 @@ a:hover {
 }
 .category .cat_lvl_4active {
 	margin-left: 60px;
-        border: 2px solid rgba(0,0,0,0);
-        background-color: #B2B2B2;
+	border: 2px solid rgba(0,0,0,0);
+	background-color: #B2B2B2;
 	color: #FFFFFF;
 }
 .results {
@@ -323,7 +323,7 @@ a:hover {
 }
 #address .c, #address .f {
 	border: 1px solid #EEEEEE;
-} 
+}
 #address .c input {
 	height: 25px;
 	margin: 3px;
@@ -339,7 +339,7 @@ a:hover {
 }
 #create .b, #create .d, #create .f {
 	border: 1px solid #EEEEEE;
-} 
+}
 #download .d {
 	border: 1px solid #EEEEEE;
 }
@@ -413,6 +413,10 @@ a:hover {
 	-moz-border-radius: 2px;
 	-khtml-border-radius: 2px;
 	font-weight: bold;
+}
+#checkout .h textarea{
+	width: 99%;
+	border: 1px solid #EEEEEE;
 }
 #payment .b, #payment .d, #payment .f, #payment .h {
 	border: 1px solid #EEEEEE;
@@ -492,7 +496,7 @@ a:hover {
 }
 .pagination .prev_next:hover {
 	color: #0000FF;
-	background-color: #FFFFFF;	
+	background-color: #FFFFFF;
 }
 .pagination .num {
 	color: #000000;
@@ -504,7 +508,7 @@ a:hover {
 .pagination .num:hover{
 	color: #336699;
 	font-weight: bold;
-	background-color: #FFFFFF;	
+	background-color: #FFFFFF;
 }
 .ponhand{
 	color: #006600;
@@ -513,7 +517,7 @@ a:hover {
 	color: #0000FF;
 }
 .productcat{
-	margin: 0px 0px 0px 0px;	
+	margin: 0px 0px 0px 0px;
 }
 .productcat_bottom{
 	margin: 0px 0px 0px 0px;

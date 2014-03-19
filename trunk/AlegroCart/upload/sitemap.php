@@ -113,7 +113,7 @@ if ($config->get('config_url_alias')) {
 	echo '</url>' . "\n";
 
 		//Add Products in this Category or Subcategory - ?controller=product&path=XX&product_id=ZZ and ?controller=product&path=XX_YY&product_id=ZZ
-		$sql2 = "SELECT `product_to_category`.`product_id` FROM `product_to_category` INNER JOIN `product` ON `product_to_category`.`product_id`=`product`.`product_id` WHERE `product_to_category`.`category_id`=".$result['path']." AND `product`.`status` = '1' AND `product`.`date_available` < now()";
+		$sql2 = "SELECT `product_to_category`.`product_id` FROM `product_to_category` INNER JOIN `product` ON `product_to_category`.`product_id`=`product`.`product_id` WHERE `product_to_category`.`category_id`=".$result['category_id']." AND `product`.`status` = '1' AND `product`.`date_available` < now()";
 		$products = $database->getRows($sql2);
 
 		foreach($products as $product) {

@@ -22,7 +22,6 @@
         <th class="center"><?php echo $text_quantity; ?></th>
        	<th class="center"><?php echo $text_ship; ?></th>
       </tr>
-<!--	  <tr><td colspan="4"><hr></td></tr> -->
       <?php foreach ($products as $product) { ?>
       <tr>
 	  <td class="l"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>"></a></td>
@@ -55,7 +54,7 @@
             <?php echo $address; ?></td>
         </tr>
         <tr>
-          <td align="center" valign="top"><input type="button" value="<?php echo $button_change_address; ?>" onclick="location='<?php echo $change_address; ?>'"></td>
+          <td align="center" valign="top"><input type="button" value="<?php echo $button_change_address; ?>" id="change_address"></td>
         </tr>
       </table>
     </div>
@@ -103,18 +102,39 @@
     <?php } ?>
     <div class="e"><?php echo $text_comments; ?></div>
     <div class="f">
-      <textarea name="comment" cols="89" rows="8"><?php echo $comment; ?></textarea>
+      <textarea  id="comment" name="comment" cols="89" rows="8"><?php echo $comment; ?></textarea>
     </div>
 	<input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
   </div>
   <div class="buttons">
     <table>
       <tr>
-        <td align="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
+        <td align="left"><input type="button" value="<?php echo $button_back; ?>" id="back"></td>
         <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
       </tr>
     </table>
   </div>
 </form>
 </div>
-<div class="contentBodyBottom"></div>
+  <script type="text/javascript"><!--
+$("#back, #change_address").on("click", function(){
+	var Comment = $('#comment').val();
+	var shippingMethod = $('input[name=shipping]:checked').val();
+	var Button = this.id;
+	var data_json = {'Comment':Comment, 'shippingMethod':shippingMethod, 'Button':Button};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=checkout_shipping&action=comment',
+		data: data_json,
+		dataType:'json',
+		success: function (data) {
+				if (data.status=='BACK_SUCCESS') {
+					window.location='<?php echo $back; ?>'; 
+				}
+				else if (data.status=='S_ADDRESS_SUCCESS') {
+					window.location='<?php echo $change_address; ?>'.replace("&amp;", "&"); 
+				}
+			}
+	});
+});
+//--></script>

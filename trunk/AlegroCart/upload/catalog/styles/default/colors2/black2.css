@@ -697,6 +697,15 @@ b, strong, th {
 	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
+#checkout .h textarea {
+	width: 100%;
+	border: 1px solid #DDDDDD;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	margin-bottom: 10px; 
+}
 #payment .b, #payment .d, #payment .f {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
@@ -704,14 +713,14 @@ b, strong, th {
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
 }
-#payment .h textarea{
+#payment .h textarea {
 	width: 100%;
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
- 	margin-bottom: 10px; 
+	margin-bottom: 10px; 
 }
 #payment .b input {
 	height: 25px;
@@ -1118,7 +1127,7 @@ b, strong, th {
 }
 .enlarge a:hover{
 	color: #339900;
- 	text-decoration: none; 
+	text-decoration: none; 
 }
 .categories img {
 	border: 1px solid #EEEEEE;

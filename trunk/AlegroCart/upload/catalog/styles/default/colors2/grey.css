@@ -1,5 +1,5 @@
 body {
-	background:  url('../image/color2/grey/headerbackground.png') top repeat-x;
+	background: url('../image/color2/grey/headerbackground.png') top repeat-x;
 	background-color: #CCCCCC; /*Background Color*/
 }
 body, td, th, input, textarea, select, a {
@@ -77,7 +77,7 @@ a:hover {
 	color: #FFFFFF; /* Font Color*/
 }
 .headingpadded {
-	background: url('../image/color2/grey/heading795.png') top left no-repeat;	
+	background: url('../image/color2/grey/heading795.png') top left no-repeat;
 	color: #FFFFFF; /* Font Color*/
 	height: 25px;
 	padding-top: 5px;
@@ -414,12 +414,16 @@ a:hover {
 	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
+#checkout .h textarea {
+	border: 1px solid #EEEEEE;
+	width: 99%;
+}
 #payment .b, #payment .d, #payment .f, #payment .h {
 	border: 1px solid #EEEEEE;
 	margin-bottom: 10px;
 	padding: 5px;
 }
-#payment .h textarea{
+#payment .h textarea {
 	border: 1px solid #EEEEEE;
 	width: 99%;
 }

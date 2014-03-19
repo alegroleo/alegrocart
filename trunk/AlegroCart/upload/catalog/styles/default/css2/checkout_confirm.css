@@ -43,7 +43,11 @@
 #checkout .f table {
 	width: 100%;
 }
-
+#checkout .g {
+	margin-bottom: 2px;
+	font-weight: bold;
+	padding-left: 5px;
+}
 #checkout .left {
   text-align: left;
 }

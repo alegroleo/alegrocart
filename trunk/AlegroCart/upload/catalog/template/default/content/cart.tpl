@@ -85,11 +85,6 @@
         <td class="m"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['total_discounted']; ?></td>
       </tr>
       <?php } ?>
-<!--	  <?php if($columns == 2){?>
-	    <tr><td colspan="12"><hr></td></tr>
-	  <?php } else {?>
-	    <tr><td colspan="9"><hr></td></tr>
-	  <?php }?> -->
 	  <?php if($columns == 2){?>
 	  <tr class="totals">
 	    <th class="t" colspan="7"><?php echo $text_product_totals;?></th>
@@ -106,9 +101,6 @@
 		  <td class="m"><?php echo ($tax_included && $coupon_total ? '<span class="tax">* </span>' : '') . $subtotal;?></td>
 	  </tr>
 	  <?php }?>
-<!--	  <?php if($columns == 2){?>
-	    <tr><td colspan="7"></td><td colspan="5"><hr></td></tr>
-	  <?php }?> -->
     </table>
     <div class="n">
       <table>

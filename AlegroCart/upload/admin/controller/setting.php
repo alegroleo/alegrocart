@@ -6,6 +6,7 @@ class ControllerSetting extends Controller {
 	var $wm_types = array('png');
 	var $wm_method = 'auto';
 	var $mr_status = NULL;
+	var $cgi = NULL;
 
 	function __construct(&$locator){
 		$this->locator		=& $locator;
@@ -365,13 +366,18 @@ class ControllerSetting extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 
 		if (function_exists('apache_get_modules')) {
+			$cgi = 0;
 			if(in_array('mod_rewrite', apache_get_modules())) {
 				$mr_status = 1;
 			} else {
 				$mr_status = 0;
 			}
+		} else {
+			$cgi = 1;
+			$mr_status = 1;
 		}
-		$view->set('mr_status', @$mr_status);
+		$view->set('mr_status', $mr_status);
+		$view->set('cgi', $cgi);
 
 		$results = $this->modelSetting->get_settings();
 		foreach ($results as $result) {

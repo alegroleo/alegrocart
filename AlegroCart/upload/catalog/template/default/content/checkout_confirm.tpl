@@ -23,7 +23,7 @@
           <?php } ?>
           <b><?php echo $text_payment_method; ?></b><br>
           <?php echo $payment_method; ?><br>
-          <a href="<?php echo $checkout_payment; ?>"><?php echo $text_change; ?></a></td>
+          <?php if (!$one_payment_method) { ?><a href="<?php echo $checkout_payment; ?>"><?php echo $text_change; ?></a><?php } ?></td>
         <td><?php if ($shipping_address) { ?>
           <b><?php echo $text_shipping_address; ?></b><br>
           <?php echo $shipping_address; ?><br>
@@ -79,7 +79,6 @@
 			<span class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></span>
 		<?php } ?>
         </td>
-
         <td class="center"><?php echo $product['quantity']; ?></td>
         <td class="right"><?php if (!$product['discount']) { ?>
           <?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['price']; ?>
@@ -188,15 +187,15 @@
       </table>  
     </div>
   </div>
-  <?php if ($comment) { ?>
-  <div class="d"><b><?php echo $text_your_comments; ?></b></div>
-  <div class="e"><?php echo $comment; ?></div>
-  <?php } ?>
+  <div class="g"><?php echo $text_comments; ?></div>
+  <div class="h">
+<textarea id="comment" name="comment" cols="89" rows="8"><?php echo $comment; ?></textarea>
+  </div>
   <div class="e">
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
       <table width="100%">
         <tr>
-		  <?php echo '<td class="left"><span class="tax">* </span>' . $text_tax . '</td>';?>
+	  <?php echo '<td class="left"><span class="tax">* </span>' . $text_tax . '</td>';?>
           <td class="right"><?php echo $entry_coupon; ?></td>
           <td class="right" width="1"><input type="text" name="coupon" value="<?php echo $coupon; ?>"></td>
           <td class="right" width="1"><input type="submit" value="<?php echo $button_update; ?>"></td>
@@ -216,15 +215,15 @@
 	    <tr>
 		 <td></td>
 		 <td align="right"><?php echo $text_warehouse_pickup; ?></td>
-		 <td align="right" width="5"><input type="checkbox" id="pickup" name="pickup" value="1" onclick="check_status()"></td>
+		 <td align="right" width="5"><input type="checkbox" id="pickup" name="pickup" value="1" class="agreement"></td>
 		
 	    </tr>
 	  <?php }?>
       <tr>
-        <td align="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
-        <td align="right"><?php echo $agree; ?></td>
-        <td align="right" width="5"><input type="checkbox" id="agree" name="agreed" value="1" onclick="check_status()"></td>
-        <td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled></td>
+	<td align="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
+	<td align="right"><?php echo $agree; ?></td>
+	<td align="right" width="5"><input type="checkbox" id="agree" name="agreed" value="1" class="agreement"></td>
+	<td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled"></td>
       </tr>
     </table>
   </div>
@@ -240,18 +239,24 @@
   <?php } ?>
 </form></div>
 <div class="contentBodyBottom"></div>
-
 <script type="text/javascript"><!--
-  function check_status(){
-	if($('#pickup').length > 0){
-	  if($('#pickup').attr('checked') && $('#agree').attr('checked')){
-		//document.getElementById('submit').disabled = false;
-	    $('#submit').removeAttr('disabled');
-	  }
+$(".agreement").on("change", function(){
+	if ($('.agreement:checked').length == $('.agreement').length) {
+		$('#submit').attr('disabled', false);
 	} else {
-	  if($('#agree').attr('checked')){
-	    $('#submit').removeAttr('disabled');
-	  }
+		$('#submit').attr('disabled', true);
 	}
-  }
+});
+//--></script>
+  <script type="text/javascript"><!--
+$("#comment").on("change", function(){
+	var Comment = $('#comment').val();
+	var data_json = {'Comment':Comment};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=checkout_confirm&action=comment',
+		data: data_json,
+		dataType:'json',
+	});
+});
 //--></script>

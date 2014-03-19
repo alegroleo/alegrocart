@@ -181,7 +181,7 @@
                 <input type="radio" name="global_config_url_alias" value="0" id="gcuano" checked <?php echo $mr_status ? '' : 'disabled';?>>
                 <label for="gcuano"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-		<?php if (isset($mr_status)) { ?>
+		<?php if (isset($mr_status) && !$cgi) { ?>
 		<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
 		<?php } ?>
             </tr>
@@ -198,7 +198,7 @@
                 <input type="radio" name="global_config_seo" value="0" id="gcsno" checked <?php echo $mr_status ? '' : 'disabled';?> >
                 <label for="gcsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-		<?php if (isset($mr_status)) { ?>
+		<?php if (isset($mr_status) && !$cgi) { ?>
 		<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
 		<?php } ?>
 		</tr>

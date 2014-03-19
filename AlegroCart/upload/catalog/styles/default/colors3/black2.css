@@ -320,7 +320,7 @@ b, strong, th {
 	margin-right: 5px;	
 }
 .manufacturer_filter .lowerleft{
-	border-right: 1px solid #DDDDDD;	
+	border-right: 1px solid #DDDDDD;
 }
 .manufacturer_filter .right select{
 	border: 1px solid #DDDDDD;
@@ -680,6 +680,15 @@ b, strong, th {
 	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
+#checkout .h textarea{
+	width: 100%;
+	border: 1px solid #DDDDDD;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	margin-bottom: 10px; 
+}
 #payment .b, #payment .d, #payment .f {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
@@ -694,7 +703,7 @@ b, strong, th {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
- 	margin-bottom: 10px; 
+	margin-bottom: 10px; 
 }
 #payment .b input {
 	height: 25px;
@@ -912,8 +921,8 @@ b, strong, th {
 	height: 25px;
 }
 .description b a {
-        padding: 2px 2px 0px 2px;
-        text-decoration: none;
+	padding: 2px 2px 0px 2px;
+	text-decoration: none;
 	text-transform: uppercase;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	color: #C1002B;
@@ -1000,7 +1009,7 @@ b, strong, th {
 	color: #0099FF;
 }
 .productcat{
-	margin: 0px 0px 0px 5px;	
+	margin: 0px 0px 0px 5px;
 }
 .productcat_bottom{
 	width: 590px;

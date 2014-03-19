@@ -1,5 +1,5 @@
 body {
-	background:  url('../image/color2/black/headerbackground.png') top repeat-x;
+	background: url('../image/color2/black/headerbackground.png') top repeat-x;
 	background-color: #EEEEEE; /*Background Color*/
 }
 body, td, th, input, textarea, select, a {
@@ -305,12 +305,16 @@ a:hover {
 #checkout .a, #checkout .b, #checkout .e {
 	border: 1px solid #EEEEEE;
 }
+#checkout .h textarea {
+	border: 1px solid #EEEEEE;
+	width: 99%;
+}
 #payment .b, #payment .d, #payment .f, #payment .h {
 	border: 1px solid #EEEEEE;
 	margin-bottom: 10px;
 	padding: 5px;
 }
-#payment .h textarea{
+#payment .h textarea {
 	border: 1px solid #EEEEEE;
 	width: 99%;
 }

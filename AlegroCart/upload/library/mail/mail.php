@@ -145,11 +145,15 @@ class Mail {
 			$params=ini_get('safe_mode')?false:'-f'.$this->from;
 			return ($params)?mail($to, $subject, $message, $headers, $params):mail($to, $subject, $message, $headers);
 		} else {
-			foreach($recipients as $recipient){
-				$boundary = '----=_NextPart_'.$this->mime_boundary($recipient);
-				$headers = $this->create_headers($from, $to, $subject, $message_id, $bcc, $boundary);
-				$message = $this->create_message($boundary);
-				$this->smtpSocket($from, $recipient, $subject, $message, $headers);
+			if (!@$smtpConnect  = fsockopen($this->config->get('config_email_host'), $this->config->get('config_email_port'), $errno, $errstr, $this->config->get('config_email_tout'))) {
+			$this->log .= "(EE)  unknown host " . $this->config->get('config_email_host') . ". Error number: " . $errno . ". Error: " . $errstr . $this->newLine;
+			} else {
+				foreach($recipients as $recipient){
+					$boundary = '----=_NextPart_'.$this->mime_boundary($recipient);
+					$headers = $this->create_headers($from, $to, $subject, $message_id, $bcc, $boundary);
+					$message = $this->create_message($boundary);
+					$this->smtpSocket($from, $recipient, $subject, $message, $headers);
+				}
 			}
 		}
 		if ($this->config->get('config_email_log')) {
@@ -187,7 +191,7 @@ class Mail {
 	function create_message($boundary){
 
 			//our courtesy message
-			$message  = 'Your email client does not support MIME.';
+			$message  = 'Your email client does not support MIME.'. $this->crlf;
 
 		if (!$this->html) {
 			$message .= '--' . $boundary . $this->crlf;

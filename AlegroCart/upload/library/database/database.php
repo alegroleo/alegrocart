@@ -4,163 +4,163 @@ define('E_DB_CONN','Error: Could not make a database connection using %s@%s');
 define('E_DB_SELECT','Error: Could not select database %s');
 define('E_DB_QUERY','Error: %s<br />Error No: %s<br />%s');
 
-class Database {   
+class Database {
 	var $connection;
 	var $result;
 	var $pages;
-  	var $total;
-  	var $from;
-  	var $to;
+	var $total;
+	var $from;
+	var $to;
 	var $queries = 0;
 	var $query_text;
 	var $log_message = NULL;
 
 	function __construct(&$locator) {
 		$this->locator =& $locator;
-  		$this->config =& $locator->get('config');
+		$this->config =& $locator->get('config');
 		$this->cache  =& $locator->get('cache');
 		$this->mail     =& $locator->get('mail');
 		$this->query_text = "time: ".@date("j-m-d H:i:s (T)", time())."\n";
 		if(isset($_SERVER['REQUEST_URI'])) {
 			$this->query_text .= 'Path: '.$_SERVER['REQUEST_URI']."\n";
 		}
-  	}
+	}
 
-  	function connect($server, $username, $password, $database) {
+	function connect($server, $username, $password, $database) {
 		if (!$this->connection = mysql_connect($server, $username, $password)) {
 			$this->SQL_handler(sprintf(E_DB_CONN,$username,$server));
-      		exit;
-    	}
+		exit;
+	}
 
-    	if (!mysql_select_db($database, $this->connection)) {
+	if (!mysql_select_db($database, $this->connection)) {
 			$this->SQL_handler(sprintf(E_DB_SELECT,$database));
-      		exit;
-    	}
-		
+		exit;
+	}
+
 		mysql_query("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
 		mysql_set_charset('utf8');
 		mysql_query('set @@session.sql_mode="MYSQL40"');
-  	}
+	}
 
-  	function query($sql) {
+	function query($sql) {
 		$this->result = mysql_query($sql);
 		if ($this->result) {
 			++$this->queries;
 			$this->query_text .= $this->queries . " - "  . $sql . "\n";
 			return $this->result;
 		}
-		
+
 		//exit(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
 		$this->SQL_handler(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
 		//echo sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql);
-  	}
+	}
 
 	function error($sql='') {
 		if (mysql_error()) {
 			return 'SQL Error No: ' . mysql_errno() . '<br />MySQL Error: ' . mysql_error();
 		}
 	}
-	
-	function parse() {
-    	$args = func_get_args();
-		$sql = array_shift($args);
-		return vsprintf(str_replace('?', '%s', $sql), array_map('mysql_real_escape_string', $args));	
-	}
-		
-  	function getRow($sql) {
-    	$this->query($sql);
-    	$row = mysql_fetch_assoc($this->result);
-    	mysql_free_result($this->result);
-    	return $row;
-  	}
 
-  	function getRows($sql) {
+	function parse() {
+	$args = func_get_args();
+		$sql = array_shift($args);
+		return vsprintf(str_replace('?', '%s', $sql), array_map('mysql_real_escape_string', $args));
+	}
+
+	function getRow($sql) {
+	$this->query($sql);
+	$row = mysql_fetch_assoc($this->result);
+	mysql_free_result($this->result);
+	return $row;
+	}
+
+	function getRows($sql) {
 		if (func_num_args()) { $this->query(implode(func_get_args(), ', ')); }
 		else { $this->query($sql); }
 		
-    	$rows = array();
+	$rows = array();
 
-    	while (is_resource($this->result) && $row = mysql_fetch_assoc($this->result)) { $rows[] = $row; }
+	while (is_resource($this->result) && $row = mysql_fetch_assoc($this->result)) { $rows[] = $row; }
 		if(is_resource($this->result)){
 			mysql_free_result($this->result);
 		}
-    	return $rows;
-  	}
-	
+	return $rows;
+	}
+
 	function countRows() {
-    	$this->query(implode(func_get_args(), ', '));
+	$this->query(implode(func_get_args(), ', '));
 		return mysql_num_rows($this->result);
 	}
-	
-  	function countAffected() {
-    	return mysql_affected_rows($this->connection);
-  	}
 
-  	function getLastId() {
-    	return mysql_insert_id($this->connection);
-  	}
-		  
-  	function cache($key, $sql) {
-    	if ($this->config->get('config_cache_query')) {
-      		if (!$result = $this->cache->get($key)) {
-	    		$result = $this->getRows($sql);
+	function countAffected() {
+	return mysql_affected_rows($this->connection);
+	}
+
+	function getLastId() {
+	return mysql_insert_id($this->connection);
+	}
+
+	function cache($key, $sql) {
+	if ($this->config->get('config_cache_query')) {
+		if (!$result = $this->cache->get($key)) {
+			$result = $this->getRows($sql);
 				$this->cache->set($key, $result);
-      		}
-    	} else {
-      		$result = $this->getRows($sql);
-    	}
-    	return ($result);
-  	}
+		}
+	} else {
+		$result = $this->getRows($sql);
+	}
+	return ($result);
+	}
 
 	function splitQuery($sql, $page = '1', $max_rows = '20' , $max_results = '0') {	
-    	$count = $this->getRow(preg_replace(array('/select(.*)from /As', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql, 1));
-		
+	$count = $this->getRow(preg_replace(array('/select(.*)from /As', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql, 1));
+
 		if(($max_results != '0') && ($max_results < $count['total'])){
 		  $count['total'] = $max_results;
 		}
-		
-    	$pages = ceil($count['total'] / (int)$max_rows);
 
-    	if (!$page) { $page = 1; }
+	$pages = ceil($count['total'] / (int)$max_rows);
 
-    	$offset = ((int)$max_rows * ($page - 1));
+	if (!$page) { $page = 1; }
+
+	$offset = ((int)$max_rows * ($page - 1));
 
 		if(($max_results != '0') && (($page*$max_rows)>$max_results)) {
 			$sql .= " limit " . (int)$offset . ", " . (int)($max_results-$offset);
 		} else{
 			$sql .= " limit " . (int)$offset . ", " . (int)$max_rows;
 		}
-		
+
 		$this->pages = (int)(($pages > 0) ? $pages : '1');
-    	$this->total = (int)$count['total']; 
-    	$this->from  = (int)(($offset > 0 || $count['total'] > 0) ? $offset+1 : '0');
+	$this->total = (int)$count['total']; 
+	$this->from  = (int)(($offset > 0 || $count['total'] > 0) ? $offset+1 : '0');
 
-    	if ($count['total'] < $max_rows) {
-      		$this->to = (int)$count['total'];
-    	}  elseif ($this->pages == $page) {
-      		$this->to = (int)($offset + $max_rows - ($offset + $max_rows - $count['total']));
-    	} else {
-      		$this->to = (int)($offset + $max_rows);
-    	}
+	if ($count['total'] < $max_rows) {
+		$this->to = (int)$count['total'];
+	}  elseif ($this->pages == $page) {
+		$this->to = (int)($offset + $max_rows - ($offset + $max_rows - $count['total']));
+	} else {
+		$this->to = (int)($offset + $max_rows);
+	}
 
-    	return $sql;
-  	}
-  
-  	function getPages() {
-    	return $this->pages;
-  	}
-  
-  	function getTotal() {
-    	return $this->total;
-  	}
-  
-  	function getFrom() {
-    	return $this->from;
-  	}
-   
-  	function getTo() {
-    	return $this->to;
-  	}
+	return $sql;
+	}
+
+	function getPages() {
+	return $this->pages;
+	}
+
+	function getTotal() {
+	return $this->total;
+	}
+
+	function getFrom() {
+	return $this->from;
+	}
+
+	function getTo() {
+	return $this->to;
+	}
 
 	function import($file) {
 		if ($sql=file($file)) {
@@ -227,7 +227,7 @@ class Database {
 					$value = str_replace('\'', '\\\'',	$value);
 					$value = str_replace('\\\n', '\n',	$value);
 					$value = str_replace('\\\r', '\r',	$value);
-					$value = str_replace('\\\t', '\t',	$value);			
+					$value = str_replace('\\\t', '\t',	$value);
 					$values .= '\'' . $value . '\', ';
 				}
 				$output .= 'INSERT INTO `' . $row[0] . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n";
@@ -249,27 +249,27 @@ class Database {
 		if($this->show_developer && preg_match("/^$this->ip$/i", $_SERVER['REMOTE_ADDR'])){
 			$this->sql_msg_developer($error);
 		}
-		
+
 	}
 	function send_error_msg($error){
-		$error = str_replace(array('<br />', '<br>'), "\n", $error);
-		$message = "MySQL ". $error . "\n" ;
-		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. @$_SERVER['REQUEST_URI'] . "\n" : "";
-		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\n" : "";
-		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\n" : "";
-		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\n";
-		$message .= "log: ".print_r( $this->log_message, true)."\n";
-		$message .= "##################################################\n\n";
-		
+		$error = str_replace(array('<br />', '<br>'), "\r\n", $error);
+		$message = "MySQL ". $error . "\r\n" ;
+		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. @$_SERVER['REQUEST_URI'] . "\r\n" : "";
+		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\r\n" : "";
+		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\r\n" : "";
+		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\r\n";
+		$message .= "log: ".print_r( $this->log_message, true)."\r\n";
+		$message .= "##################################################\r\n\r\n";
+
 		$this->email_sent = false;
-		
+
 		$this->mail->setTo($this->email);
 		$this->mail->setFrom($this->config->get('config_email'));
 		$this->mail->setSender(HTTP_BASE);
 		$this->mail->setSubject('ERROR');
 		$this->mail->setText($message);
 		$this->mail->send();
-		
+
 		$this->email_sent = true;
 	}
 	function log_error_msg($error){

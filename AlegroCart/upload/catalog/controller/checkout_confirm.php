@@ -1,40 +1,39 @@
 <?php // Checkout Confirm AlegroCart
-class ControllerCheckoutConfirm extends Controller { 
+class ControllerCheckoutConfirm extends Controller {
 	var $error = array();
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
-		$this->address  	=& $locator->get('address');
-		$this->calculate 	=& $locator->get('calculate');
-		$this->cart     	=& $locator->get('cart');
-		$this->config  		=& $locator->get('config');
-		$this->coupon   	=& $locator->get('coupon');
-		$this->currency  	=& $locator->get('currency');
-		$this->customer 	=& $locator->get('customer');
-		$this->head_def 	=& $locator->get('HeaderDefinition');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->order     	=& $locator->get('order');
-		$this->payment   	=& $locator->get('payment');
-		$this->response 	=& $locator->get('response');
-		$this->request  	=& $locator->get('request');
-		$this->session  	=& $locator->get('session');
-		$this->shipping  	=& $locator->get('shipping');
-		$this->tax       	=& $locator->get('tax');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelCore 	= $model->get('model_core');
+		$model			=& $locator->get('model');
+		$this->address		=& $locator->get('address');
+		$this->calculate	=& $locator->get('calculate');
+		$this->cart		=& $locator->get('cart');
+		$this->config		=& $locator->get('config');
+		$this->coupon		=& $locator->get('coupon');
+		$this->currency		=& $locator->get('currency');
+		$this->customer		=& $locator->get('customer');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->order		=& $locator->get('order');
+		$this->payment		=& $locator->get('payment');
+		$this->response		=& $locator->get('response');
+		$this->request		=& $locator->get('request');
+		$this->session		=& $locator->get('session');
+		$this->shipping		=& $locator->get('shipping');
+		$this->tax		=& $locator->get('tax');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->validate		=& $locator->get('validate');
+		$this->modelCore	= $model->get('model_core');
 		$this->modelCheckout	= $model->get('model_checkout');
 		$this->tpl_manager	= $this->modelCore->get_tpl_manager('checkout_confirm'); // Template Manager
-		$this->locations 	= $this->modelCore->get_tpl_locations();// Template Manager
-		$this->tpl_columns 	= $this->modelCore->get_columns();// Template Manager
+		$this->locations	= $this->modelCore->get_tpl_locations();// Template Manager
+		$this->tpl_columns	= $this->modelCore->get_columns();// Template Manager
 	}
 
 	function index() {
 	if (!$this->customer->isLogged()) {
 			$this->session->set('redirect', $this->url->ssl('checkout_shipping'));
-
 			$this->response->redirect($this->url->ssl('account_login'));
 	}
 
@@ -77,7 +76,6 @@ class ControllerCheckoutConfirm extends Controller {
 
 		if (($this->request->isPost()) && ($this->validate()) && $this->request->has('agreed')) {
 			$this->session->set('message', $this->language->get('text_coupon'));
-			
 			$this->response->redirect($this->url->ssl('checkout_confirm'));
 		}
 
@@ -89,7 +87,8 @@ class ControllerCheckoutConfirm extends Controller {
 		$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
 		$view->set('text_payment_address', $this->language->get('text_payment_address'));
 		$view->set('text_payment_method', $this->language->get('text_payment_method'));
-		$view->set('text_your_comments', $this->language->get('text_your_comments'));
+		$view->set('text_comments', $this->language->get('text_comments'));
+
 		$view->set('text_change', $this->language->get('text_change'));
 		$view->set('text_product', $this->language->get('text_product'));
 		$view->set('text_model_number', $this->language->get('text_model_number'));
@@ -118,9 +117,9 @@ class ControllerCheckoutConfirm extends Controller {
 
 		$view->set('entry_coupon', $this->language->get('entry_coupon'));
 
-	$view->set('button_continue', $this->language->get('button_continue'));
+		$view->set('button_continue', $this->language->get('button_continue'));
 		$view->set('button_back', $this->language->get('button_back'));
-	$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_update', $this->language->get('button_update'));
 
 		$view->set('error', @$this->error['message']);
 
@@ -152,26 +151,26 @@ class ControllerCheckoutConfirm extends Controller {
 			$view->set('payment_form_enctype',$this->payment->formType($this->session->get('payment_method')));
 		}
 
-	if ($this->session->get('shipping_method') != 'warehouse_warehouse') {
-	$view->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
-	} else {
-	$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
-	$view->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
-	}
+		if ($this->session->get('shipping_method') != 'warehouse_warehouse') {
+		$view->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
+		} else {
+		$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
+		$view->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
+		}
 
-	$view->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
+		$view->set('shipping_method', $this->shipping->getDescription($this->session->get('shipping_method')));
 
-	$view->set('checkout_shipping', $this->url->ssl('checkout_shipping'));
+		$view->set('checkout_shipping', $this->url->ssl('checkout_shipping'));
 
-	$view->set('checkout_shipping_address', $this->url->ssl('checkout_address', 'shipping'));
+		$view->set('checkout_shipping_address', $this->url->ssl('checkout_address', 'shipping'));
 
-	$view->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));
+		$view->set('payment_address', $this->address->getFormatted($this->session->get('payment_address_id'), '<br />'));
 
-	$view->set('payment_method', $this->payment->getTitle($this->session->get('payment_method')));
+		$view->set('payment_method', $this->payment->getTitle($this->session->get('payment_method')));
 
-	$view->set('checkout_payment', $this->url->ssl('checkout_payment'));
+		$view->set('checkout_payment', $this->url->ssl('checkout_payment'));
 
-	$view->set('checkout_payment_address', $this->url->ssl('checkout_address', 'payment'));
+		$view->set('checkout_payment_address', $this->url->ssl('checkout_address', 'payment'));
 
 		$currency = $this->modelCheckout->get_currency();
 		$view->set('currency', $currency);
@@ -181,7 +180,7 @@ class ControllerCheckoutConfirm extends Controller {
 			$this->response->redirect($this->url->ssl('cart'));
 		}
 		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
-	$product_data = array();
+		$product_data = array();
 
 		$tax_total = 0;
 		$extended_total = 0;
@@ -190,60 +189,60 @@ class ControllerCheckoutConfirm extends Controller {
 		$net_total = 0;
 		$totals_total = 0;
 
-	foreach ($this->cart->getProducts() as $product) {
-		$option_data = array();
+		foreach ($this->cart->getProducts() as $product) {
+			$option_data = array();
 
-		foreach ($product['option'] as $option) {
-			$option_data[] = array(
-				'name'  => $option['name'],
-				'value' => $option['value']
-			);
+			foreach ($product['option'] as $option) {
+				$option_data[] = array(
+					'name'  => $option['name'],
+					'value' => $option['value']
+				);
+			}
+				$view->set('hasnoshipping', $this->cart->hasNoShipping());
+				$tax_total += $product['product_tax'];
+				$extended_total += $this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax'));
+				$coupon_total += $product['coupon'] ? $product['coupon'] : NULL;
+				$discount_total += $product['general_discount'] ? $product['general_discount'] : NULL;
+				$net_total += $product['total_discounted'] + ($this->config->get('config_tax') ? $product['product_tax'] : 0);
+				$totals_total += $product['total_discounted'] + $product['product_tax'];
+				$special_price = $product['special_price'] ? $product['special_price'] - $product['discount'] : 0 ;
+				if($product['special_price']){
+					$discount_percent = (100 - $product['discount_percent'])/100;
+					$discount = ($product['discount'] ? $this->currency->format($this->tax->calculate(($product['price'] * $discount_percent), $product['tax_class_id'], $this->config->get('config_tax'))) : NULL);
+				} else {
+					$discount = ($product['discount'] ? $this->currency->format($this->tax->calculate($product['price'] - $product['discount'], $product['tax_class_id'], $this->config->get('config_tax'))) : NULL);
+				}
+				if($product['vendor_id']!='0' && $this->config->get('config_registered')){
+					$vendor = $this->modelCheckout->get_vendor($product['vendor_id']);
+					$vendor_name = $vendor['name'];
+				} else {
+					$vendor_name = NULL;
+				}
+			$product_data[] = array(
+					'product_id' => $product['product_id'],
+					'href'       => $this->url->href('product', FALSE, array('product_id' => $product['product_id'])),
+					'name'       => $product['name'],
+					'model_number'=> $product['model_number'],
+					'vendor_name'=> $vendor_name,
+					'vendor_id'  => $product['vendor_id'],
+					'shipping'   => ($this->session->get('shipping_method') == 'warehouse_warehouse' ? FALSE : $product['shipping']),
+					'download'   => $product['download'],
+					'option'     => $option_data,
+					'quantity'   => $product['quantity'],
+					'tax'        => round($this->tax->getRate($product['tax_class_id']), $this->decimal_place),
+					'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'))),
+					'base_price' => $this->currency->format($product['price']),
+					'special_price' => $special_price ? $this->currency->format($this->tax->calculate($special_price, $product['tax_class_id'], $this->config->get('config_tax'))) : NULL,
+					'base_special_price' => $special_price ? $this->currency->format($special_price) : NULL,
+					'discount'   => $discount,
+					'coupon'     =>  ($product['coupon'] ? '-' . $this->currency->format($product['coupon']) : NULL),
+					'general_discount' => ($product['general_discount'] ? '-' . $this->currency->format($product['general_discount']) : NULL),
+					'net'        => $this->currency->format($product['total_discounted'] + ($this->config->get('config_tax') ? $product['product_tax'] : 0)),
+					'product_tax' => $this->currency->format($product['product_tax']),
+					'total_discounted' => $this->currency->format($product['total_discounted'] + $product['product_tax']),
+					'total'      => $this->currency->format($this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax')))
+			); 
 		}
-			$view->set('hasnoshipping', $this->cart->hasNoShipping());
-			$tax_total += $product['product_tax'];
-			$extended_total += $this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax'));
-			$coupon_total += $product['coupon'] ? $product['coupon'] : NULL;
-			$discount_total += $product['general_discount'] ? $product['general_discount'] : NULL;
-			$net_total += $product['total_discounted'] + ($this->config->get('config_tax') ? $product['product_tax'] : 0);
-			$totals_total += $product['total_discounted'] + $product['product_tax'];
-			$special_price = $product['special_price'] ? $product['special_price'] - $product['discount'] : 0 ;
-			if($product['special_price']){
-				$discount_percent = (100 - $product['discount_percent'])/100;
-				$discount = ($product['discount'] ? $this->currency->format($this->tax->calculate(($product['price'] * $discount_percent), $product['tax_class_id'], $this->config->get('config_tax'))) : NULL);
-			} else {
-				$discount = ($product['discount'] ? $this->currency->format($this->tax->calculate($product['price'] - $product['discount'], $product['tax_class_id'], $this->config->get('config_tax'))) : NULL);
-			}
-			if($product['vendor_id']!='0' && $this->config->get('config_registered')){
-				$vendor = $this->modelCheckout->get_vendor($product['vendor_id']);
-				$vendor_name = $vendor['name'];
-			} else {
-				$vendor_name = NULL;
-			}
-		$product_data[] = array(
-				'product_id' => $product['product_id'],
-				'href'       => $this->url->href('product', FALSE, array('product_id' => $product['product_id'])),
-				'name'       => $product['name'],
-				'model_number'=> $product['model_number'],
-				'vendor_name'=> $vendor_name,
-				'vendor_id'  => $product['vendor_id'],
-				'shipping'   => ($this->session->get('shipping_method') == 'warehouse_warehouse' ? FALSE : $product['shipping']),
-				'download'   => $product['download'],
-				'option'     => $option_data,
-				'quantity'   => $product['quantity'],
-				'tax'        => round($this->tax->getRate($product['tax_class_id']), $this->decimal_place),
-				'price'      => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'))),
-				'base_price' => $this->currency->format($product['price']),
-				'special_price' => $special_price ? $this->currency->format($this->tax->calculate($special_price, $product['tax_class_id'], $this->config->get('config_tax'))) : NULL,
-				'base_special_price' => $special_price ? $this->currency->format($special_price) : NULL,
-				'discount'   => $discount,
-				'coupon'     =>  ($product['coupon'] ? '-' . $this->currency->format($product['coupon']) : NULL),
-				'general_discount' => ($product['general_discount'] ? '-' . $this->currency->format($product['general_discount']) : NULL),
-				'net'        => $this->currency->format($product['total_discounted'] + ($this->config->get('config_tax') ? $product['product_tax'] : 0)),
-				'product_tax' => $this->currency->format($product['product_tax']),
-				'total_discounted' => $this->currency->format($product['total_discounted'] + $product['product_tax']),
-				'total'      => $this->currency->format($this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax')))
-		); 
-	}
 
 		if ($this->cart->hasShipping()) {
 			$shipping_net = $this->shipping->getCost($this->session->get('shipping_method'));
@@ -292,8 +291,16 @@ class ControllerCheckoutConfirm extends Controller {
 		$view->set('discount_sort_order', $discount_sort_order);
 
 		$view->set('comment', $this->session->get('comment'));
-		$view->set('back', $this->url->ssl('checkout_payment'));
+		$view->set('one_payment_method', $this->session->get('one_payment_method'));
 
+		if (!$this->cart->hasShipping() && $this->session->get('one_payment_method')) {
+			$view->set('back', $this->url->ssl('cart'));
+		}
+		elseif ($this->cart->hasShipping() && $this->session->get('one_payment_method')) {
+			$view->set('back', $this->url->ssl('checkout_shipping'));
+		} else {
+			$view->set('back', $this->url->ssl('checkout_payment'));
+		}
 		$this->order->set('customer_id', $this->customer->getId());
 		$this->order->set('firstname', $this->customer->getFirstName());
 		$this->order->set('lastname', $this->customer->getLastName());
@@ -458,7 +465,7 @@ class ControllerCheckoutConfirm extends Controller {
 			$option_data[] = array(
 				'name'   => $option['name'],
 				'value'  => $option['value'],
-					'prefix' => $option['prefix']
+				'prefix' => $option['prefix']
 			);
 		}
 			if($product['special_price']){
@@ -521,11 +528,17 @@ class ControllerCheckoutConfirm extends Controller {
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
- 	}
+	}
+
+	function comment(){
+		if ($this->request->isPost()) {
+			$this->session->set('comment', $this->request->sanitize('Comment', 'post'));
+		}
+	}
 
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
-		foreach ($this->locations as $location){
+	foreach ($this->locations as $location){
 			if($modules[$location['location']]){
 				foreach($modules[$location['location']] as $module){
 					$this->template->set($this->module->load($module));

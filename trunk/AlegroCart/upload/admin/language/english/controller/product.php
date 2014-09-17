@@ -1,8 +1,8 @@
 <?php
 // Heading
-$_['heading_title']        = 'Products';
-$_['heading_form_title']   = 'Product:';
-$_['heading_description']  = 'You can edit your products here.';
+$_['heading_title']		= 'Products';
+$_['heading_form_title']	= 'Product:';
+$_['heading_description']	= 'You can edit your products here.';
 
 // Text
 $_['text_message']         = 'Success: You have updated products!';
@@ -81,6 +81,8 @@ $_['entry_download']       = 'Payment Required Downloads:';
 $_['entry_free_download']  = 'Free Downloads:';
 $_['entry_category']       = 'Categories:';
 $_['entry_min_qty']        = 'Minimum Order Quantity:';
+$_['entry_max_qty']        = 'Maximum Order Quantity:';
+$_['entry_multiple']       = 'Selling Multiple:';
 $_['entry_dated_special']  = 'Dated Special Price  %s '; // New
 $_['entry_start_date']     = 'Start Date:'; // New
 $_['entry_end_date']       = 'End Date:'; // New
@@ -89,34 +91,37 @@ $_['entry_alt_description']= 'Alternate Short Description:<br><br><br>Use <b>SHI
 $_['entry_technical']      = 'Technical Specification Description:'; // New
 $_['entry_technical_name'] = 'Technical Tab Name:';
 $_['entry_meta_title']     = 'Meta Title:'; // New
-$_['entry_meta_description'] = 'Meta Description:'; // New
-$_['entry_meta_keywords']  = 'Meta Keywords:'; // New
-$_['entry_regular_price']  = 'Regular Price %s '; //New
-$_['entry_percent_discount'] = 'Percentage Discount % '; // New
-$_['entry_quantity_discount'] = '<br>Percentage Discount is the base for quantity discount calculations.<br>Dollar amounts are for reference only, based on the regular selling price.<br>A new percentage discount can be created by entering a dollar amount.<br>If Dated Special pricing is in affect, the discount will be calculated off the dated special price.';
-$_['entry_product_option']    = 'Product Option';
-$_['entry_po_quantity']       = 'Quantity in Stock';
-$_['entry_po_barcode']        = 'Barcode Digits';
-$_['entry_po_barcode_encoding'] = 'Barcode Encoding';
+$_['entry_meta_description']	= 'Meta Description:'; // New
+$_['entry_meta_keywords']	= 'Meta Keywords:'; // New
+$_['entry_regular_price']	= 'Regular Price %s '; //New
+$_['entry_percent_discount']	= 'Percentage Discount % '; // New
+$_['entry_quantity_discount']	= '<br>Percentage Discount is the base for quantity discount calculations.<br>Dollar amounts are for reference only, based on the regular selling price.<br>A new percentage discount can be created by entering a dollar amount.<br>If Dated Special pricing is in affect, the discount will be calculated off the dated special price.';
+$_['entry_product_option']	= 'Product Option';
+$_['entry_po_quantity']		= 'Quantity in Stock';
+$_['entry_po_barcode']		= 'Barcode Digits';
+$_['entry_po_barcode_encoding']	= 'Barcode Encoding';
 // Button
-$_['button_add']           = 'Add';
-$_['button_remove']        = 'Remove';
+$_['button_add']		= 'Add';
+$_['button_remove']		= 'Remove';
 
 // Tab
-$_['tab_general']       = 'Product Name<br>Description';
-$_['tab_product_options']  = 'Product<br>Options';
-$_['tab_dated_special']    = 'Dated<br>Specials';
-$_['tab_alt_description']  = 'Alternate<br>Description';
-$_['tab_download']      = 'Product<br>Download';
-$_['tab_discount']      = 'Quantity<br>Discounts';
-$_['tab_category']      = 'Product<br>Category';
-$_['tab_image']         = 'Product Image<br>Additional Images';
-$_['tab_data']          = 'Product Detail<br>Information';
+$_['tab_general']		= 'Product Name<br>Description';
+$_['tab_product_options']	= 'Product<br>Options';
+$_['tab_dated_special']		= 'Dated<br>Specials';
+$_['tab_alt_description']	= 'Alternate<br>Description';
+$_['tab_download']		= 'Product<br>Download';
+$_['tab_discount']		= 'Quantity<br>Discounts';
+$_['tab_category']		= 'Product<br>Category';
+$_['tab_image']			= 'Product Image<br>Additional Images';
+$_['tab_data']			= 'Product Detail<br>Information';
 
 //Explanation
 $_['explanation_multiselect_img']	= 'To select/deselect multiple images press and hold &lt;Ctrl&gt; while you are clicking.';
 $_['explanation_multiselect_cat']	= 'To select/deselect multiple categories press and hold &lt;Ctrl&gt; while you are clicking.';
 $_['explanation_multiselect_pr']	= 'To select/deselect multiple products press and hold &lt;Ctrl&gt; while you are clicking.';
+$_['explanation_min_qty']		= 'Customers cannot order less than this quantity.';
+$_['explanation_max_qty']		= 'Customers cannot order more than this quantity. Default 0 means that it won\'t be taken into consideration.';
+$_['explanation_multiple']		= 'If set to e.g. 2 customers can order 2,4,6 etc. Default 0 means that it won\'t be taken into consideration.';
 // Error
 $_['error_permission']			= 'Warning: You do not have permission to modify products';
 $_['error_name']			= '* Product Name must be between 1 and 64 characters!';
@@ -130,4 +135,6 @@ $_['error_upc']				= 'UPC barcode must be 11 or 12 digit!'; // New
 $_['error_barcode_already_exists']	= '* ERROR - This barcode already EXISTS *';
 $_['error_duplicate_barcode']		= '* ERROR - DUPLICATE BARCODE *';
 $_['error_orphans']			= 'Warning! The following products are not assigned to any category or subcategory:';
+$_['error_multiple']			= '* Multiple must be less than or equal to Maximum Order Quantity!';
+$_['error_max_qty']			= '* Maximum Order Quantity must be greater than or equal to Minimum Order Quantity!';
 ?>

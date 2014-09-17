@@ -21,7 +21,7 @@
 #cart .b {
 	text-align: center;
 	width: 50px;
-	vertical-align: top;	
+	vertical-align: top;
 }
 #cart .h {
 	text-align: center;
@@ -47,9 +47,10 @@
 	color: #FF0000;
 	vertical-align: middle;
 }
-
 #cart .j span {
 	color: #FF0000;
+	vertical-align: super;
+	font-size: 10px;
 }
 #cart .f{
 	text-align: center;
@@ -74,11 +75,9 @@
 	width: 100%;
 	padding-top: 5px;
 }
-
 #cart .n table {
 	display: inline-block;
 }
-
 #cart .o {
 	color: #FF0000;
 	clear: both;
@@ -114,7 +113,6 @@
 	font-weight: 200;
 	font-size: 10px;
 }
-
 .cartprice_new {
 	color: #FF0000;
 	font-size: 10px;

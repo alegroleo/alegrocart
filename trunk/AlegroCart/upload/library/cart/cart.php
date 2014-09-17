@@ -1,25 +1,26 @@
 <?php // AlegroCart
 class Cart {
-	var $data     = array();
-	var $products = array();
-	var $subtotal = 0;
-	var $taxes    = array();
-	var $total    = 0;
-	var $stock    = TRUE;
-	var $shipping = FALSE;
-	var $noshipping = FALSE;
-	var $downloads = FALSE;
-	var $minov    = TRUE;
+	var $data	= array();
+	var $products	= array();
+	var $subtotal	= 0;
+	var $taxes	= array();
+	var $total	= 0;
+	var $stock	= TRUE;
+	var $shipping	= FALSE;
+	var $noshipping	= FALSE;
+	var $downloads	= FALSE;
+	var $minov	= TRUE;
+	var $maxqty	= FALSE;
 
 	function __construct(&$locator){
-		$this->locator  =& $locator;
-		$this->config   =& $locator->get('config');
-		$this->session  =& $locator->get('session');
-		$this->database =& $locator->get('database');
-		$this->language =& $locator->get('language');
-		$this->tax      =& $locator->get('tax');
-		$this->weight   =& $locator->get('weight');
-		$this->currency =& $locator->get('currency');
+		$this->locator	=& $locator;
+		$this->config	=& $locator->get('config');
+		$this->session	=& $locator->get('session');
+		$this->database	=& $locator->get('database');
+		$this->language	=& $locator->get('language');
+		$this->tax	=& $locator->get('tax');
+		$this->weight	=& $locator->get('weight');
+		$this->currency	=& $locator->get('currency');
 
 		if ($this->session->has('cart')) {
 		$this->data = $this->session->get('cart');
@@ -31,46 +32,46 @@ class Cart {
 
 
 
-    	foreach ($this->data as $key => $value)
+	foreach ($this->data as $key => $value)
 		{
-      		$array      = explode(':', $key);
-      		$product_id = $array[0];
-      		$quantity   = $value;
+		$array      = explode(':', $key);
+		$product_id = $array[0];
+		$quantity   = $value;
 
-      		if (isset($array[1]))
+		if (isset($array[1]))
 			{
-        		$options = explode('.', $array[1]);
-      		} else {
-        		$options = array();
-      		} 
+			$options = explode('.', $array[1]);
+		} else {
+			$options = array();
+		} 
 
-      		$product = $this->database->getRow("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.product_id = '" . (int)$product_id . "' and pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1'");
+		$product = $this->database->getRow("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.product_id = '" . (int)$product_id . "' and pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1'");
 
 			if ($product) {
-      			$option_price = 0;
+			$option_price = 0;
 				$option_weight = 0;
-      			$option_data = array();
+			$option_data = array();
 
-      			foreach ($options as $product_to_option_id) {
-        			$option = $this->database->getRow("select o.name as name, ov.name as `value`, p2o.price, p2o.prefix, p2o.option_weight, p2o.option_weightclass_id from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_to_option_id = '" . (int)$product_to_option_id . "' and product_id = '" . (int)$product_id . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "'");
+			foreach ($options as $product_to_option_id) {
+			$option = $this->database->getRow("select o.name as name, ov.name as `value`, p2o.price, p2o.prefix, p2o.option_weight, p2o.option_weightclass_id from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_to_option_id = '" . (int)$product_to_option_id . "' and product_id = '" . (int)$product_id . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "'");
 
-        			if ($option['prefix'] == '+') {
-          				$option_price = $option_price + $option['price'];
-        			} elseif ($option['prefix'] == '-') {
-          				$option_price = $option_price - $option['price'];
-        			}
+				if ($option['prefix'] == '+') {
+					$option_price = $option_price + $option['price'];
+				} elseif ($option['prefix'] == '-') {
+					$option_price = $option_price - $option['price'];
+				}
 					$temp_option_weight = $this->weight->convert($option['option_weight'],$option['option_weightclass_id'],$product['weight_class_id']);
 					$option_weight = $option_weight + $temp_option_weight;
-        			$option_data[] = array(
-          				'product_to_option_id' => $product_to_option_id,
-          				'name'           => $option['name'],
-          				'value'          => $option['value'],
-          				'prefix'         => $option['prefix'],
-          				'price'          => roundDigits($option['price'], $this->decimal_place),
-						'option_weight'	 => $temp_option_weight,
-						'option_weightclass_id'=> $option['option_weightclass_id']
-        			);
-      			}
+				$option_data[] = array(
+					'product_to_option_id' => $product_to_option_id,
+					'name'           => $option['name'],
+					'value'          => $option['value'],
+					'prefix'         => $option['prefix'],
+					'price'          => roundDigits($option['price'], $this->decimal_place),
+					'option_weight'	 => $temp_option_weight,
+					'option_weightclass_id'=> $option['option_weightclass_id']
+				);
+				}
 
 				if($options){
 					$product_option = $this->database->getRow("select * from product_options po left join image i on (po.image_id = i.image_id) where product_option = '" . $key . "'");
@@ -87,7 +88,7 @@ class Cart {
 				$product_discount = $this->database->getRow("select * from product_discount where product_id = '" . (int)$product['product_id'] . "' and quantity <= '" . (int)$quantity . "' order by quantity desc limit 1");
 
 				if (!$product_discount) {   // changed to percent
-          			$discount_percent = 0;
+				$discount_percent = 0;
 				} else {
 					$discount_percent = $product_discount['discount'];
 				}
@@ -97,13 +98,13 @@ class Cart {
 				$download_data = array();
 
 				foreach ($downloads as $download) {
-        			$download_data[] = array(
-          				'download_id' => $download['download_id'],
-						'name'        => $download['name'],
-						'filename'    => $download['filename'],
-						'mask'        => $download['mask'],
-						'remaining'   => $download['remaining']
-        			);
+				$download_data[] = array(
+					'download_id' => $download['download_id'],
+					'name'        => $download['name'],
+					'filename'    => $download['filename'],
+					'mask'        => $download['mask'],
+					'remaining'   => $download['remaining']
+				);
 				}
 				$price = roundDigits($product['price'], $this->decimal_place);
 				$special_price = roundDigits($product['special_price'],$this->decimal_place);
@@ -117,54 +118,59 @@ class Cart {
 				  $discount = $discount_percent > 0 ? roundDigits(($price + ($this->config->get('config_discount_options') ? $option_price : 0)) * ($discount_percent / 100),$this->decimal_place) : '0';
 				}
 
-      			$this->products[$key] = array(
-        			'key'             => $key,
-        			'product_id'      => $product['product_id'],
-        			'name'            => $product['name'],
+			$this->products[$key] = array(
+				'key'			=> $key,
+				'product_id'		=> $product['product_id'],
+				'name'			=> $product['name'],
 				'vendor_id'		=> $product['vendor_id'],
 				'vendor_name'		=> $vendor_name['name'],
-        			'model_number'    => (isset($product_option['model_number']) ? @$product_option['model_number'] : @$product['model_number']),
-				'shipping'        => (isset($product_option['shipping']) ? @$product_option['shipping'] : @$product['shipping']),
-        			'image'           => ((isset($product_option['filename']) && @$product_option['filename']) ? @$product_option['filename'] : $product['filename']),
-        			'option'          => $option_data,
-				'download'        => $download_data,
-        			'quantity'        => $quantity,
-				'barcode'         => isset($product_option['barcode']) ? @$product_option['barcode'] : @$product['barcode'],
-				'min_qty'         => $product['min_qty'],
-				'stock'           => ($quantity <=(isset($product_option['quantity']) ? @$product_option['quantity'] : @$product['quantity'])),
-        			'price'           => roundDigits(($product['price'] + $option_price), $this->decimal_place),
-				'special_price'   => $special_price,
-				'discount'        => $discount,
+				'model_number'		=> (isset($product_option['model_number']) ? @$product_option['model_number'] : @$product['model_number']),
+				'shipping'		=> (isset($product_option['shipping']) ? @$product_option['shipping'] : @$product['shipping']),
+				'image'			=> ((isset($product_option['filename']) && @$product_option['filename']) ? @$product_option['filename'] : $product['filename']),
+				'option'		=> $option_data,
+				'download'		=> $download_data,
+				'quantity'		=> $quantity,
+				'barcode'		=> isset($product_option['barcode']) ? @$product_option['barcode'] : @$product['barcode'],
+				'min_qty'		=> $product['min_qty'],
+				'max_qty'		=> $product['max_qty'],
+				'multiple'		=> $product['multiple'],
+				'stock'			=> ($quantity <=(isset($product_option['quantity']) ? @$product_option['quantity'] : @$product['quantity'])),
+				'price'			=> roundDigits(($product['price'] + $option_price), $this->decimal_place),
+				'special_price'		=> $special_price,
+				'discount'		=> $discount,
 				'coupon'		=> 0,
-				'general_discount'=> 0,
-				'discount_percent'=> $discount_percent,    
-        			'total'           => roundDigits((($extended_price + $option_price) - $discount) * $quantity, $this->decimal_place),
-				'total_discounted'=> roundDigits((($extended_price + $option_price) - $discount) * $quantity, $this->decimal_place),
-        			'tax_class_id'    => $product['tax_class_id'],
-				'product_tax'     => roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place),
-        			'weight'          => $product['weight'] + $option_weight,
-        			'weight_class_id' => $product['weight_class_id'],
-				'dimension_value' => ((isset($product_option['dimension_value']) && @$product_option['dimension_value']) ? @$product_option['dimension_value'] : $product['dimension_value']),
-				'dimension_id'    => ((isset($product_option['dimension_id']) && @$product_option['dimension_id']) ? @$product_option['dimension_id'] : $product['dimension_id'])
+				'general_discount'	=> 0,
+				'discount_percent'	=> $discount_percent,
+				'total'			=> roundDigits((($extended_price + $option_price) - $discount) * $quantity, $this->decimal_place),
+				'total_discounted'	=> roundDigits((($extended_price + $option_price) - $discount) * $quantity, $this->decimal_place),
+				'tax_class_id'		=> $product['tax_class_id'],
+				'product_tax'		=> roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place),
+				'weight'		=> $product['weight'] + $option_weight,
+				'weight_class_id'	=> $product['weight_class_id'],
+				'dimension_value'	=> ((isset($product_option['dimension_value']) && @$product_option['dimension_value']) ? @$product_option['dimension_value'] : $product['dimension_value']),
+				'dimension_id'		=> ((isset($product_option['dimension_id']) && @$product_option['dimension_id']) ? @$product_option['dimension_id'] : $product['dimension_id'])
 			);
 
- 				$this->subtotal += $this->tax->calculate((($extended_price + $option_price) - $discount) * $quantity, $product['tax_class_id'], $this->config->get('config_tax'));
+				$this->subtotal += $this->tax->calculate((($extended_price + $option_price) - $discount) * $quantity, $product['tax_class_id'], $this->config->get('config_tax'));
 
 				if (!isset($this->taxes[$product['tax_class_id']])) {
 					$this->taxes[$product['tax_class_id']] = roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']),$this->decimal_place);
 				} else {
 					$this->taxes[$product['tax_class_id']] += roundDigits(((($extended_price + $option_price) - $discount) * $quantity) / 100 * $this->tax->getRate($product['tax_class_id']), $this->decimal_place);
 				}
-			
+
 				$this->total += $this->tax->calculate((($extended_price + $option_price) - $discount) * $quantity, $product['tax_class_id']);
 			
-	  			if ($quantity > (isset($product_option['quantity']) ? @$product_option['quantity'] : $product['quantity'])) {
-	    			$this->stock = FALSE;
-	  			}	  
-	  
-	  			if ($product['shipping']) {
-	    			$this->shipping = TRUE;
-	  			} else {
+				if ($quantity > (isset($product_option['quantity']) ? @$product_option['quantity'] : $product['quantity'])) {
+				$this->stock = FALSE;
+				}
+
+				if ($product['max_qty'] != 0) {
+				$this->maxqty = TRUE;
+				}
+				if ($product['shipping']) {
+				$this->shipping = TRUE;
+				} else {
 					if (!$download_data){
 						$this->noshipping = TRUE;
 					}
@@ -194,11 +200,11 @@ class Cart {
 		$this->session->set('cart', $this->data);
 	}
 
-  	function update($key, $qty) {
-    	if ($qty) {
-      		$this->data[$key] = $qty;
-    	} else {
-	  		$this->remove($key);
+	function update($key, $qty) {
+	if ($qty) {
+		$this->data[$key] = $qty;
+	} else {
+			$this->remove($key);
 		}
 		
 		$this->session->set('cart', $this->data);
@@ -212,14 +218,14 @@ class Cart {
 		$this->session->set('cart', $this->data);
 	}
 
-  	function restore($product) {
-    	foreach ($product as $key => $value) {
-      		if (!isset($this->data[$key])) {
-        		$this->data[$key] = $value;
-      		} else {
-        		$this->data[$key] += $value;
-      		}
-    	}
+	function restore($product) {
+	foreach ($product as $key => $value) {
+		if (!isset($this->data[$key])) {
+			$this->data[$key] = $value;
+		} else {
+			$this->data[$key] += $value;
+		}
+	}
 
 		$this->session->set('cart', $this->data);
 	}
@@ -328,13 +334,26 @@ class Cart {
 	function moreThanMinov($value) {
 	if ($this->config->get('minov_status') == "1") {
 				if ($value < $this->config->get('minov_value')) 
-				    {
+					{
 					$this->minov = FALSE;
-				    } else {
+					} else {
 					$this->minov = TRUE;
-				    }
+				}
 				}
 	return $this->minov;
-	}  
+	}
+
+	function hasMaxQty() {
+		return $this->maxqty;
+	}
+
+	function hasProduct($product_id, $options = array()) {
+		if (!$options) {
+			$key = $product_id;
+		} else {
+			$key = $product_id . ':' . implode('.', $options);
+		}
+		return (isset($this->data[$key]) ? $this->data[$key] : NULL);
+	}
 }
 ?>

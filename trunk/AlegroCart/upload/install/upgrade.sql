@@ -1417,3 +1417,9 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'review_image_display';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'review', 'review_image_display', 'thickbox') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#
+#Add Maximum Order Quantity and Multiple
+#
+ALTER TABLE `product` ADD `max_qty` int(4) NOT NULL default '0' After `min_qty`;
+ALTER TABLE `product` ADD `multiple` int(4) NOT NULL default '0' After `max_qty`;

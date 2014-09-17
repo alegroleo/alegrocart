@@ -29,10 +29,14 @@ class ControllerCheckoutShipping extends Controller {
 	}
 
 	function index() {
+
 		if (!$this->customer->isLogged()) {
 			$this->session->set('redirect', $this->url->ssl('checkout_shipping'));
 
 			$this->response->redirect($this->url->ssl('account_login'));
+		}
+		if ($this->customer->hadProducts() && $this->url->get_controller($this->session->get('current_page'),array('account_login'))) {
+			$this->response->redirect($this->url->ssl('cart'));
 		}
 		if ($this->cart->hasProducts()) {
 			$this->calculate->getTotals(); 

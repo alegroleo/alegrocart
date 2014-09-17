@@ -12,6 +12,7 @@ class Model_Products extends Model {
 		$this->barcode  =& $locator->get('barcode'); 
 		$this->language->load('controller/dimensions.php');
 		$this->url      =& $locator->get('url');
+		$this->cart     =& $locator->get('cart');
 	}
 	function get_bestseller($bestseller_total){
 		$results = $this->database->getRows("SELECT product.*, order_product.order_product_id, order_product.order_id, SUM(order_product.quantity) as TotalOrdered, product_description.*, image.* FROM product, order_product, order_history, product_description, image WHERE product.product_id = product_description.product_id AND product_description.name = order_product.name AND product.image_id = image.image_id AND product.status ='1' AND product_description.language_id = '" . (int)$this->language->getId() . "' GROUP BY order_product.name ORDER BY TotalOrdered DESC". $bestseller_total);
@@ -69,6 +70,24 @@ class Model_Products extends Model {
 	function get_product_options($product_id){
 		$results = $this->database->getRows("select * from product_options po left join image i on (po.image_id = i.image_id) where po.product_id = '" . (int)$product_id . "' order by po.product_option asc");
 		return $results;
+	}
+	function get_option_names($product_id){
+		$results = $this->database->getRows("select distinct name from `option` o left join product_to_option pto on (o.option_id = pto.option_id) where product_id = '" . (int)$product_id . "' and language_id = '" . (int)$this->language->getId() . "'");
+		switch (count($results)) {
+			case 1: 
+				$option_names = $this->language->get('one_option_text', $results[0]['name']);
+				break;
+			case 2: 
+				$option_names = $this->language->get('two_option_text', $results[0]['name'], $results[1]['name']);
+				break;
+			case 3: 
+				$option_names = $this->language->get('three_option_text', $results[0]['name'], $results[1]['name'], $results[2]['name']);
+				break;
+			default:
+				$option_names = FALSE;
+				break;
+		}
+		return $option_names;
 	}
 	function get_option_weight($product_id, $weight_class_id){
 		$results = $this->database->getRows("select product_to_option_id, option_weight, option_weightclass_id from product_to_option where product_id = '" . (int)$product_id . "' order by sort_order");
@@ -182,13 +201,14 @@ class Model_Products extends Model {
 			$product_options[$result['product_option']] = array(
 				'product_id'		=> $result['product_id'],
 				'product_option'	=> $result['product_option'],
-				'quantity'			=> $result['quantity'],
-				'barcode'			=> $result['barcode'],
+				'quantity'		=> $result['quantity'],
+				'barcode'		=> $result['barcode'],
 				'barcode_url'		=> $result['barcode'] ? $this->barcode->show($result['barcode']) : NULL,
-				'image_id'			=> $result['image_id'],
-				'popup'    			=> $result['filename'] ? $this->image->href($result['filename']) : '',
+				'image_id'		=> $result['image_id'],
+				'popup'    		=> $result['filename'] ? $this->image->href($result['filename']) : '',
 				'thumb'     		=> $result['filename'] ? $this->image->resize($result['filename'], $image_width, $image_height) : '',
 				'dimensions'		=> $dimensions,
+				'cart_level'		=> $this->cart->hasProduct($result['product_option']),
 				'model_number' 		=> $result['model_number'] ? $result['model_number'] : ''
 			);
 		}

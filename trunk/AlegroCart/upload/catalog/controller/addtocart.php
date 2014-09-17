@@ -1,36 +1,36 @@
 <?php   // Add to Cart AlegroCart
 class ControllerAddToCart extends Controller {
 	function add() {
-		$config   =& $this->locator->get('config');
+		$config		=& $this->locator->get('config');
 		$config->set('config_tax', $config->get('config_tax_store'));
-		$cart     =& $this->locator->get('cart');
-		$currency =& $this->locator->get('currency');
-		$language =& $this->locator->get('language');
-		$url      =& $this->locator->get('url');
-		$request  =& $this->locator->get('request');
-		$response =& $this->locator->get('response');
-		$tax      =& $this->locator->get('tax');
-        $session  =& $this->locator->get('session');
-		
+		$cart		=& $this->locator->get('cart');
+		$currency	=& $this->locator->get('currency');
+		$language	=& $this->locator->get('language');
+		$url		=& $this->locator->get('url');
+		$request	=& $this->locator->get('request');
+		$response	=& $this->locator->get('response');
+		$tax		=& $this->locator->get('tax');
+		$session	=& $this->locator->get('session');
+
 		if ($request->isPost() && $request->has('item', 'post')){
-			$cart->add($request->gethtml('item', 'post'), ($request->gethtml('quantity', 'post') > 0) ? $request->gethtml('quantity', 'post') : 1, $request->gethtml('option', 'post'));
+			$cart->add($request->gethtml('item', 'post'), $request->gethtml('quantity', 'post'), $request->gethtml('option', 'post'));
 		} else {
-			$cart->add($request->gethtml('item'), ($request->gethtml('quantity') > 0) ? $request->gethtml('quantity') : 1, $request->gethtml('option'));
-		}				
+			$cart->add($request->gethtml('item'), $request->gethtml('quantity'), $request->gethtml('option'));
+		}
 		$item = $request->get('item');
 		if ($item){
 			$cart->subtotal = '0';
 			$cart->total = '0';
 			$cart->data_refresh();
-			if ($config->get('cart_status')) {	
+			if ($config->get('cart_status')) {
 				$language->load('extension/module/cart.php');
 				$products = array();
 				foreach ($cart->getProducts() as $result) {
 					$products[] = array(
-						'href'     => $url->href('product', false, array('product_id' => $result['product_id'])),
-						'name'     => $result['name'],
-						'quantity' => $result['quantity'],
-						'total'    => $currency->format($tax->calculate($result['total'], $result['tax_class_id'], $config->get('config_tax')))
+						'href'		=> $url->href('product', false, array('product_id' => $result['product_id'])),
+						'name'		=> $result['name'],
+						'quantity'	=> $result['quantity'],
+						'total'		=> $currency->format($tax->calculate($result['total'], $result['tax_class_id'], $config->get('config_tax')))
 					);
 				}
 				//Create Output to Mini Cart

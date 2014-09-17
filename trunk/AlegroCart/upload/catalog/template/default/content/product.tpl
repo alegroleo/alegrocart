@@ -89,14 +89,20 @@
 	<span><?php echo $text_downloadable;?></span>
 	<?php }?>
   </div>
+   <?php if (!$product_options) { ?>
+  <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" name="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" value="<?php echo ($product['cart_level'] ? $product['cart_level'] : 0); ?>">
+   <?php } ?>
   <?php if($product_options){?>
     <script language="JavaScript">
 	  $(document).ready(function(){
 	    UpdateQuantity(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
+	    UpdateAddToCartButton(<?php echo $product['product_id'] . ',"' . $this_controller . '","' . $Added_to_Cart . '","' . $Add_to_Cart . '"';?>);
+	    UpdateAddToCart(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 	  });
 	</script>
 	<?php foreach($product_options as $product_option){?>
 	  <input type="hidden" id="<?php echo $this_controller . '_stock_level_' . $product_option['product_option'];?>" value="<?php echo $product_option['quantity'];?>">
+	  <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product_option['product_option'];?>" name="<?php echo $this_controller . '_cart_level_' . $product_option['product_option'];?>" value="<?php echo ($product_option['cart_level'] ? $product_option['cart_level'] : 0); ?>">
 	<?php }?>
   <?php }?>  
    <?php include $shared_path . 'product_price.tpl' ;?>
@@ -163,7 +169,7 @@
 	</div>
 	<?php if (isset($Technical_tabs)) { ?>
 	<div class="page">
-      <div class="pad">  	
+      <div class="pad">
 	    <div>
 		  <?php echo $technical; ?>
 		</div>
@@ -184,10 +190,16 @@
 	<?php }?>
 	<div class="page">
 	  <div class="pad">
-	    <?php if ($product['min_qty'] >= '1') { ?>
-          <?php echo '<b>' . $text_min_qty . '</b>'; ?><?php echo $product['min_qty']; ?><br><br>
-        <?php } ?>
-		<?php echo '<b>' . $text_tax_rate . '</b>' . $tax_rate;?><br>
+		<?php if ($product['min_qty'] >= '1') { ?>
+		<?php echo '<b>' . $text_min_qty . '</b>'; ?><?php echo $product['min_qty']; ?><br>
+		<?php } ?>
+		<?php if ($product['max_qty'] <> '0') { ?>
+		<?php echo '<b>' . $text_max_qty . '</b>'; ?><?php echo $product['max_qty']; ?><br>
+		<?php } ?>
+		<?php if ($product['multiple'] <> '0') { ?>
+		<?php echo '<b>' . $text_multiple . '</b>'; ?><?php echo $product['multiple']; ?><br>
+		<?php } ?>
+		<br><?php echo '<b>' . $text_tax_rate . '</b>' . $tax_rate;?><br>
 		<?php if (isset($product_discounts)){ ?><br>
 		  <?php echo "<b>".$text_quantity_discount."</b><br>"; ?>
 		  <?php if($discount_options && $product_options){?>
@@ -201,7 +213,6 @@
 		  <?php foreach ($product_discounts as $key => $product_discount){ ?>
 		    <?php echo "&nbsp;&nbsp;".$text_qty_discount.$product_discount['discount_quantity']."&nbsp;&nbsp;".$text_discount.$symbol_left.'<span id="'. $this_controller.'_discount_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_amount']."</span>" .$symbol_right."&nbsp;&nbsp; (".'<span id="'. $this_controller.'_percent_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_percent']."</span>%)"; ?><br>
 		  <?php } ?>
-		  
 		<?php } ?>
 		<?php if (($product['special_price'] > '$0.00' ) && date('Y-m-d') >= $product['sale_start_date'] && date('Y-m-d') <= $product['sale_end_date']) { ?><br>	
 		  <?php echo "<b>".$text_date."</b><br>"; ?>
@@ -211,7 +222,6 @@
 		<?php if($downloads){?>
 		  <?php echo '<br>' . $text_product_download;?>
 		<?php }?>
-
 		<?php if($fdownloads && $freedownload){?>
 		  <?php echo '<br>' . '<b>'. $text_free_downloads . '</b>';?>
 		<?php foreach ($fdownloads as $fdownload) { ?>
@@ -287,7 +297,7 @@
 		  <?php $i=1; while($i <= $maxrow){ echo "<a> ".$i." </a>";$i++;} ?>
 		  </div>		  
 		  <div class="rpages">
-	        <?php foreach ($review_data as $review) { ?>		  
+	        <?php foreach ($review_data as $review) { ?>
 		    <div class="rpage">
 			  <div class="rpad">
 				<div class="review">
@@ -296,7 +306,7 @@
 			          <b><?php echo $text_review_by; ?></b><?php echo $review['author']; ?></div><br>
 			        <div class="c"><b><?php echo $text_date_added; ?></b> <?php echo $review['date_added']; ?></div><br>
 			        <table>
-				      <tr>				  
+				      <tr>
 				        <td colspan="2"><?php echo $review['text']; ?></td>
 				      </tr>
 				      <?php for ($i=1; $i<5; $i++) { ?>
@@ -307,10 +317,10 @@
 			        </table>
 			      </div>
 		        </div>
-		      </div>	  
-	        </div>		
+		      </div>
+	        </div>
 			<?php } ?>
-		  </div>	
+		  </div>
 	    </div>
 	    <?php if($review_status){?>
 		<div class="review_write"><br><a href="<?php echo $write; ?>"><img src="catalog/styles/<?php echo $this->style?>/image/write.png" alt="<?php echo $text_write_short; ?>"></a><br><br>
@@ -328,7 +338,6 @@
       <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
       <?php } ?>
 </div>
-
 </div>
 	<script type="text/javascript"><!--
       tabview_initialize('tab')

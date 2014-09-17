@@ -1,6 +1,6 @@
 <a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>"></a>
 
-<div class="enlarge"><a id="<?php echo $this_controller.$product['product_id']; ?>" href="<?php echo $product['popup']; ?>" class="thickbox"><?php echo $text_enlarge; ?></a></div>
+<div class="enlarge"><a id="<?php echo $this_controller.'_enlarge'.$product['product_id']; ?>" href="<?php echo $product['popup']; ?>" class="thickbox"><?php echo $text_enlarge; ?></a></div>
 
 <?php if(isset($product['product_options']) && $product['product_options']){?>
   <script language="JavaScript">

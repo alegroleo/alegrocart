@@ -54,9 +54,9 @@
 	<?php include $shared_path . 'product_price.tpl';?>
 	<?php if ($addtocart) { ?>
 	 <?php $option = $product['options'];
-	 If ($option == TRUE) {?>
+	 if ($option == TRUE) {?>
 	  <div class="options"><a href="<?php echo $product['href']; ?>">
-	  <?php echo "<span style=\"font-size: ".$font_size."px\">" . $options_text . "</span>"; ?></a></div>
+	  <?php echo "<span style=\"font-size: ".$font_size."px\">" . $option . "</span>"; ?></a></div>
 	 <?php } else { ?>
 	  <?php include $shared_path . 'add_to_cart.tpl';?>
 	 <?php } ?>
@@ -81,15 +81,16 @@
 	<?php } else if($show_stock && $product['options']){?>
 	  <br>
 	<?php }?>
+	<input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" name="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" value="<?php echo ($product['cart_level'] ? $product['cart_level'] : 0); ?>">
    </div>
-   <?php If($column_count == $columns){
+   <?php if($column_count == $columns){
 	echo "</div>";
 	 if(($key + 1) < count($products)){
 	  echo "<div class=\"divider\"></div>";}
 	}
    ?>
   <?php } ?>
-  <?php If($column_count != $columns){
+  <?php if($column_count != $columns){
    echo "</div>";}
   ?>
   <div class="clearfix"></div>

@@ -13,7 +13,7 @@ Options +FollowSymlinks
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-RewriteBase /
+RewriteBase /kalota/
 
 # AlegroCart REWRITES START
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -34,3 +34,7 @@ ServerSignature Off
 #Modify max uploadable file size if needed
 #php_value upload_max_filesize 128M
 #php_value post_max_size 128M
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+</IfModule>

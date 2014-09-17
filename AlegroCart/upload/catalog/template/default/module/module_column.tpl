@@ -54,10 +54,10 @@
 
   <?php include $shared_path . 'product_price.tpl';?>
   <?php if ($add_enable && $addtocart) { ?>
-   <?php $option = $product['options'];				
-   If ($option == TRUE) {?>
+   <?php $option = $product['options'];
+   if ($option == TRUE) {?>
 	<div class="options"><a href="<?php echo $product['href']; ?>">
-	<?php echo $options_text; ?></a></div>
+	<?php echo $option; ?></a></div>
    <?php } else { ?>
 	<?php include $shared_path . 'add_to_cart.tpl';?>
    <?php }?>
@@ -80,7 +80,7 @@
 	  <?php }?>
 	</div>
   <?php }?>
-
+  <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" name="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" value="<?php echo ($product['cart_level'] ? $product['cart_level'] : 0); ?>">
   <?php if(($key + 1) < count($products)){
    echo "<div class=\"divider\"></div>";} ?>
   <?php } ?>

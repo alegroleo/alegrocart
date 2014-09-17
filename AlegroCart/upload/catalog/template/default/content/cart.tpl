@@ -13,15 +13,27 @@
   <?php } ?>
   <?php if ($error) { ?>
   <div class="warning"><?php echo $error; ?></div>
-  <?php } ?>  
+  <?php } ?>
+  <?php if ($error_min) { ?>
+  <div class="warning"><?php echo $error_min; ?></div>
+  <?php } ?>
+  <?php if ($error_max) { ?>
+  <div class="warning"><?php echo $error_max; ?></div>
+  <?php } ?>
+  <?php if ($error_multiple) { ?>
+  <div class="warning"><?php echo $error_multiple; ?></div>
+  <?php } ?>
   <div id="cart">
     <table class="a">
       <tr>
         <th class="b"><?php echo $column_remove; ?></th>
         <th class="c"><?php echo $column_image; ?></th>
         <th class="d"><?php echo $column_name; ?></th>
-        <th class="f"><?php echo $column_quantity; ?></th>
         <th class="f"><?php echo $column_min_qty; ?></th>
+        <th class="f"><?php echo $column_quantity; ?></th>
+  <?php if ($max_qty_column) { ?>
+        <th class="f"><?php echo $column_max_qty; ?></th>
+  <?php } ?>
         <th class="g"><?php echo $column_price; ?></th>
         <th class="e"><?php echo $column_special; ?></th>
 		<?php if($columns == 2){?>
@@ -46,7 +58,13 @@
           <span><?php echo $text_stock_ind ?></span>
           <?php } ?>
           <?php if ($product['min_qty_error'] == '1') { ?>
-          <span><?php echo $text_min_qty_ind ?></span>
+          <span><?php echo !$product['stock'] && $stock_check ? ', '.$text_min_qty_ind : $text_min_qty_ind; ?></span>
+          <?php } ?>
+          <?php if ($product['max_qty_error'] == '1') { ?>
+          <span><?php echo !$product['stock'] && $stock_check ? ', '.$text_max_qty_ind : $text_max_qty_ind; ?></span>
+          <?php } ?>
+          <?php if ($product['multiple_qty_error'] == '1') { ?>
+          <span><?php echo (!$product['stock'] && $stock_check) || $product['min_qty_error'] == '1' || $product['max_qty_error'] == '1' ? ', '. $text_multiple_qty_ind : $text_multiple_qty_ind; ?></span>
           <?php } ?>
           <div>
             <?php foreach ($product['option'] as $option) { ?>
@@ -56,11 +74,16 @@
 			<div class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></div>
 		<?php } ?>
           </div></td>
+        <td class="l"><?php echo $product['min_qty']; ?></td>
         <td class="l">
           <input type="text" name="quantity[<?php echo $product['key']; ?>]" value="<?php echo $product['quantity']; ?>" size="3">
           <input type="hidden" name="min_qty[<?php echo $product['key']; ?>]" value="<?php echo $product['min_qty']; ?>">
+          <input type="hidden" name="max_qty[<?php echo $product['key']; ?>]" value="<?php echo $product['max_qty']; ?>">
+          <input type="hidden" name="multiple[<?php echo $product['key']; ?>]" value="<?php echo $product['multiple']; ?>">
         </td>
-        <td class="l"><?php echo $product['min_qty']; ?></td>
+        <?php if ($max_qty_column) { ?>
+        <td class="l"><?php if ($product['max_qty'] > 0) {echo $product['max_qty'];} ?></td>
+        <?php } ?>
         <td class="m"><?php if (!$product['discount']) { ?>
           <?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['price']; ?>
           <?php } else { ?>
@@ -87,7 +110,7 @@
       <?php } ?>
 	  <?php if($columns == 2){?>
 	  <tr class="totals">
-	    <th class="t" colspan="7"><?php echo $text_product_totals;?></th>
+	    <th class="t" colspan="<?php echo ($max_qty_column) ? 8 : 7 ?>"><?php echo $text_product_totals;?></th>
 	    <td class="m"><?php echo ($tax_included ? '<span class="tax">* </span>' : '') . $extended_total;?></td>
 		
 		<?php if($coupon_sort_order < $discount_sort_order){ ?>

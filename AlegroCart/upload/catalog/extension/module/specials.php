@@ -1,36 +1,37 @@
 <?php  // Specials AlegroCart
 class ModuleSpecials extends Controller {
 	function fetch() {
-		$config   =& $this->locator->get('config');
-		$currency =& $this->locator->get('currency');
-		$database =& $this->locator->get('database');
-		$language =& $this->locator->get('language');
-		$image    =& $this->locator->get('image');
-		$tax      =& $this->locator->get('tax');
-		$url      =& $this->locator->get('url');
-		$request  =& $this->locator->get('request');
-		$template =& $this->locator->get('template');	
-		$rand     =& $this->locator->get('randomnumber'); 
-		$head_def =& $this->locator->get('HeaderDefinition');
-		$this->modelProducts = $this->model->get('model_products');
-		$this->modelCore 	= $this->model->get('model_core');
+		$cart			=& $this->locator->get('cart');
+		$config			=& $this->locator->get('config');
+		$currency		=& $this->locator->get('currency');
+		$database		=& $this->locator->get('database');
+		$language		=& $this->locator->get('language');
+		$image			=& $this->locator->get('image');
+		$tax			=& $this->locator->get('tax');
+		$url			=& $this->locator->get('url');
+		$request		=& $this->locator->get('request');
+		$template		=& $this->locator->get('template');
+		$rand			=& $this->locator->get('randomnumber'); 
+		$head_def		=& $this->locator->get('HeaderDefinition');
+		$this->modelProducts	= $this->model->get('model_products');
+		$this->modelCore	= $this->model->get('model_core');
 		require_once('library/application/string_modify.php');
-		
-    	if ($config->get('specials_status')) {
-			
-    	  	$language->load('extension/module/specials.php');
-      		$view = $this->locator->create('template');
-      		$view->set('heading_title', $language->get('heading_title'));
+
+	if ($config->get('specials_status')) {
+
+		$language->load('extension/module/specials.php');
+		$view = $this->locator->create('template');
+		$view->set('heading_title', $language->get('heading_title'));
 			$view->set('onhand', $language->get('onhand'));
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('tax_included', $config->get('config_tax'));
 
-            if ($config->get('specials_limit') == '0') {
-                $limit = '';
-            } else {
-				$limit = (int)$config->get('specials_limit');
-            }
-			
+		if ($config->get('specials_limit') == '0') {
+			$limit = '';
+		} else {
+			$limit = (int)$config->get('specials_limit');
+		}
+
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['specials']; // Template Manager 
 
@@ -45,7 +46,7 @@ class ModuleSpecials extends Controller {
 				$image_width = $config->get('specials_image_width') <= 140 ? $config->get('specials_image_width') : 140;
 				$image_height = $config->get('specials_image_height') <= 140 ? $config->get('specials_image_height') : 140;
 			}
-			
+
 			$view->set('discount_options', $config->get('config_discount_options')); //****
 			// Currency
 			$currency_code = $currency->code;
@@ -59,9 +60,9 @@ class ModuleSpecials extends Controller {
 			$view->set('thousand_point', $language->get('thousand_point'));
 			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency
 
-      		$results = $this->modelProducts->get_specials();
-      		$product_data = array();
-    	  	foreach ($results as $result) {
+		$results = $this->modelProducts->get_specials();
+		$product_data = array();
+		foreach ($results as $result) {
 				$days_remaining = ''; //***
 				if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
 				    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400); 
@@ -91,7 +92,7 @@ class ModuleSpecials extends Controller {
 							  'discount_amount'  => number_format($tax->calculate($discount_amount, $result['tax_class_id'], $config->get('config_tax')),$currency->currencies[$currency_code]['decimal_place'],$language->get('decimal_point'),'')
 							);
 						}
-					}  // End product Discounts	
+					}  // End product Discounts
 					$options = $this->modelProducts->get_options($result['product_id'],$result['tax_class_id']);
 					$product_options = $this->modelProducts->get_product_with_options($result['product_id'], $image_width, $image_height);
 				} else if ($columns >3) {
@@ -101,7 +102,7 @@ class ModuleSpecials extends Controller {
 						$desc = strippedstring($result['description'],$config->get('specials_lines_char'));
 					}
 					$product_discounts = '';
-					$options = $this->modelProducts->check_options($result['product_id']);
+					$options = $this->modelProducts->get_option_names($result['product_id']);
 					$product_options = FALSE;
 				} else {
 					if ($result['alt_description']){
@@ -110,32 +111,35 @@ class ModuleSpecials extends Controller {
 						$desc = formatedstring($result['description'],$config->get('specials_lines_multi'));
 					}
 					$product_discounts = '';
-					$options = $this->modelProducts->check_options($result['product_id']);
+					$options = $this->modelProducts->get_option_names($result['product_id']);
 					$product_options = FALSE;
-				} 
-    	  		$product_data[] = array(
-    	  			'name'  => $result['name'],
-					'product_id'  => $result['product_id'],
-    	  			'description'  => $desc,
-					'stock_level' => $result['quantity'],
-					'min_qty'	  => $result['min_qty'],
-					'product_discounts' => $product_discounts,
-    	  			'href'  => $url->href('product', FALSE, array('product_id' => $result['product_id'])),
-					'popup'     => $image->href($result['filename']),
-					'thumb' => $image->resize($result['filename'], $image_width, $image_height),
-				    'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
-                	'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
-					'sale_start_date' => $result['sale_start_date'],
-					'sale_end_date'   => $result['sale_end_date'],
-					'show_days_remaining' => $result['remaining'],
-					'options'         => $options,
-					'model_number'    => $result['model_number'],
-					'product_options' => $product_options,
-					'days_remaining'  => $days_remaining,
-					'vendor_name'     => $vendor_name
-    	  		);
-    	  	}
-			
+				}
+			$product_data[] = array(
+				'name'			=> $result['name'],
+				'product_id'		=> $result['product_id'],
+				'description'		=> $desc,
+				'stock_level'		=> $result['quantity'],
+				'cart_level'		=> $cart->hasProduct($result['product_id']),
+				'min_qty'		=> $result['min_qty'],
+				'max_qty'		=> $result['max_qty'],
+				'multiple'		=> $result['multiple'],
+				'product_discounts'	=> $product_discounts,
+				'href'			=> $url->href('product', FALSE, array('product_id' => $result['product_id'])),
+				'popup'			=> $image->href($result['filename']),
+				'thumb'			=> $image->resize($result['filename'], $image_width, $image_height),
+				'special_price'		=> $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
+				'price'			=> $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
+				'sale_start_date'	=> $result['sale_start_date'],
+				'sale_end_date'		=> $result['sale_end_date'],
+				'show_days_remaining'	=> $result['remaining'],
+				'options'		=> $options,
+				'model_number'		=> $result['model_number'],
+				'product_options'	=> $product_options,
+				'days_remaining'	=> $days_remaining,
+				'vendor_name'		=> $vendor_name
+			);
+		}
+
 			$maxrow = count($product_data)-1;
 			if ($product_data) {
 				if ($maxrow < $limit){
@@ -150,7 +154,7 @@ class ModuleSpecials extends Controller {
 					$product_rand = array();
 					foreach ($rand->RandomNumbers as $mykey){
 						$product_rand[$I] = $product_data[$mykey];
-						$I ++;			
+						$I ++;
 					}
 					$view->set('products', $product_rand);
 				}
@@ -158,7 +162,7 @@ class ModuleSpecials extends Controller {
 				$view->set('text_notfound', $language->get('text_notfound'));
 			}
 			$rand->clearrand();
-			
+
 			$view->set('show_stock', $config->get('config_show_stock'));
 			$view->set('show_stock_icon',$config->get('config_show_stock_icon'));
 			if($config->get('config_show_stock_icon')){
@@ -168,7 +172,6 @@ class ModuleSpecials extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
-			$view->set('options_text', $language->get('options_text'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
 			$view->set('regular_price', $language->get('regular_price'));
@@ -183,15 +186,15 @@ class ModuleSpecials extends Controller {
 			$view->set('add_enable', $this->modelProducts->currentpage($request->get('controller')));
 			$view->set('text_enlarge', $language->get('text_enlarge'));
 			$view->set('this_controller', 'specials');
-					
+
 			$template->set('head_def',$head_def);
-			
-            if ($location == 'content'){
+
+			if ($location == 'content'){
 				return $view->fetch('module/module_content.tpl');
 			} else {
 				return $view->fetch('module/module_column.tpl');
 			}
-    	}
+		}
 	}
 }
 ?>

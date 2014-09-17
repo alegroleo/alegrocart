@@ -82,7 +82,7 @@ class PaymentPayPal extends Payment {
         if ($this->config->get('paypal_itemized') && empty($this->coupon->data) && !$this->order->get('discount_total')) {
             $fields['cmd']='_cart';
             $fields['upload']=1;     
-            $fields['shipping_1'] = $this->shipping->getCost($this->session->get('shipping_method')) ? $this->currency->format($this->shipping->getCost($this->session->get('shipping_method')), $currency, FALSE, FALSE) : '0';           
+            $fields['shipping_1'] = $this->shipping->getCost($this->session->get('shipping_method')) ? $this->currency->format($this->shipping->getCost($this->session->get('shipping_method')), $currency, FALSE, FALSE) : '0';
             $taxtotal = 0;
 			foreach ($this->cart->getTaxes() as $key => $value) {
 				$taxtotal += $this->currency->format($value, $currency, FALSE, FALSE);
@@ -136,6 +136,7 @@ class PaymentPayPal extends Payment {
         $fields['no_note']=1;
         $fields['cancel_return']=$this->url->rawssl('checkout_process', 'index', array('method' => 'cancel'));
         $fields['paymentaction']=$this->config->get('paypal_auth_type');
+        $fields['bn']='Alegrocart_Cart';
         $fields['custom']=session_id();
       
         $output=array();

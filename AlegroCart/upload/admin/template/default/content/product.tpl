@@ -138,6 +138,23 @@
             <tr>
               <td class="set"><?php echo $entry_min_qty; ?></td>
               <td><input name="min_qty" value="<?php echo $min_qty; ?>" size="2"></td>
+	      <td class="expl"><?php echo $explanation_min_qty; ?></td>	
+            </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_max_qty; ?></td>
+              <td><input name="max_qty" value="<?php echo $max_qty; ?>" size="2">
+		<?php if ($error_max_qty) { ?>
+		<span class="error"><?php echo $error_max_qty; ?></span>
+		<?php } ?></td>
+	      <td class="expl"><?php echo $explanation_max_qty; ?></td>	
+            </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_multiple; ?></td>
+              <td><input name="multiple" value="<?php echo $multiple; ?>" size="2">
+		<?php if ($error_multiple) { ?>
+		<span class="error"><?php echo $error_multiple; ?></span>
+		<?php } ?></td>
+	      <td class="expl"><?php echo $explanation_multiple; ?></td>	
             </tr>
 	    <tr><td colspan="2"><hr></td></tr>
 	    <tr>

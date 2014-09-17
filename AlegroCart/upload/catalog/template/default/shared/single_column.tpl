@@ -77,15 +77,21 @@
 	    <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 		<?php }?>
      </div>
-   <?php }?>  
+   <?php }?>
+   <?php if (!$product['product_options']) { ?>
+   <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" name="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" value="<?php echo ($product['cart_level'] ? $product['cart_level'] : 0); ?>">
+   <?php } ?>
    <?php if($product['product_options']){?>
     <script language="JavaScript">
 	  $(document).ready(function(){
 	    UpdateQuantity(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
+	    UpdateAddToCartButton(<?php echo $product['product_id'] . ',"' . $this_controller . '","' . $Added_to_Cart . '","' . $Add_to_Cart . '"';?>);
+	    UpdateAddToCart(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 	  });
 	</script>
 	<?php foreach($product['product_options'] as $product_option){?>
 	  <input type="hidden" id="<?php echo $this_controller . '_stock_level_' . $product_option['product_option'];?>" value="<?php echo $product_option['quantity'];?>">
+	  <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product_option['product_option'];?>" name="<?php echo $this_controller . '_cart_level_' . $product_option['product_option'];?>" value="<?php echo ($product_option['cart_level'] ? $product_option['cart_level'] : 0); ?>">
 	<?php }?>
   <?php }?>  
    <?php include $shared_path . 'product_price.tpl' ;?>

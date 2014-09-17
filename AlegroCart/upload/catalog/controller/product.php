@@ -2,17 +2,17 @@
 class ControllerProduct extends Controller {
 	function __construct(&$locator){ 
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
-		$this->config  		=& $locator->get('config');
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module   	=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
-		$this->modelProducts = $model->get('model_products');
-		$this->modelCategory = $model->get('model_category');
+		$this->modelProducts =	$model->get('model_products');
+		$this->modelCategory =	$model->get('model_category');
 		$this->modelCore 	= $model->get('model_core');
-		$this->tpl_manager = $this->modelCore->get_tpl_manager('product'); 
-		$this->locations = $this->modelCore->get_tpl_locations();
-		$this->tpl_columns = $this->modelCore->get_columns();
+		$this->tpl_manager	= $this->modelCore->get_tpl_manager('product'); 
+		$this->locations =	$this->modelCore->get_tpl_locations();
+		$this->tpl_columns	= $this->modelCore->get_columns();
  		$this->download 	=& $locator->get('download');
 	}
 	function index() { 
@@ -32,10 +32,10 @@ class ControllerProduct extends Controller {
 		$head_def =& $this->locator->get('HeaderDefinition');
 		require_once('library/application/string_modify.php');
 
-    	if ($request->isPost() && $request->has('product_id', 'post')) {
-      		$cart->add($request->gethtml('product_id', 'post'), ($request->gethtml('quantity', 'post') > 0) ? $request->gethtml('quantity', 'post') : 1, $request->gethtml('option', 'post'));
-      		$response->redirect($url->href('cart'));
-    	}
+	if ($request->isPost() && $request->has('product_id', 'post')) {
+		$cart->add($request->gethtml('product_id', 'post'), ($request->gethtml('quantity', 'post') > 0) ? $request->gethtml('quantity', 'post') : 1, $request->gethtml('option', 'post'));
+		$response->redirect($url->href('cart'));
+	}
 
 	$language->load('controller/product.php');
 
@@ -43,22 +43,22 @@ class ControllerProduct extends Controller {
 
 		if ($product_info) {
 			$this->modelProducts->update_viewed((int)$request->gethtml('product_id'));
-      		$breadcrumb = array();
-      		$breadcrumb[] = array(
-        		'href'      => $url->href('home'),
-        		'text'      => $language->get('text_home'),
-        		'separator' => FALSE
-      		);
-     		if ($request->gethtml('path')) {
-        		foreach (explode('_', $request->gethtml('path')) as $category_id) {
+		$breadcrumb = array();
+		$breadcrumb[] = array(
+			'href'      => $url->href('home'),
+			'text'      => $language->get('text_home'),
+			'separator' => FALSE
+		);
+		if ($request->gethtml('path')) {
+			foreach (explode('_', $request->gethtml('path')) as $category_id) {
 					$category_info =$this->modelCategory->getRow_category_name($category_id);
-          			$breadcrumb[] = array(
-						'href'      => $url->href('category', FALSE, array('path' => $category_info['path'])),
-            			'text'      => $category_info['name'],
-            			'separator' => $language->get('text_separator')
-          			);
-        		}
-      		}
+				$breadcrumb[] = array(
+					'href'      => $url->href('category', FALSE, array('path' => $category_info['path'])),
+					'text'      => $category_info['name'],
+					'separator' => $language->get('text_separator')
+				);
+			}
+		}
 			if ($request->gethtml('manufacturer_id')){
 				$result = $this->modelProducts->getRow_manufacturer((int)$request->gethtml('manufacturer_id'));
 				if ($result){
@@ -69,27 +69,29 @@ class ControllerProduct extends Controller {
 					);
 				}
 			}
-      		$query = array(
-			    'manufacturer_id' => $request->gethtml('manufacturer_id'),
-        		'path'       => $request->gethtml('path'),
-        		'product_id' => $request->gethtml('product_id')
-      		);
-      		$breadcrumb[] = array(
-        		'href'      => $url->href('product', FALSE, $query),
-        		'text'      => $product_info['name'],
-        		'separator' => $language->get('text_separator')
-      		);
+		$query = array(
+			'manufacturer_id' => $request->gethtml('manufacturer_id'),
+			'path'       => $request->gethtml('path'),
+			'product_id' => $request->gethtml('product_id')
+		);
+		$breadcrumb[] = array(
+			'href'      => $url->href('product', FALSE, $query),
+			'text'      => $product_info['name'],
+			'separator' => $language->get('text_separator')
+		);
 
-	  		$this->template->set('title', $product_info['name']);
-      		$view = $this->locator->create('template');
-      		$view->set('heading_title', $product_info['name']);
+			$this->template->set('title', $product_info['name']);
+		$view = $this->locator->create('template');
+		$view->set('heading_title', $product_info['name']);
 			$view->set('breadcrumbs', $breadcrumb);
-      		$view->set('text_enlarge', $language->get('text_enlarge'));
-      		$view->set('text_images', $language->get('text_images'));
+	$view->set('text_enlarge', $language->get('text_enlarge'));
+	$view->set('text_images', $language->get('text_images'));
 			$view->set('text_shippable', $language->get('text_shippable'));
 			$view->set('text_non_shippable', $language->get('text_non_shippable'));
-      		$view->set('text_options', $language->get('text_options'));
-            $view->set('text_min_qty', $language->get('text_min_qty'));
+	$view->set('text_options', $language->get('text_options'));
+			$view->set('text_min_qty', $language->get('text_min_qty'));
+			$view->set('text_max_qty', $language->get('text_max_qty'));
+			$view->set('text_multiple', $language->get('text_multiple'));
 			$view->set('text_manufacturer', $language->get('text_manufacturer'));
 			$view->set('text_quantity_discount', $language->get('text_quantity_discount'));
 			$view->set('text_qty_discount', $language->get('text_qty_discount'));
@@ -101,12 +103,12 @@ class ControllerProduct extends Controller {
 			$view->set('text_shipping_no', $language->get('text_shipping_no'));
 			$view->set('text_review_by', $language->get('text_review_by'));
 			$view->set('text_weight', $language->get('text_weight'));
-      		$view->set('text_date_added', $language->get('text_date_added'));
-      		$view->set('text_rating1', $language->get('text_rating1'));
-      		$view->set('text_rating2', $language->get('text_rating2'));
-      		$view->set('text_rating3', $language->get('text_rating3'));
-      		$view->set('text_rating4', $language->get('text_rating4'));
-      		$view->set('text_error', $language->get('text_empty'));	
+		$view->set('text_date_added', $language->get('text_date_added'));
+		$view->set('text_rating1', $language->get('text_rating1'));
+		$view->set('text_rating2', $language->get('text_rating2'));
+		$view->set('text_rating3', $language->get('text_rating3'));
+		$view->set('text_rating4', $language->get('text_rating4'));
+		$view->set('text_error', $language->get('text_empty'));	
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('text_downloadable', $language->get('text_downloadable'));
@@ -117,9 +119,9 @@ class ControllerProduct extends Controller {
 			$view->set('text_barcode_img', $language->get('text_barcode_img'));
 			$view->set('text_free_downloads', $language->get('text_free_downloads'));
 
-      		$view->set('button_reviews', $language->get('button_reviews'));
-      		$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
-// 			$view->set('product_number', $language->get('product_number'));
+			$view->set('button_reviews', $language->get('button_reviews'));
+			$view->set('button_add_to_cart', $language->get('button_add_to_cart'));
+//			$view->set('product_number', $language->get('product_number'));
 			$view->set('quantity_available', $language->get('quantity_available'));
 			$view->set('standard_price', $language->get('standard_price'));
 			$view->set('tab_description', $language->get('tab_description')); 
@@ -131,19 +133,19 @@ class ControllerProduct extends Controller {
 
 			$view->set('tax_included', $this->config->get('config_tax'));
 			$view->set('text_tax_rate', ($this->config->get('config_tax') ? $language->get('text_tax_included') : '') . $language->get('text_tax_rate')); 
-			
-      		$query = array(
-        		'path'       => $request->gethtml('path'),
-        		'product_id' => $request->gethtml('product_id')
-      		);
-     		$view->set('action', $url->href('product', FALSE, $query));
-			
+
+		$query = array(
+			'path'       => $request->gethtml('path'),
+			'product_id' => $request->gethtml('product_id')
+		);
+		$view->set('action', $url->href('product', FALSE, $query));
+
 			$dimension_class = $this->modelProducts->get_dimension_class($product_info['dimension_id']);
 			$dimension_value = $this->dimension->getValues($product_info['dimension_value'], $dimension_class['type_id'], $product_info['dimension_id']);
 			$view->set('dimensions', $this->modelProducts->dimensionView($dimension_class, $dimension_value));
 
 			$view->set('shipping',$product_info['shipping']);
-      		$view->set('description', formatedstring($product_info['description'],40));
+		$view->set('description', formatedstring($product_info['description'],40));
 			$view->set('technical', formatedstring($product_info['technical'],40));
 
 			if ($product_info['alt_description'] && $this->config->get('alternate_description')){
@@ -159,8 +161,7 @@ class ControllerProduct extends Controller {
 			$view->set('meta_description', $product_info['meta_description']);
 			$view->set('meta_keywords', $product_info['meta_keywords']);
 			$view->set('product_options_select', $this->config->get('product_options_select'));
-			
-            
+
 			// New manufaturer
 			if($this->config->get('manufacturer_status')){
 				$result = $this->modelProducts->getRow_manufacturer((int)$product_info['manufacturer_id']);
@@ -191,38 +192,38 @@ class ControllerProduct extends Controller {
 			$view->set('weight_unit', $weight->getClass($this->config->get('config_weight_class_id')));
 			$view->set('weight_decimal', $this->config->get('config_weight_decimal'));
 			$view->set('option_weights', $this->modelProducts->get_option_weight($product_info['product_id'], $this->config->get('config_weight_class_id')));
-			
+
 			//  Product Discounts
 			$view->set('discount_options', $this->config->get('config_discount_options'));
 			$results = $this->modelProducts->get_product_discount((int)$request->gethtml('product_id'));
 			$product_discounts = array();
 			if ($results) {
-          	  foreach($results as $result){
-			    if($product_info['special_price'] >0 && date('Y-m-d') >= $product_info['sale_start_date'] && date('Y-m-d') <= $product_info['sale_end_date']){
-				  $discount_amount = $product_info['special_price'] * ($result['discount'] / 100);
+			foreach($results as $result){
+				if($product_info['special_price'] >0 && date('Y-m-d') >= $product_info['sale_start_date'] && date('Y-m-d') <= $product_info['sale_end_date']){
+					$discount_amount = $product_info['special_price'] * ($result['discount'] / 100);
 				} else {
-				  $discount_amount = $product_info['price'] * ($result['discount'] / 100);
-			    }
-			  
+					$discount_amount = $product_info['price'] * ($result['discount'] / 100);
+				}
+
 				$product_discounts[] = array(
 				  'discount_quantity' => $result['quantity'],
 				  'discount_percent' => (round($result['discount']*10))/10,
 				  'discount_amount'  => number_format($tax->calculate($discount_amount, $product_info['tax_class_id'], $this->config->get('config_tax')),$currency->currencies[$currency_code]['decimal_place'],$language->get('decimal_point'),'')
 				);
-			  }
-			  $view->set('product_discounts',$product_discounts);
+			}
+				$view->set('product_discounts',$product_discounts);
 			}
 
-      		$image_data = array(); // Additional Images
+		$image_data = array(); // Additional Images
 			$results = $this->modelProducts->get_additional_images((int)$request->gethtml('product_id'));
-      		foreach ($results as $result) {
-        		$image_data[] = array(
+		foreach ($results as $result) {
+			$image_data[] = array(
 					'image_id' => $result['image_id'],
-          			'title' => $result['title'],
-          			'popup' => $this->image->href($result['filename']),
-          			'thumb' => $this->image->resize($result['filename'], $this->config->get('additional_image_width'), $this->config->get('additional_image_height')),
-        		);
-      		}
+				'title' => $result['title'],
+				'popup' => $this->image->href($result['filename']),
+				'thumb' => $this->image->resize($result['filename'], $this->config->get('additional_image_width'), $this->config->get('additional_image_height')),
+			);
+		}
 			$downloads = $this->modelProducts->get_downloads($request->gethtml('product_id'));
 			$view->set('downloads', $downloads);
 
@@ -254,9 +255,12 @@ class ControllerProduct extends Controller {
 				'barcode_url'	=> $product_info['barcode'] ? $this->barcode->show($product_info['barcode']) : NULL,
 				'popup'     => $this->image->href($product_info['filename']),
 				'min_qty'   => isset($product_info['min_qty'])?$product_info['min_qty']:1,
+				'max_qty'   => isset($product_info['max_qty'])?$product_info['max_qty']:0,
+				'multiple'  => isset($product_info['multiple'])?$product_info['multiple']:0,
+				'cart_level'=> $cart->hasProduct($request->gethtml('product_id')),
 				'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
 
-            	'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
+				'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
 				'sale_start_date' => $product_info['sale_start_date'],
 				'sale_end_date'   => $product_info['sale_end_date'],
 				'show_days_remaining' => $product_info['remaining'],
@@ -264,14 +268,14 @@ class ControllerProduct extends Controller {
 				'days_remaining'  => $days_remaining
 			);
 			$view->set('product',$product_data);
-			
+
 			if ($this->config->get('review_status')) {
 			  $view->set('review_status', true);
 			  $view->set('text_write', $language->get('text_write'));
 			  $view->set('text_write_short', $language->get('text_write_short'));
 			  $view->set('write', $url->href('review_write', false, array('product_id' => $request->gethtml('product_id'))));
 			} else {
-			  $view->set('review_status', false);			  
+			  $view->set('review_status', false);
 			}
 			$view->set('review_data', $this->review());
 			$view->set('show_stock', $this->config->get('config_show_stock'));
@@ -279,11 +283,11 @@ class ControllerProduct extends Controller {
 			if($this->config->get('config_show_stock_icon')){
 				$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
 			}
-			
+
 			$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
 			$view->set('maxrow', count($this->review()));
-      		$view->set('images', $image_data);
+		$view->set('images', $image_data);
 			$view->set('image_display', $this->config->get('product_image_display'));
 			$view->set('magnifier', $this->config->get('magnifier'));
 			$view->set('magnifier_width', $this->config->get('magnifier_width'));
@@ -296,30 +300,30 @@ class ControllerProduct extends Controller {
 			$this->template->set('head_def',$head_def);
 			$this->has_related = $product_info['related'];
 			$view->set('freedownload',$this->config->get('config_freedownload'));
-	  		$this->template->set('content', $view->fetch('content/product.tpl'));
-			
-    	} else {
-		
-      		$this->template->set('title', $language->get('text_error'));
+			$this->template->set('content', $view->fetch('content/product.tpl'));
 
-      		$view = $this->locator->create('template');
-      		$view->set('heading_title', $language->get('text_error'));
-      		$view->set('text_error', $language->get('text_error'));
-      		$view->set('button_continue', $language->get('button_continue'));
-      		$view->set('continue', $url->href('home'));
+	} else {
 
-	  		$this->template->set('content', $view->fetch('content/error.tpl'));
+		$this->template->set('title', $language->get('text_error'));
 
-    	}
-		
+		$view = $this->locator->create('template');
+		$view->set('heading_title', $language->get('text_error'));
+		$view->set('text_error', $language->get('text_error'));
+		$view->set('button_continue', $language->get('button_continue'));
+		$view->set('continue', $url->href('home'));
+
+			$this->template->set('content', $view->fetch('content/error.tpl'));
+
+	}
+
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
 		$response->set($this->template->fetch('layout.tpl'));	
-  	}
+	}
 
 	private function load_modules(){ // Template Manager
-        $modules = $this->modelCore->merge_modules($this->get_modules_extra());
+	$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){
 			if($modules[$location['location']]){
 				foreach($modules[$location['location']] as $module){
@@ -334,7 +338,7 @@ class ControllerProduct extends Controller {
 			}
 		}
 	} 
-	
+
 	private function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
@@ -370,8 +374,8 @@ class ControllerProduct extends Controller {
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 
-	private function review(){		
-		$database =& $this->locator->get('database');		
+	private function review(){
+		$database =& $this->locator->get('database');
 		$language =& $this->locator->get('language');
 		$request  =& $this->locator->get('request');
 		$url      =& $this->locator->get('url');
@@ -379,35 +383,35 @@ class ControllerProduct extends Controller {
 		$results = $this->modelProducts->get_reviews((int)$request->gethtml('product_id'));
 		$review_data = array();
 		foreach ($results as $result) {
-        		$review_data[] = array(
-          			'href'       => $url->href('review_info', FALSE, array('review_id' => $result['review_id'])),
-          			'name'       => $result['name'],
-          			'text'       => trim(substr(strip_tags($result['text']), 0, 1000)),
-          			'rating1'     => $result['rating1'],
+			$review_data[] = array(
+				'href'       => $url->href('review_info', FALSE, array('review_id' => $result['review_id'])),
+				'name'       => $result['name'],
+				'text'       => trim(substr(strip_tags($result['text']), 0, 1000)),
+				'rating1'     => $result['rating1'],
 				'rating2'     => $result['rating2'],
 				'rating3'     => $result['rating3'],
 				'rating4'     => $result['rating4'],
-          			'out_of1'     => $language->get('text_out_of', $result['rating1']),
+				'out_of1'     => $language->get('text_out_of', $result['rating1']),
 				'out_of2'     => $language->get('text_out_of', $result['rating2']),
 				'out_of3'     => $language->get('text_out_of', $result['rating3']),
 				'out_of4'     => $language->get('text_out_of', $result['rating4']),
-          			'author'     => $result['author'],
-          			'date_added' => $language->formatDate($language->get('date_format_long'), strtotime($result['date_added']))
-        		);
-      		}
+				'author'     => $result['author'],
+				'date_added' => $language->formatDate($language->get('date_format_long'), strtotime($result['date_added']))
+			);
+		}
 		return $review_data;
 	}
 
 	function download() {
-	
+
 		$request  =& $this->locator->get('request');
 
- 		$fdownload_info = $this->modelProducts->get_fdownload((int)$request->gethtml('product_id'), (int)$request->gethtml('download_id'));	
- 		if ($fdownload_info) {
+		$fdownload_info = $this->modelProducts->get_fdownload((int)$request->gethtml('product_id'), (int)$request->gethtml('download_id'));
+		if ($fdownload_info) {
 			$this->download->setSource(DIR_DOWNLOAD . $fdownload_info['filename']);
 			$this->download->setFilename($fdownload_info['mask']);
-			$this->download->output(); 			
- 		} 
+			$this->download->output(); 
+		} 
 	}
 }
 ?>

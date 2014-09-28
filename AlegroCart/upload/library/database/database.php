@@ -1,11 +1,10 @@
 <?php
 
-define('E_DB_CONN','Error: Could not make a database connection using %s@%s');
-define('E_DB_SELECT','Error: Could not select database %s');
+define('E_DB_CONN','Error: Could not make a database connection. Error: %s<br />Error No: %s<br />%s');
 define('E_DB_QUERY','Error: %s<br />Error No: %s<br />%s');
 
 class Database {
-	var $connection;
+	var $mysqli;  //the object
 	var $result;
 	var $pages;
 	var $total;
@@ -16,115 +15,96 @@ class Database {
 	var $log_message = NULL;
 
 	function __construct(&$locator) {
-		$this->locator =& $locator;
-		$this->config =& $locator->get('config');
-		$this->cache  =& $locator->get('cache');
-		$this->mail     =& $locator->get('mail');
-		$this->query_text = "time: ".@date("j-m-d H:i:s (T)", time())."\n";
+		$this->locator		=& $locator;
+		$this->config		=& $locator->get('config');
+		$this->cache		=& $locator->get('cache');
+		$this->mail		=& $locator->get('mail');
+		$this->query_text	= "time: ".@date("j-m-d H:i:s (T)", time())."\n";
 		if(isset($_SERVER['REQUEST_URI'])) {
 			$this->query_text .= 'Path: '.$_SERVER['REQUEST_URI']."\n";
 		}
-	}
+		$this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-	function connect($server, $username, $password, $database) {
-		if (!$this->connection = mysql_connect($server, $username, $password)) {
-			$this->SQL_handler(sprintf(E_DB_CONN,$username,$server));
-		exit;
+		if ($this->mysqli->connect_errno) {
+			$this->SQL_handler(sprintf(E_DB_CONN,$this->mysqli->connect_error,$this->mysqli->connect_errno));
+			exit;
+		}
+		$this->mysqli->query("set names 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
+		$this->mysqli->set_charset('utf8');
+		$this->mysqli->query('set @@session.sql_mode="MYSQL40"');
 	}
-
-	if (!mysql_select_db($database, $this->connection)) {
-			$this->SQL_handler(sprintf(E_DB_SELECT,$database));
-		exit;
+	function disconnect() {
+		$this->mysqli->close();
 	}
-
-		mysql_query("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
-		mysql_set_charset('utf8');
-		mysql_query('set @@session.sql_mode="MYSQL40"');
+	function server_info() {
+		return $this->mysqli->server_info;
 	}
-
 	function query($sql) {
-		$this->result = mysql_query($sql);
+		$this->result = $this->mysqli->query($sql);
 		if ($this->result) {
 			++$this->queries;
 			$this->query_text .= $this->queries . " - "  . $sql . "\n";
 			return $this->result;
 		}
-
-		//exit(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
-		$this->SQL_handler(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql));
-		//echo sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql);
+		$this->SQL_handler(sprintf(E_DB_QUERY,$this->mysqli->error,$this->mysqli->errno,$sql));
 	}
-
-	function error($sql='') {
-		if (mysql_error()) {
-			return 'SQL Error No: ' . mysql_errno() . '<br />MySQL Error: ' . mysql_error();
-		}
+	function clearSql($sql) {
+		return $this->mysqli->real_escape_string($sql);
 	}
-
 	function parse() {
-	$args = func_get_args();
+		$args = func_get_args();
 		$sql = array_shift($args);
-		return vsprintf(str_replace('?', '%s', $sql), array_map('mysql_real_escape_string', $args));
+		return vsprintf(str_replace('?', '%s', $sql), array_map(array($this,'clearSql'), $args));
 	}
-
 	function getRow($sql) {
-	$this->query($sql);
-	$row = mysql_fetch_assoc($this->result);
-	mysql_free_result($this->result);
-	return $row;
+		$this->query($sql);
+		$row = $this->result->fetch_assoc();
+		$this->result->free();
+		return $row;
 	}
-
 	function getRows($sql) {
-		if (func_num_args()) { $this->query(implode(func_get_args(), ', ')); }
-		else { $this->query($sql); }
-		
-	$rows = array();
-
-	while (is_resource($this->result) && $row = mysql_fetch_assoc($this->result)) { $rows[] = $row; }
-		if(is_resource($this->result)){
-			mysql_free_result($this->result);
+		if (func_num_args()) {
+			$this->query(implode(func_get_args(), ', '));
+		} else {
+			$this->query($sql);
 		}
-	return $rows;
-	}
 
+		$rows = array();
+		while ($row = $this->result->fetch_assoc()) {
+			$rows[] = $row;
+		}
+		$this->result->free();
+		return $rows;
+	}
 	function countRows() {
-	$this->query(implode(func_get_args(), ', '));
-		return mysql_num_rows($this->result);
+		$this->query(implode(func_get_args(), ', '));
+		return $this->result->num_rows;
 	}
-
 	function countAffected() {
-	return mysql_affected_rows($this->connection);
+		return $this->mysqli->affected_rows;
 	}
-
 	function getLastId() {
-	return mysql_insert_id($this->connection);
+		return $this->mysqli->insert_id;
 	}
-
 	function cache($key, $sql) {
-	if ($this->config->get('config_cache_query')) {
-		if (!$result = $this->cache->get($key)) {
-			$result = $this->getRows($sql);
+		if ($this->config->get('config_cache_query')) {
+			if (!$result = $this->cache->get($key)) {
+				$result = $this->getRows($sql);
 				$this->cache->set($key, $result);
+			}
+		} else {
+			$result = $this->getRows($sql);
 		}
-	} else {
-		$result = $this->getRows($sql);
+		return ($result);
 	}
-	return ($result);
-	}
-
 	function splitQuery($sql, $page = '1', $max_rows = '20' , $max_results = '0') {	
-	$count = $this->getRow(preg_replace(array('/select(.*)from /As', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql, 1));
-
+		$count = $this->getRow(preg_replace(array('/select(.*)from /As', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql, 1));
 		if(($max_results != '0') && ($max_results < $count['total'])){
-		  $count['total'] = $max_results;
+			$count['total'] = $max_results;
 		}
-
-	$pages = ceil($count['total'] / (int)$max_rows);
-
-	if (!$page) { $page = 1; }
-
-	$offset = ((int)$max_rows * ($page - 1));
-
+		$pages = ceil($count['total'] / (int)$max_rows);
+		if (!$page) { $page = 1; }
+		$offset = ((int)$max_rows * ($page - 1));
 		if(($max_results != '0') && (($page*$max_rows)>$max_results)) {
 			$sql .= " limit " . (int)$offset . ", " . (int)($max_results-$offset);
 		} else{
@@ -132,36 +112,31 @@ class Database {
 		}
 
 		$this->pages = (int)(($pages > 0) ? $pages : '1');
-	$this->total = (int)$count['total']; 
-	$this->from  = (int)(($offset > 0 || $count['total'] > 0) ? $offset+1 : '0');
+		$this->total = (int)$count['total']; 
+		$this->from  = (int)(($offset > 0 || $count['total'] > 0) ? $offset+1 : '0');
 
-	if ($count['total'] < $max_rows) {
-		$this->to = (int)$count['total'];
-	}  elseif ($this->pages == $page) {
-		$this->to = (int)($offset + $max_rows - ($offset + $max_rows - $count['total']));
-	} else {
-		$this->to = (int)($offset + $max_rows);
+		if ($count['total'] < $max_rows) {
+			$this->to = (int)$count['total'];
+		} elseif ($this->pages == $page) {
+			$this->to = (int)($offset + $max_rows - ($offset + $max_rows - $count['total']));
+		} else {
+			$this->to = (int)($offset + $max_rows);
+		}
+
+		return $sql;
 	}
-
-	return $sql;
-	}
-
 	function getPages() {
-	return $this->pages;
+		return $this->pages;
 	}
-
 	function getTotal() {
-	return $this->total;
+		return $this->total;
 	}
-
 	function getFrom() {
-	return $this->from;
+		return $this->from;
 	}
-
 	function getTo() {
-	return $this->to;
+		return $this->to;
 	}
-
 	function import($file) {
 		if ($sql=file($file)) {
 			$query = '';
@@ -176,42 +151,41 @@ class Database {
 					}
 					if (preg_match('/;\s*$/', $query)){
 						if(preg_match('/^ALTER TABLE (.+?) ADD (.+?) /',$query,$matches)){
-							if (mysql_num_rows(@mysql_query(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])))) > 0){
+							if ($this->countRows($this->parse("SHOW COLUMNS FROM '?' LIKE '?'",$matches[1],str_replace('`','',$matches[2]))) > 0){
 								$query='';
 							}
 						}
 						if(preg_match('/^ALTER TABLE (.+?) DROP (.+?) /',$query,$matches)){
 							$matches[2] = str_replace(';','',$matches[2]);
-							if (mysql_num_rows(@mysql_query(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])))) == NULL){
+							if ($this->countRows($this->parse("SHOW COLUMNS FROM '?' LIKE '?'",$matches[1],str_replace('`','',$matches[2]))) == NULL){
 								$query = '';
 							}
 						}
 						if(preg_match('/^ALTER TABLE (.+?) CHANGE (.+?) /',$query,$matches)){
 							$matches[2] = str_replace(';','',$matches[2]);
-							if (mysql_num_rows(@mysql_query(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])))) == NULL){
+							if ($this->countRows($this->parse("SHOW COLUMNS FROM '?' LIKE '?'",$matches[1],str_replace('`','',$matches[2]))) == NULL){
 								$query = '';
 							}
 						}
 						if((strlen($query) > 3) && (preg_match('/;\s*$/', $line))){
-							if (!mysql_query($query)) { $this->SQL_handler(sprintf(E_DB_QUERY,mysql_error(),mysql_errno(),$sql)); }
+							if (!$this->query($query)) { $this->SQL_handler(sprintf(E_DB_QUERY,$this->mysqli->error,$this->mysqli->errno,$sql)); }
 							$query = '';
 						}
 					}
-				}	
+				}
 			}
 		}
 	}
-
 	function export() {
-		mysql_query('set @@session.sql_mode=""');
+		$this->query('set @@session.sql_mode=""');
 		$output = '';
 		$sql = "SHOW TABLES FROM `" . DB_NAME ."`";
-		$list_tables =  mysql_query($sql);
-		while ($row = mysql_fetch_row($list_tables)) {
+		$list_tables = $this->query($sql);
+		while ($row = $list_tables->fetch_row()) {
 			$output .= '#' . "\n" . '# TABLE STRUCTURE FOR: `' . $row[0] . "`\n" . '#' . "\n\n";
 			$output .= 'DROP TABLE IF EXISTS `' . $row[0] . '`;' . "\n";
-			$create_table = mysql_query("show create table `" . DB_NAME . "`.`" . $row[0] . "`");
-			$table_sql    = mysql_fetch_row($create_table);
+			$create_table = $this->query("show create table `" . DB_NAME . "`.`" . $row[0] . "`");
+			$table_sql    = $create_table->fetch_row();
 			$output .= trim($table_sql[1]) . ';' . "\n\n";
 			$results = $this->getRows("select * from `" . $row[0] . "`");
 			foreach ($results as $result) {
@@ -249,7 +223,6 @@ class Database {
 		if($this->show_developer && preg_match("/^$this->ip$/i", $_SERVER['REMOTE_ADDR'])){
 			$this->sql_msg_developer($error);
 		}
-
 	}
 	function send_error_msg($error){
 		$error = str_replace(array('<br />', '<br>'), "\r\n", $error);

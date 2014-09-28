@@ -3,8 +3,7 @@ class ControllerBackup extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
-		$this->language 	=& $locator->get('language');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->request  	=& $locator->get('request');

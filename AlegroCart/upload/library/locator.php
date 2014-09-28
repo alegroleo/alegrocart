@@ -74,7 +74,7 @@ class Locator {
 	function createDatabase() {
 		require_once(DIR_LIBRARY.'database/database.php');
 		$database = new Database($this);
-		$database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+//		$database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		return $database;
 	}
 	

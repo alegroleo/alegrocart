@@ -118,6 +118,10 @@ if (!$errors) {
 			$content .= '#Modify max uploadable file size if needed'."\n";
 			$content .= '#php_value upload_max_filesize 128M'."\n";
 			$content .= '#php_value post_max_size 128M'."\n";
+			$content .= "\n";
+			$content .= '<IfModule mod_deflate.c>'."\n";
+			$content .= 'AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript'."\n";
+			$content .= '</IfModule>'."\n";
 
 		if (fwrite($handle2, $content)) {
 			echo "<p class=\"a\">".$language->get('success',$file2)."</p>\n";
@@ -133,22 +137,17 @@ if (!$errors) {
 }
 
 if (!$errors) {
-	if (!$link = @mysql_connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass'])) {
-		$errors[] = $language->get('error_dbconnect');
-	}
-	else {
-		if (!@mysql_select_db($_POST['db_name'], $link)) {
-			$errors[] = $language->get('error_dbperm');
-		}			
-	}
+	$database->connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass'], $_POST['db_name']);
 }
-						
+
 if (!$errors) {
-	mysql_query('set character set utf8', $link);
-	mysql_query('set @@session.sql_mode="MYSQL40"', $link);
-	mysql_query("delete from user where user_id = '1'", $link);
-	mysql_query("insert into `user` set user_id = '1', user_group_id = '1', username = '" . mysql_real_escape_string($_POST['username']) . "', password = '" . mysql_real_escape_string(md5($_POST['password'])) . "', date_added = now()", $link);
-	mysql_close($link);
+
+	$database->runQuery('set @@session.sql_mode="MYSQL40"');
+	$database->runQuery("delete from user where user_id = '1'");
+	$username = $database->clearSql($_POST['username']);
+	$password = md5($database->clearSql($_POST['password']));
+	$database->runQuery("insert into `user` set user_id = '1', user_group_id = '1', username = '" . $username . "', password = '" . $password . "', date_added = now()");
+	$database->disconnect();
 }
 
 } //end install check

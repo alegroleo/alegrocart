@@ -31,14 +31,7 @@ elseif (!preg_match('/^[a-z0-9_\-]+$/', $_POST['new_admin_name'])) {
 }
 
 if (!$errors) {
-	if (!$link = @mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)) {
-		$errors[] = $language->get('error_dbconnect');
-	}
-	else {
-		if (!@mysql_select_db(DB_NAME, $link)) {
-			$errors[] = $language->get('error_dbperm');
-		}
-	}
+	$database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 }
 
 if (empty($errors)) {
@@ -71,19 +64,19 @@ if (empty($errors)) {
 	else { $errors[]="<b>$language->get('error_open',$file)"; }
 	unset($str);
 
-	mysql_query('set character set utf8', $link);
-	mysql_query('set @@session.sql_mode="MYSQL40"', $link);
+	$database->runQuery('set @@session.sql_mode="MYSQL40"');
 
 	//run sql
 	$files='upgrade.sql';
 	$files=explode(',',$files);
 	foreach ($files as $file) {
 		if (!$errors && file_exists($file)) {
-			mysql_import_file($file,$link);
+			$database->import_file($file);
 		} else {
 			$errors[] = $language->get('error_sql',$file);
 		}
 	}
+	$database->disconnect();
 }
 
 if ($errors && $step == 2) {

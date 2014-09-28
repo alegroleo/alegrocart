@@ -23,33 +23,25 @@ $errors[] = $language->get('error_dir');
 }
 
 if (!$errors) {
-	if (!$link = @mysql_connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass'])) {
-		$errors[] = $language->get('error_dbconnect');
-	}
-	else {
-		if (!@mysql_select_db($_POST['db_name'], $link)) {
-			$errors[] = $language->get('error_dbperm');
-		}			
-	}
-	@mysql_query('set character set utf8', $link);
+	$database->connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass'], $_POST['db_name']);
 }
 
 if (!$errors) {
 	if ($_POST['method']=='default') {
-	      $files='structure.sql,default.sql,upgrade.sql';
+		$files='structure.sql,default.sql,upgrade.sql';
 	} else {
-	      $files='structure.sql,clean.sql,upgrade.sql';
+		$files='structure.sql,clean.sql,upgrade.sql';
 	}
 
 	$files=explode(',',$files);
 	foreach ($files as $file) {
 		if (!$errors && file_exists($file)) {
-			mysql_import_file($file,$link);
+			$database->import_file($file);
 		} else {
 			$errors[] = $language->get('error_sql',$file);
 		}
 	}
-	mysql_close($link);
+	$database->disconnect();
 }
 
 if ($errors && $step == 2) {

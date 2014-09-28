@@ -6,6 +6,7 @@ if (filesize('../config.php') == 0) { header('Location: index.php'); exit; }
 define('VALID_ACCESS', TRUE);
 require('common.php');
 require('language.php');
+require('database.php');
 // Include Config and Common
 require('../config.php');
 if (!defined('DIR_BASE')) { define('DIR_BASE', getbasepath()); }
@@ -17,6 +18,8 @@ $errors = array();
 $language = new language;
 $language->get_languages();
 $language->check_default();
+
+$database = new Database;
 
 if ($language->error) {
 $errors[]=$language->error;

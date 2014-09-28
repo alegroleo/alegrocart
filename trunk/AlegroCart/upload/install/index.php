@@ -2,6 +2,7 @@
 define('VALID_ACCESS', TRUE);
 require('common.php');
 require('language.php');
+require('database.php');
 
 define('DB_HOST', '');
 define('DB_USER', '');
@@ -20,6 +21,8 @@ $language = new language;
 $language->get_languages();
 $language->check_default();
 
+$database = new Database;
+
 if ($language->error) {
 $errors[]=$language->error;
 }
@@ -37,7 +40,7 @@ foreach ($lines as $line) {
 $line=DIR_BASE.(substr(trim($line),2));
 	if (!file_exists($line)) { $errors[]=$language->get('error_not_found',$line);}
 }
-} else {  
+} else {
 $errors[]= DIR_BASE.UPLOADC.$language->get('error_not_found'); 
 }
 
@@ -96,8 +99,8 @@ foreach ($files0666 as $file) {
 	if (ini_get('session.auto_start')){
 		$errors[] = $language->get('error_session');
 	}
-	if (!extension_loaded('mysql')){
-		$errors[] = $language->get('error_mysql');
+	if (!function_exists('mysqli_connect')){
+		$errors[] = $language->get('error_mysqli');
 	}
 	if (!extension_loaded('gd')){
 		$errors[] = $language->get('error_gd');
@@ -154,8 +157,8 @@ foreach ($files0666 as $file) {
 		</div>
 		</form>
 	      <?php } ?>
-	    </div>	
-	    </div>	
+	    </div>
+	    </div>
 	</div>
 	<div id="header_bottom">
 	  <div class="header_bottom_content">
@@ -165,7 +168,7 @@ foreach ($files0666 as $file) {
 	  </div>
 	</div>
 	<div id="container">
-			
+
 	<?php 
 	if (!empty($errors)) { ?>
 		<p class="b"><?php echo $language->get('error')?></p>
@@ -188,11 +191,11 @@ foreach ($files0666 as $file) {
 		}
 	}
 	?>
-			
+
 	</div>
 	</div>
 	<div id="footer">
-	    <ul>			
+	    <ul>
 		<li><a href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
 		<li><a href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
 	    </ul>

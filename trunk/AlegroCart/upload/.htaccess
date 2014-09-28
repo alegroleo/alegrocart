@@ -13,7 +13,7 @@ Options +FollowSymlinks
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-RewriteBase /kalota/
+RewriteBase /
 
 # AlegroCart REWRITES START
 RewriteCond %{REQUEST_FILENAME} !-f

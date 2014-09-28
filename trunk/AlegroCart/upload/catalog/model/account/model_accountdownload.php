@@ -25,11 +25,11 @@ class Model_AccountDownload extends Model{
 		for ($i = 1; $i <= $this->database->getPages(); $i++) {
 			$query=array('path' => $this->request->gethtml('path'));
 			if ($i >1) $query['page'] = $i;
-        	$page_data[] = array(
-          		'text'  => $this->language->get('text_pages', $i, $this->database->getPages()),
-				'href'	=> $this->url->href('category', FALSE, $query),
-          		'value' => $i
-        	);
+			$page_data[] = array(
+				'text'  => $this->language->get('text_pages', $i, $this->database->getPages()),
+				'href'	=> $this->url->href('account_download', FALSE, $query),
+				'value' => $i
+			);
 		}
 		return $page_data;
 	}

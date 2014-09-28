@@ -90,7 +90,7 @@ h1 {
 	padding: 5px;
 	margin: 0px;
 }
-#content input {
+#content input[type="text"] {
 	padding: 5px;
 	border-radius: 2px;
 	-webkit-border-radius: 2px;

@@ -145,6 +145,15 @@
         <?php if (@$cell['default']) { ?>
         <b>(<?php echo $text_default; ?>)</b>
         <?php } ?>
+        <?php if (@$cell['default_development']) { ?>
+        <b>(<?php echo $text_default_development; ?>)</b>
+        <?php } ?>
+        <?php if (@$cell['default_catalog']) { ?>
+        <b>(<?php echo $text_default_catalog; ?>)</b>
+        <?php } ?>
+        <?php if (@$cell['default_admin']) { ?>
+        <b>(<?php echo $text_default_admin; ?>)</b>
+        <?php } ?>
         <?php if (@$cell['vendor']) { ?>
         <b>(<?php echo $text_vendor; ?>)</b>
         <?php } ?></td>

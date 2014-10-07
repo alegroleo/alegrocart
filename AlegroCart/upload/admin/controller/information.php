@@ -261,6 +261,7 @@ class ControllerInformation extends Controller {
 		$information_data = array();
 		$results = $this->modelInformation->get_languages();
 		foreach ($results as $result) {
+			if($result['language_status'] =='1'){
 			if (($this->request->gethtml('information_id')) && (!$this->request->isPost())) {		
 				$information_description_info = $this->modelInformation->get_description($result['language_id']);
 			} else {
@@ -273,6 +274,7 @@ class ControllerInformation extends Controller {
 				'title'       => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['title'] : @$information_description_info['title']),
 	    		'description' => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['description'] : @$information_description_info['description'])
 			);
+		}
 		}
 
 		$view->set('informations', $information_data);

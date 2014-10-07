@@ -281,6 +281,7 @@ class ControllerHomepage extends Controller {
 		$view->set('languages', $results);
 		
 		foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 			if (($this->request->gethtml('home_id')) && (!$this->request->isPost())) {
 				$home_description_info = $this->modelAdminHomepage->get_descriptions($this->request->gethtml('home_id'),$result['language_id']);
 			}
@@ -314,6 +315,7 @@ class ControllerHomepage extends Controller {
 				'image_id'		=> (isset($image_id[$result['language_id']]) ? $image_id[$result['language_id']] : @$home_description_info['image_id']),
 				'run_times'		=> (isset($run_times[$result['language_id']]) ? $run_times[$result['language_id']] : @$home_description_info['run_times'])
 			);
+		}
 		}
 		$view->set('home_descriptions', $home_description_data);
 

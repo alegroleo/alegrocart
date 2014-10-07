@@ -1,9 +1,9 @@
 <?php //AdminModelLanguage AlegroCart
 class Model_Admin_Language extends Model {
-	
+
 	var $last_inserted = NULL;
 
-	function __construct(&$locator) {	
+	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
 		$this->language =& $locator->get('language');
@@ -11,14 +11,14 @@ class Model_Admin_Language extends Model {
 		$this->session 	=& $locator->get('session');
 	}
 	function insert_language(){
-		$sql = "insert into language set name = '?', code = '?', directory = '?', filename= '?', image = '?', sort_order = '?'";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('code', 'post'), $this->request->gethtml('directory', 'post'), $this->request->gethtml('filename', 'post'), $this->request->gethtml('image', 'post'), $this->request->gethtml('sort_order', 'post')));
+		$sql = "insert into language set name = '?', language_status = '?', code = '?', directory = '?', filename= '?', image = '?', sort_order = '?'";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('language_status', 'post'), $this->request->gethtml('code', 'post'), $this->request->gethtml('directory', 'post'), $this->request->gethtml('filename', 'post'), $this->request->gethtml('image', 'post'), $this->request->gethtml('sort_order', 'post')));
 
 		$this->last_inserted = $this->database->getLastId();
 	}
 	function update_language(){
-		$sql = "update language set name = '?', code = '?', directory = '?', filename= '?', image = '?', sort_order = '?' where language_id = '?'";
-		$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('code', 'post'), $this->request->gethtml('directory', 'post'), $this->request->gethtml('filename', 'post'), $this->request->gethtml('image', 'post'), $this->request->gethtml('sort_order', 'post'), $this->request->gethtml('language_id')));
+		$sql = "update language set name = '?', language_status = '?', code = '?', directory = '?', filename= '?', image = '?', sort_order = '?' where language_id = '?'";
+		$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('language_status', 'post'), $this->request->gethtml('code', 'post'), $this->request->gethtml('directory', 'post'), $this->request->gethtml('filename', 'post'), $this->request->gethtml('image', 'post'), $this->request->gethtml('sort_order', 'post'), $this->request->gethtml('language_id')));
 	}
 	function delete_language(){
 		$this->database->query("delete from language where language_id = '" . (int)$this->request->gethtml('language_id') . "'");
@@ -27,17 +27,21 @@ class Model_Admin_Language extends Model {
 		$result = $this->database->getRow("select distinct * from language where language_id = '" . (int)$this->request->gethtml('language_id') . "'");
 		return $result;
 	}
+	function get_catalog_language(){
+		$result = $this->database->getRow("select value from setting where `key` = 'config_language' and `type`='catalog'");
+		return $result['value'];
+	}
 	function check_language_code(){
 		$result = $this->database->getRow("select distinct code from language where language_id = '" . (int)$this->request->gethtml('language_id') . "'");
 		return $result;
 	}
 	function get_page(){
 		if (!$this->session->get('language.search')) {
-			$sql = "select language_id, name, code, sort_order from language";
+			$sql = "select language_id, language_status, name, code, sort_order from language";
 		} else {
-			$sql = "select language_id, name, code, sort_order from language where name like '?'";
+			$sql = "select language_id, language_status, name, code, sort_order from language where name like '?'";
 		}
-		$sort = array('name', 'code', 'sort_order');
+		$sort = array('language_status', 'name', 'code', 'sort_order');
 		if (in_array($this->session->get('language.sort'), $sort)) {
 			$sql .= " order by " . $this->session->get('language.sort') . " " . (($this->session->get('language.order') == 'desc') ? 'desc' : 'asc');
 		} else {
@@ -194,7 +198,11 @@ class Model_Admin_Language extends Model {
 			      }
 			} 
 	}
-
+	function change_language_status($status, $status_id){
+		$new_status = $status ? 0 : 1;
+		$sql = "update language set language_status = '?' where language_id = '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
 	function duplicate_weight_class() {
 		$results = $this->database->getRows("select * from weight_class where language_id = '1'");
 			if ($results) {

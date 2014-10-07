@@ -58,10 +58,12 @@ class ControllerImage extends Controller {
 		$insert_id = $this->modelImage->get_insert_id();
 		$title = $this->getTitle($filename);
 		$results = $this->modelImage->get_languages();
+		if($result['language_status'] =='1'){
 			foreach ($results as $result) {
 			$key = $result['language_id'];
 			$this->modelImage->insert_description($insert_id, $key, $title);
 			}
+		}
 		}
 
 	function getTitle($file) {
@@ -324,7 +326,8 @@ class ControllerImage extends Controller {
 
 		$image_data = array();
     	$results = $this->modelImage->get_languages();
-    	foreach ($results as $result) {	  
+    	foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 			if (($this->request->gethtml('image_id')) && (!$this->request->isPost())) {
 	  			$image_description_info = $this->modelImage->get_description($result['language_id']);
 			} else {
@@ -333,8 +336,9 @@ class ControllerImage extends Controller {
 	  		$image_data[] = array(
 	    		'language_id' => $result['language_id'],
 	    		'language'    => $result['name'],
-	    		'title'       => (isset($image_description_info[$result['language_id']]) ? $image_description_info[$result['language_id']]['title'] : @$image_description_info['title']),	  		
+	    		'title'       => (isset($image_description_info[$result['language_id']]) ? $image_description_info[$result['language_id']]['title'] : @$image_description_info['title']),
 			);
+		}
     	}
     	$view->set('images', $image_data);
 		if (($this->request->gethtml('image_id')) && (!$this->request->isPost())) {

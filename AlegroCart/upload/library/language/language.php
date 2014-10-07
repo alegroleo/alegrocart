@@ -5,14 +5,14 @@ define('E_LANG','Error: Could not load language data from %s!');
 define('R_LANG','/^(%s)(;q=[0-9]\\.[0-9])?$/i');
 
 class Language {
-  	var $code;
-  	var $languages = array();
-  	var $data      = array();
+	var $code;
+	var $languages = array();
+	var $data      = array();
 	var $dates;
 	var $lang;
 	var $expire = 2592000; // 60 * 60 * 24 * 30 (30 days)
 
-  	function __construct(&$locator) {
+	function __construct(&$locator) {
 		$this->locator  =& $locator;
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
@@ -22,43 +22,42 @@ class Language {
 		$this->lang = strtolower(APP).'_language'; 
 
 		$results = $this->database->cache('language', 'select * from language');
-
 		if (!$results) { echo(sprintf(E_LANG,'database')); }
 
-    	foreach ($results as $result) {
-      		$this->languages[$result['code']] = array(
-        		'language_id' => $result['language_id'],
-        		'name'        => $result['name'],
-        		'code'        => $result['code'],
-						'directory'   => $result['directory'],
-						'filename'    => $result['filename']
-      		);
-    	}
- 		
-    	if (array_key_exists($this->session->get($this->lang), $this->languages)) {
-      		$this->set($this->session->get($this->lang));
-    	} elseif (array_key_exists($this->request->get($this->lang, 'cookie'), $this->languages)) {
-      		$this->set($this->request->get($this->lang, 'cookie'));
-    	} elseif ($browser = $this->detect()) {
-	    	$this->set($browser);
-	  	} else {
-        	$this->set($this->config->get('config_language'));
+		foreach ($results as $result) {
+			if ($result['code'] == "en" || $result['language_status'] == '1'){
+				$this->languages[$result['code']] = array(
+					'language_id' => $result['language_id'],
+					'name'        => $result['name'],
+					'code'        => $result['code'],
+					'directory'   => $result['directory'],
+					'filename'    => $result['filename']
+				);
+			}
+		}
+
+		if (array_key_exists($this->session->get($this->lang), $this->languages)) {
+			$this->set($this->session->get($this->lang));
+		} elseif (array_key_exists($this->request->get($this->lang, 'cookie'), $this->languages)) {
+			$this->set($this->request->get($this->lang, 'cookie'));
+		} elseif ($browser = $this->detect()) {
+			$this->set($browser);
+		} else {
+			$this->set($this->config->get('config_language'));
 		}
 		$this->load($this->languages[$this->code]['filename']);
-  	}
-	
+	}
 	function set($language) {
-    	$this->code = $language;
-		
-    	if ((!$this->session->has($this->lang)) || ($this->session->get($this->lang) != $language)) {
-      		$this->session->set($this->lang, $language);
-    	}
+		$this->code = $language;
 
-    	if ((!$this->request->get($this->lang, 'cookie')) || ($this->request->get($this->lang, 'cookie') != $language)) {	  
-	  		setcookie($this->lang, $language, time() + $this->expire, '/', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
-    	}
-  	}
-    
+		if ((!$this->session->has($this->lang)) || ($this->session->get($this->lang) != $language)) {
+			$this->session->set($this->lang, $language);
+		}
+
+		if ((!$this->request->get($this->lang, 'cookie')) || ($this->request->get($this->lang, 'cookie') != $language)) {	  
+			setcookie($this->lang, $language, time() + $this->expire, '/', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
+		}
+	}
 	function load($filename, $directory = DIR_LANGUAGE) {
 		$_ = array();
 
@@ -77,30 +76,30 @@ class Language {
 		// We have no languages, exit
 		if (empty($_)) { echo sprintf(E_LANG,$filename); }
 
-        $this->data = array_merge($this->data, $_);
+		$this->data = array_merge($this->data, $_);
 
 		$this->setCharset($this->get('charset'));
 		$this->setLocale($this->get('locale'));
-    }
-  
-  	function get($key) {
-    	$args = func_get_args();
- 
-    	if (count($args) > 1) {
-      		return vsprintf($this->get(array_shift($args)), $args);
-    	} else {
-      		return (isset($this->data[$key]) ? $this->data[$key] : sprintf($this->data['error_language'],$key));
-    	}
-  	}
-	
+	}
+
+	function get($key) {
+		$args = func_get_args();
+
+		if (count($args) > 1) {
+			return vsprintf($this->get(array_shift($args)), $args);
+		} else {
+			return (isset($this->data[$key]) ? $this->data[$key] : sprintf($this->data['error_language'],$key));
+		}
+	}
+
 	function check($key){
 		return isset($this->data[$key]) ? TRUE : FALSE;
 	}
 
-  	function detect() {
-    	if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) { return; }
-		$browser_languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-  
+	function detect() {
+		if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) { return; }
+			$browser_languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+
 		$languages = array(
 			'af' => 'af|afrikaans',
 			'ar-dz' => 'ar[-_]dz',
@@ -186,7 +185,7 @@ class Language {
 			'he' => 'he|hebrew',
 			'hi' => 'hi|hindi',
 			'hr' => 'hr|croatian',
-			'hu' => 'hu|hungarian',
+			'hu' => 'hu|hungarian|hu-HU',
 			'hy' => 'hy|armenian',
 			'id' => 'id|indonesian',
 			'is' => 'is|icelandic',
@@ -200,7 +199,6 @@ class Language {
 			'kok' => 'kok|konkani',
 			'kz' => 'kz|kyrgyz',
 			'ls' => 'ls|slovenian',
-
 			'lt' => 'lt|lithuanian',
 			'lv' => 'lv|latvian',
 			'mk' => 'mk|macedonian',
@@ -267,16 +265,15 @@ class Language {
 			}
 		}
 
-    	return FALSE;
+		return FALSE;
+	}
+	function getId($code=false) {
+		return $this->languages[$code?$code:$this->code]['language_id'];
 	}
 
-  	function getId($code=false) {
-    	return $this->languages[$code?$code:$this->code]['language_id'];
-  	}
-
-  	function getCode() {
-    	return $this->code;
-  	}
+	function getCode() {
+		return $this->code;
+	}
 
 	function setLocale($locale=0) {
 		if ($locale && !is_array($locale) && strstr($locale,',')) $locale=explode(',',$locale);
@@ -300,6 +297,5 @@ class Language {
 		if (strstr($format,'%')) return ($time)?strftime($format,$time):strftime($format);
 		return ($time)? $this->dates->getDate($format,$time):$this->dates->getDate($format);
 	}
-
 }
 ?>

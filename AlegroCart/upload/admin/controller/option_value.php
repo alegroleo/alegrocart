@@ -226,6 +226,7 @@ class ControllerOptionValue extends Controller {
 	$option_value_data = array();
 		$results = $this->modelOptionvalue->get_languages();
 	foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 	  		if (($this->request->gethtml('option_value_id')) && (!$this->request->isPost())) {
 	    		$option_value_description_info = $this->modelOptionvalue->get_option_value_description($result['language_id']);
 	  		} else {
@@ -236,6 +237,7 @@ class ControllerOptionValue extends Controller {
 	    		'language'    => $result['name'],
 	    		'name'        => (isset($option_value_description_info[$result['language_id']]) ? $option_value_description_info[$result['language_id']]['name'] : @$option_value_description_info['name']),
 	  		);
+		}
 	}
 	$view->set('option_values', $option_value_data);
 

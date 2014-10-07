@@ -236,6 +236,7 @@ class ControllerWeightClass extends Controller {
 		$weight_class_data = array();
 		$results = $this->modelWeightClass->get_languages();
 		foreach ($results as $result) {
+			if($result['language_status'] =='1'){
 			if (($this->request->gethtml('weight_class_id')) && (!$this->request->isPost())) {
 				$weight_description_info = $this->modelWeightClass->get_weight_class($result['language_id']);
 			} else {
@@ -248,6 +249,7 @@ class ControllerWeightClass extends Controller {
 	    		'title'       => (isset($weight_description_info[$result['language_id']]) ? $weight_description_info[$result['language_id']]['title'] : @$weight_description_info['title']),
 	    		'unit'        => (isset($weight_description_info[$result['language_id']]) ? $weight_description_info[$result['language_id']]['unit'] : @$weight_description_info['unit']),
 			);
+			}
 		}
 
 		$view->set('weight_classes', $weight_class_data);

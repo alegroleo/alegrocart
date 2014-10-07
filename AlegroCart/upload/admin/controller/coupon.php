@@ -344,6 +344,7 @@ class ControllerCoupon extends Controller {
      	$results = $this->modelCoupon->get_languages();
 
     	foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 			if (($this->request->gethtml('coupon_id')) && (!$this->request->isPost())) {
 	  			$coupon_description_info = $this->modelCoupon->get_description($result['language_id']);
 			} else {
@@ -356,6 +357,7 @@ class ControllerCoupon extends Controller {
 	    		'name'        => (isset($coupon_description_info[$result['language_id']]) ? $coupon_description_info[$result['language_id']]['name'] : @$coupon_description_info['name']),
 	    		'description' => (isset($coupon_description_info[$result['language_id']]) ? $coupon_description_info[$result['language_id']]['description'] : @$coupon_description_info['description'])
 	  		);
+		}
     	}
 
     	$view->set('coupons', $coupon_data);

@@ -374,6 +374,7 @@ class ControllerExtension extends Controller {
 
 		$results = $this->modelExtension->get_languages();
 		foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 			if (($this->request->gethtml('extension_id')) && (!$this->request->isPost())) {	
 				$extension_description_info = $this->modelExtension->get_description($result['language_id']);
 			} else {
@@ -386,6 +387,7 @@ class ControllerExtension extends Controller {
 	    		'name'        => (isset($extension_description_info[$result['language_id']]) ? $extension_description_info[$result['language_id']]['name'] : @$extension_description_info['name']),
 				'description' => (isset($extension_description_info[$result['language_id']]) ? $extension_description_info[$result['language_id']]['description'] : @$extension_description_info['description'])
 			);
+		}
 		}
 
 		$view->set('extensions', $extension_data);

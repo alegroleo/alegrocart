@@ -321,10 +321,12 @@
               <td class="set"><?php echo $entry_language; ?></td>
               <td><select name="admin_config_language">
                   <?php foreach ($languages as $language) { ?>
+		  <?php if($language['language_status'] == '1'){?>
                   <?php if ($language['code'] == $admin_config_language) { ?>
                   <option value="<?php echo $language['code']; ?>" selected><?php echo $language['name']; ?></option>
                   <?php } else { ?>
                   <option value="<?php echo $language['code']; ?>"><?php echo $language['name']; ?></option>
+                  <?php } ?>
                   <?php } ?>
                   <?php } ?>
                 </select>
@@ -372,7 +374,7 @@
 			    <?php echo $text_error_handler; ?> 
 			  </td>
             </tr>
-			
+
 			<tr>
               <td class="set"><?php echo $entry_error_email_status; ?></td>
               <td><?php if ($global_error_email_status) { ?>
@@ -391,8 +393,8 @@
 			    <?php echo $text_error_email_status; ?> 
 			  </td>
             </tr>
-			
-			
+
+
 			<tr>
               <td width="185" class="set"><?php echo $entry_error_email; ?></td>
               <td><input size="64" type="text" name="global_config_error_email" value="<?php echo $global_config_error_email; ?>">
@@ -446,7 +448,7 @@
 			    <?php echo $text_error_developer_ip; ?> 
 			  </td>
             </tr>
-			
+
           </table>
         </div>
       </div>
@@ -475,10 +477,12 @@
               <td class="set"><?php echo $entry_language; ?></td>
               <td><select name="catalog_config_language">
                   <?php foreach ($languages as $language) { ?>
+		  <?php if($language['language_status'] == '1'){?>
                   <?php if ($language['code'] == $catalog_config_language) { ?>
                   <option value="<?php echo $language['code']; ?>" selected><?php echo $language['name']; ?></option>
                   <?php } else { ?>
                   <option value="<?php echo $language['code']; ?>"><?php echo $language['name']; ?></option>
+                  <?php } ?>
                   <?php } ?>
                   <?php } ?>
                 </select>

@@ -138,7 +138,7 @@ function detect() {
 			'he' => 'he|hebrew',
 			'hi' => 'hi|hindi',
 			'hr' => 'hr|croatian',
-			'hu' => 'hu|hungarian',
+			'hu' => 'hu|hungarian|hu-HU',
 			'hy' => 'hy|armenian',
 			'id' => 'id|indonesian',
 			'is' => 'is|icelandic',

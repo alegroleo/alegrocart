@@ -47,9 +47,11 @@ class ControllerDownload extends Controller {
 		$insert_id = $this->modelDownload->get_insert_id();
 		$downloadname = $this->getDownloadName($filename);
 		$results = $this->modelDownload->get_languages();
-			foreach ($results as $result) {
-			$key = $result['language_id'];
-			$this->modelDownload->insert_description($insert_id, $key, $downloadname);
+			if($result['language_status'] =='1'){
+				foreach ($results as $result) {
+					$key = $result['language_id'];
+					$this->modelDownload->insert_description($insert_id, $key, $downloadname);
+				}
 			}
 	}
 
@@ -323,6 +325,7 @@ class ControllerDownload extends Controller {
 		$download_data = array();
 		$results = $this->modelDownload->get_languages();
 	foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 		 	if (($this->request->gethtml('download_id')) && (!$this->request->isPost())) {
 			$download_description_info = $this->modelDownload->get_descriptions($this->request->gethtml('download_id'), $result['language_id']);
 			} else {
@@ -334,6 +337,7 @@ class ControllerDownload extends Controller {
 			'language'    => $result['name'],
 			'name'        => (isset($download_description_info[$result['language_id']]) ? $download_description_info[$result['language_id']]['name'] : @$download_description_info['name']),
 			);
+		}
 	}
 
 	$view->set('downloads', $download_data);

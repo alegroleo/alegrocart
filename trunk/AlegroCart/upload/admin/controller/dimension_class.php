@@ -245,6 +245,7 @@ class ControllerDimensionClass extends Controller {
 		$dimension_class_data = array();
 		$results = $this->modelDimensions->get_languages();
 		foreach ($results as $result) {
+			if($result['language_status'] =='1'){
 			if (($this->request->gethtml('dimension_id')) && (!$this->request->isPost())) {
 				$dimension_info = $this->modelDimensions->get_dimension_class($result['language_id']);
 				$type_id = isset($dimension_info[$result['language_id']]) ? $dimension_info[$result['language_id']]['type_id'] : '';
@@ -259,6 +260,7 @@ class ControllerDimensionClass extends Controller {
 	    		'unit'        => (isset($dimension_info[$result['language_id']]) ? $dimension_info[$result['language_id']]['unit'] : @$dimension_info['unit']),
 				'type_id'     => @$type_id,
 			);
+			}
 		}
 		$view->set('dimension_classes', $dimension_class_data);
 

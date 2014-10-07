@@ -374,33 +374,35 @@ class ControllerCategory extends Controller {
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
-		$view->set('validation', $this->session->get('validation'));	
+		$view->set('validation', $this->session->get('validation'));
 	
 		$category_data = array();
 		$results = $this->modelCategory->get_languages();
 		foreach ($results as $result) {
-			if (($this->request->gethtml('category_id')) && (!$this->request->isPost())) {
-				$category_description_info = $this->modelCategory->get_category_description($result['language_id']);
-			} else {
-				$category_description_info = $this->request->gethtml('language', 'post');
+			if($result['language_status'] =='1'){
+				if (($this->request->gethtml('category_id')) && (!$this->request->isPost())) {
+					$category_description_info = $this->modelCategory->get_category_description($result['language_id']);
+				} else {
+					$category_description_info = $this->request->gethtml('language', 'post');
+				}
+
+				$description = $this->request->get('description', 'post');
+				$meta_title = $this->request->gethtml('meta_title', 'post');
+				$meta_description = $this->request->gethtml('meta_description', 'post');
+				$meta_keywords = $this->request->gethtml('meta_keywords', 'post');
+				$category_data[] = array(
+					'language_id' => $result['language_id'],
+					'language'    => $result['name'],
+		    			'name'        => (isset($category_description_info[$result['language_id']]) ? $category_description_info[$result['language_id']]['name'] : @$category_description_info['name']),
+		        		'description' => (isset($description[$result['language_id']]) ? $description[$result['language_id']] : @$category_description_info['description']),
+		    			'meta_title' 	=> (isset($meta_title[$result['language_id']]) ? $meta_title[$result['language_id']] : @$category_description_info['meta_title']),			
+		    			'meta_description'=> (isset($meta_description[$result['language_id']]) ? $meta_description[$result['language_id']] : @$category_description_info['meta_description']),
+		    			'meta_keywords' => (isset($meta_keywords[$result['language_id']]) ? $meta_keywords[$result['language_id']] : @$category_description_info['meta_keywords'])
+				);
 			}
-			
-			$description = $this->request->get('description', 'post');
-			$meta_title = $this->request->gethtml('meta_title', 'post');
-			$meta_description = $this->request->gethtml('meta_description', 'post');
-			$meta_keywords = $this->request->gethtml('meta_keywords', 'post');
-			$category_data[] = array(
-				'language_id' => $result['language_id'],
-				'language'    => $result['name'],
-	    		'name'        => (isset($category_description_info[$result['language_id']]) ? $category_description_info[$result['language_id']]['name'] : @$category_description_info['name']),
-                'description' => (isset($description[$result['language_id']]) ? $description[$result['language_id']] : @$category_description_info['description']),
-	    		'meta_title' 	=> (isset($meta_title[$result['language_id']]) ? $meta_title[$result['language_id']] : @$category_description_info['meta_title']),			
-	    		'meta_description'=> (isset($meta_description[$result['language_id']]) ? $meta_description[$result['language_id']] : @$category_description_info['meta_description']),
-	    		'meta_keywords' => (isset($meta_keywords[$result['language_id']]) ? $meta_keywords[$result['language_id']] : @$category_description_info['meta_keywords'])					
-			);
 		}
 		$view->set('categories', $category_data);
-		
+
 		if (($this->request->gethtml('category_id')) && (! $this->request->isPost())) {
 			$category_info = $this->modelCategory->get_category();
 		}

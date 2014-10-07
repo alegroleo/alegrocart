@@ -63,7 +63,7 @@
 				<td>
 				  <select  name="flag_image" onchange="$('#image').load('index.php?controller=language&action=view_image&flag_image='+this.value), $('#flag_image').val(this.value);">
 				    <?php foreach($flags as $flag){?>
-				      <option value="<?php echo $flag['filename'];?>"<?php if($image == $flag['filename']){ echo ' selected';}?>><?php echo '(' . $flag['name'] . ') ' . $flag['country'];?></option>
+				      <option value="<?php echo $flag['filename'];?>"<?php if($image == $flag['filename']){ echo ' selected';}?>><?php echo $flag['country'] . ' (' . $flag['name'] . ') ';?></option>
 					<?php }?>
 				  </select>
 				<td>
@@ -96,6 +96,18 @@
                 <?php if ($error_filename) { ?>
                 <span class="error"><?php echo $error_filename; ?></span>
                 <?php } ?></td>
+            </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_language_status; ?></td>
+              <td><select name="language_status">
+                  <?php if ($language_status == '1') { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>

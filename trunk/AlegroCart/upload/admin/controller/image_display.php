@@ -281,6 +281,7 @@ class ControllerImageDisplay extends Controller {
 		$view->set('languages', $results); 
 		
 		foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 			if(($this->request->gethtml('image_display_id')) && (!$this->request->isPost())) {
 				$image_description_info = $this->modelImageDisplay->get_descriptions($this->request->gethtml('image_display_id'),$result['language_id']);
 			}
@@ -302,7 +303,8 @@ class ControllerImageDisplay extends Controller {
 				'image_id'	=> (isset($image_id[$result['language_id']]) ? $image_id[$result['language_id']] : @ $image_description_info['image_id']),
 				'image_width'	=> (isset($image_width[$result['language_id']]) ? $image_width[$result['language_id']] : @ $image_description_info['image_width']),
 				'image_height'	=> (isset($image_height[$result['language_id']]) ? $image_height[$result['language_id']] : @ $image_description_info['image_height'])
-			);	
+			);
+		}
 		}
 		$view->set('image_display_descriptions', $image_description_data);
 		

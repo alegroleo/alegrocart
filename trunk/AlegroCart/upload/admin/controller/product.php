@@ -639,6 +639,7 @@ class ControllerProduct extends Controller {
     	$results = $this->modelProduct->get_languages();
 		$product_name = '';
 	foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 			$model_data = array();
 			$models_results = $this->modelProduct->get_models($result['language_id']);//Get all models
 			foreach($models_results as $model_result){
@@ -679,6 +680,7 @@ class ControllerProduct extends Controller {
 			if($result['language_id'] == (int)$this->language->getId()){
 			$product_name = (isset($name[$result['language_id']]) ? $name[$result['language_id']] : @$product_description_info['name']);
 			}
+		}
 	}
 
     	$view->set('products', $product_data);

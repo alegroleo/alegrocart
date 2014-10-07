@@ -211,6 +211,7 @@ class ControllerOrderStatus extends Controller {
 
     	$results = $this->modelOrderStatus->get_languages();
         foreach ($results as $result) {
+		if($result['language_status'] =='1'){
 			if (($this->request->gethtml('order_status_id')) && (!$this->request->isPost())) {
 				$order_status_description_info = $this->modelOrderStatus->get_description($result['language_id']);
 			} else {
@@ -222,6 +223,7 @@ class ControllerOrderStatus extends Controller {
 				'language'    => $result['name'],
 				'name'        => (isset($order_status_description_info[$result['language_id']]) ? $order_status_description_info[$result['language_id']]['name'] : @$order_status_description_info['name']),
 			);
+		}
         }
 
     	$view->set('order_statuses', $order_status_data);  

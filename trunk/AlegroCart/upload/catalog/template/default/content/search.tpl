@@ -30,7 +30,7 @@
 ?>
 
 <div id="search">
-  <div class="headingbody"><?php echo $heading_title; ?></div>
+  <div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
   <div class="contentBody">
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
     <div class="a"><?php echo $text_critea; ?></div>

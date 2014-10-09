@@ -69,6 +69,7 @@ a:hover {
 	color: #FFFFFF; /* Font Color*/
 	padding-top: 5px;
 	height: 28px;
+	font-size: 0.875em;
 }
 .heading a{
 	color: #FFFFFF; /* Font Color*/
@@ -81,6 +82,7 @@ a:hover {
 	color: #FFFFFF; /* Font Color*/
 	height: 25px;
 	padding-top: 5px;
+	font-size: 0.875em;
 }
 .headingpadded .left {
 	color: #FFFFFF; /* Font Color*/
@@ -135,6 +137,7 @@ a:hover {
 	color: #FFFFFF; /* Font Color*/
 	height: 22px;
 	padding-top: 8px;
+	font-size: 0.64em;
 }
 .contentBodyTop{
 	background: url('../image/color3/black/contentTop590.png') top center no-repeat;	
@@ -582,4 +585,10 @@ a:hover {
 }
 .url {
 	color: #006699;
+}
+h2 {
+	font-weight: bold;
+}
+h1 {
+	font-weight: bold;
 }

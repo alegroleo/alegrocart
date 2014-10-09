@@ -3,7 +3,7 @@
   $head_def->setcss($this->style . "/css/paging.css");
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';  
 ?>
-<div class="headingbody"><?php echo $heading_title; ?></div>
+<div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
 <div class="contentBody">
 <div id="history">
   <?php foreach ($orders as $order) { ?>

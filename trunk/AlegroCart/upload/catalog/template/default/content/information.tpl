@@ -1,7 +1,7 @@
 <?php 
   $head_def->setcss($this->style . "/css/information.css");
 ?>
-<div class="headingbody"><?php echo $heading_title; ?></div>
+<div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
 <div class="contentBody">
 <div class="box">
 <?php echo $description;?>

@@ -1,7 +1,7 @@
 <?php 
   $head_def->setcss($this->style . "/css/manufacturer.css");
 ?>
- <div class="headingcolumn"><h1><?php echo $heading_title; ?></h1></div>
+ <div class="headingcolumn"><h3><?php echo $heading_title; ?></h3></div>
 <div class="manufacturer_module">
  <select id="manufacturer_list" class="manufacturer_list" style="width: 180px;" onchange="location=this.value">
   <?php if ($manufacturer_id == '0'){ ?>

@@ -5,7 +5,7 @@
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
 ?>
 <div class="homepage" id="homepage">
-<div class="headingpadded"><?php echo $heading_title; ?>
+<div class="headingpadded"><h2><?php echo $heading_title; ?></h2>
 <div class="right"><a href="<?php echo $close_homepage;?>"><?php echo $skip_intro;?></a></div>
 </div>
 <div class="module">

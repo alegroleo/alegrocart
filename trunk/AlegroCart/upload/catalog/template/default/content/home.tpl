@@ -1,3 +1,4 @@
+<h1 style="display: none;"><?php echo $heading_title; ?></h1>
 <?php if(isset($homepage)){?>
 <!--<div class="heading"><?php echo $heading_title; ?>
 <FORM action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">

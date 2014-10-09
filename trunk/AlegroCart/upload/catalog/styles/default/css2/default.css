@@ -17,11 +17,29 @@ form {
 	margin: 0;
 	display: inline;
 }
-h1{
+h1 {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	font-weight: normal;
+}
+h2 {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	font-weight: normal;
+}
+h3{
 	border: 0px;
 	margin: 0px;
 	padding: 0px;
 	font-size: 14px;
+}
+h4 {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	font-weight: 500;
 }
 .png {
 	

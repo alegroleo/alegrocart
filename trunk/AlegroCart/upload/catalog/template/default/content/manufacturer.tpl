@@ -29,7 +29,7 @@
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
 ?>
 <?php if ((isset($products) && $columns == 1) || (isset($products) && $display_options == FALSE) || (isset($products) && $tpl_columns == 2)) { ?>
- <div class="headingbody"><?php echo $heading_title." - ". $manufacturer; ?></div>
+ <div class="headingbody"><h1><?php echo $heading_title." - ". $manufacturer; ?></h1></div>
  <div class="contentBody">
   <div class="manufacturer_filter">	
    <form action="<?php echo $action;?>" method="post" enctype="multipart/form-data">
@@ -124,7 +124,7 @@
  <?php } ?>
  <?php include $shared_path . 'pagination.tpl'; ?>
 <?php } else {
-  echo '<div style="text-align: center;"><br><h1>' . $text_error . '</h1></div>';
+  echo '<div style="text-align: center; font-size: 14px; font-weight: bold;"><br><p>' . $text_error . '</p></div>';
 }?>
 </div>
 <?php if(isset($breadcrumbs)){?>

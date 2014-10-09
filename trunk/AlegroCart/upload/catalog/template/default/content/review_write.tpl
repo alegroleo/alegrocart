@@ -21,8 +21,8 @@
   </script>
   <?php } ?>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
-  <div class="headingpadded">
-    <div class="left"><?php echo $heading_title; ?></div>
+  <div class="headingbody">
+    <div class="left"><h1><?php echo $heading_title; ?></h1></div>
   <div class="right">
 	<?php if($special_price){
   echo '<div class="price_old" >'. ($tax_included ? '<span class="tax">*</span>' : '') .$price.'</div> '.'<div class="price_new">'. ($tax_included ? '<span class="tax">*</span>' : '') .$special_price.'</div>';

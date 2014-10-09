@@ -1,4 +1,4 @@
-<div class="headingbody"><?php echo $heading_title; ?></div>
+<div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
 <div class="contentBody">
 <div id="success"><?php echo $text_success; ?></div>
 </div>

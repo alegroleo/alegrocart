@@ -35,7 +35,7 @@
   }
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
 ?>
-<div class="headingbody"><?php echo $text_product_detail.$heading_title; ?></div>
+<div class="headingbody"><h1><?php echo $text_product_detail.$heading_title; ?></h1></div>
 <div class="contentBody">
  <div class="product" id="product">
   <div class="a" >
@@ -143,21 +143,21 @@
 <div class="box">
   <?php if($review_status){
       if($maxrow){
-		$Review_tabs = "<a><div class=\"tab_text\">".$tab_reviews."(".$maxrow.")"."</div></a>";
+		$Review_tabs = "<a><div class=\"tab_text\"><h2>".$tab_reviews."(".$maxrow.")"."</h2></div></a>";
 	  } else {
-		$Review_tabs = "<a><div class=\"tab_text\">".$tab_write."</div></a>";
+		$Review_tabs = "<a><div class=\"tab_text\"><h2>".$tab_write."</h2></div></a>";
 	  }
 	}
 	if($technical){
-	$Technical_tabs = "<a><div class=\"tab_text\">" . $tab_technical . "</div></a>";}
+	$Technical_tabs = "<a><div class=\"tab_text\"><h2>" . $tab_technical . "</h2></div></a>";}
   ?>
 <div class="tab" id="tab">
-  <div class="tabs"><a><div class="tab_text"><?php echo $tab_description; ?></div></a>
+  <div class="tabs"><a><div class="tab_text"><h2><?php echo $tab_description; ?></h2></div></a>
     <?php if (isset($Technical_tabs)){ echo $Technical_tabs;} ?>
     <?php if(count($images)){?>
-	<a><div class="tab_text"><?php echo $tab_images."(".count($images).")"; ?></div></a>
+	<a><div class="tab_text"><h2><?php echo $tab_images."(".count($images).")"; ?></h2></div></a>
 	<?php }?>
-	<a><div class="tab_text"><?php echo $tab_information; ?></div></a>
+	<a><div class="tab_text"><h2><?php echo $tab_information; ?></h2></div></a>
 	<?php if (isset($Review_tabs)){ echo $Review_tabs;} ?></div>
   <div class="pages">
     <div class="page">

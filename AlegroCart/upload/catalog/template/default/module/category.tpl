@@ -4,7 +4,7 @@
   $head_def->set_javascript("ajax/jqueryadd2cart.js");
 ?>
 <div>
-  <div class="headingcolumn"><h1><?php echo $heading_title; ?></h1></div>
+  <div class="headingcolumn"><h3><?php echo $heading_title; ?></h3></div>
   <div id="category_menu" class="category">
   <div class="menu_breadcrumb" id="menu_breadcrumb"></div>
   <?php

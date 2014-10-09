@@ -25,7 +25,7 @@
   $columns = 0;
 ?>
 
-<div class="headingcolumn"><h1><?php echo $heading_title; ?></h1></div>
+<div class="headingcolumn"><h3><?php echo $heading_title; ?></h3></div>
 <div class="module_column">
 <?php if (isset($products)) { ?>
  <?php foreach ($products as $key =>$product) { ?>

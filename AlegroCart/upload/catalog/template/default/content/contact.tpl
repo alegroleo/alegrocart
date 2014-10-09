@@ -3,7 +3,7 @@
   $head_def->set_MetaDescription("Contact Form, Send requests or comments with this form.");
   $head_def->set_MetaKeywords("contact, requests, information, comments");
 ?>
-<div class="headingbody"><?php echo $heading_title; ?></div>
+<div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
 <div class="contentBody">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
   <div id="contact">

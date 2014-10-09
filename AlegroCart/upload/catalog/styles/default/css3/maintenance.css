@@ -30,8 +30,14 @@ a:hover {
 	text-decoration: none;
 }
 /* layout */
-h1 { 
+h1 {
 	display: none;
+}
+h2 {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	font-weight: normal;
 }
 #container {
 	width: 1000px;

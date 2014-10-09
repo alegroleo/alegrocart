@@ -4,7 +4,7 @@
   $head_def->set_MetaKeywords("site map, categories, information, layout");	  
 ?>
 
-<div class="headingbody"><?php echo $heading_title; ?></div>
+<div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
 <div class="contentBody">
 <div id="sitemap">
   <div class="b">

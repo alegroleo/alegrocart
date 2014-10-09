@@ -34,7 +34,7 @@ class ControllerAddToCart extends Controller {
 					);
 				}
 				//Create Output to Mini Cart
-				$output = '<div class="headingcolumn" style="cursor: pointer" onclick="ShowCart()"><h1>' . $language->get('heading_title') . '</h1></div>' . "\n";
+				$output = '<div class="headingcolumn" style="cursor: pointer" onclick="ShowCart()"><h3>' . $language->get('heading_title') . '</h3></div>' . "\n";
 				$output .= '<div  class="cart">' . "\n";
 				$output .= '<div id="cart_content" class="cart_content">' . "\n";
 				if($products) {

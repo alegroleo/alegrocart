@@ -5,7 +5,7 @@
     $head_def->set_javascript("ajax/tooltip.js");
   }
 ?>
-<div class="headingbody"><?php echo $heading_title; ?></div>
+<div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
   <div class="contentBody">
   <?php if ($message) { ?>

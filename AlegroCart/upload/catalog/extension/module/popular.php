@@ -179,6 +179,7 @@ class ModulePopular extends Controller {
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
+			$view->set('text_options', $language->get('text_options'));
 			$view->set('regular_price', $language->get('regular_price'));
 			$view->set('sale_price', $language->get('sale_price'));
 			$view->set('head_def',$head_def);

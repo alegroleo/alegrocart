@@ -1,4 +1,4 @@
-<div class="headingpadded"><?php echo $heading_title . $heading_info; ?></div>
+<div class="headingpadded"><h2><?php echo $heading_title . $heading_info; ?></h2></div>
  <div class="module">
   <?php $column_count=0;
    if (!$columns){

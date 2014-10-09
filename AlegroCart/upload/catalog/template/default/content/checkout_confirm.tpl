@@ -2,7 +2,7 @@
   $head_def->setcss($this->style . "/css/checkout_confirm.css");
   $head_def->set_javascript("ajax/jquery.js");
 ?>
-<div class="headingbody"><?php echo $heading_title; ?></div>
+<div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
 <div class="contentBody">
 <?php if ($message) { ?>
 <div class="message"><?php echo $message; ?></div>

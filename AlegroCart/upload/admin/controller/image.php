@@ -58,8 +58,8 @@ class ControllerImage extends Controller {
 		$insert_id = $this->modelImage->get_insert_id();
 		$title = $this->getTitle($filename);
 		$results = $this->modelImage->get_languages();
-		if($result['language_status'] =='1'){
 			foreach ($results as $result) {
+			if($result['language_status'] =='1'){
 			$key = $result['language_id'];
 			$this->modelImage->insert_description($insert_id, $key, $title);
 			}

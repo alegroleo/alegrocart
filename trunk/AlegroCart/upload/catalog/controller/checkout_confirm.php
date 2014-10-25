@@ -116,7 +116,7 @@ class ControllerCheckoutConfirm extends Controller {
 		$view->set('text_downloadable', $this->language->get('text_downloadable'));
 
 		$view->set('entry_coupon', $this->language->get('entry_coupon'));
-
+		$view->set('couponproducts', $this->coupon->hasProducts());
 		$view->set('button_continue', $this->language->get('button_continue'));
 		$view->set('button_back', $this->language->get('button_back'));
 		$view->set('button_update', $this->language->get('button_update'));

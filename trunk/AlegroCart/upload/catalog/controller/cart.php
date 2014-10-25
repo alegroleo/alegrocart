@@ -187,6 +187,7 @@ class ControllerCart extends Controller {
 		}
 		$this->session->delete('coupon_message');
 
+		$view->set('couponproducts', $this->coupon->hasProducts());
 		$view->set('coupon', $this->coupon->getCode());
 		$view->set('action', $this->url->href('cart'));
 

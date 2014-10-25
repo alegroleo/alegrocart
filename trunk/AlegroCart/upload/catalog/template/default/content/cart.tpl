@@ -183,8 +183,12 @@
 		  <?php } else {?>
 		  <td></td>
 		  <?php }?>
+		<?php if($couponproducts){?>
           <td class="right"><?php echo $entry_coupon; ?></td>
           <td class="right" width="1"><input type="text" name="coupon" value="<?php echo $coupon; ?>"></td>
+		  <?php } else {?>
+		  <td></td>
+		  <?php }?>
         </tr>
       </table>
 	

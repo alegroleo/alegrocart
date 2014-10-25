@@ -3,7 +3,8 @@ class Coupon {
 	var $data    = array();
 	var $product = array();
 	var $status  = false;
-	
+	var $affected= FALSE;
+
 	function Coupon(&$locator) {
 		$this->cart     =& $locator->get('cart');
 		$this->currency =& $locator->get('currency');
@@ -12,61 +13,85 @@ class Coupon {
 		$this->language =& $locator->get('language');
 		$this->session  =& $locator->get('session');
 		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
-		
+
 		if ($this->session->has('coupon_id')) {
 			$coupon_info = $this->database->getRow("select * from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '" . (int)$this->language->getId() . "' and c.coupon_id = '" . (int)$this->session->get('coupon_id') . "' and c.date_start < now() and c.date_end > now() and c.status = '1'");
-			
+
 			if ($coupon_info) {
 				$coupon_redeem = $this->database->getRow("select count(*) as total from coupon_redeem where coupon_id = '" . (int)$coupon_info['coupon_id'] . "'");
 
 				$this->status = ($coupon_info['uses_total'] > $coupon_redeem['total']);
-				
+
 				if ($this->status) {
 					$coupon_redeem = $this->database->getRow("select count(*) as total from coupon_redeem where coupon_id = '" . (int)$coupon_info['coupon_id'] . "' and customer_id = '" . (int)$this->customer->getId() . "'");
 				
 					$this->status = ($coupon_info['uses_customer'] > $coupon_redeem['total']);
+
 				}
 				
 				if ($this->status) {
 					$this->product = $this->database->getRows("select product_id from coupon_product where coupon_id = '" . (int)$coupon_info['coupon_id'] . "'");
-					
+
 					$this->status = $this->hasProduct();
 				}
 			}
-			
+
 			if ($this->status) {
 				$this->data = $coupon_info;
 			} else {
 				$this->session->delete('coupon');
 			}
+		} else {
+			$valid_coupons = $this->database->getRows("select * from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '" . (int)$this->language->getId() . "' and c.date_start < now() and c.date_end > now() and c.status = '1'");
+
+			if ($valid_coupons) {
+				foreach ($valid_coupons as $valid_coupon) {
+					$coupon_redeem = $this->database->getRow("select count(*) as total from coupon_redeem where coupon_id = '" . (int)$valid_coupon['coupon_id'] . "'");
+					$this->status = ($valid_coupon['uses_total'] > $coupon_redeem['total']);
+
+					if ($this->status) {
+						$coupon_redeem = $this->database->getRow("select count(*) as total from coupon_redeem where coupon_id = '" . (int)$valid_coupon['coupon_id'] . "' and customer_id = '" . (int)$this->customer->getId() . "'");
+
+						$this->status = ($valid_coupon['uses_customer'] > $coupon_redeem['total']);
+					}
+
+					if ($this->status) {
+						$this->product = $this->database->getRows("select product_id from coupon_product where coupon_id = '" . (int)$valid_coupon['coupon_id'] . "'");
+						$this->status = $this->hasProduct();
+					}
+					if ($this->status) {
+						$this->affected = TRUE;
+					}
+				}
+			}
 		}
 	}
 	
 	function set($code) {
-		$sql         = "select * from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '?' and c.code = '?' and c.date_start < now() and c.date_end > now() and c.status = '1'";
+		$sql = "select * from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '?' and c.code = '?' and c.date_start < now() and c.date_end > now() and c.status = '1'";
 		$coupon_info = $this->database->getRow($this->database->parse($sql, $this->language->getId(), $code));
 
 		if ($coupon_info) {
 			$coupon_redeem = $this->database->getRow("select count(*) as total from coupon_redeem where coupon_id = '" . (int)$coupon_info['coupon_id'] . "'");
 
 			$this->status = ($coupon_info['uses_total'] > $coupon_redeem['total']);
-				
+
 			if ($this->status) {
 				$coupon_redeem = $this->database->getRow("select count(*) as total from coupon_redeem where coupon_id = '" . (int)$coupon_info['coupon_id'] . "' and customer_id = '" . (int)$this->customer->getId() . "'");
-			
+
 				$this->status = ($coupon_info['uses_customer'] > $coupon_redeem['total']);
-			}		
+			}
 
 			if ($this->status) {
 				$this->product = $this->database->getRows("select product_id from coupon_product where coupon_id = '" . (int)$coupon_info['coupon_id'] . "'");
-									
+
 				$this->status = $this->hasProduct();
 			}
 		}
-		
+
 		if ($this->status) {
 			$this->session->set('coupon_id', $coupon_info['coupon_id']);
-				
+			$this->affected = FALSE;
 			$this->data = $coupon_info;
 			
 			return TRUE;
@@ -113,7 +138,7 @@ class Coupon {
 	function getShipping() {
 		return (isset($this->data['shipping']) ? $this->data['shipping'] : NULL);
 	}
-		
+
 	function hasProduct() {
 		if ($this->product) {
 			$data = array();
@@ -130,6 +155,9 @@ class Coupon {
 		} else {
 			return TRUE;
 		}
+	}
+	function hasProducts() {
+		return $this->affected;
 	}
 }
 ?>

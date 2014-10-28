@@ -1,5 +1,7 @@
 <?php  // Popular AlegroCart
 class ModulePopular extends Controller {
+		var $remaining = false;
+		var $discounted = false;
 	function fetch() {
 		$cart			=& $this->locator->get('cart');
 		$config			=& $this->locator->get('config');
@@ -58,7 +60,7 @@ class ModulePopular extends Controller {
 			$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
 			$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
 			$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
-			$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
+			$view->set('price_with_options', $language->get('price_with_options'));
 			$view->set('symbol_right', $symbol_right);
 			$view->set('symbol_left', $symbol_left);
 			$view->set('decimal_point', $language->get('decimal_point'));
@@ -70,8 +72,12 @@ class ModulePopular extends Controller {
 		foreach ($results as $result) {
 					$days_remaining = ''; //***
 					if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
-					    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400); 
-					    $days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1)); //***** 
+						$this->discounted = true; // we have at least 1 price_old div
+						if ($this->discounted && $result['remaining']) {
+							$this->remaining = true; // we have at least 1 remaining div
+						}
+						$number_days = intval((strtotime($result['sale_end_date']) - time())/86400); 
+						$days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1));
 					}
 					if($result['vendor_id']!='0' && $config->get('config_unregistered')){
 						$vendor = $this->modelProducts->get_vendor($result['vendor_id']);
@@ -164,7 +170,7 @@ class ModulePopular extends Controller {
 					$view->set('products', $product_rand);
 				}
 			} else {
-				$view->set('text_notfound', $language->get('text_notfound'));
+				return;
 			}
 			$rand->clearrand();
 
@@ -186,6 +192,8 @@ class ModulePopular extends Controller {
 			$view->set('image_display', $config->get('popular_image_display'));
 			$view->set('location', $location);
 			$view->set('columns', $columns);
+			$view->set('remaining', $this->remaining);
+			$view->set('discounted', $this->discounted);
 			$view->set('text_quantity_discount', $language->get('text_quantity_discount'));
 			$view->set('addtocart',$config->get('popular_addtocart'));
 			$view->set('add_enable', $this->modelProducts->currentpage($request->get('controller')));

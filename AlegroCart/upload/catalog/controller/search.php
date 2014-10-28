@@ -1,5 +1,7 @@
 <?php //Search AlegroCart
 class ControllerSearch extends Controller {
+		var $remaining = false;
+		var $discounted = false;
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
@@ -181,7 +183,7 @@ class ControllerSearch extends Controller {
 			$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
 			$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
 			$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
-			$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
+			$view->set('price_with_options', $language->get('price_with_options'));
 			$view->set('symbol_right', $symbol_right);
 			$view->set('symbol_left', $symbol_left);
 			$view->set('decimal_point', $language->get('decimal_point'));
@@ -196,8 +198,12 @@ class ControllerSearch extends Controller {
 			foreach ($results as $result) {
 					$days_remaining = ''; //***
 					if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
-					    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400);  
-					    $days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1)); //*****
+						$this->discounted = true; // we have at least 1 price_old div
+						if ($this->discounted && $result['remaining']) {
+							$this->remaining = true; // we have at least 1 remaining div
+						}
+						$number_days = intval((strtotime($result['sale_end_date']) - time())/86400);  
+						$days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1));
 					}
 					if($result['vendor_id']!='0' && $this->config->get('config_unregistered')){
 						$vendor = $this->modelProducts->get_vendor($result['vendor_id']);
@@ -315,7 +321,9 @@ class ControllerSearch extends Controller {
 		$view->set('text_max_reached', $language->get('text_max_reached'));
 		$view->set('entry_max_results', $language->get('entry_max_results'));
 		$view->set('head_def',$head_def);
-		$this->template->set('head_def',$head_def); 
+		$this->template->set('head_def',$head_def);
+		$view->set('remaining', $this->remaining);
+		$view->set('discounted', $this->discounted);
 		$view->set('text_enlarge', $language->get('text_enlarge'));
 		$view->set('image_display', $this->config->get('content_image_display'));
 		$view->set('this_controller', 'search');

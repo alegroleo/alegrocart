@@ -5,15 +5,15 @@ class ControllerProduct extends Controller {
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
-		$this->module   	=& $locator->get('module');
-		$this->template 	=& $locator->get('template');
-		$this->modelProducts =	$model->get('model_products');
-		$this->modelCategory =	$model->get('model_category');
-		$this->modelCore 	= $model->get('model_core');
+		$this->module		=& $locator->get('module');
+		$this->template		=& $locator->get('template');
+		$this->modelProducts	= $model->get('model_products');
+		$this->modelCategory	= $model->get('model_category');
+		$this->modelCore	= $model->get('model_core');
 		$this->tpl_manager	= $this->modelCore->get_tpl_manager('product'); 
 		$this->locations =	$this->modelCore->get_tpl_locations();
 		$this->tpl_columns	= $this->modelCore->get_columns();
- 		$this->download 	=& $locator->get('download');
+		$this->download		=& $locator->get('download');
 	}
 	function index() { 
 		$cart     =& $this->locator->get('cart');
@@ -25,6 +25,7 @@ class ControllerProduct extends Controller {
 		$this->barcode  =& $this->locator->get('barcode'); 
 		$request  =& $this->locator->get('request');
 		$response =& $this->locator->get('response');
+		$session	=& $this->locator->get('session');
 		$shipping =& $this->locator->get('shipping');
 		$tax      =& $this->locator->get('tax');
 		$weight   =& $this->locator->get('weight');
@@ -140,12 +141,28 @@ class ControllerProduct extends Controller {
 		);
 		$view->set('action', $url->href('product', FALSE, $query));
 
+			if (!$session->has('recently')) {
+				$session->set('recently', $recently = array((int)$request->gethtml('product_id')));
+			} else {
+				$recently = $session->get('recently');
+				$key = array_search((int)$request->gethtml('product_id'), $recently);
+				if ($key !== FALSE){
+					unset($recently[$key]);
+					array_values($recently);
+				}
+				$recently[] = (int)$request->gethtml('product_id');
+				$session->set('recently', $recently);
+			}
+
 			$dimension_class = $this->modelProducts->get_dimension_class($product_info['dimension_id']);
 			$dimension_value = $this->dimension->getValues($product_info['dimension_value'], $dimension_class['type_id'], $product_info['dimension_id']);
 			$view->set('dimensions', $this->modelProducts->dimensionView($dimension_class, $dimension_value));
 
 			$view->set('shipping',$product_info['shipping']);
-		$view->set('description', formatedstring($product_info['description'],40));
+			$shipping_time = $product_info['shipping_time_from'] === $product_info['shipping_time_to'] ? $product_info['shipping_time_from'] : $product_info['shipping_time_from'].' - '.$product_info['shipping_time_to'];
+			$view->set('shipping_time',$shipping_time);
+			$view->set('text_shipping_time', $language->get('text_shipping_time', $shipping_time)); 
+			$view->set('description', formatedstring($product_info['description'],40));
 			$view->set('technical', formatedstring($product_info['technical'],40));
 
 			if ($product_info['alt_description'] && $this->config->get('alternate_description')){
@@ -178,7 +195,7 @@ class ControllerProduct extends Controller {
 			$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
 			$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
 			$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point'))); // **************
-			$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
+			$view->set('price_with_options', $language->get('price_with_options'));
 			$view->set('symbol_right', $symbol_right);
 			$view->set('symbol_left', $symbol_left);
 			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']);

@@ -28,30 +28,27 @@
     <?php if ($methods) { ?>
     <div class="c"><?php echo $text_payment_method; ?></div>
     <div class="d"><?php echo $text_payment_methods; ?>
-      
       <?php foreach ($methods as $method) { ?>
-	    <?php if ($method['id'] == $default) { ?>
-		  <table class="default_method">
-		<?php } else {?>
-		  <table class="method">
-		<?php }?>
+	  <table class="method">
+	  <tbody>
             <tr>
               <td class="i" colspan="2"><label for="<?php echo $method['id']; ?>">
                 <?php if ($method['id'] == $default) { ?>
-                  <input type="radio" name="payment" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>" CHECKED>
+                  <input type="radio" name="payment" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>" checked="checked">
                 <?php } else { ?>
 			      <input type="radio" name="payment" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>">
                 <?php } ?>
-              <?php echo $method['title'];?></label></td>
+              <b><?php echo $method['title'];?></b></label></td>
             </tr>
-		    <?php if($method['message']){?>
+		    <?php if($method['message']) {?>
 		      <tr>
 		        <td class="i" colspan="2">
 		          <?php echo $method['message'];?>
 		        </td>
 		      </tr>
 		    <?php } ?>
-		  </table>
+	  </tbody>
+	  </table>
       <?php } ?>
     </div>
     <?php } ?>
@@ -92,5 +89,14 @@ $("#back, #change_address").on("click", function(){
 				}
 			}
 	});
+});
+//--></script>
+  <script type="text/javascript">
+	$('input[name="payment"][checked="checked"]').closest('table').attr('class', 'default_method');
+//--></script>
+  <script type="text/javascript">
+	$('input[name="payment"]').on("click", function(){
+		$('input[name="payment"]').closest('table').removeClass('default_method').addClass('method');
+		$(this).closest('table').attr('class', 'default_method');
 });
 //--></script>

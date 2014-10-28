@@ -25,9 +25,9 @@
   $columns = 0;
 ?>
 
+<?php if (isset($products)) { ?>
 <div class="headingcolumn"><h3><?php echo $heading_title; ?></h3></div>
 <div class="module_column">
-<?php if (isset($products)) { ?>
  <?php foreach ($products as $key =>$product) { ?>
   <div class="img">
     <?php 
@@ -84,8 +84,6 @@
   <?php if(($key + 1) < count($products)){
    echo "<div class=\"divider\"></div>";} ?>
   <?php } ?>
- <?php } else { ?>
-  <p><?php echo $text_notfound; ?></p>
-<?php } ?>
 </div>
+<?php } ?>
 <div class="columnBottom"></div>

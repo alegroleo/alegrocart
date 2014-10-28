@@ -22,11 +22,11 @@ class ControllerHome extends Controller {
 		$session  =& $this->locator->get('session');
 		$language->load('controller/home.php');
 
-		$this->template->set('title', $language->get('title', $this->config->get('config_store')));
+		$this->template->set('title', $this->config->get('config_store'));
 
 		$view = $this->locator->create('template');
 		$view->set('action', HTTP_ADMIN);
-		$view->set('heading_title', $language->get('heading_title', $this->config->get('config_store')));
+		$view->set('heading_title', $this->config->get('config_store'));
 
 		
 		if ($customer->isLogged()) {

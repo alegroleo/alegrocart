@@ -526,6 +526,7 @@ class ControllerProduct extends Controller {
 		$view->set('entry_manufacturer', $this->language->get('entry_manufacturer'));
 		$view->set('entry_vendor', $this->language->get('entry_vendor'));
     	$view->set('entry_shipping', $this->language->get('entry_shipping'));
+    	$view->set('entry_shipping_time', $this->language->get('entry_shipping_time'));
     	$view->set('entry_date_available', $this->language->get('entry_date_available'));
     	$view->set('entry_quantity', $this->language->get('entry_quantity'));
 		$view->set('entry_discount', $this->language->get('entry_discount', $symbol_left ? $symbol_left : $symbol_right));
@@ -585,7 +586,7 @@ class ControllerProduct extends Controller {
     	$view->set('tab_download', $this->language->get('tab_download'));
     	$view->set('tab_category', $this->language->get('tab_category'));
         $view->set('tab_home', $this->language->get('tab_home'));
-		$view->set('tab_dated_special', $this->language->get('tab_dated_special'));	
+		$view->set('tab_dated_special', $this->language->get('tab_dated_special'));
 		$view->set('tab_alt_description', $this->language->get('tab_alt_description')); 
 		$view->set('tab_product_options', $this->language->get('tab_product_options')); 
 
@@ -595,6 +596,7 @@ class ControllerProduct extends Controller {
 		$view->set('explanation_min_qty', $this->language->get('explanation_min_qty'));
 		$view->set('explanation_max_qty', $this->language->get('explanation_max_qty'));
 		$view->set('explanation_multiple', $this->language->get('explanation_multiple'));
+		$view->set('explanation_shipping_time', $this->language->get('explanation_shipping_time'));
 
 	$view->set('error', @$this->error['message']);
 	$view->set('error_name', @$this->error['name']);
@@ -732,6 +734,17 @@ class ControllerProduct extends Controller {
     	} else {
 			$view->set('shipping', TRUE);
 		}
+
+	if ($this->request->has('shipping_time_from', 'post')) {
+		$view->set('shipping_time_from', $this->request->gethtml('shipping_time_from', 'post'));
+	} else {
+		$view->set('shipping_time_from', @$product_info['shipping_time_from']);
+	}
+	if ($this->request->has('shipping_time_to', 'post')) {
+		$view->set('shipping_time_to', $this->request->gethtml('shipping_time_to', 'post'));
+	} else {
+		$view->set('shipping_time_to', @$product_info['shipping_time_to']);
+	}
 
     	if ($this->request->has('image_id', 'post')) {
       		$view->set('image_id', $this->request->gethtml('image_id', 'post'));

@@ -56,6 +56,7 @@ $_['entry_model_numbers']   = 'Model Number';
 $_['entry_manufacturer']   = 'Manufacturer:';
 $_['entry_vendor']         = 'Vendor:';
 $_['entry_shipping']       = 'Shippable Product:';
+$_['entry_shipping_time']	= 'Shipping Time:';
 $_['entry_date_available'] = 'Date Available:';
 $_['entry_quantity']       = 'In Stock Quantity:';
 $_['entry_barcode']        = 'Barcode Digits:';
@@ -122,6 +123,8 @@ $_['explanation_multiselect_pr']	= 'To select/deselect multiple products press a
 $_['explanation_min_qty']		= 'Customers cannot order less than this quantity.';
 $_['explanation_max_qty']		= 'Customers cannot order more than this quantity. Default 0 means that it won\'t be taken into consideration.';
 $_['explanation_multiple']		= 'If set to e.g. 2 customers can order 2,4,6 etc. Default 0 means that it won\'t be taken into consideration.';
+$_['explanation_shipping_time']		= 'Days or range of days the order is ready to leave your warehouse. Settable if the product is shippable. Enter the same number in both boxes to set days.';
+
 // Error
 $_['error_permission']			= 'Warning: You do not have permission to modify products';
 $_['error_name']			= '* Product Name must be between 1 and 64 characters!';

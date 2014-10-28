@@ -1,5 +1,7 @@
 <?php //Manufacturer AlegroCart
-class ControllerManufacturer extends Controller { 	
+class ControllerManufacturer extends Controller {
+		var $remaining = false;
+		var $discounted = false;
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
@@ -180,7 +182,7 @@ class ControllerManufacturer extends Controller {
 			$symbol_right = $currency->currencies[$currency_code]['symbol_right'];
 			$symbol_left = $currency->currencies[$currency_code]['symbol_left'];
 			$view->set('symbols', array($symbol_left,$symbol_right,$language->get('thousand_point')));
-			$view->set('price_with_options', $language->get('price_with_options'). $symbol_left);
+			$view->set('price_with_options', $language->get('price_with_options'));
 			$view->set('symbol_right', $symbol_right);
 			$view->set('symbol_left', $symbol_left);
 			$view->set('decimal_point', $language->get('decimal_point'));
@@ -194,8 +196,12 @@ class ControllerManufacturer extends Controller {
 			foreach ($results as $result) {
 					$days_remaining = ''; //***
 					if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
-					    $number_days = intval((strtotime($result['sale_end_date']) - time())/86400);
-					    $days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1)); //***** 
+						$this->discounted = true; // we have at least 1 price_old div
+						if ($this->discounted && $result['remaining']) {
+							$this->remaining = true; // we have at least 1 remaining div
+						}
+						$number_days = intval((strtotime($result['sale_end_date']) - time())/86400);
+						$days_remaining = $language->get(($number_days > 1 ? 'days_remaining' : 'day_remaining') , ($number_days ? $number_days : 1));
 					}
 					$query = array(
 						'manufacturer_id'  => (int)$request->gethtml('manufacturer_id'),
@@ -332,6 +338,8 @@ class ControllerManufacturer extends Controller {
 
 		$view->set('head_def',$head_def);
 		$this->template->set('head_def',$head_def);
+		$view->set('remaining', $this->remaining);
+		$view->set('discounted', $this->discounted);
 		$view->set('show_stock', $this->config->get('config_show_stock'));
 		$view->set('show_stock_icon',$this->config->get('config_show_stock_icon'));
 		if($this->config->get('config_show_stock_icon')){

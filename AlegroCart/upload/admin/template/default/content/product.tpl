@@ -206,17 +206,22 @@
             <tr>
               <td class="set"><?php echo $entry_shipping; ?></td>
               <td><?php if ($shipping == 1) { ?>
-                <input type="radio" name="shipping" value="1" checked id="yes">
-                <label for="yes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="shipping" value="0" id="no">
-                <label for="no"><?php echo $text_no; ?></label>
+                <input type="radio" name="shipping" value="1" checked="checked" id="syes">
+                <label for="syes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="shipping" value="0" id="sno">
+                <label for="sno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="shipping" value="1" id="yes">
-                <label for="yes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="shipping" value="0" checked id="no">
-                <label for="no"><?php echo $text_no; ?></label>
+                <input type="radio" name="shipping" value="1" id="syes">
+                <label for="syes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="shipping" value="0" checked="checked" id="sno">
+                <label for="sno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
-            </tr>         
+            </tr>
+	    <tr>
+              <td class="set"><?php echo $entry_shipping_time; ?></td>
+              <td><input name="shipping_time_from" value="<?php echo $shipping_time_from; ?>" size="1" id="shipping_time_from" disabled="disabled"> - <input name="shipping_time_to" value="<?php echo $shipping_time_to; ?>" size="1" id="shipping_time_to" disabled="disabled"></td>
+	      <td class="expl"><?php echo $explanation_shipping_time; ?></td>
+            </tr>
             <tr>
               <td class="set"><?php echo $entry_tax_class; ?></td>
               <td><select name="tax_class_id">
@@ -837,4 +842,24 @@ function removeDiscount(row) {
       $(".heading em").text(value);
     }).change();
   //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+    $('#syes:checked').each(function() {
+		$('#shipping_time_from').attr("disabled", false);
+		$('#shipping_time_to').attr("disabled", false);
+    });
+});
+    //--></script>
+  <script type="text/javascript"><!--
+  $('#syes').on("click", function() {
+		$('#shipping_time_from').attr("disabled", false);
+		$('#shipping_time_to').attr("disabled", false);
+  });
+    //--></script>
+  <script type="text/javascript"><!--
+  $('#sno').on("click", function() {
+		$('#shipping_time_from').attr("disabled", true);
+		$('#shipping_time_to').attr("disabled", true);
+});
+    //--></script>
 </form>

@@ -20,7 +20,7 @@
 	} else {
 	 $column_count++;
 	}
-	If($column_count == 1){
+	if ($column_count == 1){
 	 echo '<div class="column_row" style="min-height: '.$min_height.'px;">';
 	}
    ?>
@@ -48,9 +48,12 @@
 	 </div>
 	</div>
     <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
+	<?php if ($product['description']) { ?>
     <div class="product_desc"<?php if($columns == 3){?> style="min-height: 50px;"<?php }?>>
       <?php echo "<span style=\"font-size: ".$font_size."px\">" . $product['description'] . "</span>"; ?>
-	</div></div>
+	</div>
+	<?php } ?>
+    </div>
 	<?php include $shared_path . 'product_price.tpl';?>
 	<?php if ($addtocart) { ?>
 	 <?php $option = $product['options'];

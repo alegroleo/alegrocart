@@ -30,20 +30,19 @@ class ControllerModuleExtraBestseller extends Controller {
 			
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 		}
-		
+
 		$view = $this->locator->create('template');
-		
+
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_module', $this->language->get('heading_module'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
-		$view->set('text_instruction', $this->language->get('text_instruction'));
-		
+
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_limit', $this->language->get('entry_limit'));
-		$view->set('entry_height', $this->language->get('entry_height'));		
+		$view->set('entry_height', $this->language->get('entry_height'));
 		$view->set('entry_width', $this->language->get('entry_width'));
 		$view->set('entry_addtocart', $this->language->get('entry_addtocart'));
 		$view->set('entry_total', $this->language->get('entry_total'));
@@ -52,7 +51,7 @@ class ControllerModuleExtraBestseller extends Controller {
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
-		
+
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -60,6 +59,18 @@ class ControllerModuleExtraBestseller extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+
+		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
+		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
+		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
+		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
+		$view->set('explanation_entry_total', $this->language->get('explanation_entry_total'));
+		$view->set('explanation_entry_image_display', $this->language->get('explanation_entry_image_display'));
+		$view->set('explanation_entry_addtocart', $this->language->get('explanation_entry_addtocart'));
+		$view->set('explanation_entry_columns', $this->language->get('explanation_entry_columns'));
+		$view->set('explanation_entry_lines_single', $this->language->get('explanation_entry_lines_single'));
+		$view->set('explanation_entry_lines_multi', $this->language->get('explanation_entry_lines_multi'));
+		$view->set('explanation_entry_char', $this->language->get('explanation_entry_char'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 

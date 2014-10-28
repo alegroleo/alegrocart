@@ -129,9 +129,10 @@ b, strong, th {
 	height: 20px;
 }
 .module_column{
-	 border-left: 1px solid #DDDDDD;
-	 border-right: 1px solid #DDDDDD;
-	 width: 192px;
+	background-color: #FFFFFF;
+	border-left: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+	width: 192px;
 }
 .module_column .img img{
 	border: 1px solid #EEEEEE;
@@ -160,6 +161,7 @@ b, strong, th {
 	height: 25px;
 }
 .columnBottom{
+	background-color: #FFFFFF;
 	border-bottom: 1px solid #DDDDDD;
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
@@ -174,9 +176,11 @@ b, strong, th {
 .mini_cart .cart{
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
+	background-color: #FFFFFF;
 	width: 192px;
 }
 .mini_cart .bottom{
+	background-color: #FFFFFF;
 	border-bottom: 1px solid #DDDDDD;
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
@@ -255,7 +259,7 @@ b, strong, th {
 	border: 1px solid #EEEEEE;
 }
 .productcat .ptext b a {
-	color: #C1002B;
+	color: #004EBC;
 }
 .productcat .add input {
 	border: 1px solid #DDDDDD;
@@ -939,12 +943,18 @@ b, strong, th {
 	font-weight: bold;
 	height: 25px;
 }
+.module_content .options a {
+	color: #004EBC;
+}
+.module_column .options a {
+	color: #004EBC;
+}
 .description b a {
         padding: 2px 2px 0px 2px;
         text-decoration: none;
 	text-transform: uppercase;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	color: #C1002B;
+	color: #004EBC;
 }
 .currency select {
 	border: 1px solid #DDDDDD;
@@ -999,8 +1009,8 @@ b, strong, th {
 	background-color: #FFFFFF;
 }
 .product_total{
-	color: #0099FF;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 20px;
 }
 .pagination{
 	margin-top: 11px;
@@ -1024,11 +1034,11 @@ b, strong, th {
 	margin-right: 2px;
 	text-decoration: none;
 }
-.product_total{
-	color: #0099FF;
+.product_total span{
+	color: #004EBC;
 }
 .productcat{
-	margin: 0px 0px 0px 5px;	
+	margin: 0px 0px 0px 5px;
 }
 .productcat_bottom{
 	width: 790px;
@@ -1108,7 +1118,14 @@ b, strong, th {
 	color: #222222;
 	font-size: 20px;
 	text-align: center; /*left; */
-	font-weight: bold;
+	font-weight: normal;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+}
+.price {
+	color: #C1002B;
+	font-size: 20px;
+	text-align: center; /*left; */
+	font-weight: normal;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 .remaining {
@@ -1206,14 +1223,14 @@ b, strong, th {
 	-khtml-border-radius: 5px;
 }
 .method {
-	border: 3px solid #DDDDDD; 
+	border: 2px solid #DDDDDD; 
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 }
 .default_method {
-	border: 3px solid #0099FF; 
+	border: 2px solid #0099FF; 
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;

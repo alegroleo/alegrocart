@@ -40,7 +40,6 @@ class ControllerModuleExtraFeatured extends Controller {
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
-		$view->set('text_instruction', $this->language->get('text_instruction'));
 		
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_limit', $this->language->get('entry_limit'));
@@ -60,6 +59,17 @@ class ControllerModuleExtraFeatured extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+
+		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
+		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
+		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
+		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
+		$view->set('explanation_entry_image_display', $this->language->get('explanation_entry_image_display'));
+		$view->set('explanation_entry_addtocart', $this->language->get('explanation_entry_addtocart'));
+		$view->set('explanation_entry_columns', $this->language->get('explanation_entry_columns'));
+		$view->set('explanation_entry_lines_single', $this->language->get('explanation_entry_lines_single'));
+		$view->set('explanation_entry_lines_multi', $this->language->get('explanation_entry_lines_multi'));
+		$view->set('explanation_entry_char', $this->language->get('explanation_entry_char'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 

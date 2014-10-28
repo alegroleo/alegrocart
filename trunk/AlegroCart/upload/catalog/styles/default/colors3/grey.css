@@ -620,6 +620,12 @@ background-color: #FFFFFF;
 	text-align: center; /*left; */
 	font-weight: bold;
 }
+.price {
+	color: #FF0000;
+	font-size: 11px;
+	text-align: center; /*left; */
+	font-weight: bold;
+}
 .remaining {
 	color: #0000FF;
 }

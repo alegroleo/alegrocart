@@ -32,10 +32,16 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
+		<td class="expl">
+			<?php echo($explanation_entry_status); ?>
+		</td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_limit; ?></td>
               <td><input type="text" name="catalog_popular_limit" value="<?php echo $catalog_popular_limit; ?>" size="1"></td>
+		<td class="expl">
+			<?php echo($explanation_entry_limit); ?>
+		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_columns; ?></td>
@@ -48,18 +54,30 @@
 			      <?php }?>
 				<?php }?> 
 			  </select></td>
+		<td class="expl">
+			<?php echo($explanation_entry_columns); ?>
+		</td>
 			</tr>
             <tr>
               <td class="set"><?php echo $entry_total; ?></td>
               <td><input type="text" name="catalog_popular_total" value="<?php echo $catalog_popular_total; ?>" size="3"></td>
+		<td class="expl">
+			<?php echo($explanation_entry_total); ?>
+		</td>
             </tr>			
 			<tr>
 			  <td class="set"><?php echo $entry_height; ?></td>
 			  <td><input type="text" name="catalog_popular_image_height" value="<?php echo $catalog_popular_image_height; ?>" size="3"></td>
+		<td class="expl">
+			<?php echo($explanation_entry_height); ?>
+		</td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_width; ?></td>
 			  <td><input type="text" name="catalog_popular_image_width" value="<?php echo $catalog_popular_image_width; ?>" size="3"></td>
+		<td class="expl">
+			<?php echo($explanation_entry_width); ?>
+		</td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_image_display;?></td>
@@ -72,6 +90,9 @@
 			      <?php }?>
 				<?php }?> 
 			  </select></td>
+		<td class="expl">
+			<?php echo($explanation_entry_image_display); ?>
+		</td>
 			</tr>
             <tr>
               <td class="set"><?php echo $entry_addtocart; ?></td>
@@ -84,25 +105,32 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
+		<td class="expl">
+			<?php echo($explanation_entry_addtocart); ?>
+		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_single; ?></td>
               <td><input type="text" name="catalog_popular_lines_single" value="<?php echo $catalog_popular_lines_single; ?>" size="1" /></td>
+		<td class="expl">
+			<?php echo($explanation_entry_lines_single); ?>
+		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_multi; ?></td>
               <td><input type="text" name="catalog_popular_lines_multi" value="<?php echo $catalog_popular_lines_multi; ?>" size="1" /></td>
+		<td class="expl">
+			<?php echo($explanation_entry_lines_multi); ?>
+		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_char; ?></td>
               <td><input type="text" name="catalog_popular_lines_char" value="<?php echo $catalog_popular_lines_char; ?>" size="3" /></td>
+		<td class="expl">
+			<?php echo($explanation_entry_char); ?>
+		</td>
             </tr>
           </table>
-		  <table>
-		    <tr><td style="width: 100px;"></td><td class="expl">
-			  <?php echo $text_instruction;?>
-			</td></tr>
-		  </table>
         </div>
       </div>
     </div>

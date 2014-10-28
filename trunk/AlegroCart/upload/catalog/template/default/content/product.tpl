@@ -80,14 +80,15 @@
 	<?php }?>
 	</div>
   <?php }?>
-  <div class="adesc">
-   <?php if(isset($alt_description)){ echo $alt_description;} ?>
-  </div>
+   <?php if(isset($alt_description)){?>
+	<div class="adesc"><?php echo $alt_description; ?></div>
+   <?php }?>
   <div class="shipping">
     <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } elseif(!$downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
 	<?php if ($downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
 	<span><?php echo $text_downloadable;?></span>
 	<?php }?>
+<?php if ($shipping_time) { ?><div><?php echo $text_shipping_time;?></div><?php }?>
   </div>
    <?php if (!$product_options) { ?>
   <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" name="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" value="<?php echo ($product['cart_level'] ? $product['cart_level'] : 0); ?>">

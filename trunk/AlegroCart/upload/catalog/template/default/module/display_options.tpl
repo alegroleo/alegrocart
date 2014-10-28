@@ -75,8 +75,8 @@
 		</td>
 	  </tr>
 	</table>
-	<?php }?>
 	<div class="divider"></div>
+	<?php }?>
 	<?php if($this_controller == 'search'){ ?>
      <input type="hidden" name="description" value="<?php echo $description;?>"<?php if($description == "on"){?> CHECKED<?php }?>>
 	<?php }?>

@@ -41,12 +41,13 @@
 	</div>	
     <?php } ?>	
 	  
-	<?php if ($product['options']) { ?>	
+	<?php if ($product['options']) { ?>
 	  <div class="product_total">
 	   	<?php echo $price_with_options;
 			$product_total = number_format($product_total,$decimal_place,$decimal_point,''); ?>
+		<span><?php echo $symbol_left;?></span>
 		<span id="product_with_options_<?php echo $product['product_id']; ?>"><?php echo $product_total;?></span>
-		<?php echo $symbol_right;?>
+		<span><?php echo $symbol_right;?></span>
 	  </div>
 	<?php } ?>		
 <!--  End Product Options -->

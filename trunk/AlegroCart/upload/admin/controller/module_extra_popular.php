@@ -2,24 +2,24 @@
 class ControllerModuleExtraPopular extends Controller {
 	var $error = array(); // All References change to module_extra_ due to new module loader 
 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
 		$this->modelPopular = $model->get('model_admin_popular');
-		
+
 		$this->language->load('controller/module_extra_popular.php');
 	}
-	
+
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -27,23 +27,22 @@ class ControllerModuleExtraPopular extends Controller {
 			$this->modelPopular->delete_popular();
 			$this->modelPopular->update_popular();
 			$this->session->set('message', $this->language->get('text_message'));
-			
+
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 		}
-		
+
 		$view = $this->locator->create('template');
-		
+
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_module', $this->language->get('heading_module'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
-		$view->set('text_instruction', $this->language->get('text_instruction'));
-		
+
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_limit', $this->language->get('entry_limit'));
-		$view->set('entry_height', $this->language->get('entry_height'));		
+		$view->set('entry_height', $this->language->get('entry_height'));
 		$view->set('entry_width', $this->language->get('entry_width'));
 		$view->set('entry_addtocart', $this->language->get('entry_addtocart'));
 		$view->set('entry_total', $this->language->get('entry_total'));
@@ -52,7 +51,7 @@ class ControllerModuleExtraPopular extends Controller {
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
-		
+
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -61,6 +60,18 @@ class ControllerModuleExtraPopular extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 
+		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
+		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
+		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
+		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
+		$view->set('explanation_entry_total', $this->language->get('explanation_entry_total'));
+		$view->set('explanation_entry_image_display', $this->language->get('explanation_entry_image_display'));
+		$view->set('explanation_entry_addtocart', $this->language->get('explanation_entry_addtocart'));
+		$view->set('explanation_entry_columns', $this->language->get('explanation_entry_columns'));
+		$view->set('explanation_entry_lines_single', $this->language->get('explanation_entry_lines_single'));
+		$view->set('explanation_entry_lines_multi', $this->language->get('explanation_entry_lines_multi'));
+		$view->set('explanation_entry_char', $this->language->get('explanation_entry_char'));
+
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -68,12 +79,12 @@ class ControllerModuleExtraPopular extends Controller {
 		$view->set('action', $this->url->ssl('module_extra_popular'));
 		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
-		
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
 		$view->set('column_data', array(1,2,3,4,5));
 		$view->set('image_displays',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 
@@ -94,7 +105,7 @@ class ControllerModuleExtraPopular extends Controller {
 		} else {
 			$view->set('catalog_popular_limit', @$setting_info['catalog']['popular_limit']);
 		}
-		
+
 		if ($this->request->has('catalog_popular_total', 'post')) {
 			$view->set('catalog_popular_total', $this->request->gethtml('catalog_popular_total', 'post'));
 		} else {
@@ -140,7 +151,7 @@ class ControllerModuleExtraPopular extends Controller {
 		} else {
 			$view->set('catalog_popular_lines_char', @$setting_info['catalog']['popular_lines_char']);
 		}
-		
+
 		$this->template->set('content', $view->fetch('content/module_extra_popular.tpl'));
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));

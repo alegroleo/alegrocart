@@ -33,9 +33,6 @@ if (isset($products)) {
 	echo '<div class="heading"><h2>' . $heading_title . $heading_info . '</h2></div>';
     include $shared_path . 'single_column.tpl';
   }
-  
-} else { 
-   echo '<p>' . $text_notfound . '</p>'; 
 }
 echo '<br>';
  ?>

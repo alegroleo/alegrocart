@@ -112,6 +112,11 @@
 	text-align: left;
 	padding-top: 5px;
 }
+.pbox .price{
+	padding-bottom: 5px;
+	text-align: left;
+	padding-top: 5px;
+}
 .pheading {
 	font-size: 12px;
 	font-weight: 600;

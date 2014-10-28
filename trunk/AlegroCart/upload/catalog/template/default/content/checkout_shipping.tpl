@@ -62,17 +62,14 @@
     <div class="c"><?php echo $text_shipping_method; ?></div>
     <div class="d"><?php echo $text_shipping_methods; ?>
         <?php foreach ($methods as $method) { ?>
-		<?php if($method['quote'][key($method['quote'])]['id'] == $default){?>
-		<table class="default_method">
-		<?php } else {?>
-		<table class="method">
-		<?php }?>
+	<table class="method">
+	<tbody>
         <tr>
           <td class="g" colspan="2"><b><?php echo $method['title']; ?></b></td>
         </tr>
       <?php if (!$method['error']) { ?>
         <?php foreach ($method['quote'] as $quote) { ?>
-		  <?php if(isset($quote['error']) && @$quote['error']){?>
+		  <?php if (isset($quote['error']) && !empty($quote['error'])) {?>
 		    <tr>
               <td colspan="2" class="g"><div class="warning"><?php echo $quote['error']; ?></div></td>
             </tr>
@@ -80,7 +77,7 @@
 			<tr>
 			  <td class="g"><label for="<?php echo $quote['id']; ?>">
               <?php if ($quote['id'] == $default) { ?>
-                <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>" CHECKED>
+                <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>" checked="checked">
               <?php } else { ?>
                 <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>">
               <?php } ?>
@@ -88,7 +85,7 @@
               <td class="i"><label for="<?php echo $quote['id']; ?>"><?php echo $quote['text']; ?></label></td>
 		      <input type="hidden" name="<?php echo $quote['id']; ?>_quote" value="<?php echo $quote['text']; ?>">
           </tr>
-		   <?php if(isset($quote['shipping_form']) ){ echo $quote['shipping_form'];}?>
+		   <?php if (isset($quote['shipping_form'])){ echo $quote['shipping_form']; }?>
 		  <?php }?>
         <?php } ?>
         <?php } else { ?>
@@ -96,7 +93,8 @@
             <td colspan="2" class="g"><div class="warning"><?php echo $method['error']; ?></div></td>
           </tr>
         <?php } ?>
-		</table>
+	</tbody>
+	</table>
         <?php } ?>
     </div>
     <?php } ?>
@@ -136,5 +134,14 @@ $("#back, #change_address").on("click", function(){
 				}
 			}
 	});
+});
+//--></script>
+  <script type="text/javascript">
+	$('input[name="shipping"][checked="checked"]').closest('table').attr('class', 'default_method');
+//--></script>
+  <script type="text/javascript">
+	$('input[name="shipping"]').on("click", function(){
+		$('input[name="shipping"]').closest('table').removeClass('default_method').addClass('method');
+		$(this).closest('table').attr('class', 'default_method');
 });
 //--></script>

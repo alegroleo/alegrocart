@@ -1427,3 +1427,9 @@ ALTER TABLE `product` ADD `multiple` int(4) NOT NULL default '0' After `max_qty`
 #
 ALTER TABLE `language`
 ADD `language_status` int(1) NOT NULL default '1' AFTER `language_id`;
+
+#
+#Add Shipping Time
+#
+ALTER TABLE `product` ADD `shipping_time_to` int(2) NOT NULL default '4' After `shipping`;
+ALTER TABLE `product` ADD `shipping_time_from` int(2) NOT NULL default '2' After `shipping`;

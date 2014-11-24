@@ -22,7 +22,6 @@ class ModuleBestseller extends Controller {
 
 		$language->load('extension/module/bestseller.php');
 		$view = $this->locator->create('template');
-		$view->set('heading_title', $language->get('heading_title'));
 			$view->set('onhand', $language->get('onhand'));
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('tax_included', $config->get('config_tax'));
@@ -67,7 +66,19 @@ class ModuleBestseller extends Controller {
 			$view->set('thousand_point', $language->get('thousand_point'));
 			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency
 
-			$results = $this->modelProducts->get_bestseller($bestseller_total);
+			$heading = $language->get('heading_title');
+			if ($config->get('bestseller_trendingdays') == 0) {
+				$results = $this->modelProducts->get_bestseller($bestseller_total);
+			} else {
+				$results = $this->modelProducts->get_trending($bestseller_total, $config->get('bestseller_trendingdays'));
+				if (empty($results)) {
+					$results = $this->modelProducts->get_bestseller($bestseller_total);
+				} else {
+					$heading = $language->get('heading_title_trending');
+				}
+			}
+			$view->set('heading_title', $heading);
+
 			$product_data = array();
 			foreach ($results as $result) {
 					$days_remaining = ''; //***

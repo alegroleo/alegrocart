@@ -1,14 +1,15 @@
 <?php
 // Heading
-$_['heading_title']       = 'Bestseller Product';
+$_['heading_title']       = 'Bestseller/Trending Product';
 $_['heading_module']      = 'Module:';
-$_['heading_description'] = 'You can edit bestseller product module details here.';
+$_['heading_description'] = 'You can edit bestseller/trending product module details here.';
 
 // Text
-$_['text_message']        = 'Success: You have updated bestseller product module!';
+$_['text_message']        = 'Success: You have updated bestseller/trending product module!';
 
 // Entry
 $_['entry_status']        = 'Status:';
+$_['entry_trending_days'] = 'Trending Days:';
 $_['entry_limit']         = 'Display Limit:';
 $_['entry_height']        = 'Image Height:';
 $_['entry_width']         = 'Image Width:';
@@ -22,6 +23,7 @@ $_['entry_lines_char']    = 'Number of characters for Multiple Column:';
 
 // Explanation
 $_['explanation_entry_status']		= '';
+$_['explanation_entry_trending_days']	= 'Set 0 for Bestseller.';
 $_['explanation_entry_limit']		= 'Number of records to display (should be a multiple of columns).';
 $_['explanation_entry_height']		= '';
 $_['explanation_entry_width']		= '';
@@ -34,5 +36,5 @@ $_['explanation_entry_lines_multi']	= 'Sets how many description lines are displ
 $_['explanation_entry_char']		= 'Sets how many description characters are displayed if number of display columns is 4 or 5. 0 will hide description. Default number of characters is 108.';
 
 // Error
-$_['error_permission']    = 'Warning: You do not have permission to modify bestseller product module';
+$_['error_permission']    = 'Warning: You do not have permission to modify bestseller/trending product module';
 ?>

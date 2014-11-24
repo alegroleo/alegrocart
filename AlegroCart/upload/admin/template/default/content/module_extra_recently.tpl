@@ -23,8 +23,8 @@
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_status; ?></td>
-              <td><select name="catalog_related_status">
-                  <?php if ($catalog_related_status) { ?>
+              <td><select name="catalog_recently_status">
+                  <?php if ($catalog_recently_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
                   <option value="0"><?php echo $text_disabled; ?></option>
                   <?php } else { ?>
@@ -38,16 +38,16 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_limit; ?></td>
-              <td><input type="text" name="catalog_related_limit" value="<?php echo $catalog_related_limit; ?>" size="1" /></td>
+              <td><input type="text" name="catalog_recently_limit" value="<?php echo $catalog_recently_limit; ?>" size="1" /></td>
 		<td class="expl">
 			<?php echo($explanation_entry_limit); ?>
 		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_columns; ?></td>
-              <td><select name="catalog_related_columns">
+              <td><select name="catalog_recently_columns">
 				<?php foreach($column_data as $column){?>
-				  <?php if($column == $catalog_related_columns){?>
+				  <?php if($column == $catalog_recently_columns){?>
 				    <option value="<?php echo $column;?>" selected><?php echo $column;?></option>
 				  <?php } else {?>
 				    <option value="<?php echo $column;?>"><?php echo $column;?></option>
@@ -60,23 +60,23 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_height; ?></td>
-			  <td><input type="text" name="catalog_related_image_height" value="<?php echo $catalog_related_image_height; ?>" size="3"></td>
+			  <td><input type="text" name="catalog_recently_image_height" value="<?php echo $catalog_recently_image_height; ?>" size="3"></td>
 		<td class="expl">
 			<?php echo($explanation_entry_height); ?>
 		</td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_width; ?></td>
-			  <td><input type="text" name="catalog_related_image_width" value="<?php echo $catalog_related_image_width; ?>" size="3"></td>
+			  <td><input type="text" name="catalog_recently_image_width" value="<?php echo $catalog_recently_image_width; ?>" size="3"></td>
 		<td class="expl">
 			<?php echo($explanation_entry_width); ?>
 		</td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_image_display;?></td>
-				<td><select name="catalog_related_image_display">
+				<td><select name="catalog_recently_image_display">
 				<?php foreach($image_displays as $image_display){?>
-				  <?php if($image_display == $catalog_related_image_display){?>
+				  <?php if($image_display == $catalog_recently_image_display){?>
 				    <option value="<?php echo $image_display;?>" selected><?php echo $image_display;?></option>
 				  <?php } else {?>
 				    <option value="<?php echo $image_display;?>"><?php echo $image_display;?></option>
@@ -89,8 +89,8 @@
 			</tr>
             <tr>
               <td class="set"><?php echo $entry_addtocart; ?></td>
-              <td><select name="catalog_related_addtocart">
-                  <?php if ($catalog_related_addtocart) { ?>
+              <td><select name="catalog_recently_addtocart">
+                  <?php if ($catalog_recently_addtocart) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
                   <option value="0"><?php echo $text_disabled; ?></option>
                   <?php } else { ?>
@@ -104,21 +104,21 @@
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_single; ?></td>
-              <td><input type="text" name="catalog_related_lines_single" value="<?php echo $catalog_related_lines_single; ?>" size="1" /></td>
+              <td><input type="text" name="catalog_recently_lines_single" value="<?php echo $catalog_recently_lines_single; ?>" size="1" /></td>
 		<td class="expl">
 			<?php echo($explanation_entry_lines_single); ?>
 		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_multi; ?></td>
-              <td><input type="text" name="catalog_related_lines_multi" value="<?php echo $catalog_related_lines_multi; ?>" size="1" /></td>
+              <td><input type="text" name="catalog_recently_lines_multi" value="<?php echo $catalog_recently_lines_multi; ?>" size="1" /></td>
 		<td class="expl">
 			<?php echo($explanation_entry_lines_multi); ?>
 		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_char; ?></td>
-              <td><input type="text" name="catalog_related_lines_char" value="<?php echo $catalog_related_lines_char; ?>" size="3" /></td>
+              <td><input type="text" name="catalog_recently_lines_char" value="<?php echo $catalog_recently_lines_char; ?>" size="3" /></td>
 		<td class="expl">
 			<?php echo($explanation_entry_char); ?>
 		</td>

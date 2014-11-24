@@ -12,9 +12,10 @@ class Model_Admin_Bestseller extends Model {
 	}
 	function install_bestseller(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_status', value = '1'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_trendingdays', value = '0'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_limit', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_image_width', value = '160'");
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_image_height', value = '160'");	
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_image_height', value = '160'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_addtocart', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_total', value = '10'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_columns', value = '1'");
@@ -25,6 +26,7 @@ class Model_Admin_Bestseller extends Model {
 	}
 	function update_bestseller(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_status', `value` = '" . $this->request->gethtml('catalog_bestseller_status', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_trendingdays', `value` = '" . $this->request->gethtml('catalog_bestseller_trendingdays', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_limit', `value` = '" . $this->request->gethtml('catalog_bestseller_limit', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_image_width', `value` = '" . $this->request->gethtml('catalog_bestseller_image_width', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_image_height', `value` = '" . $this->request->gethtml('catalog_bestseller_image_height', 'post') . "'");

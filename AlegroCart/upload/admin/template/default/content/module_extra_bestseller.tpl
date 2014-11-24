@@ -37,6 +37,13 @@
 		</td>
             </tr>
             <tr>
+              <td class="set"><?php echo $entry_trending_days; ?></td>
+              <td><input type="text" name="catalog_bestseller_trendingdays" value="<?php echo $catalog_bestseller_trendingdays; ?>" size="1"></td>
+		<td class="expl">
+			<?php echo($explanation_entry_trending_days); ?>
+		</td>
+            </tr>
+            <tr>
               <td class="set"><?php echo $entry_limit; ?></td>
               <td><input type="text" name="catalog_bestseller_limit" value="<?php echo $catalog_bestseller_limit; ?>" size="1"></td>
 		<td class="expl">

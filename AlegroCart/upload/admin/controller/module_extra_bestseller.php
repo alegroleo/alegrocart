@@ -41,6 +41,7 @@ class ControllerModuleExtraBestseller extends Controller {
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 
 		$view->set('entry_status', $this->language->get('entry_status'));
+		$view->set('entry_trending_days', $this->language->get('entry_trending_days'));
 		$view->set('entry_limit', $this->language->get('entry_limit'));
 		$view->set('entry_height', $this->language->get('entry_height'));
 		$view->set('entry_width', $this->language->get('entry_width'));
@@ -61,6 +62,7 @@ class ControllerModuleExtraBestseller extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
+		$view->set('explanation_entry_trending_days', $this->language->get('explanation_entry_trending_days'));
 		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
 		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
 		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
@@ -99,6 +101,11 @@ class ControllerModuleExtraBestseller extends Controller {
 			$view->set('catalog_bestseller_status', $this->request->gethtml('catalog_bestseller_status', 'post'));
 		} else {
 			$view->set('catalog_bestseller_status', @$setting_info['catalog']['bestseller_status']);
+		}
+		if ($this->request->has('catalog_bestseller_trendingdays', 'post')) {
+			$view->set('catalog_bestseller_trendingdays', $this->request->gethtml('catalog_bestseller_trendingdays', 'post'));
+		} else {
+			$view->set('catalog_bestseller_trendingdays', @$setting_info['catalog']['bestseller_trendingdays']);
 		}
 		if ($this->request->has('catalog_bestseller_limit', 'post')) {
 			$view->set('catalog_bestseller_limit', $this->request->gethtml('catalog_bestseller_limit', 'post'));

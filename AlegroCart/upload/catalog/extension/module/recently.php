@@ -1,5 +1,5 @@
-<?php  // Related Products AlegroCart
-class ModuleRelated extends Controller {
+<?php  // Recently Viewed Products AlegroCart
+class ModuleRecently extends Controller {
 		var $remaining = false;
 		var $discounted = false;
 	function fetch() {
@@ -14,37 +14,38 @@ class ModuleRelated extends Controller {
 		$request		=& $this->locator->get('request');
 		$template		=& $this->locator->get('template');
 		$rand			=& $this->locator->get('randomnumber');
+		$session		=& $this->locator->get('session');
 		$head_def		=& $this->locator->get('HeaderDefinition');
 		$this->modelProducts	= $this->model->get('model_products');
 		$this->modelCore	= $this->model->get('model_core');
 		require_once('library/application/string_modify.php');
-		if ($config->get('related_status')) {
+		if ($config->get('recently_status')) {
 
-		$language->load('extension/module/related.php');
+		$language->load('extension/module/recently.php');
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $language->get('heading_title'));
 			$view->set('onhand', $language->get('onhand'));
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('tax_included', $config->get('config_tax'));
 
-		if ($config->get('related_limit') == '0') {
+		if ($config->get('recently_limit') == '0') {
 			$limit = '';
 		} else {
-			$limit = (int)$config->get('related_limit');
+			$limit = (int)$config->get('recently_limit');
 		}
 
 			$controller = $this->modelCore->controller; // Template Manager 
-			$location = $this->modelCore->module_location['related']; // Template Manager 
-			$columns = $config->get('related_columns');
+			$location = $this->modelCore->module_location['recently']; // Template Manager 
+			$columns = $config->get('recently_columns');
 			if($columns == 1 && $location == 'content'){
-				$image_width = $config->get('related_image_width');
-				$image_height = $config->get('related_image_height');
+				$image_width = $config->get('recently_image_width');
+				$image_height = $config->get('recently_image_height');
 			} else if ($columns <= 3){
-				$image_width = $config->get('related_image_width') <= 175 ? $config->get('related_image_width') : 175;
-				$image_height = $config->get('related_image_height') <= 175 ? $config->get('related_image_height') : 175;
+				$image_width = $config->get('recently_image_width') <= 175 ? $config->get('recently_image_width') : 175;
+				$image_height = $config->get('recently_image_height') <= 175 ? $config->get('recently_image_height') : 175;
 			} else {
-				$image_width = $config->get('related_image_width') <= 140 ? $config->get('related_image_width') : 140;
-				$image_height = $config->get('related_image_height') <= 140 ? $config->get('related_image_height') : 140;
+				$image_width = $config->get('recently_image_width') <= 140 ? $config->get('recently_image_width') : 140;
+				$image_height = $config->get('recently_image_height') <= 140 ? $config->get('recently_image_height') : 140;
 			}
 
 			$view->set('discount_options', $config->get('config_discount_options')); //****
@@ -60,7 +61,18 @@ class ModuleRelated extends Controller {
 			$view->set('thousand_point', $language->get('thousand_point'));
 			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency
 
-			$results = $this->modelProducts->get_related((int)$request->gethtml('product_id'));
+			if (!$session->has('recently')) {
+				return;
+			} else {
+				$recently = ($session->get('recently'));
+				if (count($recently) <= $limit) {
+					$recently = $recently;
+				} else {
+					$recently = array_slice($recently, -$limit, $limit); 
+				}
+			}
+			$results = $this->modelProducts->get_recently(array_reverse($recently));
+
 		$product_data = array();
 
 		foreach ($results as $result) {
@@ -80,7 +92,7 @@ class ModuleRelated extends Controller {
 					$vendor_name = NULL;
 				}
 				if ($location == 'content' && $columns == 1) {
-					$desc = formatedstring($result['description'],$config->get('related_lines_single'));
+					$desc = formatedstring($result['description'],$config->get('recently_lines_single'));
 					// Product Discounts
 					$discounts = $this->modelProducts->get_product_discount($result['product_id']);
 					$product_discounts = array();
@@ -102,18 +114,18 @@ class ModuleRelated extends Controller {
 					$product_options = $this->modelProducts->get_product_with_options($result['product_id'], $image_width, $image_height);
 				} else if ($columns >3) {
 					if ($result['alt_description']){
-						$desc = strippedstring($result['alt_description'],$config->get('related_lines_char'));
+						$desc = strippedstring($result['alt_description'],$config->get('recently_lines_char'));
 					} else {
-						$desc = strippedstring($result['description'],$config->get('related_lines_char'));
+						$desc = strippedstring($result['description'],$config->get('recently_lines_char'));
 					}
 					$product_discounts = '';
 					$options = $this->modelProducts->get_option_names($result['product_id']);
 					$product_options = FALSE;
 				} else {
 					if ($result['alt_description']){
-						$desc = formatedstring($result['alt_description'],$config->get('related_lines_multi'));
+						$desc = formatedstring($result['alt_description'],$config->get('recently_lines_multi'));
 					} else {
-						$desc = formatedstring($result['description'],$config->get('related_lines_multi'));
+						$desc = formatedstring($result['description'],$config->get('recently_lines_multi'));
 					}
 					$product_discounts = '';
 					$options = $this->modelProducts->get_option_names($result['product_id']);
@@ -144,29 +156,11 @@ class ModuleRelated extends Controller {
 				'vendor_name'		=> $vendor_name
 			);
 		}
-
-			$maxrow = count($product_data)-1;
 			if ($product_data) {
-				if ($maxrow < $limit){
-					$view->set('products', $product_data);
-				} else {
-					$I = 0;
-					while ($I < $limit){
-						$rand->uRand(0,$maxrow);
-						$I ++;
-					}
-					$I = 0;
-					$product_rand = array();
-					foreach ($rand->RandomNumbers as $mykey){
-						$product_rand[$I] = $product_data[$mykey];
-						$I ++;
-					}
-					$view->set('products', $product_rand);
-				}
+				$view->set('products', $product_data);
 			} else {
 				return;
 			}
-			$rand->clearrand();
 
 			$view->set('show_stock', $config->get('config_show_stock'));
 			$view->set('show_stock_icon',$config->get('config_show_stock_icon'));
@@ -182,7 +176,7 @@ class ModuleRelated extends Controller {
 			$view->set('regular_price', $language->get('regular_price'));
 			$view->set('sale_price', $language->get('sale_price'));
 			$view->set('head_def',$head_def);
-			$view->set('image_display', $config->get('related_image_display'));
+			$view->set('image_display', $config->get('recently_image_display'));
 			$view->set('location', $location);
 			$view->set('columns', $columns);
 			$view->set('remaining', $this->remaining);
@@ -192,8 +186,8 @@ class ModuleRelated extends Controller {
 			$template->set('head_def',$head_def);
 			$view->set('add_enable',TRUE);
 			$view->set('text_enlarge', $language->get('text_enlarge'));
-			$view->set('this_controller', 'related');
-			$view->set('addtocart',$config->get('related_addtocart'));
+			$view->set('this_controller', 'recently');
+			$view->set('addtocart',$config->get('recently_addtocart'));
 
 			if ($location == 'content'){
 				return $view->fetch('module/module_content.tpl');

@@ -16,5 +16,5 @@ $_['entry_product_count_page'] = 'Product Count on Category Page:';
 $_['error_permission']    = 'Warning: You do not have permission to modify module category';
 
 //Explanations
-$_['explanation_product_count']  = 'If enabled, the sum of the products assiciated with the category will be displayed next to the category name.';
+$_['explanation_product_count']  = 'If enabled, the sum of the products associated with the category will be displayed next to the category name.';
 ?>

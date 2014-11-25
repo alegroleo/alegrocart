@@ -16,6 +16,7 @@ class ModuleSearchOptions extends Controller{
 
 		if(!$config->get('search_options_status')){ RETURN;};
     	$language->load('extension/module/searchoptions.php');
+		
 		if (!$session->get('search.search')) return;
 	   	$view = $this->locator->create('template');
 		$view->set('heading_title', $language->get('heading_title'));
@@ -32,7 +33,7 @@ class ModuleSearchOptions extends Controller{
 		$view->set('options_manufacturer', $config->get('options_manufacturer'));
 		$view->set('options_model', $config->get('options_model'));
 		
-		$search = wildcardsearch($session->get('search.search'));		
+		$search = wildcardsearch($session->get('search.search'),$language);		
 		$description = $session->get('search.description');
 		$view->set('description', $description);
 		if ($description == "on"){

@@ -74,7 +74,7 @@ class ControllerCheckoutConfirm extends Controller {
 
 	$this->template->set('title', $this->language->get('heading_title')); 
 
-		if (($this->request->isPost()) && ($this->validate()) && $this->request->has('agreed')) {
+		if ($this->request->isPost() && $this->validate() && $this->request->has('coupon', 'post')) {
 			$this->session->set('message', $this->language->get('text_coupon'));
 			$this->response->redirect($this->url->ssl('checkout_confirm'));
 		}

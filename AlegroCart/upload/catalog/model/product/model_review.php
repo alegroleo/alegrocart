@@ -28,7 +28,7 @@ class Model_Review extends Model {
 		return $results;
 	}
 	function get_review(){
-		$result = $this->database->getRow("select r.review_id, r.rating1, r.rating2, r.rating3, r.rating4, r.text, p.product_id, pd.name, i.filename from review r left join product p on(r.product_id = p.product_id) left join product_description pd on(p.product_id = pd.product_id) left join image i on(p.image_id = i.image_id) where p.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1' and r.status = '1' order by rand() limit 1");
+		$result = $this->database->getRow("select r.review_id, r.rating1, r.rating2, r.rating3, r.rating4, r.text, p.product_id, pd.name, i.filename from review r left join product p on(r.product_id = p.product_id) left join product_description pd on(p.product_id = pd.product_id) left join image i on(p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1' and r.status = '1' order by rand() limit 1");
 		return $result;
 	}
 	function get_text_results(){

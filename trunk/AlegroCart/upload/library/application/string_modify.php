@@ -1,12 +1,12 @@
 <?php
 
-function wildcardsearch ($searchstring){
+function wildcardsearch ($searchstring,$language){
 	$searchstring = trim($searchstring);
-	If (strpos($searchstring,'%') !== 0) {
-		If ((strlen($searchstring) > 1) && ($searchstring != "Keywords")){
+	if (strpos($searchstring,'%') !== 0) {
+		if ((strlen($searchstring) > 1) && ($searchstring != $language->get('text_keywords'))){
 			$wildstring = implode('%%',array_slice(preg_split('#\s#',$searchstring),0));
 			$wildstring = "%$wildstring%";}
-		else{$wildstring = "Re-enter Keywords";}
+		else{$wildstring = $language->get('text_keywords');}
 	} else {
 		$wildstring = $searchstring;}
 	return $wildstring;
@@ -15,7 +15,7 @@ function wildcardsearch ($searchstring){
 function cleansearch ($searchstring){
 	$searchstring = trim($searchstring);
 	//$searchstring = html_entity_decode($searchstring);
-	If (strpos($searchstring,'%') === 0){
+	if (strpos($searchstring,'%') === 0){
 		$cleanstring = implode(' ',array_slice(preg_split('#%%#',$searchstring),0));
 		$cleanstring = substr($cleanstring,1,strlen($cleanstring)-2);
 	}else{ $cleanstring = $searchstring;

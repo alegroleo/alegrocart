@@ -1446,3 +1446,29 @@ SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_recently';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
 (@id, @lid, 'Catalog Recently Viewed', 'Display Recently Viewed Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+#Add Top Rated Module 
+#
+SET @lid=1;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_toprated';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(@id, 'toprated', 'module', 'module', 'toprated.php', 'module_extra_toprated') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_toprated';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog Top Rated', 'Display Top Rated Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+#Add Also Bought Module 
+#
+SET @lid=1;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_alsobought';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(@id, 'alsobought', 'module', 'module', 'alsobought.php', 'module_extra_alsobought') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_alsobought';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog Also Bought', 'Display Also Bought Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;

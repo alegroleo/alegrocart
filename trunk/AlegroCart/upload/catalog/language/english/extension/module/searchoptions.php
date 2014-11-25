@@ -13,6 +13,7 @@ $_['text_manufacturer_all'] = "All Manufacturers";
 $_['text_manufacturer']     = "Filter by Manufacturer";
 $_['text_model']         = 'Filter by Model';
 $_['text_all']           = 'Select All models';
+$_['text_keywords']      = 'Keywords';
 
 // Entry
 $_['entry_number']      = 'Item Number';

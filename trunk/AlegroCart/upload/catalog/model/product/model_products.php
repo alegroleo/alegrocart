@@ -22,6 +22,29 @@ class Model_Products extends Model {
 		$results = $this->database->getRows("SELECT product.*, order_product.order_product_id, order_product.order_id, SUM(order_product.quantity) as TotalOrdered, product_description.*, image.*, order.date_added FROM product, order_product, order_history, product_description, image, `order` WHERE product.product_id = product_description.product_id AND product_description.name = order_product.name AND product.image_id = image.image_id AND order.order_id = order_product.order_id AND product.status ='1' AND product_description.language_id = '" . (int)$this->language->getId() . "' AND order.date_added >= now() - INTERVAL ".$trending_days." DAY GROUP BY order_product.name ORDER BY TotalOrdered DESC". $trending_total);
 		return $results;
 	}
+	function get_alsobought($alsobought_products){
+		$results = array();
+		foreach ($alsobought_products as $alsobought_product) {
+			$results[] = $this->getRow_product((int)$alsobought_product);
+		}
+		return $results;
+	}
+	function get_affected($product_id) {
+		$results = $this->database->getRows("SELECT order_id FROM `order_product` WHERE `product_id` ='".(int)$product_id."' ORDER BY RAND()");
+		return $results;
+	}
+	function get_multiple() {
+		$results = $this->database->getRows("SELECT order_id FROM order_product GROUP BY order_id HAVING count( product_id ) >1 ORDER BY RAND()");
+		return $results;
+	}
+	function get_alsoboughtProducts($order_id, $product_id) {
+		$results = $this->database->getRows("SELECT op.product_id FROM `order_product` op LEFT JOIN product p ON (op.product_id=p.product_id) WHERE op.order_id ='".(int)$order_id."' and op.product_id !='".(int)$product_id."' and p.status='1'");
+		return $results;
+	}
+	function get_toprated($rating, $toprated_total){
+		$results = $this->database->getRows("SELECT * FROM `product` p LEFT JOIN product_description pd ON (p.product_id = pd.product_id) LEFT JOIN image i ON (p.image_id = i.image_id) LEFT JOIN review r ON (p.product_id = r.product_id) WHERE r.`status` =1 AND p.status =1 AND pd.language_id = '" . (int)$this->language->getId() . "' AND p.date_available <= now() GROUP BY r.`product_id` HAVING ((avg(r.`rating1`) + avg(r.`rating2`) + avg(r.`rating3`) + avg(r.`rating4`))/4) >=".$rating."ORDER BY rand()".$toprated_total);
+		return $results;
+	}
 	function get_popular($popular_total){
 		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available <= now() order by viewed DESC" . $popular_total);
 		return $results;

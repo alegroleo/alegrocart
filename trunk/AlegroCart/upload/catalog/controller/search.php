@@ -34,7 +34,7 @@ class ControllerSearch extends Controller {
 		//pagination
 	$session->set('search.page', $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
 	$language->load('controller/search.php');
-
+	
 		$this->template->set('title', $language->get('heading_title'));
 
 	$view = $this->locator->create('template');
@@ -162,7 +162,7 @@ class ControllerSearch extends Controller {
 		$view->set('default_order', $default_order);
 		$view->set('default_filter', $default_filter);
 
-		$search = wildcardsearch($session->get('search.search'));
+		$search = wildcardsearch($session->get('search.search'),$language);
 		$view->set('search', $search);
 		$description = $session->get('search.description');
 		$view->set('description', $description);
@@ -384,7 +384,7 @@ class ControllerSearch extends Controller {
 		
 		$text_all = $language->get('text_all');
 		$text_model = $language->get('text_model');
-		$search = wildcardsearch($session->get('search.search'));
+		$search = wildcardsearch($session->get('search.search'),$language);
 		$description = $session->get('search.description');
 		if ($description == "on"){
 			$description_sql = "or pd.description like ";
@@ -395,7 +395,7 @@ class ControllerSearch extends Controller {
 		}
 		$manufacturer_id = (int)substr($request->gethtml('manufacturer'),0,strpos($request->gethtml('manufacturer'),"*_*"));
 		$model = substr($session->get('search.model'),0,strpos($session->get('search.model'),"*_*"));
-		$search = wildcardsearch($session->get('search.search'));
+		$search = wildcardsearch($session->get('search.search'),$language);
 		if ($manufacturer_id > 0){
 			$manufacturer_sql = " and p.manufacturer_id = ";
 			$manufacturer_filter = "'".$manufacturer_id."'";

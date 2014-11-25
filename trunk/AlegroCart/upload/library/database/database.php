@@ -1,6 +1,6 @@
 <?php
 
-define('E_DB_CONN','Error: Could not make a database connection. Error: %s<br />Error No: %s<br />%s');
+define('E_DB_CONN','Error: Could not make a database connection. Error: %s<br />Error No: %s<br />');
 define('E_DB_QUERY','Error: %s<br />Error No: %s<br />%s');
 
 class Database {

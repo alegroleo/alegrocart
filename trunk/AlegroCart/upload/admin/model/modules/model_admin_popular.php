@@ -19,6 +19,7 @@ class Model_Admin_Popular extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_total', value = '10'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_columns', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_image_display', value = 'image_link'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_ratings', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_lines_single', value = '6'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_lines_char', value = '108'");
@@ -32,6 +33,7 @@ class Model_Admin_Popular extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_total', `value` = '" . $this->request->gethtml('catalog_popular_total', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_columns', `value` = '" . $this->request->gethtml('catalog_popular_columns', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_image_display', `value` = '" . $this->request->gethtml('catalog_popular_image_display', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_ratings', `value` = '" . $this->request->gethtml('catalog_popular_ratings', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_lines_single', `value` = '" . $this->request->gethtml('catalog_popular_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_lines_multi', `value` = '" . $this->request->gethtml('catalog_popular_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'popular', `key` = 'popular_lines_char', `value` = '" . $this->request->gethtml('catalog_popular_lines_char', 'post') . "'");

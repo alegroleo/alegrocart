@@ -142,6 +142,7 @@ class ControllerUrlAlias extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('text_generate_explanation', $this->language->get('text_generate_explanation'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));

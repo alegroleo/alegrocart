@@ -50,6 +50,9 @@
 	  }?> 
   </div>
   <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
+	<?php if (isset($product['average_rating'])) { ?>
+    <div><img src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
+	<?php } ?>
   <?php echo $product['description']; ?><br></div>
 
   <?php include $shared_path . 'product_price.tpl';?>

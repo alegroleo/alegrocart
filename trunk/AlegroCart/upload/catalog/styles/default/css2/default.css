@@ -204,19 +204,19 @@ a:hover {
 	margin-top: 5px;
 	padding-left: 5px;
 }
-.headingpadded .center{
+.headingpadded .center, .headingbody .center{
 	float: left;
 	width: 50%;
 	margin-left: 150px;
 	text-align: center;
 }
-.headingpadded .left {
+.headingpadded .left, .headingbody .left{
 	position: relative;
 	top: 0px;
 	float: left;
 	padding-left: 5px;
 }
-.headingpadded .right {
+.headingpadded .right, .headingbody .right{
 	position: relative;
 	top: 0px;
 	float: right;
@@ -544,6 +544,16 @@ a:hover {
 }
 .module_review a {
 	text-decoration: none;
+}
+.rating {
+	margin-bottom: 10px;
+}
+
+.rating > img {
+	vertical-align: middle;
+}
+.rating > span {
+	padding-left: 5px;
 }
 /* success */
 #success {

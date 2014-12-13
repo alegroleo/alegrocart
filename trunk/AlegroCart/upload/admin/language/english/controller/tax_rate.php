@@ -9,6 +9,7 @@ $_['text_message']        = 'Success: You have updated tax rates!';
 // Column
 $_['column_priority']     = 'Tax Priority';
 $_['column_geo_zone']     = 'Geo Zone';
+$_['column_description']  = 'Description';
 $_['column_rate']         = 'Tax Rate';
 $_['column_action']       = 'Action';
 

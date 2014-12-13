@@ -28,6 +28,9 @@
 	  }?> 
   </div>
     <div class="ptext"><b style="text-transform:uppercase;"><a href="<?php echo $product['href']; ?>" style="font-family:Arial, Verdana, Helvetica, sans-serif;"><?php echo $product['name']; ?></a></b><br>
+	<?php if (isset($product['average_rating'])) { ?>
+    <div><img src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
+	<?php } ?>
 <?php if ($product['vendor_name']) { ?>
 	<div class="vendor" style="text-align: left;"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
 <?php } ?>

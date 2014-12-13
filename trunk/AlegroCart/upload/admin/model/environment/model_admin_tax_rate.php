@@ -28,11 +28,11 @@ class Model_Admin_Tax_Rate extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('tax_rate.search')) {
-			$sql = "select tr.tax_rate_id, tr.priority, gz.name, tr.rate from tax_class tc, tax_rate tr left join geo_zone gz on (tr.geo_zone_id = gz.geo_zone_id) where tr.tax_class_id = tc.tax_class_id and tc.tax_class_id = '" . (int)$this->request->gethtml('tax_class_id') . "'";
+			$sql = "select tr.tax_rate_id, tr.priority, gz.name, tr.description, tr.rate from tax_class tc, tax_rate tr left join geo_zone gz on (tr.geo_zone_id = gz.geo_zone_id) where tr.tax_class_id = tc.tax_class_id and tc.tax_class_id = '" . (int)$this->request->gethtml('tax_class_id') . "'";
 		} else {
-			$sql = "select tr.tax_rate_id, tr.priority, gz.name, tr.rate from tax_class tc, tax_rate tr left join geo_zone gz on (tr.geo_zone_id = gz.geo_zone_id) where tr.tax_class_id = tc.tax_class_id and tc.tax_class_id = '" . (int)$this->request->gethtml('tax_class_id') . "' and gz.name like '?'";
+			$sql = "select tr.tax_rate_id, tr.priority, gz.name, tr.description, tr.rate from tax_class tc, tax_rate tr left join geo_zone gz on (tr.geo_zone_id = gz.geo_zone_id) where tr.tax_class_id = tc.tax_class_id and tc.tax_class_id = '" . (int)$this->request->gethtml('tax_class_id') . "' and gz.name like '?'";
 		}
-		$sort = array('tr.priority', 'gz.name',	'tr.rate');
+		$sort = array('tr.priority', 'gz.name',	'tr.description', 'tr.rate');
 		if (in_array($this->session->get('tax_rate.sort'), $sort)) {
 			$sql .= " order by " . $this->session->get('tax_rate.sort') . " " . (($this->session->get('tax_rate.order') == 'desc') ? 'desc' : 'asc');
 		} else {

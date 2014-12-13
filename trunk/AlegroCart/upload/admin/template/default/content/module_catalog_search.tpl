@@ -33,6 +33,21 @@
                   <?php } ?>
                 </select></td>
             </tr>
+		<tr>
+              <td style="width:250px;" class="set"><?php echo $entry_ratings; ?></td>
+              <td><select name="catalog_search_ratings">
+                  <?php if ($catalog_search_ratings) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+		<td class="expl">
+			<?php echo($explanation_entry_ratings); ?>
+		</td>
+            </tr>
           </table>
         </div>
       </div>

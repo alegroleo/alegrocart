@@ -1585,10 +1585,14 @@ $view->set('barcode', !$this->option_status ? '' : '');
 	}
 
 	function discount() {
+
+		$symbol_right = $this->currency->currencies[$this->currency->code]['symbol_right'];
+		$symbol_left = $this->currency->currencies[$this->currency->code]['symbol_left'];
+
 		$view = $this->locator->create('template');
 	
 		$view->set('entry_quantity', $this->language->get('entry_quantity'));
-		$view->set('entry_discount', $this->language->get('entry_discount'));
+		$view->set('entry_discount', $this->language->get('entry_discount', $symbol_left ? $symbol_left : $symbol_right));
 		$view->set('entry_percent_discount', $this->language->get('entry_percent_discount'));
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));

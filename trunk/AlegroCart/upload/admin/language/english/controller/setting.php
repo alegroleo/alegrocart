@@ -108,6 +108,7 @@ $_['entry_show_stock']		= 'Show Stock:';
 $_['entry_show_stock_icon']	= 'Show Stock Image:';
 $_['entry_low_stock_warning']= 'Stock Warning Level:';
 $_['entry_columns'] 		= 'Page Columns:';
+$_['entry_mod_rw']		= 'Mod_rewrite Status:';
 $_['entry_url_alias']       = 'Use URL Alias:';
 $_['entry_seo']             = 'Auto Update SEO:';
 $_['entry_parse_time']      = 'Display Parse Time:';
@@ -259,6 +260,8 @@ $_['explanation_email_host']		= 'Your SMTP server. E.g. smtp.yourdomain.com';
 $_['explanation_email_localhost']	= 'Normally it is the same as the Host. May have to change to \'localhost\'.';
 $_['explanation_email_port']		= 'The SMTP port number. Default is 25.';
 $_['explanation_email_timeout']		= 'Timeout in seconds. Default is 10.';
+$_['explanation_url_alias']		= 'This will enable URL Alias. Once enabled, you should go to the URL alias module and generate SEO urls.';
+$_['explanation_seo']			= 'This will enable automatic creation of SEO urls when new products or categories are created.';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

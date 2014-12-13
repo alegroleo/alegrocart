@@ -548,6 +548,9 @@ background-color: #FFFFFF;
 #review_write .d span {
 	color: #FF0000;
 }
+.rating {
+	text-align: center;
+}
 #search .b .c {
 	border: 1px solid #EEEEEE;
 }

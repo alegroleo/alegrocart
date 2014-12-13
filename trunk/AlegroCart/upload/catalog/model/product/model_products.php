@@ -42,8 +42,12 @@ class Model_Products extends Model {
 		return $results;
 	}
 	function get_toprated($rating, $toprated_total){
-		$results = $this->database->getRows("SELECT * FROM `product` p LEFT JOIN product_description pd ON (p.product_id = pd.product_id) LEFT JOIN image i ON (p.image_id = i.image_id) LEFT JOIN review r ON (p.product_id = r.product_id) WHERE r.`status` =1 AND p.status =1 AND pd.language_id = '" . (int)$this->language->getId() . "' AND p.date_available <= now() GROUP BY r.`product_id` HAVING ((avg(r.`rating1`) + avg(r.`rating2`) + avg(r.`rating3`) + avg(r.`rating4`))/4) >=".$rating."ORDER BY rand()".$toprated_total);
+		$results = $this->database->getRows("SELECT * FROM `product` p LEFT JOIN product_description pd ON (p.product_id = pd.product_id) LEFT JOIN image i ON (p.image_id = i.image_id) LEFT JOIN review r ON (p.product_id = r.product_id) WHERE r.`status` =1 AND p.status =1 AND pd.language_id = '" . (int)$this->language->getId() . "' AND p.date_available <= now() GROUP BY r.`product_id` HAVING ((avg(r.`rating1`) + avg(r.`rating2`) + avg(r.`rating3`) + avg(r.`rating4`))/4) >=".$rating." ORDER BY rand()".$toprated_total);
 		return $results;
+	}
+	function getAverageRating($product_id){
+		$result = $this->database->getRow("SELECT ((avg(r.`rating1`) + avg(r.`rating2`) + avg(r.`rating3`) + avg(r.`rating4`))/4) AS average FROM `review` r LEFT JOIN product_description pd ON (r.product_id = pd.product_id) LEFT JOIN product p ON (p.product_id = r.product_id) WHERE r.product_id = '".(int)$product_id."' and r.`status` = 1 AND p.status = 1 AND pd.language_id = '" . (int)$this->language->getId() . "' AND p.date_available <= now() ");
+		return $result['average'] ? $result['average'] : 0;
 	}
 	function get_popular($popular_total){
 		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available <= now() order by viewed DESC" . $popular_total);

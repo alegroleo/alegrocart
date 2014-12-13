@@ -168,6 +168,12 @@
               <td><input type="text" name="catalog_config_max_rows" value="<?php echo $catalog_config_max_rows; ?>" size="2"></td>
 			  <td class="expl"><?php echo $text_items_per_page;?></td>
             </tr>
+		<?php if (isset($mr_status) && !$cgi) { ?>
+		<tr>
+			<td class="set"><?php echo $entry_mod_rw; ?></td>
+			<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
+		</tr>
+		<?php } ?>
             <tr>
               <td class="set"><?php echo $entry_url_alias; ?></td>
               <td><?php if ($global_config_url_alias) { ?>
@@ -182,7 +188,7 @@
                 <label for="gcuano"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 		<?php if (isset($mr_status) && !$cgi) { ?>
-		<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
+		<td class="expl"><?php echo $explanation_url_alias;?></td>
 		<?php } ?>
             </tr>
 		<tr>
@@ -199,7 +205,7 @@
                 <label for="gcsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 		<?php if (isset($mr_status) && !$cgi) { ?>
-		<td class="expl"><?php echo $mr_status ? $explanation_mr_loaded : '<b style="color:#FF0000">'.$explanation_mr_not_loaded.'</b>' ;?></td>
+		<td class="expl"><?php echo $explanation_seo;?></td>
 		<?php } ?>
 		</tr>
             <tr>

@@ -38,6 +38,9 @@
 <div class="headingbody"><h1><?php echo $text_product_detail.$heading_title; ?></h1></div>
 <div class="contentBody">
  <div class="product" id="product">
+  <?php if($review_status){ ?>
+	<div class="rating"><img src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $average_rating . '.png'; ?>" alt="<?php echo $alt_rating; ?>"><span><?php if($maxrow && $maxrow==1) {echo $maxrow.' '.$text_review;} elseif($maxrow && $maxrow>1){echo $maxrow.' '.$text_reviews;} else {echo $text_rateit;} ?></span></div>
+  <?php } ?>
   <div class="a" >
    <?php include $shared_path . 'product_image.tpl';?>
   </a>

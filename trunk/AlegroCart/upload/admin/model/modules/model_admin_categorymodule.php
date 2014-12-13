@@ -14,6 +14,7 @@ class Model_Admin_CategoryModule extends Model {
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_status', `value` = '?'", (int)$this->request->gethtml('catalog_category_status', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_mcount', `value` = '?'", (int)$this->request->gethtml('catalog_category_mcount', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_pcount', `value` = '?'", (int)$this->request->gethtml('catalog_category_pcount', 'post')));
+		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_ratings', `value` = '?'", (int)$this->request->gethtml('catalog_category_ratings', 'post')));
 	}
 	function get_category(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'category'");
@@ -22,6 +23,7 @@ class Model_Admin_CategoryModule extends Model {
 	function install_category(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_status', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_count', value = '1'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_ratings', value = '1'");
 	}
 }
 ?>

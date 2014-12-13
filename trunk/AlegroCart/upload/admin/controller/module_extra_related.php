@@ -41,11 +41,12 @@ class ControllerModuleExtraRelated extends Controller {
 
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_limit', $this->language->get('entry_limit'));
-		$view->set('entry_height', $this->language->get('entry_height'));	
+		$view->set('entry_height', $this->language->get('entry_height'));
 		$view->set('entry_width', $this->language->get('entry_width'));
 		$view->set('entry_addtocart', $this->language->get('entry_addtocart'));
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_image_display',$this->language->get('entry_image_display'));
+		$view->set('entry_ratings',$this->language->get('entry_ratings'));
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
@@ -63,6 +64,7 @@ class ControllerModuleExtraRelated extends Controller {
 		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
 		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
 		$view->set('explanation_entry_image_display', $this->language->get('explanation_entry_image_display'));
+		$view->set('explanation_entry_ratings', $this->language->get('explanation_entry_ratings'));
 		$view->set('explanation_entry_addtocart', $this->language->get('explanation_entry_addtocart'));
 		$view->set('explanation_entry_columns', $this->language->get('explanation_entry_columns'));
 		$view->set('explanation_entry_lines_single', $this->language->get('explanation_entry_lines_single'));
@@ -126,6 +128,11 @@ class ControllerModuleExtraRelated extends Controller {
 			$view->set('catalog_related_image_display', $this->request->gethtml('catalog_related_image_display', 'post'));
 		} else {
 			$view->set('catalog_related_image_display', @$setting_info['catalog']['related_image_display']);
+		}
+		if ($this->request->has('catalog_related_ratings', 'post')) {
+			$view->set('catalog_related_ratings', $this->request->gethtml('catalog_related_ratings', 'post'));
+		} else {
+			$view->set('catalog_related_ratings', @$setting_info['catalog']['related_ratings']);
 		}
 		if ($this->request->has('catalog_related_lines_single', 'post')) {
 			$view->set('catalog_related_lines_single', $this->request->gethtml('catalog_related_lines_single', 'post'));

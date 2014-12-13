@@ -33,9 +33,9 @@
 <div class="module">
 <div id="review_info">
  <div class="left">
-  <p><b><?php echo $text_author; ?></b> <?php echo $author; ?></p><br>
-  <p><b><?php echo $text_date_added; ?> </b> <?php echo $date_added; ?></p><br>
-  <p><b><?php echo $text_rating; ?></b></p><br>
+  <p><b><?php echo $text_author; ?></b> <?php echo $author; ?></p>
+  <p><b><?php echo $text_date_added; ?> </b> <?php echo $date_added; ?></p>
+  <p><b><?php echo $text_rating; ?></b><?php echo $text; ?></p><br>
  </div>
 <div class="a">
 
@@ -53,9 +53,8 @@
 
 </div>
 <table><?php for ($i=1; $i<5; $i++) { ?>
-  <tr><td style="width:15px;"></td><td><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo ${'rating'.$i} . '.png'; ?>" alt="<?php echo ${'text_out_of'.$i}; ?>" class="png"></td></tr><tr><td style="width:15px;"></td><td></td><td><?php echo ${'text_out_of'.$i}; ?></td></tr>
+  <tr><td style="width:15px;"></td><td><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo ${'rating'.$i} . '.png'; ?>" alt="<?php echo ${'text_out_of'.$i}; ?>" class="png"></td></tr><tr><td style="width:15px;"></td><td></td><td>(<?php echo ${'text_out_of'.$i}; ?>)</td></tr>
   <?php } ?></table></br>
-<div><?php echo $text; ?></div><br>
 <p><b><a href="<?php echo $href; ?>"><?php echo $name; ?></a></b></p>
 </div>
 <br>

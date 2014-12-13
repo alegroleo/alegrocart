@@ -42,11 +42,14 @@ class ControllerModuleExtraManufacturer extends Controller {
 		$view->set('text_image', $this->language->get('text_image'));
 		$view->set('entry_height', $this->language->get('entry_height'));
 		$view->set('entry_width', $this->language->get('entry_width'));
+		$view->set('entry_ratings',$this->language->get('entry_ratings'));
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_display_lock', $this->language->get('entry_display_lock'));
 		$view->set('entry_options_select',$this->language->get('entry_options_select'));
 		$view->set('entry_items_per_page', $this->language->get('entry_items_per_page'));
-		
+
+		$view->set('explanation_entry_ratings', $this->language->get('explanation_entry_ratings'));
+
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -93,6 +96,11 @@ class ControllerModuleExtraManufacturer extends Controller {
 			$view->set('catalog_manufacturer_image_height', $this->request->gethtml('catalog_manufacturer_image_height', 'post'));
 		} else {
 			$view->set('catalog_manufacturer_image_height', @$setting_info['catalog']['manufacturer_image_height']);
+		}
+		if ($this->request->has('catalog_manufacturer_ratings', 'post')) {
+			$view->set('catalog_manufacturer_ratings', $this->request->gethtml('catalog_manufacturer_ratings', 'post'));
+		} else {
+			$view->set('catalog_manufacturer_ratings', @$setting_info['catalog']['manufacturer_ratings']);
 		}
 		if ($this->request->has('catalog_manufacturer_columns', 'post')) {
 			$view->set('catalog_manufacturer_columns', $this->request->gethtml('catalog_manufacturer_columns', 'post'));

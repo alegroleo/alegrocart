@@ -76,6 +76,13 @@ class ModuleRecently extends Controller {
 		$product_data = array();
 
 		foreach ($results as $result) {
+				if ($config->get('recently_ratings')) {
+					$averageRating = number_format($this->modelProducts->getAverageRating($result['product_id']), 0);
+					$alt_rating = $language->get('text_out_of', $averageRating);
+				} else {
+					$averageRating = NULL;
+					$alt_rating = NULL;
+				}
 				$days_remaining = ''; //***
 				if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
 					$this->discounted = true; // we have at least 1 price_old div
@@ -153,6 +160,8 @@ class ModuleRecently extends Controller {
 				'model_number'		=> $result['model_number'],
 				'product_options'	=> $product_options,
 				'days_remaining'	=> $days_remaining,
+				'average_rating'	=> $averageRating,
+				'alt_rating'		=> $alt_rating,
 				'vendor_name'		=> $vendor_name
 			);
 		}

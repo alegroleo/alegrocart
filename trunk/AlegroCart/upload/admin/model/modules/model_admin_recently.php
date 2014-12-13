@@ -18,6 +18,7 @@ class Model_Admin_Recently extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_addtocart', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_columns', value = '5'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_image_display', value = 'image_link'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_ratings', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_lines_single', value = '0'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_lines_multi', value = '0'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_lines_char', value = '0'");
@@ -30,6 +31,7 @@ class Model_Admin_Recently extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_addtocart', `value` = '" . $this->request->gethtml('catalog_recently_addtocart', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_columns', `value` = '" . $this->request->gethtml('catalog_recently_columns', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_image_display', `value` = '" . $this->request->gethtml('catalog_recently_image_display', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_ratings', `value` = '" . $this->request->gethtml('catalog_recently_ratings', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_lines_single', `value` = '" . $this->request->gethtml('catalog_recently_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_lines_multi', `value` = '" . $this->request->gethtml('catalog_recently_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'recently', `key` = 'recently_lines_char', `value` = '" . $this->request->gethtml('catalog_recently_lines_char', 'post') . "'");

@@ -31,14 +31,17 @@ class ControllerModuleCatalogsearch extends Controller {
 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_module', $this->language->get('heading_module'));
-		$view->set('heading_description', $this->language->get('heading_description'));		
+		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
-		
+		$view->set('entry_ratings',$this->language->get('entry_ratings'));
+
+		$view->set('explanation_entry_ratings', $this->language->get('explanation_entry_ratings'));
+
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -71,7 +74,11 @@ class ControllerModuleCatalogsearch extends Controller {
 		} else {
 			$view->set('catalog_search_status', @$setting_info['catalog']['search_status']);
 		}
-
+		if ($this->request->has('catalog_search_ratings', 'post')) {
+			$view->set('catalog_search_ratings', $this->request->gethtml('catalog_search_ratings', 'post'));
+		} else {
+			$view->set('catalog_search_ratings', @$setting_info['catalog']['search_ratings']);
+		}
 		$this->template->set('content', $view->fetch('content/module_catalog_search.tpl'));
 
 		$this->template->set($this->module->fetch());

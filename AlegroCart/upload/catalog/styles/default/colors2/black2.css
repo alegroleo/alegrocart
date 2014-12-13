@@ -995,6 +995,9 @@ b, strong, th {
 	border: 1px solid #EEEEEE;
 	margin-top: 10px;
 }
+.rating > span {
+	color: #004ebc;
+}
 .devel a {
 	font-size: 10px;
 	text-decoration: none;

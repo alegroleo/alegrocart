@@ -571,6 +571,9 @@ a:hover {
 .module_review img {
 	padding: 3px;
 }
+.rating {
+	text-align: center;
+}
 #error {
 	border: 1px solid #EEEEEE;
 }

@@ -1040,6 +1040,9 @@ b, strong, th {
 #review_write .d span {
 	color: #C1002B;
 }
+.rating > span {
+	color: #004ebc;
+}
 .tab {
 	display: inline;
 }

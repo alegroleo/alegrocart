@@ -45,6 +45,21 @@
                   <?php } ?>
                 </select></td>
             </tr>
+		<tr>
+              <td style="width:250px;" class="set"><?php echo $entry_ratings; ?></td>
+              <td><select name="catalog_manufacturer_ratings">
+                  <?php if ($catalog_manufacturer_ratings) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+		<td class="expl">
+			<?php echo($explanation_entry_ratings); ?>
+		</td>
+            </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_height; ?></td>
 			  <td><input type="text" name="catalog_manufacturer_image_height" value="<?php echo $catalog_manufacturer_image_height; ?>" size="3"></td>

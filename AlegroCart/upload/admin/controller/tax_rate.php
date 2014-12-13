@@ -87,6 +87,11 @@ class ControllerTaxRate extends Controller {
 			'align' => 'left'
 		);
 		$cols[] = array(
+			'name'  => $this->language->get('column_description'),
+			'sort'  => 'tr.description',
+			'align' => 'left'
+		);
+		$cols[] = array(
 			'name'  => $this->language->get('column_rate'),
 			'sort'  => 'tr.rate',
 			'align' => 'left'
@@ -106,6 +111,10 @@ class ControllerTaxRate extends Controller {
 			);
 			$cell[] = array(
 				'value' => $result['name'],
+				'align' => 'left'
+			);
+			$cell[] = array(
+				'value' => $result['description'],
 				'align' => 'left'
 			);
 			$cell[] = array(

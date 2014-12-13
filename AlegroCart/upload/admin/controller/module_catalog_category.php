@@ -40,8 +40,10 @@ class ControllerModuleCatalogCategory extends Controller {
 		$view->set('entry_product_count_menu', $this->language->get('entry_product_count_menu'));
 		$view->set('entry_product_count_page', $this->language->get('entry_product_count_page'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
+		$view->set('entry_ratings',$this->language->get('entry_ratings'));
 
 		$view->set('explanation_product_count', $this->language->get('explanation_product_count'));
+		$view->set('explanation_entry_ratings', $this->language->get('explanation_entry_ratings'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -87,7 +89,11 @@ class ControllerModuleCatalogCategory extends Controller {
 		} else {
 			$view->set('catalog_category_pcount', @$setting_info['catalog']['category_pcount']);
 		}
-
+		if ($this->request->has('catalog_category_ratings', 'post')) {
+			$view->set('catalog_category_ratings', $this->request->gethtml('catalog_category_ratings', 'post'));
+		} else {
+			$view->set('catalog_category_ratings', @$setting_info['catalog']['category_ratings']);
+		}
 		$this->template->set('content', $view->fetch('content/module_catalog_category.tpl'));
 
 		$this->template->set($this->module->fetch());

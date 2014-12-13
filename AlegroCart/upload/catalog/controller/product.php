@@ -103,12 +103,15 @@ class ControllerProduct extends Controller {
 			$view->set('text_shipping_yes', $language->get('text_shipping_yes'));
 			$view->set('text_shipping_no', $language->get('text_shipping_no'));
 			$view->set('text_review_by', $language->get('text_review_by'));
+			$view->set('text_review', $language->get('text_review'));
+			$view->set('text_reviews', $language->get('text_reviews'));
 			$view->set('text_weight', $language->get('text_weight'));
 		$view->set('text_date_added', $language->get('text_date_added'));
 		$view->set('text_rating1', $language->get('text_rating1'));
 		$view->set('text_rating2', $language->get('text_rating2'));
 		$view->set('text_rating3', $language->get('text_rating3'));
 		$view->set('text_rating4', $language->get('text_rating4'));
+		$view->set('text_rateit', $language->get('text_rateit'));
 		$view->set('text_error', $language->get('text_empty'));	
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('text_soldby', $language->get('text_soldby'));
@@ -261,6 +264,9 @@ class ControllerProduct extends Controller {
 			} else {
 				$vendor_name = NULL;
 			}
+			if ($this->config->get('review_status')) {
+				$averageRating = number_format($this->modelProducts->getAverageRating($request->gethtml('product_id')), 0);
+			}
 
 			$product_data = array(
 				'product_id'=> $request->gethtml('product_id'),
@@ -291,6 +297,8 @@ class ControllerProduct extends Controller {
 			  $view->set('text_write', $language->get('text_write'));
 			  $view->set('text_write_short', $language->get('text_write_short'));
 			  $view->set('write', $url->href('review_write', false, array('product_id' => $request->gethtml('product_id'))));
+			  $view->set('average_rating', $averageRating);
+			  $view->set('alt_rating', $language->get('text_out_of', $averageRating));
 			} else {
 			  $view->set('review_status', false);
 			}

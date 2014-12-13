@@ -39,7 +39,7 @@ class Coupon {
 			if ($this->status) {
 				$this->data = $coupon_info;
 			} else {
-				$this->session->delete('coupon');
+				$this->session->delete('coupon_id');
 			}
 		} else {
 			$valid_coupons = $this->database->getRows("select * from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '" . (int)$this->language->getId() . "' and c.date_start < now() and c.date_end > now() and c.status = '1'");

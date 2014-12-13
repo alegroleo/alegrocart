@@ -153,6 +153,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_footer_logo_width', $this->language->get('entry_footer_logo_width'));
 		$view->set('entry_footer_logo_height', $this->language->get('entry_footer_logo_height'));
 		$view->set('entry_columns', $this->language->get('entry_columns'));
+		$view->set('entry_mod_rw', $this->language->get('entry_mod_rw'));
 		$view->set('entry_url_alias', $this->language->get('entry_url_alias'));
 		$view->set('entry_seo', $this->language->get('entry_seo'));
 		$view->set('entry_parse_time', $this->language->get('entry_parse_time'));
@@ -311,6 +312,8 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_favicon',$this->language->get('explanation_favicon'));
 		$view->set('explanation_mr_loaded',$this->language->get('explanation_mr_loaded'));
 		$view->set('explanation_mr_not_loaded',$this->language->get('explanation_mr_not_loaded'));
+		$view->set('explanation_url_alias',$this->language->get('explanation_url_alias'));
+		$view->set('explanation_seo',$this->language->get('explanation_seo'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));

@@ -18,7 +18,8 @@ class Model_Admin_Latest extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_addtocart', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_total', value = '10'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_columns', value = '3'");
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_image_display', value = 'image_link'");	
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_image_display', value = 'image_link'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_ratings', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_single', value = '6'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_char', value = '108'");
@@ -32,6 +33,7 @@ class Model_Admin_Latest extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_total', `value` = '" . $this->request->gethtml('catalog_latest_total', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_columns', `value` = '" . $this->request->gethtml('catalog_latest_columns', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_image_display', `value` = '" . $this->request->gethtml('catalog_latest_image_display', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_ratings', `value` = '" . $this->request->gethtml('catalog_latest_ratings', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_single', `value` = '" . $this->request->gethtml('catalog_latest_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_multi', `value` = '" . $this->request->gethtml('catalog_latest_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_char', `value` = '" . $this->request->gethtml('catalog_latest_lines_char', 'post') . "'");

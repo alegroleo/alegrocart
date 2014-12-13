@@ -25,6 +25,7 @@ $_['text_enlarge']		= 'Click to enlarge';
 $_['text_stock_icon']		= 'Stock Status';
 $_['text_soldby']		= 'Dispatched from:';
 $_['email_soldby']		= 'Dispatched from:';
+$_['text_out_of']		= '%s out of 5 Stars!';
 
 //DateTime
 $_['text_january']		= 'January';

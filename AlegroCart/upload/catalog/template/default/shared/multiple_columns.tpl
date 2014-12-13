@@ -48,6 +48,9 @@
 	 </div>
 	</div>
     <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
+	<?php if (isset($product['average_rating'])) { ?>
+    <div><img src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
+	<?php } ?>
 	<?php if ($product['description']) { ?>
     <div class="product_desc"<?php if($columns == 3){?> style="min-height: 50px;"<?php }?>>
       <?php echo "<span style=\"font-size: ".$font_size."px\">" . $product['description'] . "</span>"; ?>

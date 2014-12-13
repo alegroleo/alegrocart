@@ -47,6 +47,7 @@ class ControllerModuleExtraAlsobought extends Controller {
 		$view->set('entry_total', $this->language->get('entry_total'));
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_image_display',$this->language->get('entry_image_display'));
+		$view->set('entry_ratings',$this->language->get('entry_ratings'));
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
@@ -65,6 +66,7 @@ class ControllerModuleExtraAlsobought extends Controller {
 		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
 		$view->set('explanation_entry_total', $this->language->get('explanation_entry_total'));
 		$view->set('explanation_entry_image_display', $this->language->get('explanation_entry_image_display'));
+		$view->set('explanation_entry_ratings', $this->language->get('explanation_entry_ratings'));
 		$view->set('explanation_entry_addtocart', $this->language->get('explanation_entry_addtocart'));
 		$view->set('explanation_entry_columns', $this->language->get('explanation_entry_columns'));
 		$view->set('explanation_entry_lines_single', $this->language->get('explanation_entry_lines_single'));
@@ -135,6 +137,11 @@ class ControllerModuleExtraAlsobought extends Controller {
 			$view->set('catalog_alsobought_image_display', $this->request->gethtml('catalog_alsobought_image_display', 'post'));
 		} else {
 			$view->set('catalog_alsobought_image_display', @$setting_info['catalog']['alsobought_image_display']);
+		}
+		if ($this->request->has('catalog_alsobought_ratings', 'post')) {
+			$view->set('catalog_alsobought_ratings', $this->request->gethtml('catalog_alsobought_ratings', 'post'));
+		} else {
+			$view->set('catalog_alsobought_ratings', @$setting_info['catalog']['alsobought_ratings']);
 		}
 		if ($this->request->has('catalog_alsobought_lines_single', 'post')) {
 			$view->set('catalog_alsobought_lines_single', $this->request->gethtml('catalog_alsobought_lines_single', 'post'));

@@ -12,6 +12,7 @@ class Model_Admin_Search extends Model {
 	}
 	function update_search(){
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'search', `key` = 'search_status', `value` = '?'", (int)$this->request->gethtml('catalog_search_status', 'post')));
+		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'search', `key` = 'search_ratings', `value` = '?'", (int)$this->request->gethtml('catalog_search_ratings', 'post')));
 	}
 	function get_search(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'search'");
@@ -19,6 +20,7 @@ class Model_Admin_Search extends Model {
 	}
 	function install_search(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'search', `key` = 'search_status', value = '1'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'search', `key` = 'search_ratings', value = '1'");
 	}
 }
 ?>

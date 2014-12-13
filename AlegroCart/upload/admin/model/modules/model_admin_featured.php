@@ -11,13 +11,14 @@ class Model_Admin_Featured extends Model {
 		$this->database->query("delete from setting where type = 'catalog' and `group` = 'featured'");
 	}
 	function install_featured(){
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_status', value = '1'");	
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_status', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_limit', value = '4'");
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_image_width', value = '140'");			
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_image_height', value = '140'");		
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_image_width', value = '140'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_image_height', value = '140'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_addtocart', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_columns', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_image_display', value = 'image_link'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_ratings', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_lines_single', value = '6'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_lines_char', value = '108'");
@@ -30,6 +31,7 @@ class Model_Admin_Featured extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_addtocart', `value` = '" . $this->request->gethtml('catalog_featured_addtocart', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_columns', `value` = '" . $this->request->gethtml('catalog_featured_columns', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_image_display', `value` = '" . $this->request->gethtml('catalog_featured_image_display', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_ratings', `value` = '" . $this->request->gethtml('catalog_featured_ratings', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_lines_single', `value` = '" . $this->request->gethtml('catalog_featured_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_lines_multi', `value` = '" . $this->request->gethtml('catalog_featured_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'featured', `key` = 'featured_lines_char', `value` = '" . $this->request->gethtml('catalog_featured_lines_char', 'post') . "'");

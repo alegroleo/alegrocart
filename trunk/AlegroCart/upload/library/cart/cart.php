@@ -13,24 +13,27 @@ class Cart {
 	var $maxqty	= FALSE;
 
 	function __construct(&$locator){
-		$this->locator	=& $locator;
-		$this->config	=& $locator->get('config');
-		$this->session	=& $locator->get('session');
-		$this->database	=& $locator->get('database');
-		$this->language	=& $locator->get('language');
-		$this->tax	=& $locator->get('tax');
-		$this->weight	=& $locator->get('weight');
-		$this->currency	=& $locator->get('currency');
+		$this->locator		=& $locator;
+		$this->config		=& $locator->get('config');
+		$this->controller	=& $locator->get('controller');
+		$this->session		=& $locator->get('session');
+		$this->database		=& $locator->get('database');
+		$this->language		=& $locator->get('language');
+		$this->tax		=& $locator->get('tax');
+		$this->weight		=& $locator->get('weight');
+		$this->currency		=& $locator->get('currency');
 
 		if ($this->session->has('cart')) {
-		$this->data = $this->session->get('cart');
-	}
+			$this->data = $this->session->get('cart');
+		}
 		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
 		$this->data_refresh();
 	}
 	function data_refresh(){
 
-
+	if ($this->controller->controller == 'cart') {
+		$this->config->set('config_tax', $this->config->get('config_tax_store'));
+	}
 
 	foreach ($this->data as $key => $value)
 		{
@@ -196,17 +199,21 @@ class Cart {
 	} else {
 		$this->data[$key] += $qty;
 	}
-
+	if(!$this->session->has('customer_id') && $this->session->has('shipping_method')){ 
+		$this->session->set('modified_message', TRUE);
+		$this->session->delete('shipping_method');
+		$this->session->set('had_shipping_method', TRUE);
+	}
 		$this->session->set('cart', $this->data);
 	}
 
 	function update($key, $qty) {
-	if ($qty) {
-		$this->data[$key] = $qty;
-	} else {
+		if ($qty) {
+			$this->data[$key] = $qty;
+			$this->session->set('modified_message', TRUE);
+		} else {
 			$this->remove($key);
 		}
-		
 		$this->session->set('cart', $this->data);
 	}
 
@@ -214,21 +221,46 @@ class Cart {
 		if (isset($this->data[$key])) {
 		unset($this->data[$key]);
 		}
-		
+		$this->session->set('modified_message', TRUE);
 		$this->session->set('cart', $this->data);
 	}
 
 	function restore($product) {
-	foreach ($product as $key => $value) {
-		if (!isset($this->data[$key])) {
-			$this->data[$key] = $value;
-		} else {
-			$this->data[$key] += $value;
+		$had = FALSE;
+		foreach ($product as $key => $value) {
+			if (!isset($this->data[$key])) {
+				$this->data[$key] = $value;
+			} else {
+				$this->data[$key] += $value;
+				$had = TRUE;
+			}
+			if (isset($this->products[$key])) {
+				if ($this->products[$key]['max_qty'] != 0 && $this->data[$key] > $this->products[$key]['max_qty']) {
+					$this->data[$key] = $this->products[$key]['max_qty'];
+				}
+				if ($this->products[$key]['multiple'] != 0) {
+					if ($this->data[$key] < $this->products[$key]['multiple']) {
+						$this->data[$key] = $this->products[$key]['multiple'];
+					} else {
+						if ($this->data[$key] % $this->products[$key]['multiple'] == 0){
+							$this->data[$key] =$this->data[$key];
+						} else {
+							$rest = $this->data[$key] % $this->products[$key]['multiple'];
+							$this->data[$key] += $this->products[$key]['multiple'] - $rest;
+							if ($this->products[$key]['max_qty'] != 0 && $this->data[$key] > $this->products[$key]['max_qty']) {
+								$this->data[$key] -= $this->products[$key]['multiple'];
+							}
+						}
+					}
+				}
+			}
 		}
-	}
-
+		if ($had) {
+			$this->session->set('merged_message', TRUE);
+			$this->session->delete('shipping_method');
+		}
 		$this->session->set('cart', $this->data);
-	}
+		}
 
 	function clear() {
 		$this->data = array();
@@ -354,6 +386,16 @@ class Cart {
 			$key = $product_id . ':' . implode('.', $options);
 		}
 		return (isset($this->data[$key]) ? $this->data[$key] : NULL);
+	}
+
+	function countShippableProducts(){
+		$total = 0;
+		foreach ($this->products as $product) {
+			if($product['shipping']){
+				$total += $product['quantity'];
+			}
+		}
+		return $total;
 	}
 }
 ?>

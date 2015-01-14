@@ -320,7 +320,7 @@ b, strong, th {
 	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
-.display_options tr, td input{
+.display_options tr, .display_options td input{
 	margin: 3px;
 }
 .manufacturer_module {
@@ -654,7 +654,13 @@ b, strong, th {
 	border: 1px solid #DDDDDD;
 	padding: 3px;
 	font-weight: bold;
-} 
+}
+#cart .u select, #cart .u input {
+	border: 1px solid #DDDDDD;
+	padding: 3px;
+	color: #333333;
+	background-color: #FFFFFF;
+}
 .category  ul, li{
 	background-color: #FFFFFF;
 }

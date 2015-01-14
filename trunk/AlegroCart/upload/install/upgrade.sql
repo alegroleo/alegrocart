@@ -1472,3 +1472,8 @@ SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_alsobought';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
 (@id, @lid, 'Catalog Also Bought', 'Display Also Bought Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+# Modif Australia Post
+#
+DELETE FROM `setting` WHERE `group` = 'australiapost' and `key` = 'australiapost_default_method';

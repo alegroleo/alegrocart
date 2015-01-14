@@ -42,6 +42,7 @@ class Model_Admin_Setting extends Model {
 		for ($i=1; $i < 4; $i++){
 			$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_dimension_" . $i . "_id', `value` = '" . $this->request->gethtml('global_config_dimension_' . $i . '_id', 'post')  . "'");
 		}
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_estimate', `value` = '" . $this->request->gethtml('catalog_config_estimate', 'post') . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax', `value` = '" . $this->request->gethtml('global_config_tax', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_tax_store', `value` = '" . $this->request->gethtml('global_config_tax_store', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'invoice_number', `value` = '" . $this->request->gethtml('global_invoice_number', 'post')  . "'");

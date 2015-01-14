@@ -96,6 +96,7 @@ class ControllerCheckoutShipping extends Controller {
 		$view->set('text_shipping_methods', $this->language->get('text_shipping_methods'));
 		$view->set('text_comments', $this->language->get('text_comments'));
 		$view->set('text_downloadable', $this->language->get('text_downloadable'));
+		$view->set('text_tax', $this->language->get('text_tax'));
 
 		if ($this->cart->hasNoShipping()) {
 			$view->set('text_nonshippable', $this->language->get('text_nonshippable'));
@@ -155,7 +156,7 @@ class ControllerCheckoutShipping extends Controller {
 		$view->set('address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
 
 		$view->set('change_address', $this->url->ssl('checkout_address', 'shipping'));
-
+		$view->set('tax_included', $this->config->get('config_tax'));
 		$view->set('methods', $this->shipping->getQuotes());
 
 		$view->set('default', $this->session->get('shipping_method'));

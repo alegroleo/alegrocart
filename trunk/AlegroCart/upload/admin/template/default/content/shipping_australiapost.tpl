@@ -75,20 +75,6 @@
 			  </select></td>
 			  <td class="expl"><?php echo $explanation_dimension; ?></td>
 			</tr>
-			
-			<tr>
-			  <td class="set"><?php echo $entry_default_method; ?></td>
-			  <td><select name="global_australiapost_default_method">
-                  <?php foreach ($default_methods as $default_method) { ?>
-                  <?php if ($default_method == $global_australiapost_default_method) { ?>
-                  <option value="<?php echo $default_method; ?>" selected><?php echo $default_method; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $default_method; ?>"><?php echo $default_method; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select></td>
-	          <td class="expl"><?php echo $explanation_entry_method; ?>
-			</tr>
             <tr>
               <td class="set"><?php echo $entry_tax; ?></td>
               <td><select name="global_australiapost_tax_class_id">

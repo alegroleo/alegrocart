@@ -273,6 +273,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_wm_ivmargin',$this->language->get('entry_wm_ivmargin'));
 		$view->set('entry_discount_options',$this->language->get('entry_discount_options'));
 		$view->set('entry_session_expire',$this->language->get('entry_session_expire'));
+		$view->set('entry_estimate',$this->language->get('entry_estimate'));
 
 		$view->set('explanation_email_log',$this->language->get('explanation_email_log'));
 		$view->set('explanation_email_auth',$this->language->get('explanation_email_auth'));
@@ -314,6 +315,7 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_mr_not_loaded',$this->language->get('explanation_mr_not_loaded'));
 		$view->set('explanation_url_alias',$this->language->get('explanation_url_alias'));
 		$view->set('explanation_seo',$this->language->get('explanation_seo'));
+		$view->set('explanation_estimate',$this->language->get('explanation_estimate'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -575,7 +577,11 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('admin_config_max_rows', @$setting_info['admin']['config_max_rows']);
 		}
-
+		if ($this->request->has('catalog_config_estimate', 'post')) {
+			$view->set('catalog_config_estimate', $this->request->gethtml('catalog_config_estimate', 'post'));
+		} else {
+			$view->set('catalog_config_estimate', @$setting_info['catalog']['config_estimate']);
+		}
 		if ($this->request->has('global_config_tax', 'post')) {
 			$view->set('global_config_tax', $this->request->gethtml('global_config_tax', 'post'));
 		} else {

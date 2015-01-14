@@ -14,6 +14,10 @@ class Model_ShippingCAPost extends Model{
 		$result = $this->database->getRows("select * from zone_to_geo_zone where geo_zone_id = '" . (int)$this->config->get('canadapost_geo_zone_id') . "' and country_id = '" . (int)$this->address->getCountryId($this->session->get('shipping_address_id')) . "' and (zone_id = '" . (int)$this->address->getZoneId($this->session->get('shipping_address_id')) . "' or zone_id = '0')");
 		return $result;
 	}
+	function get_estimated_canpost_status($country_id, $zone_id){
+		$result = $this->database->getRows("SELECT * FROM zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('canadapost_geo_zone_id') . "' AND country_id = '" . (int)$country_id . "' AND (zone_id = '" . (int)$zone_id . "' OR zone_id = '0')");
+		return $result;
+	}
 	function get_canpost_dimension(){
 		$result = $this->database->getRow("select `dimension_id` from `dimension` where unit = 'cm' and language_id = '" . (int)$this->language->getId() . "'");
 		return $result['dimension_id'];
@@ -21,6 +25,14 @@ class Model_ShippingCAPost extends Model{
 	function get_canpost_weight(){
 		$result = $this->database->getRow("select `weight_class_id` from `weight_class` where unit = 'kg' and language_id = '1'");
 		return $result['weight_class_id'];
+	}
+	function getCountryName($country_id) {
+		$result = $this->database->getRow("SELECT name FROM country WHERE country_id='".(int)$country_id."'");
+		return $result['name'];
+	}
+	function getZoneName($zone_id) {
+		$result = $this->database->getRow("SELECT name FROM zone WHERE zone_id='".(int)$zone_id."'");
+		return $result['name'];
 	}
 }
 ?>

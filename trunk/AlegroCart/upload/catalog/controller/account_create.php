@@ -144,21 +144,29 @@ class ControllerAccountCreate extends Controller {
 
     	$view->set('address_2', $this->request->sanitize('address_2', 'post'));
 
-    	$view->set('postcode', $this->request->sanitize('postcode', 'post'));
+	if ($this->request->has('postcode', 'post')) {
+		$view->set('postcode', $this->request->sanitize('postcode', 'post'));
+	} else {
+		$view->set('postcode', $this->session->get('postcode'));
+	}
 
     	$view->set('city', $this->request->sanitize('city', 'post'));
 
-    	if ($this->request->has('country_id', 'post')) {
-      		$view->set('country_id', $this->request->gethtml('country_id', 'post'));
-    	} else {
-      		$view->set('country_id', $this->config->get('config_country_id'));
-    	}
+	if ($this->request->has('country_id', 'post')) {
+		$view->set('country_id', $this->request->gethtml('country_id', 'post'));
+	} elseif ($this->session->has('country_id')) {
+		$view->set('country_id', $this->session->get('country_id'));
+	} else {
+		$view->set('country_id', $this->config->get('config_country_id'));
+	}
 
-    	if ($this->request->has('zone_id', 'post')) {
-      		$view->set('zone_id', $this->request->gethtml('zone_id', 'post'));
-    	} else {
-      		$view->set('zone_id', $this->config->get('config_zone_id'));
-    	}
+	if ($this->request->has('zone_id', 'post')) {
+		$view->set('zone_id', $this->request->gethtml('zone_id', 'post'));
+	} elseif ($this->session->has('zone_id')) {
+		$view->set('zone_id', $this->session->get('zone_id'));
+	} else {
+		$view->set('zone_id', $this->config->get('config_zone_id'));
+	}
 
       	$view->set('agreed', $this->request->gethtml('agreed', 'post'));
 		

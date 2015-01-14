@@ -22,78 +22,81 @@ class ControllerAccountLogin extends Controller {
 		$this->language->load('controller/account_login.php');
 	}
 
-  	function index() {
+	function index() {
 		if ($this->customer->isLogged()) {  
-      		$this->response->redirect($this->url->ssl('account'));
-    	}
+		$this->response->redirect($this->url->ssl('account'));
+	}
 
-    	$this->template->set('title', $this->language->get('heading_title'));
-			
-		if ($this->request->isPost() && ($this->request->has('password', 'post') || $this->request->has('account_type', 'post')) && $this->validate()) {	
+	$this->template->set('title', $this->language->get('heading_title'));
+
+		if ($this->request->isPost() && ($this->request->has('password', 'post') || $this->request->has('account_type', 'post')) && $this->validate()) {
 			if($this->request->has('account_type', 'post')){
 				if($this->request->gethtml('account_type', 'post') == 'guest_account' && $this->config->get('config_guest_checkout')){
 					$this->session->set('guest_account', TRUE);
 				} else {
-					$this->session->delete('guest_account');	
+					$this->session->delete('guest_account');
 				}
 				$this->response->redirect($this->url->ssl('account_create'));
 			}
-      		if ($this->request->has('redirect', 'post')) {
+ 		!$this->session->get('payment_address_id') ? $this->session->set('payment_address_id', $this->customer->getAddressId()) : NULL;
+		if ($this->request->has('redirect', 'post')) {
 				$this->response->redirect($this->request->gethtml('redirect', 'post'));
-      		} else {
+		} elseif ($this->customer->hadProducts()) {
+				$this->response->redirect($this->url->ssl('cart'));
+		} else {
 				$this->response->redirect($this->url->ssl('account'));
-      		} 
-    	}  
-		
-    	$view = $this->locator->create('template');
+		} 
+	}
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+	$view = $this->locator->create('template');
 
-    	$view->set('text_new_customer', $this->language->get('text_new_customer'));
-    	$view->set('text_i_am_new_customer', $this->language->get('text_i_am_new_customer'));
-    	$view->set('text_returning_customer', $this->language->get('text_returning_customer'));
-    	$view->set('text_i_am_returning_customer', $this->language->get('text_i_am_returning_customer'));
+	$view->set('heading_title', $this->language->get('heading_title'));
+
+	$view->set('text_new_customer', $this->language->get('text_new_customer'));
+	$view->set('text_i_am_new_customer', $this->language->get('text_i_am_new_customer'));
+	$view->set('text_returning_customer', $this->language->get('text_returning_customer'));
+	$view->set('text_i_am_returning_customer', $this->language->get('text_i_am_returning_customer'));
 			$view->set('text_create_account', $this->language->get('text_create_account'));
 			if($this->config->get('config_guest_checkout')){
 				$view->set('text_guest_account', $this->language->get('text_guest_account'));
 				$view->set('text_guest_account_exp', $this->language->get('text_guest_account_exp'));
 			}
-    	$view->set('text_create_account_exp', $this->language->get('text_create_account_exp'));
-    	$view->set('text_forgotten_password', $this->language->get('text_forgotten_password'));
-    	$view->set('text_forgotten_password', $this->language->get('text_forgotten_password'));
-    	$view->set('entry_email', $this->language->get('entry_email_address'));
-    	$view->set('entry_password', $this->language->get('entry_password'));
+	$view->set('text_create_account_exp', $this->language->get('text_create_account_exp'));
+	$view->set('text_forgotten_password', $this->language->get('text_forgotten_password'));
+	$view->set('text_forgotten_password', $this->language->get('text_forgotten_password'));
+	$view->set('entry_email', $this->language->get('entry_email_address'));
+	$view->set('entry_password', $this->language->get('entry_password'));
 
-    	$view->set('button_continue', $this->language->get('button_continue'));
-    	$view->set('button_login', $this->language->get('button_login'));
+	$view->set('button_continue', $this->language->get('button_continue'));
+	$view->set('button_login', $this->language->get('button_login'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('account_login'));
 		$view->set('email', $this->request->gethtml('email', 'post'));
 
-    	if ($this->request->has('redirect', 'post')) {
+	if ($this->request->has('redirect', 'post')) {
 			$view->set('redirect', $this->request->gethtml('redirect', 'post'));
 		} else {
-      		$view->set('redirect', $this->session->get('redirect'));
-	  		$this->session->delete('redirect');		  	
-    	}
+		$view->set('redirect', $this->session->get('redirect'));
+			$this->session->delete('redirect');		  	
+	}
 
-    	$view->set('message', $this->session->get('message'));
+	$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 		$this->session->set('account_validation', md5(time()));
 		$view->set('account_validation', $this->session->get('account_validation'));
 
-    	$view->set('continue', $this->url->ssl('account_create'));
-    	$view->set('forgotten', $this->url->ssl('account_forgotten'));
+	$view->set('continue', $this->url->ssl('account_create'));
+	$view->set('forgotten', $this->url->ssl('account_forgotten'));
 		$view->set('head_def',$this->head_def);
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $view->fetch('content/account_login.tpl'));
-		
+
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
-  	}
+	}
 
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
@@ -128,9 +131,12 @@ class ControllerAccountLogin extends Controller {
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 
-  	function validate() {
+	function validate() {
 		if(($this->session->get('account_validation') == $this->request->gethtml('account_validation','post')) && (strlen($this->session->get('account_validation')) > 10)){
 			if($this->request->has('password', 'post')){
+				if($this->session->has('guest_account') && !$this->customer->isLogged()) {
+					$this->session->delete('guest_account');
+				}
 				if (!$this->customer->login($this->request->sanitize('email', 'post'), $this->request->sanitize('password', 'post'))) {
 					$this->error['message'] = $this->language->get('error_login');
 				}
@@ -139,12 +145,12 @@ class ControllerAccountLogin extends Controller {
 				$this->session->set('message',$this->language->get('error_referer'));
 		}
 		$this->session->delete('account_validation');
-		
-    	if (!$this->error) {
-      		return TRUE;
-    	} else {
-      		return FALSE;
-    	}  	
-  	}
+
+	if (!$this->error) {
+		return TRUE;
+	} else {
+		return FALSE;
+	}
+	}
 }
 ?>

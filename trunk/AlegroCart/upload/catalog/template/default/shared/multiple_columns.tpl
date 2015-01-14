@@ -3,7 +3,7 @@
   <?php $column_count=0;
    if (!$columns){
     $columns = 3;}
-	$column_width = (int)(100-$columns)/$columns;
+	$column_width = str_replace(',', '.', (int)(100-$columns)/$columns);
 	if ($columns > 3){
 	 $font_size = 9;
 	 $button_font =11;

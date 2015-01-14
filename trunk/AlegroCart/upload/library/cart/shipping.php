@@ -66,8 +66,8 @@ class Shipping {
 			$quote = $this->quotes[$key[0]];
 			$quote_data = array(
 				'description'  => $quote['title'],
-				'title'        => $quote['quote'][$key[1]]['title'],
-				'cost'         => $quote['quote'][$key[1]]['cost'],
+				'title'        => isset($quote['quote'][$key[1]]) ? $quote['quote'][$key[1]]['title']:'',
+				'cost'         => isset($quote['quote'][$key[1]]) ? $quote['quote'][$key[1]]['cost']:'',
 				'tax_class_id' => $quote['tax_class_id']
 			);
 			return $quote_data;

@@ -57,7 +57,7 @@
 	vertical-align: top;
 	width: 30px;
 }
-#cart .g,  #cart .e { 
+#cart .g, #cart .e { 
 	padding-left: 5px;
 	text-align: right;
 	vertical-align: top;
@@ -84,7 +84,7 @@
 	font-size: 9px;
 	text-align: center;
 }
-#cart .s  {
+#cart .s {
 	text-align: center;
 	width: 40px;
 	vertical-align: top;
@@ -92,6 +92,11 @@
 #cart .t {
 	text-align: left;
 	vertical-align: middle;
+}
+#cart .u {
+	margin-top: 10px;
+	padding-top: 10px;
+	text-align: left;
 }
 #cart .right{
 	text-align: right;
@@ -119,4 +124,33 @@
 	text-align: right;
 	font-weight: 200;
 	padding-left: 0px;
+}
+#estimated_results .v {
+	margin-bottom: 2px;
+	font-weight: bold;
+	padding: 5px 0px 2px 5px;
+}
+#estimated_results .w {
+	padding: 5px;
+	margin-bottom: 10px;
+}
+#estimated_results .w table {
+	width: 100%;
+	margin-top: 5px;
+}
+#estimated_results .w table tr {
+	cursor: pointer;
+}
+#estimated_results .x {
+	padding-left: 20px;
+}
+#estimated_results .y {
+	text-align: right;
+	padding-right: 20px;
+}
+#estimated_results label {
+	display: block;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
 }

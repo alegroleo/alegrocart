@@ -9,6 +9,7 @@ class Controller {
 	var $default;
 	var $error;
 	var $pre_action = array();
+	var $controller;
 
 	function __construct(&$locator) {
 		$this->locator =& $locator;
@@ -54,7 +55,7 @@ class Controller {
 			}
 			$action = $this->execute($action);
 		}
-  	}
+	}
 	
 	function execute($action) {
 		$file = $this->directory.basename($action['class']).'.php';
@@ -72,13 +73,14 @@ class Controller {
 	function requestHandler(&$request) {
 	    return $this->forward($this->getClass($request), $this->getMethod($request));
 	}
-
 	function getClass(&$request) {
-	    if ($request->has('controller')) { $class = $request->gethtml('controller'); }
-		else { $class=$this->default['class']; }
-		return $class;
+		if ($request->has('controller')) {
+			$class = $request->gethtml('controller');
+			$this->controller = $class;
+		} else { 
+			$class=$this->default['class']; }
+	return $class;
 	}
-
 	function getMethod(&$request) {
 	    if ($request->has('action')) { $method = $request->gethtml('action'); }
 		else { $method=$this->default['method']; }

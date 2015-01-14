@@ -46,14 +46,12 @@ class ControllerShippingAustraliaPost extends Controller{
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 		$view->set('entry_weight_class', $this->language->get('entry_weight_class'));
 		$view->set('entry_dimension_class', $this->language->get('entry_dimension_class'));
-		$view->set('entry_default_method', $this->language->get('entry_default_method'));
 		$view->set('entry_postcode', $this->language->get('entry_postcode'));
 		
 		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
 		$view->set('explanation_entry_geo_zone', $this->language->get('explanation_entry_geo_zone'));
 		$view->set('explanation_entry_sort_order', $this->language->get('explanation_entry_sort_order'));
 		$view->set('explanation_entry_tax', $this->language->get('explanation_entry_tax'));
-		$view->set('explanation_entry_method', $this->language->get('explanation_entry_method'));
 		$view->set('explanation_weight', $this->language->get('explanation_weight'));
 		$view->set('explanation_dimension', $this->language->get('explanation_dimension'));
 		$view->set('explanation_postcode', $this->language->get('explanation_postcode'));
@@ -114,18 +112,13 @@ class ControllerShippingAustraliaPost extends Controller{
 		} else {
 			$view->set('global_australiapost_weight_class', @$setting_info['global']['australiapost_weight_class']);
 		}
-		
+
 		if ($this->request->has('global_australiapost_dimension_class', 'post')) {
 			$view->set('global_australiapost_dimension_class', $this->request->gethtml('global_australiapost_dimension_class', 'post'));
 		} else {
 			$view->set('global_australiapost_dimension_class', @$setting_info['global']['australiapost_dimension_class']);
 		}
 		
-		if ($this->request->has('global_australiapost_default_method', 'post')) {
-			$view->set('global_australiapost_default_method', $this->request->gethtml('global_australiapost_default_method', 'post'));
-		} else {
-			$view->set('global_australiapost_default_method', @$setting_info['global']['australiapost_default_method']);
-		}
 
 		if ($this->request->has('global_australiapost_geo_zone_id', 'post')) {
 			$view->set('global_australiapost_geo_zone_id', $this->request->gethtml('global_australiapost_geo_zone_id', 'post'));
@@ -137,10 +130,7 @@ class ControllerShippingAustraliaPost extends Controller{
 		$view->set('dimension_classes', $this->modelAUPost->get_dimension_classes(1));
 		$view->set('tax_classes', $this->modelAUPost->get_tax_classes());
 		$view->set('geo_zones', $this->modelAUPost->get_geo_zones());
-		$methods = $this->language->get('default_methods');
-		$default_methods = explode(',', $methods);
-		$view->set('default_methods', $default_methods);
-		
+
 		$this->template->set('content', $view->fetch('content/shipping_australiapost.tpl'));
 
 		$this->template->set($this->module->fetch());

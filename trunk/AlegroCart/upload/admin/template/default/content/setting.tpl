@@ -577,6 +577,23 @@
 			</tr>
 			<tr><td colspan="2"><hr></td></tr>
             <tr>
+              <td width="185" class="set"><?php echo $entry_estimate; ?></td>
+              <td width="100"><?php if ($catalog_config_estimate) { ?>
+                <input type="radio" name="catalog_config_estimate" value="1" id="cceyes" checked>
+                <label for="cceyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_estimate" value="0" id="cceno">
+                <label for="cceno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_estimate" value="1" id="cceyes">
+                <label for="cceyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_estimate" value="0" id="cceno" checked>
+                <label for="cceno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+				<td class="expl">
+				  <?php echo $explanation_estimate; ?> 
+				</td>
+			</tr>
+            <tr>
               <td class="set"><?php echo $entry_tax; ?></td>
               <td><?php if ($global_config_tax) { ?>
                 <input type="radio" name="global_config_tax" value="1" id="gctyes" checked>

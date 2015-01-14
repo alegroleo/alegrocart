@@ -240,5 +240,13 @@ class Model_Core extends Model {
 		$result = $this->database->countRows("select p2c.product_id from product_to_category p2c inner join category c on c.category_id = p2c.category_id and (c.path = '" . $category_id . "' or c.path like '" . $category_id . "\_%' or c.path like '%\_" . $category_id . "' or c.path like '%\_" . $category_id . "\_%') inner join product p on p.product_id = p2c.product_id where p.status = '1'");
 		return $result;
 	}
+	function return_zones($country_id){
+		$results = $this->database->cache('zone-' . (int)$country_id, "SELECT zone_id, name, zone_status FROM zone WHERE country_id = '" . (int)$country_id . "' AND zone_status = '1' ORDER BY name");
+		return $results;
+	}
+	function get_countries(){
+		$results = $this->database->cache('country', "SELECT * FROM country WHERE country_status = '1'  ORDER BY name");
+		return $results;
+	}
 }
 ?>

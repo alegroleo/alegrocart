@@ -6,27 +6,30 @@ class ShippingZonePlus extends Shipping {
 		$this->config   =& $locator->get('config');
 		$this->currency =& $locator->get('currency');
 		$this->language =& $locator->get('language');
+		$this->request		=& $locator->get('request');
 		$this->session  =& $locator->get('session');
 		$this->tax      =& $locator->get('tax');
-		$model 			=& $locator->get('model');
-		$this->modelShipping = $model->get('model_shipping');
-		
+		$model 		=& $locator->get('model');
+		$this->modelShipping	= $model->get('model_shipping');
+
 		$this->language->load('extension/shipping/zoneplus.php');
-  	}
+	}
 
 	function quote() {
 		$quote_data = array();
-		
+
 		if(!isset($this->results)){
 			$this->results = $this->modelShipping->get_geo_zones();
 		}
-		
+
 		foreach ($this->results as $result) {
 			if ($this->config->get('zoneplus_' . $result['geo_zone_id'] . '_data')) {
 				$data = unserialize($this->config->get('zoneplus_' . $result['geo_zone_id'] . '_data'));
-				
-				
-				if(!isset($this->zonestatus[$result['geo_zone_id']])){
+				if($this->request->has('Country_id', 'post') && $this->request->has('Zone_id', 'post') && $this->config->get('config_estimate') && !isset($this->zonestatus[$result['geo_zone_id']])){
+					$this->zonestatus[$result['geo_zone_id']] = $this->modelShipping->get_estimated_zonestatus($result['geo_zone_id'], $this->session->get('country_id'), $this->session->get('zone_id'));
+				} elseif (!$this->session->has('customer_id') && $this->session->has('shipping_method') && $this->config->get('config_estimate') && !isset($this->zonestatus[$result['geo_zone_id']])){
+					$this->zonestatus[$result['geo_zone_id']] = $this->modelShipping->get_estimated_zonestatus($result['geo_zone_id'], $this->session->get('country_id'), $this->session->get('zone_id'));
+				} elseif (!isset($this->zonestatus[$result['geo_zone_id']])){
 					$this->zonestatus[$result['geo_zone_id']] = $this->modelShipping->get_zonestatus($result['geo_zone_id']);
 				}
 				if($this->zonestatus[$result['geo_zone_id']] && $data['status']){
@@ -38,7 +41,7 @@ class ShippingZonePlus extends Shipping {
 			} else {
 				$status = false;
 			}
-			
+
 			if ($status) {
 				$cost = 0;
 				$cart_weight = $this->cart->getWeight();
@@ -89,7 +92,7 @@ class ShippingZonePlus extends Shipping {
 	function form_fields($message){
 		if ($message){
 			$output = '<tr>';
-			$output .= '<td class="g">';
+			$output .= '<td class="x">';
 			$output .= $message;
 			$output .= '</td>';
 			$output .= '</tr>';

@@ -3,9 +3,11 @@ class ControllerCart extends Controller {
 	var $error = array();
 	var $error_min = array();
 	var $error_max = array();
+
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
+		$this->address		=& $locator->get('address');
 		$this->config		=& $locator->get('config');
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->calculate	=& $locator->get('calculate');
@@ -34,10 +36,10 @@ class ControllerCart extends Controller {
 	function index() {
 
 	if ($this->request->isPost() && !$this->request->has('currency', 'post') && !$this->request->has('module_language', 'post')) { 
-/*		if ($this->request->gethtml('product_id', 'post')) {
-			$this->cart->add($this->request->gethtml('product_id', 'post'), '1', $this->request->gethtml('option', 'post'));
+		if($this->session->has('shipping_method') && !$this->customer->isLogged()) {
+			$this->session->delete('shipping_method');
+			$this->session->set('had_shipping_method', TRUE);
 		}
-*/
 		if ($this->request->gethtml('quantity', 'post') != null && $this->request->gethtml('quantity', 'post')) {
 			foreach ($this->request->gethtml('quantity', 'post') as $key => $value) {
 				$this->session->set('min_qty_error['.$key.']', '0');
@@ -134,8 +136,13 @@ class ControllerCart extends Controller {
 	$view->set('tax_included', $this->config->get('config_tax'));
 
 	if ($this->cart->hasProducts()) {
-		$this->calculate->getTotals(); //************************
-		$view->set('text_subtotal', $this->language->get('text_subtotal'));
+		$totals = $this->calculate->getTotals(); //************************
+		$view->set('totals', $totals);
+
+		if ($this->customer->isLogged() && !$this->address->has($this->session->get('shipping_address_id'))) {
+			$this->session->set('shipping_address_id', $this->customer->getAddressId());
+		}
+
 		$view->set('text_stock_ind', $this->language->get('text_stock_ind'));
 		$view->set('text_min_order_value', $this->language->get('text_min_order_value'));
 		$view->set('text_min_qty_ind', $this->language->get('text_min_qty_ind'));
@@ -148,8 +155,13 @@ class ControllerCart extends Controller {
 		$view->set('text_tax_explantion', $this->language->get('text_tax_explantion'));
 		$view->set('text_product_totals', $this->language->get('text_product_totals'));
 		$view->set('text_downloadable', $this->language->get('text_downloadable'));
-		$view->set('text_soldby', $this->language->get('text_soldby'));
+		$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
+		$view->set('text_shipping_methods', $this->language->get('text_shipping_methods'));
+		$view->set('text_estimate', $this->language->get('text_estimate'));
+		$view->set('text_merged', $this->language->get('text_merged'));
+		$view->set('text_modified', $this->language->get('text_modified'));
 
+		$view->set('text_soldby', $this->language->get('text_soldby'));
 		$view->set('column_remove', $this->language->get('column_remove'));
 		$view->set('column_image', $this->language->get('column_image'));
 		$view->set('column_name', $this->language->get('column_name'));
@@ -163,9 +175,14 @@ class ControllerCart extends Controller {
 		$view->set('column_min_qty', $this->language->get('column_min_qty'));
 		$view->set('column_max_qty', $this->language->get('column_max_qty'));
 		$view->set('entry_coupon', $this->language->get('entry_coupon'));
+		$view->set('entry_country', $this->language->get('entry_country'));
+		$view->set('entry_zone', $this->language->get('entry_zone'));
+		$view->set('entry_postcode', $this->language->get('entry_postcode'));
+
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_shopping', $this->language->get('button_shopping'));
 		$view->set('button_checkout', $this->language->get('button_checkout'));
+		$view->set('button_calculate', $this->language->get('button_calculate'));
 
 		$view->set('max_qty_column', $this->cart->hasMaxQty());
 
@@ -177,15 +194,50 @@ class ControllerCart extends Controller {
 		$error_checkout = ((!$this->cart->hasStock()) && ($this->config->get('config_stock_checkout')) ? $this->language->get('error_checkout') : NULL);
 		$view->set('error', $error_stock_check . $error_checkout);
 		$view->set('stock_check', $this->config->get('config_stock_check'));
+		$view->set('error_calc_request', $this->language->get('error_calc_request'));
+		$view->set('error_calc_response', $this->language->get('error_calc_response'));
 
 		if ($this->session->has('error')) {
 			$view->set('error', $this->session->get('error'));
 			$this->session->delete('error');
 			$view->set('message', '');
+		} elseif ($this->session->has('merged_message')) {
+			$view->set('message', $this->language->get('text_merged'));
+		} elseif ($this->session->has('modified_message') && !$this->customer->isLogged() && $this->session->has('had_shipping_method')) {
+			$view->set('message', $this->language->get('text_modified'));
 		} else {
 			$view->set('message', $this->coupon->getCode() ? $this->session->get('coupon_message') : '');
 		}
 		$this->session->delete('coupon_message');
+		$this->session->delete('merged_message');
+		$this->session->delete('modified_message');
+		$this->session->delete('had_shipping_method');
+
+		if ($this->request->has('country_id', 'post')) {
+			$view->set('country_id', $this->request->gethtml('country_id', 'post'));
+		} elseif ($this->session->has('country_id')) {
+			$view->set('country_id', $this->session->get('country_id'));
+		} else {
+			$view->set('country_id', $this->config->get('config_country_id'));
+		}
+
+		if ($this->request->has('zone_id', 'post')) {
+			$view->set('zone_id', $this->request->gethtml('zone_id', 'post'));
+		} elseif ($this->session->has('zone_id')) {
+			$view->set('zone_id', $this->session->get('zone_id'));
+		} else {
+			$view->set('zone_id', $this->config->get('config_zone_id'));
+		}
+
+		if ($this->request->has('postcode', 'post')) {
+			$view->set('postcode', $this->request->sanitize('postcode', 'post'));
+		} else {
+			$view->set('postcode', $this->session->get('postcode'));
+		}
+		$view->set('countries',$this->modelCore->get_countries());
+		$view->set('has_shipping',$this->cart->hasShipping());
+		$view->set('estimated_shipping_status', $this->config->get('config_estimate'));
+		$view->set('islogged', $this->customer->isLogged());
 
 		$view->set('couponproducts', $this->coupon->hasProducts());
 		$view->set('coupon', $this->coupon->getCode());
@@ -360,6 +412,140 @@ class ControllerCart extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
+
+	function zone() {
+		$output = '<select name="zone_id">';
+		$results = $this->modelCore->return_zones($this->request->gethtml('country_id'));
+
+		foreach ($results as $result) {
+			$output .= '<option value="' . $result['zone_id'] . '"';
+
+			if ($this->request->gethtml('zone_id') == $result['zone_id']) {
+				$output .= ' SELECTED';
+			}
+
+			$output .= '>' . $result['name'] . '</option>';
+		}
+
+		if (!$results) {
+			$output .= '<option value="0">' . $this->language->get('text_none') . '</option>';
+		}
+
+		$output .= '</select>';
+		$this->response->set($output);
+	}
+
+	function estimate(){
+		if ($this->request->isPost()) {
+			$this->session->set('country_id', $this->request->sanitize('Country_id', 'post'));
+			$this->session->set('zone_id', $this->request->sanitize('Zone_id', 'post'));
+			$this->session->set('postcode', $this->request->sanitize('PostCode', 'post'));
+
+			$estimated_quotes = $this->shipping->getQuotes();
+			if ($estimated_quotes) {
+				$html = '<div class="v">'.$this->language->get('text_shipping_method').'</div>';
+				$html .= '<div class="w">'.$this->language->get('text_shipping_methods');
+				foreach ($estimated_quotes as $estimated_quote){
+					$html .= '<table class="method"><tbody><tr><td class="x" colspan="2"><b>'.$estimated_quote['title'].'</b></td></tr>';
+						if (!$estimated_quote['error']){
+							foreach ($estimated_quote['quote'] as $quote){
+								if (isset($quote['error']) && !empty($quote['error'])){
+									$html .= '<tr><td colspan="2" class="x"><div class="warning">'.$quote['error'].'</div></td></tr>';
+								} else {
+									$html .= '<tr><td class="x">';
+									$html .= '<label for="'.$quote['id'].'">';
+									$html .= '<input type="radio" name="shipping" value="'.$quote['id'].'" id="'.$quote['id'].'">';
+									$html .= $quote['title'].'</label></td>';
+									$html .= '<td class="y"><label for="'.$quote['id'].'">'. ($this->config->get('config_tax') ? '<span class="tax">*</span>' : '') . $quote['text'].'</label></td>';
+									$html .= '<input type="hidden" name="'.$quote['id'].'_quote" value="'.$quote['text'].'"></tr>';
+
+									if(isset($quote['shipping_form'])){
+										$html.= $quote['shipping_form'];
+									}
+								}
+							}
+						} else {
+							$html .= '<tr><td colspan="2" class="x"><div class="warning">'.$estimated_quote['error'].'</div></td></tr>';
+						}
+					$html .= '</tbody></table>';
+				}
+				$html .= '</div>';
+
+				$html .= '<div class="buttons"><table><tr>';
+				$html .= '<td align="left" class="buttons"><input type="button" name="apply" id="apply" value="'.$this->language->get('button_apply').'" ></td>';
+				$html .= '</tr></table></div>';
+
+				$html .= '<script type="text/javascript"><!--';
+				$html .= '$(document).ready(function(){';
+				$html .= '$("#apply").hide();';
+				$html .= '$(\'input[name="shipping"]\').on("click", function(){';
+				$html .= 'if (!$(\'input[name="shipping"]\').is(\'checked\')) {';
+				$html .= '$("#apply").show();';
+				$html .= '}';
+				$html .= '});';
+				$html .= '});';
+				$html .= '//--></script>';
+
+				$html .= '<script type="text/javascript"><!--';
+				$html .= '$(\'input[name="shipping"]\').on("click", function(){';
+				$html .= '$(\'input[name="shipping"]\').closest(\'table\').removeClass(\'default_method\').addClass(\'method\');';
+				$html .= '$(this).closest(\'table\').attr(\'class\', \'default_method\');';
+				$html .= '});';
+				$html .= '//--></script>';
+
+				$html .= '<script type="text/javascript"><!--';
+				$html .= '$("#apply").on("click", function(){';
+				$html .= 'var shippingMethod = $(\'input[name=shipping]:checked\').val();';
+				$html .= 'var data_json = {\'shippingMethod\':shippingMethod};';
+				$html .= '$.ajax({';
+				$html .= 'type: \'POST\',';
+				$html .= 'url: \'index.php?controller=cart&action=apply\',';
+				$html .= 'data: data_json,';
+				$html .= 'dataType:\'json\',';
+				$html .= 'beforeSend: function (data) {';
+				$html .= '$(".apply_error").remove();';
+				$html .= '$("#apply").prop(\'disabled\',true);';
+				$html .= '},';
+				$html .= 'success: function (data) {';
+				$html .= 'if (data.status === true) {';
+				$html .= '$("#estimated_results").remove();';
+				$html .= '$(\'html, body\').scrollTop(0);';
+				$html .= 'location.reload();';
+				$html .= '} else {';
+				$html .= '$(\'<div class="warning apply_error">'.$this->language->get('error_apply_response').'</div>\').insertBefore("#cart");';
+				$html .= '$(\'html, body\').scrollTop(0);';
+				$html .= '$("#apply").prop(\'disabled\',false);';
+				$html .= '}';
+				$html .= '$("#apply").prop(\'disabled\',false);';
+				$html .= '},';
+				$html .= 'error: function (data) {';
+				$html .= '$(\'<div class="warning apply_error">'.$this->language->get('error_apply_request').'</div>\').insertBefore("#cart");';
+				$html .= '$("#apply").prop(\'disabled\',false);';
+				$html .= '}';
+				$html .= '});';
+				$html .= '});';
+				$html .= '//--></script>';
+
+			$output = array('status' => true, 'html' => $html);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
+	}
+
+	function apply() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('shippingMethod', 'post')) {
+				$this->session->set('shipping_method', $this->request->sanitize('shippingMethod', 'post'));
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
+	}
+
 
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());

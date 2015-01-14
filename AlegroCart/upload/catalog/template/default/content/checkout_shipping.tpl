@@ -65,24 +65,24 @@
 	<table class="method">
 	<tbody>
         <tr>
-          <td class="g" colspan="2"><b><?php echo $method['title']; ?></b></td>
+          <td class="x" colspan="2"><b><?php echo $method['title']; ?></b></td>
         </tr>
       <?php if (!$method['error']) { ?>
         <?php foreach ($method['quote'] as $quote) { ?>
 		  <?php if (isset($quote['error']) && !empty($quote['error'])) {?>
 		    <tr>
-              <td colspan="2" class="g"><div class="warning"><?php echo $quote['error']; ?></div></td>
+              <td colspan="2" class="x"><div class="warning"><?php echo $quote['error']; ?></div></td>
             </tr>
 		  <?php } else {?>
 			<tr>
-			  <td class="g"><label for="<?php echo $quote['id']; ?>">
+			  <td class="x"><label for="<?php echo $quote['id']; ?>">
               <?php if ($quote['id'] == $default) { ?>
                 <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>" checked="checked">
               <?php } else { ?>
                 <input type="radio" name="shipping" value="<?php echo $quote['id']; ?>" id="<?php echo $quote['id']; ?>">
               <?php } ?>
               <?php echo $quote['title']; ?></label></td>
-              <td class="i"><label for="<?php echo $quote['id']; ?>"><?php echo $quote['text']; ?></label></td>
+              <td class="i"><label for="<?php echo $quote['id']; ?>"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $quote['text']; ?></label></td>
 		      <input type="hidden" name="<?php echo $quote['id']; ?>_quote" value="<?php echo $quote['text']; ?>">
           </tr>
 		   <?php if (isset($quote['shipping_form'])){ echo $quote['shipping_form']; }?>
@@ -90,7 +90,7 @@
         <?php } ?>
         <?php } else { ?>
 		  <tr>
-            <td colspan="2" class="g"><div class="warning"><?php echo $method['error']; ?></div></td>
+            <td colspan="2" class="x"><div class="warning"><?php echo $method['error']; ?></div></td>
           </tr>
         <?php } ?>
 	</tbody>
@@ -102,6 +102,9 @@
     <div class="f">
       <textarea  id="comment" name="comment" cols="89" rows="8"><?php echo $comment; ?></textarea>
     </div>
+	<?php if($tax_included){?>
+	  <?php echo '<td class="left"><span class="tax">* </span>' . $text_tax . '</td>';?>
+	<?php } ?>
 	<input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
   </div>
   <div class="buttons">

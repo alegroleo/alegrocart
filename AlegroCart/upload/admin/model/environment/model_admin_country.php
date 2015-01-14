@@ -16,14 +16,28 @@ class Model_Admin_Country extends Model {
 		$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('country_status', 'post'), $this->request->gethtml('iso_code_2', 'post'), $this->request->gethtml('iso_code_3', 'post'), $this->request->gethtml('address_format', 'post'), $this->request->gethtml('country_id')));
 	}
 	function set_status($status){
-		$this->database->query("update country set country_status = '" . $status . "' where country_id != '" . $this->config->get('config_country_id')  ."'");
+		$vendors = $this->get_vendors();
+		$vendorcountry = array();
+		foreach ($vendors as $vendor){
+			$vendorcountry[] = $vendor['country_id'];
+		}
+		$vendorlist = implode (',',$vendorcountry);
+		$this->database->query("UPDATE country SET country_status = '" . $status . "' WHERE country_id != '" . $this->config->get('config_country_id')  ."' AND country_id NOT IN (".$vendorlist.")");
 	}
 	function delete_country(){
 		$this->database->query("delete from country where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
 	}
 	function check_status(){
-		$result = count($this->database->getRows("select country_status from country where country_status = '1'"));
-		return $result>1 ? TRUE : FALSE;
+		$vendors = $this->get_vendors();
+		$vendorcountry = array();
+		foreach ($vendors as $vendor){
+			$vendorcountry[] = $vendor['country_id'];
+		}
+		if (!in_array($this->config->get('config_country_id'), $vendorcountry)) {
+		$vendorcountry[] = $this->config->get('config_country_id'); 
+		}
+		$result = count($this->database->getRows("SELECT country_status FROM country WHERE country_status = '1'"));
+		return $result>count($vendorcountry) ? TRUE : FALSE;
 	}
 	function get_country_info(){
 		$result = $this->database->getRow("select distinct * from country where country_id = '" . (int)$this->request->gethtml('country_id') . "'");

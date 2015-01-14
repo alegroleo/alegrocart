@@ -220,6 +220,7 @@ $_['entry_options_manufacturer']= 'Allow Manufacturer Filter:';
 $_['entry_options_model']       = 'Allow Model Filter:';
 $_['entry_unregistered']	= 'Display on public pages:';
 $_['entry_registered']		= 'Display on protected pages:';
+$_['entry_estimate']		= 'Estimate Shipping and Tax:';
 
 //Explanations
 $_['explanation_query_log']       = 'Use this only for testing. This process requires disc space and time to process. Not for production use.';
@@ -262,6 +263,7 @@ $_['explanation_email_port']		= 'The SMTP port number. Default is 25.';
 $_['explanation_email_timeout']		= 'Timeout in seconds. Default is 10.';
 $_['explanation_url_alias']		= 'This will enable URL Alias. Once enabled, you should go to the URL alias module and generate SEO urls.';
 $_['explanation_seo']			= 'This will enable automatic creation of SEO urls when new products or categories are created.';
+$_['explanation_estimate']		= 'This will enable shipping cost and tax estimation in cart for not logged in customers as well.';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

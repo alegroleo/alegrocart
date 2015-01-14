@@ -125,35 +125,67 @@
 	  </tr>
 	  <?php }?>
     </table>
-    <div class="n">
+	<?php if ($has_shipping && $estimated_shipping_status && !$islogged) { ?>
+    <div class="u">
+    <table>
+	<tr>
+           <th colspan="2"><?php echo $text_estimate ; ?></th>
+        </tr>
+	<tr>
+          <td><?php echo $entry_country; ?></td>
+          <td><select name="country_id" onchange="$('#zone').load('index.php?controller=account_create&amp;action=zone&amp;country_id='+this.value+'&amp;zone_id=<?php echo $zone_id; ?>');">
+              <?php foreach ($countries as $country) { ?>
+              <?php if ($country['country_id'] == $country_id) { ?>
+              <option value="<?php echo $country['country_id']; ?>" SELECTED><?php echo $country['name']; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select></td>
+        </tr>
+        <tr>
+          <td><?php echo $entry_zone; ?></td>
+          <td id="zone">
+		    <select name="zone_id"><option disabled></option>
+            </select></td>
+        </tr>
+        <tr>
+          <td><?php echo $entry_postcode; ?></td>
+          <td><input size="10" type="text" name="postcode" id="postcode" value="<?php echo $postcode; ?>"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="buttons">
       <table>
         <tr>
-	  <td></td> 
-          <td><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $text_subtotal; ?></td>
-          <td><?php echo $subtotal; ?></td>
+        <td align="left" class="buttons"><input type="button" id="calculate" value="<?php echo $button_calculate; ?>" ></td>
         </tr>
+      </table>
+    </div>
+    <div id="estimated_results"></div>
+	<?php }?>
+    <div class="n">
+      <table>
 	<?php if($tax_included){?>
 	  <tr>
 	  <td></td>  
 	  <td><?php echo $text_net_total;?></td>
 	  <td><?php echo $net_total; ?></td>
 	  <?php } ?>
-         <?php if ($minov_status) { ?>
-	    <tr>
-	      <td></td>
-	      <td><?php echo $text_min_order_value; ?></td>
-	      <td><?php echo $minov_value; ?></td>
-	    </tr>
-	 <?php } ?>
-	<tr>
-	  <td></td>
-          <td><?php echo $text_cart_weight; ?></td>
-          <td><?php echo $weight; ?></td>
+        <?php foreach ($totals as $total) { ?>
+		<?php if($total['title']!=':'){?>
+        <tr>
+	  <td></td> 
+          <td><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $total['title']; ?></td>
+          <td><?php echo $total['text']; ?></td>
         </tr>
+        <?php } ?>
+        <?php } ?>
       </table>
     </div>
-	<table width="100%"><tr>
-           <td><span class="tax"><?php echo isset($text_shortfall) ? $text_shortfall : ''; ?></span></td>
+	<table width="100%">
+	<tr>
+           <td><span <?php echo isset($text_shortfall) ? 'class="tax"' : ''; ?>><?php echo isset($minov_status) ? $text_min_order_value.$minov_value.'! ' : ''; ?><?php echo isset($text_shortfall) ? $text_shortfall : ''; ?></span></td>
         </tr></table>
 	<?php if ($discount_status) {?>
 	  <table width="100%">
@@ -167,10 +199,12 @@
 		    <td><?php echo $text_discount_gprice;?></td>
 		  <?php }?>
 		</tr>
-	  </table> 
+	  </table>
 	<?php }?>
-	
 	  <table width="100%">
+	<tr>
+          <td><?php echo $text_cart_weight; ?><?php echo $weight; ?></td>
+        </tr>
         <tr>
 		<?php if($tax_included){?>
 		  <script type="text/javascript">
@@ -191,7 +225,6 @@
 		  <?php }?>
         </tr>
       </table>
-	
   </div>
   <div class="buttons">
     <table>
@@ -206,3 +239,40 @@
   <div class="contentBodyBottom"></div>
   <input type="hidden" name="task" value="update">
 </form>
+<script type="text/javascript"><!--
+$('#zone').load('index.php?controller=cart&action=zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
+//--></script>
+  <script type="text/javascript"><!--
+$("#calculate").on("click", function(){
+	var Country_id = $('select[name=country_id] option:selected').val();
+	var Zone_id = $('select[name=zone_id] option:selected').val();
+	var PostCode = $('#postcode').val();
+	var data_json = {'Country_id':Country_id, 'Zone_id':Zone_id, 'PostCode':PostCode};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=cart&action=estimate',
+		data: data_json,
+		dataType:'json',
+		beforeSend: function (data) {
+			$(".calc_error").remove();
+			$("#calculate").prop('disabled',true);
+			$('#calculate').after('<img src="catalog/styles/default/image/working.gif" alt="" id="working">');
+		},
+		success: function (data) {
+			if (data.status === true) {
+				$('#estimated_results').html(data.html);
+			} else {
+				$('<div class="warning calc_error"><?php echo $error_calc_response; ?></div>').insertBefore("#cart");
+				$("#calculate").prop('disabled',false);
+			}
+		},
+		error: function (data) {
+			$('<div class="warning calc_error"><?php echo $error_calc_request; ?></div>').insertBefore("#cart");
+		},
+		complete: function() {
+			$("#calculate").prop('disabled',false);
+			$('#working').remove();
+		}
+	});
+});
+//--></script>

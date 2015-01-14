@@ -26,30 +26,34 @@ class ShippingCanadaPost extends Shipping{
 		$this->session  =& $locator->get('session');
 		$this->tax      =& $locator->get('tax');
 		$this->weight   =& $locator->get('weight');
-		$model 			=& $locator->get('model');
+		$model 		=& $locator->get('model');
 		$this->modelShipping = $model->get('model_shippingcapost');
-		
+
 		$this->language->load('extension/shipping/canadapost.php');
-  	}
+	}
 	function quote(){
 		if ($this->config->get('canadapost_status')) {
 			if (!$this->config->get('canadapost_geo_zone_id')) {
 				$status = true;
 			} elseif ($this->modelShipping->get_canpost_status()) {
-        		$status = true;
-      		} else {
-        		$status = false;
-      		}	
+        			$status = true;
+			} elseif ($this->request->has('Country_id', 'post') && $this->request->has('Zone_id', 'post') && $this->config->get('config_estimate') && $this->modelShipping->get_estimated_canpost_status($this->session->get('country_id'), $this->session->get('zone_id'))) {
+				$status = true;
+			} elseif ($this->session->has('shipping_method') && $this->config->get('config_estimate') && $this->modelShipping->get_estimated_canpost_status($this->session->get('country_id'), $this->session->get('zone_id'))) {
+				$status = true;
+      			} else {
+        			$status = false;
+			}
 		} else {
 			$status = false;
 		}
-		
+
 		$method_data = array();
 		if ($status) {
 			$has_rates = '';
-			
-			if($this->customer->isLogged()){
-				if($this->session->get('canpost_items') != $this->cart->countProducts() || $this->session->get('canpost_weight') != $this->cart->getWeight() || $this->session->get('shipping_address_id') != $this->session->get('cp_shipping_address_id') ){
+
+			if($this->customer->isLogged() || (!$this->customer->isLogged() && $this->config->get('config_estimate'))){
+				if($this->session->get('canpost_items') != $this->cart->countProducts() || $this->session->get('canpost_weight') != $this->cart->getWeight() || $this->session->get('shipping_address_id') != $this->session->get('cp_shipping_address_id') || (!$this->customer->isLogged() && $this->config->get('config_estimate'))){
 
 					$this->session->delete('cp_info');
 					$this->session->delete('cp_quotes');
@@ -62,10 +66,10 @@ class ShippingCanadaPost extends Shipping{
 				} else {
 					$this->weight_class = $this->modelShipping->get_canpost_weight();
 					$this->dimension_class =$this->modelShipping->get_canpost_dimension();
-					
+
 					$this->readytoship = $this->config->get('canadapost_readytoship');
 					$this->canadapost_package = $this->config->get('canadapost_package');
-					
+
 					$products = $this->getProducts();
 					if(!$this->error){
 						if($this->readytoship && $this->canadapost_package){
@@ -106,7 +110,8 @@ class ShippingCanadaPost extends Shipping{
 
 					$this->session->set('canpost_items',$this->cart->countProducts());
 					$this->session->set('canpost_weight',$this->cart->getWeight());
-					$this->session->set('cp_shipping_address_id',$this->session->get('shipping_address_id')); 				}
+					$this->session->set('cp_shipping_address_id',$this->session->get('shipping_address_id'));
+ 				}
 			} else {
 				$this->session->delete('cp_shipping_address_id');
 				$this->session->delete('cp_info');
@@ -160,7 +165,7 @@ class ShippingCanadaPost extends Shipping{
 	function fields($quote){
 		$output = '';
 		$output .= '<tr>';
-		$output .= '<td class="g">';
+		$output .= '<td class="x">';
 		$output .= $this->language->get('text_shipping_date');
 		$output .= $quote['shippingDate'];
 		$output .= $this->language->get('text_delivery_date');
@@ -282,12 +287,19 @@ class ShippingCanadaPost extends Shipping{
 			$output .= "</item>\n";
 		}
 		$output .= "</lineItems>\n";
-		$output .= "<city>" . htmlspecialchars_deep($this->address->getCity($shipping_address_id)) . "</city>\n";
-		$output .= "<provOrState>" . htmlspecialchars_deep($this->address->getZone($shipping_address_id)) . "</provOrState>\n";
-		$output .= "<country>" . htmlspecialchars_deep($this->address->getCountry($shipping_address_id)) . "</country>\n";
-		$output .= "<postalCode>" . str_replace(" ", '',$this->address->getPostCode($shipping_address_id)) . "</postalCode>\n";
+		if ($this->customer->isLogged()) {
+			$output .= "<city>" . htmlspecialchars_deep($this->address->getCity($shipping_address_id)) . "</city>\n";
+			$output .= "<provOrState>" . htmlspecialchars_deep($this->address->getZone($shipping_address_id)) . "</provOrState>\n";
+			$output .= "<country>" . htmlspecialchars_deep($this->address->getCountry($shipping_address_id)) . "</country>\n";
+			$output .= "<postalCode>" . str_replace(" ", '',$this->address->getPostCode($shipping_address_id)) . "</postalCode>\n";
+		} else {
+			$output .= "<provOrState>".htmlspecialchars_deep($this->modelShipping->getZoneName($this->session->get('zone_id')))."</provOrState>\n";
+			$output .= "<country>". htmlspecialchars_deep($this->modelShipping->getCountryName($this->session->get('country_id'))) ."</country>\n";
+			$output .= "<postalCode>". str_replace(" ", '', $this->session->get('postcode')) ."</postalCode>\n";
+		}
 		$output .= "</ratesAndServicesRequest>\n";
 		$output .= "</eparcel>\n";
+
 		return $output;
 	}
 	

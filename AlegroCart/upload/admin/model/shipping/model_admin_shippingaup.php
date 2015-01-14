@@ -19,7 +19,6 @@ class Model_Admin_ShippingAup extends Model {
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_sort_order', `value` = '?'", (int)$this->request->gethtml('global_australiapost_sort_order', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_weight_class', `value` = '?'", (int)$this->request->gethtml('global_australiapost_weight_class', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_dimension_class', `value` = '?'", (int)$this->request->gethtml('global_australiapost_dimension_class', 'post')));
-		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_default_method', `value` = '?'", $this->request->gethtml('global_australiapost_default_method', 'post')));
 		$this->database->query($this->database->parse("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_postcode', `value` = '?'", $this->request->gethtml('global_australiapost_postcode', 'post')));
 	}
 	
@@ -29,7 +28,6 @@ class Model_Admin_ShippingAup extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_sort_order', value = '0'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_weight__class', value = '0'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_dimension__class', value = '0'");
-		$this->database->query("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_default_method', value = ''");
 		$this->database->query("insert into setting set type = 'global', `group` = 'australiapost', `key` = 'australiapost_postcode', value = ''");
 	}
 	

@@ -2,7 +2,7 @@
 class ControllerAccountLogout extends Controller {
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
+		$model			=& $locator->get('model');
 		$this->cart     	=& $locator->get('cart');
 		$this->config  		=& $locator->get('config');
 		$this->customer 	=& $locator->get('customer');
@@ -10,6 +10,7 @@ class ControllerAccountLogout extends Controller {
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->response 	=& $locator->get('response');
+		$this->session		=& $locator->get('session');
 		$this->shipping 	=& $locator->get('shipping');
 		$this->template 	=& $locator->get('template');
 		$this->url      	=& $locator->get('url');
@@ -21,29 +22,30 @@ class ControllerAccountLogout extends Controller {
 
 	function index() {
 
-    	if ($this->customer->isLogged()) {
-      		$this->customer->logout();
-	  		$this->cart->clear();
-      		$this->response->redirect($this->url->ssl('account_logout'));
-    	}
- 
-    	$this->language->load('controller/account_logout.php');
-    	$this->template->set('title', $this->language->get('heading_title'));
-    	$view = $this->locator->create('template');
-    	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('text_success', $this->language->get('text_logout'));
-    	$view->set('button_continue', $this->language->get('button_continue'));
-    	$view->set('continue', $this->url->href('home'));
+		if ($this->customer->isLogged()) {
+			$this->customer->logout();
+			$this->cart->clear();
+			$this->session->delete('coupon_id');
+			$this->session->delete('shipping_method');
+			$this->response->redirect($this->url->ssl('account_logout'));
+		}
+
+		$this->language->load('controller/account_logout.php');
+		$this->template->set('title', $this->language->get('heading_title'));
+		$view = $this->locator->create('template');
+		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('text_success', $this->language->get('text_logout'));
+		$view->set('button_continue', $this->language->get('button_continue'));
+		$view->set('continue', $this->url->href('home'));
 		$view->set('head_def',$this->head_def);
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $view->fetch('content/success.tpl'));
-		
+
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));	
-  	}
-	
+	}
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){
@@ -62,7 +64,6 @@ class ControllerAccountLogout extends Controller {
 		$modules_extra['columnright'] = array('specials');
 		return $modules_extra;
 	}
-
 	function set_tpl_modules(){ // Template Manager
 		if($this->modelCore->tpl){
 			if(isset($this->modelCore->tpl['tpl_headers'])){$this->template->set('tpl_headers',$this->modelCore->tpl['tpl_headers']);}

@@ -6,24 +6,29 @@ class ShippingZone extends Shipping {
 		$this->config   =& $locator->get('config');
 		$this->currency =& $locator->get('currency');
 		$this->language =& $locator->get('language');
+		$this->request	=& $locator->get('request');
 		$this->session  =& $locator->get('session');
 		$this->tax      =& $locator->get('tax');
-		$model 			=& $locator->get('model');
+		$model 		=& $locator->get('model');
 		$this->modelShipping = $model->get('model_shipping');
-		
+
 		$this->language->load('extension/shipping/zone.php');
-  	}
-  	
-  	function quote() {
+	}
+
+	function quote() {
 		$quote_data = array();
-		
+
 		if(!isset($this->results)){
 			$this->results = $this->modelShipping->get_geo_zones();
 		}
-		
+
 		foreach ($this->results as $result) {
-   			if ($this->config->get('zone_' . $result['geo_zone_id'] . '_status')) {
-				if(!isset($this->zonestatus[$result['geo_zone_id']])){
+			if ($this->config->get('zone_' . $result['geo_zone_id'] . '_status')) {
+				if($this->request->has('Country_id', 'post') && $this->request->has('Zone_id', 'post') && $this->config->get('config_estimate') && !isset($this->zonestatus[$result['geo_zone_id']])){
+					$this->zonestatus[$result['geo_zone_id']] = $this->modelShipping->get_estimated_zonestatus($result['geo_zone_id'], $this->session->get('country_id'), $this->session->get('zone_id'));
+				} elseif (!$this->session->has('customer_id') && $this->session->has('shipping_method') && $this->config->get('config_estimate') && !isset($this->zonestatus[$result['geo_zone_id']])){
+					$this->zonestatus[$result['geo_zone_id']] = $this->modelShipping->get_estimated_zonestatus($result['geo_zone_id'], $this->session->get('country_id'), $this->session->get('zone_id'));
+				} elseif (!isset($this->zonestatus[$result['geo_zone_id']])){
 					$this->zonestatus[$result['geo_zone_id']] = $this->modelShipping->get_zonestatus($result['geo_zone_id']);
 				}
 				if($this->zonestatus[$result['geo_zone_id']]){
@@ -35,7 +40,7 @@ class ShippingZone extends Shipping {
 			} else {
 				$status = false;
 			}
-			
+
 			if ($status) {
 				$cost = 0;
 				$rates = explode(',', $this->config->get('zone_' . $result['geo_zone_id'] . '_cost'));
@@ -63,32 +68,32 @@ class ShippingZone extends Shipping {
         			'id'    => 'zone_' . $result['geo_zone_id'],
         			'title' => $result['name'],
         			'cost'  => $this->zonerate[$result['geo_zone_id']],
-					'shipping_form'=> !isset($this->quote_error[$result['geo_zone_id']]) ? $this->form_fields($this->config->get('zone_' . $result['geo_zone_id'] . '_message')) : '',
+				'shipping_form'=> !isset($this->quote_error[$result['geo_zone_id']]) ? $this->form_fields($this->config->get('zone_' . $result['geo_zone_id'] . '_message')) : '',
         			'text'  => $this->currency->format($this->tax->calculate($this->zonerate[$result['geo_zone_id']], $this->config->get('zone_tax_class_id'), $this->config->get('config_tax'))),
-					'error' => isset($this->quote_error[$result['geo_zone_id']]) ? $result['name'] . ' : ' . $this->quote_error[$result['geo_zone_id']] : FALSE
-      			);			
+				'error' => isset($this->quote_error[$result['geo_zone_id']]) ? $result['name'] . ' : ' . $this->quote_error[$result['geo_zone_id']] : FALSE
+      			);
 			}
 		}
-		
+
 		$method_data = array();
-	
+
 		if ($quote_data) {
-      		$method_data = array(
+		$method_data = array(
         		'id'           => 'zone',
         		'title'        => $this->language->get('text_zone_title'),
         		'quote'        => $quote_data,
         		'tax_class_id' => $this->config->get('zone_tax_class_id'),
-				'sort_order'   => $this->config->get('zone_sort_order'),
+			'sort_order'   => $this->config->get('zone_sort_order'),
         		'error'        => isset($this->weight_error) ? $this->weight_error : false
-      		);
+		);
 		}
-	
+
 		return $method_data;
-  	}
+	}
 	function form_fields($message){
 		if ($message){
 			$output = '<tr>';
-			$output .= '<td class="g">';
+			$output .= '<td class="x">';
 			$output .= $message;
 			$output .= '</td>';
 			$output .= '</tr>';

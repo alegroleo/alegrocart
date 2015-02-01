@@ -21,7 +21,7 @@ $_['text_order_download']	= 'Order Downloads';
 $_['text_order_update']		= 'Order Update';
 $_['text_product']		= 'Product';
 $_['text_model_number']		= 'Model Number';
-$_['text_soldby']		= 'Dispatched from and sold by:';
+$_['text_soldby']		= 'Dispatched from:';
 $_['text_quantity']		= 'Quantity';
 $_['text_price']		= 'Unit Price';
 $_['text_total']		= 'Total';
@@ -47,6 +47,7 @@ $_['text_downloadable']		= 'Downloadable';
 $_['text_modified']		= ' This order was modified by order number %s, order reference %s on %s.';
 $_['text_select_status']	= 'Select Status';
 $_['text_status_error']		= 'You must select a status';
+$_['cancelled_status']      = 'Cancelled';
 
 // Column
 $_['column_order_id']		= 'Order ID';

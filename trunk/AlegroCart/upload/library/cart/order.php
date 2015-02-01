@@ -118,8 +118,8 @@ class Order {
 				}
 			}
 
-			$sql = "insert into order_history set order_id = '?', order_status_id = '?', date_added = now(), notify = '1', comment = '?'";
-			$this->database->query($this->database->parse($sql, $order_id, ($order_status_id ? $order_status_id : $this->data['order_status_id']), strip_tags($this->data['comment'])));
+			$sql = "insert into order_history set order_id = '?', order_status_id = '?', date_added = now(), notify = '?', comment = '?'";
+			$this->database->query($this->database->parse($sql, $order_id, ($order_status_id ? $order_status_id : $this->data['order_status_id']), $this->config->get('config_email_send') ,strip_tags($this->data['comment'])));
 
 			foreach ($this->data['totals'] as $total) {
 				$sql = "insert into order_total set order_id = '?', title = '?', text = '?', `value` = '?', sort_order = '?'";

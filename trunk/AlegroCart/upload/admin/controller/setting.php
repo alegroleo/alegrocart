@@ -772,10 +772,10 @@ class ControllerSetting extends Controller {
 			$view->set('catalog_config_stock_checkout', @$setting_info['catalog']['config_stock_checkout']);
 		}
 
-		if ($this->request->has('catalog_config_stock_subtract')) {
-			$view->set('catalog_config_stock_subtract', $this->request->gethtml('catalog_config_stock_subtract'));
+		if ($this->request->has('global_config_stock_subtract')) {
+			$view->set('global_config_stock_subtract', $this->request->gethtml('global_config_stock_subtract'));
 		} else {
-			$view->set('catalog_config_stock_subtract', @$setting_info['catalog']['config_stock_subtract']);
+			$view->set('global_config_stock_subtract', @$setting_info['global']['config_stock_subtract']);
 		}
 
 		if ($this->request->has('catalog_config_show_stock')) {

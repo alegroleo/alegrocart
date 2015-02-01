@@ -6,10 +6,12 @@ class ControllerLogin extends Controller {
 		$this->locator 	=& $locator;
 		$this->language =& $locator->get('language');
 		$this->module   =& $locator->get('module');
+		$this->config   =& $locator->get('config');
 		$this->request  =& $locator->get('request');
 		$this->response =& $locator->get('response');
 		$this->session  =& $locator->get('session');
 		$this->template =& $locator->get('template');
+		$this->currency =& $locator->get('currency');
 		$this->url      =& $locator->get('url');
 		$this->user     =& $locator->get('user');
 		
@@ -29,6 +31,7 @@ class ControllerLogin extends Controller {
 		}
 
 		if ($this->request->isPost() && $this->request->has('username', 'post') && $this->validate()) {
+			$this->currency->set($this->config->get('config_currency'));
 			$controller=$this->request->gethtml('controller');
 			if ($controller == 'login' || empty($controller)) {
 				$this->response->redirect($this->url->ssl('home'));

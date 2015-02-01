@@ -31,15 +31,20 @@ class ControllerOrder extends Controller {
 
   	function update() {	
 		$this->template->set('title', $this->language->get('heading_title'));
-
+	
     	if ($this->request->isPost() && $this->request->has('order_status_id', 'post') && $this->validateForm()) {  
+		
+			if($this->request->gethtml('order_status_id', 'post') == "12"){
+				$this->response->redirect($this->url->ssl('order_edit&order_id=' . $this->request->gethtml('order_id') . '&order_status_id=12'));
+			}
+
       		$this->modelOrder->update_order();
 			$this->modelOrder->insert_order_history();
       		if (($this->config->get('config_email_send')) && ($this->request->gethtml('notify', 'post'))) {
         		$order_info = $this->modelOrder->get_order_info();
 	    		$order_id = $order_info['reference'];
-			$invoice_number = $order_info['invoice_number'];
-			$invoice  = $this->url->create(HTTP_CATALOG, 'account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id')));
+				$invoice_number = $order_info['invoice_number'];
+				$invoice  = $this->url->create(HTTP_CATALOG, 'account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id')));
 	    		$date     = $this->language->formatDate($this->language->get('date_format_long'),strtotime($order_info['date_added']));
 	    		$status   = $order_info['status'];
 	    		$comment  = $this->request->gethtml('comment', 'post');
@@ -293,6 +298,7 @@ class ControllerOrder extends Controller {
     	$view->set('entry_status', $this->language->get('entry_status'));
     	$view->set('entry_comment', $this->language->get('entry_comment'));
     	$view->set('entry_notify', $this->language->get('entry_notify'));
+		$view->set('cancelled_status',$this->language->get('cancelled_status'));
 
     	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
@@ -337,9 +343,6 @@ class ControllerOrder extends Controller {
 		$view->set('coupon_sort_order', $order_info['coupon_sort_order']);
 		$view->set('discount_sort_order', $order_info['discount_sort_order']);
 		//$view->set('columns', $this->tpl_columns);
-		$view->set('shipping_net', $this->currency->format($order_info['shipping_net']));
-		$view->set('shipping_tax_rate', round($order_info['shipping_tax_rate'], $this->decimal_place). '%');
-		$view->set('freeshipping_net', $this->currency->format($order_info['freeshipping_net']));
     	
 		$shipping_address = array(
       		'firstname' => $order_info['shipping_firstname'],
@@ -394,11 +397,18 @@ class ControllerOrder extends Controller {
 		$cart_tax_total = 0;
 		$cart_totals_total = 0;
 		$shipping_net = $order_info['shipping_net'];
-		$freeshipping_net = $order_info['freeshipping_net'];
+		$freeshipping_net = $order_info['freeshipping_net'] * -1;
 		$shipping_tax = roundDigits($order_info['shipping_tax_rate'] * $order_info['shipping_net'] / 100, $this->decimal_place);
 		$freeshipping_tax = roundDigits($order_info['shipping_tax_rate'] * $order_info['freeshipping_net'] / 100, $this->decimal_place);
 		$shipping_total = $order_info['shipping_net'] + $shipping_tax;
 		$freeshipping_total = $order_info['freeshipping_net'] + $freeshipping_tax;
+		$view->set('shipping_net', $this->currency->format($order_info['shipping_net'] + ($order_info['taxed'] ? $shipping_tax : 0), $order_info['currency'], $order_info['value']));
+		$view->set('shipping_tax_rate', round($order_info['shipping_tax_rate'], $this->decimal_place). '%');
+		if($order_info['freeshipping_net'] <> 0){
+			$view->set('freeshipping_net', $this->currency->format(($order_info['freeshipping_net'] * -1) + ($order_info['taxed'] ? ($freeshipping_tax * -1) : 0), $order_info['currency'], $order_info['value']));
+		} else {
+			$view->set('freeshipping_net', NULL);
+		}
 
 		foreach ($products as $product) {
 			$options = $this->modelOrder->get_options($product['order_product_id']);
@@ -412,17 +422,17 @@ class ControllerOrder extends Controller {
 			$download = $this->modelOrder->check_downloads($product['order_product_id']);
       	 
 			$special_pr = $product['special_price'];
-			$net = $product['total'] - ($product['coupon'] ? $product['coupon'] : NULL ) - ($product['general_discount'] ? $product['general_discount'] : NULL );
+			$net = $product['total'] - (($product['coupon'] != 0) ? $product['coupon'] : NULL ) - (($product['general_discount'] != 0) ? $product['general_discount'] : NULL );
 			$producttax = $order_info['taxed'] ? $net - roundDigits($net / ((100 + $product['tax'])/100), $this->decimal_place) : roundDigits($net * ($product['tax'] / 100), $this->decimal_place);
 			$tax_total += $producttax;
-			$coupon_total += $product['coupon'] ? $product['coupon'] : NULL;
-			$discount_total += $product['general_discount'] ? $product['general_discount'] : NULL;
+			$coupon_total += ($product['coupon'] != 0) ? $product['coupon'] : NULL;
+			$discount_total += ($product['general_discount'] != 0) ? $product['general_discount'] : NULL;
 			$net_total += $net;
 			$total_discounted = $order_info['taxed'] ? $net : $net + $producttax;
 			$totals_total += $total_discounted;
 			$extended_total += $product['total'];
-			$cart_net_total = $net_total + ($shipping_net ? $shipping_net : NULL) - ($freeshipping_net ? $freeshipping_net : NULL);
-			$cart_tax_total = $tax_total + ($shipping_net ? $shipping_tax : NULL) - ($freeshipping_net ? $freeshipping_tax : NULL);
+			$cart_net_total = $net_total + (($shipping_net != 0) ? $shipping_net : NULL) - (($freeshipping_net != 0) ? ($freeshipping_net * -1) : NULL);
+			$cart_tax_total = $tax_total + (($shipping_net != 0) ? $shipping_tax : NULL) - (($freeshipping_net != 0) ? $freeshipping_tax : NULL);
 			//$cart_totals_total = $order_info['taxed'] ? $cart_net_total : $cart_net_total + $cart_tax_total;
 			$cart_totals_total = $order_info['taxed'] ? $cart_net_total + ($shipping_tax - $freeshipping_tax): $cart_net_total + $cart_tax_total;
 		
@@ -435,35 +445,36 @@ class ControllerOrder extends Controller {
 				'quantity' 		=> $product['quantity'],
 				'barcode' 		=> $product['barcode'],
 				'barcode_url' 		=> $product['barcode'] ? $this->barcode->show($product['barcode']) : NULL,
-				'special_price'	=> $special_pr > 0 ? $this->currency->format($special_pr) : NULL,
+				'special_price'	=> $special_pr != 0 ? $this->currency->format($special_pr, $order_info['currency'], $order_info['value']) : "$0.00",
 				'price'    		=> $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
 				'discount' 		=> (ceil($product['discount']) ? $this->currency->format($product['discount'], $order_info['currency'], $order_info['value']) : NULL),
-				'coupon' 		=> ($product['coupon'] > 0 ? '-' . $this->currency->format($product['coupon']) : NULL),
-				'general_discount' 	=> ($product['general_discount'] > 0 ? '-' . $this->currency->format($product['general_discount']) : NULL),
+				'coupon' 		=> ($product['coupon'] != 0 ? $this->currency->format(($product['coupon'] * -1), $order_info['currency'], $order_info['value']) : NULL),
+				'general_discount' 	=> ($product['general_discount'] !=0 ? $this->currency->format(($product['general_discount'] * -1), $order_info['currency'], $order_info['value']) : NULL),
 				'tax'     		=> round($product['tax'], $this->decimal_place),
 				'shipping'     		=> $product['shipping'],
 				'total'   		=> $this->currency->format($product['total'],$order_info['currency'], $order_info['value']),
-				'net'			=> $this->currency->format(($net), $order_info['currency'], $order_info['value']),
-				'product_tax'		=> $this->currency->format($producttax, $order_info['currency'], $order_info['value']),				'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value'])
+				'net'			=> $this->currency->format($net, $order_info['currency'], $order_info['value']),
+				'product_tax'	=> $this->currency->format($producttax, $order_info['currency'], $order_info['value']),
+				'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value'])
 			);
 		}
-		
+
 		$view->set('taxed', $order_info['taxed']);
-      		$view->set('products', $product_data);
+      	$view->set('products', $product_data);
 		$view->set('totals',$this->modelOrder->get_totals($order_info['order_id']));
-		$view->set('tax_total', $this->currency->format($tax_total));
-		$view->set('coupon_total', $coupon_total ? '-' . $this->currency->format($coupon_total) : NULL);
-		$view->set('discount_total', $discount_total ? '-' . $this->currency->format($discount_total) : NULL);
-		$view->set('extended_total', $this->currency->format($extended_total));
-		$view->set('net_total', $this->currency->format($net_total));
-		$view->set('cart_net_total', $this->currency->format($cart_net_total));
-		$view->set('shipping_tax', $shipping_tax  ? $this->currency->format($shipping_tax) : NULL);
-		$view->set('freeshipping_tax', $freeshipping_tax ?'-' . $this->currency->format($freeshipping_tax) : NULL);
-		$view->set('cart_tax_total', $this->currency->format($cart_tax_total));
-		$view->set('totals_total', $this->currency->format($totals_total));
-		$view->set('shipping_total', $shipping_total ? $this->currency->format($shipping_total) : NULL);
-		$view->set('freeshipping_total', $freeshipping_total ? '-' . $this->currency->format($freeshipping_total) : NULL);
-		$view->set('cart_totals_total', $this->currency->format($cart_totals_total));
+		$view->set('tax_total', $this->currency->format($tax_total, $order_info['currency'], $order_info['value']));
+		$view->set('coupon_total', $coupon_total ? $this->currency->format(($coupon_total * -1), $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('discount_total', $discount_total ? $this->currency->format(($discount_total * -1), $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('extended_total', $this->currency->format($extended_total, $order_info['currency'], $order_info['value']));
+		$view->set('net_total', $this->currency->format($net_total, $order_info['currency'], $order_info['value']));
+		$view->set('cart_net_total', $this->currency->format($cart_net_total, $order_info['currency'], $order_info['value']));
+		$view->set('shipping_tax', $shipping_tax  ? $this->currency->format($shipping_tax, $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('freeshipping_tax', $freeshipping_tax ? $this->currency->format(($freeshipping_tax * -1), $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('cart_tax_total', $this->currency->format($cart_tax_total, $order_info['currency'], $order_info['value']));
+		$view->set('totals_total', $this->currency->format($totals_total, $order_info['currency'], $order_info['value']));
+		$view->set('shipping_total', $shipping_total ? $this->currency->format($shipping_total, $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('freeshipping_total', $freeshipping_total ? $this->currency->format(($freeshipping_total * -1), $order_info['currency'], $order_info['value']) : NULL);
+		$view->set('cart_totals_total', $this->currency->format($cart_totals_total, $order_info['currency'], $order_info['value']));
 
     	$history_data = array();
     	$results = $this->modelOrder->get_history();

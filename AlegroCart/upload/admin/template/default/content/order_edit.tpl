@@ -32,6 +32,10 @@
 	<div class="page">
 	  <div class="pad">  
 		<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+		<input name="order_status" value="<?php echo $order_cancelled;?>" type="hidden">
+		<?php if($order_cancelled){?>
+		  <input name="order_reference" value="<?php echo $reference;?>" type="hidden">
+		<?php }?>
 		  <div id="create">
 		    <div class="a">
 			  <table>
@@ -96,22 +100,30 @@
 				  </td>
 				  <td>
 				      <b><?php echo $text_shipping_method; ?></b><br>
+					<?php if($order_cancelled){?>
+					  <input id="shipping_method" name="shipping_method" value="<?php echo $shipping_method; ?>" readonly="readonly">
+					<?php } else {?>
 					  <select id="shipping_method" name="shipping_method" onchange="open_body()">
 						<option value=""><?php echo $text_select_shipping;?></option>
 					    <?php foreach($shipping_methods as $shipping_meth){?>
 						  <option value="<?php echo $shipping_meth['description'];?>"<?php if($shipping_meth['description'] == $shipping_method){ echo ' selected';}?>><?php echo $shipping_meth['description'];?></option>
 						<?php }?>
 					  </select>
+					<?php }?>
 				      <br>
 				  </td>
 				  <td>
 					<b><?php echo $text_payment_method; ?></b><br>
+					<?php if($order_cancelled){?>
+					  <input id="payment_method" name="payment_method" value="<?php echo $payment_method; ?> " readonly="readonly">
+					<?php } else {?>
 					<select id="payment_method" name="payment_method" onchange="open_body()">
 						<option value=""><?php echo $text_select_payment;?></option>
 					    <?php foreach($payment_methods as $payment_meth){?>
 						  <option value="<?php echo $payment_meth['description'];?>"<?php if($payment_meth['description'] == $payment_method){ echo ' selected';}?>><?php echo $payment_meth['description'];?></option>
 						<?php }?>
 					  </select>
+					<?php }?> 
 				    <br>
 				  </td>
 				</tr>
@@ -123,6 +135,7 @@
 				  <th class="left" width="80px"><?php echo $text_currency;?></th>
 				  <td class="left">
 				    <input name="currency" readonly="readonly" style="border: 0px;" value="<?php echo $currency;?>">
+					<input name="exchange_value" value="<?php echo $exchange_value;?>" type="hidden">
 				  </td>
 			    </tr>
 			  </table> 
@@ -141,48 +154,161 @@
 			  
 			  </table>
 			  <table id="products" class="c">
-			  
+			   
+			    <?php if($order_cancelled){?>				
+					<?php foreach ($order_products as $key => $order_product) { ?>
+					  <tr id="row[<?php echo $key;?>]">
+					  <input name="products[<?php echo $key;?>][product_id]" value="<?php echo $order_product['product_id'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][special_price]" value="<?php echo $order_product['special_price'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][discount]" value="<?php echo $order_product['discount'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][general_discount]" value="<?php echo $order_product['general_discount'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][coupon]" value="<?php  echo $order_product['coupon'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][shipping]" value="<?php echo $order_product['shipping'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][name]" value="<?php echo $order_product['name'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][model_number]" value="<?php echo $order_product['model_number'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][vendor_name]" value="<?php echo $order_product['vendor_name'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][vendor_id]" value="<?php echo $order_product['vendor_id'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][total]" value="<?php echo $order_product['total'];?>" type="hidden">
+					  <input name="products[<?php echo $key;?>][barcode]" value="<?php echo $order_product['barcode'];?>" type="hidden">
+					  
+					  <td class="left" style="width: 200px;"><?php echo $order_product['name'];?></a>
+					    <?php if($order_product['option']) {?>
+						  <?php foreach ($order_product['option'] as $option) { ?>
+					       <br>
+					       &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+					      <?php } ?>
+						<?php }?>
+					  </td>
+					  <td class="left" style="width: 100px;">
+					    <input name="products[<?php echo $key;?>][quantity]" size="6" value="<?php echo $order_product['quantity'];?>" id="quantity_<?php echo $key;?>" type="hidden">
+						<?php echo $order_product['quantity'];?>
+					  </td>
+					  <td class="left" style="width: 120px;">
+					    <input name="products[<?php echo $key;?>][price]" size="12" value="<?php echo $order_product['price'];?>" id="price_<?php echo $key;?>" type="hidden">
+					    <?php echo $order_product['format_price'];?>
+					  </td>
+					    <input name="products[<?php echo $key;?>][tax]" value="<?php echo $order_product['tax'];?>" type="hidden">
+					  <td class="left" style="width: 100px;">
+					    <input name="products[<?php echo $key;?>][tax_rate]" size="10" value="<?php echo $order_product['tax'];?>" id="tax_rate_<?php echo $key;?>" type="hidden">
+						<?php echo $order_product['format_tax'];?>
+					  </td>
+					  <td class="left" style="width: 120px;">
+					    <input name="products[<?php echo $key;?>][tax_amount]" size="10" value="<?php echo $order_product['product_taxamount'];?>" id="tax_amount_<?php echo $key;?>" type="hidden">
+						<?php echo $order_product['format_taxamount'];?>
+					  </td>
+					  <td class="left" style="width: 200px;">
+					    <input name="products[<?php echo $key;?>][extended]" size="12" value="<?php echo number_format(($order_product['product_net']*"-1"), $decimal_place, '.', '');?>" id="extended_<?php echo $key;?>" type="hidden">
+						<?php echo $order_product['format_net'];?>
+					  </td>
+					<?php }?>
+				<?php }?>
+				
 			  </table>
 			  <hr>
 			  <table id="product_select">
 			  
 			  </table>
-			  <input type="button" class="button" value="<?php echo $button_add;?>" onclick="$('#product_select').load('index.php?controller=order_edit&action=get_products');">
+			  <?php if(!$order_cancelled){?>
+			    <input type="button" class="button" value="<?php echo $button_add;?>" onclick="$('#product_select').load('index.php?controller=order_edit&action=get_products');">
+			  <?php }?>	
 			  <br>
 			  <div class="f">
 			  <hr>
 			  <table style="width:100%">
-				<tr><td style="width:600px;"><td><td class="right"></td></td></td></tr>
-				<tr id="shipping_method">
-				  <td class="set">
-					<?php echo $entry_shipping_tax;?>
-				    <input class="right" id="shipping_tax_rate"  name="shipping_tax_rate" value="<?php echo isset($shipping_tax_rate) ? str_replace('%','', $shipping_tax_rate) : '';?>" onchange="update_totals()">
-				  </td>
-				  <td class="set"><?php echo $entry_shipping;?></td>
-				  <td class="right">
-				    <input name="shipping" id="shipping" value="<?php echo $shipping_cost ? $shipping_cost : '';?>" onchange="update_totals()">
-				  </td>
-				  <input id="shipping_tax" name="shipping_tax" value="" type="hidden">
-				</tr>
+				<tr><td style="width:600px;"></td><td class="right"></td><td></td></tr>
 				<tr>
 				  <td></td>
 				  <td class="set"><?php echo $entry_subtotal;?></td>
 				  <td class="right">
-				    <input name="subtotal" id="subtotal" value="" readonly="readonly" style="border: 0px;">
+				    <?php if($order_cancelled){?>
+					  <input name="totals_subtotal" id="totals_subtotal" value="<?php echo ($totals_subtotal * -1) ;?>" type="hidden">
+				      <input name="subtotal" id="subtotal" value="<?php echo number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$extended_total)*(-1)),$decimal_place,'.','');?>" readonly="readonly" style="border: 0px;"> 
+					<?php } else {?>
+					  <input name="subtotal" id="subtotal" value="" readonly="readonly">
+					<?php }?>
 				  </td>
 				</tr>
+				<tr id="shipping_method">
+				  <td class="set">
+					<?php echo $entry_shipping_tax;?>
+					  <?php if($order_cancelled){?>
+					    <input class="right" id="shipping_tax_rate"  name="shipping_tax_rate" value="<?php echo $ship_tax;?>" readonly="readonly" style="border: 0px;">
+					  <?php } else {?>
+				        <input class="right" id="shipping_tax_rate"  name="shipping_tax_rate" value="<?php echo isset($shipping_tax_rate) ? str_replace('%','', $shipping_tax_rate) : '';?>" onchange="update_totals()">
+					  <?php }?>
+				  </td>
+				  <td class="set"><?php echo $entry_shipping;?></td>
+				  <td class="right">
+				    <?php if($order_cancelled){?>
+					  <input name="display_shipping" value="<?php echo $display_shipping;?>" readonly="readonly" style="border: 0px;">
+					  <input name="totals_shipping" id="totals_shipping" value="<?php echo number_format(($totals_shipping*(-1)), $decimal_place, '.', '') ;?>" type="hidden">
+					  <input name="shipping" id="shipping" value="<?php echo number_format(($ship_net*(-1)), $decimal_place, '.', '');?>" type="hidden">
+					<?php } else {?>
+				      <input name="shipping" id="shipping" value="<?php echo $shipping_cost ? $shipping_cost : '';?>" onchange="update_totals()">
+					<?php }?>
+				  </td>
+				  <?php if($order_cancelled){?>
+				    <input id="shipping_tax" name="shipping_tax" value="<?php echo number_format(($ship_tax*(-1)), $decimal_place, '.', '');?>" type="hidden">
+				  <?php } else {?>
+				    <input id="shipping_tax" name="shipping_tax" value="" type="hidden">
+				  <?php }?>	
+				</tr>
+				<?php if($order_cancelled && !empty($freeshipping_net)){?>
+				<tr>
+				  <td></td>
+				  <td class="set"><?php echo $text_free_shipping;?></td>
+				  <td class="right">
+					<input name="display_freeshipping" value="<?php echo $display_freeshipping;?>" readonly="readonly" style="border: 0px;">
+					<input name="totals_freeshipping" id="totals_freeshipping" value="<?php echo number_format(($e_freeshipping_net), $decimal_place, '.', '') ;?>" type="hidden">
+				    <input name="freeshipping_net" value="<?php echo number_format((	$freeship_net*(-1)), $decimal_place, '.', '');?>" type="hidden">
+				  </td>
+				</tr>
+				<?php }?>
+				
+				<?php if($order_cancelled && $discount_total){?>
+				<tr>
+				  <td></td>
+				  <td class="set"><?php echo $text_discount_total;?></td>
+				  <td class="right">
+				    <input name="totals_discount" value="<?php echo $e_discount_total;?>" type="hidden">
+				    <input name="discount_total" value="<?php echo number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$discount_total)*(-1)),$decimal_place,'.','');?>" readonly="readonly" style="border: 0px;">
+					<input name ="discount_sort_order" value="<?php echo $discount_sort_order;?>" type="hidden">
+				  </td>
+				</tr>
+				<?php }?>
+				<?php if($order_cancelled && $coupon_totals){?>
+				<tr>
+				  <td></td>
+				  <td class="set"><?php echo $text_coupon_total;?></td>
+				  <td class="right">
+				    <input name="coupon_total" value="<?php echo number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$coupon_total)*(-1)),$decimal_place,'.','');?>" readonly="readonly" style="border: 0px;">
+					<input name ="coupon_sort_order" value="<?php echo $coupon_sort_order;?>" type="hidden">
+					<input name="totals_coupon" value="<?php echo $e_coupon_total;?>" type="hidden">
+				  </td>
+				</tr>
+				<?php }?>
 				<tr>
 				  <td></td>
 				  <td class="set"><?php echo $entry_total_tax;?>
 				  <td class="right">
-				    <input name="total_tax" id="total_tax" value="" readonly="readonly" style="border: 0px;">
+				    <?php if($order_cancelled){?>
+				      <input name="total_tax" id="total_tax" value="<?php echo number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$cart_tax_total)*(-1)),$decimal_place,'.','');?>" readonly="readonly" style="border: 0px;">
+					  <input name="totals_tax" value="<?php echo $e_tax_total;?>" type="hidden">
+				    <?php } else {?>
+				      <input name="total_tax" id="total_tax" value="" readonly="readonly" style="border: 0px;">
+					<?php }?> 
 				  </td>
 				</tr>
 				<tr>
 				  <td></td>
 				  <td class="set"><?php echo $entry_total_invoice;?>
 				  <td class="right">
-				    <input name="total_invoice" id="total_invoice" name="total_invoice" value="" readonly="readonly" style="border: 0px;">
+				    <?php if($order_cancelled){?>
+					  <input name="total" id="total" value="<?php echo number_format(($display_cart_totals_total*(-1)), $decimal_place, '.', '');?>" readonly="readonly" style="border: 0px;">
+					  <input name="total_invoice" id="total_invoice" value="<?php echo $total_invoice;?>" type="hidden">
+					<?php } else {?>
+				      <input name="total_invoice" id="total_invoice" value="" readonly="readonly" style="border: 0px;">
+					<?php }?> 
 				  </td>
 				</tr>
 				<input type="hidden" id="shipping_weight" name="shipping_weight" value="">
@@ -194,6 +320,25 @@
 			  
 		    </div>
 		  </div>
+		  <?php if($order_cancelled){?>
+			<input name ="total" value="<?php echo ($total *-1);?>" type="hidden">
+		    <input name ="e_extended_total" value="<?php echo ($e_extended_total *-1);?>" type="hidden">
+		    <input name ="e_coupon_total" value="<?php echo ($e_coupon_total);?>" type="hidden">
+		    <input name ="e_discount_total" value="<?php echo ($e_discount_total);?>" type="hidden">
+			<input name ="e_net_total" value="<?php echo ($e_net_total*-1);?>" type="hidden">
+		    <input name ="e_tax_total" value="<?php echo ($e_tax_total*-1);?>" type="hidden">
+			<input name ="e_totals_total" value="<?php echo ($e_totals_total*-1);?>" type="hidden">
+			<input name ="e_cart_net_total" value="<?php echo ($e_cart_net_total*-1);?>" type="hidden">
+			<input name ="e_cart_tax_total" value="<?php echo ($e_cart_tax_total*-1);?>" type="hidden">
+			<input name ="e_cart_totals_total" value="<?php echo ($e_cart_totals_total*-1);?>" type="hidden">
+			<input name ="e_shipping_net" value="<?php echo ($e_shipping_net*-1);?>" type="hidden">
+			<input name ="e_freeshipping_net" value="<?php echo ($e_freeshipping_net);?>" type="hidden">
+			<input name ="e_shipping_tax" value="<?php echo ($e_shipping_tax*-1);?>" type="hidden">
+			<input name ="e_shipping_total" value="<?php echo ($e_shipping_total*-1);?>" type="hidden">
+			<input name ="e_freeshipping_tax" value="<?php echo ($e_freeshipping_tax);?>" type="hidden">
+			<input name ="e_freeshipping_total" value="<?php echo ($e_freeshipping_total);?>" type="hidden">
+			<input name ="taxed" value="<?php echo $taxed;?>" type="hidden">
+		  <?php }?> 
 		  <input type="hidden" name="order_id" value="<?php echo $order_id;?>">
           <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
 		</form>
@@ -432,6 +577,7 @@
   <script type="text/javascript"><!--
     $(document).ready(function() {
       $('#invoice_products').hide();
+	  open_body();
    });
   //--></script>
   <script type="text/javascript"><!--

@@ -682,15 +682,15 @@
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_stock_subtract; ?></td>
-              <td width="100"><?php if ($catalog_config_stock_subtract) { ?>
-                <input type="radio" name="catalog_config_stock_subtract" value="1" id="ccssyes" checked>
+              <td width="100"><?php if ($global_config_stock_subtract) { ?>
+                <input type="radio" name="global_config_stock_subtract" value="1" id="ccssyes" checked>
                 <label for="ccssyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="catalog_config_stock_subtract" value="0" id="ccssno">
+                <input type="radio" name="global_config_stock_subtract" value="0" id="ccssno">
                 <label for="ccssno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_config_stock_subtract" value="1" id="ccssyes">
+                <input type="radio" name="global_config_stock_subtract" value="1" id="ccssyes">
                 <label for="ccssyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="catalog_config_stock_subtract" value="0" id="ccssno" checked>
+                <input type="radio" name="global_config_stock_subtract" value="0" id="ccssno" checked>
                 <label for="ccssno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">

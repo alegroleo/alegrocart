@@ -582,7 +582,6 @@ class ControllerCart extends Controller {
 	}
 	function validate() {
 		if(!$this->request->gethtml('coupon', 'post')){
-			$this->coupon->set(NULL);
 			$this->session->delete('coupon_message');
 		} else {
 			if ($this->coupon->getCode() != $this->request->gethtml('coupon', 'post')){

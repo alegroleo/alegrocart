@@ -43,7 +43,7 @@ class Model_Admin_Order extends Model {
 		return $results;
 	}
 	function get_totals(){
-		$results = $this->database->getRows("select * from order_total where order_id = '" . (int)$this->request->gethtml('order_id') . "'");
+		$results = $this->database->getRows("select * from order_total where order_id = '" . (int)$this->request->gethtml('order_id') . "' order by `sort_order`");
 		return $results;
 	}
 	function get_history(){

@@ -11,7 +11,7 @@
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="<?php if($order_status_id == '12'){echo "disabled";} else { echo "enabled";}?>" <?php if($order_status_id != '12'){?>onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><?php }?><img src="template/<?php echo $this->directory?><?php if($order_status_id == '12'){echo '/image/save_enabled.png"';} else {echo '/image/save_disabled.png"';}?> alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
@@ -120,7 +120,7 @@
           <?php } ?>
         </td>
 		<td class="right"><span class="invoice_price_new ">
-		  <?php if ($product['special_price'] > "$0.00"){echo ($taxed ? '<span class="tax">*</span>' : '') . $product['special_price'];} ?>
+		  <?php if ($product['special_price'] != "$0.00"){echo ($taxed ? '<span class="tax">*</span>' : '') . $product['special_price'];} ?>
 		</span></td>
 		
 		  <td class="right"><?php echo ($taxed ? '<span class="tax">*</span>' : '') . $product['total'];?></td>
@@ -275,7 +275,10 @@
       <table>
         <tr>
           <td width="185"><?php echo $entry_status; ?></td>
-          <td><select name="order_status_id">
+		  <?php if($order_status_id == '12'){?>
+		    <td><?php echo $cancelled_status;?></td>
+		  <?php } else {?>
+			<td><select name="order_status_id">
               <?php foreach ($order_statuses as $order_status) { ?>
 			  <?php if ($order_status['order_status_id'] == '99'){
 			    $order_status['name'] .= '(A-NET)';
@@ -287,6 +290,7 @@
               <?php } ?>
               <?php } ?>
             </select></td>
+		  <?php }?>
         </tr>
         <tr>
           <td valign="top"><?php echo $entry_comment; ?></td>

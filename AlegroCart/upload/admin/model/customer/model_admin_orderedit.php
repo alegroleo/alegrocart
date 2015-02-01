@@ -16,9 +16,20 @@ class Model_Admin_OrderEdit extends Model {
 	function modify_order($order_id, $reference){
 		$this->database->query("update `order` set `modified` = '1', `new_reference` = '" . $reference . "' where order_id = '" . $order_id . "'");
 	}
+	function update_status($order_status_id, $order_id){
+		$this->database->query("update `order` set order_status_id = '" . (int)$order_status_id . "', date_modified = now() where order_id = '" . (int)$order_id . "'");
+	}
+	function update_status_history($order_id, $order_status_id,$comment){
+		$sql = "insert into order_history set order_id = '?', order_status_id = '?', date_added = now(), notify = '?', comment = '?'";
+		$this->database->query($this->database->parse($sql, $order_id, $order_status_id, $this->config->get('config_email_send'), $comment));
+		}
 	function get_products(){
 		$results = $this->database->getRows("select p.product_id, pd.name, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (i.image_id=p.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1'");
 		return $results;
+	}
+	function cr_get_order($order_id){
+		$result = $this->database->getRow("select * from `order` where order_id = '" . (int)$order_id . "'");
+		return $result;
 	}
 	function get_product($product_id){
 		$result = $this->database->getRow("select * from product p left join product_description pd on (p.product_id = pd.product_id) where p.product_id = '" . (int)$product_id . "' and pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1'");
@@ -44,6 +55,11 @@ class Model_Admin_OrderEdit extends Model {
 	function get_product_option($option_id, $product_id){
 		$option = $this->database->getRow("select o.name as name, ov.name as `value`, p2o.price, p2o.prefix, p2o.option_weight, p2o.option_weightclass_id from product_to_option p2o left join `option` o on p2o.option_id = o.option_id left join option_value ov on p2o.option_value_id = ov.option_value_id where p2o.product_to_option_id = '" . (int)$option_id . "' and product_id = '" . (int)$product_id . "' and o.language_id = '" . (int)$this->language->getId() . "' and ov.language_id = '" . (int)$this->language->getId() . "'");
 		return $option;
+	}
+	function get_option_id($product_id,$value){
+		$option_id = $this->database->getRow("select p2o.product_to_option_id from product_to_option p2o left join `option_value` ov on p2o.option_value_id = ov.option_value_id where p2o.product_id = '" . (int)$product_id . "' and ov.name = '" . $value . "' and ov.language_id = '" . (int)$this->language->getId() . "'");
+		
+		return $option_id['product_to_option_id'];
 	}
 	function get_options($product_id, $tax_class_id){  // Get product Options
 		$options = array();

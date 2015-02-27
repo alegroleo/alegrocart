@@ -34,35 +34,35 @@
       <table>
         <tr>
           <td style="width:150px"><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-          <td><input type="text" name="firstname" id="firstname"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $firstname; ?>">
+          <td><input type="text" name="firstname" id="firstname"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $firstname; ?>" class="validate_alpha">
             <?php if ($error_firstname) { ?>
             <span class="error"><?php echo $error_firstname; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
-          <td><input type="text" name="lastname" id="lastname"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $lastname; ?>">
+          <td><input type="text" name="lastname" id="lastname"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $lastname; ?>" class="validate_alpha">
             <?php if ($error_lastname) { ?>
             <span class="error"><?php echo $error_lastname; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_email; ?></td>
-          <td><input type="text" name="email" id="email"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $email; ?>">
+          <td><input type="text" name="email" id="email"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $email; ?>" class="validate_mail">
             <?php if ($error_email) { ?>
             <span class="error"><?php echo $error_email; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
-          <td><input type="text" name="telephone" id="telephone"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $telephone; ?>">
+          <td><input type="text" name="telephone" id="telephone"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $telephone; ?>" class="validate_phone">
             <?php if ($error_telephone) { ?>
             <span class="error"><?php echo $error_telephone; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><?php echo $entry_fax; ?></td>
-          <td><input type="text" name="fax" id="fax"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $fax; ?>"></td>
+          <td><input type="text" name="fax" id="fax"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $fax; ?>" class="validate_phone"></td>
         </tr>
       </table>
     </div>
@@ -71,29 +71,29 @@
       <table>
         <tr>
           <td style="width:150px"><?php echo $entry_company; ?></td>
-          <td><input type="text" name="company" id="company"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $company; ?>"></td>
+          <td><input type="text" name="company" id="company"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $company; ?>" class="validate_alpha_num"></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>
-          <td><input type="text" name="address_1" id="address_1"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $address_1; ?>">
+          <td><input type="text" name="address_1" id="address_1"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $address_1; ?>" class="validate_alpha_num">
             <?php if ($error_address_1) { ?>
             <span class="error"><?php echo $error_address_1; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
           <td><?php echo $entry_address_2; ?></td>
-          <td><input type="text" name="address_2" id="address_2"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $address_2; ?>"></td>
+          <td><input type="text" name="address_2" id="address_2"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $address_2; ?>" class="validate_alpha_num"></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_postcode; ?></td>
-          <td><input type="text" name="postcode" id="postcode"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $postcode; ?>"><?php echo $text_no_postal;?>
+          <td><input type="text" name="postcode" id="postcode"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $postcode; ?>" class="validate_alpha_num"><?php echo $text_no_postal;?>
 		  <?php if ($error_postcode) { ?>
 		  <span class="error"><?php echo $error_postcode; ?></span>
 		  <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_city; ?></td>
-          <td><input type="text" name="city" id="city"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $city; ?>">
+          <td><input type="text" name="city" id="city"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $city; ?>" class="validate_alpha">
             <?php if ($error_city) { ?>
             <span class="error"><?php echo $error_city; ?></span>
             <?php } ?></td>

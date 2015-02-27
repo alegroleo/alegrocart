@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_payment; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -105,7 +107,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_authnetaim_sort_order; ?></td>
-              <td><input type="text" name="global_authnetaim_sort_order" value="<?php echo $global_authnetaim_sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="authnetaim_sort_order" type="text" name="global_authnetaim_sort_order" value="<?php echo $global_authnetaim_sort_order; ?>" size="1"></td>
               <td class="expl"><?php echo $extra_authnetaim_sort_order; ?></td>
             </tr>
           </table>
@@ -116,5 +118,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

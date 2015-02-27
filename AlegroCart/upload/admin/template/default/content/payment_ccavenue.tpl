@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_payment; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -48,7 +50,7 @@
             </tr>
 			<tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_merchant_id; ?></td>
-              <td><input type="text" name="global_ccavenue_merchant_id" value="<?php echo $global_ccavenue_merchant_id; ?>">
+              <td><input class="validate_int" id="ccavenue_merchant_id" type="text" name="global_ccavenue_merchant_id" value="<?php echo $global_ccavenue_merchant_id; ?>">
                </td>
 			   <td class="expl">
 			    <?php echo $text_merchant_id; ?> 
@@ -71,7 +73,7 @@
 
 			<tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_working_key; ?></td>
-              <td><input type="text" name="global_ccavenue_working_key" value="<?php echo $global_ccavenue_working_key; ?>">
+              <td><input class="validate_alpha_num" id="ccavenue_working_key" type="text" name="global_ccavenue_working_key" value="<?php echo $global_ccavenue_working_key; ?>">
                </td>
 			   <td class="expl">
 			    <?php echo $text_working_key; ?> 
@@ -79,7 +81,7 @@
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="global_ccavenue_sort_order" value="<?php echo $global_ccavenue_sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="ccavenue_sort_order" type="text" name="global_ccavenue_sort_order" value="<?php echo $global_ccavenue_sort_order; ?>" size="1"></td>
             </tr>
 		  </table>
         </div>
@@ -89,5 +91,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

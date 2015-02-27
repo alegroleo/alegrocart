@@ -15,6 +15,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -45,7 +46,7 @@
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="global_zone_sort_order" value="<?php echo $global_zone_sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="zone_sort_order" type="text" name="global_zone_sort_order" value="<?php echo $global_zone_sort_order; ?>" size="1"></td>
             </tr>
 		  </table>
 		</div>
@@ -84,8 +85,8 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
-				<td><input size="8" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][free_amount]" value="<?php echo $geo_zone['free_amount']; ?>"></td>
-				<td><input size="71" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][cost]" value="<?php echo $geo_zone['cost']; ?>"></td>
+				<td><input class="validate_float" id="geo_zone<?php echo $geo_zone['geo_zone_id']; ?>free_amount" size="8" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][free_amount]" value="<?php echo $geo_zone['free_amount']; ?>"></td>
+				<td><input class="validate_shipping" id="geo_zone<?php echo $geo_zone['geo_zone_id']; ?>cost" size="71" type="text" name="geo_zone[<?php echo $geo_zone['geo_zone_id']; ?>][cost]" value="<?php echo $geo_zone['cost']; ?>"></td>
             </tr>
             <tr id="geozone<?php echo $geo_zone['geo_zone_id'] ;?>B">
               <td width="160" class="set"><?php echo $geo_zone['description']; ?></td>
@@ -140,4 +141,9 @@ function getzones(){
  	});
 }
 
+//--></script>
+<script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
 //--></script>

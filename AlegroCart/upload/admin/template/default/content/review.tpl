@@ -22,6 +22,7 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -33,7 +34,7 @@
           <table>
             <tr>
               <td width="185" class="set"><span class="required">*</span> <?php echo $entry_author; ?></td>
-              <td><input type="text" name="author" value="<?php echo $author?>">
+              <td><input class="validate_alpha" id="author" type="text" name="author" value="<?php echo $author?>">
                 <?php if ($error_author) { ?>
                 <span class="error"><?php echo $error_author; ?></span>
                 <?php } ?></td>
@@ -121,5 +122,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

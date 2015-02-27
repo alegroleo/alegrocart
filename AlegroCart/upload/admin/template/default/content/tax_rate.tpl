@@ -22,6 +22,7 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -51,14 +52,14 @@
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_rate; ?></td>
-              <td><input type="text" name="rate" value="<?php echo $rate; ?>">
+              <td><input class="validate_float" id="rate" type="text" name="rate" value="<?php echo $rate; ?>">
                 <?php if ($error_rate) { ?>
                 <span class="error"><?php echo $error_rate; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_priority; ?></td>
-              <td><input type="text" name="priority" value="<?php echo $priority; ?>" size="1">
+              <td><input class="validate_int" id="priority" type="text" name="priority" value="<?php echo $priority; ?>" size="1">
                 <?php if ($error_priority) { ?>
                 <span class="error"><?php echo $error_priority; ?></span>
                 <?php } ?></td>
@@ -78,5 +79,10 @@ $(function(){
 	$(".heading em").text("<?php echo $tax_name;?>"+" : "+$('#geozones option:selected').text());
 }).change();
 });
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_customer; ?></div></a><a><div class="tab_text"><?php echo $tab_address; ?></div></a></div>
@@ -32,35 +33,35 @@
           <table>
             <tr>
               <td width="185" class="set"><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-              <td><input type="text" name="firstname" value="<?php echo $firstname; ?>">
+              <td><input class="validate_alpha" id="firstname" type="text" name="firstname" value="<?php echo $firstname; ?>">
                 <?php if ($error_firstname) { ?>
                 <span class="error"><?php echo $error_firstname; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_lastname; ?></td>
-              <td><input type="text" name="lastname" value="<?php echo $lastname; ?>">
+              <td><input class="validate_alpha" id="lastname" type="text" name="lastname" value="<?php echo $lastname; ?>">
                 <?php if ($error_lastname) { ?>
                 <span class="error"><?php echo $error_lastname; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_email; ?></td>
-              <td><input type="text" name="email" value="<?php echo $email; ?>">
+              <td><input class="validate_mail" id="email" type="text" name="email" value="<?php echo $email; ?>">
                 <?php if ($error_email) { ?>
                 <span class="error"><?php echo $error_email; ?></span>
                 <?php  } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_telephone; ?></td>
-              <td><input type="text" name="telephone" value="<?php echo $telephone; ?>">
+              <td><input class="validate_phone" id="telephone" type="text" name="telephone" value="<?php echo $telephone; ?>">
                 <?php if ($error_telephone) { ?>
                 <span class="error"><?php echo $error_telephone; ?></span>
                 <?php  } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_fax; ?></td>
-              <td><input type="text" name="fax" value="<?php echo $fax; ?>"></td>
+              <td><input class="validate_phone" id="fax" type="text" name="fax" value="<?php echo $fax; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_newsletter; ?></td>
@@ -94,38 +95,38 @@
           <table>
 		    <tr>
             <td class="set"><?php echo $entry_company; ?></td>
-            <td><input type="text" name="company" value="<?php echo $company; ?>"></td>
+            <td><input class="validate_alpha_num" id="company" type="text" name="company" value="<?php echo $company; ?>"></td>
             </tr>
 			<tr>
 			  <td class="set"><span class="required">*</span> <?php echo $entry_address_1; ?></td>
-              <td><input type="text" name="address_1" value="<?php echo $address_1; ?>">
+              <td><input class="validate_alpha_num" id="address_1" type="text" name="address_1" value="<?php echo $address_1; ?>">
               <?php if ($error_address_1) { ?>
                 <span class="error"><?php echo $error_address_1; ?></span>
               <?php } ?>
               </td>
 			</tr>
 			<tr>
-			  <td class="set""><?php echo $entry_address_2; ?></td>
-			  <td><input type="text" name="address_2" value="<?php echo $address_2; ?>"></td>
+			  <td class="set"><?php echo $entry_address_2; ?></td>
+			  <td><input class="validate_alpha_num" id="address_2" type="text" name="address_2" value="<?php echo $address_2; ?>"></td>
 			</tr>
 			<tr>
-			  <td class="set""><span class="required">*</span><?php echo $entry_postcode; ?></td>
-			  <td><input type="text" name="postcode" value="<?php echo $postcode; ?>">
+			  <td class="set"><span class="required">*</span><?php echo $entry_postcode; ?></td>
+			  <td><input class="validate_alpha_num" id="postcode" type="text" class="validate_alpha_num" id="postcode" name="postcode" value="<?php echo $postcode; ?>">
 			  <?php if ($error_postcode) { ?>
 				<span class="error"><?php echo $error_postcode; ?></span>
 			  <?php } ?></td>
 			  <td class="expl"><?php echo $text_no_postal;?></td>
 			</tr>
 			<tr>
-			  <td class="set""><span class="required">*</span> <?php echo $entry_city; ?></td>
-			  <td><input type="text" name="city" value="<?php echo $city; ?>">
+			  <td class="set"><span class="required">*</span> <?php echo $entry_city; ?></td>
+			  <td><input class="validate_alpha" id="city" type="text" name="city" value="<?php echo $city; ?>">
               <?php if ($error_city) { ?>
 				<span class="error"><?php echo $error_city; ?></span>
               <?php } ?>
 			  </td>
 			</tr>
 			<tr>
-			  <td class="set""><?php echo $entry_country; ?></td>
+			  <td class="set"><?php echo $entry_country; ?></td>
 			  <td><select name="country_id" onchange="$('#zone').load('index.php?controller=customer&action=zone&country_id='+this.value+'&zone_id=<?php echo $zone_id; ?>');">
               <?php foreach ($countries as $country) { ?>
                 <?php if ($country['country_id'] == $country_id) { ?>
@@ -138,7 +139,7 @@
               </td>
 			</tr>
 			<tr>
-			  <td class="set""><?php echo $entry_zone; ?></td>
+			  <td class="set"><?php echo $entry_zone; ?></td>
 			  <td id="zone"><select name="zone_id">
 			  </select></td>
 			</tr>
@@ -170,4 +171,9 @@ $('#zone').load('index.php?controller=customer&action=zone&country_id=<?php echo
       var first2 = $('input[name="firstname"]').val();
       $(".heading em").text(first2+' '+last2);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>

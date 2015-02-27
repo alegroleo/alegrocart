@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" />
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_watermark; ?></div></a></div>
@@ -92,7 +93,7 @@
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_fontcolor; ?></td>
-		  <td><input type="text" name="wm_fontcolor" value="<?php echo $wm_fontcolor; ?>" size="6">
+		  <td><input class="validate_hex" id="wm_fontcolor" type="text" name="wm_fontcolor" value="<?php echo $wm_fontcolor; ?>" size="6">
 		  <?php if ($error_wm_fontcolor) { ?>
 		  <span class="error"><?php echo $error_wm_fontcolor; ?></span>
 		  <?php } ?></td>
@@ -102,7 +103,7 @@
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_transparency; ?></td>
-		  <td><input type="text" name="wm_transparency" value="<?php echo $wm_transparency; ?>" size="4">
+		  <td><input class="validate_int" id="wm_transparency" type="text" name="wm_transparency" value="<?php echo $wm_transparency; ?>" size="4">
 		  <?php if ($error_wm_transparency) { ?>
 		  <span class="error"><?php echo $error_wm_transparency; ?></span>
 		  <?php } ?></td>
@@ -136,14 +137,14 @@
 		</tr>
 	        <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_thmargin; ?></td>
-		  <td><input type="text" name="wm_thmargin" value="<?php echo $wm_thmargin; ?>" size="4"></td>
+		  <td><input class="validate_int" id="wm_thmargin" type="text" name="wm_thmargin" value="<?php echo $wm_thmargin; ?>" size="4"></td>
 		  <td class="expl">
 		    <?php echo $explanation_wm_thmargin; ?> 
 		  </td>
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_tvmargin; ?></td>
-		  <td><input type="text" name="wm_tvmargin" value="<?php echo $wm_tvmargin; ?>" size="4"></td>
+		  <td><input class="validate_int" id="wm_tvmargin" type="text" name="wm_tvmargin" value="<?php echo $wm_tvmargin; ?>" size="4"></td>
 		  <td class="expl">
 		    <?php echo $explanation_wm_tvmargin; ?> 
 		  </td>
@@ -171,7 +172,7 @@
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_scale; ?></td>
-		  <td><input type="text" name="wm_scale" value="<?php echo $wm_scale; ?>" size="4">
+		  <td><input class="validate_int" id="wm_scale" type="text" name="wm_scale" value="<?php echo $wm_scale; ?>" size="4">
 		  <?php if ($error_wm_scale) { ?>
 		  <span class="error"><?php echo $error_wm_scale; ?></span>
 		  <?php } ?></td>
@@ -205,14 +206,14 @@
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_ihmargin; ?></td>
-		  <td><input type="text" name="wm_ihmargin" value="<?php echo $wm_ihmargin; ?>" size="4"></td>
+		  <td><input class="validate_int" id="wm_ihmargin" type="text" name="wm_ihmargin" value="<?php echo $wm_ihmargin; ?>" size="4"></td>
 		  <td class="expl">
 		    <?php echo $explanation_wm_ihmargin; ?> 
 		  </td>
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_ivmargin; ?></td>
-		  <td><input type="text" name="wm_ivmargin" value="<?php echo $wm_ivmargin; ?>" size="4"></td>
+		  <td><input class="validate_int" id="wm_ivmargin" type="text" name="wm_ivmargin" value="<?php echo $wm_ivmargin; ?>" size="4"></td>
 		  <td class="expl">
 		    <?php echo $explanation_wm_ivmargin; ?> 
 		  </td>
@@ -235,5 +236,10 @@
 		$('#wm_wmimage').load('index.php?controller=watermark&action=viewWmImage&wm_wmimage='+document.getElementById('wm_wmimage_id').value);
 	});
   }
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

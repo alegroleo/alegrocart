@@ -47,7 +47,7 @@
           <table> 
             <tr>
               <td><b><?php echo $entry_email; ?></b></td>
-              <td><input type="text" name="email" value="<?php echo isset($email)?$email:''; ?>"></td>
+              <td><input type="text" name="email" id="email" value="<?php echo isset($email)?$email:''; ?>" class="validate_mail"></td>
             </tr>
             <tr>
               <td><b><?php echo $entry_password; ?></b></td>

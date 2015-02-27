@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a></div>
@@ -53,7 +54,7 @@
 			<!-- End Zone Enable -->		
             <tr>
               <td class="set"><?php echo $entry_code; ?></td>
-              <td><input type="text" name="code" value="<?php echo $code; ?>"></td>
+              <td><input class="validate_alpha" id="code" type="text" name="code" value="<?php echo $code; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_country; ?></td>
@@ -81,5 +82,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

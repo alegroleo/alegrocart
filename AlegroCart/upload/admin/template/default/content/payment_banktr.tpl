@@ -11,6 +11,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_payment; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -40,22 +42,22 @@
             </tr>
 	    <tr>
               <td class="set"><?php echo $entry_banktr_owner; ?></td>
-              <td><input type="text" size="25" name="global_banktr_owner" value="<?php echo $global_banktr_owner; ?>">
+              <td><input class="validate_alpha_num" id="banktr_owner" type="text" size="25" name="global_banktr_owner" value="<?php echo $global_banktr_owner; ?>">
               <td class="expl"><?php echo $explanation_banktr_owner; ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_banktr_ban; ?></td>
-              <td><input type="text" size="25" name="global_banktr_ban" value="<?php echo $global_banktr_ban; ?>">
+              <td><input class="validate_alpha_num" id="banktr_ban" type="text" size="25" name="global_banktr_ban" value="<?php echo $global_banktr_ban; ?>">
               <td class="expl"><?php echo $explanation_banktr_ban; ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_banktr_iban; ?></td>
-              <td><input type="text" size="25" name="global_banktr_iban" value="<?php echo $global_banktr_iban; ?>">
+              <td><input class="validate_alpha_num" id="banktr_iban" type="text" size="25" name="global_banktr_iban" value="<?php echo $global_banktr_iban; ?>">
               <td class="expl"><?php echo $explanation_banktr_iban; ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_banktr_swift; ?></td>
-              <td><input type="text" size="25" name="global_banktr_swift" value="<?php echo $global_banktr_swift; ?>">
+              <td><input class="validate_alpha_num" id="banktr_swift" type="text" size="25" name="global_banktr_swift" value="<?php echo $global_banktr_swift; ?>">
               <td class="expl"><?php echo $explanation_banktr_swift; ?></td>
             </tr>
 	    <tr>
@@ -74,7 +76,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_banktr_sort_order; ?></td>
-              <td><input type="text" name="global_banktr_sort_order" value="<?php echo $global_banktr_sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="banktr_sort_order" type="text" name="global_banktr_sort_order" value="<?php echo $global_banktr_sort_order; ?>" size="1"></td>
               <td class="expl"><?php echo $explanation_banktr_sort_order; ?></td>
             </tr>
           </table>
@@ -85,5 +87,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

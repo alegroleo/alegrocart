@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a></div>
@@ -48,7 +49,7 @@
 			    <?php if($code == "en"){?>
 				  <input type="text" readonly="readonly" name="code" maxlength="32" value="<?php echo $code; ?>">
 				<?php } else {?>
-			      <input type="text" name="code" maxlength="32" value="<?php echo $code; ?>">
+			      <input class="validate_alpha" id="code" type="text" name="code" maxlength="32" value="<?php echo $code; ?>">
 			    <?php } ?>
                 <?php if ($error_code) { ?>
                 <span class="error"><?php echo $error_code; ?></span>
@@ -56,7 +57,7 @@
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_image; ?></td>
-              <td><input type="text" id="flag_image" name="image" maxlength="32" value="<?php echo $image; ?>">
+              <td><input class="validate_file" type="text" id="flag_image" name="image" maxlength="32" value="<?php echo $image; ?>">
                 <?php if ($error_image) { ?>
                 <span class="error"><?php echo $error_image; ?></span>
                 <?php } ?></td>
@@ -79,7 +80,7 @@
 			    <?php if($code == "en"){?>
 				  <input type="text" readonly="readonly" name="directory" maxlength="32" value="<?php echo $directory; ?>">
 				<?php } else {?>
-			      <input type="text" name="directory" maxlength="32" value="<?php echo $directory; ?>">
+			      <input class="validate_alpha_num" id="directory" type="text" name="directory" maxlength="32" value="<?php echo $directory; ?>">
 			    <?php } ?>
                 <?php if ($error_directory) { ?>
                 <span class="error"><?php echo $error_directory; ?></span>
@@ -91,7 +92,7 @@
 			    <?php if($code == "en"){?>
 				  <input type="text" readonly="readonly" name="filename" maxlength="32" value="<?php echo $filename; ?>">
 				<?php } else {?>
-			      <input type="text" name="filename" maxlength="32" value="<?php echo $filename; ?>">
+			      <input class="validate_file" id="filename" type="text" name="filename" maxlength="32" value="<?php echo $filename; ?>">
 				<?php } ?>
                 <?php if ($error_filename) { ?>
                 <span class="error"><?php echo $error_filename; ?></span>
@@ -111,7 +112,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="sort_order" type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
             </tr>
           </table>
         </div>
@@ -127,5 +128,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

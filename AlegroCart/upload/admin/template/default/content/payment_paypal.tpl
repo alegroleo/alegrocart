@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_payment; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -48,14 +50,14 @@
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_email; ?></td>
-              <td><input type="text" name="global_paypal_email" value="<?php echo $global_paypal_email; ?>">
+              <td><input class="validate_mail" id="paypal_email" type="text" name="global_paypal_email" value="<?php echo $global_paypal_email; ?>">
                 <?php if ($error_email) { ?>
                 <span class="error"><?php echo $error_email; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_pdt_token; ?></td>
-              <td width="200"><input type="text" name="global_paypal_pdt_token" value="<?php echo $global_paypal_pdt_token; ?>">
+              <td width="200"><input class="validate_alpha_num" id="paypal_pdt_token" type="text" name="global_paypal_pdt_token" value="<?php echo $global_paypal_pdt_token; ?>">
                 <?php if ($error_pdt_token) { ?>
                 <span class="error"><?php echo $error_pdt_token; ?></span>
                 <?php } ?></td>
@@ -115,7 +117,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="global_paypal_sort_order" value="<?php echo $global_paypal_sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="paypal_sort_order" type="text" name="global_paypal_sort_order" value="<?php echo $global_paypal_sort_order; ?>" size="1"></td>
             </tr>
           </table>
           <table width="100%">
@@ -130,5 +132,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

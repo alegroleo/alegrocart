@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_module; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" />
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -38,14 +40,14 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_trending_days; ?></td>
-              <td><input type="text" name="catalog_bestseller_trendingdays" value="<?php echo $catalog_bestseller_trendingdays; ?>" size="1"></td>
+              <td><input class="validate_int" id="bestseller_trendingdays" type="text" name="catalog_bestseller_trendingdays" value="<?php echo $catalog_bestseller_trendingdays; ?>" size="1"></td>
 		<td class="expl">
 			<?php echo($explanation_entry_trending_days); ?>
 		</td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_limit; ?></td>
-              <td><input type="text" name="catalog_bestseller_limit" value="<?php echo $catalog_bestseller_limit; ?>" size="1"></td>
+              <td><input class="validate_int" id="bestseller_limit" type="text" name="catalog_bestseller_limit" value="<?php echo $catalog_bestseller_limit; ?>" size="1"></td>
 		<td class="expl">
 			<?php echo($explanation_entry_limit); ?>
 		</td>
@@ -67,21 +69,21 @@
 			</tr>
             <tr>
               <td class="set"><?php echo $entry_total; ?></td>
-              <td><input type="text" name="catalog_bestseller_total" value="<?php echo $catalog_bestseller_total; ?>" size="3"></td>
+              <td><input class="validate_int" id="bestseller_total" type="text" name="catalog_bestseller_total" value="<?php echo $catalog_bestseller_total; ?>" size="3"></td>
 		<td class="expl">
 			<?php echo($explanation_entry_total); ?>
 		</td>
             </tr>			
 			<tr>
 			  <td class="set"><?php echo $entry_height; ?></td>
-			  <td><input type="text" name="catalog_bestseller_image_height" value="<?php echo $catalog_bestseller_image_height; ?>" size="3"></td>
+			  <td><input class="validate_int" id="bestseller_image_height" type="text" name="catalog_bestseller_image_height" value="<?php echo $catalog_bestseller_image_height; ?>" size="3"></td>
 		<td class="expl">
 			<?php echo($explanation_entry_height); ?>
 		</td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_width; ?></td>
-			  <td><input type="text" name="catalog_bestseller_image_width" value="<?php echo $catalog_bestseller_image_width; ?>" size="3"></td>
+			  <td><input class="validate_int" id="bestseller_image_width" type="text" name="catalog_bestseller_image_width" value="<?php echo $catalog_bestseller_image_width; ?>" size="3"></td>
 		<td class="expl">
 			<?php echo($explanation_entry_width); ?>
 		</td>
@@ -133,21 +135,21 @@
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_single; ?></td>
-              <td><input type="text" name="catalog_bestseller_lines_single" value="<?php echo $catalog_bestseller_lines_single; ?>" size="1" /></td>
+              <td><input class="validate_int" id="bestseller_lines_single" type="text" name="catalog_bestseller_lines_single" value="<?php echo $catalog_bestseller_lines_single; ?>" size="1" /></td>
 		<td class="expl">
 			<?php echo($explanation_entry_lines_single); ?>
 		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_multi; ?></td>
-              <td><input type="text" name="catalog_bestseller_lines_multi" value="<?php echo $catalog_bestseller_lines_multi; ?>" size="1" /></td>
+              <td><input class="validate_int" id="bestseller_lines_multi" type="text" name="catalog_bestseller_lines_multi" value="<?php echo $catalog_bestseller_lines_multi; ?>" size="1" /></td>
 		<td class="expl">
 			<?php echo($explanation_entry_lines_multi); ?>
 		</td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_char; ?></td>
-              <td><input type="text" name="catalog_bestseller_lines_char" value="<?php echo $catalog_bestseller_lines_char; ?>" size="3" /></td>
+              <td><input class="validate_int" id="bestseller_lines_char" type="text" name="catalog_bestseller_lines_char" value="<?php echo $catalog_bestseller_lines_char; ?>" size="3" /></td>
 		<td class="expl">
 			<?php echo($explanation_entry_char); ?>
 		</td>
@@ -160,5 +162,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

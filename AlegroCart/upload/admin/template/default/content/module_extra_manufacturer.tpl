@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_module; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" />
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -62,12 +64,12 @@
             </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_height; ?></td>
-			  <td><input type="text" name="catalog_manufacturer_image_height" value="<?php echo $catalog_manufacturer_image_height; ?>" size="3"></td>
+			  <td><input class="validate_int" id="manufacturer_image_height" type="text" name="catalog_manufacturer_image_height" value="<?php echo $catalog_manufacturer_image_height; ?>" size="3"></td>
 			  <td class="expl"><?php echo $text_image;?></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_width; ?></td>
-			  <td><input type="text" name="catalog_manufacturer_image_width" value="<?php echo $catalog_manufacturer_image_width; ?>" size="3"></td>
+			  <td><input class="validate_int" id="manufacturer_image_width" type="text" name="catalog_manufacturer_image_width" value="<?php echo $catalog_manufacturer_image_width; ?>" size="3"></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_columns; ?></td>
@@ -83,7 +85,7 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_items_per_page; ?></td>
-			  <td><input type="text" name="catalog_manufacturer_rows" value="<?php echo $catalog_manufacturer_rows; ?>" size="3"></td>
+			  <td><input class="validate_int" id="manufacturer_rows" type="text" name="catalog_manufacturer_rows" value="<?php echo $catalog_manufacturer_rows; ?>" size="3"></td>
 			  <td class="expl"><?php echo $text_default_rows; ?></td>
 			<tr>
               <td class="set"><?php echo $entry_display_lock; ?></td>
@@ -112,5 +114,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

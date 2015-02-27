@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script>
 <form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
@@ -82,14 +83,16 @@
 				<table>
 				  <tr>
 					<td style="width: 165px;" class="set"><?php echo $entry_run_times;?></td>
-					<td style="width: 200px;"><input size="10" name="run_times[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['run_times'];?>"></td>
+					<td style="width: 200px;">
+					<input class="validate_int" id="run_times<?php echo $home_description['language_id']; ?>" size="10" name="run_times[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['run_times'];?>"></td>
 					<td class="expl"><?php echo $text_runtimes;?></td>
 				  </tr>
 				 </table>
 			    <table>
 				  <tr>
 					<td style="width: 165px;" class="set"><span class="required">*</span> <?php echo $entry_title; ?></td>
-					<td style="width: 200px;"><input size="30" maxlength="64" name="title[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['title']; ?>">
+					<td style="width: 200px;">
+					<input size="30" maxlength="64" name="title[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['title']; ?>">
                       <?php if ($error_title) { ?>
                       <span class="error"><?php echo $error_title; ?></span>
                       <?php } ?></td>
@@ -99,11 +102,11 @@
 	   			  </tr>
 				  <tr>
 				    <td class="set"><?php echo $entry_flash_width; ?></td>
-					<td><input name="flash_width[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_width'];?>"></td>
+					<td><input class="validate_int" id="flash_width<?php echo $home_description['language_id']; ?>" name="flash_width[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_width'];?>"></td>
 				  </tr>
 				  <tr>
 				    <td class="set"><?php echo $entry_flash_height; ?></td>
-					<td><input name="flash_height[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_height'];?>"></td>
+					<td><input class="validate_int" id="flash_height<?php echo $home_description['language_id']; ?>" name="flash_height[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['flash_height'];?>"></td>
 				  </tr>
 				  <tr>
 				    <td class="set"><?php echo $entry_flash_loop; ?></td>
@@ -188,15 +191,15 @@
 				  <table>
 					<tr>
 					  <td style="width: 185px" class="set"><?php echo $entry_meta_title;?></td>
-					  <td><input size="120" maxlength="120" name="meta_title[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_title']; ?>"></td>
+					  <td><input class="validate_meta" id="meta_title<?php echo $home_description['language_id']; ?>" size="120" maxlength="120" name="meta_title[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_title']; ?>"></td>
 					</tr>
 					<tr>
 					  <td style="width: 185px" class="set"><?php echo $entry_meta_description;?></td>
-					  <td><input size="120" maxlength="512" name="meta_description[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_description']; ?>"></td>
+					  <td><input class="validate_meta" id="meta_description<?php echo $home_description['language_id']; ?>" size="120" maxlength="512" name="meta_description[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_description']; ?>"></td>
 					</tr>
 					<tr>
 					  <td style="width: 185px" class="set"><?php echo $entry_meta_keywords;?></td>
-					  <td><input size="120" maxlength="255" name="meta_keywords[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_keywords']; ?>"></td>
+					  <td><input class="validate_meta" id="meta_keywords<?php echo $home_description['language_id']; ?>" size="120" maxlength="255" name="meta_keywords[<?php echo $home_description['language_id']; ?>]" value="<?php echo $home_description['meta_keywords']; ?>"></td>
 					</tr>
 				  </table>
 				</div>
@@ -245,4 +248,9 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>

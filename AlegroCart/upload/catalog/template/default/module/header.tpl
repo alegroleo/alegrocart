@@ -1,3 +1,7 @@
+<?php 
+  $head_def->set_javascript("ajax/jquery.js");
+  $head_def->set_javascript("ajax/validateforms.js");
+ ?>
 <div class="a" <?php echo 'style="width:' . $logo_width . 'px; height:'  . $logo_height . 'px; left:' . $logo_left . 'px; top:' . $logo_top . 'px;"'?>>
 <img src="<?php echo $store_logo;?>" alt="<?php echo $store;?>">
 </div>

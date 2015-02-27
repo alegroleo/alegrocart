@@ -76,13 +76,13 @@
 	 <td><div class="lowerleft">
 	  <?php echo $text_page_rows;?>
 	  <div class="data">
-	   <input type="text" size="4" name="page_rows" value="<?php echo $default_page_rows;?>">
+	   <input type="text" size="4" name="page_rows" id="page_rows" value="<?php echo $default_page_rows;?>" class="validate_int">
 	  </div>
 	 </div></td>
 	 <td><div class="lowerleft">
 	  <?php echo $text_max_rows;?>
 	  <div class="data">
-	   <input type="text" size="4" name="max_rows" value="<?php echo $default_max_rows;?>">
+	   <input type="text" size="4" name="max_rows" id="max_rows" value="<?php echo $default_max_rows;?>" class="validate_int">
 	  </div>
 	 </div></td>	
 	  <td><div class="lowerright">

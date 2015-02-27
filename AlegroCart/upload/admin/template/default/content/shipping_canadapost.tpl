@@ -11,6 +11,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_shipping; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -46,17 +48,17 @@
 		   
 		    <tr>
 			  <td class="set"><?php echo $entry_canadapost_ip; ?></td>
-              <td><input size="25" type="text" name="global_canadapost_ip" value="<?php echo $global_canadapost_ip; ?>" size="10"></td>
+              <td><input class="validate_url" id="canadapost_ip"size="25" type="text" name="global_canadapost_ip" value="<?php echo $global_canadapost_ip; ?>" size="10"></td>
 			  <td class="expl"><?php echo $explanation_canadapost_ip; ?></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_canadapost_port; ?></td>
-              <td><input type="text" name="global_canadapost_port" value="<?php echo $global_canadapost_port; ?>" size="10"></td>
+              <td><input class="validate_int" id="canadapost_port" type="text" name="global_canadapost_port" value="<?php echo $global_canadapost_port; ?>" size="10"></td>
 			  <td class="expl"><?php echo $explanation_canadapost_port; ?></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_merchant_id; ?></td>
-              <td><input type="text" name="global_canadapost_merchant_id" value="<?php echo $global_canadapost_merchant_id; ?>" size="10"></td>
+              <td><input class="validate_alpha_num" id="canadapost_merchant_id" type="text" name="global_canadapost_merchant_id" value="<?php echo $global_canadapost_merchant_id; ?>" size="10"></td>
 			  <td class="expl"><?php echo $explanation_merchant_id; ?></td>
 			</tr>
 			
@@ -77,7 +79,7 @@
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="global_canadapost_sort_order" value="<?php echo $global_canadapost_sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="canadapost_sort_order" type="text" name="global_canadapost_sort_order" value="<?php echo $global_canadapost_sort_order; ?>" size="1"></td>
 			  <td class="expl"><?php echo $explanation_sort_order; ?></td>
             </tr>
 		  </table>
@@ -151,5 +153,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

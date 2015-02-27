@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_payment; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -48,14 +50,14 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_merchantid; ?></td>
-              <td><input type="text" name="global_google_merchantid" value="<?php echo $global_google_merchantid; ?>" size="15">
+              <td><input class="validate_int" id="google_merchantid" type="text" name="global_google_merchantid" value="<?php echo $global_google_merchantid; ?>" size="15">
                 <?php if ($error_merchantid) { ?>
                 <span class="error"><?php echo $error_merchantid; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_merchantkey; ?></td>
-              <td><input type="text" name="global_google_merchantkey" value="<?php echo $global_google_merchantkey; ?>" size="30">
+              <td><input class="validate_alpha_num" id="google_merchantkey" type="text" name="global_google_merchantkey" value="<?php echo $global_google_merchantkey; ?>" size="30">
                 <?php if ($error_merchantkey) { ?>
                 <span class="error"><?php echo $error_merchantkey; ?></span>
                 <?php } ?></td>
@@ -90,7 +92,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="global_google_sort_order" value="<?php echo $global_google_sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="google_sort_order" type="text" name="global_google_sort_order" value="<?php echo $global_google_sort_order; ?>" size="1"></td>
             </tr>
           </table>
         </div>
@@ -100,5 +102,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

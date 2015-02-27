@@ -102,11 +102,34 @@ function UpdateAddToCart(product_id, controller){
 	var Controller = controller;
 	var ProductWithOptions = ProductOptions(product_id,controller);
 	var Multiple = parseInt($('#'+Controller+'_multiple_'+Product_id).val());
+	var Min_qty = parseInt($('#'+Controller+'_min_qty_'+Product_id).val());
 	var Max_qty = parseInt($('#'+Controller+'_max_qty_'+Product_id).val());
 	var Cart_level = parseInt($('#'+Controller+'_cart_level_'+ProductWithOptions).val());
-	var selectList, x;
+	var selectList ='', x;
+	var from, rest;
+	if (Cart_level > 0) {
+		Multiple != 0 ? from = Multiple : from =1;
+	} else {
+		if (Multiple != 0) {
+			if (Multiple > Min_qty) {
+				from = Multiple;
+			} else {
+				if (Min_qty % Multiple == 0) {
+					from = Min_qty;
+				} else {
+					rest = Min_qty % Multiple;
+					from = Min_qty + Multiple - rest;
+					if (Max_qty != 0 && from > Max_qty) {
+						from -= Multiple;
+					}
+				}
+			}
+		} else {
+			Min_qty ? from = Min_qty : from = 1;
+		}
+	}
 	if($('#'+Controller+'_quantity_'+Product_id)[0].tagName == "INPUT"){
-		$('#'+Controller+'_quantity_'+Product_id).val(Multiple == 0 ? 1 : Multiple);
+		$('#'+Controller+'_quantity_'+Product_id).val(from);
 		if (Max_qty != 0) {
 			var diff = Max_qty-Cart_level;
 			if (diff == 0 || diff < Multiple) {
@@ -127,7 +150,7 @@ function UpdateAddToCart(product_id, controller){
 		} else {
 			$('#'+Controller+'_quantity_'+Product_id).show();
 			$('#'+Controller+'_add_'+Product_id).removeAttr("disabled");
-			for (x = 1; x < upto +1; x++) {
+			for (x = from; x < upto +1; x++) {
 				if ((Multiple != 0) && (x % Multiple !=0)) continue;
 				selectList += '<option value="'+x+'">'+x+'</option>';}
 		}

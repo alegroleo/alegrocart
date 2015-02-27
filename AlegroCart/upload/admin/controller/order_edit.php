@@ -1069,13 +1069,13 @@ class ControllerOrderEdit extends Controller {
 			$tax = $this->tax->getRate($product['tax_class_id']);
 			if($product['shipping']){
 				$weight = $this->weight->convert($product['weight'],$product['weight_class_id'], $this->config->get('config_weight_class_id'));
+			} else {
+				$weight = 0;
 			}
 			$row = $this->request->gethtml('row');
 			$output = '<tr id=row[' . $row . ']>'. "\n";
 			$output .= '<input name="products[' . $row . '][product_id]" value="' . $product_o . '" type="hidden">'. "\n";
-			//$output .= '<input name="products[' . $row . '][tax_rate]" value="' . $tax . '" id="tax_rate_' . $row . '" type="hidden">'. "\n";
 			$output .= '<input name="products[' . $row . '][weight]" value="' . $weight . '" id="weight_' . $row . '" type="hidden">'. "\n";
-			//$output .= '<input name="products[' . $row . '][tax_amount]" value="" id="tax_amount_' . $row . '" type="hidden">'. "\n";
 			$output .= '<td class="left" style="width: 200px;">' . $product['name'];
 			if($option_values){
 				foreach($option_values as $option_value){
@@ -1094,12 +1094,10 @@ class ControllerOrderEdit extends Controller {
 			}
 
 			$output .= '</td>'. "\n";
-			$output .= '<td class="left" style="width: 100px;">' . '<input name="products[' . $row . '][quantity]" size="6" value="1" id="quantity_' . $row . '" onchange="update_row(' . $row . ')"></td>'. "\n"; 
-			$output .= '<td class="left" style="width: 120px;">' . '<input name="products[' . $row . '][price]" size="12" value="' . $price . '" size="12" id="price_' . $row . '" onchange="update_row(' . $row . ')"></td>'. "\n";
-			
+			$output .= '<td class="left" style="width: 100px;">' . '<input class="validate_int_n" name="products[' . $row . '][quantity]" size="6" value="1" id="quantity_' . $row . '" onfocus="RegisterValidation()" onchange="update_row(' . $row . ')"></td>'. "\n"; 
+			$output .= '<td class="left" style="width: 120px;">' . '<input class="validate_float" name="products[' . $row . '][price]" size="12" value="' . $price . '" size="12" id="price_' . $row . '" onfocus="RegisterValidation()" onchange="update_row(' . $row . ')"></td>'. "\n";			
 			$output .= '<td class="left" style="width: 100px;">' . '<input name="products[' . $row . '][tax_rate]" size="10" value="' . $tax . '" id="tax_rate_' . $row . '" readonly="readonly" style="border: 0px;"></td>'. "\n";
-			$output .= '<td class="left" style="width: 120px;">' . '<input name="products[' . $row . '][tax_amount]" size="10" value="" id="tax_amount_' . $row . '" readonly="readonly" style="border: 0px;"></td>'. "\n";
-			
+			$output .= '<td class="left" style="width: 120px;">' . '<input name="products[' . $row . '][tax_amount]" size="10" value="" id="tax_amount_' . $row . '" readonly="readonly" style="border: 0px;"></td>'. "\n";			
 			$output .= '<td class="left" style="width: 200px;">' . '<input name="products[' . $row . '][extended]" size="12" value="' . $price . '" id="extended_' . $row . '" size="12"  readonly="readonly" style="border: 0px;"></td>'. "\n"; 
 			
 			

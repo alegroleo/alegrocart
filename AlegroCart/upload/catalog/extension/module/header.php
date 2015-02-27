@@ -35,6 +35,8 @@ class ModuleHeader extends Controller {
 			$view->set('logo_width', $config->get('config_logo_width'));
 			$view->set('logo_height', $config->get('config_logo_height'));
 			$view->set('store', $config->get('config_store'));
+			$view->set('head_def',$head_def);
+			$template->set('head_def',$head_def);
     		return $view->fetch('module/header.tpl');
 		}
 	}

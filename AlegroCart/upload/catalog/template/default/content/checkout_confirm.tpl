@@ -198,7 +198,7 @@
 	  <?php echo '<td class="left"><span class="tax">* </span>' . $text_tax . '</td>';?>
 		<?php if($couponproducts){?>
           <td class="right"><?php echo $entry_coupon; ?></td>
-          <td class="right" width="1"><input type="text" name="coupon" value="<?php echo $coupon; ?>"></td>
+          <td class="right" width="1"><input type="text" name="coupon" id="coupon" value="<?php echo $coupon; ?>" class="validate_alpha_num"></td>
           <td class="right" width="1"><input type="submit" value="<?php echo $button_update; ?>"></td>
 		<?php } ?>
         </tr>

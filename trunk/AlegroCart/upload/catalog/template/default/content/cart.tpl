@@ -76,7 +76,7 @@
           </div></td>
         <td class="l"><?php echo $product['min_qty']; ?></td>
         <td class="l">
-          <input type="text" name="quantity[<?php echo $product['key']; ?>]" value="<?php echo $product['quantity']; ?>" size="3">
+          <input type="text" name="quantity[<?php echo $product['key']; ?>]" id="quantity[<?php echo $product['key']; ?>]" value="<?php echo $product['quantity']; ?>" size="3" class="validate_int">
           <input type="hidden" name="min_qty[<?php echo $product['key']; ?>]" value="<?php echo $product['min_qty']; ?>">
           <input type="hidden" name="max_qty[<?php echo $product['key']; ?>]" value="<?php echo $product['max_qty']; ?>">
           <input type="hidden" name="multiple[<?php echo $product['key']; ?>]" value="<?php echo $product['multiple']; ?>">
@@ -151,7 +151,7 @@
         </tr>
         <tr>
           <td><?php echo $entry_postcode; ?></td>
-          <td><input size="10" type="text" name="postcode" id="postcode" value="<?php echo $postcode; ?>"></td>
+          <td><input size="10" type="text" name="postcode" id="postcode" value="<?php echo $postcode; ?>" class="validate_alpha_num"></td>
         </tr>
       </table>
     </div>
@@ -219,7 +219,7 @@
 		  <?php }?>
 		<?php if($couponproducts){?>
           <td class="right"><?php echo $entry_coupon; ?></td>
-          <td class="right" width="1"><input type="text" name="coupon" value="<?php echo $coupon; ?>"></td>
+          <td class="right" width="1"><input type="text" name="coupon" id="coupon" value="<?php echo $coupon; ?>" class="validate_alpha_num"></td>
 		  <?php } else {?>
 		  <td></td>
 		  <?php }?>

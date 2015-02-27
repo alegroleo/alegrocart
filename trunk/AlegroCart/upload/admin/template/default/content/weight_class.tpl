@@ -22,6 +22,7 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -66,7 +67,7 @@
             <?php foreach ($weight_rules as $weight_rule) { ?>
             <tr>
               <td width="185" class="set"><?php echo $weight_rule['title']; ?></td>
-              <td><input type="text" name="rule[<?php echo $weight_rule['to_id']; ?>]" value="<?php echo $weight_rule['rule']; ?>"></td>
+              <td><input class="validate_float" id="rule<?php echo $weight_rule['to_id']; ?>" type="text" name="rule[<?php echo $weight_rule['to_id']; ?>]" value="<?php echo $weight_rule['rule']; ?>"></td>
             </tr>
             <?php } ?>
           </table>
@@ -86,5 +87,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

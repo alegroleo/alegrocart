@@ -55,11 +55,11 @@
 	<table>
 	  <tr>
 	    <td><?php echo $text_page_rows;?></td>
-		<td><input type="text" size="4" name="page_rows" value="<?php echo $default_page_rows;?>"></td>
+		<td><input type="text" size="4" name="page_rows" id="page_rows" value="<?php echo $default_page_rows;?>" class="validate_int"></td>
 	  </tr>
 	  <tr>
 	    <td><?php echo $text_max_rows;?></td>
-		<td><input type="text" size="4" name="max_rows" value="<?php echo $default_max_rows;?>"></td>
+		<td><input type="text" size="4" name="max_rows" id="max_rows" value="<?php echo $default_max_rows;?>" class="validate_int"></td>
 	  </tr>
 	  <tr>
 	    <td><?php echo $text_columns;?></td>

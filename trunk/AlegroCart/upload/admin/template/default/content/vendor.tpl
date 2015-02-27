@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -84,34 +85,34 @@
          <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_firstname; ?></td>
-              <td><input type="text" name="firstname" value="<?php echo $firstname; ?>"></td>
+              <td><input class="validate_alpha" id="firstname" type="text" name="firstname" value="<?php echo $firstname; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_lastname; ?></td>
-              <td><input type="text" name="lastname" value="<?php echo $lastname; ?>"></td>
+              <td><input class="validate_alpha" id="lastname" type="text" name="lastname" value="<?php echo $lastname; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_email; ?></td>
-              <td><input type="text" name="email" value="<?php echo $email; ?>">
+              <td><input class="validate_mail" id="email" type="text" name="email" value="<?php echo $email; ?>">
                 <?php if ($error_email) { ?>
                 <span class="error"><?php echo $error_email; ?></span>
                 <?php  } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_telephone; ?></td>
-              <td><input type="text" name="telephone" value="<?php echo $telephone; ?>"></td>
+              <td><input class="validate_phone" id="telephone" type="text" name="telephone" value="<?php echo $telephone; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_fax; ?></td>
-              <td><input type="text" name="fax" value="<?php echo $fax; ?>"></td>
+              <td><input class="validate_phone" id="fax" type="text" name="fax" value="<?php echo $fax; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_website; ?></td>
-              <td><input type="text" name="website" value="<?php echo $website; ?>"></td>
+              <td><input class="validate_url" id="website" type="text" name="website" value="<?php echo $website; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_trade; ?></td>
-              <td><input type="text" name="trade" value="<?php echo $trade; ?>"></td>
+              <td><input class="validate_url" id="trade" type="text" name="trade" value="<?php echo $trade; ?>"></td>
             </tr>
        </table>
      </div>
@@ -121,28 +122,28 @@
          <table>
 	    <tr>
               <td class="set"><?php echo $entry_company; ?></td>
-              <td><input type="text" name="company" value="<?php echo $company; ?>"></td>
+              <td><input class="validate_alpha_num" id="company" type="text" name="company" value="<?php echo $company; ?>"></td>
             </tr>
 	    <tr>
 	      <td class="set"><?php echo $entry_address_1; ?></td>
-              <td><input type="text" name="address_1" value="<?php echo $address_1; ?>">
+              <td><input class="validate_alpha_num" id="address_1" type="text" name="address_1" value="<?php echo $address_1; ?>">
               </td>
 	    </tr>
 	    <tr>
-	      <td class="set""><?php echo $entry_address_2; ?></td>
-		<td><input type="text" name="address_2" value="<?php echo $address_2; ?>"></td>
+	      <td class="set"><?php echo $entry_address_2; ?></td>
+		<td><input class="validate_alpha_num" id="address_2" type="text" name="address_2" value="<?php echo $address_2; ?>"></td>
 	    </tr>
 	    <tr>
-	      <td class="set""><?php echo $entry_postcode; ?></td>
-	      <td><input type="text" name="postcode" value="<?php echo $postcode; ?>"></td>
+	      <td class="set"><?php echo $entry_postcode; ?></td>
+	      <td><input class="validate_alpha_num" id="postcode" type="text" name="postcode" value="<?php echo $postcode; ?>"></td>
 		  <td class="expl"><?php echo $text_no_postal;?></td>
 	    </tr>
 	    <tr>
-	      <td class="set""><?php echo $entry_city; ?></td>
-	      <td><input type="text" name="city" value="<?php echo $city; ?>"></td>
+	      <td class="set"><?php echo $entry_city; ?></td>
+	      <td><input class="validate_alpha_num" id="city" type="text" name="city" value="<?php echo $city; ?>"></td>
 	    </tr>
 	    <tr>
-	      <td class="set""><?php echo $entry_country; ?></td>
+	      <td class="set"><?php echo $entry_country; ?></td>
 	      <td><select name="country_id" onchange="$('#zone').load('index.php?controller=vendor&action=zone&country_id='+this.value+'&zone_id=<?php echo $zone_id; ?>');">
               <?php foreach ($countries as $country) { ?>
                 <?php if ($country['country_id'] == $country_id) { ?>
@@ -155,7 +156,7 @@
               </td>
 	    </tr>
 		<tr>
-		<td class="set""><?php echo $entry_zone; ?></td>
+		<td class="set"><?php echo $entry_zone; ?></td>
 		<td id="zone"><select name="zone_id">
 		</select></td>
 	    </tr>
@@ -200,5 +201,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

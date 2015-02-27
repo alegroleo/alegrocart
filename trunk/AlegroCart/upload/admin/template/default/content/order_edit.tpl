@@ -14,6 +14,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" >
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <link rel="stylesheet" type="text/css" href="template/<?php echo $this->directory?>/css/order_create.css">
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
@@ -234,7 +235,7 @@
 					  <?php if($order_cancelled){?>
 					    <input class="right" id="shipping_tax_rate"  name="shipping_tax_rate" value="<?php echo $ship_tax;?>" readonly="readonly" style="border: 0px;">
 					  <?php } else {?>
-				        <input class="right" id="shipping_tax_rate"  name="shipping_tax_rate" value="<?php echo isset($shipping_tax_rate) ? str_replace('%','', $shipping_tax_rate) : '';?>" onchange="update_totals()">
+				        <input class="validate_float" id="shipping_tax_rate" style="text-align: right;" name="shipping_tax_rate" value="<?php echo isset($shipping_tax_rate) ? str_replace('%','', $shipping_tax_rate) : '';?>" onchange="update_totals()">
 					  <?php }?>
 				  </td>
 				  <td class="set"><?php echo $entry_shipping;?></td>
@@ -244,7 +245,7 @@
 					  <input name="totals_shipping" id="totals_shipping" value="<?php echo number_format(($totals_shipping*(-1)), $decimal_place, '.', '') ;?>" type="hidden">
 					  <input name="shipping" id="shipping" value="<?php echo number_format(($ship_net*(-1)), $decimal_place, '.', '');?>" type="hidden">
 					<?php } else {?>
-				      <input name="shipping" id="shipping" value="<?php echo $shipping_cost ? $shipping_cost : '';?>" onchange="update_totals()">
+				      <input class="validate_float_n" name="shipping" id="shipping" value="<?php echo $shipping_cost ? $shipping_cost : '';?>" onchange="update_totals()">
 					<?php }?>
 				  </td>
 				  <?php if($order_cancelled){?>
@@ -732,3 +733,8 @@
 	$('#phonefax').load('index.php?controller=order_edit&action=get_phone&customer_id='+customer_id);
   }
   //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	RegisterValidation();
+  });
+//--></script>

@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -66,7 +67,7 @@
           <table>
             <tr>
               <td width="185" class="set"><span class="required">*</span> <?php echo $entry_code; ?></td>
-              <td><input type="text" name="code" value="<?php echo $code; ?>">
+              <td><input class="validate_alpha_num" id="code" type="text" name="code" value="<?php echo $code; ?>">
                 <?php if ($error_code) { ?>
                 <span class="error"><?php echo $error_code; ?></span>
                 <?php } ?></td>
@@ -85,7 +86,7 @@
             </tr>
 	    <tr>
               <td class="set"><?php echo $entry_date_start; ?></td>
-              <td><input name="date_start_day" value="<?php echo $date_start_day; ?>" size="2" maxlength="2">
+              <td><input class="validate_int" id="date_start_day" name="date_start_day" value="<?php echo $date_start_day; ?>" size="2" maxlength="2">
                 <select name="date_start_month">
                   <?php foreach ($months as $month) { ?>
                   <?php if ($month['value'] == $date_start_month) { ?>
@@ -95,14 +96,14 @@
                   <?php } ?>
                   <?php } ?>
                 </select>
-                <input name="date_start_year" value="<?php echo $date_start_year; ?>" size="4" maxlength="4">
+                <input class="validate_int" id="date_start_year" name="date_start_year" value="<?php echo $date_start_year; ?>" size="4" maxlength="4">
                 <?php if ($error_date_start) { ?>
                 <span class="error"><?php echo $error_date_start; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_date_end; ?></td>
-              <td><input name="date_end_day" value="<?php echo $date_end_day; ?>" size="2" maxlength="2">
+              <td><input class="validate_int" id="date_end_day" name="date_end_day" value="<?php echo $date_end_day; ?>" size="2" maxlength="2">
                 <select name="date_end_month">
                   <?php foreach ($months as $month) { ?>
                   <?php if ($month['value'] == $date_end_month) { ?>
@@ -112,7 +113,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select>
-                <input name="date_end_year" value="<?php echo $date_end_year; ?>" size="4" maxlength="4">
+                <input class="validate_int" id="date_end_year" name="date_end_year" value="<?php echo $date_end_year; ?>" size="4" maxlength="4">
                 <?php if ($error_date_end) { ?>
                 <span class="error"><?php echo $error_date_end; ?></span>
                 <?php } ?></td>
@@ -122,7 +123,7 @@
 	    </tr>
             <tr>
               <td class="set"><?php echo $entry_discount; ?></td>
-              <td><input type="text" name="discount" id="discount" value="<?php echo $discount; ?>" onchange="check_discount()"></td>
+              <td><input class="validate_float" id="discount" type="text" name="discount" id="discount" value="<?php echo $discount; ?>" onchange="check_discount()"></td>
 			  <td><span id="error_discount"></span></td>
             </tr>
             <tr>
@@ -139,7 +140,7 @@
             </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_minimum_order; ?></td>
-			  <td><input type="text" name="minimum_order" value="<?php echo $minimum_order; ?>"></td>
+			  <td><input class="validate_float" id="minimum_order" type="text" name="minimum_order" value="<?php echo $minimum_order; ?>"></td>
 			</tr>
             <tr>
               <td class="set"><?php echo $entry_shipping; ?></td>
@@ -160,11 +161,11 @@
 	    </tr>
             <tr>
               <td class="set"><?php echo $entry_uses_total; ?></td>
-              <td><input type="text" name="uses_total" value="<?php echo $uses_total; ?>"></td>
+              <td><input class="validate_int" id="uses_total" type="text" name="uses_total" value="<?php echo $uses_total; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_uses_customer; ?></td>
-              <td><input type="text" name="uses_customer" value="<?php echo $uses_customer; ?>"></td>
+              <td><input class="validate_int" id="uses_customer" type="text" name="uses_customer" value="<?php echo $uses_customer; ?>"></td>
             </tr>
           </table>
         </div>
@@ -213,5 +214,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

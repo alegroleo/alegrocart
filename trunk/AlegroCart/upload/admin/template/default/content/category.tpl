@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" >
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -51,15 +52,15 @@
 				  
                   <tr>  <!-- New Meta Tags -->
                     <td width="185" class="set"> <?php echo $entry_meta_title; ?></td>
-                    <td><input size="60" maxlength="60" name="meta_title[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_title']; ?>"></td> 
+                    <td><input class="validate_meta" id="meta_title<?php echo $category['language_id']; ?>" size="60" maxlength="60" name="meta_title[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_title']; ?>"></td> 
                   </tr>
 				  <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_description; ?></td>
-                    <td><input size="100" maxlength="120" name="meta_description[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_description']; ?>"></td>					
+                    <td><input class="validate_meta" id="meta_description<?php echo $category['language_id']; ?>" size="100" maxlength="120" name="meta_description[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_description']; ?>"></td>					
 				  </tr>
 				  <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_keywords; ?></td>
-                    <td><input size="100" maxlength="120" name="meta_keywords[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_keywords']; ?>"></td>
+                    <td><input class="validate_meta" id="meta_keywords<?php echo $category['language_id']; ?>" size="100" maxlength="120" name="meta_keywords[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_keywords']; ?>"></td>
 				  </tr>	 <!-- End Meta Tags -->			  
 				  
                   <tr>
@@ -96,7 +97,7 @@
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1" ></td>
+              <td><input class="validate_int" id="sort_order" name="sort_order" value="<?php echo $sort_order; ?>" size="1" ></td>
 		<td class="expl"><?php echo $explanation_sort_order; ?></td>
             </tr>
           </table>
@@ -166,5 +167,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

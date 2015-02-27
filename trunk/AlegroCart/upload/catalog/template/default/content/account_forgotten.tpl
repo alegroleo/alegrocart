@@ -15,7 +15,7 @@
       <table>
         <tr>
           <td width="150"><?php echo $entry_email; ?></td>
-          <td><input type="text" name="email"></td>
+          <td><input type="text" name="email" id="email" class="validate_mail"></td>
         </tr>
       </table>
     </div>

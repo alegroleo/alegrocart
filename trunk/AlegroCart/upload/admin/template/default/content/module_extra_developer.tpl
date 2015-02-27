@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_module; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" />
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -39,7 +41,7 @@
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_link; ?></td>
-              <td><input type="text" name="global_developer_link" value="<?php echo $global_developer_link; ?>" size="80" /></td>
+              <td><input class="validate_url" id="developer_link" type="text" name="global_developer_link" value="<?php echo $global_developer_link; ?>" size="80" /></td>
             </tr>
 		  </table>
         </div>
@@ -49,5 +51,10 @@
    <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

@@ -163,12 +163,12 @@ class ControllerShippingZonePlus extends Controller {
 		$output .= '<option value="1">' . $this->language->get('text_enabled') . '</option>' . "\n";
 		$output .= '<option value="0" selected>' . $this->language->get('text_disabled') . '</option>' . "\n";
 		$output .= '</select></td>' . "\n";
-		$output .= '<td><input size="8" type="text" name="geo_zone[' . $geozone_id . '][base_cost]" value="0.00"></td>' . "\n";
-		$output .= '<td><input size="6" type="text" name="geo_zone[' . $geozone_id . '][base_weight]" value="0"></td>' . "\n";
-		$output .= '<td><input size="8" type="text" name="geo_zone[' . $geozone_id . '][added_cost]" value="0.00"></td>' . "\n";
-		$output .= '<td><input size="6" type="text" name="geo_zone[' . $geozone_id . '][added_weight]" value="0"></td>' . "\n";
-		$output .= '<td><input size="6" type="text" name="geo_zone[' . $geozone_id . '][max_weight]" value="0"></td>' . "\n";
-		$output .= '<td><input size="8" type="text" name="geo_zone[' . $geozone_id . '][free_amount]" value="0.00"></td>' . "\n";
+		$output .= '<td><input class="validate_float" id="geo_zone' . $geozone_id . 'base_cost" size="8" type="text" name="geo_zone[' . $geozone_id . '][base_cost]" value="0.00" onfocus="RegisterValidation()"></td>' . "\n";
+		$output .= '<td><input class="validate_float" id="geo_zone' . $geozone_id . 'base_weight" size="6" type="text" name="geo_zone[' . $geozone_id . '][base_weight]" value="0" onfocus="RegisterValidation()"></td>' . "\n";
+		$output .= '<td><input class="validate_float" id="geo_zone' . $geozone_id . 'added_cost" size="8" type="text" name="geo_zone[' . $geozone_id . '][added_cost]" value="0.00" onfocus="RegisterValidation()"></td>' . "\n";
+		$output .= '<td><input class="validate_float" id="geo_zone' . $geozone_id . 'added_weight" size="6" type="text" name="geo_zone[' . $geozone_id . '][added_weight]" value="0" onfocus="RegisterValidation()"></td>' . "\n";
+		$output .= '<td><input class="validate_float" id="geo_zone' . $geozone_id . 'max_weight" size="6" type="text" name="geo_zone[' . $geozone_id . '][max_weight]" value="0" onfocus="RegisterValidation()"></td>' . "\n";
+		$output .= '<td><input class="validate_float" id="geo_zone' . $geozone_id . 'free_amount" size="8" type="text" name="geo_zone[' . $geozone_id . '][free_amount]" value="0.00" onfocus="RegisterValidation()"></td>' . "\n";
 		$output .= '<tr id="geozone' . $geozone_id . 'B">' . "\n";
 		$output .= '<td width="160" class="set">' . $geozone['description'] . '</td>' . "\n";
 		$output .= '<td colspan="8"><input size="106" type="text" name="geo_zone[' . $geozone_id . '][message]" value=""></td>' . "\n";

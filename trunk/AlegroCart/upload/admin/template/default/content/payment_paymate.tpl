@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_payment; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -65,7 +67,7 @@
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_mid; ?></td>
-              <td><input type="text" name="global_paymate_mid" style="width:200px;" value="<?php echo $global_paymate_mid; ?>" >
+              <td><input class="validate_alpha_num" id="paymate_mid" type="text" name="global_paymate_mid" style="width:200px;" value="<?php echo $global_paymate_mid; ?>" >
                 <?php if ($error_mid) { ?>
                 <span class="error"><?php echo $error_mid; ?></span>
                 <?php } ?></td>
@@ -99,7 +101,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="global_paymate_sort_order" value="<?php echo $global_paymate_sort_order; ?>" size="1" ></td>
+              <td><input class="validate_int" id="paymate_sort_order" type="text" name="global_paymate_sort_order" value="<?php echo $global_paymate_sort_order; ?>" size="1" ></td>
               <td class="expl"><?php echo $explanation_entry_sort_order; ?></td>
             </tr>
           </table>
@@ -110,5 +112,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

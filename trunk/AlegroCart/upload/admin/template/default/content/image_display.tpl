@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
 
@@ -75,7 +76,7 @@
 	    </tr>
 	    <tr>
 			  <td class="set"><?php echo $entry_sort_order;?></td>
-			  <td><input type="text" name="sort_order" value="<?php echo $sort_order;?>"></td>
+			  <td><input class="validate_int" id="sort_order" type="text" name="sort_order" value="<?php echo $sort_order;?>"></td>
 	     <td class="expl">
                 <?php echo($explanation_entry_sort_order); ?>
              </td>
@@ -108,14 +109,14 @@
 				<table>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_flash_width; ?></td>
-				    <td><input name="flash_width[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['flash_width'];?>"></td>
+				    <td><input class="validate_int" id="flash_width<?php echo $image_display_description['language_id']; ?>" name="flash_width[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['flash_width'];?>"></td>
 				    <td class="expl">
 					<?php echo($explanation_entry_flash_width); ?>
 				    </td>
 				  </tr>
 				  <tr>
 				    <td class="set"><?php echo $entry_flash_height; ?></td>
-					<td><input name="flash_height[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['flash_height'];?>"></td>
+					<td><input class="validate_int" id="flash_height<?php echo $image_display_description['language_id']; ?>" name="flash_height[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['flash_height'];?>"></td>
 				    <td class="expl">
 					<?php echo($explanation_entry_flash_height); ?>
 				    </td>
@@ -157,13 +158,13 @@
 				<table>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_image_width; ?></td>
-					<td><input name="image_width[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['image_width'];?>"></td>
+					<td><input class="validate_int" id="image_width<?php echo $image_display_description['language_id']; ?>" name="image_width[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['image_width'];?>"></td>
 				  <td class="expl">
 					<?php echo($explanation_entry_image_width); ?>
 				    </td></tr>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_image_height; ?></td>
-					<td><input name="image_height[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['image_height'];?>"></td>
+					<td><input class="validate_int" id="image_height<?php echo $image_display_description['language_id']; ?>" name="image_height[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['image_height'];?>"></td>
 				    <td class="expl">
 					<?php echo($explanation_entry_image_height); ?>
 				    </td></tr>
@@ -218,4 +219,9 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>

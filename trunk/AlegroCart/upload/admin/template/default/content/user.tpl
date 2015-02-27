@@ -22,6 +22,7 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -32,28 +33,28 @@
           <table>
             <tr>
               <td width="185" class="set"><span class="required">*</span> <?php echo $entry_username; ?></td>
-              <td><input type="text" name="username" value="<?php echo $username; ?>">
+              <td><input class="validate_alpha_num" id="username" type="text" name="username" value="<?php echo $username; ?>">
                 <?php if ($error_username) { ?>
                 <span class="error"><?php echo $error_username; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-              <td><input type="text" name="firstname" value="<?php echo $firstname; ?>">
+              <td><input class="validate_alpha" id="firstname" type="text" name="firstname" value="<?php echo $firstname; ?>">
                 <?php if ($error_firstname) { ?>
                 <span class="error"><?php echo $error_firstname; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_lastname; ?></td>
-              <td><input type="text" name="lastname" value="<?php echo $lastname; ?>">
+              <td><input class="validate_alpha" id="lastname" type="text" name="lastname" value="<?php echo $lastname; ?>">
                 <?php if ($error_lastname) { ?>
                 <span class="error"><?php echo $error_lastname; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_email; ?></td>
-              <td><input type="text" name="email" value="<?php echo $email; ?>">
+              <td><input class="validate_mail" id="email" type="text" name="email" value="<?php echo $email; ?>">
                 <?php if ($error_email) { ?>
                 <span class="error"><?php echo $error_email; ?></span>
                 <?php  } ?></td>
@@ -98,5 +99,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

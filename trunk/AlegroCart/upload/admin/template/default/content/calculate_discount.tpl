@@ -12,6 +12,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_calculate; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -36,27 +38,27 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_discount_lprice; ?></td>
-              <td><input type="text" name="global_discount_lprice" value="<?php echo $global_discount_lprice; ?>" size="10"></td>
+              <td><input class="validate_float" id="discount_lprice" type="text" name="global_discount_lprice" value="<?php echo $global_discount_lprice; ?>" size="10"></td>
 	      <td class="expl"><?php echo $explanation_entry_discount_lprice; ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_discount_lprice_percent; ?></td>
-              <td><input type="text" name="global_discount_lprice_percent" value="<?php echo $global_discount_lprice_percent; ?>" size="10"></td>
+              <td><input class="validate_float" id="discount_lprice_percent" type="text" name="global_discount_lprice_percent" value="<?php echo $global_discount_lprice_percent; ?>" size="10"></td>
 	      <td class="expl"><?php echo $explanation_entry_discount_lprice_percent; ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_discount_gprice; ?></td>
-              <td><input type="text" name="global_discount_gprice" value="<?php echo $global_discount_gprice; ?>" size="10"></td>
+              <td><input class="validate_float" id="discount_gprice" type="text" name="global_discount_gprice" value="<?php echo $global_discount_gprice; ?>" size="10"></td>
 	      <td class="expl"><?php echo $explanation_entry_discount_gprice; ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_discount_gprice_percent; ?></td>
-              <td><input type="text" name="global_discount_gprice_percent" value="<?php echo $global_discount_gprice_percent; ?>" size="10"></td>
+              <td><input class="validate_float" id="discount_gprice_percent" type="text" name="global_discount_gprice_percent" value="<?php echo $global_discount_gprice_percent; ?>" size="10"></td>
 	      <td class="expl"><?php echo $explanation_entry_discount_gprice_percent; ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_discount_sort_order; ?></td>
-              <td><input type="text" name="global_discount_sort_order" value="<?php echo $global_discount_sort_order; ?>" size="3"></td>
+              <td><input class="validate_int" id="discount_sort_order" type="text" name="global_discount_sort_order" value="<?php echo $global_discount_sort_order; ?>" size="3"></td>
 	      <td class="expl"><?php echo $explanation_entry_discount_sort_order; ?></td>
             </tr>
           </table>
@@ -67,5 +69,10 @@
  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -40,11 +41,11 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_iso_code_2; ?></td>
-              <td><input type="text" name="iso_code_2" value="<?php echo $iso_code_2; ?>"></td>
+              <td><input class="validate_alpha" id="iso_code_2" type="text" name="iso_code_2" value="<?php echo $iso_code_2; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_iso_code_3; ?></td>
-              <td><input type="text" name="iso_code_3" value="<?php echo $iso_code_3; ?>"></td>
+              <td><input class="validate_alpha" id="iso_code_3" type="text" name="iso_code_3" value="<?php echo $iso_code_3; ?>"></td>
             </tr>
 			<!--   Country Enable   -->			
 			<tr>
@@ -79,5 +80,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

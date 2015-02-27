@@ -23,6 +23,7 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -84,7 +85,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_remaining; ?></td>
-              <td><input type="input" id="remaining" name="remaining" value="<?php echo $remaining; ?>" size="6"></td>
+              <td><input class="validate_int" type="input" id="remaining" name="remaining" value="<?php echo $remaining; ?>" size="6"></td>
 	      <td class="expl">
 		    <?php echo $explanation_remaining; ?> 
 	      </td>
@@ -128,5 +129,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

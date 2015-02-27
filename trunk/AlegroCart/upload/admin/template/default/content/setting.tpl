@@ -19,6 +19,7 @@
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_shop; ?></div></a><a><div class="tab_text"><?php echo $tab_admin; ?></div></a><a><div class="tab_text"><?php echo $tab_local; ?></div></a><a><div class="tab_text"><?php echo $tab_stock; ?></div></a><a><div class="tab_text"><?php echo $tab_option; ?></div></a><a><div class="tab_text"><?php echo $tab_mail; ?></div></a><a><div class="tab_text"><?php echo $tab_cache; ?></div></a><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a></div>
@@ -31,14 +32,14 @@
 		</tr>
             <tr>
               <td width="185" class="set"><span class="required">*</span> <?php echo $entry_store; ?></td>
-              <td><input type="text" name="global_config_store" value="<?php echo $global_config_store; ?>">
+              <td><input class="validate_alpha_num" id="config_store" type="text" name="global_config_store" value="<?php echo $global_config_store; ?>">
                 <?php if ($error_store) { ?>
                 <span class="error"><?php echo $error_store; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_owner; ?></td>
-              <td><input type="text" name="global_config_owner" value="<?php echo $global_config_owner; ?>">
+              <td><input class="validate_alpha_num" id="config_owner" type="text" name="global_config_owner" value="<?php echo $global_config_owner; ?>">
                 <?php if ($error_owner) { ?>
                 <span class="error"><?php echo $error_owner; ?></span>
                 <?php } ?></td>
@@ -55,14 +56,14 @@
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_telephone; ?></td>
-              <td><input type="text" name="global_config_telephone" value="<?php echo $global_config_telephone; ?>">
+              <td><input class="validate_phone" id="config_telephone" type="text" name="global_config_telephone" value="<?php echo $global_config_telephone; ?>">
                 <?php if ($error_telephone) { ?>
                 <span class="error"><?php echo $error_telephone; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_fax; ?></td>
-              <td><input type="text" name="global_config_fax" value="<?php echo $global_config_fax; ?>"></td>
+              <td><input class="validate_phone" id="config_fax" type="text" name="global_config_fax" value="<?php echo $global_config_fax; ?>"></td>
             </tr>
 	    <tr>
 	      <td colspan="2"><hr></td>
@@ -165,7 +166,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_items_per_page; ?></td>
-              <td><input type="text" name="catalog_config_max_rows" value="<?php echo $catalog_config_max_rows; ?>" size="2"></td>
+              <td><input class="validate_int" id="catalog_config_max_rows" type="text" name="catalog_config_max_rows" value="<?php echo $catalog_config_max_rows; ?>" size="2"></td>
 			  <td class="expl"><?php echo $text_items_per_page;?></td>
             </tr>
 		<?php if (isset($mr_status) && !$cgi) { ?>
@@ -293,7 +294,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_rows_per_page; ?></td>
-              <td><input type="text" name="admin_config_max_rows" value="<?php echo $admin_config_max_rows; ?>" size="2"></td>
+              <td><input class="validate_int" id="admin_config_max_rows" type="text" name="admin_config_max_rows" value="<?php echo $admin_config_max_rows;?>" size="4"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_parse_time; ?></td>
@@ -349,7 +350,7 @@
 			</tr>
 			<tr> 
 			  <td class="set"><?php echo $entry_session_expire; ?></td>
-			  <td><input type="text" name="global_config_session_expire" value="<?php echo $global_config_session_expire; ?>" size="2"></td>
+			  <td><input class="validate_int" id="config_session_expire" type="text" name="global_config_session_expire" value="<?php echo $global_config_session_expire; ?>" size="2"></td>
 			  <td class="expl"><?php echo $explanation_session_expire; ?></td>
 			</tr>
 			<tr>
@@ -403,7 +404,7 @@
 
 			<tr>
               <td width="185" class="set"><?php echo $entry_error_email; ?></td>
-              <td><input size="64" type="text" name="global_config_error_email" value="<?php echo $global_config_error_email; ?>">
+              <td><input class="validate_mail" id="config_error_email" size="64" type="text" name="global_config_error_email" value="<?php echo $global_config_error_email; ?>">
                 <?php if ($error_error_email) { ?>
                 <span class="error"><?php echo $error_error_email; ?></span>
                 <?php  } ?></td>
@@ -449,7 +450,7 @@
             </tr>
 			<tr>
               <td width="185" class="set"><?php echo $entry_error_developer_ip; ?></td>
-              <td><input size="64" type="text" name="global_error_developer_ip" value="<?php echo $global_error_developer_ip; ?>"></td>
+              <td><input class="validate_ip" id="error_developer_ip" size="64" type="text" name="global_error_developer_ip" value="<?php echo $global_error_developer_ip; ?>"></td>
 			  <td class="expl">
 			    <?php echo $text_error_developer_ip; ?> 
 			  </td>
@@ -496,7 +497,7 @@
             </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_time_zone;?></td>
-			  <td><input type="text" name="global_config_time_zone" value="<?php echo $global_config_time_zone;?>"></td>
+			  <td><input class="validate_alpha" id="config_time_zone" type="text" name="global_config_time_zone" value="<?php echo $global_config_time_zone;?>"></td>
 			  <td class="expl"><?php echo $text_time_zone;?></td>
 			</tr>
             <tr>
@@ -514,7 +515,7 @@
             </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_currency_surcharge;?></td>
-			  <td><input type="text" name="global_config_currency_surcharge" value="<?php echo $global_config_currency_surcharge;?>"></td>
+			  <td><input class="validate_float" id="config_currency_surcharge" type="text" name="global_config_currency_surcharge" value="<?php echo $global_config_currency_surcharge;?>"></td>
 			  <td class="expl"><?php echo $text_surcharge;?></td>
 			</tr>
 			<tr> <!--  Moved Barcode -->
@@ -545,7 +546,7 @@
             </tr>
 		       <tr> <!--  New Weight Decimal Places -->
 			  <td class="set"><?php echo $entry_weight_decimal; ?></td>
-			  <td><input type="text" name="global_config_weight_decimal" value="<?php echo $global_config_weight_decimal; ?>" size="2"></td>
+			  <td><input class="validate_int" id="config_weight_decimal" type="text" name="global_config_weight_decimal" value="<?php echo $global_config_weight_decimal; ?>" size="2"></td>
 			  <td class="expl"><?php echo $text_weight_decimal; ?></td>
 			</tr>
 			<tr><td colspan="2"><hr></td></tr>
@@ -572,7 +573,7 @@
 		  <?php }?>
 		    <tr>
 			  <td class="set"><?php echo $entry_dimension_decimal; ?></td>
-			  <td><input type="text" name="global_config_dimension_decimal" value="<?php echo $global_config_dimension_decimal; ?>" size="2"></td>
+			  <td><input class="validate_int" id="config_dimension_decimal" type="text" name="global_config_dimension_decimal" value="<?php echo $global_config_dimension_decimal; ?>" size="2"></td>
 			  <td class="expl"><?php echo $text_dimension_decimal; ?></td>
 			</tr>
 			<tr><td colspan="2"><hr></td></tr>
@@ -637,7 +638,7 @@
             </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_invoice_number; ?></td>
-			  <td><input type="text" name="global_invoice_number" value="<?php echo $global_invoice_number; ?>" size="16" maxlength="32"></td>
+			  <td><input class="validate_alpha_num" id="invoice_number" type="text" name="global_invoice_number" value="<?php echo $global_invoice_number; ?>" size="16" maxlength="32"></td>
 			  <td class="expl"><?php echo $text_invoice_number;?></td>
 			</tr>
           </table>
@@ -649,7 +650,7 @@
             <tr>
               <td width="185" class="set"><?php echo $entry_stock_check; ?></td>
               <td><?php if ($catalog_config_stock_check) { ?>
-                <input type="radio" name="catalog_config_stock_check" value="1"id="ccscyes"  checked>
+                <input type="radio" name="catalog_config_stock_check" value="1"id="ccscyes" checked>
                 <label for="ccscyes"><?php echo $text_yes; ?></label>
                 <input type="radio" name="catalog_config_stock_check" value="0" id="ccscno">
                 <label for="ccscno"><?php echo $text_no; ?></label>
@@ -736,7 +737,7 @@
 			
 			<tr>
 			  <td class="set"><?php echo $entry_low_stock_warning; ?></td>
-			  <td><input type="text" name="catalog_config_low_stock_warning" value="<?php echo $catalog_config_low_stock_warning; ?>" size="3" maxlength="3"></td>
+			  <td><input class="validate_int" id="config_low_stock_warning" type="text" name="catalog_config_low_stock_warning" value="<?php echo $catalog_config_low_stock_warning; ?>" size="3" maxlength="3"></td>
 			  <td class="expl"><?php echo $explanation_stock_warning;?></td>
 			</tr>
 			<tr><td colspan="2"><hr></td></tr>
@@ -783,7 +784,7 @@
           <table>
             <tr>
               <td width="165" class="set"><?php echo $entry_vat; ?></td>
-              <td width="130"><input type="text" name="catalog_config_vat" value="<?php echo $catalog_config_vat; ?>"></td>
+              <td width="130"><input class="validate_alpha_num" id="config_vat" type="text" name="catalog_config_vat" value="<?php echo $catalog_config_vat; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_account; ?></td>
@@ -840,7 +841,7 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_rss_limit; ?></td>
-			  <td><input type="text" name="global_config_rss_limit" value="<?php echo $global_config_rss_limit; ?>" size="6"></td>
+			  <td><input class="validate_int" id="config_rss_limit" type="text" name="global_config_rss_limit" value="<?php echo $global_config_rss_limit; ?>" size="6"></td>
 			  <td class="expl"><?php echo $text_rss_info;?></td>
 			</tr>
 		<tr>
@@ -879,22 +880,22 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_logo_left;?></td>
-			  <td><input type="text" name="catalog_config_logo_left" value="<?php echo $catalog_config_logo_left; ?>" size="6"></td>
+			  <td><input class="validate_int" id="config_logo_left" type="text" name="catalog_config_logo_left" value="<?php echo $catalog_config_logo_left; ?>" size="6"></td>
 			  <td class="expl"><?php echo $text_logo_left_exp;?></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_logo_top;?></td>
-			  <td><input type="text" name="catalog_config_logo_top" value="<?php echo $catalog_config_logo_top; ?>" size="6"></td>
+			  <td><input class="validate_int" id="config_logo_top" type="text" name="catalog_config_logo_top" value="<?php echo $catalog_config_logo_top; ?>" size="6"></td>
 			  <td class="expl"><?php echo $text_logo_top_exp;?></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_logo_width;?></td>
-			  <td><input type="text" name="catalog_config_logo_width" value="<?php echo $catalog_config_logo_width; ?>" size="6"></td>
+			  <td><input class="validate_int" id="config_logo_width" type="text" name="catalog_config_logo_width" value="<?php echo $catalog_config_logo_width; ?>" size="6"></td>
 			  
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_logo_height;?></td>
-			  <td><input type="text" name="catalog_config_logo_height" value="<?php echo $catalog_config_logo_height; ?>" size="6"></td>
+			  <td><input class="validate_int" id="config_logo_height" type="text" name="catalog_config_logo_height" value="<?php echo $catalog_config_logo_height; ?>" size="6"></td>
 			  
 			</tr>
 			<tr><td colspan="2"><hr></td></tr>
@@ -915,22 +916,22 @@
 			</tr>
 		    <tr>
 			  <td class="set"><?php echo $entry_footer_logo_left;?></td>
-			  <td><input type="text" name="catalog_footer_logo_left" value="<?php echo $catalog_footer_logo_left; ?>" size="6"></td>
+			  <td><input class="validate_int" id="footer_logo_left" type="text" name="catalog_footer_logo_left" value="<?php echo $catalog_footer_logo_left; ?>" size="6"></td>
 			  <td class="expl"><?php echo $text_footer_left_exp;?></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_footer_logo_top;?></td>
-			  <td><input type="text" name="catalog_footer_logo_top" value="<?php echo $catalog_footer_logo_top; ?>" size="6"></td>
+			  <td><input class="validate_int" id="footer_logo_top" type="text" name="catalog_footer_logo_top" value="<?php echo $catalog_footer_logo_top; ?>" size="6"></td>
 			  <td class="expl"><?php echo $text_footer_top_exp;?></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_footer_logo_width;?></td>
-			  <td><input type="text" name="catalog_footer_logo_width" value="<?php echo $catalog_footer_logo_width; ?>" size="6"></td>
+			  <td><input class="validate_int" id="footer_logo_width" type="text" name="catalog_footer_logo_width" value="<?php echo $catalog_footer_logo_width; ?>" size="6"></td>
 			  
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_footer_logo_height;?></td>
-			  <td><input type="text" name="catalog_footer_logo_height" value="<?php echo $catalog_footer_logo_height; ?>" size="6"></td>
+			  <td><input class="validate_int" id="footer_logo_height" type="text" name="catalog_footer_logo_height" value="<?php echo $catalog_footer_logo_height; ?>" size="6"></td>
 			</tr>
 		  <tr><td colspan="2"><hr></td></tr>
 		</table>
@@ -1013,7 +1014,7 @@
 		</tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email; ?></td>
-              <td><input size="64" type="text" name="global_config_email" value="<?php echo $global_config_email; ?>">
+              <td><input class="validate_mail" id="config_email" size="64" type="text" name="global_config_email" value="<?php echo $global_config_email; ?>">
                 <?php if ($error_email) { ?>
                 <span class="error"><?php echo $error_email; ?></span>
                 <?php  } ?></td>
@@ -1073,7 +1074,7 @@
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email_user; ?></td>
-              <td><input size="64" type="text" name="global_config_email_user" id="global_config_email_user" value="<?php echo $global_config_email_user; ?>" disabled="disabled"></td>
+              <td><input class="validate_mail" size="64" type="text" name="global_config_email_user" id="global_config_email_user" value="<?php echo $global_config_email_user; ?>" disabled="disabled"></td>
 		<td class="expl">
 		  <?php echo $explanation_email_user; ?> 
 		</td>
@@ -1087,28 +1088,28 @@
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email_host; ?></td>
-              <td><input size="64" type="text" name="global_config_email_host" id="global_config_email_host" value="<?php echo $global_config_email_host; ?>" disabled="disabled"></td>
+              <td><input class="validate_mail" size="64" type="text" name="global_config_email_host" id="global_config_email_host" value="<?php echo $global_config_email_host; ?>" disabled="disabled"></td>
 		<td class="expl">
 		  <?php echo $explanation_email_host; ?> 
 		</td>
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email_localhost; ?></td>
-              <td><input size="64" type="text" name="global_config_email_lhost" id="global_config_email_lhost" value="<?php echo $global_config_email_lhost; ?>" disabled="disabled"></td>
+              <td><input class="validate_mail" size="64" type="text" name="global_config_email_lhost" id="global_config_email_lhost" value="<?php echo $global_config_email_lhost; ?>" disabled="disabled"></td>
 		<td class="expl">
 		  <?php echo $explanation_email_localhost; ?> 
 		</td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_email_port; ?></td>
-              <td><input type="text" name="global_config_email_port" id="global_config_email_port" value="<?php echo $global_config_email_port; ?>" size="3" disabled="disabled"></td>
+              <td><input class="validate_int" type="text" name="global_config_email_port" id="global_config_email_port" value="<?php echo $global_config_email_port; ?>" size="3" disabled="disabled"></td>
 		<td class="expl">
 		  <?php echo $explanation_email_port; ?> 
 		</td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_email_timeout; ?></td>
-              <td><input type="text" name="global_config_email_tout" id="global_config_email_tout" value="<?php echo $global_config_email_tout; ?>" size="3" disabled="disabled"></td>
+              <td><input class="validate_int" type="text" name="global_config_email_tout" id="global_config_email_tout" value="<?php echo $global_config_email_tout; ?>" size="3" disabled="disabled"></td>
 		<td class="expl">
 		  <?php echo $explanation_email_timeout; ?> 
 		</td>
@@ -1120,35 +1121,35 @@
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_orders; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_orders" value="<?php echo $global_config_email_orders; ?>">
+			  <td><input class="validate_mail" id="config_email_orders" size="64" type="text" name="global_config_email_orders" value="<?php echo $global_config_email_orders; ?>">
 			  <?php if ($error_email_orders) { ?>
 			  <span class="error"><?php echo $error_email_orders; ?></span>
 			  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_accounts; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_accounts" value="<?php echo $global_config_email_accounts; ?>">
+			  <td><input class="validate_mail" id="config_email_accounts" size="64" type="text" name="global_config_email_accounts" value="<?php echo $global_config_email_accounts; ?>">
 			  <?php if ($error_email_accounts) { ?>
 			  <span class="error"><?php echo $error_email_accounts; ?></span>
 			  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_newsletter; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_newsletter" value="<?php echo $global_config_email_newsletter; ?>">
+			  <td><input class="validate_mail" id="config_email_newsletter" size="64" type="text" name="global_config_email_newsletter" value="<?php echo $global_config_email_newsletter; ?>">
 			  <?php if ($error_email_newsletter) { ?>
 			  <span class="error"><?php echo $error_email_newsletter; ?></span>
 			  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_mail; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_mail" value="<?php echo $global_config_email_mail; ?>">
+			  <td><input class="validate_mail" id="config_email_mail" size="64" type="text" name="global_config_email_mail" value="<?php echo $global_config_email_mail; ?>">
 			  <?php if ($error_email_mail) { ?>
 			  <span class="error"><?php echo $error_email_mail; ?></span>
 			  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td width="185" class="set"><?php echo $entry_email_contact; ?></td>
-			  <td><input size="64" type="text" name="global_config_email_contact" value="<?php echo $global_config_email_contact; ?>">
+			  <td><input class="validate_mail" id="config_email_contact" size="64" type="text" name="global_config_email_contact" value="<?php echo $global_config_email_contact; ?>">
 			  <?php if ($error_email_contact) { ?>
 			  <span class="error"><?php echo $error_email_contact; ?></span>
 			  <?php  } ?></td>
@@ -1189,7 +1190,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_compress_level; ?></td>
-              <td><input type="text" name="global_config_compress_level" value="<?php echo $global_config_compress_level; ?>" size="3"></td>
+              <td><input class="validate_int" id="config_compress_level" type="text" name="global_config_compress_level" value="<?php echo $global_config_compress_level; ?>" size="3"></td>
             </tr>
           </table>
         </div>
@@ -1220,9 +1221,9 @@
             </tr>
             <tr>   <!-- Default Image Size -->
               <td class="set"><?php echo $entry_image_width; ?></td>
-              <td><input type="text" name="global_config_image_width" value="<?php echo $global_config_image_width; ?>" size="3"></td>
+              <td><input class="validate_int" id="config_image_width" type="text" name="global_config_image_width" value="<?php echo $global_config_image_width; ?>" size="3"></td>
               <td class="set"><?php echo $entry_image_height; ?></td>
-              <td><input type="text" name="global_config_image_height" value="<?php echo $global_config_image_height; ?>" size="3"></td>			  
+              <td><input class="validate_int" id="config_image_height" type="text" name="global_config_image_height" value="<?php echo $global_config_image_height; ?>" size="3"></td>			  
 			</tr>
 			<tr><td colspan="4"><hr></td>
 			</tr>
@@ -1231,15 +1232,15 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_product_width; ?></td>
-			  <td><input type="text" name="catalog_product_image_width" value="<?php echo $catalog_product_image_width; ?>" size="3"></td>
+			  <td><input class="validate_int" id="product_image_width" type="text" name="catalog_product_image_width" value="<?php echo $catalog_product_image_width; ?>" size="3"></td>
 			  <td class="set"><?php echo $entry_product_height; ?></td>
-			  <td><input type="text" name="catalog_product_image_height" value="<?php echo $catalog_product_image_height; ?>" size="3"></td>
+			  <td><input class="validate_int" id="product_image_height" type="text" name="catalog_product_image_height" value="<?php echo $catalog_product_image_height; ?>" size="3"></td>
 			</tr>
 			<tr>  <!-- Addition Product Images -->
 			  <td class="set"><?php echo $entry_additional_width; ?></td>
-			  <td><input type="text" name="catalog_additional_image_width" value="<?php echo $catalog_additional_image_width; ?>" size="3"></td>
+			  <td><input class="validate_int" id="additional_image_width" type="text" name="catalog_additional_image_width" value="<?php echo $catalog_additional_image_width; ?>" size="3"></td>
 			  <td class="set"><?php echo $entry_additional_height; ?></td>
-			  <td><input type="text" name="catalog_additional_image_height" value="<?php echo $catalog_additional_image_height; ?>" size="3"></td>
+			  <td><input class="validate_int" id="additional_image_height" type="text" name="catalog_additional_image_height" value="<?php echo $catalog_additional_image_height; ?>" size="3"></td>
 			<tr/>
 			<tr>
 			  <td class="set"><?php echo $entry_image_display;?></td>
@@ -1302,9 +1303,9 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_magnifier_width; ?></td>
-			  <td><input type="text" name="catalog_magnifier_width" value="<?php echo $catalog_magnifier_width; ?>" size="3"></td>
+			  <td><input class="validate_int" id="magnifier_width" type="text" name="catalog_magnifier_width" value="<?php echo $catalog_magnifier_width; ?>" size="3"></td>
 			  <td class="set"><?php echo $entry_magnifier_height; ?></td>
-			  <td><input type="text" name="catalog_magnifier_height" value="<?php echo $catalog_magnifier_height; ?>" size="3"></td>
+			  <td><input class="validate_int" id="magnifier_height" type="text" name="catalog_magnifier_height" value="<?php echo $catalog_magnifier_height; ?>" size="3"></td>
 			</tr>
 			<tr>
 			  <td colspan="4"><hr></td>
@@ -1314,13 +1315,13 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_category_width; ?></td>
-			  <td><input type="text" name="catalog_category_image_width" value="<?php echo $catalog_category_image_width; ?>" size="3"></td>
+			  <td><input class="validate_int" id="category_image_width" type="text" name="catalog_category_image_width" value="<?php echo $catalog_category_image_width; ?>" size="3"></td>
 			  <td class="set"><?php echo $entry_category_height; ?></td>
-			  <td><input type="text" name="catalog_category_image_height" value="<?php echo $catalog_category_image_height; ?>" size="3"></td>
+			  <td><input class="validate_int" id="category_image_height" type="text" name="catalog_category_image_height" value="<?php echo $catalog_category_image_height; ?>" size="3"></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_items_per_page; ?></td>
-			  <td><input type="text" name="catalog_category_rows" value="<?php echo $catalog_category_rows; ?>" size="3"></td>
+			  <td><input class="validate_int" id="category_rows" type="text" name="catalog_category_rows" value="<?php echo $catalog_category_rows; ?>" size="3"></td>
 			  <td colspan="2"><td class="expl"><?php echo $text_default_rows; ?></td>
 			</tr>
 			<tr>
@@ -1349,13 +1350,13 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_search_width; ?></td>
-			  <td><input type="text" name="catalog_search_image_width" value="<?php echo $catalog_search_image_width; ?>" size="3"></td>
+			  <td><input class="validate_int" id="search_image_width" type="text" name="catalog_search_image_width" value="<?php echo $catalog_search_image_width; ?>" size="3"></td>
 			  <td class="set"><?php echo $entry_search_height; ?></td>
-			  <td><input type="text" name="catalog_search_image_height" value="<?php echo $catalog_search_image_height; ?>" size="3"></td>
+			  <td><input class="validate_int" id="search_image_height" type="text" name="catalog_search_image_height" value="<?php echo $catalog_search_image_height; ?>" size="3"></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_items_per_page; ?></td>
-			  <td><input type="text" name="catalog_search_rows" value="<?php echo $catalog_search_rows; ?>" size="3"></td>
+			  <td><input class="validate_int" id="search_rows" type="text" name="catalog_search_rows" value="<?php echo $catalog_search_rows; ?>" size="3"></td>
 			  <td colspan="2"><td class="expl"><?php echo $text_default_rows; ?></td>
 			</tr>
 			<tr>
@@ -1379,7 +1380,7 @@
 			</tr> 
 			<tr>
               <td class="set"><?php echo $entry_search_limit; ?></td>
-              <td><input type="text" name="catalog_search_limit" value="<?php echo $catalog_search_limit; ?>" size="3"></td>
+              <td><input class="validate_int" id="search_limit" type="text" name="catalog_search_limit" value="<?php echo $catalog_search_limit; ?>" size="3"></td>
             </tr>
 	    <tr><td colspan="4"><hr></td>
 	    </tr>
@@ -1400,16 +1401,16 @@
 			</tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_single; ?></td>
-              <td><input type="text" name="catalog_content_lines_single" value="<?php echo $catalog_content_lines_single; ?>" size="1" /></td>
+              <td><input class="validate_int" id="content_lines_single" type="text" name="catalog_content_lines_single" value="<?php echo $catalog_content_lines_single; ?>" size="1" /></td>
 	      <td colspan="2"><td class="expl"><?php echo $text_instruction;?></td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_multi; ?></td>
-              <td><input type="text" name="catalog_content_lines_multi" value="<?php echo $catalog_content_lines_multi; ?>" size="1" /></td>
+              <td><input class="validate_int" id="content_lines_multi" type="text" name="catalog_content_lines_multi" value="<?php echo $catalog_content_lines_multi; ?>" size="1" /></td>
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_lines_char; ?></td>
-              <td><input type="text" name="catalog_content_lines_char" value="<?php echo $catalog_content_lines_char; ?>" size="3" /></td>
+              <td><input class="validate_int" id="content_lines_char" type="text" name="catalog_content_lines_char" value="<?php echo $catalog_content_lines_char; ?>" size="3" /></td>
             </tr>
 			
 			<tr>
@@ -1451,7 +1452,7 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_addtocart_maximum; ?></td>
-			  <td><input type="text" name="catalog_addtocart_quantity_max" value="<?php echo $catalog_addtocart_quantity_max;?>" size="4" /></td>
+			  <td><input class="validate_int" id="addtocart_quantity_max" type="text" name="catalog_addtocart_quantity_max" value="<?php echo $catalog_addtocart_quantity_max;?>" size="4" /></td>
 			  <td colspan="2"></td><td class="expl"><?php echo $text_cart_quantity; ?></td>
 			</tr>
            </table>
@@ -1490,7 +1491,7 @@
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_fontcolor; ?></td>
-		  <td><input type="text" name="wm_fontcolor" value="<?php echo $wm_fontcolor; ?>" size="6">
+		  <td><input class="validate_hex" id="wm_fontcolor" type="text" name="wm_fontcolor" value="<?php echo $wm_fontcolor; ?>" size="6">
 		  <?php if ($error_wm_fontcolor) { ?>
 		  <span class="error"><?php echo $error_wm_fontcolor; ?></span>
 		  <?php } ?></td>
@@ -1500,7 +1501,7 @@
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_transparency; ?></td>
-		  <td><input type="text" name="wm_transparency" value="<?php echo $wm_transparency; ?>" size="4">
+		  <td><input class="validate_int" id="wm_transparency" type="text" name="wm_transparency" value="<?php echo $wm_transparency; ?>" size="4">
 		  <?php if ($error_wm_transparency) { ?>
 		  <span class="error"><?php echo $error_wm_transparency; ?></span>
 		  <?php } ?></td>
@@ -1534,14 +1535,14 @@
 		</tr>
 	        <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_thmargin; ?></td>
-		  <td><input type="text" name="wm_thmargin" value="<?php echo $wm_thmargin; ?>" size="4"></td>
+		  <td><input class="validate_int" id="wm_thmargin" type="text" name="wm_thmargin" value="<?php echo $wm_thmargin; ?>" size="4"></td>
 		  <td class="expl">
 		    <?php echo $explanation_wm_thmargin; ?> 
 		  </td>
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_tvmargin; ?></td>
-		  <td><input type="text" name="wm_tvmargin" value="<?php echo $wm_tvmargin; ?>" size="4"></td>
+		  <td><input class="validate_int" id="wm_tvmargin" type="text" name="wm_tvmargin" value="<?php echo $wm_tvmargin; ?>" size="4"></td>
 		  <td class="expl">
 		    <?php echo $explanation_wm_tvmargin; ?> 
 		  </td>
@@ -1569,7 +1570,7 @@
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_scale; ?></td>
-		  <td><input type="text" name="wm_scale" value="<?php echo $wm_scale; ?>" size="4">
+		  <td><input class="validate_int" id="wm_scale" type="text" name="wm_scale" value="<?php echo $wm_scale; ?>" size="4">
 		  <?php if ($error_wm_scale) { ?>
 		  <span class="error"><?php echo $error_wm_scale; ?></span>
 		  <?php } ?></td>
@@ -1603,14 +1604,14 @@
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_ihmargin; ?></td>
-		  <td><input type="text" name="wm_ihmargin" value="<?php echo $wm_ihmargin; ?>" size="4"></td>
+		  <td><input class="validate_int" id="wm_ihmargin" type="text" name="wm_ihmargin" value="<?php echo $wm_ihmargin; ?>" size="4"></td>
 		  <td class="expl">
 		    <?php echo $explanation_wm_ihmargin; ?> 
 		  </td>
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_ivmargin; ?></td>
-		  <td><input type="text" name="wm_ivmargin" value="<?php echo $wm_ivmargin; ?>" size="4"></td>
+		  <td><input class="validate_int" id="wm_ivmargin" type="text" name="wm_ivmargin" value="<?php echo $wm_ivmargin; ?>" size="4"></td>
 		  <td class="expl">
 		    <?php echo $explanation_wm_ivmargin; ?> 
 		  </td>
@@ -1727,7 +1728,7 @@
 		$('#global_config_email_port').attr("disabled", false);
 		$('#global_config_email_tout').attr("disabled", false);
     });
-});
+  });
     //--></script>
   <script type="text/javascript"><!--
   $('#gceayes').on("click", function() {
@@ -1747,6 +1748,11 @@
 		$('#global_config_email_lhost').attr("disabled", true);
 		$('#global_config_email_port').attr("disabled", true);
 		$('#global_config_email_tout').attr("disabled", true);
-});
+  });
     //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
+  //--></script>
 </form>

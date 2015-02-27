@@ -147,8 +147,8 @@ class ControllerShippingZone extends Controller {
 		$output .= '<option value="1">' . $this->language->get('text_enabled') . '</option>' . "\n";
 		$output .= '<option value="0" selected>' . $this->language->get('text_disabled') . '</option>' . "\n";
 		$output .= '</select></td>' . "\n";
-		$output .= '<td><input size="8" type="text" name="geo_zone[' . $geozone_id . '][free_amount]" value="0.00"></td>' . "\n";
-		$output .= '<td><input size="71" type="text" name="geo_zone[' . $geozone_id . '][cost]" value=""></td>' . "\n";
+		$output .= '<td><input class="validate_float" id="geo_zone' . $geozone_id . 'free_amount" size="8" type="text" name="geo_zone[' . $geozone_id . '][free_amount]" value="0.00" onfocus="RegisterValidation()"></td>' . "\n";
+		$output .= '<td><input class="validate_shipping" id="geo_zone' . $geozone_id . 'cost" size="71" type="text" name="geo_zone[' . $geozone_id . '][cost]" value="" onfocus="RegisterValidation()"></td>' . "\n";
 		$output .= '</tr>';
 		$output .= '<tr id="geozone' . $geozone_id . 'B">' . "\n";
 		$output .= '<td width="160" class="set">' . $geozone['description'] . '</td>' . "\n";

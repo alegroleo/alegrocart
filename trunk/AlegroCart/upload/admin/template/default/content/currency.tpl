@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a></div>
@@ -39,7 +40,7 @@
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_code; ?></td>
-              <td><input type="text" name="code" value="<?php echo $code; ?>">
+              <td><input class="validate_alpha" id="code" type="text" name="code" value="<?php echo $code; ?>">
                 <?php if ($error_code) { ?>
                 <span class="error"><?php echo $error_code; ?></span>
                 <?php } ?></td>
@@ -83,11 +84,11 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_decimal_place; ?></td>
-              <td><input type="text" name="decimal_place" value="<?php echo $decimal_place; ?>"></td>
+              <td><input class="validate_int" id="decimal_place" type="text" name="decimal_place" value="<?php echo $decimal_place; ?>"></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_value; ?></td>
-              <td><input type="text" name="value" value="<?php echo $value; ?>"></td>
+              <td><input class="validate_float" id="value" type="text" name="value" value="<?php echo $value; ?>"></td>
 			  <td class="expl"><?php echo $text_default_rate ;?></td>
             </tr>
           </table>
@@ -104,5 +105,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

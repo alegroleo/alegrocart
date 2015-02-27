@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a></div>
@@ -65,28 +66,28 @@
           <table>
             <tr>
               <td width="185" class="set"><span class="required">*</span> <?php echo $entry_code; ?></td>
-              <td><input name="code" value="<?php echo $code; ?>">
+              <td><input class="validate_alpha" id="code" name="code" value="<?php echo $code; ?>">
                 <?php if ($error_code) { ?>
                 <span class="error"><?php echo $error_code; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_directory; ?></td>
-              <td><input name="directory" value="<?php echo $directory; ?>">
+              <td><input class="validate_alpha" id="directory" name="directory" value="<?php echo $directory; ?>">
                 <?php if ($error_directory) { ?>
                 <span class="error"><?php echo $error_directory; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_filename; ?></td>
-              <td><input name="filename" value="<?php echo $filename; ?>">
+              <td><input class="validate_file" id="filename" name="filename" value="<?php echo $filename; ?>">
                 <?php if ($error_filename) { ?>
                 <span class="error"><?php echo $error_filename; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_controller; ?></td>
-              <td><input name="controller" value="<?php echo $controller; ?>">
+              <td><input class="validate_alpha" id="controller" name="controller" value="<?php echo $controller; ?>">
                 <?php if ($error_controller) { ?>
                 <span class="error"><?php echo $error_controller; ?></span>
                 <?php } ?></td>
@@ -108,5 +109,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

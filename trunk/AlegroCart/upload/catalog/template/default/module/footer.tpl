@@ -19,3 +19,8 @@
 <div class="d"><?php echo $text_version . $version;?>
 </div>
 <?php }?>
+<script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
+  //--></script>

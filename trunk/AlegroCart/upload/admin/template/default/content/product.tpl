@@ -26,6 +26,7 @@
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><?php if($product_options){echo '<a><div class="tab_text">' . $tab_product_options . '</div></a>';}?><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a><a><div class="tab_text"><?php echo $tab_category; ?></div></a><a><div class="tab_text"><?php echo $tab_home; ?></div></a><a href="#discount"><div class="tab_text"><?php echo $tab_discount; ?></div></a><a><div class="tab_text"><?php echo $tab_dated_special; ?></div></a><a><div class="tab_text"><?php echo $tab_alt_description; ?></div></a></div>
@@ -56,7 +57,7 @@
                   </tr>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_model_number; ?></td>
-					<td style="width: 265px;"><input size="32" maxlength="32" <?php if($option_status) echo 'readonly="readonly" '; ?>name="model_number[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model_number']; ?>"></td>
+					<td style="width: 265px;"><input class="validate_alpha_num" id="model_number<?php echo $product['language_id']; ?>" size="32" maxlength="32" <?php if($option_status) echo 'readonly="readonly" '; ?>name="model_number[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model_number']; ?>"></td>
 					<?php if($option_status) {?>
 					<td style="color:red;padding-left:10px;"><b ><?php echo $text_model_options;?></b></td>
 			  <?php }?>
@@ -113,7 +114,7 @@
             </tr>
 			<tr>
               <td class="set"><?php echo $entry_date_available; ?></td>
-              <td><input name="date_available_day" value="<?php echo $date_available_day; ?>" size="2" maxlength="2">
+              <td><input class="validate_int" id="date_available_day" name="date_available_day" value="<?php echo $date_available_day; ?>" size="2" maxlength="2">
                 <select name="date_available_month">
                   <?php foreach ($months as $month) { ?>
                   <?php if ($month['value'] == $date_available_month) { ?>
@@ -123,26 +124,26 @@
                   <?php } ?>
                   <?php } ?>
                 </select>
-                <input name="date_available_year" value="<?php echo $date_available_year; ?>" size="4" maxlength="4">
+                <input class="validate_int" id="date_available_year" name="date_available_year" value="<?php echo $date_available_year; ?>" size="4" maxlength="4">
                 <?php if ($error_date_available) { ?>
                 <span class="error"><?php echo $error_date_available; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_quantity; ?></td>
-              <td><input type="text" <?php if($option_status) echo 'readonly="readonly" '; ?>name="quantity" value="<?php echo $quantity; ?>" size="2"></td>
+              <td><input class="validate_int" type="text" <?php if($option_status) echo 'readonly="readonly" '; ?>name="quantity" id="quantity" value="<?php echo $quantity; ?>" size="2"></td>
 			  <?php if($option_status) {?>
 			    <td><b style="color:red;padding-left:10px;"><?php echo $text_quantity_options;?></b></td>
 			  <?php }?>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_min_qty; ?></td>
-              <td><input name="min_qty" value="<?php echo $min_qty; ?>" size="2"></td>
+              <td><input class="validate_int" name="min_qty" id="min_qty" value="<?php echo $min_qty; ?>" size="2"></td>
 	      <td class="expl"><?php echo $explanation_min_qty; ?></td>	
             </tr>
 	    <tr>
               <td class="set"><?php echo $entry_max_qty; ?></td>
-              <td><input name="max_qty" value="<?php echo $max_qty; ?>" size="2">
+              <td><input class="validate_int" name="max_qty" id="max_qty" value="<?php echo $max_qty; ?>" size="2">
 		<?php if ($error_max_qty) { ?>
 		<span class="error"><?php echo $error_max_qty; ?></span>
 		<?php } ?></td>
@@ -150,7 +151,7 @@
             </tr>
 	    <tr>
               <td class="set"><?php echo $entry_multiple; ?></td>
-              <td><input name="multiple" value="<?php echo $multiple; ?>" size="2">
+              <td><input class="validate_int" name="multiple" id="multiple" value="<?php echo $multiple; ?>" size="2">
 		<?php if ($error_multiple) { ?>
 		<span class="error"><?php echo $error_multiple; ?></span>
 		<?php } ?></td>
@@ -172,7 +173,7 @@
 	    </tr>
 	    <tr>
            <td class="set"><?php echo $entry_barcode; ?></td>
-              <td id="barcodefield_9999"><input id="barcode_9999" type="text" size="14" maxlength="15" <?php if($option_status) echo 'readonly="readonly" '; ?>name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode('9999')">
+              <td id="barcodefield_9999"><input class="validate_int" id="barcode_9999" type="text" size="14" maxlength="15" <?php if($option_status) echo 'readonly="readonly" '; ?>name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode('9999')">
 			</td>
 	      <td class="expl"><?php if($option_status) {?><b style="color:red;"><?php echo $text_barcode_options;?></b></br><?php }?><?php echo $text_barcode_explanation; ?></td>
         </tr>
@@ -219,7 +220,7 @@
             </tr>
 	    <tr>
               <td class="set"><?php echo $entry_shipping_time; ?></td>
-              <td><input name="shipping_time_from" value="<?php echo $shipping_time_from; ?>" size="1" id="shipping_time_from" disabled="disabled"> - <input name="shipping_time_to" value="<?php echo $shipping_time_to; ?>" size="1" id="shipping_time_to" disabled="disabled"></td>
+              <td><input class="validate_int" id="shipping_time_from" name="shipping_time_from" value="<?php echo $shipping_time_from; ?>" size="1" id="shipping_time_from" disabled="disabled"> - <input class="validate_int" name="shipping_time_to" value="<?php echo $shipping_time_to; ?>" size="1" id="shipping_time_to" disabled="disabled"></td>
 	      <td class="expl"><?php echo $explanation_shipping_time; ?></td>
             </tr>
             <tr>
@@ -237,14 +238,14 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_price; ?></td>
-              <td><input name="price" id="price" value="<?php echo $price; ?>" onchange="price_update()"></td>
+              <td><input class="validate_float" name="price" id="price" value="<?php echo $price; ?>" onchange="price_update()"></td>			  
 			  <td class="expl"><?php echo 'Currency : '. $currency_code;?>
 			  <input type="hidden" id="decimal_place" value="<?php echo $decimal_place;?>">
 			  </td>
             </tr>
 	    <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="sort_order" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
             </tr>
         	<tr><td colspan="2"><hr></td></tr>
             <tr>
@@ -261,7 +262,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_weight; ?></td>
-              <td><input name="weight" value="<?php echo $weight; ?>"></td>
+              <td><input class="validate_float" id="weight" name="weight" value="<?php echo $weight; ?>"></td>
             </tr>
 			<tr><td colspan="2"><hr></td></tr>
 			<tr>
@@ -308,7 +309,7 @@
 				<input id="option_id_<?php echo $option_rows;?>" type="hidden" name="product_options[<?php echo $option_rows;?>][product_option]" value="<?php echo $product_option['product_option'];?>">
 				<td><?php echo $product_option['option_name'];?></td>
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][option_name]" value="<?php echo $product_option['option_name'];?>">
-				<td><input type="text" size="32" maxlength="32" name="product_options[<?php echo $option_rows;?>][model_number]" value="<?php echo $product_option['model_number'];?>"></td>
+				<td><input type="text" class="validate_alpha_num" id="product_options_model_number<?php echo $option_rows;?>" size="32" maxlength="32" name="product_options[<?php echo $option_rows;?>][model_number]" value="<?php echo $product_option['model_number'];?>"></td>
 				<td><select id="encoding_<?php echo $option_rows;?>" name="product_options[<?php echo $option_rows;?>][encoding]" onchange="$('#barcode_<?php echo $option_rows;?>').val('')">
 				  <?php if ($product_option['encoding'] == 'upc') { ?>
 				    <option value="upc" selected><?php echo $text_upc; ?></option>
@@ -319,13 +320,13 @@
 				  <?php } ?>
 			    </select></td>
 				<td id="barcodefield_<?php echo $option_rows;?>">
-					<input id="barcode_<?php echo $option_rows;?>" type="text" size="14" maxlength="15" name="product_options[<?php echo $option_rows;?>][barcode]" value="<?php echo $product_option['barcode'];?>" onchange="validate_barcode('<?php echo $option_rows;?>')">
+					<input class="validate_int" id="barcode_<?php echo $option_rows;?>" type="text" size="14" maxlength="15" name="product_options[<?php echo $option_rows;?>][barcode]" value="<?php echo $product_option['barcode'];?>" onchange="validate_barcode('<?php echo $option_rows;?>')">
 					
 				    <?php if (@$error_barcode[$product_option['product_option']]) { ?>
 						<span class="error"><?php echo $error_barcode[$product_option['product_option']]; ?></span>
 				    <?php } ?>
 				</td>
-				<td><input type="text" size="6" name="product_options[<?php echo $option_rows;?>][quantity]" value="<?php echo $product_option['quantity'];?>"></td>
+				<td><input class="validate_int" id="product_options_quantity<?php echo $option_rows;?>" type="text" size="6" name="product_options[<?php echo $option_rows;?>][quantity]" value="<?php echo $product_option['quantity'];?>"></td>
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][product_id]" value="<?php echo $product_option['product_id'];?>">
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][image_id]" value="<?php echo $product_option['image_id'];?>">
 				<input type="hidden" name="product_options[<?php echo $option_rows;?>][dimension_id]" value="<?php echo $product_option['dimension_id'];?>">
@@ -487,12 +488,12 @@
             <?php foreach ($product_discounts as $product_discount) { ?>
             <tr id="discount_<?php echo $i; ?>">
               <td><?php echo $entry_quantity; ?></td>
-              <td><input type="text" name="product_discount[<?php echo $i; ?>][quantity]" value="<?php echo $product_discount['quantity']; ?>" size="2"></td>
+              <td><input class="validate_int" id="discount_quantity<?php echo $i;?>" type="text" name="product_discount[<?php echo $i; ?>][quantity]" value="<?php echo $product_discount['quantity']; ?>" size="2"></td>
 			  <td><?php echo $entry_percent_discount;?></td>		  
-              <td><input type="text" id="discount_percent<?php echo $i; ?>" name="product_discount[<?php echo $i; ?>][discount]" size="11" value="<?php echo $product_discount['discount']; ?>" onchange="quantity_percent('<?php echo $i; ?>')"></td>
+              <td><input class="validate_float" type="text" id="discount_percent<?php echo $i; ?>" name="product_discount[<?php echo $i; ?>][discount]" size="11" value="<?php echo $product_discount['discount']; ?>" onchange="quantity_percent('<?php echo $i; ?>')"></td>
               <td><?php echo $entry_discount; ?></td>
 			  <?php $discountvalue = number_format($price*($product_discount['discount']/100),2); ?>	
-			  <td><input type="text" id="discount_amount<?php echo $i;?>" size="8" value="<?php echo $discountvalue;?>" name="discount_amount<?php echo $i;?>" onchange="quantity_discount('<?php echo $i; ?>')"></td>
+			  <td><input class="validate_float" type="text" id="discount_amount<?php echo $i;?>" size="8" value="<?php echo $discountvalue;?>" name="discount_amount<?php echo $i;?>" onchange="quantity_discount('<?php echo $i; ?>')"></td>
               <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeDiscount('discount_<?php echo $i; ?>');"></td>
             </tr>
             <?php $i++; ?>
@@ -514,23 +515,23 @@
 	      <table>
 		    <tr>
 			<td class="set"><?php echo $entry_regular_price;?></td>
-			<td>  <input type="text" id="regular_price" value="<?php echo $price; ?>"onchange="regular_price_update()">
+			<td><input class="validate_float" type="text" id="regular_price" value="<?php echo $price; ?>" onchange="regular_price_update()">
 			</td>
 		    </tr>
 		    <tr>
 		      <td class="set"><?php echo $entry_dated_special; ?></td>
-		      <td><input id="special_price" name="special_price" value="<?php echo $special_price; ?>" onchange="calculate_percent()"></td>
+		      <td><input class="validate_float" id="special_price" name="special_price" value="<?php echo $special_price; ?>" onchange="calculate_percent()"></td>
 		    </tr>
 		    <tr>
 		      <td class="set"><?php echo $entry_percent_discount;?></td>
 		      <?php $special_discount = $special_price>0 ? ceil((100-(($special_price/$price)*100))*10000)/10000 : 0;?>
-		      <td><input id="special_discount" name="special_discount" value="<?php echo $special_discount; ?>" onchange="calculate_discount()">
+		      <td><input class="validate_float" id="special_discount" name="special_discount" value="<?php echo $special_discount; ?>" onchange="calculate_discount()">
 		      </td>
 		    </tr> 
 		    <tr><td colspan="2"><hr></td></tr>
 		    <tr>
 			  <td class="set"><?php echo $entry_start_date; ?></td>
-			  <td><input name="start_date_day" value="<?php echo $start_date_day; ?>" size="2" maxlength="2">
+			  <td><input class="validate_int" id="start_date_day" name="start_date_day" value="<?php echo $start_date_day; ?>" size="2" maxlength="2">
 			  <select name="start_date_month">
 			    <?php if ($start_date_month == '00'){ ?>
 				<option value="00" selected>00</option>
@@ -545,7 +546,7 @@
 				    <?php } ?>
 					<?php } ?>
 				</select>
-				<input name="start_date_year" value="<?php echo $start_date_year; ?>" size="4" maxlength="4">
+				<input class="validate_int" id="start_date_year" name="start_date_year" value="<?php echo $start_date_year; ?>" size="4" maxlength="4">
 				<?php if ($error_start_date) { ?>
 				<span class="error"><?php echo $error_start_date; ?></span>
 				<?php } ?>
@@ -553,7 +554,7 @@
 		    </tr>
 		    <tr>
 			  <td class="set"><?php echo $entry_end_date; ?></td>
-                          <td><input name="end_date_day" value="<?php echo $end_date_day; ?>" size="2" maxlength="2">
+                          <td><input class="validate_int" id="end_date_day" name="end_date_day" value="<?php echo $end_date_day; ?>" size="2" maxlength="2">
 			  <select name="end_date_month">
 			    <?php if ($end_date_month == '00'){ ?>
 				<option value="00" selected>00</option>
@@ -568,7 +569,7 @@
 				    <?php } ?>
 					<?php } ?>
 				</select>
-				<input name="end_date_year" value="<?php echo $end_date_year; ?>" size="4" maxlength="4">
+				<input class="validate_int" id="end_date_year" name="end_date_year" value="<?php echo $end_date_year; ?>" size="4" maxlength="4">
 				<?php if ($error_end_date) { ?>
 				<span class="error"><?php echo $error_end_date; ?></span>
 				<?php } ?>
@@ -607,15 +608,15 @@
                 <table>
                   <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_title; ?></td>
-                    <td><input size="60" maxlength="60" name="meta_title[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_title']; ?>"></td> 
+                    <td><input class="validate_meta" id="meta_title<?php echo $product['language_id']; ?>" size="60" maxlength="60" name="meta_title[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_title']; ?>"></td> 
                   </tr>
 				  <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_description; ?></td>
-                    <td><input size="60" maxlength="120" name="meta_description[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_description']; ?>"></td>					
+                    <td><input class="validate_meta" id="meta_description<?php echo $product['language_id']; ?>" size="60" maxlength="120" name="meta_description[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_description']; ?>"></td>					
 				  </tr>
 				  <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_keywords; ?></td>
-                    <td><input size="60" maxlength="120" name="meta_keywords[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_keywords']; ?>"></td>
+                    <td><input class="validate_meta" id="meta_keywords<?php echo $product['language_id']; ?>" size="60" maxlength="120" name="meta_keywords[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_keywords']; ?>"></td>
 				  </tr>
                   <tr>
                     <td valign="top" class="set"><?php echo $entry_alt_description; ?></td>
@@ -823,6 +824,7 @@ function addDiscount() {
 function removeDiscount(row) {
   	$('#'+row).remove();
 }
+
 //--></script>
   <script type="text/javascript"><!--
   $('#image').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id').value);
@@ -862,4 +864,10 @@ function removeDiscount(row) {
 		$('#shipping_time_to').attr("disabled", true);
 });
     //--></script>
+	
+<script type="text/javascript"><!--
+  $(document).ready(function() {
+	RegisterValidation();
+  });
+//--></script>
 </form>

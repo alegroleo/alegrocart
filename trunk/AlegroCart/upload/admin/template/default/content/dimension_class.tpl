@@ -23,6 +23,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a> <a><div class="tab_text"><?php echo $tab_data; ?></div></a> </div>
@@ -86,7 +87,7 @@
             <?php foreach ($dimension_rules as $dimension_rule) { ?>
             <tr>
               <td width="185"><?php echo $dimension_rule['title']; ?></td>
-              <td><input type="text" name="rule[<?php echo $dimension_rule['to_id']; ?>]" value="<?php echo $dimension_rule['rule']; ?>"></td>
+              <td><input class="validate_float" id="rule<?php echo $dimension_rule['to_id']; ?>" type="text" name="rule[<?php echo $dimension_rule['to_id']; ?>]" value="<?php echo $dimension_rule['rule']; ?>"></td>
             </tr>
             <?php } ?>
           </table>
@@ -106,5 +107,10 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

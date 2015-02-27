@@ -69,12 +69,12 @@ class PaymentAuthNetAim extends Payment {
         $output .= '<font size="2pt"><strong>' . $this->language->get('text_creditcard') . '</strong></font>' . "\n";
         $output .= '<table>' . "\n";
         //$ouput .= '<tr><td>' . $this->language->get('entry_creditcard_type') . '</td><td><select name="creditcard_type"><option value="none"></option><option value="visa">'. $this->language->get('text_visa') . '</option><option value="mastercard">' . $this->language->get('text_mastercard') . '</option></select></td></tr>' . "\n";
-        $output .= '<tr><td><span class="required">*</span>&nbsp;' . $this->language->get('entry_cc_number') . '</td><td><input type="text" name="cc_number" value="' . $this->session->get('cc_number') . '"></td></tr>' . "\n";
+        $output .= '<tr><td><span class="required">*</span>&nbsp;' . $this->language->get('entry_cc_number') . '</td><td><input type="text" name="cc_number" id="cc_number" value="' . $this->session->get('cc_number') . '" class="validate_cc"></td></tr>' . "\n";
         $this->session->delete('cc_number');
-        $output .= '<tr><td><span class="required">*</span>&nbsp;' . $this->language->get('entry_cc_expire') . '</td><td><input type="text" name="cc_month" value="' . $this->session->get('cc_month') . '" size="3" maxlength="2"> / <input type="text" name="cc_year" value="' . $this->session->get('cc_year') . '" size="3" maxlength="2"></td></tr>' . "\n";
+        $output .= '<tr><td><span class="required">*</span>&nbsp;' . $this->language->get('entry_cc_expire') . '</td><td><input type="text" name="cc_month" id="cc_month" value="' . $this->session->get('cc_month') . '" size="3" maxlength="2" class="validate_int"> / <input type="text" name="cc_year" id="cc_year" value="' . $this->session->get('cc_year') . '" size="3" maxlength="2" class="validate_int"></td></tr>' . "\n";
         $this->session->delete('cc_month');
         $this->session->delete('cc_year');
-        $output .= '<tr><td><span class="required">*</span>&nbsp;' . $this->language->get('entry_cc_cvv') . '</td><td><input type="text" name="cc_cvv" value="' . $this->session->get('cc_cvv') . '" size="3"></td></tr>' . "\n";
+        $output .= '<tr><td><span class="required">*</span>&nbsp;' . $this->language->get('entry_cc_cvv') . '</td><td><input type="text" name="cc_cvv" id="cc_cvv" value="' . $this->session->get('cc_cvv') . '" size="3" class="validate_int"></td></tr>' . "\n";
         $this->session->delete('cc_cvv');        
         $output .= '</table>';
         $output .= '</div>';

@@ -15,6 +15,8 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -26,7 +28,7 @@
           <table>
             <tr>
               <td width="145" class="set"><?php echo $entry_minov; ?></td>
-              <td ><input size="12" type="text" name="global_minov_value" value="<?php echo $global_minov_value; ?>"></td>
+              <td ><input class="validate_float" id="minov_value" size="12" type="text" name="global_minov_value" value="<?php echo $global_minov_value; ?>"></td>
 	      <td class="expl">
                 <?php echo($explanation_entry_minov); ?>
 	      </td> 
@@ -56,5 +58,10 @@
  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
  <script type="text/javascript"><!--
   tabview_initialize('tab');
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

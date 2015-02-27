@@ -6,7 +6,7 @@
 	<?php }?>
   </select></td>
   <td><?php echo $entry_sortorder;?></td>
-  <td><input type="text" name= "<?php echo $location . '[' .  $module_id; ?>][sort_order]" value="" size="2"></td>
+  <td><input class="validate_int" id="<?php echo $location . '_' .  $module_id; ?>sort_order" type="text" name= "<?php echo $location . '[' .  $module_id; ?>][sort_order]" value="" size="2" onfocus="RegisterValidation()"></td>
   <td><input type="hidden" name="<?php echo $location . '[' .  $module_id; ?>][location_id]" value="<?php echo $location_id;?>"></td>
   <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('<?php echo $location . '_' . $module_id; ?>');"></td> 
 </tr>

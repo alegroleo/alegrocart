@@ -6,7 +6,10 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  
 </div>
+<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <div class="heading"><?php echo $heading_title; ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="list">
@@ -46,7 +49,7 @@
 		<?php } ?>
           </select></td>
         <td class="right"><?php echo $entry_date; ?>
-          <input name="date_from[day]" value="<?php echo $date_from_day; ?>" size="2" maxlength="2">
+          <input class="validate_int" id="date_from_day" name="date_from[day]" value="<?php echo $date_from_day; ?>" size="2" maxlength="2">
           <select name="date_from[month]">
             <?php foreach (@$months as $month) { ?>
             <?php if ($month['value'] == $date_from_month) { ?>
@@ -56,9 +59,9 @@
             <?php } ?>
             <?php } ?>
           </select>
-          <input name="date_from[year]" value="<?php echo $date_from_year; ?>" size="4" maxlength="4">
+          <input class="validate_int" id="date_from_year" name="date_from[year]" value="<?php echo $date_from_year; ?>" size="4" maxlength="4">
           -
-          <input name="date_to[day]" value="<?php echo $date_to_day; ?>" size="2" maxlength="2">
+          <input class="validate_int" id="date_to_day" name="date_to[day]" value="<?php echo $date_to_day; ?>" size="2" maxlength="2">
           <select name="date_to[month]">
             <?php foreach (@$months as $month) { ?>
             <?php if ($month['value'] == $date_to_month) { ?>
@@ -68,7 +71,7 @@
             <?php } ?>
             <?php } ?>
           </select>
-          <input name="date_to[year]" value="<?php echo $date_to_year; ?>" size="4" maxlength="4">
+          <input class="validate_int" id="date_to_year" name="date_to[year]" value="<?php echo $date_to_year; ?>" size="4" maxlength="4">
         </td>
       </tr>
     </table>
@@ -112,3 +115,8 @@
     <?php } ?>
   </table>
 </div>
+<script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
+  //--></script>

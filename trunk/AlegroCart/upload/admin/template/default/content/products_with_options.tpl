@@ -35,6 +35,7 @@
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
+<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <?php if(!$productwo_id){ ?>
@@ -57,10 +58,10 @@
     <table style="width: 100%;"><tr><td><hr></td></tr></table>
 	<table>
 	  <tr><td style="width: 185px;" class="set"><?php echo $entry_model_number;?></td>
-	    <td><input Type="test" size="32" maxlength="32" name="model_number" value="<?php echo $model_number;?>"></td>
+	    <td><input class="validate_alpha_num" id="model_number" Type="text" size="32" maxlength="32" name="model_number" value="<?php echo $model_number;?>"></td>
 	  </tr>
 	  <tr><td style="width: 185px;" class="set"><?php echo $entry_quantity;?></td>
-	    <td><input type="text" size="6" name="quantity" value="<?php echo $quantity;?>"></td>
+	    <td><input class="validate_int" id="quantity" type="text" size="6" name="quantity" value="<?php echo $quantity;?>"></td>
 	  </tr>
 	  <input id="product_option" type="hidden" name="product_option" value="<?php echo $product_option;?>">
 	  <input id="product_id" type="hidden" name="product_id" value="<?php echo $product_id;?>">
@@ -81,7 +82,7 @@
             </tr>
 	    <tr>
               <td style="width: 185px;" class="set"><?php echo $entry_barcode; ?></td>
-              <td id="barcodefield"><input id="barcode" type="text" size="14" maxlength="13" name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode()">
+              <td id="barcodefield"><input class="validate_int" id="barcode" type="text" size="14" maxlength="13" name="barcode" value="<?php echo $barcode; ?>" onchange="validate_barcode()">
 			</td>
         </tr>
 	</table>
@@ -143,4 +144,9 @@
   //--></script> 
   <script type="text/javascript"><!--
   $('#image').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id').value);
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>

@@ -17,3 +17,8 @@
   <a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a>
 </div>
 </div>
+<script type="text/javascript"><!--
+	$(document).ready(function(){
+		$("#bar a:last").css("border-right","0px");
+	});
+//--></script>

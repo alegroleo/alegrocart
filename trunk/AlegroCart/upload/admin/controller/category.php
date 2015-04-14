@@ -199,7 +199,7 @@ class ControllerCategory extends Controller {
 		       'align' => 'center'
 		        );
 
-		if ($this->validateChangeVisibility()) {
+		if ($this->validateChangeVisibility() && !$this->modelCategory->check_parent_status($result['category_id'])) {
 			$cell[] = array(
 				'status'  => $result['category_hide'],
 				'text' => $this->language->get('button_visibility'),

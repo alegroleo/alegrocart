@@ -429,3 +429,28 @@ $(document).ready(function(){
 		});
 	});
 });
+$(document).ready(function(){
+	var hbg_color = $('#hmenu_breadcrumb').css('background-color');
+	var htext_color = $('#hmenu_breadcrumb').css('color');
+	hbg_color==undefined || hbg_color=='transparent' ? hbg_color = '#D9D9D9' : hbg_color = hbg_color;
+	$('.active').parent().prev().css({'background-color': hbg_color, 'color':htext_color});
+});
+$(document).ready(function(){
+	var hbg_color = $('#hmenu_breadcrumb').css('background-color');
+	var htext_color = $('#hmenu_breadcrumb').css('color');
+	hbg_color==undefined || hbg_color=='transparent' ? hbg_color = '#D9D9D9' : hbg_color = hbg_color;
+	$('#myMenuID li').hover(function(){
+		$(this).find('ul:first').attr('style','display:block');
+		$(this).parents('li').children('a').css({'background-color': hbg_color, 'color':htext_color});
+		$('.active').parent().prev().css({'background-color': hbg_color, 'color':htext_color});
+	}, function() {
+		$(this).find('ul:first').each(function(i,selected){
+			if ($(selected).attr('class') == "menu"){
+				$(selected).parent('li').children('a').each(function(i,li_children){
+					$(li_children).removeAttr('style','background-color');
+				});
+				$(selected).attr('style','display:none');
+			}
+		});
+	});
+});

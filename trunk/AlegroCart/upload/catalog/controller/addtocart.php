@@ -53,15 +53,15 @@ class ControllerAddToCart extends Controller {
 					
 					$output .= '<div class="cc">' . count($products) .' '. $language->get('text_products') .' - ';
 					$output .= '<div class="dd">' . $cart->countProducts() .' '. $language->get('text_items') . '</div></div>' . "\n";
-					$output .= '<div class="bb"><a href="' . $url->href('cart') . '">' . $language->get('text_view_cart') . '</a></div>'  . "\n";
+					$output .= '<div class="bb" id="cart_button"><a href="' . $url->href('cart') . '">' . $language->get('text_view_cart') . '</a></div>'  . "\n";
 				} else {
 					$output .= '<div class="bb">' . $language->get('text_empty') . '</div>' . "\n"; 
 				}
 				$output .= '</div></div>' . "\n";
 				$output .= '<div class="bottom"></div>' . "\n";
 				$output .= '<script type="text/javascript"><!--' . "\n";
-				$output .= '$(\'#cart_products\').show(\'slow\');' . "\n";
-				$output .= '$(\'#cart_products\').hide(3500);' . "\n";
+				$output .= '$(\'#cart_products, #cart_button\').show(\'slow\');' . "\n";
+				$output .= '$(\'#cart_products, #cart_button\').hide(3500);' . "\n";
 				$output .= '//--></script>' . "\n";
 				
 				$response->set($output);

@@ -40,7 +40,11 @@
 <body>
 <noscript><div class="noscript"><?php echo $noscript; ?></div></noscript>
 <div id="container">
+<?php if($category_menu){?>
+  <div id="header" style="height:140px;">
+<?php } else {?>  
   <div id="header">
+<?php }?>
 	<?php if(isset($tpl_headers)){
 		foreach ($tpl_headers as $key => $tpl_header){
 			if(@isset($$tpl_header)){echo $$tpl_header;}

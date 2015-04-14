@@ -35,9 +35,11 @@ class ControllerModuleCatalogCart extends Controller {
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
+		$view->set('explanation_cart_offset', $this->language->get('explanation_cart_offset'));
 		
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
+		$view->set('entry_offset', $this->language->get('entry_offset'));
 		
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -72,6 +74,12 @@ class ControllerModuleCatalogCart extends Controller {
 			$view->set('catalog_cart_status', @$setting_info['catalog']['cart_status']);
 		}
 
+		if ($this->request->has('catalog_cart_offset', 'post')) {
+			$view->set('catalog_cart_offset', $this->request->gethtml('catalog_cart_offset', 'post'));
+		} else {
+			$view->set('catalog_cart_offset', @$setting_info['catalog']['cart_offset']);
+		}
+		
 		$this->template->set('content', $view->fetch('content/module_catalog_cart.tpl'));
 
 		$this->template->set($this->module->fetch());

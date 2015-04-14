@@ -1,6 +1,6 @@
 /* default.css */
 html {
-
+	overflow-y: scroll;
 }
 /* body */
 body { 
@@ -92,7 +92,7 @@ a:hover {
 	float: left;
 }
 #bar .b a {
-	width: 100px;
+	width: 110px;
 	height: 26px;
 	color: #FFFFFF; 
 	font-weight: bold;
@@ -106,7 +106,7 @@ a:hover {
 	cursor: pointer;
 }
 #extra {
-	width: 990px;
+	width: 100%;
 	text-align: center;
 }
 #content {
@@ -126,6 +126,13 @@ a:hover {
 	float: left;
 	min-height: 670px;
 	height: 100%;	
+}
+#columnright {
+	width: 195px;
+	margin: 0px 0px 0px 0px;
+	float: left;
+	padding-left: 2px;
+	height: 100%;
 }
 #footer {
 	clear: both;
@@ -447,7 +454,7 @@ a:hover {
 }
 /*  language */
 .language {
-	position: relative;
+	position: absolute;
 	z-index: 1;
 }
 
@@ -477,7 +484,7 @@ a:hover {
 	width: 194px;
 	top: 0px;
 	right: 0px;
-	z-index: 21;
+	z-index: 210;
 	min-height:25px;
 	margin-bottom: 10px;
 
@@ -486,7 +493,7 @@ a:hover {
 	position: relative;
 	z-index: 15;
 	min-height: 10px;
-	padding: 5px 0px 0px 0px;
+	padding: 0px;
 	margin: 0px;
 	border: 0px;
 }

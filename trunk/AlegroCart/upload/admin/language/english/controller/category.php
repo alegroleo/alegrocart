@@ -3,7 +3,7 @@
 $_['heading_title']       = 'Categories';
 $_['heading_form_title']  = 'Category:';
 $_['heading_subcat_title']= 'Sub-Categories:';
-$_['heading_description'] = 'You can edit your product categories here.';
+$_['heading_description'] = 'You can edit your product categories here.<br>The horizontal menu is best suited for sites that have no more than 7-8 main categories and only one level of subcategories.<br>Only the number of main categories that can be displayed and only the first level of subcategories will be accessible.';
 
 // Text
 $_['text_message']        = 'Success: You have updated categories!';

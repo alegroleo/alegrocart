@@ -212,6 +212,10 @@ class Model_Core extends Model {
 		$results = $this->database->getRows("select * from image_display id left join image_display_description idd on(id.image_display_id = idd.image_display_id) left join image i on(idd.image_id = i.image_id) where idd.language_id = '" . (int)$this->language->getId() . "' and id.status = '1' and id.location_id = '" . $location_id[$location]  . "' order by id.sort_order");
 		return $results;
 	}
+	function get_menucategories(){
+		$results = $this->database->getRows("SELECT c.category_id, c.parent_id, c.path, c.sort_order, i.filename, cd.name FROM category c LEFT JOIN category_description cd ON (c.category_id = cd.category_id) LEFT JOIN image i on (c.image_id = i.image_id) WHERE cd.language_id = '" . (int)$this->language->getId() . "' AND c.category_hide = '0' AND c.path REGEXP '^[0-9]+\_*[0-9]*$' ORDER BY c.path");
+		return $results;
+	}
 	function get_categories(){
 		$results = $this->database->getRows("select c.category_id, c.parent_id, c.path, c.sort_order, cd.name from category c left join category_description cd on (c.category_id = cd.category_id) where cd.language_id = '" . (int)$this->language->getId() . "' and c.category_hide = '0' order by c.path");
 		return $results;

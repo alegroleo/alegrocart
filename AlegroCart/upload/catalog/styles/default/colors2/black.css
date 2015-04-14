@@ -29,7 +29,7 @@ a:hover {
 	border-bottom: 1px; 
 	padding: 0px 3px 0px 10px;
 	height: 30px;
-	width: 520px; 
+	width: 580px; 
 	top: 80px;
 	left: 210px;
 }
@@ -549,7 +549,7 @@ a:hover {
 	border-style: none;
 	cursor: pointer;
 }
-.mini_cart .cart .cart_content a:hover {
+.mini_cart .cart .cart_content table a:hover {
 	color: #0066FF;
 }
 .mini_cart .cart .cart_content .bb {
@@ -600,3 +600,32 @@ h2 {
 h1 {
 	font-weight: bold;
 }
+/*Horizontal menu begin*/
+#menu_level_1:hover {
+	background-color: #B2B2B2;
+}
+#menu_level_1:hover > a{
+	color: #FFFFFF;
+}
+#myMenuID .menu_lvl_0:hover{
+	color: #FFFFFF;
+	background-color: #B2B2B2;
+}
+#menu_level_1.active {
+	background-color: #B2B2B2;
+}
+#menu_level_1.active > a{
+	color: #FFFFFF;
+}
+#menu_level_0.active > a{ 
+	background-color: #B2B2B2;
+	color: #FFFFFF;
+}
+#myMenuID .hmenu_breadcrumb{
+	background-color: #B2B2B2;
+	color: #FFFFFF;
+}
+#myMenuID {
+	background: #EEEEEE;
+}
+/*Horizontal menu end*/

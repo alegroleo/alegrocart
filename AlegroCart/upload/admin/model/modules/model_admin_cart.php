@@ -12,6 +12,7 @@ class Model_Admin_Cart extends Model {
 	}
 	function update_cart(){
 		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'cart', `key` = 'cart_status', `value` = '?'", (int)$this->request->gethtml('catalog_cart_status', 'post')));
+		$this->database->query($this->database->parse("insert into setting set type = 'catalog', `group` = 'cart', `key` = 'cart_offset', `value` = '?'", (int)$this->request->gethtml('catalog_cart_offset', 'post')));
 	}
 	function get_cart(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'cart'");
@@ -19,6 +20,7 @@ class Model_Admin_Cart extends Model {
 	}
 	function install_cart(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'cart', `key` = 'cart_status', value = '1'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'cart', `key` = 'cart_offset', value = '0'");
 	}
 }
 ?>

@@ -22,7 +22,8 @@ class Model_Admin_CategoryModule extends Model {
 	}
 	function install_category(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_status', value = '1'");
-		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_count', value = '1'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_mcount', value = '1'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_pcount', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_ratings', value = '1'");
 	}
 }

@@ -83,7 +83,11 @@ class Model_Admin_Category extends Model {
 		$results =  $this->database->getRows("select category_id from category where parent_id = '" . $path . "'");
 		return $results;
 	}
-	
+	function check_parent_status($category_id){
+		$parent_id = $this->database->getRow("select parent_id from category where category_id = '" . $category_id . "'");
+		$result =  $this->database->getRow("select category_hide from category where category_id = '" . $parent_id['parent_id'] . "'");
+		return $result['category_hide'];
+	}
 	function get_page(){
 		if ((!$this->session->has('category.search')) || ($this->request->gethtml('path'))) {
 			$cat_path = explode('_', $this->request->gethtml('path'));
@@ -148,8 +152,8 @@ class Model_Admin_Category extends Model {
 	}
 	function change_category_visibility($status, $status_id){
 		$new_status = $status ? 0 : 1;
-		$sql = "update category set category_hide = '?' where category_id = '?'";
-		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+		$sql = "update category set category_hide = '?' where path = '?' or path like '?' or path like '?' or path like '?'";
+		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id, (int)$status_id. '\_%', '%\_'.(int)$status_id, '%\_' . (int)$status_id . '\_%'));
 	}
 }
 ?>

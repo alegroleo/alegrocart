@@ -356,10 +356,10 @@ class ControllerTemplateManager extends Controller {
 	function getModules($location, $columns = 3, $controller = ''){
 		switch($location){
 			case 'header';
-				$modules = array('cart', 'converter', 'imagedisplay', 'language','currency', 'header', 'search', 'navigation');
+				$modules = array('cart', 'categorymenu', 'converter', 'imagedisplay', 'language','currency', 'header', 'search', 'navigation');
 				break;	
 			case 'extra';
-				$modules = array('cart', 'imagedisplay', 'language','currency', 'homepage', 'information', 'search','navigation');
+				$modules = array('cart', 'categorymenu', 'imagedisplay', 'language','currency', 'homepage', 'information', 'search','navigation');
 				break;
 			case 'column';
 				$modules = array('bestseller', 'cart', 'category', 'converter', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'recently', 'review', 'search', 'specials', 'toprated');

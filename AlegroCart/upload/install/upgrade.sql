@@ -1418,7 +1418,9 @@ SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'review_image_display';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'review', 'review_image_display', 'thickbox') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
+#
 #Add Maximum Order Quantity and Multiple
+#
 ALTER TABLE `product` ADD `max_qty` int(4) NOT NULL default '0' After `min_qty`;
 ALTER TABLE `product` ADD `multiple` int(4) NOT NULL default '0' After `max_qty`;
 
@@ -1439,11 +1441,11 @@ ALTER TABLE `product` ADD `shipping_time_from` int(2) NOT NULL default '2' After
 #
 SET @lid=1;
 SET @id=NULL;
-SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_recently';
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_recently';
 INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
 (@id, 'recently', 'module', 'module', 'recently.php', 'module_extra_recently') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 SET @id=NULL;
-SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_recently';
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_recently';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
 (@id, @lid, 'Catalog Recently Viewed', 'Display Recently Viewed Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 
@@ -1452,11 +1454,11 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 #
 SET @lid=1;
 SET @id=NULL;
-SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_toprated';
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_toprated';
 INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
 (@id, 'toprated', 'module', 'module', 'toprated.php', 'module_extra_toprated') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 SET @id=NULL;
-SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_toprated';
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_toprated';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
 (@id, @lid, 'Catalog Top Rated', 'Display Top Rated Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 
@@ -1465,11 +1467,11 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 #
 SET @lid=1;
 SET @id=NULL;
-SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_alsobought';
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_alsobought';
 INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
 (@id, 'alsobought', 'module', 'module', 'alsobought.php', 'module_extra_alsobought') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 SET @id=NULL;
-SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_alsobought';
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_alsobought';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
 (@id, @lid, 'Catalog Also Bought', 'Display Also Bought Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 
@@ -1477,3 +1479,18 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 # Modif Australia Post
 #
 DELETE FROM `setting` WHERE `group` = 'australiapost' and `key` = 'australiapost_default_method';
+
+#
+# Add Extension Category Menu
+#
+SET @lid=1;
+SET @id=NULL;
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_catalog_categorymenu';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES (@id, 'categorymenu', 'module', 'module', 'categorymenu.php', 'module_catalog_categorymenu') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_catalog_categorymenu';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Catalog Category Menu', 'Category Menu Module') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'cart' and `key` = 'cart_offset';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'cart', 'cart_offset', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;

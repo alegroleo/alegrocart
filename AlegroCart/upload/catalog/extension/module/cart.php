@@ -37,7 +37,9 @@ class ModuleCart extends Controller {
 					'total'		=> $currency->format($tax->calculate($result['total'], $result['tax_class_id'], $config->get('config_tax')))
 				);
 			}
-
+			
+			$cart_offset = $config->get('cart_offset') > 0 ? $config->get('cart_offset') : 0;
+			$view->set('cart_offset', $cart_offset);
 			$view->set('products', $product_data);
 			$view->set('item_total', $cart->countProducts());
 			$view->set('product_total', count($product_data));

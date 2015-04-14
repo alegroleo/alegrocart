@@ -12,8 +12,6 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_module; ?><em><?php echo $heading_title; ?></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
-<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -25,21 +23,62 @@
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_status; ?></td>
-              <td><select name="catalog_cart_status">
-                  <?php if ($catalog_cart_status) { ?>
+              <td><select name="catalog_categorymenu_status">
+                  <?php if ($catalog_categorymenu_status) { ?>
                   <option value="1" selected><?php echo $text_enabled; ?></option>
                   <option value="0"><?php echo $text_disabled; ?></option>
                   <?php } else { ?>
                   <option value="1"><?php echo $text_enabled; ?></option>
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
-                </select></td><td></td>
+                </select></td>
             </tr>
-			<tr>
-				<td class="set"><?php echo $entry_offset; ?></td>
-				<td><input class="validate_int" id="cart_offset" type="text" name="catalog_cart_offset" value="<?php echo $catalog_cart_offset; ?>" size="4"></td> 
-				<td class="expl"><?php echo($explanation_cart_offset); ?></td>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_product_count_menu; ?></td>
+              <td><select name="catalog_categorymenu_mcount">
+                  <?php if ($catalog_categorymenu_mcount) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+		<td class="expl">
+			<?php echo $explanation_product_count; ?>
+		</td>
+            </tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_cat_image; ?></td>
+              <td><select name="catalog_categorymenu_catimage">
+                  <?php if ($catalog_categorymenu_catimage) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+		<td class="expl">
+			<?php echo $explanation_entry_cat_image; ?>
 			</tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_subcat_image; ?></td>
+              <td><select name="catalog_categorymenu_subcatimage">
+                  <?php if ($catalog_categorymenu_subcatimage) { ?>
+                  <option value="1" selected><?php echo $text_enabled; ?></option>
+                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="0" selected><?php echo $text_disabled; ?></option>
+                  <?php } ?>
+                </select></td>
+		<td class="expl">
+			<?php echo $explanation_entry_subcat_image; ?>
+			</tr>
+			</tr>
+		</td>
+            </tr>
           </table>
         </div>
       </div>
@@ -48,10 +87,5 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
-  //--></script>
-  <script type="text/javascript"><!--
-    $(document).ready(function() {
-	  RegisterValidation();
-    });
   //--></script>
 </form>

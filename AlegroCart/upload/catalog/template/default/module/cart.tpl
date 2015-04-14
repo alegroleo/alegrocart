@@ -1,5 +1,5 @@
 <?php if($location == 'header'){?>
-<div id="mini_cart" class="mini_cart" style="position: absolute;">
+<div id="mini_cart" class="mini_cart" style="position: absolute; right: <?php echo $cart_offset;?>px;">
 <?php } else {?>
 <div id="mini_cart" class="mini_cart">
 <?php }?>
@@ -13,14 +13,14 @@
       <tr>
         <td><?php echo $product['quantity']; ?>&nbsp;x&nbsp;</td>
         <td style="width: 100px;"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></td>
-		<td class="ee"><?php echo ' '.$product['total']; ?></td>
+	<td class="ee"><?php echo ' '.$product['total']; ?></td>
       </tr>
       <?php } ?>
     </table>
 	</div>
-<div class="aa"><?php echo $text_subtotal; ?>&nbsp;<?php echo $subtotal; ?></div>
+	<div class="aa"><?php echo $text_subtotal; ?>&nbsp;<?php echo $subtotal; ?></div>
 	<div class="cc"><?php echo $product_total.' '.$text_products .' - ';?><div class="dd"><?php echo $item_total.' '.$text_items;?></div></div>
-    <div class="bb"><a href="<?php echo $view_cart; ?>"><?php echo $text_view_cart; ?></a></div>
+	<div class="bb" id="cart_button"><a href="<?php echo $view_cart; ?>"><?php echo $text_view_cart; ?></a></div>
     <?php } else { ?>
     <div class="bb"><?php echo $text_empty; ?></div>
     <?php } ?>
@@ -29,10 +29,10 @@
 </div>
   <script type="text/javascript"><!--
 $(document).ready(function(){
-	$('#cart_products').hide(0);
+	$('#cart_products, #cart_button').hide(0);
 });
 	
 function ShowCart(){	
-	$('#cart_products').toggle('slow');
+	$('#cart_products, #cart_button').toggle('slow');
 }
   //--></script>

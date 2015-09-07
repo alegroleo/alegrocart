@@ -1494,3 +1494,29 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'cart' and `key` = 'cart_offset';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'cart', 'cart_offset', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#
+# Manufacturer List Module
+#
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_manufacturerlist';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(@id, 'manufacturerlist', 'module', 'module', 'manufacturerlist.php', 'module_extra_manufacturerlist') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SET @lid=1;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_manufacturerlist';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog Manufacturer List', 'Display List of Manufacturers') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+# Category List Module
+#
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_categorylist';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(@id, 'categorylist', 'module', 'module', 'categorylist.php', 'module_extra_categorylist') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SET @lid=1;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_categorylist';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog Category List', 'Display List of Categories') ON DUPLICATE KEY UPDATE extension_id=extension_id;

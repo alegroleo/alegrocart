@@ -19,6 +19,10 @@ class Model_Category extends Model{
 		$results = $this->database->getRows("select * from category c left join category_description cd on (c.category_id = cd.category_id) left join image i on (c.image_id = i.image_id) where c.parent_id = '".(int)(!$category_path ? '0' : (int)end($path))."' and cd.language_id = '".(int)$this->language->getId()."' order by sort_order");
 		return $results;
 	}
+	function get_maincategories(){
+		$results = $this->database->getRows("select c.category_id, cd.name from category c left join category_description cd on (c.category_id = cd.category_id) where cd.language_id = '" . (int)$this->language->getId() . "' and c.category_hide = '0' and c.parent_id = '0' order by c.path");
+		return $results;
+	}
 	function checkContent_category($category_path){
 		$path = explode('_', $category_path);
 		if (($this->database->countRows("select * from product_to_category p2c left join product p on p2c.product_id = p.product_id where p.status = '1' and p2c.category_id = '".(int)end($path)."'")) || ($this->database->countRows("select * from category where parent_id = '".(int)end($path)."'"))) {

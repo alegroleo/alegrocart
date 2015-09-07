@@ -62,7 +62,15 @@ class Model_Products extends Model {
 		return $results;
 	}
 	function get_latest($latest_total){
-		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1' order by p.date_added desc" . $latest_total); 
+		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.date_available < now() and p.status = '1' order by p.date_added desc" . $latest_total); 
+		return $results;
+	}
+	function get_manufacturerlist($manufacturer_id, $manufacturerlist_total){
+		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.manufacturer_id = '" . $manufacturer_id . "'and p.date_available < now() and p.status = '1'" . $manufacturerlist_total); 
+		return $results;
+	}
+	function get_categorylist($category_id, $categorylist_total){
+		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join product_to_category p2c on (p.product_id = p2c.product_id) inner join category c on (p2c.category_id = c.category_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' and (c.path = '" . $category_id . "' or c.path like '" . $category_id . "\_%' or c.path like '%\_" . $category_id . "' or c.path like '%\_" . $category_id . "\_%') and p.date_available < now()" . $categorylist_total); 
 		return $results;
 	}
 	function get_related($product_id){

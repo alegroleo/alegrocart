@@ -369,7 +369,7 @@ class ControllerTemplateManager extends Controller {
 				}
 				break;
 			case 'content';
-				$modules = array('content', 'bestseller', 'featured', 'homepage', 'imagedisplay', 'latest', 'popular', 'recently', 'specials', 'toprated');
+				$modules = array('content', 'bestseller', 'categorylist', 'featured', 'homepage', 'imagedisplay', 'latest', 'manufacturerlist', 'popular', 'recently', 'specials', 'toprated');
 				if ($controller == 'product'){ 
 					$modules[] = 'related';
 					$modules[] = 'alsobought';

@@ -359,7 +359,7 @@ class ControllerTemplateManager extends Controller {
 				$modules = array('cart', 'categorymenu', 'converter', 'imagedisplay', 'language','currency', 'header', 'search', 'navigation');
 				break;	
 			case 'extra';
-				$modules = array('cart', 'categorymenu', 'imagedisplay', 'language','currency', 'homepage', 'information', 'search','navigation');
+				$modules = array('categorymenu', 'categoryslider', 'imagedisplay', 'language', 'manufacturerslider', 'currency', 'homepage', 'information', 'search','navigation');
 				break;
 			case 'column';
 				$modules = array('bestseller', 'cart', 'category', 'converter', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'recently', 'review', 'search', 'specials', 'toprated');
@@ -369,7 +369,7 @@ class ControllerTemplateManager extends Controller {
 				}
 				break;
 			case 'content';
-				$modules = array('content', 'bestseller', 'categorylist', 'featured', 'homepage', 'imagedisplay', 'latest', 'manufacturerlist', 'popular', 'recently', 'specials', 'toprated');
+				$modules = array('content', 'bestseller', 'categorylist', 'categoryslider', 'featured', 'homepage', 'imagedisplay', 'latest', 'manufacturerlist', 'manufacturerslider', 'popular', 'recently', 'specials', 'toprated');
 				if ($controller == 'product'){ 
 					$modules[] = 'related';
 					$modules[] = 'alsobought';
@@ -386,7 +386,7 @@ class ControllerTemplateManager extends Controller {
 				$modules = array('currency', 'footer', 'imagedisplay', 'information', 'language');
 				break;
 			case 'pagebottom';
-				$modules = array('currency', 'developer', 'homepage', 'imagedisplay', 'information', 'language', 'navigation');
+				$modules = array('categoryslider', 'currency', 'developer', 'homepage', 'imagedisplay', 'information', 'language', 'manufacturerslider', 'navigation');
 				break;
 			default:
 				$modules = "";

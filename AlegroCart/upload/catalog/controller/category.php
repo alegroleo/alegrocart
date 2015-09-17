@@ -124,7 +124,7 @@ class ControllerCategory extends Controller {
 				} else {
 					$page_rows = $this->config->get('category_rows') ? $this->config->get('category_rows') : $this->config->get('config_max_rows');
 				}
-				If ($columns > 1){
+				if ($columns > 1){
 				$page_rows = (ceil($page_rows/$columns))*$columns;
 				}
 				$session->set('category.page_rows', $page_rows);
@@ -410,15 +410,22 @@ class ControllerCategory extends Controller {
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
-		$modules_extra['column'] = array('manufacturer', 'popular');
+		if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+			$modules_extra['column'] = array('manufacturer', 'popular');
+		} elseif ($this->tpl_columns == 2.1) {
+			$modules_extra['columnright'] = array('manufacturer', 'popular');
+		}
+
 		if(@$this->has_products){
-			if($this->tpl_columns != 2){
+			if($this->tpl_columns == 3){
 				$modules_extra['columnright'] = array('categoryoptions','specials');
-			} else {
+			} elseif ($this->tpl_columns == 1.2){
 				$modules_extra['column'][] = 'categoryoptions';
+			} elseif ($this->tpl_columns == 2.1) {
+				$modules_extra['columnright'][] = 'categoryoptions';
 			}
 		} else {
-			if($this->tpl_columns != 2){
+			if($this->tpl_columns == 3){
 				$modules_extra['columnright'] = array('specials');
 			}
 		}
@@ -473,8 +480,8 @@ class ControllerCategory extends Controller {
 		}
 		if ($models_data){
 			$output = '<tr><td>' . $text_model . '</td></tr>'."\n";
-			$output .= '<tr><td style="width: 190px;">';
-			$output .= '<select style="width: 180px;" name="model">'."\n";
+			$output .= '<tr><td>';
+			$output .= '<select name="model">'."\n";
 			$output .= '<option value="all">';
 			$output .= $text_all . '</option>'."\n";
 			foreach ($models_data as $model_data){

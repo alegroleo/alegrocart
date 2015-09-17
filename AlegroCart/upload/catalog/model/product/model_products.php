@@ -66,11 +66,11 @@ class Model_Products extends Model {
 		return $results;
 	}
 	function get_manufacturerlist($manufacturer_id, $manufacturerlist_total){
-		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.manufacturer_id = '" . $manufacturer_id . "'and p.date_available < now() and p.status = '1'" . $manufacturerlist_total); 
+		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and p.manufacturer_id = '" . $manufacturer_id . "'and p.date_available < now() and p.status = '1' ORDER BY RAND()" . $manufacturerlist_total); 
 		return $results;
 	}
 	function get_categorylist($category_id, $categorylist_total){
-		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join product_to_category p2c on (p.product_id = p2c.product_id) inner join category c on (p2c.category_id = c.category_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' and (c.path = '" . $category_id . "' or c.path like '" . $category_id . "\_%' or c.path like '%\_" . $category_id . "' or c.path like '%\_" . $category_id . "\_%') and p.date_available < now()" . $categorylist_total); 
+		$results = $this->database->getRows("select * from product p left join product_description pd on (p.product_id = pd.product_id) left join product_to_category p2c on (p.product_id = p2c.product_id) inner join category c on (p2c.category_id = c.category_id) left join image i on (p.image_id = i.image_id) where p.status = '1' and pd.language_id = '" . (int)$this->language->getId() . "' and (c.path = '" . $category_id . "' or c.path like '" . $category_id . "\_%' or c.path like '%\_" . $category_id . "' or c.path like '%\_" . $category_id . "\_%') and p.date_available < now() ORDER BY RAND()" . $categorylist_total); 
 		return $results;
 	}
 	function get_related($product_id){
@@ -325,6 +325,42 @@ class Model_Products extends Model {
 			break;
 		}
 		return $add_enable;
+	}
+	function taxedpage($current_page){
+		switch($current_page){
+			case 'account_invoice':
+			case 'cart':
+			case 'checkout_shipping':
+			case 'checkout_confirm':
+			$display_tax = false;
+			$catalog_tax = false;
+			break;
+		default:
+			$display_tax = true;
+			break;
+		}
+		if ($display_tax){
+			switch($current_page){
+				case 'home':
+				case 'information':
+				case 'sitemap':
+				case 'search':
+				case 'contact':
+				case 'category':
+				case 'product':
+				case 'manufacturer';
+				case 'review':
+				case 'review_write':
+				case 'review_info':
+				case 'review':
+				$catalog_tax = $this->config->get('config_tax_store');
+				break;
+			default:
+				$catalog_tax = $this->config->get('config_tax');
+				break;
+			}
+		}
+		return $catalog_tax;
 	}
 	function get_vendor($vendor_id){
 		$result = $this->database->getRow("select name from vendor where vendor_id = '" . $vendor_id . "'");

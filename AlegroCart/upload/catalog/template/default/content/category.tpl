@@ -50,12 +50,12 @@
   <div class="contentBody">
      <?php $column_count=0;	?> 
   <?php foreach ($categories as $key => $category) { ?>
-    <?php If($column_count == '3'){
+    <?php if($column_count == '3'){
 		$column_count = 1;
 	  } else {
 		$column_count++;
 	  }
-	  If($column_count == 1){
+	  if($column_count == 1){
 	    echo '<div class="category_row">';
 	  }
 	?>
@@ -67,13 +67,13 @@
   <?php } ?> 
 	  <b><a href="<?php echo $category['href']; ?>"><?php echo $category['name'] . ($category['products_in_category'] != 0 ? ' (' . $category['products_in_category'] . ')':''); ?></a></b>
 </div>
-	<?php If($column_count == '3'){
+	<?php if($column_count == '3'){
 	    echo "</div>";
 	    if(($key + 1) < count($categories)){
 		  echo "<div class=\"divider\"></div>";}
 	} ?>
 <?php } ?>
-    <?php If($column_count != '3'){
+    <?php if($column_count != '3'){
 	  echo "</div>";}?>
 </div>
 <div class="contentBodyBottom"></div>

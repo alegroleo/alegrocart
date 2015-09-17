@@ -46,5 +46,9 @@ class Model_Manufacturer extends Model{
 		$text_results = $this->language->get('text_results', $this->database->getFrom(), $this->database->getTo(), $this->database->getTotal());
 		return $text_results;
 	}
+	function get_manufacturers(){
+		$results = $this->database->getRows("SELECT m.manufacturer_id, m.name, i.filename FROM manufacturer m LEFT JOIN image i ON (m.image_id = i.image_id) ORDER BY sort_order, name ASC");
+		return $results;
+	}
 }
 ?>

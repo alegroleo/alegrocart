@@ -1520,3 +1520,29 @@ SET @lid=1;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_categorylist';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
 (@id, @lid, 'Catalog Category List', 'Display List of Categories') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+# Manufacturer Slider Module
+#
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_manufacturerslider';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(@id, 'manufacturerslider', 'module', 'module', 'manufacturerslider.php', 'module_extra_manufacturerslider') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SET @lid=1;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_manufacturerslider';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog Manufacturer Slider', 'Manufacturer Image Slider') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+# Category Slider Module
+#
+SET @id=NULL;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_categoryslider';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(@id, 'categoryslider', 'module', 'module', 'categoryslider.php', 'module_extra_categoryslider') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SET @lid=1;
+SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_categoryslider';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog Category Slider', 'Category Image Slider') ON DUPLICATE KEY UPDATE extension_id=extension_id;

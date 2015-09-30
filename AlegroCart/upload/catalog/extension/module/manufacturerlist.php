@@ -30,16 +30,16 @@ class ModuleManufacturerList extends Controller {
 			} else {
 				$manufacturerlist_total = ' limit ' . (int)$config->get('manufacturerlist_total');
 			}
-			if ($config->get('manufacturerlist_limit') == '0') {
-				$limit = '';
+			if ($config->get('manufacturerlist_slider')){
+				$limit = $config->get('manufacturerlist_slimit') == '0' ? '': (int)$config->get('manufacturerlist_slimit');
+				$columns = $config->get('manufacturerlist_scolumns');
 			} else {
-				$limit = (int)$config->get('manufacturerlist_limit');
+				$limit = $config->get('manufacturerlist_limit') == '0' ? '': (int)$config->get('manufacturerlist_limit');
+				$columns = $config->get('manufacturerlist_columns');
 			}
-
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['manufacturerlist']; // Template Manager 
 
-			$columns = $config->get('manufacturerlist_columns');
 			if ($columns == 3){
 				$image_width = $config->get('manufacturerlist_image_width') <= 175 ? $config->get('manufacturerlist_image_width') : 175;
 				$image_height = $config->get('manufacturerlist_image_height') <= 175 ? $config->get('manufacturerlist_image_height') : 175;
@@ -142,9 +142,9 @@ class ModuleManufacturerList extends Controller {
 				if ($product_data) {
 					if ($maxrow < $limit){
 						$manufacturers_data[$manufacturer['name']] = array(
-							'manufacturer_id'	=> $manufacturer['manufacturer_id'],
-							'name'			=> $manufacturer['name'],
-							'products'		=> $product_data
+							'id'		=> $manufacturer['manufacturer_id'],
+							'name'		=> $manufacturer['name'],
+							'products'	=> $product_data
 						);
 					} else {
 						$I = 0;
@@ -159,9 +159,9 @@ class ModuleManufacturerList extends Controller {
 							$I ++;
 						}
 						$manufacturers_data[$manufacturer['name']] = array(
-							'manufacturer_id'	=> $manufacturer['manufacturer_id'],
-							'name'			=> $manufacturer['name'],
-							'products'		=> $product_rand
+							'id'		=> $manufacturer['manufacturer_id'],
+							'name'		=> $manufacturer['name'],
+							'products'	=> $product_rand
 						);
 					}
 				} else {
@@ -181,6 +181,7 @@ class ModuleManufacturerList extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
+			$view->set('slider', $config->get('manufacturerlist_slider'));
 			$view->set('text_options', $language->get('text_options'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));

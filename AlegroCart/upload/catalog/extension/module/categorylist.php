@@ -31,16 +31,16 @@ class ModuleCategoryList extends Controller {
 			} else {
 				$categorylist_total = ' limit ' . (int)$config->get('categorylist_total');
 			}
-			if ($config->get('categorylist_limit') == '0') {
-				$limit = '';
+			if ($config->get('categorylist_slider')){
+				$limit = $config->get('categorylist_slimit') == '0' ? '': (int)$config->get('categorylist_slimit');
+				$columns = $config->get('categorylist_scolumns');
 			} else {
-				$limit = (int)$config->get('categorylist_limit');
+				$limit = $config->get('categorylist_limit') == '0' ? '': (int)$config->get('categorylist_limit');
+				$columns = $config->get('categorylist_columns');
 			}
-
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['categorylist']; // Template Manager 
 
-			$columns = $config->get('categorylist_columns');
 			if ($columns == 3){
 				$image_width = $config->get('categorylist_image_width') <= 175 ? $config->get('categorylist_image_width') : 175;
 				$image_height = $config->get('categorylist_image_height') <= 175 ? $config->get('categorylist_image_height') : 175;
@@ -143,9 +143,9 @@ class ModuleCategoryList extends Controller {
 				if ($product_data) {
 					if ($maxrow < $limit){
 						$categories_data[$category['name']] = array(
-							'category_id'	=> $category['category_id'],
-							'name'			=> $category['name'],
-							'products'		=> $product_data
+							'id'		=> $category['category_id'],
+							'name'		=> $category['name'],
+							'products'	=> $product_data
 						);
 					} else {
 						$I = 0;
@@ -160,9 +160,9 @@ class ModuleCategoryList extends Controller {
 							$I ++;
 						}
 						$categories_data[$category['name']] = array(
-							'category_id'	=> $category['category_id'],
-							'name'			=> $category['name'],
-							'products'		=> $product_rand
+							'id'		=> $category['category_id'],
+							'name'		=> $category['name'],
+							'products'	=> $product_rand
 						);
 					}
 				} else {
@@ -182,6 +182,7 @@ class ModuleCategoryList extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
+			$view->set('slider', $config->get('categorylist_slider'));
 			$view->set('text_options', $language->get('text_options'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));

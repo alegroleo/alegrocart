@@ -27,15 +27,15 @@ class ModuleRelated extends Controller {
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('tax_included', $config->get('config_tax'));
 
-		if ($config->get('related_limit') == '0') {
-			$limit = '';
-		} else {
-			$limit = (int)$config->get('related_limit');
-		}
-
+			if ($config->get('related_slider')){
+				$limit = $config->get('related_slimit') == '0' ? '': (int)$config->get('related_slimit');
+				$columns = $config->get('related_scolumns');
+			} else {
+				$limit = $config->get('related_limit') == '0' ? '': (int)$config->get('related_limit');
+				$columns = $config->get('related_columns');
+			}
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['related']; // Template Manager 
-			$columns = $config->get('related_columns');
 			if($columns == 1 && $location == 'content'){
 				$image_width = $config->get('related_image_width');
 				$image_height = $config->get('related_image_height');
@@ -186,6 +186,7 @@ class ModuleRelated extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
+			$view->set('slider', $config->get('related_slider'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
 			$view->set('regular_price', $language->get('regular_price'));

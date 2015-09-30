@@ -24,6 +24,9 @@ class Model_Admin_Toprated extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_lines_single', value = '6'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_lines_char', value = '108'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_slimit', value = '4'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_scolumns', value = '6'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_slider', value = '0'");
 	}
 	function update_toprated(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_status', `value` = '" . $this->request->gethtml('catalog_toprated_status', 'post') . "'");
@@ -39,6 +42,9 @@ class Model_Admin_Toprated extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_lines_single', `value` = '" . $this->request->gethtml('catalog_toprated_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_lines_multi', `value` = '" . $this->request->gethtml('catalog_toprated_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_lines_char', `value` = '" . $this->request->gethtml('catalog_toprated_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_slimit', `value` = '" . $this->request->gethtml('catalog_toprated_slimit', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_scolumns', `value` = '" . $this->request->gethtml('catalog_toprated_scolumns', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'toprated', `key` = 'toprated_slider', `value` = '" . $this->request->gethtml('catalog_toprated_slider', 'post') . "'");
 	}
 	function get_toprated(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'toprated'");

@@ -39,28 +39,6 @@
 		</td>
             </tr>
             <tr>
-              <td class="set"><?php echo $entry_limit; ?></td>
-              <td><input class="validate_int" id="manufacturerlist_limit" type="text" name="catalog_manufacturerlist_limit" value="<?php echo $catalog_manufacturerlist_limit; ?>" size="1" /></td>
-		<td class="expl">
-			<?php echo($explanation_entry_limit); ?>
-		</td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_columns; ?></td>
-              <td><select name="catalog_manufacturerlist_columns">
-				<?php foreach($column_data as $column){?>
-				  <?php if($column == $catalog_manufacturerlist_columns){?>
-				    <option value="<?php echo $column;?>" selected><?php echo $column;?></option>
-				  <?php } else {?>
-				    <option value="<?php echo $column;?>"><?php echo $column;?></option>
-			      <?php }?>
-				<?php }?> 
-			  </select></td>
-		<td class="expl">
-			<?php echo($explanation_entry_columns); ?>
-		</td>
-			</tr>			
-            <tr>
               <td class="set"><?php echo $entry_total; ?></td>
               <td><input class="validate_int" id="manufacturerlist_total" type="text" name="catalog_manufacturerlist_total" value="<?php echo $catalog_manufacturerlist_total; ?>" size="3"></td>
 		<td class="expl">
@@ -138,6 +116,68 @@
               <td><input class="validate_int" id="manufacturerlist_lines_char" type="text" name="catalog_manufacturerlist_lines_char" value="<?php echo $catalog_manufacturerlist_lines_char; ?>" size="3" /></td>
 		<td class="expl">
 			<?php echo($explanation_entry_char); ?>
+		</td>
+            </tr>
+            <tr>
+              <td style="color:#0099FF; font-weight:bold"><?php if ($catalog_manufacturerlist_slider) { ?>
+                <input type="radio" name="catalog_manufacturerlist_slider" value="1" id="cfsyes" checked="checked">
+                <label for="cfsyes"><?php echo $entry_sliderb; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_manufacturerlist_slider" value="1" id="cfsyes" >
+                <label for="cfsyes"><?php echo $entry_sliderb; ?></label>
+                <?php } ?></td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_columns; ?></td>
+              <td><select name="catalog_manufacturerlist_scolumns">
+				<?php foreach($scolumn_data as $scolumn){?>
+				  <?php if($scolumn == $catalog_manufacturerlist_scolumns){?>
+				    <option value="<?php echo $scolumn;?>" selected><?php echo $scolumn;?></option>
+				  <?php } else {?>
+				    <option value="<?php echo $scolumn;?>"><?php echo $scolumn;?></option>
+			      <?php }?>
+				<?php }?> 
+			  </select></td>
+		<td class="expl">
+			<?php echo($explanation_entry_columns); ?>
+		</td>
+			</tr>
+            <tr>
+              <td class="set"><?php echo $entry_limit; ?></td>
+              <td><input class="validate_int" id="manufacturerlist_slimit" type="text" name="catalog_manufacturerlist_slimit" value="<?php echo $catalog_manufacturerlist_slimit; ?>" size="1" /></td>
+		<td class="expl">
+			<?php echo($explanation_entry_slimit); ?>
+		</td>
+		</tr>
+            <tr>
+              <td style="color:#0099FF; font-weight:bold"><?php if ($catalog_manufacturerlist_slider) { ?>
+                <input type="radio" name="catalog_manufacturerlist_slider" value="0" id="cfsno" >
+                <label for="cfsno"><?php echo $entry_columnb; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_manufacturerlist_slider" value="0" id="cfsno" checked="checked">
+                <label for="cfsno"><?php echo $entry_columnb; ?></label>
+                <?php } ?></td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_columns; ?></td>
+              <td><select name="catalog_manufacturerlist_columns">
+				<?php foreach($column_data as $column){?>
+				  <?php if($column == $catalog_manufacturerlist_columns){?>
+				    <option value="<?php echo $column;?>" selected><?php echo $column;?></option>
+				  <?php } else {?>
+				    <option value="<?php echo $column;?>"><?php echo $column;?></option>
+			      <?php }?>
+				<?php }?> 
+			  </select></td>
+		<td class="expl">
+			<?php echo($explanation_entry_columns); ?>
+		</td>
+			</tr>
+            <tr>
+              <td class="set"><?php echo $entry_limit; ?></td>
+              <td><input class="validate_int" id="manufacturerlist_limit" type="text" name="catalog_manufacturerlist_limit" value="<?php echo $catalog_manufacturerlist_limit; ?>" size="1" /></td>
+		<td class="expl">
+			<?php echo($explanation_entry_limit); ?>
 		</td>
             </tr>
           </table>

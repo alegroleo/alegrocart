@@ -33,16 +33,16 @@ class ModuleToprated extends Controller {
 				$toprated_total = ' limit ' . (int)$config->get('toprated_total');
 			}
 
-		if ($config->get('toprated_limit') == '0') {
-			$limit = '';
-		} else {
-			$limit = (int)$config->get('toprated_limit');
-		}
-
+			if ($config->get('toprated_slider')){
+				$limit = $config->get('toprated_slimit') == '0' ? '': (int)$config->get('toprated_slimit');
+				$columns = $config->get('toprated_scolumns');
+			} else {
+				$limit = $config->get('toprated_limit') == '0' ? '': (int)$config->get('toprated_limit');
+				$columns = $config->get('toprated_columns');
+			}
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['toprated']; // Template Manager 
 
-			$columns = $config->get('toprated_columns');
 			if($columns == 1 && $location == 'content'){
 				$image_width = $config->get('toprated_image_width');
 				$image_height = $config->get('toprated_image_height');
@@ -193,6 +193,7 @@ class ModuleToprated extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
+			$view->set('slider', $config->get('toprated_slider'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
 			$view->set('regular_price', $language->get('regular_price'));

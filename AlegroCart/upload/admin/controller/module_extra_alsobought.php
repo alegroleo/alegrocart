@@ -51,6 +51,8 @@ class ControllerModuleExtraAlsobought extends Controller {
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
+		$view->set('entry_columnb', $this->language->get('entry_columnb'));
+		$view->set('entry_sliderb', $this->language->get('entry_sliderb'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -62,6 +64,7 @@ class ControllerModuleExtraAlsobought extends Controller {
 
 		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
 		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
+		$view->set('explanation_entry_slimit', $this->language->get('explanation_entry_slimit'));
 		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
 		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
 		$view->set('explanation_entry_total', $this->language->get('explanation_entry_total'));
@@ -87,6 +90,7 @@ class ControllerModuleExtraAlsobought extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 		
 		$view->set('column_data', array(1,2,3,4,5));
+		$view->set('scolumn_data', array(2,3,4,5));
 		$view->set('image_displays',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 
 		if (!$this->request->isPost()) {
@@ -132,7 +136,6 @@ class ControllerModuleExtraAlsobought extends Controller {
 		} else {
 			$view->set('catalog_alsobought_columns', @$setting_info['catalog']['alsobought_columns']);
 		}
-
 		if ($this->request->has('catalog_alsobought_image_display', 'post')) {
 			$view->set('catalog_alsobought_image_display', $this->request->gethtml('catalog_alsobought_image_display', 'post'));
 		} else {
@@ -158,7 +161,21 @@ class ControllerModuleExtraAlsobought extends Controller {
 		} else {
 			$view->set('catalog_alsobought_lines_char', @$setting_info['catalog']['alsobought_lines_char']);
 		}
-
+		if ($this->request->has('catalog_alsobought_slider', 'post')) {
+			$view->set('catalog_alsobought_slider', $this->request->gethtml('catalog_alsobought_slider', 'post'));
+		} else {
+			$view->set('catalog_alsobought_slider', @$setting_info['catalog']['alsobought_slider']);
+		}
+		if ($this->request->has('catalog_alsobought_slimit', 'post')) {
+			$view->set('catalog_alsobought_slimit', $this->request->gethtml('catalog_alsobought_slimit', 'post'));
+		} else {
+			$view->set('catalog_alsobought_slimit', @$setting_info['catalog']['alsobought_slimit']);
+		}
+		if ($this->request->has('catalog_alsobought_scolumns', 'post')) {
+			$view->set('catalog_alsobought_scolumns', $this->request->gethtml('catalog_alsobought_scolumns', 'post'));
+		} else {
+			$view->set('catalog_alsobought_scolumns', @$setting_info['catalog']['alsobought_scolumns']);
+		}
 		$this->template->set('content', $view->fetch('content/module_extra_alsobought.tpl'));
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));

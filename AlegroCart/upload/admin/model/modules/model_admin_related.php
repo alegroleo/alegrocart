@@ -22,6 +22,9 @@ class Model_Admin_Related extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_lines_single', value = '6'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_lines_multi', value = '3'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_lines_char', value = '108'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_slimit', value = '4'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_scolumns', value = '6'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_slider', value = '0'");
 	}
 	function update_related(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_status', `value` = '" . $this->request->gethtml('catalog_related_status', 'post') . "'");
@@ -35,6 +38,9 @@ class Model_Admin_Related extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_lines_single', `value` = '" . $this->request->gethtml('catalog_related_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_lines_multi', `value` = '" . $this->request->gethtml('catalog_related_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_lines_char', `value` = '" . $this->request->gethtml('catalog_related_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_slimit', `value` = '" . $this->request->gethtml('catalog_related_slimit', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_scolumns', `value` = '" . $this->request->gethtml('catalog_related_scolumns', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'related', `key` = 'related_slider', `value` = '" . $this->request->gethtml('catalog_related_slider', 'post') . "'");
 	}
 	function get_related(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'related'");

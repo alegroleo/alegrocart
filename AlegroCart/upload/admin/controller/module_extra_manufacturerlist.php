@@ -50,6 +50,8 @@ class ControllerModuleExtraManufacturerList extends Controller {
 		$view->set('entry_ratings',$this->language->get('entry_ratings'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
+		$view->set('entry_columnb', $this->language->get('entry_columnb'));
+		$view->set('entry_sliderb', $this->language->get('entry_sliderb'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -61,6 +63,7 @@ class ControllerModuleExtraManufacturerList extends Controller {
 
 		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
 		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
+		$view->set('explanation_entry_slimit', $this->language->get('explanation_entry_slimit'));
 		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
 		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
 		$view->set('explanation_entry_total', $this->language->get('explanation_entry_total'));
@@ -85,6 +88,7 @@ class ControllerModuleExtraManufacturerList extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 		
 		$view->set('column_data', array(3,4,5));
+		$view->set('scolumn_data', array(3,4,5));
 		$view->set('image_displays',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 
 		if (!$this->request->isPost()) {
@@ -150,7 +154,21 @@ class ControllerModuleExtraManufacturerList extends Controller {
 		} else {
 			$view->set('catalog_manufacturerlist_lines_char', @$setting_info['catalog']['manufacturerlist_lines_char']);
 		}
-
+		if ($this->request->has('catalog_manufacturerlist_slider', 'post')) {
+			$view->set('catalog_manufacturerlist_slider', $this->request->gethtml('catalog_manufacturerlist_slider', 'post'));
+		} else {
+			$view->set('catalog_manufacturerlist_slider', @$setting_info['catalog']['manufacturerlist_slider']);
+		}
+		if ($this->request->has('catalog_manufacturerlist_slimit', 'post')) {
+			$view->set('catalog_manufacturerlist_slimit', $this->request->gethtml('catalog_manufacturerlist_slimit', 'post'));
+		} else {
+			$view->set('catalog_manufacturerlist_slimit', @$setting_info['catalog']['manufacturerlist_slimit']);
+		}
+		if ($this->request->has('catalog_manufacturerlist_scolumns', 'post')) {
+			$view->set('catalog_manufacturerlist_scolumns', $this->request->gethtml('catalog_manufacturerlist_scolumns', 'post'));
+		} else {
+			$view->set('catalog_manufacturerlist_scolumns', @$setting_info['catalog']['manufacturerlist_scolumns']);
+		}
 		$this->template->set('content', $view->fetch('content/module_extra_manufacturerlist.tpl'));
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));

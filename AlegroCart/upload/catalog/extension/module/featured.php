@@ -27,16 +27,16 @@ class ModuleFeatured extends Controller {
 			$view->set('text_model_number', $language->get('text_model_number')); 
 			$view->set('tax_included', $config->get('config_tax'));
 
-			if ($config->get('featured_limit') == '0') {
-				$limit = '';
+			if ($config->get('featured_slider')){
+				$limit = $config->get('featured_slimit') == '0' ? '': (int)$config->get('featured_slimit');
+				$columns = $config->get('featured_scolumns');
 			} else {
-				$limit = (int)$config->get('featured_limit');
+				$limit = $config->get('featured_limit') == '0' ? '': (int)$config->get('featured_limit');
+				$columns = $config->get('featured_columns');
 			}
-
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['featured']; // Template Manager 
 
-			$columns = $config->get('featured_columns');
 			if($columns == 1 && $location == 'content'){
 				$image_width = $config->get('featured_image_width');
 				$image_height = $config->get('featured_image_height');
@@ -188,6 +188,7 @@ class ModuleFeatured extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
+			$view->set('slider', $config->get('featured_slider'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
 			$view->set('regular_price', $language->get('regular_price'));

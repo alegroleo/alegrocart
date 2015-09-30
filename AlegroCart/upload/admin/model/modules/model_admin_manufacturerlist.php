@@ -22,6 +22,9 @@ class Model_Admin_ManufacturerList extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_ratings', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_lines_char', value = '108'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_slimit', value = '4'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_scolumns', value = '6'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_slider', value = '0'");
 	}
 	function update_manufacturerlist(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_status', `value` = '" . $this->request->gethtml('catalog_manufacturerlist_status', 'post') . "'");
@@ -35,6 +38,9 @@ class Model_Admin_ManufacturerList extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_ratings', `value` = '" . $this->request->gethtml('catalog_manufacturerlist_ratings', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_lines_multi', `value` = '" . $this->request->gethtml('catalog_manufacturerlist_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_lines_char', `value` = '" . $this->request->gethtml('catalog_manufacturerlist_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_slimit', `value` = '" . $this->request->gethtml('catalog_manufacturerlist_slimit', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_scolumns', `value` = '" . $this->request->gethtml('catalog_manufacturerlist_scolumns', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'manufacturerlist', `key` = 'manufacturerlist_slider', `value` = '" . $this->request->gethtml('catalog_manufacturerlist_slider', 'post') . "'");
 	}
 	function get_manufacturerlist(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'manufacturerlist'");

@@ -1,22 +1,22 @@
 <?php // Featured AlegroCart
 class ControllerModuleExtraFeatured extends Controller {
 	var $error = array();  	// All References change to module_extra_ due to new module loader  
- 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->modelFeatured = $model->get('model_admin_featured');
-		
+	function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->modelFeatured	= $model->get('model_admin_featured');
+
 		$this->language->load('controller/module_extra_featured.php');
 	}
 
@@ -31,9 +31,9 @@ class ControllerModuleExtraFeatured extends Controller {
 			
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 		}
-		
+
 		$view = $this->locator->create('template');
-		
+
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_module', $this->language->get('heading_module'));
 		$view->set('heading_description', $this->language->get('heading_description'));
@@ -52,7 +52,9 @@ class ControllerModuleExtraFeatured extends Controller {
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
-		
+		$view->set('entry_columnb', $this->language->get('entry_columnb'));
+		$view->set('entry_sliderb', $this->language->get('entry_sliderb'));
+
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -63,6 +65,7 @@ class ControllerModuleExtraFeatured extends Controller {
 
 		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
 		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
+		$view->set('explanation_entry_slimit', $this->language->get('explanation_entry_slimit'));
 		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
 		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
 		$view->set('explanation_entry_image_display', $this->language->get('explanation_entry_image_display'));
@@ -72,15 +75,15 @@ class ControllerModuleExtraFeatured extends Controller {
 		$view->set('explanation_entry_lines_single', $this->language->get('explanation_entry_lines_single'));
 		$view->set('explanation_entry_lines_multi', $this->language->get('explanation_entry_lines_multi'));
 		$view->set('explanation_entry_char', $this->language->get('explanation_entry_char'));
-
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 
 		$view->set('action', $this->url->ssl('module_extra_featured'));
 		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
-		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));	
+		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 		$view->set('column_data', array(1,2,3,4,5));
+		$view->set('scolumn_data', array(2,3,4,5));
 		$view->set('image_displays',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 		
 		$this->session->set('cdx',md5(mt_rand()));
@@ -150,6 +153,21 @@ class ControllerModuleExtraFeatured extends Controller {
 		} else {
 			$view->set('catalog_featured_lines_char', @$setting_info['catalog']['featured_lines_char']);
 		}
+		if ($this->request->has('catalog_featured_slider', 'post')) {
+			$view->set('catalog_featured_slider', $this->request->gethtml('catalog_featured_slider', 'post'));
+		} else {
+			$view->set('catalog_featured_slider', @$setting_info['catalog']['featured_slider']);
+		}
+		if ($this->request->has('catalog_featured_slimit', 'post')) {
+			$view->set('catalog_featured_slimit', $this->request->gethtml('catalog_featured_slimit', 'post'));
+		} else {
+			$view->set('catalog_featured_slimit', @$setting_info['catalog']['featured_slimit']);
+		}
+		if ($this->request->has('catalog_featured_scolumns', 'post')) {
+			$view->set('catalog_featured_scolumns', $this->request->gethtml('catalog_featured_scolumns', 'post'));
+		} else {
+			$view->set('catalog_featured_scolumns', @$setting_info['catalog']['featured_scolumns']);
+		}
 
 		$this->template->set('content', $view->fetch('content/module_extra_featured.tpl'));
 		$this->template->set($this->module->fetch());
@@ -181,7 +199,7 @@ class ControllerModuleExtraFeatured extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
+		}
 
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));	
 	}
@@ -192,7 +210,7 @@ class ControllerModuleExtraFeatured extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
+		}
 
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}

@@ -23,6 +23,9 @@ class Model_Admin_Latest extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_single', value = '6'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_char', value = '108'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_slimit', value = '4'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_scolumns', value = '6'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_slider', value = '0'");
 	}
 	function update_latest(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_status', `value` = '" . $this->request->gethtml('catalog_latest_status', 'post') . "'");
@@ -37,6 +40,9 @@ class Model_Admin_Latest extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_single', `value` = '" . $this->request->gethtml('catalog_latest_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_multi', `value` = '" . $this->request->gethtml('catalog_latest_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_lines_char', `value` = '" . $this->request->gethtml('catalog_latest_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_slimit', `value` = '" . $this->request->gethtml('catalog_latest_slimit', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_scolumns', `value` = '" . $this->request->gethtml('catalog_latest_scolumns', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'latest', `key` = 'latest_slider', `value` = '" . $this->request->gethtml('catalog_latest_slider', 'post') . "'");
 	}
 	function get_latest(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'latest'");

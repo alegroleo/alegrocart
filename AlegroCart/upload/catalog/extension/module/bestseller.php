@@ -32,16 +32,16 @@ class ModuleBestseller extends Controller {
 				$bestseller_total = ' limit ' . (int)$config->get('bestseller_total');
 			}
 
-		if ($config->get('bestseller_limit') == '0') {
-			$limit = '';
-		} else {
-			$limit = (int)$config->get('bestseller_limit');
-		}
-
+			if ($config->get('bestseller_slider')){
+				$limit = $config->get('bestseller_slimit') == '0' ? '': (int)$config->get('bestseller_slimit');
+				$columns = $config->get('bestseller_scolumns');
+			} else {
+				$limit = $config->get('bestseller_limit') == '0' ? '': (int)$config->get('bestseller_limit');
+				$columns = $config->get('bestseller_columns');
+			}
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['bestseller']; // Template Manager 
 
-			$columns = $config->get('bestseller_columns');
 			if($columns == 1 && $location == 'content'){
 				$image_width = $config->get('bestseller_image_width');
 				$image_height = $config->get('bestseller_image_height');
@@ -203,6 +203,7 @@ class ModuleBestseller extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
+			$view->set('slider', $config->get('bestseller_slider'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
 			$view->set('regular_price', $language->get('regular_price'));

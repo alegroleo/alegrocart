@@ -33,16 +33,16 @@ class ModuleLatest extends Controller {
 			} else {
 				$latest_total = ' limit ' . (int)$config->get('latest_total');
 			}
-			if ($config->get('latest_limit') == '0') {
-				$limit = '';
+			if ($config->get('latest_slider')){
+				$limit = $config->get('latest_slimit') == '0' ? '': (int)$config->get('latest_slimit');
+				$columns = $config->get('latest_scolumns');
 			} else {
-				$limit = (int)$config->get('latest_limit');
+				$limit = $config->get('latest_limit') == '0' ? '': (int)$config->get('latest_limit');
+				$columns = $config->get('latest_columns');
 			}
-
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['latest']; // Template Manager 
 
-			$columns = $config->get('latest_columns');
 			if($columns == 1 && $location == 'content'){ 
 				$image_width = $config->get('latest_image_width');
 				$image_height = $config->get('latest_image_height');
@@ -193,6 +193,7 @@ class ModuleLatest extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
+			$view->set('slider', $config->get('latest_slider'));
 			$view->set('text_options', $language->get('text_options'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));

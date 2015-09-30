@@ -22,6 +22,9 @@ class Model_Admin_CategoryList extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_ratings', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_lines_char', value = '108'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_slimit', value = '4'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_scolumns', value = '6'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_slider', value = '0'");
 	}
 	function update_categorylist(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_status', `value` = '" . $this->request->gethtml('catalog_categorylist_status', 'post') . "'");
@@ -35,6 +38,9 @@ class Model_Admin_CategoryList extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_ratings', `value` = '" . $this->request->gethtml('catalog_categorylist_ratings', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_lines_multi', `value` = '" . $this->request->gethtml('catalog_categorylist_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_lines_char', `value` = '" . $this->request->gethtml('catalog_categorylist_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_slimit', `value` = '" . $this->request->gethtml('catalog_categorylist_slimit', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_scolumns', `value` = '" . $this->request->gethtml('catalog_categorylist_scolumns', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'categorylist', `key` = 'categorylist_slider', `value` = '" . $this->request->gethtml('catalog_categorylist_slider', 'post') . "'");
 	}
 	function get_categorylist(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'categorylist'");

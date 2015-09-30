@@ -24,6 +24,9 @@ class Model_Admin_Bestseller extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_lines_single', value = '6'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_lines_char', value = '108'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_slimit', value = '4'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_scolumns', value = '6'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_slider', value = '0'");
 	}
 	function update_bestseller(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_status', `value` = '" . $this->request->gethtml('catalog_bestseller_status', 'post') . "'");
@@ -39,6 +42,9 @@ class Model_Admin_Bestseller extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_lines_single', `value` = '" . $this->request->gethtml('catalog_bestseller_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_lines_multi', `value` = '" . $this->request->gethtml('catalog_bestseller_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_lines_char', `value` = '" . $this->request->gethtml('catalog_bestseller_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_slimit', `value` = '" . $this->request->gethtml('catalog_bestseller_slimit', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_scolumns', `value` = '" . $this->request->gethtml('catalog_bestseller_scolumns', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'bestseller', `key` = 'bestseller_slider', `value` = '" . $this->request->gethtml('catalog_bestseller_slider', 'post') . "'");
 	}
 	function get_bestseller(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'bestseller'");

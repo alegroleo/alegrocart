@@ -50,6 +50,8 @@ class ControllerModuleExtraRecently extends Controller {
 		$view->set('entry_lines_single',$this->language->get('entry_lines_single'));
 		$view->set('entry_lines_multi',$this->language->get('entry_lines_multi'));
 		$view->set('entry_lines_char',$this->language->get('entry_lines_char'));
+		$view->set('entry_columnb', $this->language->get('entry_columnb'));
+		$view->set('entry_sliderb', $this->language->get('entry_sliderb'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -61,6 +63,7 @@ class ControllerModuleExtraRecently extends Controller {
 
 		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
 		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
+		$view->set('explanation_entry_slimit', $this->language->get('explanation_entry_slimit'));
 		$view->set('explanation_entry_height', $this->language->get('explanation_entry_height'));
 		$view->set('explanation_entry_width', $this->language->get('explanation_entry_width'));
 		$view->set('explanation_entry_image_display', $this->language->get('explanation_entry_image_display'));
@@ -85,6 +88,7 @@ class ControllerModuleExtraRecently extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 		
 		$view->set('column_data', array(1,2,3,4,5));
+		$view->set('scolumn_data', array(2,3,4,5));
 		$view->set('image_displays',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
 
 		if (!$this->request->isPost()) {
@@ -149,12 +153,23 @@ class ControllerModuleExtraRecently extends Controller {
 		} else {
 			$view->set('catalog_recently_lines_char', @$setting_info['catalog']['recently_lines_char']);
 		}
-		
-		
+		if ($this->request->has('catalog_recently_slider', 'post')) {
+			$view->set('catalog_recently_slider', $this->request->gethtml('catalog_recently_slider', 'post'));
+		} else {
+			$view->set('catalog_recently_slider', @$setting_info['catalog']['recently_slider']);
+		}
+		if ($this->request->has('catalog_recently_slimit', 'post')) {
+			$view->set('catalog_recently_slimit', $this->request->gethtml('catalog_recently_slimit', 'post'));
+		} else {
+			$view->set('catalog_recently_slimit', @$setting_info['catalog']['recently_slimit']);
+		}
+		if ($this->request->has('catalog_recently_scolumns', 'post')) {
+			$view->set('catalog_recently_scolumns', $this->request->gethtml('catalog_recently_scolumns', 'post'));
+		} else {
+			$view->set('catalog_recently_scolumns', @$setting_info['catalog']['recently_scolumns']);
+		}
 		$this->template->set('content', $view->fetch('content/module_extra_recently.tpl'));
-
 		$this->template->set($this->module->fetch());
-
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 

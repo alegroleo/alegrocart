@@ -19,10 +19,12 @@ $_['entry_columns']       = 'Number of Display Columns:';
 $_['entry_lines_single']  = 'Number of Lines for Single Column:';
 $_['entry_lines_multi']   = 'Number of Lines for Multiple Column:';
 $_['entry_lines_char']    = 'Number of characters for Multiple Column:';
+$_['entry_sliderb']        = 'Slider Based Display';
+$_['entry_columnb']        = 'Column Based Display';
 
 // Explanation
 $_['explanation_entry_status']		= '';
-$_['explanation_entry_limit']		= 'Number of records to display (should be a multiple of columns).';
+$_['explanation_entry_limit']		= 'Number of records to display (should be a multiple of display columns).';
 $_['explanation_entry_height']		= '';
 $_['explanation_entry_width']		= '';
 $_['explanation_entry_image_display']	= '';
@@ -32,6 +34,7 @@ $_['explanation_entry_columns']		= 'Sets the number of records to display in eac
 $_['explanation_entry_lines_single']	= 'Sets how many description lines are displayed. 0 will hide description. Default lines for single column is 6. ';
 $_['explanation_entry_lines_multi']	= 'Sets how many description lines are displayed if number of display columns is 2 or 3. 0 will hide description. Default lines for multiple column is 4.';
 $_['explanation_entry_char']		= 'Sets how many description characters are displayed if number of display columns is 4 or 5. 0 will hide description. Default number of characters is 108.';
+$_['explanation_entry_slimit']		= 'Total number of slides to display.';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify related products module';

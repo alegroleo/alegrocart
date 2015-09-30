@@ -23,6 +23,9 @@ class Model_Admin_Alsobought extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_lines_single', value = '6'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_lines_multi', value = '4'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_lines_char', value = '108'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_slimit', value = '4'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_scolumns', value = '6'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_slider', value = '0'");
 	}
 	function update_alsobought(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_status', `value` = '" . $this->request->gethtml('catalog_alsobought_status', 'post') . "'");
@@ -37,6 +40,9 @@ class Model_Admin_Alsobought extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_lines_single', `value` = '" . $this->request->gethtml('catalog_alsobought_lines_single', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_lines_multi', `value` = '" . $this->request->gethtml('catalog_alsobought_lines_multi', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_lines_char', `value` = '" . $this->request->gethtml('catalog_alsobought_lines_char', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_slimit', `value` = '" . $this->request->gethtml('catalog_alsobought_slimit', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_scolumns', `value` = '" . $this->request->gethtml('catalog_alsobought_scolumns', 'post') . "'");
+		$this->database->query("insert into setting set type = 'catalog', `group` = 'alsobought', `key` = 'alsobought_slider', `value` = '" . $this->request->gethtml('catalog_alsobought_slider', 'post') . "'");
 	}
 	function get_alsobought(){
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'alsobought'");

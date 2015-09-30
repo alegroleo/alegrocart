@@ -49,7 +49,7 @@ $_['column_action']        = 'Action';
 
 // Entry
 $_['entry_name']           = 'Product Name (Item Number):';
-$_['entry_description']    = 'Description:<br><br><br>Use <b>SHIFT->ENTER</b> for<br>line feed or empty lines<br>for spacing.<br>ENTER only produces<br>Paragraph Tags which are<br>Stripped.';
+$_['entry_description']    = 'Description:';
 $_['entry_model']          = 'Model:';
 $_['entry_model_number']   = 'Model Number:';
 $_['entry_model_numbers']   = 'Model Number';
@@ -124,6 +124,8 @@ $_['explanation_min_qty']		= 'Customers cannot order less than this quantity.';
 $_['explanation_max_qty']		= 'Customers cannot order more than this quantity. Default 0 means that it won\'t be taken into consideration.';
 $_['explanation_multiple']		= 'If set to e.g. 2 customers can order 2,4,6 etc. Default 0 means that it won\'t be taken into consideration.';
 $_['explanation_shipping_time']		= 'Days or range of days the order is ready to leave your warehouse. Settable if the product is shippable. Enter the same number in both boxes to set days.';
+$_['explanation_description']	= 'Tips to enhance product description display.<br><b>Single column: </b> End each line of text with &lt;br /&gt; (<b>SHIFT ENTER</b>) tag. These tags are used to determine the number of lines to display as set in settings or specific modules.<br><b>2 or more columns: </b> It is best to have entries in alternate description which will be used for these formats if available. Try to limit each line to 30 characters and end with &lt;br /&gt; tag.<br>ENTER only produces paragraph tags which are stripped. 
+For more detailed information, go to http://forum.alegrocart.com/viewtopic.php?f=22&t=47';
 
 // Error
 $_['error_permission']			= 'Warning: You do not have permission to modify products';

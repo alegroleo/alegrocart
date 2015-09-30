@@ -26,7 +26,15 @@
 		$heading_info = "";
 		$heading_title = $list['name'];
 		$products = $list['products'];
-		include $shared_path . 'multiple_columns.tpl';
+		$id = $list['id'];
+		if (isset($slider) && $slider) {
+			$head_def->setcss($this->style . "/css/slick.css");
+			$head_def->setcss($this->style . "/css/slick-theme.css");
+			$head_def->set_javascript("slider/slick.min.js");
+			include $shared_path . 'slider_columns.tpl';
+		} else {
+			include $shared_path . 'multiple_columns.tpl';
+		}
 	}
   }
   echo '<br>';

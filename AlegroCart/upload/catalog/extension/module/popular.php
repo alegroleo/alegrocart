@@ -32,17 +32,16 @@ class ModulePopular extends Controller {
 			} else {
 				$popular_total = ' limit ' . (int)$config->get('popular_total');
 			}
-			
-			if ($config->get('popular_limit') == '0') {
-				$limit = '';
+			if ($config->get('popular_slider')){
+				$limit = $config->get('popular_slimit') == '0' ? '': (int)$config->get('popular_slimit');
+				$columns = $config->get('popular_scolumns');
 			} else {
-				$limit = (int)$config->get('popular_limit');
+				$limit = $config->get('popular_limit') == '0' ? '': (int)$config->get('popular_limit');
+				$columns = $config->get('popular_columns');
 			}
-
 			$controller = $this->modelCore->controller; // Template Manager 
 			$location = $this->modelCore->module_location['popular']; // Template Manager 
 
-			$columns = $config->get('popular_columns');
 			if($columns == 1 && $location == 'content'){
 				$image_width = $config->get('popular_image_width');
 				$image_height = $config->get('popular_image_height');
@@ -192,6 +191,7 @@ class ModulePopular extends Controller {
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('addtocart_quantity_box', $config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $config->get('addtocart_quantity_max'));
+			$view->set('slider', $config->get('popular_slider'));
 			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
 			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
 			$view->set('text_options', $language->get('text_options'));

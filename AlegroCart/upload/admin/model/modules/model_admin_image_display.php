@@ -1,6 +1,6 @@
 <?php //AdminModelImageDisplay AlegroCart
 class Model_Admin_Image_Display extends Model {
-	function __construct(&$locator) {	
+	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
 		$this->language =& $locator->get('language');
@@ -22,13 +22,36 @@ class Model_Admin_Image_Display extends Model {
 	function delete_description($image_display_id){
 		$this->database->query("delete from image_display_description where image_display_id ='". (int)$image_display_id . "'");
 	}
+	function delete_slides($image_display_id){
+		$this->database->query("DELETE FROM image_display_slides WHERE image_display_id ='". (int)$image_display_id . "'");
+	}
 	function insert_description(){
 		$insert_id = $this->database->getLastId();
 		$this->write_description($insert_id);
 	}
+	function insert_slides(){
+		$insert_id = $this->database->getLastId();
+		$this->write_slides($insert_id);
+	}
 	function update_description(){
 		$insert_id = (int)$this->request->gethtml('image_display_id');
 		$this->write_description($insert_id);
+	}
+	function update_slides(){
+		$insert_id = (int)$this->request->gethtml('image_display_id');
+		$this->write_slides($insert_id);
+	}
+	function write_slides($insert_id){
+		$sort_order = $this->request->get('sort_order', 'post');
+		$sliderimage_id = $this->request->gethtml('sliderimage_id', 'post');
+		$no_image_id = $this->request->gethtml('no_image_id', 'post');
+
+		foreach($this->request->gethtml('sliderimage_id', 'post', array()) as $key => $value){
+			foreach ($sliderimage_id[$key] as $k => $v) {
+				$sql = "INSERT INTO image_display_slides SET image_display_id = '?', language_id = '?', sort_order = '?', image_id = '?'";
+				$this->database->query($this->database->parse($sql, $insert_id, $key, $sort_order[$key][$k], $sliderimage_id[$key][$k] != $no_image_id ? $sliderimage_id[$key][$k]: '0'));
+			}
+		}
 	}
 	function write_description($insert_id){
 		$flash = $this->request->get('flash', 'post');
@@ -51,6 +74,10 @@ class Model_Admin_Image_Display extends Model {
 	function get_descriptions($image_display_id, $language_id){
 		$result = $this->database->getRow("select flash, flash_width, flash_height, flash_loop, image_id, image_width, image_height from image_display_description where image_display_id = '" . (int)$image_display_id . "' and language_id = '" . (int)$language_id . "'");
 		return $result;
+	}
+	function get_slides($image_display_id, $language_id){
+		$results = $this->database->getRows("SELECT image_id AS sliderimage_id, sort_order FROM image_display_slides WHERE image_display_id = '" . (int)$image_display_id . "' and language_id = '" . (int)$language_id . "'");
+		return $results;
 	}
 	function get_page(){
 		if (!$this->session->get('imagedisplay.search')){

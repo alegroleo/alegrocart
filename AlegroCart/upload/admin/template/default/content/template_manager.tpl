@@ -24,7 +24,6 @@
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
-<script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
 
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
@@ -60,7 +59,7 @@
 		    <tr>
 			  <td class="set"><?php echo $entry_columns;?></td>
 			  <td>
-			    <select id="tpl_columns" name="tpl_columns" onchange="set_column_right(); $('#tpl_colors').load('index.php?controller=template_manager&action=getColors&columns='+this.value);">
+			    <select id="tpl_columns" name="tpl_columns" onchange="set_columns(); $('#tpl_colors').load('index.php?controller=template_manager&action=getColors&columns='+this.value);">
 				  <?php foreach($columns as $pagecolumn){?>
 				    <?php if ($pagecolumn == $tpl_columns){?>
 					  <option value="<?php echo $pagecolumn == 'default' ? 0 : $pagecolumn;?>" selected><?php echo $pagecolumn;?></option>
@@ -122,7 +121,7 @@
 				<?php }?>
 		      </select></td>
 			  <td class="set"><?php echo $entry_sortorder;?></td>
-			  <td><input class="validate_int" id="header<?php echo $i; ?>sort_order" type="text" name="header[<?php echo $i; ?>][sort_order]" value="<?php echo $header_info['sort_order'];?>"></td>
+			  <td><input class="validate_int" id="header<?php echo $i; ?>sort_order" type="text" size="2" name="header[<?php echo $i; ?>][sort_order]" value="<?php echo $header_info['sort_order'];?>"></td>
 			  <input type="hidden" name="header[<?php echo $i; ?>][location_id]" value="<?php echo $header_info['location_id']?>">
 			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('header_<?php echo $i;?>');"></td> 
 		    </tr>
@@ -159,7 +158,7 @@
 				<?php }?>
 		      </select></td>
 			  <td class="set"><?php echo $entry_sortorder;?></td>
-			  <td><input class="validate_int" id="extra<?php echo $i; ?>sort_order" type="text" name="extra[<?php echo $i; ?>][sort_order]" value="<?php echo $extra_info['sort_order'];?>"></td>
+			  <td><input class="validate_int" id="extra<?php echo $i; ?>sort_order" type="text" size="2" name="extra[<?php echo $i; ?>][sort_order]" value="<?php echo $extra_info['sort_order'];?>"></td>
 			  <input type="hidden" name="extra[<?php echo $i; ?>][location_id]" value="<?php echo $extra_info['location_id']?>">
 			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('extra_<?php echo $i;?>');"></td> 
 		    </tr>
@@ -195,14 +194,14 @@
 				<?php }?>
 		      </select></td>
 			  <td class="set"><?php echo $entry_sortorder;?></td>
-			  <td><input class="validate_int" id="column<?php echo $i; ?>sort_order" type="text" name="column[<?php echo $i; ?>][sort_order]" value="<?php echo $column_info['sort_order'];?>"></td>
+			  <td><input class="validate_int" id="column<?php echo $i; ?>sort_order" type="text" size="2" name="column[<?php echo $i; ?>][sort_order]" value="<?php echo $column_info['sort_order'];?>"></td>
 			  <input type="hidden" name="column[<?php echo $i; ?>][location_id]" value="<?php echo $column_info['location_id']?>">
 			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('column_<?php echo $i;?>');"></td> 
 		    </tr>
 		    <?php $i++; ?>
 		    <?php }?>
 		  </table>
-          <table>
+          <table id="columntablebutton">
             <tr>
               <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addModule('columntable',<?php echo $column_id;?>);"></td>
             </tr>
@@ -231,7 +230,7 @@
 				<?php }?>
 		      </select></td>
 			  <td class="set"><?php echo $entry_sortorder;?></td>
-			  <td><input class="validate_int" id="content<?php echo $i; ?>sort_order" type="text" name="content[<?php echo $i; ?>][sort_order]" value="<?php echo $content_info['sort_order'];?>"></td>
+			  <td><input class="validate_int" id="content<?php echo $i; ?>sort_order" type="text" size="2" name="content[<?php echo $i; ?>][sort_order]" value="<?php echo $content_info['sort_order'];?>"></td>
 			  <input type="hidden" name="content[<?php echo $i; ?>][location_id]" value="<?php echo $content_info['location_id']?>">
 			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('content_<?php echo $i;?>');"></td> 
 		    </tr>
@@ -267,7 +266,7 @@
 				<?php }?>
 		      </select></td>
 			  <td class="set"><?php echo $entry_sortorder;?></td>
-			  <td><input class="validate_int" id="columnright<?php echo $i; ?>sort_order" type="text" name="columnright[<?php echo $i; ?>][sort_order]" value="<?php echo $columnright_info['sort_order'];?>"></td>
+			  <td><input class="validate_int" id="columnright<?php echo $i; ?>sort_order" type="text" size="2" name="columnright[<?php echo $i; ?>][sort_order]" value="<?php echo $columnright_info['sort_order'];?>"></td>
 			  <input type="hidden" name="columnright[<?php echo $i; ?>][location_id]" value="<?php echo $columnright_info['location_id']?>">
 			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('columnright_<?php echo $i;?>');"></td> 
 		    </tr>
@@ -303,7 +302,7 @@
 				<?php }?>
 		      </select></td>
 			  <td class="set"><?php echo $entry_sortorder;?></td>
-			  <td><input class="validate_int" id="footer<?php echo $i; ?>sort_order" type="text" name="footer[<?php echo $i; ?>][sort_order]" value="<?php echo $footer_info['sort_order'];?>"></td>
+			  <td><input class="validate_int" id="footer<?php echo $i; ?>sort_order" type="text" size="2" name="footer[<?php echo $i; ?>][sort_order]" value="<?php echo $footer_info['sort_order'];?>"></td>
 			  <input type="hidden" name="footer[<?php echo $i; ?>][location_id]" value="<?php echo $footer_info['location_id']?>">
 			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('footer_<?php echo $i;?>');"></td> 
 		    </tr>
@@ -339,7 +338,7 @@
 				<?php }?>
 		      </select></td>
 			  <td class="set"><?php echo $entry_sortorder;?></td>
-			  <td><input class="validate_int" id="pagebottom<?php echo $i; ?>sort_order" type="text" name="pagebottom[<?php echo $i; ?>][sort_order]" value="<?php echo $pagebottom_info['sort_order'];?>"></td>
+			  <td><input class="validate_int" id="pagebottom<?php echo $i; ?>sort_order" type="text" size="2" name="pagebottom[<?php echo $i; ?>][sort_order]" value="<?php echo $pagebottom_info['sort_order'];?>"></td>
 			  <input type="hidden" name="pagebottom[<?php echo $i; ?>][location_id]" value="<?php echo $pagebottom_info['location_id']?>">
 			  <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('pagebottom_<?php echo $i;?>');"></td> 
 		    </tr>
@@ -366,7 +365,7 @@
   //--></script>
   <script type="text/javascript"><!--
 $(document).ready(function(){
-	set_column_right();
+	set_columns();
 }); 
 function set_controller(){
 	var Controller = $('#controllers').val();
@@ -375,20 +374,28 @@ function set_controller(){
 	$('#text_tpl_controller').val(ControllerText);
 	$(".heading em").text(ControllerText);
 } 
-function set_column_right(){
+function set_columns(){
 	var Columns;
 	if($('#tpl_columns').val() > 0) {
 		Columns = $('#tpl_columns').val();
 	} else {
 		Columns = $('#default_columns').val();
 	}
-	if(Columns == 2){
+	$('#columntable').show();
+	$('#columnrighttable').show();
+	$('#columntablebutton').show();
+	$('#columnrightbutton').show();
+	if(Columns == "1"){
 		$('#columnrighttable').empty();
-		
+		$('#columntable').empty();
 		$('#columnrightbutton').hide();
-	} else {
-		$('#columnrighttable').show();
-		$('#columnrightbutton').show();
+		$('#columntablebutton').hide();
+	} else if(Columns == "1.2"){
+		$('#columnrighttable').empty();
+		$('#columnrightbutton').hide();
+	} else if(Columns == "2.1"){
+		$('#columntable').empty();
+		$('#columntablebutton').hide();
 	}
 }
 function addModule(Location,Location_id) {

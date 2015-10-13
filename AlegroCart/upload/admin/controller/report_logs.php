@@ -62,18 +62,21 @@ class ControllerReportLogs extends Controller {
 		}
 		
 		$view->set('log_file', $this->get_file());
-				
+
 		$this->template->set('content', $view->fetch('content/report_logs.tpl'));
 		$this->template->set($this->module->fetch());
-		
 		
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	
 	function get_file(){
 		$file = '';
+		$log_path = DIR_BASE . 'logs';
 		if($this->request->gethtml('file_path', 'post')){
-			$file = file_get_contents($this->request->gethtml('file_path', 'post'));
+			$file_path = $this->request->gethtml('file_path', 'post');
+			if(strpos($file_path,$log_path) !== FALSE){
+				$file = file_get_contents($this->request->gethtml('file_path', 'post'));
+			}
 		}
 		if($this->request->gethtml('decrytion', 'post')){
 			$file = $this->ccvalidation->deCrypt($file, $this->config->get('config_token'));

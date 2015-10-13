@@ -17,13 +17,13 @@
       <?php if (isset($agree)) { ?>
 	    <table>
           <tr>
-            <td align="right" width="290px"><?php echo $agree; ?></td>
+            <td class="left" width="auto"><?php echo $agree; ?></td>
 		    <?php if ($agreed == 1) { ?>
-		      <td align="left" width="50px"><input type="checkbox" id="agreed" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true; enable_input(this.checked)" CHECKED></td>
+		      <td class="left" width="50px"><input type="checkbox" id="agreed" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true; enable_input(this.checked)" CHECKED></td>
 		    <?php } else { ?>
-		      <td align="left" width="50px"><input type="checkbox" id="agreed" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true; enable_input(this.checked)"></td>
+		      <td class="left" width="50px"><input type="checkbox" id="agreed" name="agreed" value="1" onclick="document.getElementById('submit').disabled = (this.checked == true) ? false : true; enable_input(this.checked)"></td>
 		    <?php } ?>
-			<td align="left" width="250px"><?php echo $text_required;?></td>
+			<td class="right" width="250px"><?php echo $text_required;?></td>
           </tr>
 	    </table>
 		<input type="hidden" id="information" value="<?php echo $information;?>">
@@ -33,7 +33,7 @@
     <div class="b">
       <table>
         <tr>
-          <td style="width:150px"><span class="required">*</span> <?php echo $entry_firstname; ?></td>
+          <td class="t"><span class="required">*</span> <?php echo $entry_firstname; ?></td>
           <td><input type="text" name="firstname" id="firstname"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $firstname; ?>" class="validate_alpha">
             <?php if ($error_firstname) { ?>
             <span class="error"><?php echo $error_firstname; ?></span>
@@ -70,7 +70,7 @@
     <div class="d">
       <table>
         <tr>
-          <td style="width:150px"><?php echo $entry_company; ?></td>
+          <td class="t"><?php echo $entry_company; ?></td>
           <td><input type="text" name="company" id="company"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $company; ?>" class="validate_alpha_num"></td>
         </tr>
         <tr>
@@ -123,7 +123,7 @@
     <div class="f">
       <table>
         <tr>
-          <td style="width:150px"><span class="required">*</span> <?php echo $entry_password; ?></td>
+          <td class="t"><span class="required">*</span> <?php echo $entry_password; ?></td>
           <td><input type="password" name="password" id="password"<?php if(isset($agree) && (@!$agreed)) echo ' disabled="disabled"';?> value="<?php echo $password; ?>">
             <?php if ($error_password) { ?>
             <span class="error"><?php echo $error_password; ?></span>
@@ -143,7 +143,7 @@
     <div class="f">
       <table>
         <tr>
-          <td style="width:150px"><?php echo $entry_newsletter; ?></td>
+          <td class="t"><?php echo $entry_newsletter; ?></td>
           <td><?php if ($newsletter == 1) { ?>
             <input type="radio" name="newsletter" value="1" CHECKED>
             <?php echo $text_yes; ?>
@@ -161,7 +161,7 @@
 	<?php }?>
     <?php if (@$captcha) { ?>
 	<div class="captcha">
-		  <img src="<?php echo $captcha;?>" title="<?php echo $text_captcha;?>" alt="<?php echo $text_captcha;?>"> 
+		  <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $captcha;?>" title="<?php echo $text_captcha;?>" alt="<?php echo $text_captcha;?>"> 
 	  <table>
 		<tr>
 		  <td>
@@ -183,7 +183,7 @@
   <div class="buttons">
     <table>
       <tr>
-        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>" id="submit"<?php if(isset($agree) && (@!$agreed)) echo ' DISABLED';?>></td>
+        <td class="right"><input type="submit" value="<?php echo $button_continue; ?>" id="submit"<?php if(isset($agree) && (@!$agreed)) echo ' DISABLED';?>></td>
       </tr>
     </table>
   </div>

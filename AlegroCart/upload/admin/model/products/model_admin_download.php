@@ -10,7 +10,7 @@ class Model_Admin_Download extends Model {
 	}
 	function insert_download(){
 		$sql = "insert into download set filename = '?', mask = '?', remaining = '?', date_added = now()";
-	$this->database->query($this->database->parse($sql, $this->upload->getName('download'), $this->request->gethtml('mask', 'post') ? $this->request->gethtml('mask', 'post') : $this->upload->getName('download'), $this->request->gethtml('remaining', 'post')));
+	$this->database->query($this->database->parse($sql, $this->request->gethtml('fileName', 'post'), $this->request->gethtml('mask', 'post') ? $this->request->gethtml('mask', 'post') : $this->upload->getName('download'), $this->request->gethtml('remaining', 'post')));
 	}
 	function insert_downloads($filename, $mask){
 		$sql = "insert into download set filename = '?', mask = '?', remaining = '?', date_added = now()";
@@ -27,7 +27,7 @@ class Model_Admin_Download extends Model {
 		$sql = "update download set mask = '?', remaining = '?' where download_id = '?'";
         		$this->database->query($this->database->parse($sql, $this->request->gethtml('mask', 'post'), $this->request->gethtml('remaining', 'post'), $this->request->gethtml('download_id')));
 		if ($this->upload->has('download')) {
-			$this->database->query("update download set filename = '" . $this->upload->getName('download') . "'");
+			$this->database->query("update download set filename = '" . $this->request->gethtml('fileName', 'post') . "'");
 		}
 	}
 	function delete_description(){
@@ -94,6 +94,8 @@ class Model_Admin_Download extends Model {
 		return $result;
 	}
 	function check_download($filename){
+		preg_match("/^[a-zA-Z0-9]{1}[\w\-]*\.?[a-zA-Z]*/", $filename, $matches);
+		$filename = isset($matches[0]) ? $matches[0] : 'ERROR';
 		$result = $this->database->getRow("select * from download where filename = '".$filename."'");
 		return $result;
 	}

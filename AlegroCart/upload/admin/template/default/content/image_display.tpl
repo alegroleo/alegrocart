@@ -25,10 +25,8 @@
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
-<script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
-
 <form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
-  <table align="center">			
+  <table align="center">
 	<tr>
 	  <td class="set"><?php echo $entry_filename;?></td>
 		<td><input size="64" type="text" id="fileName" class="file_input_textbox" readonly="readonly">
@@ -75,7 +73,7 @@
              </td>
 	    </tr>
 	    <tr>
-			  <td class="set"><?php echo $entry_sort_order;?></td>
+			  <td class="set"><?php echo $entry_sortorder;?></td>
 			  <td><input class="validate_int" id="sort_order" type="text" name="sort_order" value="<?php echo $sort_order;?>"></td>
 	     <td class="expl">
                 <?php echo($explanation_entry_sort_order); ?>
@@ -107,6 +105,9 @@
 		    <div class="page">
 			  <div class="minipad">
 				<table>
+				<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_flash;?></p></td>
+					<td width="130"></td>
+				</tr>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_flash_width; ?></td>
 				    <td><input class="validate_int" id="flash_width<?php echo $image_display_description['language_id']; ?>" name="flash_width[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['flash_width'];?>"></td>
@@ -156,6 +157,9 @@
 	   			  </tr>
 				</table>
 				<table>
+				<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_image;?></p></td>
+					<td width="130"></td>
+				</tr>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_image_width; ?></td>
 					<td><input class="validate_int" id="image_width<?php echo $image_display_description['language_id']; ?>" name="image_width[<?php echo $image_display_description['language_id']; ?>]" value="<?php echo $image_display_description['image_width'];?>"></td>
@@ -171,7 +175,7 @@
 				  <tr>
 				    <td style="width: 185px" class="set"><?php echo $entry_image; ?></td>
                     <td><select name="image_id[<?php echo $image_display_description['language_id']; ?>]" id="image_id<?php echo $image_display_description['language_id']; ?>" onchange="$('#image<?php echo $image_display_description['language_id']; ?>').load('index.php?controller=image&action=view&image_id='+this.value);">
-						  <option title="<?php echo $no_image_filename; ?>" value="<?php echo $no_image_id;?>"<?php if($image_display_description['image_id'] == '0'){ echo ' selected';}?>><?php echo $text_noimage;?></option>
+						  <option title="<?php echo $no_image_filename; ?>" value="<?php echo $no_image_id;?>"<?php if($image_display_description['image_id'] == '0'){ echo ' selected';}?>><?php echo $text_no_image;?></option>
                       <?php foreach ($images as $image) { ?>
 			<?php if ($image['image_id'] != $no_image_id){?>
                         <?php if ($image['image_id'] == $image_display_description['image_id']) { ?>
@@ -186,6 +190,45 @@
 				    <td class="product_image" id="image<?php echo $image_display_description['language_id']; ?>"></td>
 				  </tr>
 				</table>
+				<table>
+		 		  <tr>
+	                            <td colspan="2"><hr></td>
+	   			  </tr>
+				<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_slider;?></p></td>
+					<td width="130"></td>
+				</tr>
+				</table>
+		  <table id="slidertable<?php echo $image_display_description['language_id']; ?>">
+		    <?php $i = 0;?>
+		    <?php foreach($image_display_description['slides'] as $slide){?>
+			  <tr id="slider<?php echo $image_display_description['language_id']; ?>_<?php echo $i; ?>">
+			    <td style="width: 165px" class="set"><?php echo $entry_image; ?></td>
+			    <td><select name="sliderimage_id[<?php echo $image_display_description['language_id']; ?>][<?php echo $i; ?>]" id="sliderimage_id<?php echo $image_display_description['language_id']; ?>_<?php echo $i; ?>" onchange="$('#sliderimage<?php echo $image_display_description['language_id']; ?>_<?php echo $i; ?>').load('index.php?controller=image&action=view&image_id='+this.value);">
+					  <option title="<?php echo $no_image_filename; ?>" value="<?php echo $no_image_id;?>"<?php if($slide['sliderimage_id'] == '0'){ echo ' selected';}?>><?php echo $text_no_image;?></option>
+					  <?php foreach ($images as $image) { ?>
+						<?php if ($image['image_id'] != $no_image_id){?>
+						<?php if ($image['image_id'] == $slide['sliderimage_id']) { ?>
+						  <option title="<?php echo $image['previewimage']; ?> "value="<?php echo $image['image_id']; ?>" selected><?php echo $image['title']; ?></option>
+						<?php } else { ?>
+						  <option title="<?php echo $image['previewimage']; ?>" value="<?php echo $image['image_id']; ?>"><?php echo $image['title']; ?></option>
+						<?php } ?>
+						<?php } ?>
+					  <?php } ?>
+			    </select></td>
+			    <td></td>
+			    <td class="product_image" id="sliderimage<?php echo $image_display_description['language_id']; ?>_<?php echo $i; ?>"></td>
+			    <td class="set"><?php echo $entry_sortorder;?></td>
+			    <td><input class="validate_int" id="sort_order<?php echo $image_display_description['language_id']; ?>_<?php echo $i; ?>" type="text" size="2" name="sort_order[<?php echo $image_display_description['language_id']; ?>][<?php echo $i; ?>]" value="<?php echo $slide['sort_order'];?>"></td>
+			    <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeModule('slider<?php echo $image_display_description['language_id']; ?>_<?php echo $i;?>');"></td>
+			  </tr>
+		    <?php $i++; ?>
+		    <?php }?>
+				</table>
+          <table>
+            <tr>
+              <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="addSlides(<?php echo $image_display_description['language_id']; ?>);"></td>
+            </tr>
+          </table>
 		      </div>
 		    </div>
 			<?php } ?>
@@ -200,13 +243,42 @@
  
  <?php foreach($languages as $language){?>
    <script type="text/javascript"><!--
-     if(document.getElementById('flash<?php echo $language['language_id'];?>').value){
-	 $('#flash_name<?php echo $language['language_id']; ?>').load('index.php?controller=image_display&action=viewFlash&flash='+document.getElementById('flash<?php echo $language['language_id'];?>').value);
-	 }
-	 if(document.getElementById('image_id<?php echo $language['language_id'];?>').value){
-     $('#image<?php echo $language['language_id'];?>').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id<?php echo $language['language_id'];?>').value);
-	 }
+	var flash = document.getElementById('flash<?php echo $language['language_id'];?>');
+	if(typeof flash !== 'undefined' && flash !== null) {
+		if(flash.value){
+			$('#flash_name<?php echo $language['language_id']; ?>').load('index.php?controller=image_display&action=viewFlash&flash='+flash.value);
+		}
+	}
+	var image = document.getElementById('image_id<?php echo $language['language_id'];?>');
+	if(typeof image !== 'undefined' && image !== null) {
+		if(image.value){
+			$('#image<?php echo $language['language_id'];?>').load('index.php?controller=image&action=view&image_id='+image.value);
+		}
+	}
+	var table = document.getElementById('slidertable<?php echo $language['language_id'];?>');
+	if(typeof table !== 'undefined' && table !== null) {
+		for (var i = 0, trl = table.rows.length; i < trl; ++i) {
+			if(document.getElementById('sliderimage_id<?php echo $language['language_id'];?>_' + i).value){
+			$('#sliderimage<?php echo $language['language_id'];?>_'+i).load('index.php?controller=image&action=view&image_id='+document.getElementById('sliderimage_id<?php echo $language['language_id'];?>_'+i).value);
+			}
+			}
+	}
     //--></script>
+  <script type="text/javascript">//<!--
+function addSlides(Language_id) {
+	$.ajax({
+   		type:    'GET',
+   		url:     'index.php?controller=image_display&action=slides&slide_id='+$('#slidertable' + Language_id +' tr').size()+'&language_id='+Language_id,
+		async:   false,
+   		success: function(data) {
+     		$('#slidertable' + Language_id).append(data);
+   		}
+ 	});
+}
+function removeModule(row) {
+  	$('#'+row).remove();
+}
+  //--></script>
   <?php } ?>
   <script type="text/javascript"><!--
   tabview_initialize('tab');

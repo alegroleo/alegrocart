@@ -105,6 +105,16 @@ a:hover {
 	margin-left: 2px;
 	cursor: pointer;
 }
+#column #bar, #columnright #bar, #extra #bar, #pagebottom #bar {
+	position: relative;
+	top: 5px;
+	padding-bottom: 5px;
+}
+#column #bar, #columnright #bar {
+	left: 30px;
+	width: 184px;
+	height: 130px;
+}
 #extra {
 	width: 100%;
 	text-align: center;
@@ -338,7 +348,13 @@ a:hover {
 .module_content .button{
 	font-size: 9px;
 	font-weight: 500;
-}     
+}
+.module_content .vendor{
+	text-align: center;
+}
+.module_content .img {
+	text-align:center;
+}
 .products, .images, .categories {
 	float: left;
 	width: 32%; 
@@ -350,11 +366,11 @@ a:hover {
 .product_desc{
 	padding: 0px;
 	margin-top: 10px;
-	min-height: 60px;
+	min-height: 55px;
 	text-align: left;
 }
 .description {
-        padding: 5px 2px 0px 2px;
+	padding: 5px 2px 0px 2px;
 	text-align: center;
 	clear: both;
 }
@@ -369,6 +385,15 @@ a:hover {
 	font-weight: bold;
 	padding: 5px 0px;
 }
+.onhand span, .onhand2 span {
+	font-weight:normal;
+}
+.hidden {
+	visibility: hidden;
+}
+.none {
+	display: none;
+}
 .discount{
 	text-align: left;
 	font-size: 11px;
@@ -380,6 +405,9 @@ a:hover {
 	font-size: 11px;
 	font-weight: bold;
 	padding: 5px 0px;
+}
+.model_number span{
+	font-weight:normal;
 }
 .available{
 	text-align: left;
@@ -399,11 +427,11 @@ a:hover {
 }
 .results {
 	clear: both;
-	width: 590px;
+	width: 600px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	margin-left: 5px;
-	margin-right: 5px;	
+	margin-left: 0px;
+	margin-right: 0px;
 }
 .results .left {
 	float: left;
@@ -444,6 +472,12 @@ a:hover {
 .buttons table td {
 	vertical-align: middle;
 }
+.buttons .left {
+	float: left;
+}
+.buttons .right {
+	float: right;
+}
 .box {
 	padding: 5px 2px 5px 2px;
 	margin-bottom: 10px;
@@ -457,6 +491,12 @@ a:hover {
 .language div {
 	display: inline;
 }
+#column .language, #columnright .language, #extra .language, #footer .language, #pagebottom .language {
+	top: 5px;
+	margin: 10px 5px 10px 0px;
+	text-align: center;
+	position: relative;
+}
 /* currency */
 .currency {
 	z-index: 10;
@@ -465,13 +505,27 @@ a:hover {
 .currency div {
 	display: inline;
 }
+#column .currency, #columnright .currency, #footer .currency, #pagebottom .currency{
+	position: relative;
+	top: 5px;
+	left: 5px;
+	margin: 5px 0px 10px 0px;
+	text-align: center;
+}
 /* search */
 .search {
-	z-index: 20;	
+	z-index: 20;
 	position: absolute; 
 }
+#extra .search, #column .search, #columnright .search {
+	position: relative;
+	right: 0px;
+	top: 0px;
+	margin: 10px 10px 10px 10px;
+	padding-right: 2px;
+}
 .search div {
-	display: inline;
+	display: inline-block;
 }
 /* mini cart */
 .mini_cart{
@@ -480,7 +534,7 @@ a:hover {
 	width: 194px;
 	top: 0px;
 	right: 0px;
-	z-index: 210;
+	z-index: 80;
 	min-height:25px;
 	margin-bottom: 10px;
 
@@ -527,11 +581,25 @@ a:hover {
 .mini_cart .cart .cart_content .ee {
 	text-align: right;
 }
+.mini_cart .cart .cart_content .ff {
+	width: 100px;
+}
 /*  information */
 .information{
 	padding: 10px 2px 5px 0px;
 	margin-top: 0px;
 	width: 194px;
+}
+#footer .information, #pagebottom .information{
+	background: none;
+	width: 100%;
+	letter-spacing: 2px;
+	border:none;
+	position: absolute;
+}
+#footer .information > div, #pagebottom .information > div {
+	display: table;
+	margin: 0 auto;
 }
 .information .tax{
 	font-weight: bold;
@@ -540,6 +608,10 @@ a:hover {
 	display: block;
 	font-weight:500;
 	text-decoration: none;
+}
+#footer .information a, #pagebottom .information a {
+	float: left;
+	background: none;
 }
 /*  review */
 .module_review div {
@@ -585,17 +657,17 @@ a:hover {
 }
 #category_description .text{
 	padding: 5px 8px 5px 8px;
-	min-height: 50px;	
+	min-height: 50px;
 }
 #category_description .center{
-    width: 590px;
+	width: 600px;
 	padding-top: 0px;
-	margin: 0px 0px 0px 5px;
+	margin: 0px 0px 0px 0px;
 }
 #category_description  .bottom{
-	width: 590px;
-	margin-left: 5px;
-	padding: 0px;	
+	width: 600px;
+	margin-left: 0px;
+	padding: 0px;
 	height: 9px;
 }
 .headingbody {
@@ -603,23 +675,23 @@ a:hover {
 	font-weight: 600;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	text-align: center;
-	max-width: 590px;
-	margin: 5px 0px 0px 5px;
+	max-width: 600px;
+	margin: 5px 0px 0px 0px;
 }
 .contentBody {
-    width: 590px;
-	margin: 0px 0px 0px 5px;
+	width: 600px;
+	margin: 0px 0px 0px 0px;
 	min-height: 50px;
 	padding-bottom: 2px;
 }
 .contentBodyTop{
-	width: 590px;
+	width: 600px;
 	height: 9px;
-	margin: 5px 0px 0px 5px;
+	margin: 5px 0px 0px 0px;
 }
 .contentBodyBottom{
-	width: 590px;
-	margin: 0px 0px 10px 5px;
+	width: 600px;
+	margin: 0px 0px 10px 0px;
 	height: 8px;
 }
 .noscript {
@@ -660,4 +732,31 @@ a:hover {
 	left: 50%;
 	margin-right: -50%;
 	transform: translate(-50%, -50%);
+}
+.pointer {
+	cursor: pointer;
+}
+/* Options */
+.product_options{
+	margin:2px 0px;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.product_options .option{
+	min-width: 60px;
+}
+.product_total{
+	left: 10px;
+	font-size: 20px;
+	text-align: left;
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+.product_total input{
+	text-align: left;
+	font-size: 12px;
+	color: #0000FF;
+	background-color: #FFFFFF;
+	border: 0px;
+	font-weight: bold;
 }

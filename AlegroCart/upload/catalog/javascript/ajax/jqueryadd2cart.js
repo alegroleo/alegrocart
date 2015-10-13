@@ -315,7 +315,7 @@ function UpdateTotal(decimal_place, weight_decimal, decimal_point, product_id, c
 	var Added_text = added_text;
 	var Add_text = add_text || '';
 	UpdateQuantity(Product_id, Controller);
-	UpdateBarcode(product_id,controller)
+	UpdateBarcode(product_id,controller);
 	UpdateImage(product_id,controller);
 	UpdateModel(product_id,controller);
 	UpdateDimensions(product_id,controller);
@@ -378,11 +378,13 @@ function resize(selectId, size){
 	var maxlength = 0;
 	if(objSelect){
 	if(size){
-			$('#' + selectId).width(size);
+			$('#' + selectId).outerWidth(size);
 	} else {
-		for (var i=0; i< objSelect.options.length; i++){
-			if (objSelect[i].text.length > maxlength){
-				maxlength = objSelect[i].text.length;
+		if(objSelect.options!=undefined){
+			for (var i=0; i< objSelect.options.length; i++){
+				if (objSelect[i].text.length > maxlength){
+					maxlength = objSelect[i].text.length;
+				}
 			}
 		}
 			if (BrowserisIE){

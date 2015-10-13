@@ -11,7 +11,7 @@
       <div class="b">
         <table>
           <tr>
-            <td align="right" valign="top"><b><?php echo $text_address; ?></b></td>
+            <td class="right top"><b><?php echo $text_address; ?></b></td>
             <td><?php echo $store; ?><br>
               <?php echo formatedstring($address,20); ?></td>
           </tr>
@@ -20,12 +20,12 @@
       <div class="c">
         <table>
           <tr>
-            <td align="right"><b><?php echo $text_telephone; ?></b></td>
+            <td class="right"><b><?php echo $text_telephone; ?></b></td>
             <td><?php echo $telephone; ?></td>
           </tr>
           <?php if ($fax) { ?>
           <tr>
-            <td align="right"><b><?php echo $text_fax; ?></b></td>
+            <td class="right"><b><?php echo $text_fax; ?></b></td>
             <td><?php echo $fax; ?></td>
           </tr>
           <?php } ?>
@@ -34,6 +34,7 @@
     </div>
     <div class="d">
       <table>
+	<?php if (!$islogged) { ?>
         <tr>
           <td><?php echo $entry_name; ?></td>
         </tr>
@@ -52,6 +53,7 @@
             <span class="error"><?php echo $error_email; ?></span>
             <?php } ?></td>
         </tr>
+	<?php }?>
         <tr>
           <td><?php echo $entry_enquiry; ?></td>
         </tr>
@@ -65,7 +67,7 @@
  </div>
  <?php if (@$captcha) { ?>
 	<div class="captcha">
-		  <img src="<?php echo $captcha;?>" title="<?php echo $text_captcha;?>" alt="<?php echo $text_captcha;?>"> 
+		  <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $captcha;?>" title="<?php echo $text_captcha;?>" alt="<?php echo $text_captcha;?>"> 
 	  <table>
 		<tr>
 		  <td>
@@ -87,7 +89,7 @@
  <div class="buttons">
     <table>
       <tr>
-        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+        <td class="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
       </tr>
     </table>
   </div>

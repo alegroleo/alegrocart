@@ -153,7 +153,7 @@ ADD `meta_description` varchar(512) CHARACTER SET utf8 collate utf8_unicode_ci D
 ADD `meta_title` varchar(255) CHARACTER SET utf8 collate utf8_unicode_ci DEFAULT NULL AFTER `welcome`;
 
 # Start of version 1.2.2
-# Add option Weight  
+# Add option Weight
 ALTER TABLE `product_to_option`
 ADD `option_weight` int(11) NOT NULL default '0' AFTER `prefix`;
 
@@ -253,7 +253,7 @@ SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'content_lines_char';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'content_lines_char', '108') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
-# Change order_status_id 
+# Change order_status_id
 ALTER TABLE `order` CHANGE `order_status_id` `order_status_id` int(11) NOT NULL default '0';
 ALTER TABLE `order_history` CHANGE `order_status_id` `order_status_id` int(11) NOT NULL default '0';
 
@@ -289,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `tpl_module` (
 
 CREATE TABLE IF NOT EXISTS `tpl_location` (
   `location_id` int(11) NOT NULL auto_increment,
-  `location` varchar(32) collate utf8_unicode_ci NOT NULL default '', 
+  `location` varchar(32) collate utf8_unicode_ci NOT NULL default '',
   PRIMARY KEY (`location_id`),
   KEY `location` (`location`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -377,7 +377,7 @@ SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'payment_cheque';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES (@id, @lid, 'Cheque Payment', 'Offline Payment by Cheque') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 
-#Best Seller Module 
+#Best Seller Module
 SET @id=NULL;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_bestseller';
 INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
@@ -468,7 +468,7 @@ CREATE TABLE IF NOT EXISTS `image_display_description` (
  `image_height` int(11) NOT NULL default '0',
  PRIMARY KEY  (`image_display_id`,`language_id`)
  ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- 
+
 # Add Loop to Home Description
 ALTER TABLE `home_description`
 ADD `flash_loop` int(11) After `flash_height`;
@@ -871,9 +871,9 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 ALTER TABLE `order` ADD `coupon_sort_order` INT( 3 ) NOT NULL DEFAULT '0';
 ALTER TABLE `order` ADD `discount_sort_order` INT( 3 ) NOT NULL DEFAULT '0';
 ALTER TABLE `order_product` ADD `special_price` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000' AFTER `discount`;
-ALTER TABLE `order_product` ADD `coupon` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000' AFTER `special_price`; 
-ALTER TABLE `order_product` ADD `general_discount` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000' AFTER `coupon`; 
-ALTER TABLE `order_product` ADD `shipping` BOOLEAN NOT NULL DEFAULT '0'; 
+ALTER TABLE `order_product` ADD `coupon` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000' AFTER `special_price`;
+ALTER TABLE `order_product` ADD `general_discount` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000' AFTER `coupon`;
+ALTER TABLE `order_product` ADD `shipping` BOOLEAN NOT NULL DEFAULT '0';
 ALTER TABLE `order` ADD `shipping_tax_rate` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0';
 ALTER TABLE `order` ADD `freeshipping_net` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000';
 ALTER TABLE `order` ADD `shipping_net` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.000';
@@ -882,7 +882,7 @@ ALTER TABLE `order` ADD `invoice_number` varchar(32) collate utf8_unicode_ci NOT
 
 #Start of Version 1.2.5 ***********
 
-#ô Dimensions length,area and volume 
+#ô Dimensions length,area and volume
 
 CREATE TABLE IF NOT EXISTS `dimension`(
   `dimension_id` int(11) NOT NULL auto_increment,
@@ -1437,7 +1437,7 @@ ALTER TABLE `product` ADD `shipping_time_to` int(2) NOT NULL default '4' After `
 ALTER TABLE `product` ADD `shipping_time_from` int(2) NOT NULL default '2' After `shipping`;
 
 #
-#Add Recently Viewed Module 
+#Add Recently Viewed Module
 #
 SET @lid=1;
 SET @id=NULL;
@@ -1450,7 +1450,7 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 (@id, @lid, 'Catalog Recently Viewed', 'Display Recently Viewed Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 
 #
-#Add Top Rated Module 
+#Add Top Rated Module
 #
 SET @lid=1;
 SET @id=NULL;
@@ -1463,7 +1463,7 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 (@id, @lid, 'Catalog Top Rated', 'Display Top Rated Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
 
 #
-#Add Also Bought Module 
+#Add Also Bought Module
 #
 SET @lid=1;
 SET @id=NULL;
@@ -1546,3 +1546,34 @@ SET @lid=1;
 SELECT @id:=extension_id FROM extension WHERE `controller` = 'module_extra_categoryslider';
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
 (@id, @lid, 'Catalog Category Slider', 'Category Image Slider') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+# Group Newsletter
+#
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_newsletter';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_newsletter', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#
+# Create table home_slides
+#
+CREATE TABLE IF NOT EXISTS `home_slides` (
+  `home_slide_id` int(11) NOT NULL auto_increment,
+  `home_id` int(11) NOT NULL default '0',
+  `language_id` int(11) NOT NULL default '1',
+  `image_id` int(11) default NULL,
+  `sort_order` int(3) default '0',
+  PRIMARY KEY (`home_slide_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+# Create table image_display_slides
+#
+CREATE TABLE IF NOT EXISTS `image_display_slides` (
+  `image_display_slide_id` int(11) NOT NULL auto_increment,
+  `image_display_id` int(11) NOT NULL default '0',
+  `language_id` int(11) NOT NULL default '1',
+  `image_id` int(11) default NULL,
+  `sort_order` int(3) default '0',
+  PRIMARY KEY (`image_display_slide_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

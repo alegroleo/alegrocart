@@ -63,7 +63,7 @@
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_filename; ?></td>
-               <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly" value="<?php echo $filename;?>">
+               <td><input type="text" id="fileName" name="fileName" class="file_input_textbox" readonly="readonly" value="<?php echo $filename;?>">
 	      <?php if ($error_file) { ?>
                 <span class="error"><?php echo $error_file; ?></span>
                 <?php } ?>
@@ -98,11 +98,23 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <script type="text/javascript"><!--
   function set_mask(){
-  var url = $('#download').val();  
-  var Filename = url.substring(url.lastIndexOf('/')+1);
-  var Extension = Filename.substring(Filename.lastIndexOf("."));
-  Mask = RandomNumber(Filename)+Extension;
-  $('#mask').val(Mask);
+    var url = $('#download').val();
+    var Filename = url.substring(url.lastIndexOf('/')+1);
+    var Extension = Filename.substring(Filename.lastIndexOf("."));
+    Mask = RandomNumber(Filename)+CleanExtension(Extension);
+    $('#mask').val(Mask);
+    url = url.replace(/ /g, '');
+    url = CleanFile(url);
+  }
+  function CleanExtension(extension){
+  var str = extension.match(/^\.[a-zA-Z]*/);
+  return str;
+  }
+  function CleanFile(Download){
+	var str = Download.match(/^[a-zA-Z\s]{1}[\s\w\-]*\.?[a-zA-Z]*/);
+	str = str.join("");
+	str = str.toLowerCase();
+	$('#fileName').val(str);
   }
   function RandomNumber(Filename){
 	var Seed = Filename.substring(0,Filename.lastIndexOf("."));

@@ -47,12 +47,13 @@ class ControllerDownload extends Controller {
 		$insert_id = $this->modelDownload->get_insert_id();
 		$downloadname = $this->getDownloadName($filename);
 		$results = $this->modelDownload->get_languages();
-			if($result['language_status'] =='1'){
-				foreach ($results as $result) {
+			foreach ($results as $result) {
+				if($result['language_status'] =='1'){
 					$key = $result['language_id'];
 					$this->modelDownload->insert_description($insert_id, $key, $downloadname);
 				}
 			}
+			
 	}
 
 	function getDownloadName($file) {
@@ -375,7 +376,8 @@ class ControllerDownload extends Controller {
       		$this->error['message'] = $this->language->get('error_permission');
     	}
     	if ($this->upload->has('download')) {
-	  		if (!$this->upload->save('download', DIR_DOWNLOAD . $this->upload->getName('download'))) {
+			$filename = $this->request->gethtml('fileName', 'post');
+	  		if (!$this->upload->save('download', DIR_DOWNLOAD . $filename)) {
 	    		$this->error['file'] = $this->language->get('error_upload');
 	  		}
             if (!$this->validate->strlen($this->upload->getName('download'),1,128)) {

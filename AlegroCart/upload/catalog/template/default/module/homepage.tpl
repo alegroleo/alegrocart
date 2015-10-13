@@ -9,6 +9,14 @@
 <div class="right"><a href="<?php echo $close_homepage;?>"><?php echo $skip_intro;?></a></div>
 </div>
 <div class="module">
+<?php if(isset($slides)){?>
+  <div id="homeslider">
+    <?php foreach ($slides as $slide) { ?>
+    <div><img src="<?php echo $slide['filename'];?>" alt="<?php echo $slide['filename'];?>"></div>
+    <?php } ?>
+  </div>
+  <?php echo $sliderjs;?>
+<?php }?>
 <?php if(isset($flash)){ ?>
   <div class="flash">
 	<object type="application/x=shockwave-flash" data="<?php echo $flash;?>" width="<?php echo $flash_width; ?>" height="<?php echo $flash_height; ?>">

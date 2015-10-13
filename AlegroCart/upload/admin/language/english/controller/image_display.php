@@ -6,9 +6,12 @@ $_['heading_description'] = 'You can edit Image Display sessions here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated homepage!';
-$_['text_noflash']		  = 'No Flash Selected';
-$_['text_noimage']        = 'No Image Selected';
+$_['text_noflash']		= 'No Flash Selected';
+$_['text_no_image']        = 'No Image Selected';
 $_['text_browse']         = 'Browse File';
+$_['text_flash']          = 'Flash';
+$_['text_image']	= 'Image';
+$_['text_slider']         = 'Slider';
 
 //Tabs
 $_['tab_name']		      = 'Name & Status';
@@ -24,7 +27,7 @@ $_['column_action']        = 'Action';
 //Entry
 $_['entry_name']           = 'Image Display Name:';
 $_['entry_status']         = 'Status:';
-$_['entry_sort_order']     = 'Sort Order:';
+$_['entry_sortorder']     = 'Sort Order:';
 $_['entry_location']       = 'Display Location:';
 $_['entry_flash']          = 'Flash:';
 $_['entry_flash_width']    = 'Flash Width:';

@@ -13,6 +13,7 @@ class Model_Core extends Model {
 		$this->language 	=& $locator->get('language');
 		$this->request  	=& $locator->get('request');
 		$this->session  	=& $locator->get('session');
+		$this->template     =& $locator->get('template');
 		$this->url     	 	=& $locator->get('url');
 	}
 	function get_columns(){
@@ -35,13 +36,15 @@ class Model_Core extends Model {
 						$tpl_modules['extra'][] = $template_module['module_code'];
 						break;
 					case 'column':
-						$tpl_modules['column'][] = $template_module['module_code'];
+						if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+							$tpl_modules['column'][] = $template_module['module_code'];
+						}
 						break;
 					case 'content':
 						$tpl_modules['content'][] = $template_module['module_code'];
 						break;
 					case 'columnright':
-						if($this->tpl_columns != 2){
+						if($this->tpl_columns == 2.1 || $this->tpl_columns == 3){
 							$tpl_modules['columnright'][] = $template_module['module_code'];
 						}
 						break;
@@ -68,8 +71,22 @@ class Model_Core extends Model {
 			$default_modules[$location['location']][] = array();
 		}
 		$default_modules['header'] = array('language', 'currency', 'header', 'search', 'navigation');
-		$default_modules['column'] = array('cart','category','information');
+		if($this->tpl_columns == 2.1 || $this->tpl_columns == 1){
+			$default_modules['header'][] = 'categorymenu';
+		}
+		if($this->tpl_columns == 1){
+			$default_modules['header'][] = 'cart';
+		}
+		if($this->tpl_columns == 3 || $this->tpl_columns == 1.2){
+			$default_modules['column'] = array('cart','category','information');
+		}
+		if($this->tpl_columns == 2.1){
+			$default_modules['columnright'] = array('cart','information');
+		}
 		$default_modules['footer'] = array('footer');
+		if($this->tpl_columns == 1){
+			$default_modules['footer'][] = 'information';
+		}
 		$default_modules['pagebottom'] = array('developer');
 		
 		return $default_modules;
@@ -140,7 +157,10 @@ class Model_Core extends Model {
 				
 			}
 			
-			if ($location['location'] == 'columnright' && $this->tpl_columns == 2){
+			if ($location['location'] == 'columnright' && ($this->tpl_columns == 1.2 || $this->tpl_columns == 1)){
+				$modules[$location['location']] = array();
+			}
+			if ($location['location'] == 'column' && ($this->tpl_columns == 2.1 || $this->tpl_columns == 1)){
 				$modules[$location['location']] = array();
 			}
 		}
@@ -155,15 +175,17 @@ class Model_Core extends Model {
 				$this->tpl['tpl_extras'][] = $module;	
 				break;
 			case 'column':
-				$this->tpl['tpl_left_columns'][] = $module;
+				if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+					$this->tpl['tpl_left_columns'][] = $module;
+				}
 				break;
 			case 'content':
 				$this->tpl['tpl_contents'][] = $module;	
 				break;
 			case 'columnright':
-					if($this->tpl_columns != 2){
-						$this->tpl['tpl_right_columns'][] = $module;	
-					}
+				if($this->tpl_columns == 2.1 || $this->tpl_columns == 3){
+					$this->tpl['tpl_right_columns'][] = $module;	
+				}
 				break;
 			case 'footer':
 				$this->tpl['tpl_footers'][] = $module;
@@ -179,6 +201,7 @@ class Model_Core extends Model {
 			$this->tpl_manager = $result;
 			$this->controller = $controller;
 		}
+		$this->template->controller = $this->controller;
 		return $result;
 	}
 	function get_location($controller, $module){
@@ -212,6 +235,10 @@ class Model_Core extends Model {
 		$results = $this->database->getRows("select * from image_display id left join image_display_description idd on(id.image_display_id = idd.image_display_id) left join image i on(idd.image_id = i.image_id) where idd.language_id = '" . (int)$this->language->getId() . "' and id.status = '1' and id.location_id = '" . $location_id[$location]  . "' order by id.sort_order");
 		return $results;
 	}
+	function get_image_display_slides($image_display_id){
+		$results = $this->database->getRows("SELECT * FROM image_display_slides ids LEFT JOIN image i on (ids.image_id = i.image_id) WHERE ids.image_id != '0' AND image_display_id = '" . (int)$image_display_id . "' AND language_id = '" . (int)$this->language->getId() . "' ORDER BY sort_order");
+		return $results;
+	}
 	function get_menucategories(){
 		$results = $this->database->getRows("SELECT c.category_id, c.parent_id, c.path, c.sort_order, i.filename, cd.name FROM category c LEFT JOIN category_description cd ON (c.category_id = cd.category_id) LEFT JOIN image i on (c.image_id = i.image_id) WHERE cd.language_id = '" . (int)$this->language->getId() . "' AND c.category_hide = '0' AND c.path REGEXP '^[0-9]+\_*[0-9]*$' ORDER BY c.path");
 		return $results;
@@ -228,6 +255,10 @@ class Model_Core extends Model {
 		$results = $this->database->getRow("select * from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on(hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "' and h.status = '1'");
 		return $results;
 	}
+	function get_homepage_slides($home_id){
+		$results = $this->database->getRows("SELECT * FROM home_slides hs LEFT JOIN image i on (hs.image_id = i.image_id) WHERE hs.image_id != '0' AND home_id = '" . (int)$home_id . "' AND language_id = '" . (int)$this->language->getId() . "' ORDER BY sort_order");
+		return $results;
+	}
 	function get_information(){ 
 		$results = $this->database->cache('information-' . (int)$this->language->getId(), "select * from information i left join information_description id on (i.information_id = id.information_id) where id.language_id = '" . (int)$this->language->getId() . "' and i.information_hide = '0' order by i.sort_order");
 		return $results;
@@ -237,7 +268,7 @@ class Model_Core extends Model {
 		return $result;
 	}
 	function get_languages(){
-		$results = $this->database->cache('language', "select * from language order by sort_order");
+		$results = $this->database->cache('language', "select * from language WHERE language_status=1 order by sort_order");
 		return $results;
 	}
 	function getPrInCat($category_id){

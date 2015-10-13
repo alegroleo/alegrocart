@@ -29,13 +29,36 @@ class Model_Admin_Homepage extends Model {
 	function delete_description($home_id){
 		$this->database->query("delete from home_description where home_id ='". (int)$home_id . "'");
 	}
+	function delete_slides($home_id){
+		$this->database->query("DELETE FROM home_slides WHERE home_id ='". (int)$home_id . "'");
+	}
 	function insert_description(){
 		$insert_id = $this->database->getLastId();
 		$this->write_description($insert_id);
 	}
+	function insert_slides(){
+		$insert_id = $this->database->getLastId();
+		$this->write_slides($insert_id);
+	}
 	function update_description(){
 		$insert_id = (int)$this->request->gethtml('home_id');
 		$this->write_description($insert_id);
+	}
+	function update_slides(){
+		$insert_id = (int)$this->request->gethtml('home_id');
+		$this->write_slides($insert_id);
+	}
+	function write_slides($insert_id){
+		$sort_order = $this->request->get('sort_order', 'post');
+		$sliderimage_id = $this->request->gethtml('sliderimage_id', 'post');
+		$no_image_id = $this->request->gethtml('no_image_id', 'post');
+
+		foreach($this->request->gethtml('sliderimage_id', 'post', array()) as $key => $value){
+			foreach ($sliderimage_id[$key] as $k => $v) {
+				$sql = "INSERT INTO home_slides SET home_id = '?', language_id = '?', sort_order = '?', image_id = '?'";
+				$this->database->query($this->database->parse($sql, $insert_id, $key, $sort_order[$key][$k], $sliderimage_id[$key][$k] != $no_image_id ? $sliderimage_id[$key][$k]: '0'));
+			}
+		}
 	}
 	function write_description($insert_id){
 		$title = $this->request->get('title', 'post');
@@ -60,6 +83,10 @@ class Model_Admin_Homepage extends Model {
 	function get_descriptions($home_id, $language_id){
 		$result = $this->database->getRow("select title, description, welcome, meta_title, meta_description, meta_keywords, flash, flash_width, flash_height, flash_loop, image_id, run_times from home_description where home_id = '" . (int)$home_id . "' and language_id = '" . (int)$language_id . "'");
 		return $result;
+	}
+	function get_slides($home_id, $language_id){
+		$results = $this->database->getRows("SELECT image_id AS sliderimage_id, sort_order FROM home_slides WHERE home_id = '" . (int)$home_id . "' and language_id = '" . (int)$language_id . "'");
+		return $results;
 	}
 	function getRow_homepage_info($home_id){ 
 		$result = $this->database->getRow("select distinct * from home_page where home_id = '" . (int)$home_id . "'");
@@ -110,7 +137,10 @@ class Model_Admin_Homepage extends Model {
 		$text_results = $this->language->get('text_results', $this->database->getFrom(), $this->database->getTo(), $this->database->getTotal());
 		return $text_results;
 	}
-	function change_homepage_status($status, $status_id){
+	function change_homepage_status($status, $status_id){ //status we would like to change from
+		if ($status == 0){
+			$this->delete_status();
+		}
 		$new_status = $status ? 0 : 1;
 		$sql = "update home_page set status = '?' where home_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));

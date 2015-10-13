@@ -169,7 +169,7 @@ class PaymentPayPal extends Payment {
             /////////////////////////////////////////////
             // Use PDT if available and PDT Token is set
             /////////////////////////////////////////////
-            if ($this->request->get('tx') != null && $this->config->get('paypal_pdt_token') != '') {
+            if ($this->request->gethtml('tx') != null && $this->config->get('paypal_pdt_token') != '') {
                 
                 // Paypal possible values for payment_status
                 $success_status = array('Completed', 'Pending', 'In-Progress', 'Processed');
@@ -178,7 +178,7 @@ class PaymentPayPal extends Payment {
                 // read the post from PayPal system and add 'cmd'
                 $req = 'cmd=_notify-synch';
 
-                $tx_token = $this->request->get('tx');
+                $tx_token = $this->request->gethtml('tx');
                 $auth_token = $this->config->get('paypal_pdt_token');
                 $req .= "&tx=$tx_token&at=$auth_token";
 
@@ -278,7 +278,7 @@ class PaymentPayPal extends Payment {
     function callback() {
         // if IPN callback is called
         if ($this->request->gethtml('method') == 'ipn'){ 
-            $this->order->load($this->request->get('ref'));
+            $this->order->load($this->request->gethtml('ref'));
             $this->order->process($this->getOrderStatusId('order_status_paid_unconfirmed'));
             // read the post from PayPal system and add 'cmd'
             $req = 'cmd=_notify-validate';
@@ -349,7 +349,7 @@ class PaymentPayPal extends Payment {
         //Find the final order status id
         $results = $this->getOrderStatusId($status);
         $finalStatusId = $results?$results:0;
-        $reference = $this->request->get('ref');
+        $reference = $this->request->gethtml('ref');
         //Get Order Id
 		$res = $this->modelPayment->get_order_id($reference);
         $order_id = $res['order_id'];

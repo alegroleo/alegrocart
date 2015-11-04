@@ -117,7 +117,10 @@
 {
     margin-bottom: 30px;
 }
-
+.module .slick-slider
+{
+    margin-bottom: 0px;
+}
 .slick-dots
 {
     position: absolute;

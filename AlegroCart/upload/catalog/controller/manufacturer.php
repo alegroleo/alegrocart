@@ -92,7 +92,7 @@ class ControllerManufacturer extends Controller {
 			} else {
 				$page_rows = $this->config->get('manufacturer_rows') ? $this->config->get('manufacturer_rows') : $this->config->get('config_max_rows');
 			}
-			If ($columns > 1){
+			if ($columns > 1){
 				$page_rows = (ceil($page_rows/$columns))*$columns;
 			}
 			$session->set('manufacturer.page_rows', $page_rows);
@@ -138,6 +138,7 @@ class ControllerManufacturer extends Controller {
 				$model_data = "";
 			}
 			$view->set('options_model', $this->config->get('options_model'));
+			$view->set('options_manufacturer', $this->config->get('options_manufacturer'));
 			$view->set('model', $model);
 			$view->set('models_data', $model_data);
 			$view->set('default_max_rows', $max_rows);
@@ -152,7 +153,7 @@ class ControllerManufacturer extends Controller {
 			} else {
 				$search_filter = ' order by p.price ';
 			}
-			If ($default_order == $language->get('entry_ascending')){
+			if ($default_order == $language->get('entry_ascending')){
 				$search_order = ' asc ';
 			} else {
 				$search_order = ' desc ';
@@ -168,7 +169,7 @@ class ControllerManufacturer extends Controller {
 				$image_width = $this->config->get('manufacturer_image_width') <= 140 ? $this->config->get('manufacturer_image_width') : 140;
 				$image_height = $this->config->get('manufacturer_image_height') <= 140 ? $this->config->get('manufacturer_image_height') : 140;
 			}
-			If($model && $model != "all"){
+			if($model && $model != "all"){
 				$model_sql = " and pd.model like ";
 				$model_filter = "'".$model."'";
 			} else {
@@ -295,7 +296,7 @@ class ControllerManufacturer extends Controller {
 			}
 			$view->set('products', $product_data);
 
-				$view->set('number_columns', $this->config->get('config_columns') == 2 ? array(1,2,3,4,5) : array(1,2,3,4));
+				$view->set('number_columns', $this->config->get('config_columns') != 3 ? array(1,2,3,4,5) : array(1,2,3,4));
 				$view->set('entry_page', $language->get('entry_page'));
  				$view->set('page', $session->get('manufacturer.page'));
 				$view->set('onhand', $language->get('onhand'));
@@ -396,11 +397,17 @@ class ControllerManufacturer extends Controller {
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
-		$modules_extra['column'] = array('manufacturer', 'popular');
-		if(@$this->set_options && $this->tpl_columns != 2){
-			$modules_extra['columnright'] = array('manufactureroptions','specials');
-		} else {
-			$modules_extra['columnright'] = array('specials');
+		if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+			$modules_extra['column'] = array('manufacturer', 'popular');
+		} elseif ($this->tpl_columns == 2.1) {
+			$modules_extra['columnright'] = array('manufacturer', 'popular');
+		}
+		if($this->tpl_columns == 3){
+			if(@$this->set_options){
+				$modules_extra['columnright'] = array('manufactureroptions','specials');
+			} else {
+				$modules_extra['columnright'] = array('specials');
+			}
 		}
 		return $modules_extra;
 	}

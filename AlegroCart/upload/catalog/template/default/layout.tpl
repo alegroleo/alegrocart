@@ -1,8 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html dir="<?php echo $direction; ?>" lang="<?php echo $code; ?>">
 <head>
-<?php $pageColumns = isset($tpl_columns) ? $tpl_columns : $this->page_columns;
-	  $request = $locator->get('request');?>
+<?php $request = $locator->get('request');?>
 <title><?php if ($head_def->meta_title){echo $head_def->get_MetaTitle(); } else if  (@$meta_title){echo $meta_title;} else {echo $title;} ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset; ?>">
 <?php if ($head_def->meta_description){ echo $head_def->get_MetaDescription()."\n"; } else if  (@$meta_description){echo $meta_description."\n";}else { ?>
@@ -13,28 +12,37 @@
 <?php } ?>
 <meta name="robots" content="INDEX, FOLLOW">
 <base href="<?php echo $base; ?>">
-<link rel="stylesheet" type="text/css" href="catalog/styles/<?php echo $this->style; ?>/css<?php echo $pageColumns;?>/default.css">
-<?php                     // New CSS Generator
-	$css_dir = $this->style . '/css' . $pageColumns;
-	if ($head_def->CssDef){
+<?php $pageColumns = isset($tpl_columns) ? $tpl_columns : $this->page_columns;
+  $this->page_columns = $pageColumns;
+  $pageColumns == 1.2 || $pageColumns == 2.1 ? $cssColumns = 2 : $cssColumns = $pageColumns;
+  $this->cssColumns = $cssColumns;
+  $this->color = isset($template_color) ? $template_color : $this->color;
+?>
+<?php if ($this->condense){ 
+	echo $this->condense_css('css_path')."\n";
+	echo $this->condense_js('js_path')."\n";
+} else { ?>
+	<link rel="stylesheet" type="text/css" href="catalog/styles/<?php echo $this->style; ?>/css<?php echo $this->cssColumns;?>/default.css">
+	<?php $css_dir = $this->style . '/css' . $this->cssColumns; ?>
+	<?php if ($head_def->CssDef){ 
 		foreach ($head_def->CssDef as $pagecss){
 			echo str_replace($this->style . '/css', $css_dir, $pagecss)."\n";
 		}
-    }
-?>
-<?php $page_color = isset($template_color) ? $template_color : $this->color;?>
-<link rel="stylesheet" type="text/css" href="catalog/styles/<?php echo $this->style; ?>/colors<?php echo $pageColumns;?>/<?php echo $page_color;?>">
-<?php
-	if($head_def->java_script){
+	}
+	?>
+	<link rel="stylesheet" type="text/css" href="catalog/styles/<?php echo $this->style; ?>/colors<?php echo $this->cssColumns;?>/<?php echo $this->color;?>">
+	<?php if($head_def->java_script){
 		foreach ($head_def->java_script as $pagejs){
 			echo $pagejs."\n";
 		}
 	}
+}
 ?>
+
 <link rel="alternate" type="application/rss+xml" title="<?php echo $title; ?>" href="rss.php">
 <link rel="shortcut icon" type="image/x-icon" href="image/favicon.ico">
 <!--[if lte IE 6]>
-  <link rel="stylesheet" type="text/css" href="catalog/styles/<?php echo $this->style; ?>/css<?php echo $pageColumns;?>/ie6fix.css">
+  <link rel="stylesheet" type="text/css" href="catalog/styles/<?php echo $this->style; ?>/css<?php echo $cssColumns;?>/ie6fix.css">
 <![endif]-->
 </head>
 <body>
@@ -56,6 +64,12 @@
 		if (isset($header)) { echo $header; } 
 		if (isset($search)) { echo $search; }
 		if (isset($navigation)) { echo $navigation;}
+		if ($pageColumns == 2.1 || $pageColumns == 1){
+			if (isset($categorymenu)) {echo $categorymenu;}
+		}
+		if ($pageColumns == 1){
+			if (isset($cart)) {echo $cart;}
+		}
 	}?>
   </div>
   <?php if(isset($tpl_extras)){?>
@@ -65,24 +79,26 @@
 		}?>
   </div>
   <?php }?>
+  <?php if($pageColumns == 1.2 || $pageColumns == 3){?>
   <div id="column">
     <?php if(isset($tpl_left_columns)){
 		foreach ($tpl_left_columns as $left_column){
 			if(@isset($$left_column)) {echo $$left_column;}
 		}
 	} else {
-		if ($pageColumns == 2){
+		if ($pageColumns == 1.2){
 			if (isset($searchoptions)){ echo $searchoptions;}
 			if (isset($categoryoptions)){ echo $categoryoptions;}
 		}
-		if (isset($cart)) {echo $cart;} 
-		if (isset($category)) {echo $category;} 
-		if (isset($manufacturer)) { echo $manufacturer;} 
-		if (isset($popular)) {echo $popular;} 	
-		if (isset($review)) {echo $review;} 
+		if (isset($cart)) {echo $cart;}
+		if (isset($category)) {echo $category;}
+		if (isset($manufacturer)) { echo $manufacturer;}
+		if (isset($popular)) {echo $popular;}
+		if (isset($review)) {echo $review;}
 		if (isset($information)) { echo $information;}
 	}?>
   </div>
+  <?php }?>
   <div id="content">
     <?php 
 		if (isset($tpl_contents)){
@@ -94,14 +110,14 @@
 			if (isset($homepage)) {echo $homepage;}
 			if (isset($featured)) {echo $featured;}
 			if (isset($latest)) {echo $latest;}
-			if($pageColumns == 2 && $request->get('controller') == 'product'){
+			if(($pageColumns == 1.2 || $pageColumns == 2.1) && $request->get('controller') == 'product'){
 				if (isset($specials)) {echo $specials;}
 				if (isset($related)) {echo $related;}
 			}
 		}
-    ?>  
+    ?>
   </div>
-  <?php if($pageColumns == 3){?>
+  <?php if($pageColumns == 3 || $pageColumns == 2.1){?>
   <div id="columnright">
     <?php
 		if (isset($tpl_right_columns)){
@@ -111,14 +127,22 @@
 		} else {
 			if (isset($searchoptions)){ echo $searchoptions;}
 			if (isset($categoryoptions)){ echo $categoryoptions;}
-			if (isset($manufactureroptions)){ echo $manufactureroptions;}
-			if (isset($specials)) {echo $specials;}
-			if (isset($related)) {echo $related;}
+			if ($pageColumns == 2.1){
+				if (isset($cart)) {echo $cart;}
+				if (isset($manufacturer)) { echo $manufacturer;}
+				if (isset($popular)) {echo $popular;}
+				if (isset($review)) {echo $review;}
+				if (isset($information)) { echo $information;}
+			} else {
+				if (isset($manufactureroptions)){ echo $manufactureroptions;}
+				if (isset($specials)) {echo $specials;}
+				if (isset($related)) {echo $related;}
+			}
 		}
     ?>
   </div>
   <?php }?>
-  <?php if (isset($footer) || isset($tpl_footers)) { 
+  <?php if (isset($footer) || isset($tpl_footers)) {
 		echo '<div id="footer">' . "\n";
 		if (isset($tpl_footers)){
 			foreach($tpl_footers as $tpl_footer){
@@ -126,11 +150,14 @@
 			}
 		} else {
 			echo $footer;
+			if ($pageColumns == 1){
+				if (isset($information)){ echo $information;}
+			}
 		}
 		echo '</div>' . "\n";
 	}
   ?>
-  
+
   <div id="pagebottom">
 	<?php if(isset($tpl_bottom)){?>
 		<?php foreach($tpl_bottom as $pageBottom){
@@ -145,5 +172,19 @@
 <?php if (isset($time)) { ?>
 <div id="time"><?php echo $time; ?></div>
 <?php } ?>
+<?php if ($this->social && $request->get('controller') == 'product') { ?>
+	<?php echo $head_def->set_Fb(); ?>
+<?php } ?>
+<script>
+function init() {
+	var imgDefer = document.getElementsByTagName('img');
+	for (var i=0, len =imgDefer.length; i<len; i++) {
+		if(imgDefer[i].getAttribute('data-src')) {
+			imgDefer[i].setAttribute('src',imgDefer[i].getAttribute('data-src'));
+		}
+	}
+}
+window.onload = init;
+</script> 
 </body>
 </html>

@@ -362,7 +362,7 @@ $(document).ready(function(){
 		resize($('#manufacturer_list').attr("id"), 180);
 	});
 	$('#manufacturer_option').focus(function(){
-		resize($('#manufacturer_option').attr("id"));
+		resize($('#manufacturer_option').attr("id"), 180);
 	});
 	$('#manufacturer_option').blur(function(){
 		resize($('#manufacturer_option').attr("id"), 180);
@@ -370,23 +370,20 @@ $(document).ready(function(){
 });
 function resize(selectId, size){
 	BrowserisIE = (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) ? 1 : 0;
-	if (BrowserisIE){
-		var objSelect = document.getElementById(selectId);
-	} else {
-		var objSelect = $('#' + selectId).attr('id');
-	}
+	var objSelect = document.getElementById(selectId);
+
 	var maxlength = 0;
 	if(objSelect){
-	if(size){
-			$('#' + selectId).outerWidth(size);
-	} else {
-		if(objSelect.options!=undefined){
-			for (var i=0; i< objSelect.options.length; i++){
-				if (objSelect[i].text.length > maxlength){
-					maxlength = objSelect[i].text.length;
+		if(size){
+				$('#' + selectId).outerWidth(size);
+		} else {
+			if(objSelect.options!=undefined){
+				for (var i=0; i< objSelect.options.length; i++){
+					if (objSelect[i].text.length > maxlength){
+						maxlength = objSelect[i].text.length;
+					}
 				}
 			}
-		}
 			if (BrowserisIE){
 				objSelect.style.overflow = "visible";
 				objSelect.style.whiteSpace = "normal";
@@ -396,7 +393,7 @@ function resize(selectId, size){
 			} else {
 				$('#' + selectId).focus(function(){$('#' + selectId).width(maxlength * 7)});
 			}
-	}
+		}
 	}
 }
 $(document).ready(function(){

@@ -27,17 +27,17 @@
 			break;
 	  }?> 
   </div>
-    <div class="ptext"><b style="text-transform:uppercase;"><a href="<?php echo $product['href']; ?>" style="font-family:Arial, Verdana, Helvetica, sans-serif;"><?php echo $product['name']; ?></a></b><br>
+    <div class="ptext"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></b><br>
 	<?php if (isset($product['average_rating'])) { ?>
-    <div><img src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
+    <div><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112" height="20" data-src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
 	<?php } ?>
 <?php if ($product['vendor_name']) { ?>
-	<div class="vendor" style="text-align: left;"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
+	<div class="vendor"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
 <?php } ?>
   <?php if($product['model_number'] || $product['product_options']){?>
     <div class="model_number">
 	  <?php echo $text_model_number;?>
-	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $product['model_number'];?></span>
+	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>"><?php echo $product['model_number'];?></span>
 		<?php if($product['product_options']){?>
 		  <script language="JavaScript">
 			$(document).ready(function(){
@@ -68,7 +68,7 @@
     }?>
     <?php if($show_stock || $show_stock_icon){?>
       <div class="onhand2"><?php echo $onhand; ?>
-	    <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $product['stock_level']; ?></span>
+	    <span <?php if(!$show_stock){echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
 	    <?php if($show_stock_icon){?>
 		  <?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
 		    $icon ='catalog/styles/'.$this->style.'/image/stock_status_g.png';
@@ -77,7 +77,7 @@
 	      } else {
 		    $icon = 'catalog/styles/'.$this->style.'/image/stock_status_r.png';
 	      }?>
-	    <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+	    <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $icon;?>" width="11" height="11"src=" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 		<?php }?>
      </div>
    <?php }?>

@@ -69,7 +69,7 @@ class ControllerSearch extends Controller {
 		} else {
 			$page_rows = $this->config->get('search_rows') ? $this->config->get('search_rows') : $this->config->get('config_max_rows');
 		}
-		If ($columns > 1){
+		if ($columns > 1){
 			$page_rows = (ceil($page_rows/$columns))*$columns;
 		}
 		$session->set('search.page_rows', $page_rows);
@@ -101,7 +101,7 @@ class ControllerSearch extends Controller {
 		} else {
 			$search_filter = ' order by p.price ';
 		}
-		If ($default_order == $language->get('entry_ascending')){
+		if ($default_order == $language->get('entry_ascending')){
 			$search_order = ' asc ';
 		} else {
 			$search_order = ' desc ';
@@ -127,7 +127,7 @@ class ControllerSearch extends Controller {
 		$model_search = explode('*_*', $session->get('search.model'));
 		if (end($model_search) == $session->get('search.search')){
 			$model = substr($session->get('search.model'),0,strpos($session->get('search.model'),"*_*"));
-			If($model && $model != "all"){
+			if($model && $model != "all"){
 				$model_sql = " and pd.model like ";
 				$model_filter = "'".$model."'";
 			} else {
@@ -140,7 +140,7 @@ class ControllerSearch extends Controller {
 			$model_filter = "";
 			$session->set('search.model', 'all'."*_*".$session->get('search.search'));
 		}
-		$view->set('model', $session->get('search.model'));
+		$view->set('model', substr($session->get('search.model'),0,strpos($session->get('search.model'),"*_*")));
 		$view->set('manufacturer', $session->get('search.manufacturer'));
 		// End Set Session Variables for options
 
@@ -161,6 +161,14 @@ class ControllerSearch extends Controller {
 		$view->set('page_rows', $page_rows);
 		$view->set('default_order', $default_order);
 		$view->set('default_filter', $default_filter);
+		$view->set('display_lock', $this->config->get('search_display_lock'));
+		$view->set('options_manufacturer', $this->config->get('options_manufacturer'));
+		$view->set('options_model', $this->config->get('options_model'));
+
+		$view->set('default_max_rows', (int)$session->get('search.max_rows'));
+		$view->set('default_page_rows', (int)$session->get('search.page_rows'));
+
+		$manufacturer_id = (int)substr($session->get('search.manufacturer'),0,strpos($session->get('search.manufacturer'),"*_*"));//new
 
 		$search = wildcardsearch($session->get('search.search'),$language);
 		$view->set('search', $search);
@@ -173,6 +181,41 @@ class ControllerSearch extends Controller {
 			$description_sql = '';
 			$search_description = '';
 		}
+
+		$man_results = $this->modelSearch->get_manufacturer($search,$description_sql,$search_description);		
+		if (count($man_results) > 1){
+			$manufacturers_data = array();
+			foreach ($man_results as $man_result){
+				$result = $this->modelProducts->getRow_manufacturer($man_result['manufacturer_id']);
+				$manufacturers_data[] = array(
+					'manufacturer'	=> $result['manufacturer_id']."*_*".$session->get('search.search'),
+					'name'				=> $result['name']
+				);
+			}
+		} else {
+			$manufacturers_data = "";
+		}
+
+		if ($manufacturer_id > 0){
+			$manufacturer_sql = " and p.manufacturer_id = ";
+			$manufacturer_filter = "'".$manufacturer_id."'";
+		} else {
+			$manufacturer_sql = "";
+			$manufacturer_filter = "";
+		}
+		$results = $this->modelSearch->get_model($search,$description_sql,$search_description,$manufacturer_sql,$manufacturer_filter);
+		if (count($results) > 1){
+			$model_data = array();
+			foreach($results as $result){
+				$model_data[] = array(
+					'model'		=> $result['model'],
+					'model_value'	=> $result['model']."*_*".$session->get('search.search')
+				);
+			}
+		} else {
+			$model_data = "";
+		}		
+		$view->set('models_data', $model_data);	
 
 		if ($session->get('search.search')) {
 			$results = $this->modelSearch->get_products($search,$description_sql,$search_description,$manufacturer_sql,$manufacturer_filter,$model_sql,$model_filter,$search_filter,$search_order,$page_rows,$max_rows);
@@ -299,11 +342,28 @@ class ControllerSearch extends Controller {
 			$view->set('page', $session->get('search.page'));
 				$view->set('onhand', $language->get('onhand'));
 				$view->set('text_model_number', $language->get('text_model_number'));
+				$view->set('manufacturers_data', $manufacturers_data);
+				$view->set('manufacturer_id', $session->get('search.manufacturer'));
+				$view->set('sort_filter', $this->sort_filter());
+				$view->set('sort_order', $this->sort_order());
+				$view->set('text_sort_by',$language->get('text_sort_by'));
+				$view->set('text_order', $language->get('text_order'));
+				$view->set('text_max_rows', $language->get('text_max_rows'));
+				$view->set('text_page_rows', $language->get('text_page_rows'));
+				$view->set('text_columns', $language->get('text_columns'));
+				$view->set('text_manufacturer_all', $language->get('text_manufacturer_all'));
+				$view->set('text_manufacturer', $language->get('text_manufacturer'));
+				$view->set('text_model', $language->get('text_model'));
+				$view->set('text_all', $language->get('text_all'));
+				$view->set('entry_submit', $language->get('entry_submit'));
+		$view->set('search', $session->get('search.search'));//new
+
 				$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('previous' , $language->get('previous_page'));
 				$view->set('next' , $language->get('next_page'));
 				$view->set('first_page', $language->get('first_page'));
 				$view->set('last_page', $language->get('last_page'));
+				$view->set('number_columns', $this->config->get('config_columns') != 3 ? array(1,2,3,4,5) : array(1,2,3,4));
 
 				$view->set('pages', $this->modelSearch->get_pagination());
 			$view->set('total_pages', $this->modelSearch->get_pages());
@@ -336,6 +396,7 @@ class ControllerSearch extends Controller {
 		$view->set('text_enlarge', $language->get('text_enlarge'));
 		$view->set('image_display', $this->config->get('content_image_display'));
 		$view->set('this_controller', 'search');
+		$view->set('tpl_columns', $this->modelCore->tpl_columns);
 		$this->template->set('content', $view->fetch('content/search.tpl'));
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
@@ -359,11 +420,17 @@ class ControllerSearch extends Controller {
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
-		$modules_extra['column'] = array('manufacturer', 'popular');
-		if($this->tpl_columns != 2){
+		if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+			$modules_extra['column'] = array('manufacturer', 'popular');
+		} elseif ($this->tpl_columns == 2.1) {
+			$modules_extra['columnright'] = array('manufacturer', 'popular');
+		}
+		if($this->tpl_columns == 3){
 			$modules_extra['columnright'] = array('searchoptions','specials');
-		} else {
+		} elseif ($this->tpl_columns == 1.2){
 			$modules_extra['column'][] = 'searchoptions';
+		} elseif ($this->tpl_columns == 2.1) {
+				$modules_extra['columnright'][] = 'searchoptions';
 		}
 		return $modules_extra;
 	}
@@ -426,8 +493,8 @@ class ControllerSearch extends Controller {
 		}		
 		if ($models_data){
 			$output = '<tr><td>' . $text_model . '</td></tr>'."\n";
-			$output .= '<tr><td style="width: 190px;">';
-			$output .= '<select style="width: 180px;" name="model">'."\n";
+			$output .= '<tr><td>';
+			$output .= '<select name="model">'."\n";
 			$output .= '<option value="all">';
 			$output .= $text_all . '</option>'."\n";
 			foreach ($models_data as $model_data){
@@ -440,7 +507,23 @@ class ControllerSearch extends Controller {
 		}
 		$response->set($output);
 	}
+	function sort_filter(){
+		$language =& $this->locator->get('language');	
+	$language->load('extension/module/searchoptions.php');
+		$sort_filter = array();
+		$sort_filter[0] = $language->get('entry_number');
+		$sort_filter[1] = $language->get('entry_price');
+		return $sort_filter;
+	}
 
+	function sort_order(){
+		$language =& $this->locator->get('language');
+	$language->load('extension/module/searchoptions.php');
+		$sort_order = array();
+		$sort_order[0] = $language->get('entry_ascending');
+		$sort_order[1] = $language->get('entry_descending');
+		return $sort_order;
+	}
 	function search_page() {
 		$request  =& $this->locator->get('request');
 		$response =& $this->locator->get('response');

@@ -22,6 +22,7 @@ RewriteRule ^(.*) index.php?$1 [L,QSA]
 # AlegroCart REWRITES END
 
 </IfModule>
+
 # Try if you have problems with url alias
 # RewriteRule ^(.*) index.php [L,QSA]
 
@@ -29,12 +30,49 @@ RewriteRule ^(.*) index.php?$1 [L,QSA]
 # RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]
 # RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]
 
+# Hide Apache version normally seen at the bottom of 404 error pages, directory listing..etc.
 ServerSignature Off
 
-#Modify max uploadable file size if needed
-#php_value upload_max_filesize 128M
-#php_value post_max_size 128M
+# Modify max uploadable file size if needed
+# php_value upload_max_filesize 128M
+# php_value post_max_size 128M
 
+# Enable compression for text files
 <IfModule mod_deflate.c>
-AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+ <FilesMatch ".+\.(js|css|html|htm|php|xml)$">
+  SetOutputFilter DEFLATE
+ </FilesMatch>
 </IfModule>
+
+# EXPIRES CACHING
+# Store website’s components in browser’s cache until they expire. Support old browsers.
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault A31536000
+ <FilesMatch ".+\.(ico|jpe?g|png|gif|swf)$">
+  ExpiresDefault A604800
+ </FilesMatch>
+ExpiresByType application/xhtml+xml "access plus 0 seconds"
+ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+# EXPIRES CACHING
+
+# BEGIN Cache-Control Headers. This will override Expires Caching set above
+<IfModule mod_headers.c>
+ <filesMatch ".+\.(ico|jpe?g|png|gif|swf)$">
+  Header set Cache-Control "max-age=604800, public"
+ </filesMatch>
+ <filesMatch ".+\.(js|css)$">
+  Header set Cache-Control "max-age=31536000, public"
+ </filesMatch>
+ <filesMatch ".+\.(x?html?|php)$">
+  Header set Cache-Control "max-age=0, private, no-store, no-cache, must-revalidate"
+ </filesMatch>
+</IfModule>
+# END Cache-Control Headers
+
+# Disable ETags as we have own process
+<IfModule mod_headers.c>
+Header unset ETag
+</IfModule>
+FileETag None

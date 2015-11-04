@@ -34,7 +34,7 @@ class ControllerAddToCart extends Controller {
 					);
 				}
 				//Create Output to Mini Cart
-				$output = '<div class="headingcolumn" style="cursor: pointer" onclick="ShowCart()"><h3>' . $language->get('heading_title') . '</h3></div>' . "\n";
+				$output = '<div class="headingcolumn pointer" onclick="ShowCart()"><h3>' . $language->get('heading_title') . '</h3></div>' . "\n";
 				$output .= '<div  class="cart">' . "\n";
 				$output .= '<div id="cart_content" class="cart_content">' . "\n";
 				if($products) {
@@ -43,7 +43,7 @@ class ControllerAddToCart extends Controller {
 					foreach ($products as $product) {
 						$output .= '<tr>' . "\n";
 						$output .= '<td>' . $product['quantity'] . '&nbsp;x&nbsp;</td>' . "\n";
-						$output .= '<td style="width: 100px;"><a href="' . $product['href'] . '">' . $product['name'] . '</a></td>' . "\n";
+						$output .= '<td class="ff"><a href="' . $product['href'] . '">' . $product['name'] . '</a></td>' . "\n";
 						$output .= '<td class="ee"> ' . $product['total'] . '</td>' . "\n";
 						$output .= '</tr>' . "\n";
 					}

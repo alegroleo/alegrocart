@@ -33,7 +33,9 @@
   }
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';    
 ?>
-
+<?php if (isset($products) && $tpl_columns == 1)  { 
+   include $shared_path . 'content_options.tpl';
+} ?>
 <?php if ($description) { ?>
 <div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
 <div id="category_description">

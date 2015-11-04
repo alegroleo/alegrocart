@@ -308,7 +308,8 @@ class ControllerProduct extends Controller {
 			if($this->config->get('config_show_stock_icon')){
 				$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
 			}
-
+			$view->set('social', $this->config->get('config_social'));
+			$view->set('current_product', $url->current_page());
 			$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
 			$view->set('maxrow', count($this->review()));
@@ -368,15 +369,19 @@ class ControllerProduct extends Controller {
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
-		$modules_extra['column'] = array('manufacturer', 'popular');
+		if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+			$modules_extra['column'] = array('manufacturer', 'popular');
+		} elseif ($this->tpl_columns == 2.1) {
+			$modules_extra['columnright'] = array('manufacturer', 'popular');
+		}
 		if(@$this->has_related){
-			if($this->tpl_columns != 2){
+			if($this->tpl_columns == 3){
 				$modules_extra['columnright'] = array('related');
 			} else {
 				$modules_extra['content'] = array('related');
 			}
 		} else {
-			if($this->tpl_columns != 2){
+			if($this->tpl_columns == 3){
 				$modules_extra['columnright'] = array('specials');
 			} else {
 				$modules_extra['content'] = array('specials');

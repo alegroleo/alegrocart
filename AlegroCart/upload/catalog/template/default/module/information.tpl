@@ -1,4 +1,4 @@
-<?php if(isset($tax_included) && $text_tax){
+<?php if(isset($tax_included) && $tax_included){
   $head_def->set_javascript("ajax/jquery.js");
   $head_def->set_javascript("ajax/tooltip.js");
 }?>
@@ -11,11 +11,11 @@
 <?php } ?>
 <a href="<?php echo $contact; ?>"><h4><?php echo $text_contact; ?></h4></a>
 <a href="<?php echo $sitemap; ?>"><h4><?php echo $text_sitemap; ?></h4></a>
-<?php if(isset($tax_included) && $text_tax){?>
+<?php if(isset($tax_included) && $tax_included){?>
   <script type="text/javascript">
     $(document).ready(function(){
 	  $('.taxE[title]').tooltip({
-      offset: [70,160], tipClass: 'tooltip_white'});
+		offset: [70,<?php echo ($location == 'column' ? 160 : -210) ?>], tipClass: 'tooltip_white'});
 	});
   </script>
 <?php echo '<div title="' . $text_tax_explantion . '" class="taxE" style="height: 14px; padding: 6px;"><span class="tax"> *</span>' . $text_tax . '</div>';
@@ -23,25 +23,23 @@
 </div>
 <div class="columnBottom"></div>
 <?php } else {?>
-<div class="information" style="background: none; width: 850px; margin-left: 200px; letter-spacing: 2px; border:none;">
-
+<div class="information">
+<div>
 <?php foreach ($information as $info) { ?>
-<a style="float: left; background: none;" href="<?php echo $info['href']; ?>"><h4><?php echo $info['title']; ?></h4></a>
+<a href="<?php echo $info['href']; ?>"><h4><?php echo $info['title']; ?></h4></a>
 <?php } ?>
-<a style="float: left; background: none;" href="<?php echo $contact; ?>"><h4><?php echo $text_contact; ?></h4></a>
-<a style="float: left; background: none;" href="<?php echo $sitemap; ?>"><h4><?php echo $text_sitemap; ?></h4></a>
-<?php if(isset($tax_included) && $text_tax){?>
+<a href="<?php echo $contact; ?>"><h4><?php echo $text_contact; ?></h4></a>
+<a href="<?php echo $sitemap; ?>"><h4><?php echo $text_sitemap; ?></h4></a>
+</div>
+<?php if(isset($tax_included) && $tax_included){?>
   <script type="text/javascript">
     $(document).ready(function(){
 	  $('.taxE[title]').tooltip({
-       offset: [-70,190], tipClass: 'tooltip_white'});
+		offset: [-70,190], tipClass: 'tooltip_white'});
 	});
   </script>
-<?php echo '<div title="' . $text_tax_explantion . '" class="taxE" ><span class="tax"> *</span>' . $text_tax . '</div>';
+<?php echo '<div style="display: table; margin: 0 auto;" title="' . $text_tax_explantion . '" class="taxE" ><span class="tax"> *</span>' . $text_tax . '</div>';
 }?>
 </div>
 <div class="clearfix"></div>
-<?php }?> 
-
-
-
+<?php }?>

@@ -27,22 +27,28 @@ class ControllerContact extends Controller {
 		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
 	}
 
-  	function index() {
-    	$this->template->set('title', $this->language->get('heading_title'));  
-	 
-    	if ($this->request->isPost() && $this->request->has('email', 'post') && $this->validate()) {
-	  		
-			$this->mail->setTo($this->config->get('config_email_contact') ? $this->config->get('config_email_contact') : $this->config->get('config_email'));
-	  		$this->mail->setFrom($this->request->sanitize('email', 'post'));
-	  		$this->mail->setSender($this->request->sanitize('name', 'post'));
-	  		$this->mail->setSubject($this->language->get('email_subject', $this->request->sanitize('name', 'post')));
-	  		$this->mail->setText($this->request->sanitize('enquiry', 'post'));
-      		$this->mail->send();
+	function index() {
+	$this->template->set('title', $this->language->get('heading_title'));
 
-	  		$this->response->redirect($this->url->ssl('contact', 'success'));
-    	}
-		
-    	$view = $this->locator->create('template');
+	if ($this->request->isPost() && $this->request->has('email', 'post') && $this->validate() && !$this->customer->isLogged()) {
+		$this->mail->setTo($this->config->get('config_email_contact') ? $this->config->get('config_email_contact') : $this->config->get('config_email'));
+		$this->mail->setFrom($this->request->sanitize('email', 'post'));
+		$this->mail->setSender($this->request->sanitize('name', 'post'));
+		$this->mail->setSubject($this->language->get('email_subject', $this->request->sanitize('name', 'post')));
+		$this->mail->setText($this->request->sanitize('enquiry', 'post'));
+		$this->mail->send();
+		$this->response->redirect($this->url->ssl('contact', 'success'));
+	} elseif ($this->request->isPost() && $this->request->has('enquiry', 'post') && $this->validate() && $this->customer->isLogged()) {
+		$this->mail->setTo($this->config->get('config_email_contact') ? $this->config->get('config_email_contact') : $this->config->get('config_email'));
+		$this->mail->setFrom($this->customer->getEmail());
+		$this->mail->setSender($this->customer->getFirstName());
+		$this->mail->setSubject($this->language->get('email_subject', $this->customer->getFirstName()));
+		$this->mail->setText($this->request->sanitize('enquiry', 'post'));
+		$this->mail->send();
+		$this->response->redirect($this->url->ssl('contact', 'success'));
+	}
+
+	$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);    // New Header
 
     	$view->set('heading_title', $this->language->get('heading_title'));
@@ -85,8 +91,9 @@ class ControllerContact extends Controller {
 		$this->session->set('contact_mask', $this->mask->mask);
 		$this->session->set('contact_img_name', $this->mask->img_name);
 	}
-		
-		
+
+	$view->set('islogged', $this->customer->isLogged());
+
 		$this->template->set('head_def',$this->head_def);    // New Header
 		$this->template->set('content', $view->fetch('content/contact.tpl'));
 		$this->load_modules();  // Template Manager
@@ -131,8 +138,12 @@ class ControllerContact extends Controller {
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
-		$modules_extra['column'] = array('popular');
-		$modules_extra['columnright'] = array('specials');
+		if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+			$modules_extra['column'] = array('popular');
+			$modules_extra['columnright'] = array('specials');
+		} elseif ($this->tpl_columns == 2.1) {
+			$modules_extra['columnright'] = array('popular');
+		}
 		return $modules_extra;
 	}
 
@@ -149,32 +160,32 @@ class ControllerContact extends Controller {
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	} 
-    
-  	function validate() {
-	if (!$this->customer->isLogged() && $this->config->get('captcha_contactus')) {
-		if (strtoupper($this->request->sanitize('captcha_value', 'post')) != $this->session->get('contact_mask')){
-			$this->error['captcha'] = $this->language->get('error_captcha');
+
+	function validate() {
+		if (!$this->customer->isLogged() && $this->config->get('captcha_contactus')) {
+			if (strtoupper($this->request->sanitize('captcha_value', 'post')) != $this->session->get('contact_mask')){
+				$this->error['captcha'] = $this->language->get('error_captcha');
+			}
+			$this->mask->delete_image($this->session->get('contact_img_name'));
 		}
-		$this->mask->delete_image($this->session->get('contact_img_name'));
-	}
+		if (!$this->customer->isLogged()) {
+			if (!$this->validate->strlen($this->request->sanitize('name', 'post'),3,32)) {
+				$this->error['name'] = $this->language->get('error_name');
+			}
 
-		if (!$this->validate->strlen($this->request->sanitize('name', 'post'),3,32)) {
-      		$this->error['name'] = $this->language->get('error_name');
-    	}
+			if ((!$this->validate->strlen($this->request->sanitize('email', 'post'), 6, 32)) || (!$this->validate->email($this->request->sanitize('email', 'post'))) || $this->mail_check->final_mail_check($this->request->sanitize('email', 'post')) == FALSE) {
+				$this->error['email'] = $this->language->get('error_email');
+			}
+		}
+		if (!$this->validate->strlen($this->request->sanitize('enquiry', 'post'),10,1000)) {
+			$this->error['enquiry'] = $this->language->get('error_enquiry');
+		}
 
-    	if ((!$this->validate->strlen($this->request->sanitize('email', 'post'), 6, 32)) || (!$this->validate->email($this->request->sanitize('email', 'post'))) || $this->mail_check->final_mail_check($this->request->sanitize('email', 'post')) == FALSE) {
-      		$this->error['email'] = $this->language->get('error_email');
-    	}
-
-    	if (!$this->validate->strlen($this->request->sanitize('enquiry', 'post'),10,1000)) {
-      		$this->error['enquiry'] = $this->language->get('error_enquiry');
-    	}
-	 
 		if (!$this->error){
 			return TRUE;
 		} else {
-      		return FALSE;
-    	}
-  	}
+		return FALSE;
+		}
+	}
 }
 ?>

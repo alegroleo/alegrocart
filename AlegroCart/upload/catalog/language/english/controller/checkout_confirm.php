@@ -33,7 +33,7 @@ $_['text_currency']          = 'Currency : ';
 $_['text_tax']               = 'Tax Included in Amount';  //*********
 $_['text_warehouse_pickup']  = 'I understand Non-Shippable items are to be picked up at Warehouse!';
 $_['text_coupon']            = 'Success: Your coupon discount has been applied!';
-$_['text_agree']             = 'I agree to <a style="cursor: pointer;" onclick="location=\'%s\';"><u><b>%s</b></u></a>';
+$_['text_agree']             = 'I agree to <a class="pointer" onclick="location=\'%s\';"><u><b>%s</b></u></a>';
 $_['text_downloadable']      = 'Downloadable';
 
 // Entry

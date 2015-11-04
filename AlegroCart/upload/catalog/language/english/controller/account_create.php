@@ -9,8 +9,8 @@ $_['text_your_address']    = 'Your Address';
 $_['text_newsletter']      = 'Newsletter';
 $_['text_your_password']   = 'Your Password';
 $_['text_no_postal']       = ' Enter 4 periods \' .... \' if not required';
-$_['text_agree']           = 'I agree to <a id="infolink" style="cursor: pointer;" href="%s"><b>%s</b></a>';
-$_['text_required']        = '<span class="required">*</span><b> Required to enable input</b>';
+$_['text_agree']           = 'I agree to <a id="infolink" class="pointer" href="%s"><b>%s</b></a><span class="required"> **</span>';
+$_['text_required']        = '<span class="required">**</span><b> Required to enable input</b>';
 $_['text_captcha']         = 'CAPTCHA';
 $_['exp_captcha']          = 'Enter the text above in the box below to validate this form.';
 

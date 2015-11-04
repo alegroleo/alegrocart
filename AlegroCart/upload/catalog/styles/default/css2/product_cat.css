@@ -1,11 +1,11 @@
 .productcat{
-	width: 790px;
+	width: 795px;
 	border: 0px solid #000000;
 	overflow: hidden;
 }
 .productcat_top{
-	width: 790px;
-	margin: 0px 0px 0px 5px;
+	width: 795px;
+	margin: 0px 0px 0px 0px;
 	height: 9px;
 }
 .productcat_bottom{
@@ -24,6 +24,12 @@
 	padding-left: 8px;
 	text-align: left;
 	width: 380px;
+}
+.productcat .ptext b{
+	text-transform:uppercase;
+}
+.productcat .ptext b a{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 .productcat .add{
 	position: relative;
@@ -51,6 +57,9 @@
 .productcat .remaining {
 	text-align: left;
 	font-size: 11px;
+}
+.productcat .vendor {
+	text-align: left;
 }
 .button{
 	font-weight: 500;

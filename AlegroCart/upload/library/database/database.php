@@ -138,6 +138,7 @@ class Database {
 		return $this->to;
 	}
 	function import($file) {
+		$quotes = array("'","`");
 		if ($sql=file($file)) {
 			$query = '';
 			foreach($sql as $line) {
@@ -151,22 +152,23 @@ class Database {
 					}
 					if (preg_match('/;\s*$/', $query)){
 						if(preg_match('/^ALTER TABLE (.+?) ADD (.+?) /',$query,$matches)){
-							if ($this->countRows($this->parse("SHOW COLUMNS FROM '?' LIKE '?'",$matches[1],str_replace('`','',$matches[2]))) > 0){
+							if ($this->countRows($this->parse("SHOW COLUMNS FROM `?` LIKE '?'",str_replace($quotes,'',$matches[1]),str_replace($quotes,'',$matches[2]))) > 0){
 								$query='';
 							}
 						}
 						if(preg_match('/^ALTER TABLE (.+?) DROP (.+?) /',$query,$matches)){
 							$matches[2] = str_replace(';','',$matches[2]);
-							if ($this->countRows($this->parse("SHOW COLUMNS FROM '?' LIKE '?'",$matches[1],str_replace('`','',$matches[2]))) == NULL){
+							if ($this->countRows($this->parse("SHOW COLUMNS FROM `?` LIKE '?'",str_replace($quotes,'',$matches[1]),str_replace($quotes,'',$matches[2]))) == NULL){
 								$query = '';
 							}
 						}
 						if(preg_match('/^ALTER TABLE (.+?) CHANGE (.+?) /',$query,$matches)){
 							$matches[2] = str_replace(';','',$matches[2]);
-							if ($this->countRows($this->parse("SHOW COLUMNS FROM '?' LIKE '?'",$matches[1],str_replace('`','',$matches[2]))) == NULL){
+							if ($this->countRows($this->parse("SHOW COLUMNS FROM `?` LIKE '?'",str_replace($quotes,'',$matches[1]),str_replace($quotes,'',$matches[2]))) == NULL){
 								$query = '';
 							}
 						}
+						
 						if((strlen($query) > 3) && (preg_match('/;\s*$/', $line))){
 							if (!$this->query($query)) { $this->SQL_handler(sprintf(E_DB_QUERY,$this->mysqli->error,$this->mysqli->errno,$sql)); }
 							$query = '';

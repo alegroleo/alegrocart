@@ -7,7 +7,6 @@
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
-  
   <div id="forgotten">
     <p><?php echo $text_email; ?></p>
     <div class="a"><?php echo $text_your_email; ?></div>
@@ -24,8 +23,8 @@
   <div class="buttons">
     <table>
       <tr>
-        <td align="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
-        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+        <td class="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
+        <td class="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
       </tr>
     </table>
 	<input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">

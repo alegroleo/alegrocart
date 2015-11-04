@@ -1,0 +1,12 @@
+#pending {
+    behavior: url('catalog/javascript/png/iepngfix.htc');
+    background: url('../image/hourglass.png') no-repeat;
+    padding-left: 148px;
+    _height: 128px;
+    min-height: 128px;
+}
+
+#loadingbar {
+    behavior: url('catalog/javascript/png/iepngfix.htc');
+    background: url('../image/loading_bar.gif') no-repeat;
+}

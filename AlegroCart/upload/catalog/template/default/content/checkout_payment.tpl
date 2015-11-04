@@ -16,12 +16,12 @@
     <div class="b">
       <table>
         <tr>
-          <td width="50%" valign="top"><?php echo $text_payment_to; ?></td>
-          <td valign="top" rowspan="2"><b><?php echo $text_payment_address; ?></b><br>
+          <td width="50%"><?php echo $text_payment_to; ?></td>
+          <td rowspan="2"><b><?php echo $text_payment_address; ?></b><br>
             <?php echo $address; ?></td>
         </tr>
         <tr>
-          <td align="center" valign="top"><input type="button" value="<?php echo $button_change_address; ?>" id="change_address"></td>
+          <td class="center"><input type="button" value="<?php echo $button_change_address; ?>" id="change_address"></td>
         </tr>
       </table>
     </div>
@@ -61,8 +61,8 @@
   <div class="buttons">
     <table>
       <tr>
-        <td align="left"><input type="button" value="<?php echo $button_back; ?>" id="back"></td>
-        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+        <td class="left"><input type="button" value="<?php echo $button_back; ?>" id="back"></td>
+        <td class="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
       </tr>
     </table>
   </div>
@@ -92,7 +92,9 @@ $("#back, #change_address").on("click", function(){
 });
 //--></script>
   <script type="text/javascript">
-	$('input[name="payment"][checked="checked"]').closest('table').attr('class', 'default_method');
+	$(document).ready(function(){
+		$('input[name="payment"][checked="checked"]').closest('table').attr('class', 'default_method');
+	});
 //--></script>
   <script type="text/javascript">
 	$('input[name="payment"]').on("click", function(){

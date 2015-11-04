@@ -1,0 +1,38 @@
+/* HomePage CSS3*/
+.homepage{
+	width: 1000px;
+	min-height: 50px;
+}
+.flash{
+	width: 100%;
+	text-align: center;
+}
+.home_image{
+	width: 95%;
+	margin-left: 5px;
+	padding: 5px 0px 5px 0px;
+	border: 10px none #999999;
+	text-align: center;
+}
+.welcome{
+	width: 950px;
+	margin-left: 15px;
+	padding: 5px 0px 5px 0px;
+}
+.homepage_desc{
+	width: 950px;
+	margin-left: 15px;
+	padding: 5px 0px 5px 0px;
+}
+.image_display{
+	width: 100%;
+	text-align: center;
+}
+.image_display_img{
+	width: 99%;
+	text-align: center;
+}
+#homeslider {
+	margin-bottom: 40px;
+	text-align: center;
+}

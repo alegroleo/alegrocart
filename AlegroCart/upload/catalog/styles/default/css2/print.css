@@ -9,7 +9,7 @@ body {
 	padding: 0px;
 }
 body, td, th, input, textarea, select, a {
-	font-family: Arial, Verdana, Helvetica, sans-serif;	
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #000000;
 }
@@ -90,7 +90,7 @@ a:hover {
 	max-width: 950px;
 	margin: 5px 0px 0px 5px;
 	height: 22px;
-	padding-top: 8px;	
+	padding-top: 8px;
 }
 .contentBody {
     width: 950px;
@@ -108,7 +108,6 @@ a:hover {
 	margin: 0px 0px 10px 5px;
 	height: 8px;
 }
-
 .heading {
 	font-size: 14px;
 	font-weight: 600;
@@ -169,7 +168,7 @@ a:hover {
 .module {
 	position: relative;
 	left: 0px;
-    width: 795px;
+	width: 795px;
 	margin-top: 0px;
 	padding-top: 0px;
 	min-height: 160px;
@@ -178,7 +177,7 @@ a:hover {
 	padding-left: 0px;
 	padding-bottom: 0px;
 	height: 9px;
-    width: 795px;	
+	width: 795px;
 }
 .error {
 	color: #FF0000;
@@ -237,9 +236,9 @@ a:hover {
 	color: #000000;
 }
 .column_row{
-    width: 790px;
+	width: 795px;
 	margin-bottom: 2px;
-	clear: both;	
+	clear: both;
 }
 .divider{
 	height: 2px;
@@ -281,7 +280,7 @@ a:hover {
 	text-align: center; 
 	font-size: 10px; 
 	min-height: 220px;
-    padding-bottom: 2px;
+	padding-bottom: 2px;
 }
 .product_desc{
 	padding: 0px;
@@ -317,7 +316,7 @@ a:hover {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-left: 5px;
-	margin-right: 5px;	
+	margin-right: 5px;
 	height: 20px;
 }
 .results .left {

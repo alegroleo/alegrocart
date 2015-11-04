@@ -34,6 +34,9 @@
 	font-weight: bold;
 	padding-left: 5px;
 }
+#checkout .h {
+	padding-left: 5px;
+}
 #checkout .totals {
 	width: 60px;
 }
@@ -73,4 +76,18 @@
 	text-align: right;
 	font-weight: 200;
 	padding-left: 0px;
+}
+.buttons .rtext {
+  text-align: right;
+}
+.cc_form {
+	border: 3px solid #C1002B;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	margin-bottom: 10px;
+	padding: 2px;
+	background-color: #EEEEEE;
+	margin-top: 10px;
 }

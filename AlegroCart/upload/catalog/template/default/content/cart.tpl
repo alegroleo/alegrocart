@@ -36,7 +36,7 @@
   <?php } ?>
         <th class="g"><?php echo $column_price; ?></th>
         <th class="e"><?php echo $column_special; ?></th>
-		<?php if($columns == 2){?>
+		<?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 		  <th class="e"><?php echo $column_extended; ?></th>
 		  <?php if($coupon_sort_order < $discount_sort_order){ ?>
 			<th class="e"><?php echo $column_coupon_value; ?></th>
@@ -91,7 +91,7 @@
           <span class="cartprice_new"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['discount']; ?></span>
           <?php } ?></td>
         <td class="k"><?php if ($product['special_price'] > "$0.00"){echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['special_price'];} ?></td>
-		<?php if($columns == 2){?>
+		<?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 		  <td class="m"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['total']; ?></td>
 		  <?php if($coupon_sort_order < $discount_sort_order){ ?>
 			<td class="m"><?php echo ($tax_included && $product['coupon'] ? '<span class="tax">*</span>' : '') . $product['coupon']; ?></td>
@@ -108,7 +108,7 @@
         <td class="m"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['total_discounted']; ?></td>
       </tr>
       <?php } ?>
-	  <?php if($columns == 2){?>
+	  <?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 	  <tr class="totals">
 	    <th class="t" colspan="<?php echo ($max_qty_column) ? 8 : 7 ?>"><?php echo $text_product_totals;?></th>
 	    <td class="m"><?php echo ($tax_included ? '<span class="tax">* </span>' : '') . $extended_total;?></td>
@@ -158,7 +158,7 @@
     <div class="buttons">
       <table>
         <tr>
-        <td align="left" class="buttons"><input type="button" id="calculate" value="<?php echo $button_calculate; ?>" ></td>
+        <td class="left" class="buttons"><input type="button" id="calculate" value="<?php echo $button_calculate; ?>" ></td>
         </tr>
       </table>
     </div>
@@ -185,7 +185,7 @@
     </div>
 	<table width="100%">
 	<tr>
-           <td><span <?php echo isset($text_shortfall) ? 'class="tax"' : ''; ?>><?php echo isset($minov_status) ? $text_min_order_value.$minov_value.'! ' : ''; ?><?php echo isset($text_shortfall) ? $text_shortfall : ''; ?></span></td>
+           <td><span <?php echo isset($text_shortfall) ? 'class="tax"' : ''; ?>><?php echo $minov_status ? $text_min_order_value.$minov_value.'! ' : ''; ?><?php echo isset($text_shortfall) ? $text_shortfall : ''; ?></span></td>
         </tr></table>
 	<?php if ($discount_status) {?>
 	  <table width="100%">
@@ -229,9 +229,9 @@
   <div class="buttons">
     <table>
       <tr>
-        <td align="left"><input type="submit" value="<?php echo $button_update; ?>"></td>
-        <td align="center"><input type="button" value="<?php echo $button_shopping; ?>" onclick="<?php echo $continue; ?>"></td>
-        <td align="right"><input type="button" value="<?php echo $button_checkout; ?>" onclick="location='<?php echo $checkout; ?>'"></td>
+        <td class="left"><input type="submit" value="<?php echo $button_update; ?>"></td>
+        <td class="center"><input type="button" value="<?php echo $button_shopping; ?>" onclick="<?php echo $continue; ?>"></td>
+        <td class="right"><input type="button" value="<?php echo $button_checkout; ?>" onclick="location='<?php echo $checkout; ?>'"></td>
       </tr>
     </table>
   </div>
@@ -256,7 +256,7 @@ $("#calculate").on("click", function(){
 		beforeSend: function (data) {
 			$(".calc_error").remove();
 			$("#calculate").prop('disabled',true);
-			$('#calculate').after('<img src="catalog/styles/default/image/working.gif" alt="" id="working">');
+			$('#calculate').after('<img src="catalog/styles/<?php echo $this->style; ?>/image/working.gif" alt="" id="working">');
 		},
 		success: function (data) {
 			if (data.status === true) {

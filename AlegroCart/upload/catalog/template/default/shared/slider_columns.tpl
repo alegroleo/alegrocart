@@ -41,7 +41,7 @@
 	</div>
     <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
 	<?php if (isset($product['average_rating'])) { ?>
-    <div><img src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
+    <div><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112px" height="20px" data-src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
 	<?php } ?>
 	<?php if ($product['description']) { ?>
     <div class="product_desc">
@@ -73,7 +73,7 @@
 	            } else {
 		      $icon = 'catalog/styles/'.$this->style.'/image/stock_status_r.png';
 	            }?>
-	        <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+	        <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $icon;?>" width="11px" height="11px" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 		  <?php }?>
 		</div>
 	<?php } else if($show_stock && $product['options']){?>

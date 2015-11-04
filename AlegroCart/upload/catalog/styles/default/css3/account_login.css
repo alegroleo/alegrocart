@@ -1,5 +1,5 @@
 #login .a, #login .g {
-	width: 285px;
+	width: 290px;
 }
 
 #login .a {
@@ -20,16 +20,18 @@
 
 #login .c, #login .i {
 	padding: 10px;
+	height: 140px;
 }
-
+#login .o, #login .n {
+	padding: 10px;
+	height: 300px;
+}
 #login .d, #login .j {
 	margin-top: 12px;
-	_margin-top: 20px;
 }
 
 #login .e, #login .k {
 	margin-top: 20px;
-	_margin-top: 20px;
 }
 
 #login .e .x{
@@ -40,6 +42,5 @@
 
 #login .f, #login .l {
 	margin-top: 12px;
-	_margin-top: 20px;
 	text-align: right;
 }

@@ -220,18 +220,39 @@ function update_status(order_id){
   });
 }
 //--></script>
+<?php if(isset($controller) && $controller == 'homepage') {?>
 <script type="text/javascript"><!--
-$("input").on("click", function (event) {
-		var imgstatus = $(this).attr('name')
-		var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png')
-		var urlid = $(this).attr('id')
-		var isclass = $(this).attr('class')
-		if (isclass == "status") {
+$("input").click(function (event) {
+	var imgstatus = $(this).attr('name');
+	var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png');
+	var urlid = $(this).attr('id');
+	var isclass = $(this).attr('class');
+	if (isclass == "status") {
+		if (imgstatus == '0'){
+			$.each($('.status'), function() {
+				$(this).attr('src','template/<?php echo $this->directory?>/image/disabled.png');
+				$(this).attr('name', '0'); 
+			});
+		}
 		$(this).attr('src','template/<?php echo $this->directory?>/image/'+imgstatus2);
 		$(this).attr('name', imgstatus == '0' ? '1' : '0'); 
-		}
+	}
 });
 //--></script>
+<?php } else { ?>
+<script type="text/javascript"><!--
+$("input").click(function (event) {
+	var imgstatus = $(this).attr('name');
+	var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png');
+	var urlid = $(this).attr('id');
+	var isclass = $(this).attr('class');
+	if (isclass == "status") {
+		$(this).attr('src','template/<?php echo $this->directory?>/image/'+imgstatus2);
+		$(this).attr('name', imgstatus == '0' ? '1' : '0'); 
+	}
+});
+//--></script>
+<?php } ?>
 <script type="text/javascript"><!--original idea by Alen Grakalic
 $(function() {
 

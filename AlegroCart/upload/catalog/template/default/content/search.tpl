@@ -28,7 +28,9 @@
   $head_def->set_MetaKeywords("product search, keywords, enhanced, wildcard");
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
 ?>
-
+<?php if (isset($products) && $tpl_columns == 1)  { 
+   include $shared_path . 'content_options.tpl';
+} ?>
 <div id="search">
   <div class="headingbody"><h1><?php echo $heading_title; ?></h1></div>
   <div class="contentBody">
@@ -38,18 +40,18 @@
       <div class="c">
         <table>
           <tr>
-            <td style="width: 100px"><?php echo $entry_search; ?></td>
+            <td class="e g"><?php echo $entry_search; ?></td>
             <td><?php if ($search) { ?>
               <input type="text" name="search" value="<?php echo cleansearch($search); ?>">
               <?php } else { ?>
               <input type="text" name="search" value="<?php echo $text_keywords; ?>" onclick="this.value = ''">
               <?php } ?></td>
-          </tr>		
+          </tr>	
           <tr>
             <td colspan="2">
               <input type="checkbox" name="description"<?php if ($description == "on") { ?> value="on" CHECKED<?php } else {?> value="off"<?php }?>>
-              <?php echo $entry_description; ?></td>			  
-			<td style="width: 350px;" align="right"><input type="submit" value="<?php echo $button_search; ?>"></td>
+              <?php echo $entry_description; ?></td>
+			<td class="f"><input type="submit" value="<?php echo $button_search; ?>"></td>
           </tr>
 		</table>
 		<input type="hidden" name="max_rows" value="<?php echo $max_rows; ?>">
@@ -64,9 +66,9 @@
 		  
 		<?php if(isset($maximum_results)){
 			if($maximum_results){
-		    echo "<table style=\"background-color: #FFCCCC;\"><tr><td>" . $text_max_reached . "</td></tr></table>";
+		    echo "<table class=\"warning\"><tr><td>" . $text_max_reached . "</td></tr></table>";
 		  }
-		} ?>		
+		} ?>
       </div>
     </div> 
   </form></div>
@@ -74,7 +76,7 @@
   <?php if($columns == 1) { ?>
     <div class="e">
       <?php $heading_info = isset($heading_info) ? " - " . $heading_info : " - ".$text_search;?>
-      <?php echo $heading_title .$heading_info;?> 
+      <h2><?php echo $heading_title .$heading_info;?></h2>
     </div>
   <?php }?>
   <?php if (isset($products)) { //<!-- Start of Product  -->?>

@@ -13,7 +13,7 @@
 <div class="buttons">
   <table>
     <tr>
-      <td align="right"><input type="button" value="<?php echo $button_continue; ?>" onclick="location='<?php echo $continue; ?>'"></td>
+      <td class="right"><input type="button" value="<?php echo $button_continue; ?>" onclick="location='<?php echo $continue; ?>'"></td>
     </tr>
   </table>
 </div>

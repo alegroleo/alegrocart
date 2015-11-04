@@ -597,6 +597,7 @@ class ControllerProduct extends Controller {
 		$view->set('explanation_max_qty', $this->language->get('explanation_max_qty'));
 		$view->set('explanation_multiple', $this->language->get('explanation_multiple'));
 		$view->set('explanation_shipping_time', $this->language->get('explanation_shipping_time'));
+		$view->set('explanation_description', $this->language->get('explanation_description'));
 
 	$view->set('error', @$this->error['message']);
 	$view->set('error_name', @$this->error['name']);

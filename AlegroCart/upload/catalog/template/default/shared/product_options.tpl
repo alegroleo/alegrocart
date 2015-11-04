@@ -7,7 +7,7 @@
 <?php if(!isset($weight_decimal)){$weight_decimal = $decimal_place;}?>
   <?php foreach ($product['options'] as $key => $option) { ?>
    <tr>	  
-    <td><?php echo $option['name']; ?></td>
+    <td class="option"><?php echo $option['name']; ?></td>
     <td><select name="option<?php echo '_' . $product['product_id'];?>[<?php echo $key+1; ?>]" onchange="UpdateTotal(<?php echo $decimal_place . "," . $weight_decimal . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "','" . $Added_to_Cart."','" . $Add_to_Cart . "'";?>)">
     <?php foreach ($option['value'] as $price_key => $option_value) { ?>
      <option id="<?php echo "O".($product['product_id'])."_".($key+1)."_".($price_key+1); ?>" value="<?php echo $option_value['product_to_option_id']; ?>"><?php echo $option_value['name']; ?>
@@ -19,7 +19,7 @@
 		} elseif ($option_value['prefix'] == '-'){
 		 $product_total = $product_total - number_format((float)str_replace($decimal_point,'.',str_replace($symbols,'',$option_value['price'])),$decimal_place,'.','');
 		}
-	   }?>					  
+	   }?>
       <?php } ?>
      </option>
 	 <?php $options_price[] = array(

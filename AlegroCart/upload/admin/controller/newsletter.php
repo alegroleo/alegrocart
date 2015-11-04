@@ -39,15 +39,24 @@ class ControllerNewsletter extends Controller {
 				foreach ($results as $result) {
 					$email[] = $result['email'];
 				}
-				$from = $this->config->get('config_email_newsletter') ? $this->config->get('config_email_newsletter') : $this->config->get('config_email');
 				if ($email) {
+					$groups = array();
+					$from = $this->config->get('config_email_newsletter') ? $this->config->get('config_email_newsletter') : $this->config->get('config_email');
 					$this->mail->setTo($from);
-					$this->mail->setBcc($email);
 					$this->mail->setFrom($from);
-	    			$this->mail->setSender($this->config->get('config_store'));
-	    			$this->mail->setSubject($this->request->get('subject', 'post'));
-					$this->mail->setHtml($this->request->get('content', 'post'));	    	
-	    			$this->mail->send();
+					$this->mail->setSender($this->config->get('config_store'));
+					$this->mail->setSubject($this->request->get('subject', 'post'));
+					$this->mail->setHtml($this->request->get('content', 'post'));
+					if ($this->config->get('config_newsletter')){
+						$groups = array_chunk($email, $this->config->get('config_newsletter') == 1 ? 1 : $this->config->get('config_newsletter') - 1);
+						foreach ($groups as $group){
+							$this->mail->setBcc($group);
+							$this->mail->send();
+						}
+					} else {
+						$this->mail->setBcc($email);
+						$this->mail->send();
+					}
 				}
 			}
 
@@ -74,15 +83,24 @@ class ControllerNewsletter extends Controller {
 				foreach ($results as $result) {
 					$email[] = $result['email'];
 				}
-				$from = $this->config->get('config_email_newsletter') ? $this->config->get('config_email_newsletter') : $this->config->get('config_email');
 				if ($email) {
+					$groups = array();
+					$from = $this->config->get('config_email_newsletter') ? $this->config->get('config_email_newsletter') : $this->config->get('config_email');
 					$this->mail->setTo($from);
-					$this->mail->setBcc($email);
 					$this->mail->setFrom($from);
-	    			$this->mail->setSender($this->config->get('config_store'));
-	    			$this->mail->setSubject($this->request->get('subject', 'post'));
+					$this->mail->setSender($this->config->get('config_store'));
+					$this->mail->setSubject($this->request->get('subject', 'post'));
 					$this->mail->setHtml($this->request->get('content', 'post'));
-	    			$this->mail->send();
+					if ($this->config->get('config_newsletter')){
+						$groups = array_chunk($email, $this->config->get('config_newsletter') == 1 ? 1 : $this->config->get('config_newsletter') - 1);
+						foreach ($groups as $group){
+							$this->mail->setBcc($group);
+							$this->mail->send();
+						}
+					} else {
+						$this->mail->setBcc($email);
+						$this->mail->send();
+					}
 				}
 			}
 

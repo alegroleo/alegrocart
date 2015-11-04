@@ -90,6 +90,10 @@
                     <td style="vertical-align: top; width: 185px" class="set"><?php echo $entry_description; ?></td>
                     <td><textarea name="description[<?php echo $product['language_id']; ?>]" id="description<?php echo $product['language_id']; ?>"><?php echo $product['description']; ?></textarea></td>
                   </tr>
+                  <tr>
+<td></td>
+			<td class="expl"><?php echo $explanation_description; ?></td>	
+                  </tr>
                 </table>
               </div>
             </div>

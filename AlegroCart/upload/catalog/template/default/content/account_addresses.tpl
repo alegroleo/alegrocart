@@ -14,7 +14,7 @@
   <div class="b"><?php echo $text_address_book; ?> </div>
   <?php foreach ($addresses as $result) { ?>
   <div class="c">
-    <table style="width:=580px">
+    <table>
       <tr>
         <td width="70%"><?php echo $result['address']; ?></td>
         <td><input type="button" value="<?php echo $button_edit; ?>" onClick="location='<?php echo $result['update']; ?>'"></td>
@@ -27,8 +27,8 @@
   <div class="buttons">
     <table>
       <tr>
-        <td align="left"><input type="button" value="<?php echo $button_back; ?>" onClick="location='<?php echo $back; ?>'"></td>
-        <td align="right"><input type="submit" value="<?php echo $button_new_address; ?>" onClick="location='<?php echo $insert; ?>'"></td>
+        <td class="left"><input type="button" value="<?php echo $button_back; ?>" onClick="location='<?php echo $back; ?>'"></td>
+        <td class="right"><input type="submit" value="<?php echo $button_new_address; ?>" onClick="location='<?php echo $insert; ?>'"></td>
       </tr>
     </table>
   </div>

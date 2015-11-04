@@ -8,7 +8,7 @@
 	      <?php foreach ($product['options'] as $key => $option) { ?>
 	  <?php $lines = $lines+1; ?>
           <table><tr>	  
-            <td rowspan="<?php echo count($option['value']);?>" style="min-width: 60px;"> <?php echo $option['name']; ?></td>
+            <td rowspan="<?php echo count($option['value']);?>" class="option"> <?php echo $option['name']; ?></td>
               <?php foreach ($option['value'] as $price_key => $option_value) { ?>
 			    <?php if($price_key >0){?><tr><?php }?>
 				<td>

@@ -53,7 +53,7 @@
 
 </div>
 <table><?php for ($i=1; $i<5; $i++) { ?>
-  <tr><td style="width:15px;"></td><td><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo ${'rating'.$i} . '.png'; ?>" alt="<?php echo ${'text_out_of'.$i}; ?>" class="png"></td></tr><tr><td style="width:15px;"></td><td></td><td>(<?php echo ${'text_out_of'.$i}; ?>)</td></tr>
+  <tr><td></td><td><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112" height="20" data-src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo ${'rating'.$i} . '.png'; ?>" alt="<?php echo ${'text_out_of'.$i}; ?>" class="png"></td></tr><tr><td></td><td></td><td>(<?php echo ${'text_out_of'.$i}; ?>)</td></tr>
   <?php } ?></table></br>
 <p><b><a href="<?php echo $href; ?>"><?php echo $name; ?></a></b></p>
 </div>
@@ -64,8 +64,8 @@
 <div class="buttons">
   <table>
     <tr>
-      <td align="left"><input type="button" value="<?php echo $button_reviews; ?>" onclick="location='<?php echo $review; ?>'"></td>
-      <td align="right"><input type="button" value="<?php echo $button_write; ?>" onclick="location='<?php echo $write; ?>'"></td>
+      <td class="left"><input type="button" value="<?php echo $button_reviews; ?>" onclick="location='<?php echo $review; ?>'"></td>
+      <td class="right"><input type="button" value="<?php echo $button_write; ?>" onclick="location='<?php echo $write; ?>'"></td>
     </tr>
   </table>
 </div>

@@ -51,7 +51,7 @@
                 <span class="error"><?php echo $error_address; ?></span>
                 <?php } ?></td>
 	      <td class="expl">
-			    <?php echo $explanation_address; ?> 
+			    <?php echo $explanation_address; ?>
 	      </td>
             </tr>
             <tr>
@@ -85,7 +85,7 @@
                 <label for="ccurno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 		<td class="expl">
-			<?php echo $explanation_unregistered; ?> 
+			<?php echo $explanation_unregistered; ?>
 		</td>
             </tr>
 		<tr>
@@ -102,7 +102,7 @@
                 <label for="ccrno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 		<td class="expl">
-			<?php echo $explanation_registered; ?> 
+			<?php echo $explanation_registered; ?>
 		</td>
             </tr>
 	    <tr>
@@ -122,7 +122,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
-            </tr> 
+            </tr>
 			<tr> <!-- Columns -->
 			  <td class="set"><?php echo $entry_columns; ?></td>
 			  <td><select name="catalog_config_columns" id="catalog_config_columns" onchange="$('#colors').load('index.php?controller=setting&action=getColors&'+change_columns(this.value));">
@@ -134,6 +134,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+			  <td class="expl"><?php echo $explanation_columns;?></td>
 			</tr>
 			<tr> <!-- Styles -->
               <td class="set"><?php echo $entry_styles; ?></td>
@@ -271,7 +272,7 @@
                 <label for="gcqlno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 			  <td class="expl">
-			    <?php echo $explanation_query_log; ?> 
+			    <?php echo $explanation_query_log; ?>
 			  </td>
             </tr>
           </table>
@@ -345,10 +346,10 @@
 			  <td id="token"><input type="text" size="40" <?php if($global_config_token){ echo 'readonly="readonly" ';}?>name="global_config_token" value="<?php echo $global_config_token;?>" onchange="$('#token').load('index.php?controller=setting&action=getToken&token='+encodeURIComponent(this.value)); ">
 			  </td>
 			  <td class="expl">
-			      <?php echo $text_token; ?> 
+			      <?php echo $text_token; ?>
 			  </td>
 			</tr>
-			<tr> 
+			<tr>
 			  <td class="set"><?php echo $entry_session_expire; ?></td>
 			  <td><input class="validate_int" id="config_session_expire" type="text" name="global_config_session_expire" value="<?php echo $global_config_session_expire; ?>" size="2"></td>
 			  <td class="expl"><?php echo $explanation_session_expire; ?></td>
@@ -357,7 +358,7 @@
 			  <td valign="top" class="set"><?php echo $entry_address_format; ?></td>
 			  <td><textarea name="global_config_address_format" cols="50" rows="7"><?php echo $global_config_address_format; ?></textarea>
 			  <td class="expl">
-			      <?php echo $text_address_explantion; ?> 
+			      <?php echo $text_address_explantion; ?>
 			  </td>
 			</tr>
 			<tr>
@@ -378,7 +379,7 @@
                 <?php } ?>
 			  </td>
 			  <td class="expl">
-			    <?php echo $text_error_handler; ?> 
+			    <?php echo $text_error_handler; ?>
 			  </td>
             </tr>
 
@@ -397,7 +398,7 @@
                 <?php } ?>
 			  </td>
 			  <td class="expl">
-			    <?php echo $text_error_email_status; ?> 
+			    <?php echo $text_error_email_status; ?>
 			  </td>
             </tr>
 
@@ -409,7 +410,7 @@
                 <span class="error"><?php echo $error_error_email; ?></span>
                 <?php  } ?></td>
 			  <td class="expl">
-			    <?php echo $text_error_email; ?> 
+			    <?php echo $text_error_email; ?>
 			  </td>
             </tr>
 			<tr>
@@ -427,7 +428,7 @@
                 <?php } ?>
 			  </td>
 			  <td class="expl">
-			    <?php echo $text_error_show_user; ?> 
+			    <?php echo $text_error_show_user; ?>
 			  </td>
             </tr>
 			<tr>
@@ -445,14 +446,14 @@
                 <?php } ?>
 			  </td>
 			  <td class="expl">
-			    <?php echo $text_error_show_developer; ?> 
+			    <?php echo $text_error_show_developer; ?>
 			  </td>
             </tr>
 			<tr>
               <td width="185" class="set"><?php echo $entry_error_developer_ip; ?></td>
               <td><input class="validate_ip" id="error_developer_ip" size="64" type="text" name="global_error_developer_ip" value="<?php echo $global_error_developer_ip; ?>"></td>
 			  <td class="expl">
-			    <?php echo $text_error_developer_ip; ?> 
+			    <?php echo $text_error_developer_ip; ?>
 			  </td>
             </tr>
 
@@ -511,7 +512,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
-				<input type="hidden" name="default_currency" value="<?php echo $default_currency;?>"> 
+				<input type="hidden" name="default_currency" value="<?php echo $default_currency;?>">
             </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_currency_surcharge;?></td>
@@ -591,7 +592,7 @@
                 <label for="cceno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">
-				  <?php echo $explanation_estimate; ?> 
+				  <?php echo $explanation_estimate; ?>
 				</td>
 			</tr>
             <tr>
@@ -624,6 +625,40 @@
                 <?php } ?></td>
 				<td class="expl"><?php echo $text_tax_products;?></td>
             </tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_social; ?></td>
+              <td width="100"><?php if ($catalog_config_social) { ?>
+                <input type="radio" name="catalog_config_social" value="1" id="ccsoyes" checked>
+                <label for="ccsoyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_social" value="0" id="ccsono">
+                <label for="ccsono"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="catalog_config_social" value="1" id="ccsoyes">
+                <label for="ccsoyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="catalog_config_social" value="0" id="ccsono" checked>
+                <label for="ccsono"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+				<td class="expl">
+				  <?php echo $explanation_social; ?>
+				</td>
+			</tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_page_load; ?></td>
+              <td width="100"><?php if ($global_config_page_load) { ?>
+                <input type="radio" name="global_config_page_load" value="1" id="gcplyes" checked>
+                <label for="gcplyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_page_load" value="0" id="gcplno">
+                <label for="gcplno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_config_page_load" value="1" id="gcplyes">
+                <label for="gcplyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_page_load" value="0" id="gcplno" checked>
+                <label for="gcplno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+				<td class="expl">
+				  <?php echo $explanation_page_load; ?>
+				</td>
+			</tr>
             <tr>
               <td class="set"><?php echo $entry_order_status; ?></td>
               <td><select name="global_config_order_status_id">
@@ -661,7 +696,7 @@
                 <label for="ccscno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">
-				  <?php echo $text_check_stock_explantion; ?> 
+				  <?php echo $text_check_stock_explantion; ?>
 				</td>
             </tr>
             <tr>
@@ -678,7 +713,7 @@
                 <label for="ccscono"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">
-				  <?php echo $text_allow_checkout_explantion; ?> 
+				  <?php echo $text_allow_checkout_explantion; ?>
 				</td>
             </tr>
             <tr>
@@ -695,7 +730,7 @@
                 <label for="ccssno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">
-				  <?php echo $text_subtract_stock_explantion; ?> 
+				  <?php echo $text_subtract_stock_explantion; ?>
 				</td>
 			</tr>
 			<tr><td colspan="2"><hr></td></tr>
@@ -713,10 +748,10 @@
                 <label for="stockno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">
-				  <?php echo $text_show_stock; ?> 
+				  <?php echo $text_show_stock; ?>
 				</td>
 			</tr>
-			
+
 			<tr>
               <td width="185" class="set"><?php echo $entry_show_stock_icon; ?></td>
               <td width="100"><?php if ($catalog_config_show_stock_icon) { ?>
@@ -731,10 +766,10 @@
                 <label for="sticonno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">
-				  <?php echo $explanation_stock_icon; ?> 
+				  <?php echo $explanation_stock_icon; ?>
 				</td>
 			</tr>
-			
+
 			<tr>
 			  <td class="set"><?php echo $entry_low_stock_warning; ?></td>
 			  <td><input class="validate_int" id="config_low_stock_warning" type="text" name="catalog_config_low_stock_warning" value="<?php echo $catalog_config_low_stock_warning; ?>" size="3" maxlength="3"></td>
@@ -755,10 +790,10 @@
                 <label for="dono"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">
-				  <?php echo $explanation_option_discount; ?> 
+				  <?php echo $explanation_option_discount; ?>
 				</td>
 			</tr>
-			
+
 			<tr>
               <td width="185" class="set"><?php echo $entry_guest_checkout; ?></td>
               <td width="100"><?php if ($catalog_config_guest_checkout) { ?>
@@ -773,7 +808,7 @@
                 <label for="ccgcno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 				<td class="expl">
-				  <?php echo $text_guest_checkout; ?> 
+				  <?php echo $text_guest_checkout; ?>
 				</td>
 			</tr>
           </table>
@@ -812,7 +847,7 @@
                   <?php } ?>
                 </select></td>
             </tr>
-		<tr><td colspan="2"><hr></td></tr>	
+		<tr><td colspan="2"><hr></td></tr>
 			<tr>
               <td class="set"><?php echo $entry_rss_status; ?></td>
               <td><?php if ($global_config_rss_status) { ?>
@@ -828,7 +863,7 @@
                 <?php } ?>
 			  </td>
 			  <td class="expl">
-			    <?php echo $text_rss_status; ?> 
+			    <?php echo $text_rss_status; ?>
 			  </td>
             </tr>
 			<tr>
@@ -859,12 +894,12 @@
 		        <?php } ?>
 		      </td>
 			<td class="expl">
-			<?php echo $explanation_sitemap . $sitemap_path; ?> 
+			<?php echo $explanation_sitemap . $sitemap_path; ?>
 		      </td>
            	</tr>
 			<tr><td colspan="2"><hr></td></tr>
           </table>
-		  
+
 		  <table>
 			<tr><td width="165" style="color:#0099FF; font-weight:bold"><p><?php echo $text_store_logo;?></p></td>
 			  <td width="130"></td>
@@ -891,12 +926,12 @@
 			<tr>
 			  <td class="set"><?php echo $entry_logo_width;?></td>
 			  <td><input class="validate_int" id="config_logo_width" type="text" name="catalog_config_logo_width" value="<?php echo $catalog_config_logo_width; ?>" size="6"></td>
-			  
+
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_logo_height;?></td>
 			  <td><input class="validate_int" id="config_logo_height" type="text" name="catalog_config_logo_height" value="<?php echo $catalog_config_logo_height; ?>" size="6"></td>
-			  
+
 			</tr>
 			<tr><td colspan="2"><hr></td></tr>
 		  </table>
@@ -927,7 +962,7 @@
 			<tr>
 			  <td class="set"><?php echo $entry_footer_logo_width;?></td>
 			  <td><input class="validate_int" id="footer_logo_width" type="text" name="catalog_footer_logo_width" value="<?php echo $catalog_footer_logo_width; ?>" size="6"></td>
-			  
+
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_footer_logo_height;?></td>
@@ -969,7 +1004,7 @@
 			<?php } ?>
 			</td>
 			<td class="expl">
-			    <?php echo $text_captcha_contactus; ?> 
+			    <?php echo $text_captcha_contactus; ?>
 			</td>
 		  </tr>
 		  <tr>
@@ -987,7 +1022,7 @@
 			<?php } ?>
 			</td>
 			<td class="expl">
-			    <?php echo $text_captcha_reg; ?> 
+			    <?php echo $text_captcha_reg; ?>
 			</td>
 		  </tr>
 		  <tr>
@@ -1000,7 +1035,7 @@
 			  </select>
 			</td>
 			<td class="expl">
-			    <?php echo $text_captcha_length; ?> 
+			    <?php echo $text_captcha_length; ?>
 			</td>
 		 </tr>
 	    </table>
@@ -1047,7 +1082,7 @@
                 <label for="gcelno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 			  <td class="expl">
-			    <?php echo $explanation_email_log; ?> 
+			    <?php echo $explanation_email_log; ?>
 			  </td>
             </tr>
 	    <tr><td colspan="2"><hr></td>
@@ -1069,49 +1104,49 @@
                 <label for="gceano"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 			  <td class="expl">
-			    <?php echo $explanation_email_auth; ?> 
+			    <?php echo $explanation_email_auth; ?>
 			  </td>
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email_user; ?></td>
               <td><input class="validate_mail" size="64" type="text" name="global_config_email_user" id="global_config_email_user" value="<?php echo $global_config_email_user; ?>" disabled="disabled"></td>
 		<td class="expl">
-		  <?php echo $explanation_email_user; ?> 
+		  <?php echo $explanation_email_user; ?>
 		</td>
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email_passw; ?></td>
               <td><input size="64" type="text" name="global_config_email_passw" id="global_config_email_passw" value="<?php echo $global_config_email_passw; ?>" disabled="disabled"></td>
 		<td class="expl">
-		  <?php echo $explanation_email_passw; ?> 
+		  <?php echo $explanation_email_passw; ?>
 		</td>
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email_host; ?></td>
               <td><input class="validate_mail" size="64" type="text" name="global_config_email_host" id="global_config_email_host" value="<?php echo $global_config_email_host; ?>" disabled="disabled"></td>
 		<td class="expl">
-		  <?php echo $explanation_email_host; ?> 
+		  <?php echo $explanation_email_host; ?>
 		</td>
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_email_localhost; ?></td>
               <td><input class="validate_mail" size="64" type="text" name="global_config_email_lhost" id="global_config_email_lhost" value="<?php echo $global_config_email_lhost; ?>" disabled="disabled"></td>
 		<td class="expl">
-		  <?php echo $explanation_email_localhost; ?> 
+		  <?php echo $explanation_email_localhost; ?>
 		</td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_email_port; ?></td>
               <td><input class="validate_int" type="text" name="global_config_email_port" id="global_config_email_port" value="<?php echo $global_config_email_port; ?>" size="3" disabled="disabled"></td>
 		<td class="expl">
-		  <?php echo $explanation_email_port; ?> 
+		  <?php echo $explanation_email_port; ?>
 		</td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_email_timeout; ?></td>
               <td><input class="validate_int" type="text" name="global_config_email_tout" id="global_config_email_tout" value="<?php echo $global_config_email_tout; ?>" size="3" disabled="disabled"></td>
 		<td class="expl">
-		  <?php echo $explanation_email_timeout; ?> 
+		  <?php echo $explanation_email_timeout; ?>
 		</td>
             </tr>
 	    <tr><td colspan="2"><hr></td>
@@ -1153,6 +1188,18 @@
 			  <?php if ($error_email_contact) { ?>
 			  <span class="error"><?php echo $error_email_contact; ?></span>
 			  <?php  } ?></td>
+			</tr>
+			<tr><td colspan="2"><hr></td>
+			</tr>
+			<tr>
+			  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_newsletter; ?></p></td>
+			</tr>
+			<tr>
+			  <td class="set"><?php echo $entry_newsletter; ?></td>
+			  <td><input class="validate_int" type="text" name="global_config_newsletter" id="global_config_newsletter" value="<?php echo $global_config_newsletter; ?>" size="3" ></td>
+			  <td class="expl">
+			  <?php echo $explanation_newsletter; ?>
+			  </td>
 			</tr>
           </table>
         </div>
@@ -1223,8 +1270,13 @@
               <td class="set"><?php echo $entry_image_width; ?></td>
               <td><input class="validate_int" id="config_image_width" type="text" name="global_config_image_width" value="<?php echo $global_config_image_width; ?>" size="3"></td>
               <td class="set"><?php echo $entry_image_height; ?></td>
-              <td><input class="validate_int" id="config_image_height" type="text" name="global_config_image_height" value="<?php echo $global_config_image_height; ?>" size="3"></td>			  
-			</tr>
+              <td><input class="validate_int" id="config_image_height" type="text" name="global_config_image_height" value="<?php echo $global_config_image_height; ?>" size="3"></td>
+			     </tr>
+      			<tr>
+      			  <td class="set"><?php echo $entry_image_quality; ?></td>
+      			  <td><input class="validate_int" id="config_image_quality" type="text" name="global_config_image_quality" value="<?php echo $global_config_image_quality; ?>" size="3"></td>
+      			  <td colspan="2"><td class="expl"><?php echo $explanation_image_quality; ?></td>
+      			</tr>
 			<tr><td colspan="4"><hr></td>
 			</tr>
 			<tr>   <!-- Product -->
@@ -1251,9 +1303,9 @@
 				  <?php } else {?>
 				    <option value="<?php echo $image_display_product;?>"><?php echo $image_display_product;?></option>
 			      <?php }?>
-				<?php }?> 
+				<?php }?>
 			  </select></td>
-			</tr> 
+			</tr>
 			<tr>
               <td class="set"><?php echo $entry_product_addtocart; ?></td>
               <td><select name="catalog_product_addtocart">
@@ -1272,7 +1324,7 @@
 			        <option value="<?php echo $text_select;?>"<?php if($catalog_product_options_select == $text_select){echo ' selected';}?>><?php echo $text_select;?></option>
 				    <option value="<?php echo $text_radio;?>"<?php if($catalog_product_options_select == $text_radio){echo ' selected';}?>><?php echo $text_radio;?></option>
 			  </select></td>
-			</tr>  
+			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_alt_description; ?></td>
 			  <td><?php if ($catalog_alternate_description) { ?>
@@ -1287,7 +1339,7 @@
 			    <label for="cadno"><?php echo $text_no; ?></label>
 			    <?php } ?></td>
 			</tr>
-			<tr> 
+			<tr>
 			  <td class="set"><?php echo $entry_magnifier; ?></td>
 			  <td><?php if ($catalog_magnifier) { ?>
 			  <input type="radio" name="catalog_magnifier" value="1" id="myes" checked>
@@ -1342,7 +1394,7 @@
 			        <option value="<?php echo $text_select;?>"<?php if($catalog_category_options_select == $text_select){echo ' selected';}?>><?php echo $text_select;?></option>
 				    <option value="<?php echo $text_radio;?>"<?php if($catalog_category_options_select == $text_radio){echo ' selected';}?>><?php echo $text_radio;?></option>
 			  </select></td>
-			</tr> 
+			</tr>
 			<tr><td colspan="4"><hr></td>
 			</tr>
 			<tr>  <!-- Search -->
@@ -1377,7 +1429,7 @@
 			        <option value="<?php echo $text_select;?>"<?php if($catalog_search_options_select == $text_select){echo ' selected';}?>><?php echo $text_select;?></option>
 				    <option value="<?php echo $text_radio;?>"<?php if($catalog_search_options_select == $text_radio){echo ' selected';}?>><?php echo $text_radio;?></option>
 			  </select></td>
-			</tr> 
+			</tr>
 			<tr>
               <td class="set"><?php echo $entry_search_limit; ?></td>
               <td><input class="validate_int" id="search_limit" type="text" name="catalog_search_limit" value="<?php echo $catalog_search_limit; ?>" size="3"></td>
@@ -1396,7 +1448,7 @@
 				  <?php } else {?>
 				    <option value="<?php echo $image_display_content;?>"><?php echo $image_display_content;?></option>
 			      <?php }?>
-				<?php }?> 
+				<?php }?>
 			  </select></td>
 			</tr>
 			<tr>
@@ -1412,7 +1464,7 @@
               <td class="set"><?php echo $entry_lines_char; ?></td>
               <td><input class="validate_int" id="content_lines_char" type="text" name="catalog_content_lines_char" value="<?php echo $catalog_content_lines_char; ?>" size="3" /></td>
             </tr>
-			
+
 			<tr>
               <td class="set"><?php echo $entry_options_manufacturer; ?></td>
               <td><select name="catalog_options_manufacturer">
@@ -1437,8 +1489,8 @@
                   <?php } ?>
                 </select></td>
             </tr>
-						
-			
+
+
 			<tr><td colspan="4"><hr></td>
 			</tr>
 			<tr>
@@ -1461,9 +1513,9 @@
 	  <div class="page">
 	  <div class="minipad">
 	  <table>
-	     <tr> 
+	     <tr>
 		  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_wm_with_text; ?></p></td>
-	     </tr>  
+	     </tr>
 	     <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_text; ?></td>
 		  <td><input size="48" type="text" name="wm_text" value="<?php echo $wm_text; ?>">
@@ -1471,10 +1523,10 @@
 		  <span class="error"><?php echo $error_wm_text; ?></span>
 		  <?php } ?></td>
 			      <td class="expl">
-				<?php echo $explanation_wm_text; ?> 
+				<?php echo $explanation_wm_text; ?>
 		  </td>
 	      </tr>
-	      <tr> 
+	      <tr>
 		  <td class="set"><?php echo $entry_wm_fontsize; ?></td>
 		  <td><select name="wm_font">
                   <?php foreach ($font_sizes as $font_size) { ?>
@@ -1486,7 +1538,7 @@
                   <?php } ?>
                 </select></td>
 		  <td class="expl">
-		      <?php echo $explanation_wm_fontsize; ?> 
+		      <?php echo $explanation_wm_fontsize; ?>
 		    </td>
 	      </tr>
 	      <tr>
@@ -1496,7 +1548,7 @@
 		  <span class="error"><?php echo $error_wm_fontcolor; ?></span>
 		  <?php } ?></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_fontcolor; ?> 
+		    <?php echo $explanation_wm_fontcolor; ?>
 		  </td>
 	      </tr>
 	      <tr>
@@ -1506,7 +1558,7 @@
 		  <span class="error"><?php echo $error_wm_transparency; ?></span>
 		  <?php } ?></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_transparency; ?> 
+		    <?php echo $explanation_wm_transparency; ?>
 		  </td>
 	      </tr>
 	      <tr>
@@ -1518,7 +1570,7 @@
 		    </select>
 		  </td>
 		  <td class="expl">
-		      <?php echo $explanation_wm_thposition; ?> 
+		      <?php echo $explanation_wm_thposition; ?>
 		  </td>
 	       </tr>
 	       <tr>
@@ -1530,29 +1582,29 @@
 		    </select>
 		  </td>
 		  <td class="expl">
-		      <?php echo $explanation_wm_tvposition; ?> 
+		      <?php echo $explanation_wm_tvposition; ?>
 		  </td>
 		</tr>
 	        <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_thmargin; ?></td>
 		  <td><input class="validate_int" id="wm_thmargin" type="text" name="wm_thmargin" value="<?php echo $wm_thmargin; ?>" size="4"></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_thmargin; ?> 
+		    <?php echo $explanation_wm_thmargin; ?>
 		  </td>
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_tvmargin; ?></td>
 		  <td><input class="validate_int" id="wm_tvmargin" type="text" name="wm_tvmargin" value="<?php echo $wm_tvmargin; ?>" size="4"></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_tvmargin; ?> 
+		    <?php echo $explanation_wm_tvmargin; ?>
 		  </td>
 	      </tr>
               </tr>
 		  <tr><td colspan="2"><hr></td>
 		  </tr>
-	      <tr> 
+	      <tr>
 		  <td style="color:#0099FF; font-weight:bold"><p><?php echo $text_wm_with_image; ?></p></td>
-	      </tr> 
+	      </tr>
 	      <tr>
 		 <td class="set"><?php echo $entry_wm_image;?></td>
 		  <td><select id="wm_image_id" name="wm_image" onchange="$('#wm_image').load('index.php?controller=setting&action=viewWmImage&wm_image='+this.value);">
@@ -1562,8 +1614,8 @@
 			<?php }?>
 		      </select></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_image; ?> 
-		  </td> 
+		    <?php echo $explanation_wm_image; ?>
+		  </td>
 	      </tr>
 	      <tr>
 		  <td class="wm_image" id="wm_image" colspan="3"></td>
@@ -1575,7 +1627,7 @@
 		  <span class="error"><?php echo $error_wm_scale; ?></span>
 		  <?php } ?></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_scale; ?> 
+		    <?php echo $explanation_wm_scale; ?>
 		  </td>
 	      </tr>
 	      <tr>
@@ -1587,7 +1639,7 @@
 		  </select>
 		</td>
 		<td class="expl">
-		    <?php echo $explanation_wm_ihposition; ?> 
+		    <?php echo $explanation_wm_ihposition; ?>
 		</td>
 	      </tr>
 	      <tr>
@@ -1599,27 +1651,27 @@
 		  </select>
 		</td>
 		<td class="expl">
-		    <?php echo $explanation_wm_ivposition; ?> 
+		    <?php echo $explanation_wm_ivposition; ?>
 		</td>
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_ihmargin; ?></td>
 		  <td><input class="validate_int" id="wm_ihmargin" type="text" name="wm_ihmargin" value="<?php echo $wm_ihmargin; ?>" size="4"></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_ihmargin; ?> 
+		    <?php echo $explanation_wm_ihmargin; ?>
 		  </td>
 	      </tr>
 	      <tr>
 		  <td width="185" class="set"><?php echo $entry_wm_ivmargin; ?></td>
 		  <td><input class="validate_int" id="wm_ivmargin" type="text" name="wm_ivmargin" value="<?php echo $wm_ivmargin; ?>" size="4"></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_ivmargin; ?> 
+		    <?php echo $explanation_wm_ivmargin; ?>
 		  </td>
 	      </tr>
 	  </table>
 	 </div>
 	 </div>
-	</div> 
+	</div>
        </div>
       </div>   <!--  End Image and Add to Cart Controls -->
       <div class="page">
@@ -1639,7 +1691,7 @@
                 <label for="ccdno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 	      <td class="expl">
-		<?php echo $explanation_pr_download; ?> 
+		<?php echo $explanation_pr_download; ?>
 	      </td>
             </tr>
             <tr>
@@ -1654,7 +1706,7 @@
                   <?php } ?>
                 </select></td>
 	      <td class="expl">
-		<?php echo $explanation_pr_download_status; ?> 
+		<?php echo $explanation_pr_download_status; ?>
 	      </td>
             </tr>
 	    <tr><td colspan="2"><hr></td>
@@ -1672,7 +1724,7 @@
                 <label for="ccfdno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
 	      <td class="expl">
-		<?php echo $explanation_free_download; ?> 
+		<?php echo $explanation_free_download; ?>
 	      </td>
             </tr>
           </table>

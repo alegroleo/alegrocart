@@ -112,6 +112,9 @@
 	font-weight: 200;
 	padding-left: 0px;
 }
+.buttons .center{
+	text-align: center;
+}
 #estimated_results .v {
 	margin-bottom: 2px;
 	font-weight: bold;

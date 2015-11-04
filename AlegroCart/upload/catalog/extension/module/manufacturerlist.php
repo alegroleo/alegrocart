@@ -64,7 +64,31 @@ class ModuleManufacturerList extends Controller {
 			$manufacturers_data = array();
 			foreach ($manufacturers as $manufacturer){
 
-				$results = $this->modelProducts->get_manufacturerlist($manufacturer['manufacturer_id'], $manufacturerlist_total);
+				$manufacturers_results = $this->modelProducts->get_manufacturerlist($manufacturer['manufacturer_id'], $manufacturerlist_total);
+
+				$maxrow = count($manufacturers_results)-1;
+				if ($manufacturers_results) {
+					if ($maxrow < $limit){
+						$results = $manufacturers_results;
+					} else {
+						$i = 0;
+						while ($i < $limit){
+							$rand->uRand(0,$maxrow);
+							$i ++;
+						}
+						$i = 0;
+						$product_rand = array();
+						foreach ($rand->RandomNumbers as $mykey){
+							$product_rand[$i] = $manufacturers_results[$mykey];
+							$i ++;
+						}
+						$results = $product_rand;
+					}
+				} else {
+					$results = array();
+				}
+				$rand->clearrand();
+
 				$product_data = array();
 
 				foreach ($results as $result) {
@@ -137,37 +161,13 @@ class ModuleManufacturerList extends Controller {
 						'vendor_name'		=> $vendor_name
 					);
 				}
-
-				$maxrow = count($product_data)-1;
 				if ($product_data) {
-					if ($maxrow < $limit){
-						$manufacturers_data[$manufacturer['name']] = array(
-							'id'		=> $manufacturer['manufacturer_id'],
-							'name'		=> $manufacturer['name'],
-							'products'	=> $product_data
-						);
-					} else {
-						$I = 0;
-						while ($I < $limit){
-							$rand->uRand(0,$maxrow);
-							$I ++;
-						}
-						$I = 0;
-						$product_rand = array();
-						foreach ($rand->RandomNumbers as $mykey){
-							$product_rand[$I] = $product_data[$mykey];
-							$I ++;
-						}
-						$manufacturers_data[$manufacturer['name']] = array(
-							'id'		=> $manufacturer['manufacturer_id'],
-							'name'		=> $manufacturer['name'],
-							'products'	=> $product_rand
-						);
-					}
-				} else {
-
+					$manufacturers_data[$manufacturer['name']] = array(
+						'id'		=> $manufacturer['manufacturer_id'],
+						'name'		=> $manufacturer['name'],
+						'products'	=> $product_data
+					);
 				}
-				$rand->clearrand();
 			}
 
 			$view->set('lists', $manufacturers_data);

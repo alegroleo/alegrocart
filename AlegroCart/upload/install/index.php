@@ -51,7 +51,9 @@ $files0755=array(
 		'image'.D_S.'mask'.D_S,
 		'image'.D_S.'barcode'.D_S,
 		'image'.D_S.'watermark'.D_S,
-		'download'.D_S
+		'download'.D_S,
+		'catalog'.D_S.'javascript'.D_S.'render'.D_S,
+		'catalog'.D_S.'styles'.D_S.'default'.D_S.'render'.D_S
 );
 foreach ($files0755 as $file) {
 	$file=DIR_BASE.$file;

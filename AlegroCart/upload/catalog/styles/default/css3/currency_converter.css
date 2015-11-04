@@ -6,9 +6,13 @@
 	border: 0px;
 	padding: 0px;
 	margin: 0px;
-	z-index: 300;
+	z-index: 80;
 	min-height:25px;
 	margin-bottom: 0px;
+}
+#header .converter {
+	left: 80px;
+	position: absolute;
 }
 .converter table tr td {
 	border: 0px;

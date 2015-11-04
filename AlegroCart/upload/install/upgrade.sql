@@ -1496,6 +1496,16 @@ SELECT @id:=setting_id FROM setting WHERE `group` = 'cart' and `key` = 'cart_off
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'cart', 'cart_offset', '0') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 #
+# Modify tpl_manager
+#
+ALTER TABLE `tpl_manager` CHANGE `tpl_columns` `tpl_columns` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
+
+# Add Image Quality
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_image_quality';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_image_quality', '75') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#
 # Manufacturer List Module
 #
 SET @id=NULL;

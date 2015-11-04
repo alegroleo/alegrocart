@@ -1,0 +1,147 @@
+/* search */
+#search .a {
+	font-weight: bold;
+	/*color: #000000;*/
+	margin-bottom: 2px;
+	padding-left: 5px;
+}
+#search .b {
+	margin-bottom: 10px;
+}
+#search .b .c {
+	padding: 5px;
+}
+#search .b .d {
+	margin-top: 10px;
+	text-align: right;
+	padding: 5px;
+}
+#search .d {
+	clear: both;
+	padding: 8px;
+}
+#search .g {
+	width: 100px;
+}
+#search .f {
+	width: 350px;
+}
+#search .f input {
+	float: right;
+}
+.search_filter{
+	left: 0px;
+	width: 950px;
+	min-height: 40px;
+	font-size: 11px;
+	margin: 0px 0px 0px 5px;
+	padding: 0px;
+}
+.search_filter .top_entry{
+	left: 0px;
+	min-height: 40px;
+	display: inline;
+	width: 580px;
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+}
+.search_filter .entry{
+	position: relative;
+	width: 50px;
+	float: left;
+	margin-right: 20px;
+	top: 10px;
+}
+.search_filter .left{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	vertical-align: middle;
+	display: inline;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px;
+}
+.search_filter .left .data{
+	position: absolute;
+	left: 58px;
+	top: 0px;
+	min-height: 40px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 0px;
+}
+.search_filter .floatleft{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	vertical-align: middle;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px 0px 0px 3px;
+}
+.search_filter .floatleft .data{
+	position: absolute;
+	left: 54px;
+	min-height: 40px;
+	top: 0px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 0px;
+}
+.search_filter .right, .search_filter .man_filter{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 0px;
+	text-align: left;
+	margin: 5px;
+	padding: 0px;
+	font-weight: bold;
+}
+.search_filter .right .data{
+
+}
+.search_filter .man_select{
+	width: 180px;
+}
+.search_filter .lowerright{
+	position: relative;
+	width: 220px;
+	float: right;
+	padding-left: 5px;
+	font-weight: bold;
+}
+.search_filter .lowerright .data{
+	position: absolute;
+	left: 130px;
+	min-height: 30px;
+	top: 0px;
+}
+.search_filter .lowerleft{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px;
+}
+.search_filter .lowerleft .data{
+	position: absolute;
+	left: 120px;
+	top: 0px;
+}
+.search_filter .man_filter > .divider, #model select + .divider{
+	display: none;
+}
+#model select{
+	width: 180px;
+}

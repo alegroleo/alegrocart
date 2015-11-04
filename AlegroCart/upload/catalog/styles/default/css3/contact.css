@@ -27,7 +27,12 @@
 #contact .c a {
 	color: #000000;
 }
-
+#contact .b .right, #contact .c .right {
+	float: right;
+}
+#contact .b .top {
+	vertical-align: top;
+}
 #contact .d {
 	margin-top: 10px;
 	padding: 5px; 

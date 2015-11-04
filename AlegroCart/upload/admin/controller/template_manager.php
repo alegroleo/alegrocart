@@ -328,7 +328,7 @@ class ControllerTemplateManager extends Controller {
 			$column = 'default';
 			$view->set('tpl_columns', $column);
 		}
-		$view->set('columns', array('default',2,3));
+		$view->set('columns', array('default','1','1.2','2.1','3'));
 		$view->set('default_columns',$this->modelTplManager->get_config('config_columns'));
 		if ($this->request->has('tpl_status', 'post')){
 			$view->set('tpl_status', $this->request->get('tpl_status', 'post'));
@@ -356,14 +356,14 @@ class ControllerTemplateManager extends Controller {
 	function getModules($location, $columns = 3, $controller = ''){
 		switch($location){
 			case 'header';
-				$modules = array('cart', 'categorymenu', 'converter', 'imagedisplay', 'language','currency', 'header', 'search', 'navigation');
+				$modules = array('cart', 'categorymenu', 'converter', 'currency', 'header', 'imagedisplay', 'language', 'navigation', 'search');
 				break;	
 			case 'extra';
-				$modules = array('categorymenu', 'categoryslider', 'imagedisplay', 'language', 'manufacturerslider', 'currency', 'homepage', 'information', 'search','navigation');
+				$modules = array('categorymenu', 'categoryslider', 'currency', 'homepage', 'imagedisplay', 'information', 'language', 'manufacturerslider', 'navigation', 'search');
 				break;
-			case 'column';
+			case 'column'; //left
 				$modules = array('bestseller', 'cart', 'category', 'converter', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation','popular', 'recently', 'review', 'search', 'specials', 'toprated');
-				if ($columns ==2){
+				if ($columns ==1.2){
 					if ($controller == 'search'){$modules[] = 'searchoptions';}
 					if ($controller == 'category'){$modules[] = 'categoryoptions';}
 				}
@@ -375,7 +375,7 @@ class ControllerTemplateManager extends Controller {
 					$modules[] = 'alsobought';
 				}
 				break;
-			case 'columnright';
+			case 'columnright'; //right
 				$modules = array('bestseller', 'cart', 'converter', 'currency', 'featured', 'imagedisplay', 'information', 'language', 'latest', 'manufacturer', 'navigation', 'popular', 'review', 'recently', 'search', 'specials', 'toprated');
 				if ($controller == 'product'){ $modules[] = 'related'; $modules[] = 'alsobought';}
 				if ($controller == 'search'){$modules[] = 'searchoptions';}
@@ -432,6 +432,9 @@ class ControllerTemplateManager extends Controller {
 	}
 	function checkFiles($style, $columns) {
 		$colors_data = array();
+		if (preg_match('/[1-2]\.[1-2]/',$columns)) {
+			$columns = 2;
+		}
 		$files = glob(DIR_CATALOG_STYLES.$style.D_S.'colors'.$columns.D_S.'*.*');
 		if (!$files) { return; }
 		$colors_data[] = array('colorcss' => 'default');
@@ -509,6 +512,9 @@ class ControllerTemplateManager extends Controller {
 	function getColors(){
 		$style = $this->modelTplManager->get_config('config_styles');
 		$columns = $this->request->gethtml('columns');
+		if (preg_match('/[1-2]\.[1-2]/',$columns)) {
+			$columns = 2;
+		}
 		$results = $this->checkFiles($style,$columns);
 		if($results){
 			$output = '<select name="tpl_color">';

@@ -6,5 +6,5 @@
 <img src="<?php echo $store_logo;?>" alt="<?php echo $store;?>">
 </div>
 <?php if(isset($rss_link)){?>
-<div class="rss"><a href="<?php echo $rss_link;?>">RSS<img src="catalog/styles/<?php echo $this->style;?>/image/rss.png" alt="RSS Feeds"></a></div>
+<div class="rss"><a href="<?php echo $rss_link;?>">RSS<img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="20" height="20" data-src="catalog/styles/<?php echo $this->style;?>/image/rss.png" alt="RSS Feeds"></a></div>
 <?php }?>

@@ -1,0 +1,194 @@
+.productcat{
+	width: 100%;
+	border: 0px solid #000000;
+	overflow: hidden;
+}
+.productcat_top{
+	width: 1000px;
+	margin-left: 0px;
+	height: 9px;
+}
+.productcat_bottom{
+	height: 9px;
+}
+.productcat .pimage{
+	float: right;
+	width: 190px;
+	padding-top: 2px;
+	text-align: center;
+	margin-right: 5px;
+	padding-right: 5px;
+}
+.productcat .ptext{
+	padding-top: 10px;
+	padding-left: 8px;
+	text-align: left;
+	width: 380px;
+}
+.productcat .ptext b{
+	text-transform:uppercase;
+}
+.productcat .ptext b a{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+}
+.productcat .add{
+	position: relative;
+	left: 0px;
+	padding-left: 10px;
+	padding-top: 5px;
+	bottom: 5px;
+}
+.productcat .options{
+	left: 1px;
+	padding-bottom: 5px;
+}
+.productcat .price_old {
+	text-align: left;
+	font-size: 18px;
+}
+.productcat .price_new {
+	text-align: left;
+	padding: 5px 0px;
+}
+.productcat .price {
+	text-align: left;
+	padding: 5px 0px;
+}
+.productcat .remaining {
+	text-align: left;
+	font-size: 11px;
+}
+.productcat .vendor {
+	text-align: left;
+}
+.button{
+	font-weight: 500;
+}
+.button:focus{
+	color: #CC0000;
+}
+.category_row{
+	width: 100%;
+	min-height: 220px;
+	margin-bottom: 2px;
+	clear: both;
+}
+.category_options .man_select{
+	position: relative;
+}
+.category_filter{
+	left: 0px;
+	width: 950px;
+	min-height: 40px;
+	font-size: 11px;
+	margin: 0px 0px 0px 5px;
+	padding: 0px;
+}
+.category_filter .top_entry{
+	left: 0px;
+	min-height: 40px;
+	display: inline;
+	width: 580px;
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+}
+.category_filter .entry{
+	position: relative;
+	width: 50px;
+	float: left;
+	margin-right: 20px;
+	top: 10px;
+}
+.category_filter .left{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	vertical-align: middle;
+	display: inline;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px;
+}
+.category_filter .left .data{
+	position: absolute;
+	left: 58px;
+	top: 0px;
+	min-height: 40px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 0px;
+}
+.category_filter .floatleft{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	vertical-align: middle;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px 0px 0px 3px;
+}
+.category_filter .floatleft .data{
+	position: absolute;
+	left: 54px;
+	min-height: 40px;
+	top: 0px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 0px;
+}
+.category_filter .right, .category_filter .man_filter{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 0px;
+	text-align: left;
+	margin: 5px;
+	padding: 0px;
+	font-weight: bold;
+}
+.category_filter .right .data{
+
+}
+.category_filter .man_select{
+	width: 180px;
+}
+.category_filter .lowerright{
+	position: relative;
+	width: 220px;
+	float: right;
+	padding-left: 5px;
+	font-weight: bold;
+}
+.category_filter .lowerright .data{
+	position: absolute;
+	left: 130px;
+	min-height: 30px;
+	top: 0px;
+}
+.category_filter .lowerleft{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px;
+}
+.category_filter .lowerleft .data{
+	position: absolute;
+	left: 120px;
+	top: 0px;
+}
+.category_filter .man_filter > .divider, #model select + .divider{
+	display: none;
+}
+#model select{
+	width: 180px;
+}

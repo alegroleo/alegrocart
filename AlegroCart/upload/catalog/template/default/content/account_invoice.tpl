@@ -45,7 +45,7 @@
       </tr>
     </table>
   </div>
-  <div style="padding-left: 5px;">
+  <div class="h">
     <table class="cur">
       <tr>
 		<th class="left" width="80px"><?php echo $text_currency;?></th>
@@ -61,7 +61,7 @@
         <th class="center"><?php echo $text_quantity; ?></th>
         <th class="right"><?php echo $text_price; ?></th>
         <th class="right"><?php echo $text_special; ?></th>
-		<?php if($columns == 2){?>
+		<?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 		  <th class="right"><?php echo $text_extended; ?></th>
 		  <?php if($coupon_sort_order < $discount_sort_order){ ?>
 		    <th class="right"><?php echo $text_coupon_value; ?></th>
@@ -100,7 +100,7 @@
 		<td class="right"><span class="invoice_price_new ">
 		  <?php if ($product['special_price'] > "$0.00"){echo ($taxed ? '<span class="tax">*</span>' : '') . $product['special_price'];} ?>
 		</span></td>
-		<?php if($columns == 2){?>
+		<?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 		  <td class="right"><?php echo ($taxed ? '<span class="tax">*</span>' : '') . $product['total'];?></td>
 		  <?php if($coupon_sort_order < $discount_sort_order){ ?>
 		    <td class="right"><?php echo ($taxed && $product['coupon'] ? '<span class="tax">*</span>' : '') . $product['coupon'];?></td>
@@ -126,7 +126,7 @@
 		<?php }?>
       </tr>
       <?php } ?>
-	  <?php if($columns == 2){?>
+	  <?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 	  <tr class="ptotals">
 	    <th class="left"><?php echo $text_product_totals;?></th>
 	    <td colspan="3"></td>
@@ -197,7 +197,11 @@
       </table>
     </div>
     <div class="left">   
-      <table><tr><td><?php echo '<span class="tax">* </span>' . $text_tax;?></td></tr></table>
+      <table><tr><td>
+	<?php if($tax_included){?>
+		<?php echo '<div class="taxE"><span class="tax">* </span>' . $text_tax.'<div>';?>
+	<?php } ?>
+      </td></tr></table>
     </div>
   </div>
   <div class="d"><b><?php echo $text_order_history; ?></b></div>
@@ -223,7 +227,7 @@
 <div class="buttons">
   <table>
     <tr>
-      <td align="right"><input type="submit" value="<?php echo $button_continue; ?>" onclick="location='<?php echo $continue; ?>'"></td>
+      <td class="right"><input type="submit" value="<?php echo $button_continue; ?>" onclick="location='<?php echo $continue; ?>'"></td>
     </tr>
   </table>
 </div>

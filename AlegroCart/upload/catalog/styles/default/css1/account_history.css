@@ -1,0 +1,31 @@
+#history {
+	margin-top: 0px;
+	padding: 10px 5px 5px 5px;
+}
+#history .a {
+	padding-bottom: 3px;
+}
+#history .a .right{
+	float: right;
+}
+#history .b {
+	float: left;
+	text-align: left;
+	padding-bottom: 3px;
+} 
+#history .c {
+	float: right;
+	text-align: right;
+	padding-bottom: 3px;
+}
+#history .d {
+	clear: both;
+	margin-bottom: 10px;
+}
+
+#history .d td {
+	width: 45%;
+}
+#history table {
+	width: 100%;
+}

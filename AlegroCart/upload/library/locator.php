@@ -176,7 +176,7 @@ class Locator {
 	function createTemplate() {
 		require_once(DIR_LIBRARY.'template/template.php');
 		$config = $this->get('config');		
-		$template = new Template($config->get('config_template'),$config->get('config_styles'),$config->get('config_colors'),$config->get('config_columns'));
+		$template = new Template($this, $config->get('config_template'),$config->get('config_styles'),$config->get('config_colors'),$config->get('config_columns'));
 		$template->set('locator',$this);
 		$template->set('URL_TPL',$this->get('url'));
 		return $template;

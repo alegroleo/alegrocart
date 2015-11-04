@@ -36,7 +36,6 @@
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
-<script type="text/javascript" src="javascript/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <?php if(!$productwo_id){ ?>
   <form action="<?php echo $action_product; ?>" method="post" enctype="multipart/form-data">

@@ -1,0 +1,14 @@
+#newsletter .a {
+	margin-bottom: 2px;
+	font-weight: bold;
+	padding: 5px 5px 0px 5px;
+}
+
+#newsletter .b {
+	padding: 5px;
+	margin-bottom: 10px;
+} 
+
+#newsletter table {
+	width: 100%;
+}

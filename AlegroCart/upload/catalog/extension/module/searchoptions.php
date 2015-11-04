@@ -94,7 +94,7 @@ class ModuleSearchOptions extends Controller{
 		$view->set('text_manufacturer_all',$language->get('text_manufacturer_all'));
 		$view->set('text_manufacturer',$language->get('text_manufacturer'));
 		$view->set('entry_submit', $language->get('entry_submit'));			
-		$column_data = $this->modelCore->tpl_columns == 2 ? array(1,2,3,4,5) : array(1,2,3,4);
+		$column_data = $this->modelCore->tpl_columns != 3 ? array(1,2,3,4,5) : array(1,2,3,4);
 		$view->set('column_data', $column_data);		
 		$view->set('this_controller', 'search');
 		$view->set('head_def',$head_def);

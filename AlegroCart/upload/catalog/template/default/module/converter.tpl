@@ -2,14 +2,9 @@
   $head_def->setcss( $this->style . "/css/currency_converter.css");
   $head_def->set_javascript("ajax/jquery.js");
 ?>
-<?php if($location == 'header'){?>
-	<div id="converter" class="converter" style="position: absolute; left: 80px;">
-<?php } else {?>
-	<div id="converter" class="converter">
-<?php }?>
-  <div class="headingcolumn" style="cursor: pointer" onclick="OpenConversion()"><h3><?php echo $heading_title; ?></h3></div>
-  
-  <div class="module_column" style="padding-left: 0px;">
+<div id="converter" class="converter">
+  <div class="headingcolumn pointer" onclick="OpenConversion()"><h3><?php echo $heading_title; ?></h3></div>
+  <div class="module_column">
 	<div id="c_data">
 	  <table>
 	    <tr><td>
@@ -46,7 +41,6 @@
 <script type="text/javascript"><!--
 $(document).ready(function(){
 	$('#c_data').hide(0);
-
 });
 function OpenConversion(){
 	$('#c_data').toggle('slow');

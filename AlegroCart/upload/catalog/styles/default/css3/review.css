@@ -27,10 +27,16 @@
 
 #review table {
 	width: 580px;
-	margin-bottom: 10px;
 	clear: both;
 }
-
+#review .avg {
+	color:gray;
+	font-size: 50px;
+	font-weight:bold;
+}
+#review .stars {
+	text-align:center;
+}
 .review table td {
 	vertical-align: top;
 }
@@ -48,6 +54,9 @@
 	cursor: pointer;
 }
 
+#review_info > table {
+	padding-left: 15px;
+}
 /* review write */
 #review_write {
 	margin-left: 10px;

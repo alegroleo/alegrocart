@@ -34,7 +34,7 @@
     <div class="buttons">
       <table>
         <tr>
-          <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+          <td class="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
         </tr>
       </table>
     </div>
@@ -110,7 +110,7 @@
     <div class="buttons">
       <table>
         <tr>
-          <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+          <td class="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
         </tr>
       </table>
     </div>

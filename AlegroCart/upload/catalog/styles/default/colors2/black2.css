@@ -33,16 +33,18 @@ b, strong, th {
 	color: #C1002B;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	letter-spacing: 3px;
-	border-right: 1px dashed #AAAAAA;
 	font-weight: normal;
 	height: 17px;
 	line-height: 15px;
 	padding: 0px 5px;
 	text-transform: none;
-	width: auto;
 }
 #bar .b a:hover{
 	color: #C1002B;
+}
+#extra #bar .b a, #header #bar .b a, #pagebottom #bar .b a{
+	border-right: 1px dashed #AAAAAA;
+	width: auto;
 }
 #content {
 	background-color: #FFFFFF; 
@@ -245,7 +247,7 @@ b, strong, th {
 .productcat{
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
-	width: 790px;
+	width: 795px;
 }
 .productcat_bottom{
 	border-bottom: 1px solid #DDDDDD;
@@ -598,7 +600,7 @@ b, strong, th {
 #invoice .a, #invoice .b, #invoice .e {
 	border: 1px solid #DDDDDD;
 }
-#login .c, #login .i {
+#login .c, #login .i, #login .n, #login .o {
 	border: 1px solid #DDDDDD;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -817,9 +819,6 @@ b, strong, th {
 #maintenance .b {
 	border: 1px solid #DDDDDD;
 }
-#product .a img {
-	border: 1px solid #DDDDDD;
-}
 #product .adesc{
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -851,7 +850,7 @@ b, strong, th {
 	background-color: #FFFFFF;
 }
 #product .addthis {
-	padding: 3px;
+	padding: 5px 5px 0px;
 	border: 1px solid #DDDDDD;
 	margin: 10px 0px;
 	overflow: hidden;
@@ -859,7 +858,7 @@ b, strong, th {
 #review_info .left {
 	clear: both;
 }
-#review_info .a img {
+#review_info .a img, #review_write .a img {
 	border: 1px solid #DDDDDD;
 }
 #review_write #c textarea {
@@ -868,6 +867,14 @@ b, strong, th {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
+}
+#review table {
+	margin-bottom: 10px;
+	width: 795px;
+}
+#review {
+	margin-left: 0px;
+	width: 795px;
 }
 #search .b .c {
 	border: 1px solid #DDDDDD;
@@ -896,7 +903,7 @@ b, strong, th {
 #search .d {
 	border: 1px solid #DDDDDD;
 	margin: 10px 5px 10px 5px;
-	max-width: 790px;
+	max-width: 795px;
 }
 #search .e {
 	color: #333333; 
@@ -1040,11 +1047,11 @@ b, strong, th {
 	color: #004EBC;
 }
 .productcat{
-	margin: 0px 0px 0px 5px;
+	margin: 0px 0px 0px 0px;
 }
 .productcat_bottom{
-	width: 790px;
-	margin: 0px 0px 5px 5px;
+	width: 795px;
+	margin: 0px 0px 5px 0px;
 }
 .productcat .remaining {
 	color: #339900;
@@ -1117,14 +1124,14 @@ b, strong, th {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 .price_new {
-	color: #222222;
+	color: #C1002B;
 	font-size: 20px;
 	text-align: center; /*left; */
 	font-weight: normal;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 .price {
-	color: #C1002B;
+	color: #222222;
 	font-size: 20px;
 	text-align: center; /*left; */
 	font-weight: normal;
@@ -1133,7 +1140,7 @@ b, strong, th {
 .remaining {
 	color: #339900;
 }
-.price_new  .tax{
+.price_new .tax, .price .tax{
 	color: #C1002B;
 }
 .divider{
@@ -1183,7 +1190,7 @@ b, strong, th {
 	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
-.language {
+#header .language {
 	top: 37px;
 	float: right;
 	margin-top: 3px;

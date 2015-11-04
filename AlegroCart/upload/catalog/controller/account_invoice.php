@@ -211,6 +211,7 @@ class ControllerAccountInvoice extends Controller {
 			}
 
 			$view->set('taxed', $order_info['taxed']);
+		$view->set('tax_included', $this->config->get('config_tax'));
 		$view->set('products', $product_data);
 			$view->set('totals',$this->modelAccountInvoice->get_totals($order_info['order_id']));
 			$view->set('tax_total', $this->currency->format($tax_total, $order_info['currency'], $order_info['value']));
@@ -276,8 +277,12 @@ class ControllerAccountInvoice extends Controller {
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
-		$modules_extra['column'] = array('manufacturer', 'popular');
-		$modules_extra['columnright'] = array('specials');
+		if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+			$modules_extra['column'] = array('manufacturer', 'popular');
+			$modules_extra['columnright'] = array('specials');
+		} elseif ($this->tpl_columns == 2.1) {
+			$modules_extra['columnright'] = array('manufacturer', 'popular');
+		}
 		return $modules_extra;
 	}
 

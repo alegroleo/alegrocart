@@ -14,7 +14,7 @@
   <table><tr><td>	
   <div class="a">
     <div class="b"><?php echo $text_new_customer; ?></div>
-    <div class="c" style="height: <?php echo (isset($text_guest_account) ? '300px' : '140px') ?>">
+    <div class="<?php echo (isset($text_guest_account) ? 'o' : 'c') ?>">
       <div class="d"><?php echo $text_i_am_new_customer; ?></div>
 	  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
 		<div class="e">
@@ -40,7 +40,7 @@
   </div>
   <div class="g">
     <div class="h"><?php echo $text_returning_customer; ?></div>
-    <div class="i" style="height: <?php echo (isset($text_guest_account) ? '300px' : '140px') ?>">
+    <div class="<?php echo (isset($text_guest_account) ? 'n' : 'i') ?>">
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
         <div class="j"><?php echo $text_i_am_returning_customer; ?></div>
         <div class="k">

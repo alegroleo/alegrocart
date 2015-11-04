@@ -1,0 +1,117 @@
+.tab {
+	padding: 10px 0px 10px 0px;
+	margin: 0px 2px 0px 2px;
+}
+
+.tab .tabs {
+	padding-left: 2px;
+}
+
+.tabs a, .tabs a:hover.inactive, .tabs a.active {
+	float: left;
+	padding-bottom: 4px;
+	cursor: pointer;
+	position: relative;
+	text-decoration: none;
+	text-align: center;
+}
+
+.tabs a {
+	top: 5px;
+	height: 37px; 
+	left: -1px;
+}
+
+.tabs a:hover.inactive {
+	top: 5px;
+	height: 37px; 
+}
+
+.tabs a.active {
+	margin-bottom: 2px;
+	left: -2px;
+}
+
+.tab .pages {
+	clear: both;
+}
+
+.tab .page {
+	background-color: #FCFCFE;
+	padding: 4px 5px 5px 5px;
+}
+
+.tab .pages .page .pad {
+	background-color: #F9F9F9;
+	padding: 5px;
+	min-height: 200px;
+}
+
+.tab .pages .page .minipad {
+	background-color: #F9F9F9;
+	border: 1px solid #D5D5D5;
+	padding: 5px;
+	min-height: 165px;
+}
+
+.rtab {
+	padding: 5px 0px 5px 0px;
+	margin: 0px 12px 0px 2px;
+}
+
+.rtabs {
+	padding-left: 2px;
+}
+
+.rtabs a, .rtabs a:hover.inactive, .rtabs a.active {
+	float: left;
+	width: 20px;
+	padding-top: 4px;
+	margin-right: 0px;
+	cursor: pointer;
+	position: relative;
+	font-size: 12px;
+	text-align: center;
+}
+
+.rtabs a {
+	top: 0px;
+	height: 16px; 
+
+ }
+
+.rtabs a:hover.inactive {
+	top: 0px;
+	height: 16px; 
+}
+
+.rtabs a.active {
+	font-weight: bold;
+	height: 16px;  
+	top: 0px;
+}
+
+.rtab .rpages {
+	clear: both;
+}
+
+.rtab .rpage {
+	background-color: #FCFCFE;
+}
+
+.rtab .rpages .rpage .rpad {
+	background-color: #FCFCFE;
+	padding: 0px;
+	min-height: 100px;
+}
+
+.rtab .rpages .rpage .rminipad {
+	background-color: #FCFCFE;
+	border: 1px solid #D5D5D5;
+	padding: 5px;
+	min-height: 165px;
+}
+.tabs .tab_text {
+	padding-top: 8px;
+	font-size: 0.67em;
+}

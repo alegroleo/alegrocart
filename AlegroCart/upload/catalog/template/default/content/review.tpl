@@ -26,10 +26,10 @@ $head_def->setcss($this->style . "/css/paging.css");
       </tr>
       <tr>
         <td><b><?php echo $text_rating; ?></b>&nbsp;</td>
-	<td style="color:gray; font-size: 50px; font-weight:bold;"><?php echo $review['avgrating2']; ?>/5</td>
+	<td class="avg"><?php echo $review['avgrating2']; ?>/5</td>
       </tr>
  <tr>
-        <td></td><td style="text-align:center"><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $review['avgrating'] . '.png'; ?>" alt="<?php echo $review['out_of']; ?>" class="png"></td>
+        <td></td><td class="stars"><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112" height="20" data-src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $review['avgrating'] . '.png'; ?>" alt="<?php echo $review['out_of']; ?>" class="png"></td>
 	
       </tr>
     </table>

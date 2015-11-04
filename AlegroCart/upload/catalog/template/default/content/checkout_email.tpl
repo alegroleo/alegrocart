@@ -52,6 +52,9 @@ body, td, th, input, textarea, select {
 #checkout .f table {
 	width: 100%;
 }
+#checkout .h {
+	padding-left: 5px;
+}
 #checkout .left {
 	text-align: left;
 }
@@ -77,6 +80,9 @@ body, td, th, input, textarea, select {
 .tax{
 	font-weight: bold;
 	color: #CC0000;
+}
+.taxE {
+	font-weight: bold;
 }
 </style>
 </head>
@@ -127,7 +133,7 @@ body, td, th, input, textarea, select {
       </tr>
     </table>
   </div>
-  <div style="padding-left: 5px;">
+  <div class="h">
     <table class="cur">
       <tr>
 		<th class="left" width="80px"><?php echo $text_currency;?></th>
@@ -268,8 +274,12 @@ body, td, th, input, textarea, select {
         <?php } ?>
       </table>
     </div>
-    <div class="left">   
-      <table><tr><td><?php echo '<span class="tax">* </span>' . $text_tax;?></td></tr></table>
+    <div class="left">
+      <table><tr><td>
+		<?php if($tax_included){?>
+			<?php echo '<div class="taxE"><span class="tax">* </span>' . $text_tax.'<div>';?>
+		<?php } ?>
+      </td></tr></table>
     </div>
   </div>
 <?php if ($email_banktr_message) { ?>

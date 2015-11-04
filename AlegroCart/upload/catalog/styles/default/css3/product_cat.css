@@ -4,8 +4,8 @@
 	overflow: hidden;
 }
 .productcat_top{
-	width: 590px;
-	margin-left: 5px;
+	width: 600px;
+	margin-left: 0px;
 	height: 9px;
 }
 .productcat_bottom{
@@ -25,6 +25,12 @@
 	text-align: left;
 	width: 380px;
 }
+.productcat .ptext b{
+	text-transform:uppercase;
+}
+.productcat .ptext b a{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+}
 .productcat .add{
 	position: relative;
 	left: 0px;
@@ -39,7 +45,6 @@
 .productcat .price_old {
 	text-align: left;
 	font-size: 18px;
-/* 	margin-top: 5px; */
 }
 .productcat .price_new {
 	text-align: left;
@@ -53,6 +58,9 @@
 	text-align: left;
 	font-size: 11px;
 }
+.productcat .vendor {
+	text-align: left;
+}
 .button{
 	font-weight: 500;
 }
@@ -63,7 +71,7 @@
 	width: 100%;
 	min-height: 220px;
 	margin-bottom: 2px;
-	clear: both;	
+	clear: both;
 }
 .category_options .man_select{
 	position: relative;

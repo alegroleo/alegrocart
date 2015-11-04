@@ -42,7 +42,7 @@ class ModuleImageDisplay extends Controller {
 					);
 				}
 				$sliderjs = "<script type=\"text/javascript\">
-					  \$(window).load(function(){
+					  \$(document).ready(function(){
 						  \$('#id_slider_" . $result['image_display_id'] . "').slick({
 						  slidesToScroll: 1,
 						  dots: false,

@@ -107,6 +107,9 @@ a:hover {
 .module_column .button{
 	font-weight: 500;
 }
+.module_content .add {
+	text-align: center;
+}
 .button:focus{
 	color: #CC0000;
 }
@@ -127,35 +130,35 @@ a:hover {
 	background: url('../image/color3/neutral/columnCenter.png') top left repeat-y;
 }
 #category_description .center{
-	background: url('../image/color3/neutral/contentCenter590.png') top left repeat-y; 
+	background: url('../image/color3/neutral/contentCenter600.png') top left repeat-y; 
 }
 #category_description  .bottom{
-	background: url('../image/color3/neutral/contentBottom590.png') bottom no-repeat;
+	background: url('../image/color3/neutral/contentBottom600.png') bottom no-repeat;
 }
 .headingbody {
-	background: url('../image/color3/neutral/heading590.png') top left no-repeat;
+	background: url('../image/color3/neutral/heading600.png') top left no-repeat;
 	color: #000000; /* Font Color*/
 	height: 22px;
 	padding-top: 8px;
 	font-size: 0.64em;
 }
 .contentBodyTop{
-	background: url('../image/color3/neutral/contentTop590.png') top center no-repeat;	
+	background: url('../image/color3/neutral/contentTop600.png') top center no-repeat;
 }
 .contentBody {
-	background: url('../image/color3/neutral/contentCenter590.png') top left repeat-y;
+	background: url('../image/color3/neutral/contentCenter600.png') top left repeat-y;
 }
 .contentBodyBottom{
-	background: url('../image/color3/neutral/contentBottom590.png') bottom no-repeat;
+	background: url('../image/color3/neutral/contentBottom600.png') bottom no-repeat;
 }
 .productcat_top{
-	background: url('../image/color3/neutral/contentTop590.png') top center no-repeat;	
+	background: url('../image/color3/neutral/contentTop600.png') top center no-repeat;
 }
 .productcat{
-	background: url('../image/color3/neutral/contentCenter590.png') top center repeat-y;
+	background: url('../image/color3/neutral/contentCenter600.png') top center repeat-y;
 }
 .productcat_bottom{
-	background: url('../image/color3/neutral/contentBottom590.png') bottom center no-repeat;
+	background: url('../image/color3/neutral/contentBottom600.png') bottom center no-repeat;
 }
 .display_options{
 	background: url('../image/color3/neutral/columnCenter.png') top left repeat-y;
@@ -287,7 +290,7 @@ a:hover {
 #invoice .a, #invoice .b, #invoice .e {
 	border: 1px solid #EEEEEE;
 }
-#login .c, #login .i {
+#login .c, #login .i, #login .n, #login .o {
 	border: 1px solid #EEEEEE;
 }
 #login .e .x{
@@ -525,7 +528,7 @@ a:hover {
 	height: 20px;
 	margin: 3px;
 }
-.language {
+#header .language {
 	top: 40px;
 	float: left;
 	margin-top: 3px;

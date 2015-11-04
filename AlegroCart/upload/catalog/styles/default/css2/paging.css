@@ -2,11 +2,11 @@
 .pagination{
 	position: relative;
 	left: 0px;
-	width: 790px;
+	width: 795px;
 	font-size: 11px;
 	min-height:18px;
 	vertical-align: middle;	
-	background-color: #FFFFFF;	
+	background-color: #FFFFFF;
 }
 .pagination .left{
 	left: 2px;

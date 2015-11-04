@@ -381,7 +381,7 @@ class Watermark {
 
 		if ($ratio > 1) {
 		      $new_filename = preg_replace('/\.([a-z]{3,4})$/i', '-' . imagesx($this->image) . 'x' . imagesy($this->image) . '.jpg', $filename);
-		      imagejpeg($this->image,  DIR_IMAGE_CACHE . $new_filename,90);
+		      imagejpeg($this->image,  DIR_IMAGE_CACHE . $new_filename, $this->config->get('config_image_quality'));
 		      imagedestroy($this->image);
 
 		      $file =  PATH_IMAGE_CACHE . $new_filename;
@@ -397,7 +397,7 @@ class Watermark {
 		      imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, imagesx($this->image), imagesy($this->image));
 		      $this->image = $new_image;
 
-		      imagejpeg($this->image,  DIR_IMAGE_CACHE . $new_filename,90);
+		      imagejpeg($this->image,  DIR_IMAGE_CACHE . $new_filename, $this->config->get('config_image_quality'));
 		      
 		      imagedestroy($this->image);
 
@@ -440,7 +440,7 @@ class Watermark {
 
 		if ($ratio > 1) {
 		      $new_filename = preg_replace('/\.([a-z]{3,4})$/i', '-' . imagesx($this->image) . 'x' . imagesy($this->image) . '.jpg', $filename);
-		      imagejpeg($this->image,  DIR_IMAGE_CACHE . $new_filename,90);
+		      imagejpeg($this->image,  DIR_IMAGE_CACHE . $new_filename, $this->config->get('config_image_quality'));
 		      imagedestroy($this->image);
 
 		      $file =  PATH_IMAGE_CACHE . $new_filename;
@@ -456,7 +456,7 @@ class Watermark {
 		      imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, imagesx($this->image), imagesy($this->image));
 		      $this->image = $new_image;
 
-		      imagejpeg($this->image,  DIR_IMAGE_CACHE . $new_filename,90);
+		      imagejpeg($this->image,  DIR_IMAGE_CACHE . $new_filename, $this->config->get('config_image_quality'));
 		      
 		      imagedestroy($this->image);
 

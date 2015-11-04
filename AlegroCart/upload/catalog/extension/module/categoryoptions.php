@@ -85,7 +85,7 @@ class ModuleCategoryOptions extends Controller{
 		$view->set('text_page_rows', $language->get('text_page_rows'));
 		$view->set('text_columns', $language->get('text_columns'));
 		$view->set('entry_submit', $language->get('entry_submit'));			
-		$column_data = $this->modelCore->tpl_columns == 2 ? array(1,2,3,4,5) : array(1,2,3,4);
+		$column_data = $this->modelCore->tpl_columns != 3 ? array(1,2,3,4,5) : array(1,2,3,4);
 		$view->set('column_data', $column_data);		
 		$view->set('this_controller', 'category');
 		$view->set('head_def',$head_def); 

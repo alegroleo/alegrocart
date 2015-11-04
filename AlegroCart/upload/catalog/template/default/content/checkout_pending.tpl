@@ -19,12 +19,12 @@
     <div class="buttons">
       <table>
         <tr>
-          <td align="left" width="5"><input type="submit" value="<?php echo $button_click_to_complete; ?>"></td>
+          <td class="left" width="5"><input type="submit" value="<?php echo $button_click_to_complete; ?>"></td>
         </tr>
       </table>
     </div>
   </form>
-  <img style="display:none;" width="100%" id="loadingbar" src="catalog/styles/<?php echo $this->style;?>/image/loading_bar.gif" ><br>
+  <img class="none" width="100%" id="loadingbar" src="catalog/styles/<?php echo $this->style;?>/image/loading_bar.gif" ><br>
 </div></div>
 <div class="contentBodyBottom"></div>
 

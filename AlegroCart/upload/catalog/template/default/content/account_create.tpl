@@ -161,7 +161,7 @@
 	<?php }?>
     <?php if (@$captcha) { ?>
 	<div class="captcha">
-		  <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $captcha;?>" title="<?php echo $text_captcha;?>" alt="<?php echo $text_captcha;?>"> 
+		  <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $captcha;?>" width="200" height="65" title="<?php echo $text_captcha;?>" alt="<?php echo $text_captcha;?>"> 
 	  <table>
 		<tr>
 		  <td>

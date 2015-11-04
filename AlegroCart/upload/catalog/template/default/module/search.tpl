@@ -1,8 +1,4 @@
-<?php if($location == 'header'){?>
 <div class="search">
-<?php } else {?>
-<div class="search" style="position: relative; right: 0px; top: 0px; margin: 10px 0px 10px 0px; padding-right: 2px;">
-<?php }?>
   <form action="<?php echo $action; ?>" method="post">
     <div>
       <?php if ($search) { ?>

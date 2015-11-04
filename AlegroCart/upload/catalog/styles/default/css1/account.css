@@ -1,0 +1,19 @@
+#account .b, #account .d {
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+#account .a, #account .c {
+	margin-bottom: 2px;
+	font-weight: bold;
+	display: block;
+	padding: 5px 0px 5px 5px;
+}
+ 
+#account a {
+	text-decoration: none;
+}
+
+#account a:hover {
+	text-decoration: underline;
+}

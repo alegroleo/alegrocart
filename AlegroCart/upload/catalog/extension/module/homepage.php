@@ -51,7 +51,7 @@ class ModuleHomePage extends Controller {
 			}
 			$view->set('slides', $slides);
 			$sliderjs = "<script type=\"text/javascript\">
-				  \$(window).load(function(){
+				  \$(document).ready(function(){
 					  \$('#homeslider').slick({
 					  slidesToScroll: 1,
 					  dots: true,

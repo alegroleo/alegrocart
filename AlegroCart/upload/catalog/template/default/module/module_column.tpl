@@ -51,7 +51,7 @@
   </div>
   <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
 	<?php if (isset($product['average_rating'])) { ?>
-    <div><img src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
+    <div><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112" height="20" data-src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
 	<?php } ?>
   <?php echo $product['description']; ?><br></div>
 
@@ -66,7 +66,7 @@
    <?php }?>
   <?php }?>
   <?php if ($product['vendor_name']) { ?>
-	<div class="vendor" style="text-align: center;"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
+	<div class="vendor"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
   <?php } ?>
   <?php if(($show_stock  || $show_stock_icon ) && !$product['options']){?>
     <div class="onhand">
@@ -79,7 +79,7 @@
 		} else {
 		  $icon = 'catalog/styles/'.$this->style.'/image/stock_status_r.png';
 		}?>
-		<img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+		<img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $icon;?>" width="11" height="11" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 	  <?php }?>
 	</div>
   <?php }?>

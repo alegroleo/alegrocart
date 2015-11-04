@@ -4,7 +4,10 @@
 }
 #history .a {
 	padding-bottom: 3px;
-} 
+}
+#history .a .right{
+	float: right;
+}
 #history .b {
 	float: left;
 	text-align: left;
@@ -18,6 +21,9 @@
 #history .d {
 	clear: both;
 	margin-bottom: 10px;
+}
+#history .d td {
+	width: 45%;
 }
 #history table {
 	width: 100%;

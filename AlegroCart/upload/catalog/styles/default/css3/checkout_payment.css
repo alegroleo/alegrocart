@@ -32,3 +32,6 @@
 	height: 100%;
 	cursor: pointer;
 }
+#payment .center {
+	text-align: center;
+}

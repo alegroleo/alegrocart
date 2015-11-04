@@ -71,11 +71,15 @@ class ControllerReportLogs extends Controller {
 	
 	function get_file(){
 		$file = '';
-		$log_path = DIR_BASE . 'logs';
+		$log_path = DIR_BASE . 'logs'; // Root path to Logs directory
 		if($this->request->gethtml('file_path', 'post')){
 			$file_path = $this->request->gethtml('file_path', 'post');
-			if(strpos($file_path,$log_path) !== FALSE){
-				$file = file_get_contents($this->request->gethtml('file_path', 'post'));
+			$pos = strpos($file_path,'../'); // check for reletive path indicators
+			if($pos !== FALSE){
+				$file_path = substr($file_path, 0 , $pos); //Strip everything including ../ from file_path right side
+			}
+			if(strpos($file_path,$log_path) !== FALSE && realpath($file_path) === $file_path){ // ensure post filepath matches root path and filepath is real
+				$file = file_get_contents($file_path);
 			}
 		}
 		if($this->request->gethtml('decrytion', 'post')){

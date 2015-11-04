@@ -1,0 +1,13 @@
+#address .c, #address .f {
+	padding: 5px;
+	margin-bottom: 10px;
+} 
+
+#address .b, #address .e {
+	margin-bottom: 2px;
+	font-weight: bold;
+	padding: 5px 0px 5px 5px;
+}
+#address .c table {
+	width: 980px;
+}

@@ -77,7 +77,7 @@ class Image {
           			imagecopyresized($destination, $source, $x_pos, $y_pos, 0, 0, $new_width, $new_height, $size[0], $size[1]);
         		}
 
-        		imagegif($destination, DIR_IMAGE_CACHE . $new_image, 90);
+        		imagegif($destination, DIR_IMAGE_CACHE . $new_image, $this->config->get('config_image_quality'));
 
         		$image = $new_image;
         		break;	
@@ -90,7 +90,7 @@ class Image {
           			imagecopyresized($destination, $source, $x_pos, $y_pos, 0, 0, $new_width, $new_height, $size[0], $size[1]);
         		}
 
-        		imagejpeg($destination, DIR_IMAGE_CACHE . $new_image, 90);
+        		imagejpeg($destination, DIR_IMAGE_CACHE . $new_image, $this->config->get('config_image_quality'));
 
         		$image = $new_image;
         		break;
@@ -103,7 +103,7 @@ class Image {
           			imagecopyresized($destination, $source, $x_pos, $y_pos, 0, 0, $new_width, $new_height, $size[0], $size[1]);
         		}
 
-        		imagejpeg($destination, DIR_IMAGE_CACHE . $new_image, 90);
+        		imagejpeg($destination, DIR_IMAGE_CACHE . $new_image, $this->config->get('config_image_quality'));
 
         		$image = $new_image;
         		break;			
@@ -114,5 +114,12 @@ class Image {
 
     	return $this->href(PATH_IMAGE_CACHE . $image);
   	}
+	function base64encode($image){
+		$content = file_get_contents($image);
+		$encoded = base64_encode($content);
+		$type = pathinfo($image, PATHINFO_EXTENSION);
+		$base64 = 'data:image/' . $type . ';base64,' . $encoded;
+		return $base64;
+	}
 }
 ?>

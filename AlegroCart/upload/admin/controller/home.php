@@ -3,7 +3,8 @@ class ControllerHome extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
 		$this->language 	=& $locator->get('language');
 		$this->module		=& $locator->get('module');
@@ -41,6 +42,7 @@ class ControllerHome extends Controller {
 	$view->set('error_install_dir', @$this->error['install_dir']);
     	$view->set('error_config', @$this->error['config']);
     	$view->set('error_htaccess', @$this->error['htaccess']);
+	$view->set('error_page_load', !$this->config->get('config_page_load') ? $this->language->get('error_page_load') : NULL);
 
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));

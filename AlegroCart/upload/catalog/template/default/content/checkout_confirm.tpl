@@ -35,7 +35,7 @@
       </tr>
     </table>
   </div>
-  <div style="padding-left: 5px;">
+  <div class="h">
     <table class="cur">
       <tr>
 		<th class="left" width="80px"><?php echo $text_currency;?></th>
@@ -51,7 +51,7 @@
         <th class="center"><?php echo $text_quantity; ?></th>
         <th class="right"><?php echo $text_price; ?></th>
         <th class="right"><?php echo $text_special; ?></th>
-		<?php if($columns == 2){?>
+		<?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 		  <th class="right"><?php echo $text_extended; ?></th>
 		  <?php if($coupon_sort_order < $discount_sort_order){ ?>
 		    <th class="right"><?php echo $text_coupon_value; ?></th>
@@ -90,7 +90,7 @@
 		<td class="right"><span class="checkout_price_new ">
 		  <?php if ($product['special_price'] > "$0.00"){echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['special_price'];} ?>
 		</span></td>
-		<?php if($columns == 2){?>
+		<?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 		  <td class="right"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['total'];?></td>
 		  <?php if($coupon_sort_order < $discount_sort_order){ ?>
 		    <td class="right"><?php echo ($tax_included && $product['coupon'] ? '<span class="tax">*</span>' : '') . $product['coupon'];?></td>
@@ -116,7 +116,7 @@
 		<?php }?>
       </tr>
       <?php } ?>
-	  <?php if($columns == 2){?>
+	  <?php if($columns == 1.2 || $columns == 2.1 || $columns == 1){?>
 	  <tr class="ptotals">
 	    <th class="left"><?php echo $text_product_totals;?></th>
 	    <td colspan="3"></td>
@@ -195,7 +195,9 @@
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
       <table width="100%">
         <tr>
-	  <?php echo '<td class="left"><span class="tax">* </span>' . $text_tax . '</td>';?>
+	<?php if($tax_included){?>
+	  <?php echo '<td class="left"><div class="taxE"><span class="tax">* </span>' . $text_tax . '</div></td>';?>
+	<?php } ?>
 		<?php if($couponproducts){?>
           <td class="right"><?php echo $entry_coupon; ?></td>
           <td class="right" width="1"><input type="text" name="coupon" id="coupon" value="<?php echo $coupon; ?>" class="validate_alpha_num"></td>
@@ -216,16 +218,16 @@
 	  <?php if($hasnoshipping){?>
 	    <tr>
 		 <td></td>
-		 <td align="right"><?php echo $text_warehouse_pickup; ?></td>
-		 <td align="right" width="5"><input type="checkbox" id="pickup" name="pickup" value="1" class="agreement"></td>
-		
+		 <td class="rtext"><?php echo $text_warehouse_pickup; ?></td>
+		 <td width="5"><input type="checkbox" id="pickup" name="pickup" value="1" class="agreement"></td>
+		 <td></td>
 	    </tr>
 	  <?php }?>
       <tr>
-	<td align="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
-	<td align="right"><?php echo $agree; ?></td>
-	<td align="right" width="5"><input type="checkbox" id="agree" name="agreed" value="1" class="agreement"></td>
-	<td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled"></td>
+	<td><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
+	<td class="rtext"><?php echo $agree; ?></td>
+	<td width="5"><input type="checkbox" id="agree" name="agreed" value="1" class="agreement"></td>
+	<td width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled"></td>
       </tr>
     </table>
   </div>
@@ -234,7 +236,13 @@
     <table>
       <tr>
         <td align="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
+	 <?php if($hasnoshipping){?>
+	<td align="right"><?php echo $text_warehouse_pickup; ?></td>
+	<td align="right" width="5"><input type="checkbox" id="pickup" name="pickup" value="1" class="agreement"></td>
+        <td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled"></td>
+	 <?php } else { ?>
         <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+	 <?php }?>
       </tr>
     </table>
   </div>

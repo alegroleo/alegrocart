@@ -55,6 +55,7 @@ class Model_Payment extends Model{
 		return $result;
 	}
 	function get_order_id($reference){
+		$reference = $this->request->sanitizer($reference);
 		$result = $this->database->getrow("select `order_id` from `order` where `reference` = '" . $reference . "'");
 		return $result;
 	}
@@ -66,6 +67,7 @@ class Model_Payment extends Model{
 		return $result;
 	}
 	function update_order_status_paidunconfirmed($finalStatusId, $reference, $paidUnconfirmedStatusId){
+		$reference = $this->request->sanitizer($reference);
 		$result = $this->database->countAffected($this->database->query("update `order` set `order_status_id` = '" . $finalStatusId . "' where `reference` = '" . $reference . "' and order_status_id = '" . $paidUnconfirmedStatusId . "'"));
 		return $result;
 	}

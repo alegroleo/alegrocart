@@ -11,7 +11,7 @@
     <table>
       <tr>
 	<td><b><?php echo $text_order; ?></b> <?php echo $order['reference']; ?></b></td>
-      	<td rowspan="2" align="right"><b><?php echo $text_status; ?></b> <?php echo $order['status']; ?></td> 
+      	<td rowspan="2" class="right"><b><?php echo $text_status; ?></b> <?php echo $order['status']; ?></td> 
       </tr>
 	<tr><td><b><?php echo $text_invoice_number; ?></b> <?php echo $order['invoice_number']; ?></td></tr>
     </table>
@@ -38,7 +38,7 @@
 <div class="buttons">
   <table>
     <tr>
-      <td align="right"><input type="button" value="<?php echo $button_continue; ?>" onclick="location='<?php echo $continue; ?>'"></td>
+      <td class="right"><input type="button" value="<?php echo $button_continue; ?>" onclick="location='<?php echo $continue; ?>'"></td>
     </tr>
   </table>
 </div>

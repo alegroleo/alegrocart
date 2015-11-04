@@ -39,7 +39,7 @@
 <div class="contentBody">
  <div class="product" id="product">
   <?php if($review_status){ ?>
-	<div class="rating"><img src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $average_rating . '.png'; ?>" alt="<?php echo $alt_rating; ?>"><span><?php if($maxrow && $maxrow==1) {echo $maxrow.' '.$text_review;} elseif($maxrow && $maxrow>1){echo $maxrow.' '.$text_reviews;} else {echo $text_rateit;} ?></span></div>
+	<div class="rating"><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112" height="20" data-src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $average_rating . '.png'; ?>" alt="<?php echo $alt_rating; ?>"><span><?php if($maxrow && $maxrow==1) {echo $maxrow.' '.$text_review;} elseif($maxrow && $maxrow>1){echo $maxrow.' '.$text_reviews;} else {echo $text_rateit;} ?></span></div>
   <?php } ?>
   <div class="a" >
    <?php include $shared_path . 'product_image.tpl';?>
@@ -49,7 +49,7 @@
   <?php if($product['model_number'] || $product_options){?>
     <div class="model_number">
 	  <?php echo $text_model_number;?>
-	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $product['model_number'];?></span>
+	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>"><?php echo $product['model_number'];?></span>
 		<?php if($product_options){?>
 		  <script language="JavaScript">
 			$(document).ready(function(){
@@ -64,7 +64,7 @@
   <?php }?>
   <?php if($show_stock || $show_stock_icon){?>
     <div class="ponhand"><?php echo $quantity_available; ?>
-      <span <?php if(!$show_stock){echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>" style="font-weight:normal"><?php echo $stock_level; ?></span>
+      <span <?php if(!$show_stock){echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span>
 	<?php if($show_stock_icon){?>
 	  <?php if($stock_level > 0 && $stock_level > $low_stock_warning){
 		$icon = 'catalog/styles/'.$this->style.'/image/stock_status_g.png';
@@ -79,7 +79,7 @@
 		<input type="hidden" id="stock_status_r" value="catalog/styles/<?php echo $this->style?>/image/stock_status_r.png">
 		<input type="hidden" id="low_stock_warning" value="<?php echo $low_stock_warning;?>">
 	  <?php }?>
-	  <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+	  <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $icon;?>" width="11" height="11" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 	<?php }?>
 	</div>
   <?php }?>
@@ -122,25 +122,28 @@
    <?php if ($product_addtocart) { ?>
      <table>
       <tr>
-	   <td align="left">
+	   <td class="a2c">
 		<?php include $shared_path . 'add_to_cart.tpl';?>
 	   </td>
       </tr>
      </table>
    <?php } ?>
-  <div class="addthis">
-  <!-- AddThis Button BEGIN -->
-  <div class="addthis_default_style">
-  <a class="addthis_button_twitter"></a>
-  <a class="addthis_button_facebook"></a>
-  <a class="addthis_button_email"></a>
-  <a class="addthis_button_print"></a>
-  <a class="addthis_button_compact"></a>
-  <a class="addthis_counter addthis_bubble_style"></a>
-  </div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>
-  <!-- AddThis Button END -->
-  </div>
+  <?php if($social){ ?>
+    <div class="addthis">
+	<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+	<script type="IN/Share" data-url="<?php echo $current_product ?>" data-counter="right"></script>
+	<a class="twitter-share-button" href="https://twitter.com/intent/tweet" data-url="<?php echo $current_product ?>" data-size="default">Tweet</a> 
+	<script> window.twttr = (function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0], t = window.twttr || {};
+	if (d.getElementById(id)) return t;
+	js = d.createElement(s); js.id = id;
+	js.src = "https://platform.twitter.com/widgets.js";
+	fjs.parentNode.insertBefore(js, fjs);
+	t._e = []; t.ready = function(f) {t._e.push(f);}; return t;
+	}(document, "script", "twitter-wjs"));</script>
+	<div class="fb-share-button" data-href="<?php echo $current_product ?>" data-layout="button_count"></div>
+    </div>
+  <?php } ?>
  </div>
 </div>
  <div class="clearfix"></div>
@@ -271,9 +274,9 @@
 		<?php } ?>
 		<?php if(($product['barcode'] || $product_options)){?>
 		  <div class="barcode">
-		    <span <?php if(!$product['barcode']){ echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_barcode_text_' . $product['product_id'];?>"><?php echo $text_barcode; ?></span>
-		    <span <?php if(!$product['barcode']){ echo 'style="visibility:hidden;" ';}?>id="<?php echo $this_controller . '_barcode_' . $product['product_id'];?>"><?php echo $product['barcode']; ?></span>
-			<img <?php if(!$product['barcode']){ echo 'style="visibility:hidden;" ';}?>id="barcode_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $product['barcode_url'];?>" alt="<?php echo $text_barcode_img;?>" title="<?php echo $text_barcode_img;?>">
+		    <span <?php if(!$product['barcode']){ echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_barcode_text_' . $product['product_id'];?>"><?php echo $text_barcode; ?></span>
+		    <span <?php if(!$product['barcode']){ echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_barcode_' . $product['product_id'];?>"><?php echo $product['barcode']; ?></span>
+			<img <?php if(!$product['barcode']){ echo 'classs="hidden" ';}?>id="barcode_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $product['barcode_url'];?>" alt="<?php echo $text_barcode_img;?>" title="<?php echo $text_barcode_img;?>">
 		    <?php if($product_options){?>
 			  <script language="JavaScript">
 			    $(document).ready(function(){
@@ -327,7 +330,7 @@
 		  </div>
 	    </div>
 	    <?php if($review_status){?>
-		<div class="review_write"><br><a href="<?php echo $write; ?>"><img src="catalog/styles/<?php echo $this->style?>/image/write.png" alt="<?php echo $text_write_short; ?>"></a><br><br>
+		<div class="review_write"><br><a href="<?php echo $write; ?>"><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="catalog/styles/<?php echo $this->style?>/image/write.png" alt="<?php echo $text_write_short; ?>"></a><br><br>
 		<a href="<?php echo $write; ?>"><?php echo $text_write; ?></a></div>
 	    <?php } ?>
 	  </div>

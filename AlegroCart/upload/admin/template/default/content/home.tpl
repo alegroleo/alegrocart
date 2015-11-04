@@ -7,6 +7,9 @@
 <?php if ($error_htaccess) { ?>
 <div class="warning"><?php echo $error_htaccess; ?></div>
 <?php } ?>
+<?php if ($error_page_load) { ?>
+<div class="warning"><?php echo $error_page_load; ?></div>
+<?php } ?>
 <div class="heading"><?php echo $heading_title; ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="home">

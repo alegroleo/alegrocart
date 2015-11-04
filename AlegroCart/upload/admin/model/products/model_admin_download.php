@@ -41,6 +41,8 @@ class Model_Admin_Download extends Model {
 		return $results;
 	}
 	function check_filename($filename){
+		preg_match("/^[a-zA-Z0-9]{1}[\w\-]*\.?[a-zA-Z]*/", $filename, $matches);
+		$filename = isset($matches[0]) ? $matches[0] : 'ERROR';
 		$results = $this->database->getRows("select filename from download where filename = '" . $filename . "'");
 		return $results;
 	}

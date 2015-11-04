@@ -68,16 +68,39 @@ class ModuleBestseller extends Controller {
 
 			$heading = $language->get('heading_title');
 			if ($config->get('bestseller_trendingdays') == 0) {
-				$results = $this->modelProducts->get_bestseller($bestseller_total);
+				$bestseller_results = $this->modelProducts->get_bestseller($bestseller_total);
 			} else {
-				$results = $this->modelProducts->get_trending($bestseller_total, $config->get('bestseller_trendingdays'));
+				$bestseller_results = $this->modelProducts->get_trending($bestseller_total, $config->get('bestseller_trendingdays'));
 				if (empty($results)) {
-					$results = $this->modelProducts->get_bestseller($bestseller_total);
+					$bestseller_results = $this->modelProducts->get_bestseller($bestseller_total);
 				} else {
 					$heading = $language->get('heading_title_trending');
 				}
 			}
 			$view->set('heading_title', $heading);
+
+			$maxrow = count($bestseller_results)-1;
+			if ($bestseller_results) {
+				if ($maxrow < $limit){
+					$results = $bestseller_results;
+				} else {
+					$i = 0;
+					while ($i < $limit){
+						$rand->uRand(0,$maxrow);
+						$i ++;
+					}
+					$i = 0;
+					$product_rand = array();
+					foreach ($rand->RandomNumbers as $mykey){
+						$product_rand[$i] = $bestseller_results[$mykey];
+						$i ++;
+					}
+					$results = $product_rand;
+				}
+			} else {
+				return;
+			}
+			$rand->clearrand();
 
 			$product_data = array();
 			foreach ($results as $result) {
@@ -171,29 +194,7 @@ class ModuleBestseller extends Controller {
 			);
 		}
 
-			$maxrow = count($product_data)-1;
-			if ($product_data) {
-				if ($maxrow < $limit){
-					$view->set('products', $product_data);
-				} else {
-					$I = 0;
-					while ($I < $limit){
-						$rand->uRand(0,$maxrow);
-						$I ++;
-					}
-					$I = 0;
-					$product_rand = array();
-					foreach ($rand->RandomNumbers as $mykey){
-						$product_rand[$I] = $product_data[$mykey];
-						$I ++;
-					}
-					$view->set('products', $product_rand);
-				}
-			} else {
-				return;
-			}
-			$rand->clearrand();
-
+			$view->set('products', $product_data);
 			$view->set('show_stock', $config->get('config_show_stock'));
 			$view->set('show_stock_icon',$config->get('config_show_stock_icon'));
 			if($config->get('config_show_stock_icon')){

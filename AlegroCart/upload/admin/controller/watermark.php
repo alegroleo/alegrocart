@@ -273,13 +273,17 @@ class ControllerWatermark extends Controller {
 	}
 
 	function previewSave(){
-	      if ($this->user->hasPermission('modify', 'watermark')) {
-		$this->watermark->deleteTmp(DIR_IMAGE_CACHE);
-		$this->watermark->copyTmp(DIR_IMAGE . $this->request->gethtml('save'));
-		sleep(1);
-		$this->watermark->deleteTmp(DIR_WATERMARK);
-		$this->watermark->deleteCache($this->request->gethtml('save'));
-	      }
+		if ($this->request->isPost()) {
+			if ($this->user->hasPermission('modify', 'watermark')) {
+				$this->watermark->deleteTmp(DIR_IMAGE_CACHE);
+				$this->watermark->copyTmp(DIR_IMAGE . $this->request->gethtml('save', 'post'));
+				sleep(1);
+				$this->watermark->deleteTmp(DIR_WATERMARK);
+				$this->watermark->deleteCache($this->request->gethtml('save', 'post'));
+				$response = array('status' => true);
+				echo json_encode($response);
+			}
+		}
 	}
 
 	function validate_update() {

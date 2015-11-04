@@ -29,13 +29,13 @@ class ControllerSetting extends Controller {
 
 		$this->language->load('controller/setting.php');
 	}
-	function index() { 
+	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('global_config_store', 'post') && $this->validate_update()) {
 			$this->modelSetting->delete_setting();
 			$this->modelWatermark->delete_watermark($this->wm_method);
-			
+
 			if($this->request->gethtml('global_config_currency', 'post') != $this->request->gethtml('default_currency', 'post')){
 				$this->updateRates();
 			}
@@ -96,6 +96,7 @@ class ControllerSetting extends Controller {
 		$view->set('text_vendors', $this->language->get('text_vendors'));
 		$view->set('text_appearance', $this->language->get('text_appearance'));
 		$view->set('text_developer', $this->language->get('text_developer'));
+		$view->set('text_newsletter', $this->language->get('text_newsletter'));
 
 		$view->set('text_stock_help', $this->language->get('text_stock_help'));
 		$view->set('text_address_explantion', $this->language->get('text_address_explantion'));
@@ -173,7 +174,7 @@ class ControllerSetting extends Controller {
 		$entry_dimension = array(1 => $this->language->get('entry_linear'),
 								2 => $this->language->get('entry_area'),
 								3 =>$this->language->get('entry_volume'));
-								
+
 		$view->set('entry_dimension', $entry_dimension);
 		$view->set('entry_tax', $this->language->get('entry_tax'));
 		$view->set('entry_tax_store', $this->language->get('entry_tax_store'));
@@ -208,6 +209,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_image_resize', $this->language->get('entry_image_resize'));
 		$view->set('entry_image_width', $this->language->get('entry_image_width'));
 		$view->set('entry_image_height', $this->language->get('entry_image_height'));
+		$view->set('entry_image_quality', $this->language->get('entry_image_quality'));
 		$view->set('entry_product_width', $this->language->get('entry_product_width'));
 		$view->set('entry_product_height',$this->language->get('entry_product_height'));
 		$view->set('entry_product_addtocart',$this->language->get('entry_product_addtocart'));
@@ -241,7 +243,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_options_model',$this->language->get('entry_options_model'));
 		$view->set('image_displays_product',array('thickbox', 'fancybox', 'lightbox'));
 		$view->set('image_displays_content',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
-		$view->set('page_columns', array('2', '3'));
+		$view->set('page_columns', array('1', '1.2', '2.1', '3'));
 		$view->set('entry_email_orders',$this->language->get('entry_email_orders'));
 		$view->set('entry_email_accounts',$this->language->get('entry_email_accounts'));
 		$view->set('entry_email_newsletter',$this->language->get('entry_email_newsletter'));
@@ -274,6 +276,9 @@ class ControllerSetting extends Controller {
 		$view->set('entry_discount_options',$this->language->get('entry_discount_options'));
 		$view->set('entry_session_expire',$this->language->get('entry_session_expire'));
 		$view->set('entry_estimate',$this->language->get('entry_estimate'));
+		$view->set('entry_page_load',$this->language->get('entry_page_load'));
+		$view->set('entry_social',$this->language->get('entry_social'));
+		$view->set('entry_newsletter',$this->language->get('entry_newsletter'));
 
 		$view->set('explanation_email_log',$this->language->get('explanation_email_log'));
 		$view->set('explanation_email_auth',$this->language->get('explanation_email_auth'));
@@ -316,6 +321,11 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_url_alias',$this->language->get('explanation_url_alias'));
 		$view->set('explanation_seo',$this->language->get('explanation_seo'));
 		$view->set('explanation_estimate',$this->language->get('explanation_estimate'));
+		$view->set('explanation_columns',$this->language->get('explanation_columns'));
+		$view->set('explanation_social',$this->language->get('explanation_social'));
+		$view->set('explanation_page_load',$this->language->get('explanation_page_load'));
+		$view->set('explanation_image_quality',$this->language->get('explanation_image_quality'));
+		$view->set('explanation_newsletter',$this->language->get('explanation_newsletter'));
 
 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
@@ -361,7 +371,7 @@ class ControllerSetting extends Controller {
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
-		
+
 		$view->set('action', $this->url->ssl('setting'));
 		$view->set('cancel', $this->url->ssl('setting'));
 
@@ -394,7 +404,7 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_token', @$setting_info['global']['config_token']);
 		}
-		
+
 		if ($this->request->has('global_config_store', 'post')) {
 			$view->set('global_config_store', $this->request->gethtml('global_config_store', 'post'));
 		} else {
@@ -412,7 +422,7 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_address', @$setting_info['global']['config_address']);
 		}
-		
+
 		if ($this->request->has('global_config_address_format', 'post')) {
 			$view->set('global_config_address_format', $this->request->gethtml('global_config_address_format', 'post'));
 		} else {
@@ -448,24 +458,24 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_url_alias', @$setting_info['global']['config_url_alias']);
 		}
-		
+
 		if ($this->request->has('global_config_seo', 'post')) {
 			$view->set('global_config_seo', $this->request->gethtml('global_config_seo', 'post'));
 		} else {
 			$view->set('global_config_seo', @$setting_info['global']['config_seo']);
 		}
-		
+
 		if ($this->request->has('catalog_config_template', 'post')) {  // Catalog Template
 			$view->set('catalog_config_template', $this->request->gethtml('catalog_config_template', 'post'));
 		} else {
-			$view->set('catalog_config_template', @$setting_info['catalog']['config_template']); 
+			$view->set('catalog_config_template', @$setting_info['catalog']['config_template']);
 		}
 		$template_data = array();
 		foreach (glob(DIR_CATALOG_TEMPLATE . '*', GLOB_ONLYDIR) as $dirctory) {
 			$template_data[] = basename($dirctory);
 		}
 		$view->set('catalog_templates', $template_data);
-		
+
 		if ($this->request->has('catalog_config_styles', 'post')) {  // Catalog Styles
 			$style = $this->request->gethtml('catalog_config_styles', 'post');
 			$view->set('catalog_config_styles', $style);
@@ -478,7 +488,7 @@ class ControllerSetting extends Controller {
 			$styles_data[] = basename($dir_style);
 		}
 		$view->set('catalog_styles', $styles_data);
-		
+
 		if ($this->request->has('catalog_config_columns', 'post')){
 			$columns = $this->request->gethtml('catalog_config_columns', 'post');
 			$view->set('catalog_config_columns', $columns);
@@ -486,75 +496,75 @@ class ControllerSetting extends Controller {
 			$columns = @$setting_info['catalog']['config_columns'];
 			$view->set('catalog_config_columns', $columns);
 		}
-		
+
 		if ($this->request->has('catalog_config_colors', 'post')) {  // Cataloge Colors
 			$view->set('catalog_config_colors', $this->request->gethtml('catalog_config_colors', 'post'));
 		} else {
 			$view->set('catalog_config_colors', @$setting_info['catalog']['config_colors']);
 		}
 		$view->set('catalog_colors', $this->checkFiles($style, $columns));
-		
+
 		$view->set('logos', $this->getLogos());
 		if ($this->request->has('catalog_config_store_logo', 'post')) {  // Cataloge Logo
 			$view->set('catalog_config_store_logo', $this->request->gethtml('catalog_config_store_logo', 'post'));
 		} else {
 			$view->set('catalog_config_store_logo', @$setting_info['catalog']['config_store_logo']);
 		}
-		
+
 		if ($this->request->has('catalog_config_logo_left', 'post')) {
 			$view->set('catalog_config_logo_left', $this->request->gethtml('catalog_config_logo_left', 'post'));
 		} else {
 			$view->set('catalog_config_logo_left', @$setting_info['catalog']['config_logo_left']);
 		}
-		
+
 		if ($this->request->has('catalog_config_logo_top', 'post')) {
 			$view->set('catalog_config_logo_top', $this->request->gethtml('catalog_config_logo_top', 'post'));
 		} else {
 			$view->set('catalog_config_logo_top', @$setting_info['catalog']['config_logo_top']);
 		}
-		
+
 		if ($this->request->has('catalog_config_logo_width', 'post')) {
 			$view->set('catalog_config_logo_width', $this->request->gethtml('catalog_config_logo_width', 'post'));
 		} else {
 			$view->set('catalog_config_logo_width', @$setting_info['catalog']['config_logo_width']);
 		}
-		
+
 		if ($this->request->has('catalog_config_logo_height', 'post')) {
 			$view->set('catalog_config_logo_height', $this->request->gethtml('catalog_config_logo_height', 'post'));
 		} else {
 			$view->set('catalog_config_logo_height', @$setting_info['catalog']['config_logo_height']);
 		}
-		
+
 		if ($this->request->has('catalog_config_footer_logo', 'post')) {  // Cataloge Logo
 			$view->set('catalog_config_footer_logo', $this->request->gethtml('catalog_config_footer_logo', 'post'));
 		} else {
 			$view->set('catalog_config_footer_logo', @$setting_info['catalog']['config_footer_logo']);
 		}
-		
+
 		if ($this->request->has('catalog_footer_logo_left', 'post')) {
 			$view->set('catalog_footer_logo_left', $this->request->gethtml('catalog_footer_logo_left', 'post'));
 		} else {
 			$view->set('catalog_footer_logo_left', @$setting_info['catalog']['footer_logo_left']);
 		}
-		
+
 		if ($this->request->has('catalog_footer_logo_top', 'post')) {
 			$view->set('catalog_footer_logo_top', $this->request->gethtml('catalog_footer_logo_top', 'post'));
 		} else {
 			$view->set('catalog_footer_logo_top', @$setting_info['catalog']['footer_logo_top']);
 		}
-		
+
 		if ($this->request->has('catalog_footer_logo_width', 'post')) {
 			$view->set('catalog_footer_logo_width', $this->request->gethtml('catalog_footer_logo_width', 'post'));
 		} else {
 			$view->set('catalog_footer_logo_width', @$setting_info['catalog']['footer_logo_width']);
 		}
-		
+
 		if ($this->request->has('catalog_footer_logo_height', 'post')) {
 			$view->set('catalog_footer_logo_height', $this->request->gethtml('catalog_footer_logo_height', 'post'));
 		} else {
 			$view->set('catalog_footer_logo_height', @$setting_info['catalog']['footer_logo_height']);
 		}
-		
+
 		if ($this->request->has('admin_config_template', 'post')) {  // Admin Template
 			$view->set('admin_config_template', $this->request->gethtml('admin_config_template', 'post'));
 		} else {
@@ -587,13 +597,22 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_tax', @$setting_info['global']['config_tax']);
 		}
-		
+
 		if ($this->request->has('global_config_tax_store', 'post')) {
 			$view->set('global_config_tax_store', $this->request->gethtml('global_config_tax_store', 'post'));
 		} else {
 			$view->set('global_config_tax_store', @$setting_info['global']['config_tax_store']);
 		}
-
+		if ($this->request->has('catalog_config_social', 'post')) {
+			$view->set('catalog_config_social', $this->request->gethtml('catalog_config_social', 'post'));
+		} else {
+			$view->set('catalog_config_social', @$setting_info['catalog']['config_social']);
+		}
+		if ($this->request->has('global_config_page_load', 'post')) {
+			$view->set('global_config_page_load', $this->request->gethtml('global_config_page_load', 'post'));
+		} else {
+			$view->set('global_config_page_load', @$setting_info['global']['config_page_load']);
+		}
 		if ($this->request->has('global_invoice_number', 'post')) {
 			$view->set('global_invoice_number', $this->request->gethtml('global_invoice_number', 'post'));
 		} else {
@@ -717,6 +736,11 @@ class ControllerSetting extends Controller {
 			$view->set('global_config_email_tout', $this->request->gethtml('global_config_email_tout', 'post'));
 		} else {
 			$view->set('global_config_email_tout', @$setting_info['global']['config_email_tout']);
+		}
+		if ($this->request->has('global_config_newsletter', 'post')) {
+			$view->set('global_config_newsletter', $this->request->gethtml('global_config_newsletter', 'post'));
+		} else {
+			$view->set('global_config_newsletter', @$setting_info['global']['config_newsletter']);
 		}
 		if ($this->request->has('catalog_config_parse_time', 'post')) {
 			$view->set('catalog_config_parse_time', $this->request->gethtml('catalog_config_parse_time', 'post'));
@@ -863,6 +887,12 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_image_height', @$setting_info['global']['config_image_height']);
 		}
+		if ($this->request->has('global_config_image_quality')) {
+			$view->set('global_config_image_quality', $this->request->gethtml('global_config_image_quality'));
+		} else {
+			$view->set('global_config_image_quality', @$setting_info['global']['config_image_quality']);
+		}
+
 		//New Block for Images & Addtocart
 		if ($this->request->has('catalog_product_image_width')) {
 			$view->set('catalog_product_image_width', $this->request->gethtml('catalog_product_image_width'));
@@ -1033,7 +1063,7 @@ class ControllerSetting extends Controller {
 			$view->set('wm_font', $this->request->gethtml('wm_font', 'post'));
 		} else {
 			$view->set('wm_font', @$watermark_data['wm_font']);
-		}	
+		}
 		if ($this->request->has('wm_fontcolor', 'post')) {
 			$view->set('wm_fontcolor', $this->request->gethtml('wm_fontcolor', 'post'));
 		} else {
@@ -1135,13 +1165,13 @@ class ControllerSetting extends Controller {
 		}
 		$view->set('global_config_currency', $default_currency);
 		$view->set('default_currency', $default_currency);
-		
+
 		if ($this->request->has('global_config_currency_surcharge')) {
 			$view->set('global_config_currency_surcharge', $this->request->gethtml('global_config_currency_surcharge'));
 		} else {
 			$view->set('global_config_currency_surcharge', @$setting_info['global']['config_currency_surcharge']);
 		}
-		
+
 		$view->set('currencies', $this->modelSetting->get_currencies());
 
 		if ($this->request->has('global_config_weight_class_id')) {
@@ -1157,7 +1187,7 @@ class ControllerSetting extends Controller {
 		}  //Weight decimal
 
 		$view->set('weight_classes', $this->modelSetting->get_weight_classes());
-		
+
 		if ($this->request->has('global_config_barcode_encoding')) {
 			$view->set('global_config_barcode_encoding', $this->request->gethtml('global_config_barcode_encoding'));
 		} else {
@@ -1195,7 +1225,7 @@ class ControllerSetting extends Controller {
 			}
 		}
 		$view->set('dimensions', $dimensions);
-		
+
 		if ($this->request->has('global_config_rss_limit')) {
 			$view->set('global_config_rss_limit', $this->request->gethtml('global_config_rss_limit'));
 		} else {
@@ -1287,7 +1317,7 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_config_download_status', @$setting_info['catalog']['config_download_status']);
 		}
-		
+
 
 		$this->template->set('content', $view->fetch('content/setting.tpl'));
 		$this->template->set($this->module->fetch());
@@ -1317,7 +1347,7 @@ class ControllerSetting extends Controller {
 			}
 		}
 		$this->cache->delete('currency');
-		
+
 	}
 
 	function getLogos(){
@@ -1384,6 +1414,9 @@ class ControllerSetting extends Controller {
 
 	function checkFiles($style, $columns) {
 		$colors_data = array();
+		if (preg_match('/[1-2]\.[1-2]/',$columns)) {
+			$columns = 2;
+		}
 		$files = glob(DIR_CATALOG_STYLES.$style.D_S.'colors'.$columns.D_S.'*.*');
 		if (!$files) { return; }
 		foreach ($files as $file) {
@@ -1488,6 +1521,9 @@ class ControllerSetting extends Controller {
 	function getColors(){
 		$style = $this->request->gethtml('style');
 		$columns = $this->request->gethtml('columns');
+		if (preg_match('/[1-2]\.[1-2]/',$columns)) {
+			$columns = 2;
+		}
 		$results = $this->checkFiles($style,$columns);
 		if($results){
 			$output = '<select name="catalog_config_colors">';

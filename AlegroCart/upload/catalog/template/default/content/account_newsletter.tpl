@@ -29,8 +29,8 @@
   <div class="buttons">
     <table>
       <tr>
-        <td align="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
-        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+        <td class="left"><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
+        <td class="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
       </tr>
     </table>
   </div>

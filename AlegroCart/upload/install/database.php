@@ -27,6 +27,7 @@ class Database {
 		}
 	}
 	function import_file($file) {
+		$quotes = array("'","`");
 		if ($sql=file($file)) {
 			$query = '';
 			foreach($sql as $line) {
@@ -40,21 +41,21 @@ class Database {
 					}
 					if (preg_match('/;\s*$/', $query)){
 						if(preg_match('/^ALTER TABLE (.+?) ADD (.+?) /',$query,$matches)){
-							$add = @$this->runQuery(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])));
+							$add = @$this->runQuery(sprintf("SHOW COLUMNS FROM `%s` LIKE '%s'",str_replace($quotes,'',$matches[1]),str_replace($quotes,'',$matches[2])));
 							if ($add->num_rows > 0){
 								$query='';
 							}
 						}
 						if(preg_match('/^ALTER TABLE (.+?) DROP (.+?) /',$query,$matches)){
 							$matches[2] = str_replace(';','',$matches[2]);
-							$drop = @$this->runQuery(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])));
+							$drop = @$this->runQuery(sprintf("SHOW COLUMNS FROM `%s` LIKE '%s'",str_replace($quotes,'',$matches[1]),str_replace($quotes,'',$matches[2])));
 							if ($drop->num_rows == NULL){
 								$query = '';
 							}
 						}
 						if(preg_match('/^ALTER TABLE (.+?) CHANGE (.+?) /',$query,$matches)){
 							$matches[2] = str_replace(';','',$matches[2]);
-							$change = @$this->runQuery(sprintf("SHOW COLUMNS FROM %s LIKE '%s'",$matches[1],str_replace('`','',$matches[2])));
+							$change = @$this->runQuery(sprintf("SHOW COLUMNS FROM `%s` LIKE '%s'",str_replace($quotes,'',$matches[1]),str_replace($quotes,'',$matches[2])));
 							if ($change->num_rows == NULL){
 								$query = '';
 							}

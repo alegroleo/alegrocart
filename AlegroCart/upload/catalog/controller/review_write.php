@@ -144,8 +144,12 @@ class ControllerReviewWrite extends controller {
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
-		$modules_extra['column'] = array('manufacturer', 'popular', 'review');
-		$modules_extra['columnright'] = array('specials');
+		if($this->tpl_columns == 1.2 || $this->tpl_columns == 3){
+			$modules_extra['column'] = array('manufacturer', 'popular', 'review');
+			$modules_extra['columnright'] = array('specials');
+		} elseif ($this->tpl_columns == 2.1) {
+			$modules_extra['columnright'] = array('manufacturer', 'popular', 'review');
+		}
 		return $modules_extra;
 	}
 

@@ -1,15 +1,23 @@
 #create .b, #create .d, #create .f {
 	padding: 5px;
 	margin-bottom: 5px;
-} 
-
+}
+#create .b .right {
+	float: right;
+	text-align: right;
+}
+#create .b .left {
+	float: left;
+}
 #create .a, #create .c, #create .e {
 	margin-bottom: 2px;
 	font-weight: bold;
 	padding: 0px 0px 5px 5px;
 }
-
 #create table {
 	width: 100%;
 	padding: 5px 0px 5px 5px;
+}
+#create .t {
+	width: 150px;
 }

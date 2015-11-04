@@ -126,6 +126,9 @@ a:hover {
 	font-weight: bold;
 	height: 25px;
 }
+.module_content .add {
+	text-align: center;
+}
 .button:focus{
 	color: #CC0000;
 }
@@ -146,32 +149,32 @@ a:hover {
 	background: url('../image/color3/grey/columnCenter.png') top left repeat-y;
 }
 #category_description .center{
-	background: url('../image/color3/grey/contentCenter590.png') top left repeat-y; 
+	background: url('../image/color3/grey/contentCenter600.png') top left repeat-y; 
 }
 #category_description  .bottom{
-	background: url('../image/color3/grey/contentBottom590.png') bottom no-repeat;
+	background: url('../image/color3/grey/contentBottom600.png') bottom no-repeat;
 }
 .headingbody {
-	background: url('../image/color3/grey/heading590.png') top left no-repeat;
+	background: url('../image/color3/grey/heading600.png') top left no-repeat;
 	color: #FFFFFF; /* Font Color*/
 	height: 22px;
 	padding-top: 8px;
 	font-size: 0.64em;
 }
 .contentBodyTop{
-	background: url('../image/color3/grey/contentTop590.png') top center no-repeat;	
+	background: url('../image/color3/grey/contentTop600.png') top center no-repeat;	
 }
 .contentBody {
-	background: url('../image/color3/grey/contentCenter590.png') top left repeat-y;
+	background: url('../image/color3/grey/contentCenter600.png') top left repeat-y;
 }
 .contentBodyBottom{
-	background: url('../image/color3/grey/contentBottom590.png') bottom no-repeat;
+	background: url('../image/color3/grey/contentBottom600.png') bottom no-repeat;
 }
 .productcat_top{
-	background: url('../image/color3/grey/contentTop590.png') top center no-repeat;
+	background: url('../image/color3/grey/contentTop600.png') top center no-repeat;
 }
 .productcat{
-	background: url('../image/color3/grey/contentCenter590.png') top center repeat-y;
+	background: url('../image/color3/grey/contentCenter600.png') top center repeat-y;
 }
 .productcat .add input[type="button"] {
 	height: 25px;
@@ -187,7 +190,7 @@ a:hover {
 	font-weight: bold;
 }
 .productcat_bottom{
-	background: url('../image/color3/grey/contentBottom590.png') bottom center no-repeat;
+	background: url('../image/color3/grey/contentBottom600.png') bottom center no-repeat;
 }
 .display_options{
 	background: url('../image/color3/grey/columnCenter.png') top left repeat-y;
@@ -371,7 +374,7 @@ background-color: #FFFFFF;
 #invoice .a, #invoice .b, #invoice .e {
 	border: 1px solid #EEEEEE;
 }
-#login .c, #login .i {
+#login .c, #login .i, #login .n, #login .o {
 	border: 1px solid #EEEEEE;
 }
 #login .e .x{
@@ -711,7 +714,7 @@ background-color: #FFFFFF;
 	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
-.language {
+#header .language {
 	top: 40px;
 	float: left;
 	margin-top: 3px;
@@ -750,6 +753,9 @@ background-color: #FFFFFF;
 .information a {
 	background: url('../image/bullet_1.png') no-repeat 10px 4px;
 	padding: 0px 0px 0px 25px;
+}
+#footer .information a, #footer .information .taxE {
+	color: #FFFFFF;
 }
 .information a:hover{
 	background: url('../image/bullet_2.gif') no-repeat 10px 4px;

@@ -49,12 +49,12 @@
     <div class="b">
       <table>
         <tr>
-          <td width="50%" valign="top"><?php echo $text_shipping_to; ?></td>
-          <td valign="top" rowspan="2"><b><?php echo $text_shipping_address; ?></b><br>
+          <td width="50%"><?php echo $text_shipping_to; ?></td>
+          <td rowspan="2"><b><?php echo $text_shipping_address; ?></b><br>
             <?php echo $address; ?></td>
         </tr>
         <tr>
-          <td align="center" valign="top"><input type="button" value="<?php echo $button_change_address; ?>" id="change_address"></td>
+          <td class="center"><input type="button" value="<?php echo $button_change_address; ?>" id="change_address"></td>
         </tr>
       </table>
     </div>
@@ -103,15 +103,15 @@
       <textarea  id="comment" name="comment" cols="89" rows="8"><?php echo $comment; ?></textarea>
     </div>
 	<?php if($tax_included){?>
-	  <?php echo '<td class="left"><span class="tax">* </span>' . $text_tax . '</td>';?>
+	  <?php echo '<div class="taxE"><span class="tax">* </span>' . $text_tax . '</div>';?>
 	<?php } ?>
 	<input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
   </div>
   <div class="buttons">
     <table>
       <tr>
-        <td align="left"><input type="button" value="<?php echo $button_back; ?>" id="back"></td>
-        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+        <td class="left"><input type="button" value="<?php echo $button_back; ?>" id="back"></td>
+        <td class="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
       </tr>
     </table>
   </div>
@@ -140,7 +140,9 @@ $("#back, #change_address").on("click", function(){
 });
 //--></script>
   <script type="text/javascript">
-	$('input[name="shipping"][checked="checked"]').closest('table').attr('class', 'default_method');
+	$(document).ready(function(){
+		$('input[name="shipping"][checked="checked"]').closest('table').attr('class', 'default_method');
+	});
 //--></script>
   <script type="text/javascript">
 	$('input[name="shipping"]').on("click", function(){

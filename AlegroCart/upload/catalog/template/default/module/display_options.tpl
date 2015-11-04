@@ -7,7 +7,7 @@
   <form action="<?php echo $action;?>" method="post" enctype="multipart/form-data"> 
     <table>
       <tr>
-	   <td rowspan="<?php echo count($sort_filter);?>" style="width: 60px;"><?php echo $text_sort_by;?></td>
+	   <td rowspan="<?php echo count($sort_filter);?>" class="filter"><?php echo $text_sort_by;?></td>
 	  <?php foreach($sort_filter as $key => $filter){ ?>
 		<?php if($key > 0){?><tr><?php } ?><td>
 		  <input type="radio" <?php if($default_filter == $filter){ ?>CHECKED <?php }?>name="sort_filter" value="<?php echo $filter;?>"> <?php echo $filter;?>
@@ -17,7 +17,7 @@
 	<div class="divider"></div>
 	<table>
 	  <tr >
-	    <td rowspan="<?php echo count($sort_order);?>" style="width: 60px;"><?php echo $text_order;?></td>
+	    <td rowspan="<?php echo count($sort_order);?>" class="order"><?php echo $text_order;?></td>
 	  <?php foreach($sort_order as $key => $order){ ?>
 		<?php if($key > 0){?><tr><?php } ?><td>
 		  <input type="radio" <?php if($default_order == $order){ ?>CHECKED <?php }?>name="sort_order" value="<?php echo $order;?>"> <?php echo $order;?>
@@ -39,8 +39,8 @@
 	  <table id="model">
 	    <?php if (count($models_data) > 1){?>
 	      <tr><td><?php echo $text_model;?></td></tr>
-	      <tr><td style="width: 190px;">
-	        <select style="width: 180px;" name="model">
+	      <tr><td>
+	        <select name="model">
 		      <option value="all" <?php if($model == "all"){?>selected <?php }?>><?php echo $text_all;?></option>
 			  <?php foreach($models_data as $model_data){?>
 			    <option value="<?php echo $model_data['model_value'];?>" <?php if($model_data['model'] == $model){?>selected <?php }?>><?php echo $model_data['model'];?></option>
@@ -81,7 +81,7 @@
      <input type="hidden" name="description" value="<?php echo $description;?>"<?php if($description == "on"){?> CHECKED<?php }?>>
 	<?php }?>
 	<table>
-	  <tr><td style="width: 190px; text-align: center;">
+	  <tr><td class="button">
 	    <input class="submit" type="submit" value="<?php echo $entry_submit;?>">
 	  </td></tr>
     </table>

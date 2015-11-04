@@ -62,7 +62,31 @@ class ModuleSpecials extends Controller {
 			$view->set('thousand_point', $language->get('thousand_point'));
 			$view->set('decimal_place', $currency->currencies[$currency_code]['decimal_place']); // End Currency
 
-		$results = $this->modelProducts->get_specials();
+			$specials_results = $this->modelProducts->get_specials();
+
+			$maxrow = count($specials_results)-1;
+			if ($specials_results) {
+				if ($maxrow < $limit){
+					$results = $specials_results;
+				} else {
+					$i = 0;
+					while ($i < $limit){
+						$rand->uRand(0,$maxrow);
+						$i ++;
+					}
+					$i = 0;
+					$product_rand = array();
+					foreach ($rand->RandomNumbers as $mykey){
+						$product_rand[$i] = $specials_results[$mykey];
+						$i ++;
+					}
+					$results = $product_rand;
+				}
+			} else {
+				return;
+			}
+			$rand->clearrand();
+
 		$product_data = array();
 		foreach ($results as $result) {
 				if ($config->get('specials_ratings')) {
@@ -155,29 +179,7 @@ class ModuleSpecials extends Controller {
 			);
 		}
 
-			$maxrow = count($product_data)-1;
-			if ($product_data) {
-				if ($maxrow < $limit){
-					$view->set('products', $product_data);
-				} else {
-					$I = 0;
-					while ($I < $limit){
-						$rand->uRand(0,$maxrow);
-						$I ++;
-					}
-					$I = 0;
-					$product_rand = array();
-					foreach ($rand->RandomNumbers as $mykey){
-						$product_rand[$I] = $product_data[$mykey];
-						$I ++;
-					}
-					$view->set('products', $product_rand);
-				}
-			} else {
-				return;
-			}
-			$rand->clearrand();
-
+			$view->set('products', $product_data);
 			$view->set('show_stock', $config->get('config_show_stock'));
 			$view->set('show_stock_icon',$config->get('config_show_stock_icon'));
 			if($config->get('config_show_stock_icon')){

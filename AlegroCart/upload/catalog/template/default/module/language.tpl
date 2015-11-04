@@ -1,8 +1,4 @@
-<?php if($location == 'header'){?>
-	<div class="language">
-<?php } else {?>
-	<div class="language" style="top: 5px; margin: 5px 5px 10px 0px;">
-<?php }?>
+<div class="language">
   <?php foreach ($languages as $language) { ?>
 	<?php if($language['language_status'] == '1'){?>
 	  <form action="<?php echo $action; ?>" method="POST" enctype="multipart/form-data">

@@ -2,17 +2,27 @@
 Class HeaderDefinition {
   var $CssDef = array();
   var $java_script = array();
+  var $java_path = array();
+  var $css_path = array();
   var $meta_title;
   var $meta_description;
   var $meta_keywords = array();
   
   function setcss($CssStyle){
-    $CssStyle = "<link rel=\"stylesheet\" type=\"text/css\" href=\"catalog/styles/" . $CssStyle . "\">";
+    $Temp_CSS = $CssStyle;
+	if (array_search($Temp_CSS, $this->css_path)===false){
+		$this->css_path[]=$Temp_CSS;
+	}
+	$CssStyle = "<link rel=\"stylesheet\" type=\"text/css\" href=\"catalog/styles/" . $CssStyle . "\">";
     if (array_search($CssStyle,$this->CssDef)===false){
       $this->CssDef[]=$CssStyle;
     }
   }
   function set_javascript($JavaDef){
+	$Temp_JS = "catalog/javascript/" . $JavaDef;
+	if (array_search($Temp_JS, $this->java_path)===false){
+		$this->java_path[]=$Temp_JS;
+	}
     $JavaDef = "<script type=\"text/javascript\" src=\"catalog/javascript/" . $JavaDef . "\"></script>";
     if (array_search($JavaDef,$this->java_script)===false){
       $this->java_script[]=$JavaDef;
@@ -46,5 +56,9 @@ Class HeaderDefinition {
     $keywords = "<meta name=\"keywords\" content=\"" . $keywords . "\">";
     return $keywords;  
   }
+	function set_Fb(){
+		$fb = '<div id="fb-root"></div><script>window.fbAsyncInit = function(){FB.init({xfbml: true,version: \'v2.3\'});}; (function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src="https://connect.facebook.net/en_US/sdk.js"; fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script>';
+		return $fb;
+	}
 }
 ?>

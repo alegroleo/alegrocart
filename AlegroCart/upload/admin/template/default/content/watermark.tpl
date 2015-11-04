@@ -33,7 +33,7 @@
 	     <tr height=50px> 
 		  <td>
 		  <select id="wm_wmimage_id" name="wm_wmimage" onchange="$('#wm_wmimage').load('index.php?controller=watermark&action=viewWmImage&wm_wmimage='+this.value);">
-<option value="">None</option>
+<option value=""><?php echo $text_none; ?></option>
 		  <?php foreach ($wmimages as $wmimage){?>
 		  <option title="<?php echo $wmimage['previewimage']; ?>" value="<?php echo $wmimage['image'];?>"><?php echo $wmimage['image'];?></option>
 		  <?php }?>
@@ -41,7 +41,7 @@
 		  </td>
 		  <td>
 		  <input type="button" class="button leftbutton" name="pre_view" id="preview_id" value="<?php echo $button_preview; ?>" onclick="$('#pre_view').load('index.php?controller=watermark&action=previewImage&pre_view='+wm_wmimage_id.value),$('#save_button').show();">
-		  <input id="save_button" hidden="hidden" type="button" class="button rightbutton" name="save" value="<?php echo $button_save_wmi; ?>" onclick="$('#save').load('index.php?controller=watermark&action=previewSave&save='+wm_wmimage_id.value),RefreshImage();">
+		  <input id="save_button" hidden="hidden" type="button" class="button rightbutton" name="save" value="<?php echo $button_save_wmi; ?>">
 		  </td>	
 	     </tr>
 	     <tr> 
@@ -218,12 +218,13 @@
 		    <?php echo $explanation_wm_ivmargin; ?> 
 		  </td>
 	      </tr>
-	  </table>	  
+	  </table>
         </div>
       </div>
     </div>
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+</form>
   <script type="text/javascript"><!--
   tabview_initialize('tab');
   //--></script>
@@ -231,15 +232,32 @@
   $('#wm_image').load('index.php?controller=watermark&action=viewImage&wm_image='+document.getElementById('wm_image_id').value);
   //--></script>
   <script type="text/javascript"><!--
-  function RefreshImage(){
-	$('#save_button').hide('slow',function(){
-		$('#wm_wmimage').load('index.php?controller=watermark&action=viewWmImage&wm_wmimage='+document.getElementById('wm_wmimage_id').value);
-	});
-  }
-  //--></script>
-  <script type="text/javascript"><!--
     $(document).ready(function() {
 	  RegisterValidation();
     });
   //--></script>
-</form>
+  <script type="text/javascript"><!--
+  $("#save_button").on("click", function(){
+	var save = $('#wm_wmimage_id').val();
+	var data_json = {'save':save};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=watermark&action=previewSave',
+		data: data_json,
+		dataType:'json',
+		beforeSend: function (data) {
+			$('#pre_view').after('<img src="template/<?php echo $this->directory?>/image/working.gif" alt="" id="working">');
+		},
+		success: function (data) {
+			if (data.status === true) {
+				$('#save_button').hide('slow',function(){
+					$('#wm_wmimage').load('index.php?controller=watermark&action=viewWmImage&wm_wmimage='+document.getElementById('wm_wmimage_id').value);
+				});
+			}
+		},
+		complete: function() {
+			$('#working').remove();
+		}
+	});
+  });
+//--></script>

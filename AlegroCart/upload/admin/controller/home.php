@@ -43,7 +43,8 @@ class ControllerHome extends Controller {
     	$view->set('error_config', @$this->error['config']);
     	$view->set('error_htaccess', @$this->error['htaccess']);
 	$view->set('error_page_load', !$this->config->get('config_page_load') ? $this->language->get('error_page_load') : NULL);
-
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 

@@ -12,8 +12,8 @@
   $this->color = isset($template_color) ? $template_color : $this->color;
 ?>
 <?php if ($this->condense){ 
-	echo $this->condense_css('css_path')."\n";
-	echo $this->condense_js('js_path')."\n";
+	echo $this->condense_css(false, true)."\n";
+	echo $this->condense_js()."\n";
 } else { ?>
 	<?php $css_dir = $this->style . '/css' . $this->cssColumns; ?>
 	<?php if ($head_def->CssDef){ 

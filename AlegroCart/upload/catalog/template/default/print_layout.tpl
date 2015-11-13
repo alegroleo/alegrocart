@@ -18,11 +18,13 @@
   $this->cssColumns = $cssColumns;
   $this->color = isset($template_color) ? $template_color : $this->color;
 ?>
+<?php 
+  $head_def->setcss($this->style . "/css/print.css");
+?>
 <?php if ($this->condense){ 
-	echo $this->condense_css('css_path')."\n";
-	echo $this->condense_js('js_path')."\n";
+	echo $this->condense_css(false, false)."\n";
+	echo $this->condense_js()."\n";
 } else { ?>
-	<link rel="stylesheet" type="text/css" href="catalog/styles/<?php echo $this->style; ?>/css<?php echo $this->cssColumns;?>/print.css">
 	<?php $css_dir = $this->style . '/css' . $this->cssColumns; ?>
 	<?php if ($head_def->CssDef){ 
 		foreach ($head_def->CssDef as $pagecss){

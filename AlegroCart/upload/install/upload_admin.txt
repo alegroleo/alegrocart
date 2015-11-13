@@ -474,7 +474,6 @@
 ./controller/module_catalog_converter.php
 ./controller/template_manager.php
 ./controller/module_catalog_footer.php
-./controller/template_manager.php~
 ./controller/module_catalog_information.php
 ./controller/module_extra_latest.php
 ./controller/user.php

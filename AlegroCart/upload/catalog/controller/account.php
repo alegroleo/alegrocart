@@ -2,7 +2,8 @@
 class ControllerAccount extends Controller { 
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
+		$model			=& $locator->get('model');
+		$this->config  		=& $locator->get('config');
 		$this->module   	=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
 		$this->modelCore 	= $model->get('model_core');
@@ -41,7 +42,7 @@ class ControllerAccount extends Controller {
 
     	$view->set('message', $session->get('message'));
 		$session->delete('message');
-
+		$view->set('enable_download', $this->config->get('config_download'));
     	$view->set('information', $url->ssl('account_edit'));
     	$view->set('password', $url->ssl('account_password'));
 		$view->set('address', $url->ssl('account_address'));

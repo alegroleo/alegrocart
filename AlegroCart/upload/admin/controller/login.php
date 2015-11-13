@@ -4,6 +4,7 @@ class ControllerLogin extends Controller {
 
 	function __construct(&$locator){
 		$this->locator 	=& $locator;
+		$model 		=& $locator->get('model');
 		$this->language =& $locator->get('language');
 		$this->module   =& $locator->get('module');
 		$this->config   =& $locator->get('config');
@@ -14,7 +15,7 @@ class ControllerLogin extends Controller {
 		$this->currency =& $locator->get('currency');
 		$this->url      =& $locator->get('url');
 		$this->user     =& $locator->get('user');
-		
+		$this->modelMaintenance = $model->get('model_admin_maintenance');
 		$this->language->load('controller/login.php');
 	}
 
@@ -44,11 +45,16 @@ class ControllerLogin extends Controller {
 
 	$view->set('heading_title', $this->language->get('heading_title'));
 	$view->set('heading_description', $this->language->get('heading_description'));
-
+	$view->set('text_maintenance', $this->language->get('text_maintenance'));
 	$view->set('entry_username', $this->language->get('entry_username'));
 	$view->set('entry_password', $this->language->get('entry_password'));
-
 	$view->set('button_login', $this->language->get('button_login'));
+
+		$results = $this->modelMaintenance->get_maintenance();	
+		foreach ($results as $result) {
+			$maintenance_status = $result['value'];
+		}
+		$view->set('maintenance_status', $maintenance_status);
 
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));

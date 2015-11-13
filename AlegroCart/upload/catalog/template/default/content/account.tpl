@@ -19,7 +19,9 @@
   <div class="d">
     <ul>
       <li><a href="<?php echo $history; ?>"><?php echo $text_history; ?></a></li>
-      <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
+      <?php if ($enable_download) { ?>
+      	<li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
+      <?php } ?>
     </ul>
   </div>
   <div class="c"><?php echo $text_my_newsletter; ?></div>

@@ -3,6 +3,9 @@
 $_['heading_title']       = 'Login';
 $_['heading_description'] = 'Please login using your username and password.';
 
+// Text
+$_['text_maintenance']		= 'Your store is in Maintenance mode!';
+
 // Entry
 $_['entry_username']      = 'Username';
 $_['entry_password']      = 'Password';

@@ -28,7 +28,7 @@ class Template {
 			$this->data = array_merge($this->data, $key);
 		}
 	}
-	function condense_css(){
+	function condense_css($add_default = true, $add_color = true){
 		$css = "";
 		$created = 0;
 		$size = 0;
@@ -40,12 +40,16 @@ class Template {
 				$created += filemtime($pagecss);
 				$size += filesize($pagecss);
 			}
-			$pagecss = 'catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'css' . $this->cssColumns . D_S . 'default.css';
-			$created += filemtime($pagecss);
-			$size += filesize($pagecss);
-			$pagecss = 'catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'colors' . $this->cssColumns . D_S . $this->color;
-			$created += filemtime($pagecss);
-			$size += filesize($pagecss);
+			if ($add_default) {
+				$pagecss = 'catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'css' . $this->cssColumns . D_S . 'default.css';
+				$created += filemtime($pagecss);
+				$size += filesize($pagecss);
+			}
+			if ($add_color) {
+				$pagecss = 'catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'colors' . $this->cssColumns . D_S . $this->color;
+				$created += filemtime($pagecss);
+				$size += filesize($pagecss);
+			}
 		}
 		$fp_path = DIR_BASE . 'catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'render' . D_S. $this->controller .'_'.$created.'_'.$size.'.css';
 		if(!file_exists($fp_path)){
@@ -57,8 +61,12 @@ class Template {
 					$css .= file_get_contents('catalog' . D_S . 'styles' . D_S . $pagecss);
 				}
 			}
-			$css .= file_get_contents('catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'css' . $this->cssColumns . D_S . 'default.css');
-			$css .= file_get_contents('catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'colors' . $this->cssColumns . D_S . $this->color);
+			if ($add_default) {
+				$css .= file_get_contents('catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'css' . $this->cssColumns . D_S . 'default.css');
+			}
+			if ($add_color) {
+				$css .= file_get_contents('catalog' . D_S . 'styles' . D_S . $this->style . D_S . 'colors' . $this->cssColumns . D_S . $this->color);
+			}
 			$fp = fopen($fp_path, 'w+');
 			fwrite($fp, $this->minify_css($css));
 			fclose($fp);

@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="template/default/css/login.css">
-<?php if ($message) { ?>
-<div class="message"><?php echo $message; ?></div>
+<?php if ($maintenance_status) { ?>
+<div class="message"><?php echo $text_maintenance; ?></div>
 <?php } ?>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>

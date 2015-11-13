@@ -4,7 +4,7 @@ $_['heading_title']	= 'Forgot Your Password?';
 
 // Text
 $_['text_your_email']	= 'Your E-Mail Address';
-$_['text_email']	= 'Enter the e-mail address associated with your account. Click submit to have your password e-mailed to you';
+$_['text_email']	= 'Enter the e-mail address associated with your account. Click continue to have your password e-mailed to you';
 $_['text_message']	= 'Success: A new password has been sent to your e-mail address.';
 
 // Email 

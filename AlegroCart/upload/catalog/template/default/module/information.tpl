@@ -25,8 +25,11 @@
 <?php } else {?>
 <div class="information">
 <div>
-<?php foreach ($information as $info) { ?>
+<?php $i=0; foreach ($information as $info) { ?>
 <a href="<?php echo $info['href']; ?>"><h4><?php echo $info['title']; ?></h4></a>
+<?php $i++ ; if ($i % 5 == 0) { ?>
+</div><div>
+<?php } ?>
 <?php } ?>
 <a href="<?php echo $contact; ?>"><h4><?php echo $text_contact; ?></h4></a>
 <a href="<?php echo $sitemap; ?>"><h4><?php echo $text_sitemap; ?></h4></a>

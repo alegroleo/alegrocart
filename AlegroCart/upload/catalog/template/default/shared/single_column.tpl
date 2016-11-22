@@ -77,7 +77,7 @@
 	      } else {
 		    $icon = 'catalog/styles/'.$this->style.'/image/stock_status_r.png';
 	      }?>
-	    <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $icon;?>" width="11" height="11"src=" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+	    <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" width="11" height="11" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 		<?php }?>
      </div>
    <?php }?>

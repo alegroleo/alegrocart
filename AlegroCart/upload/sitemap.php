@@ -19,7 +19,6 @@ $config =& $locator->get('config');
 
 // Database
 $database =& $locator->get('database');
-$database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 // Settings
 $sql="SELECT * FROM setting WHERE type = 'catalog' OR type = 'global'";

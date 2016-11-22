@@ -21,12 +21,14 @@
 <div class="heading"><?php echo $heading_title; ?><em></em></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
+<link rel="stylesheet" type="text/css" href="javascript/datepicker/css/datepicker.css">
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
+<script type="text/javascript" src="javascript/datepicker/datepicker.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><?php if($product_options){echo '<a><div class="tab_text">' . $tab_product_options . '</div></a>';}?><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a><a><div class="tab_text"><?php echo $tab_category; ?></div></a><a><div class="tab_text"><?php echo $tab_home; ?></div></a><a href="#discount"><div class="tab_text"><?php echo $tab_discount; ?></div></a><a><div class="tab_text"><?php echo $tab_dated_special; ?></div></a><a><div class="tab_text"><?php echo $tab_alt_description; ?></div></a></div>
@@ -119,7 +121,7 @@
 			<tr>
               <td class="set"><?php echo $entry_date_available; ?></td>
               <td><input class="validate_int" id="date_available_day" name="date_available_day" value="<?php echo $date_available_day; ?>" size="2" maxlength="2">
-                <select name="date_available_month">
+                <select name="date_available_month" id="date_available_month">
                   <?php foreach ($months as $month) { ?>
                   <?php if ($month['value'] == $date_available_month) { ?>
                   <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
@@ -536,7 +538,7 @@
 		    <tr>
 			  <td class="set"><?php echo $entry_start_date; ?></td>
 			  <td><input class="validate_int" id="start_date_day" name="start_date_day" value="<?php echo $start_date_day; ?>" size="2" maxlength="2">
-			  <select name="start_date_month">
+			  <select name="start_date_month" id="start_date_month">
 			    <?php if ($start_date_month == '00'){ ?>
 				<option value="00" selected>00</option>
 				<?php } else { ?>
@@ -559,7 +561,7 @@
 		    <tr>
 			  <td class="set"><?php echo $entry_end_date; ?></td>
                           <td><input class="validate_int" id="end_date_day" name="end_date_day" value="<?php echo $end_date_day; ?>" size="2" maxlength="2">
-			  <select name="end_date_month">
+			  <select name="end_date_month" id="end_date_month">
 			    <?php if ($end_date_month == '00'){ ?>
 				<option value="00" selected>00</option>
 				<?php } else { ?>
@@ -874,4 +876,25 @@ function removeDiscount(row) {
 	RegisterValidation();
   });
 //--></script>
+  <script type="text/javascript"><!--
+    datePickerController.createDatePicker({
+    formElements:{"date_available_year":"%Y","date_available_month":"%n", "date_available_day":"%d"},
+    showWeeks:true,
+    statusFormat:"%l, %d %F %Y"
+    });
+  //--></script>
+  <script type="text/javascript"><!--
+    datePickerController.createDatePicker({
+    formElements:{"start_date_year":"%Y","start_date_month":"%n", "start_date_day":"%d"},
+    showWeeks:true,
+    statusFormat:"%l, %d %F %Y"
+    });
+  //--></script>
+  <script type="text/javascript"><!--
+    datePickerController.createDatePicker({
+    formElements:{"end_date_year":"%Y","end_date_month":"%n", "end_date_day":"%d"},
+    showWeeks:true,
+    statusFormat:"%l, %d %F %Y"
+    });
+  //--></script>
 </form>

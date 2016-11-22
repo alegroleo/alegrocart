@@ -8,8 +8,10 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
   
 </div>
+<link rel="stylesheet" type="text/css" href="javascript/datepicker/css/datepicker.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
+<script type="text/javascript" src="javascript/datepicker/datepicker.js"></script>
 <div class="heading"><?php echo $heading_title; ?></div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="list">
@@ -50,7 +52,7 @@
           </select></td>
         <td class="right"><?php echo $entry_date; ?>
           <input class="validate_int" id="date_from_day" name="date_from[day]" value="<?php echo $date_from_day; ?>" size="2" maxlength="2">
-          <select name="date_from[month]">
+          <select name="date_from[month]" id="date_from[month]">
             <?php foreach (@$months as $month) { ?>
             <?php if ($month['value'] == $date_from_month) { ?>
             <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
@@ -62,7 +64,7 @@
           <input class="validate_int" id="date_from_year" name="date_from[year]" value="<?php echo $date_from_year; ?>" size="4" maxlength="4">
           -
           <input class="validate_int" id="date_to_day" name="date_to[day]" value="<?php echo $date_to_day; ?>" size="2" maxlength="2">
-          <select name="date_to[month]">
+          <select name="date_to[month]" id="date_to[month]">
             <?php foreach (@$months as $month) { ?>
             <?php if ($month['value'] == $date_to_month) { ?>
             <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
@@ -118,5 +120,23 @@
 <script type="text/javascript"><!--
     $(document).ready(function() {
 	  RegisterValidation();
+    });
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+    datePickerController.createDatePicker({
+    formElements:{"date_from_year":"%Y","date_from[month]":"%n", "date_from_day":"%d"},
+    showWeeks:true,
+    statusFormat:"%l, %d %F %Y"
+    });
+    });
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+    datePickerController.createDatePicker({
+    formElements:{"date_to_year":"%Y","date_to[month]":"%n", "date_to_day":"%d"},
+    showWeeks:true,
+    statusFormat:"%l, %d %F %Y"
+    });
     });
   //--></script>

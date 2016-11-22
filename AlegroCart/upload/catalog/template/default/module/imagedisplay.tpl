@@ -1,6 +1,11 @@
 <?php 
   $head_def->setcss( $this->style . "/css/homepage.css");
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
+  if(isset($image_displays)){
+	$head_def->setcss($this->style . "/css/slick.css");
+	$head_def->setcss($this->style . "/css/slick-theme.css");
+	$head_def->set_javascript("slider/slick.min.js");
+  }
 ?>
 <div class="image_display" id="image_display">
 <?php if(isset($image_displays)){ ?>

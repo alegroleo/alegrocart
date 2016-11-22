@@ -1,6 +1,8 @@
 <?php //AlegroCart
 class PaymentPayPal extends Payment {
-    function __construct(&$locator) {
+    var $notification = NULL;
+	
+	function __construct(&$locator) {
         $this->address   =& $locator->get('address');
         $this->cart      =& $locator->get('cart');
         $this->config    =& $locator->get('config');
@@ -59,7 +61,6 @@ class PaymentPayPal extends Payment {
     function get_ActionUrl() {
         if (!$this->config->get('paypal_test')) {
             return 'https://www.paypal.com/cgi-bin/webscr';
-			//return 'http://localhost/gateway/paypal_test.php';
         } else {
             return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         }
@@ -246,6 +247,7 @@ class PaymentPayPal extends Payment {
                         // It will just leave the order in "Paid Unconfirmed" state.
                         // Need a way to convey the real error to the store owner aside from not updating the order
                         if (!$error) { 
+							$this->notification = 'PDT';
                             $this->orderUpdate();
                         }
 
@@ -277,9 +279,9 @@ class PaymentPayPal extends Payment {
     */
     function callback() {
         // if IPN callback is called
+		SLEEP(5);
         if ($this->request->gethtml('method') == 'ipn'){ 
-            $this->order->load($this->request->gethtml('ref'));
-            $this->order->process($this->getOrderStatusId('order_status_paid_unconfirmed'));
+            
             // read the post from PayPal system and add 'cmd'
             $req = 'cmd=_notify-validate';
             foreach ($_POST as $key => $value) {
@@ -312,6 +314,9 @@ class PaymentPayPal extends Payment {
                 if ($this->config->get('paypal_ipn_debug')) { $this->DoDebug($res); }
                 
                 if (strcmp ($res, "VERIFIED") == 0) {
+					$this->order->load($this->request->gethtml('ref'));
+					$this->order->process($this->getOrderStatusId('order_status_paid_unconfirmed'));
+					$this->notification = 'IPN';
                     $this->orderUpdate(); // Update order to pending or specify new value in language file
                 }
             }
@@ -367,7 +372,8 @@ class PaymentPayPal extends Payment {
 				$result = $this->modelPayment->update_order_status_paidunconfirmed($finalStatusId, $reference, $paidUnconfirmedStatusId);
                 // Update order_history
                 if ($result)  {
-					$this->modelPayment->update_order_history($order_id, $finalStatusId, 'PDT/IPN');
+					//$this->modelPayment->update_order_history($order_id, $finalStatusId, 'PDT/IPN');
+					$this->modelPayment->update_order_history($order_id, $finalStatusId, $this->notification);
                 }
             }
         }

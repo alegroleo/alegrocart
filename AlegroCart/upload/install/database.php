@@ -40,6 +40,12 @@ class Database {
 						$query = trim($query).' ';
 					}
 					if (preg_match('/;\s*$/', $query)){
+						if(preg_match('/^ALTER TABLE (.+?) ADD KEY (.+?) /',$query,$matches)){
+							$addkey = @$this->runQuery(sprintf("SHOW KEYS FROM `%s` WHERE Key_name='%s'",str_replace($quotes,'',$matches[1]),str_replace($quotes,"",$matches[2])));
+							if ($addkey->num_rows > 0){
+								$query='';
+							}
+						}
 						if(preg_match('/^ALTER TABLE (.+?) ADD (.+?) /',$query,$matches)){
 							$add = @$this->runQuery(sprintf("SHOW COLUMNS FROM `%s` LIKE '%s'",str_replace($quotes,'',$matches[1]),str_replace($quotes,'',$matches[2])));
 							if ($add->num_rows > 0){

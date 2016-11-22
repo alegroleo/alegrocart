@@ -150,7 +150,13 @@ class Database {
 					if (strstr($query,'ALTER TABLE') == TRUE){
 						$query = trim($query).' ';
 					}
+		
 					if (preg_match('/;\s*$/', $query)){
+						if(preg_match('/^ALTER TABLE (.+?) ADD KEY (.+?) /',$query,$matches)){
+							if ($this->countRows($this->parse("SHOW KEYS FROM `?` WHERE Key_name='?'",str_replace($quotes,'',$matches[1]),str_replace($quotes,"",$matches[2]))) > 0){
+								$query='';
+							}
+						}
 						if(preg_match('/^ALTER TABLE (.+?) ADD (.+?) /',$query,$matches)){
 							if ($this->countRows($this->parse("SHOW COLUMNS FROM `?` LIKE '?'",str_replace($quotes,'',$matches[1]),str_replace($quotes,'',$matches[2]))) > 0){
 								$query='';

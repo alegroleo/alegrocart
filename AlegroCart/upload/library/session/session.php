@@ -42,7 +42,7 @@ class Session {
 		$this->clean();
 	}
 	private function start_session(){
-		$this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+		$this->user_agent = @$_SERVER['HTTP_USER_AGENT'];
 		
 		if (!$this->request->has('alegro_sid', 'cookie')) {
 			$this->CreateSID();

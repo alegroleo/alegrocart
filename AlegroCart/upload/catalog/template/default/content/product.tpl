@@ -79,7 +79,7 @@
 		<input type="hidden" id="stock_status_r" value="catalog/styles/<?php echo $this->style?>/image/stock_status_r.png">
 		<input type="hidden" id="low_stock_warning" value="<?php echo $low_stock_warning;?>">
 	  <?php }?>
-	  <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $icon;?>" width="11" height="11" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
+	  <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $icon;?>" width="11" height="11" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 	<?php }?>
 	</div>
   <?php }?>
@@ -276,7 +276,7 @@
 		  <div class="barcode">
 		    <span <?php if(!$product['barcode']){ echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_barcode_text_' . $product['product_id'];?>"><?php echo $text_barcode; ?></span>
 		    <span <?php if(!$product['barcode']){ echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_barcode_' . $product['product_id'];?>"><?php echo $product['barcode']; ?></span>
-			<img <?php if(!$product['barcode']){ echo 'classs="hidden" ';}?>id="barcode_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $product['barcode_url'];?>" alt="<?php echo $text_barcode_img;?>" title="<?php echo $text_barcode_img;?>">
+			<img <?php if(!$product['barcode']){ echo 'classs="hidden" ';}?>id="barcode_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $product['barcode_url'];?>" alt="<?php echo $text_barcode_img;?>" title="<?php echo $text_barcode_img;?>">
 		    <?php if($product_options){?>
 			  <script language="JavaScript">
 			    $(document).ready(function(){

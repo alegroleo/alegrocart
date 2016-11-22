@@ -191,6 +191,7 @@
   <div class="h">
 <textarea id="comment" name="comment" cols="89" rows="8"><?php echo $comment; ?></textarea>
   </div>
+<?php if($tax_included || $couponproducts){?>
   <div class="e">
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
       <table width="100%">
@@ -207,6 +208,7 @@
       </table>
     </form>
   </div>
+<?php } ?>
 </div>
 <form action="<?php echo $payment_url; ?>" method="post" enctype="<?php echo (isset($payment_form_enctype) && $payment_form_enctype)?$payment_form_enctype:'multipart/form-data'?>">
   <?php if ($fields) { ?>
@@ -249,6 +251,11 @@
   <?php } ?>
 </form></div>
 <div class="contentBodyBottom"></div>
+<script type="text/javascript"><!--
+$("#submit").on("click", function(){
+	$('#submit').attr('disabled', true);
+});
+//--></script>
 <script type="text/javascript"><!--
 $(".agreement").on("change", function(){
 	if ($('.agreement:checked').length == $('.agreement').length) {

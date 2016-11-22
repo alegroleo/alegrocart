@@ -22,9 +22,11 @@
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
+<link rel="stylesheet" type="text/css" href="javascript/datepicker/css/datepicker.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
+<script type="text/javascript" src="javascript/datepicker/datepicker.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><a><div class="tab_text"><?php echo $tab_validity; ?></div></a></div>
@@ -87,7 +89,7 @@
 	    <tr>
               <td class="set"><?php echo $entry_date_start; ?></td>
               <td><input class="validate_int" id="date_start_day" name="date_start_day" value="<?php echo $date_start_day; ?>" size="2" maxlength="2">
-                <select name="date_start_month">
+                <select name="date_start_month" id="date_start_month">
                   <?php foreach ($months as $month) { ?>
                   <?php if ($month['value'] == $date_start_month) { ?>
                   <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
@@ -104,7 +106,7 @@
             <tr>
               <td class="set"><?php echo $entry_date_end; ?></td>
               <td><input class="validate_int" id="date_end_day" name="date_end_day" value="<?php echo $date_end_day; ?>" size="2" maxlength="2">
-                <select name="date_end_month">
+                <select name="date_end_month" id="date_end_month">
                   <?php foreach ($months as $month) { ?>
                   <?php if ($month['value'] == $date_end_month) { ?>
                   <option value="<?php echo $month['value']; ?>" selected><?php echo $month['text']; ?></option>
@@ -218,6 +220,20 @@
   <script type="text/javascript"><!--
     $(document).ready(function() {
 	  RegisterValidation();
+    });
+  //--></script>
+  <script type="text/javascript"><!--
+    datePickerController.createDatePicker({
+    formElements:{"date_start_year":"%Y","date_start_month":"%n", "date_start_day":"%d"},
+    showWeeks:true,
+    statusFormat:"%l, %d %F %Y"
+    });
+  //--></script>
+  <script type="text/javascript"><!--
+    datePickerController.createDatePicker({
+    formElements:{"date_end_year":"%Y","date_end_month":"%n", "date_end_day":"%d"},
+    showWeeks:true,
+    statusFormat:"%l, %d %F %Y"
     });
   //--></script>
 </form>

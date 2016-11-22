@@ -3,11 +3,7 @@
   $head_def->set_javascript("ajax/jquery.js");
   $head_def->set_javascript("ajax/jqueryadd2cart.js");
 ?>
-<?php if($location == 'header'){?>
-  <div id="myMenuID" class="myMenuID" style="margin:0px;z-index:100;position:relative;top:110px;">
-<?php } else {?>
   <div id="myMenuID" class="myMenuID">
-<?php }?>
   <div class="hmenu_breadcrumb" id="hmenu_breadcrumb"></div>
   <?php
 	$output = '<ul id="menu_lvl_0">'."\n";
@@ -29,19 +25,23 @@
 		  $output .= '<a class="'. $menu['class'].'"';
 		  $output .= ($menu['href'] ? ' href="' . $menu['href'] . '"' : '');
 		  $output .= '>';
-		  $output .= $menu['image'] ? '<img class="icon" src="' . $menu['image'] . '">' : '';
+		  $output .= $menu['image'] ? '<img class="icon" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="' . $menu['image'] . '">' : '';
 		  $output .= '<span>'.$menu['name'] . ($menu['products_in_category'] != 0 ? ' (' . $menu['products_in_category'].')':'') . '</span>';
 		  $output .= '</a></li>' . "\n";
 		  while ($menus[$key+1]['level'] < $level){
 		    $output .= '</ul></li>'. "\n";
 		    $level--;
 		  }
-		} else{ //subcategory entryes, except the closing one
+		} else{ //subcategory entries, except the closing one
 		  $output .= "\t".'<li class="'. $menu['status'].' '.$menu['state'] . '" id="' . $menu['id'] . '">';
 		  $output .= '<a class="'. $menu['class'].'"';
 		  $output .= ($menu['href'] ? ' href="' . $menu['href'] . '"' : '');
 		  $output .= '>';
+		  if ($menu['class'] == 'menu_lvl_0'){
 		  $output .= $menu['image'] ? '<img class="icon" src="' . $menu['image'] . '">' : '';
+		  } else {
+		  $output .= $menu['image'] ? '<img class="icon" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="' . $menu['image'] . '">' : '';
+		  }
 		  $output .= '<span>'.$menu['name'] . ($menu['products_in_category'] != 0 ? ' (' . $menu['products_in_category'].')':'') . '</span>';
 		  $output .= '</a></li>' . "\n";
 		}

@@ -63,9 +63,7 @@ if ($errors && $step == 2) {
 <input type="hidden" name="db_user" value="<?php echo $_POST['db_user']; ?>">
 <input type="hidden" name="method" value="<?php echo $_POST['method']; ?>">
 <input type="hidden" name="root_dirs" value="<?php echo $root_dirs[0]; ?>">
-<?php if (!empty($_POST['db_pass'])) { ?>
 <input type="hidden" name="db_pass" value="<?php echo $_POST['db_pass']; ?>">
-<?php } ?>
 <input type="hidden" name="db_name" value="<?php echo $_POST['db_name']; ?>">
     <p class="a"><?php echo $language->get('rename')?></p>
     <table>

@@ -71,6 +71,7 @@ foreach ($results as $result) {
 	'url' => $url->href('product', FALSE, array('product_id' => $result['product_id'])),
 	'add_date' => date("D, d M Y H:i:s T", strtotime($result['date_product_added'])),
 	'desc' => htmlentities(strip_tags(strippedstring($result['description'],256),'ENT_QUOTES')),
+	'quantity' => $result['quantity'],
 	'thumb' => $image->resize($result['filename'], 200, 200),
 	'id' => $result['product_id'],
 	'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
@@ -100,7 +101,8 @@ xmlns:g="http://base.google.com/ns/1.0">
         <g:id><?php echo $product['id']; ?></g:id>
         <g:image_link><?php echo $product['thumb']; ?></g:image_link>
 		<g:price><?php echo $product['price']; ?></g:price>
-		<g:poduct_type><?php echo $product['model']; ?></g:poduct_type>
+		<g:availability><?php echo $product['quantity']; ?></g:availability>
+		<g:product_type><?php echo $product['model']; ?></g:product_type>
 		<g:currency><?php echo $config->get('config_currency'); ?></g:currency>
 	</item>
 <?php } ?>

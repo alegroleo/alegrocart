@@ -3,6 +3,11 @@
   $head_def->set_javascript("ajax/jquery.js");
   $head_def->set_javascript("ajax/jqueryadd2cart.js");
   $shared_path = 'catalog/template/' . $this->directory . '/shared/';
+  if(isset($slides)){
+	$head_def->setcss($this->style . "/css/slick.css");
+	$head_def->setcss($this->style . "/css/slick-theme.css");
+	$head_def->set_javascript("slider/slick.min.js");
+  }
 ?>
 <div class="homepage" id="homepage">
 <div class="headingpadded"><h2><?php echo $heading_title; ?></h2>

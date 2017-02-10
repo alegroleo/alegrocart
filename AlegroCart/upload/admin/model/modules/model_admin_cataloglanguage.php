@@ -20,5 +20,9 @@ class Model_Admin_CatalogLanguage extends Model {
 	function install_language(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'language', `key` = 'language_status', value = '1'");
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

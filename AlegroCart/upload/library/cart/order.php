@@ -5,18 +5,20 @@ class Order {
 	var $expire    = 3600;
 
 	function __construct(&$locator) {
+		$this->locator	=& $locator;
 		$this->config   =& $locator->get('config');
 		$this->coupon   =& $locator->get('coupon');
 		$this->database =& $locator->get('database');
 		$this->mail     =& $locator->get('mail');
 		$this->session  =& $locator->get('session');
-				
+		$this->url	=& $locator->get('url');
+
 		$sql = "delete from order_data where expire < '?'";
 		$this->database->query($this->database->parse($sql, time()));
-		
+
 		$random    = strtoupper(uniqid());
 		$reference = substr($random, 0, 5) . '-' . substr($random, 5, 5) . '-' . substr($random . rand(10, 99), 10, 5);
-		
+
 		if ($this->session->has('reference')) {
 			$sql        = "select distinct * from order_data where reference = '?'";
 			$order_info = $this->database->getRow($this->database->parse($sql, $this->session->get('reference')));
@@ -25,12 +27,10 @@ class Order {
 				$this->reference = $this->session->get('reference');
 			} else {
 				$this->reference = $reference;
-
 				$this->session->set('reference', $reference);
 			}
 		} else {
 			$this->reference = $reference;
-			
 			$this->session->set('reference', $reference);
 		}
 	}
@@ -64,7 +64,7 @@ class Order {
 	function save($reference) {
 		$sql   = "select * from order_data where reference = '?'";
 		$order = $this->database->getRow($this->database->parse($sql, $reference));
-		
+
 		if (!$order) {
 			$sql = "insert into order_data set reference = '?', data = '?', expire = '?'";
 			$this->database->query($this->database->parse($sql, $reference, serialize($this->data), time() + $this->expire));
@@ -93,6 +93,18 @@ class Order {
 
 			$order_id = $this->database->getLastId();
 
+			$request =&  $this->locator->get('request');
+			$controller =& $this->locator->get('controller');
+			$class = $controller->getClass($request);
+			if ($class == 'order_edit') {
+				$name_last = $invoice_number;
+				if (strlen($name_last) > 26) {
+					$name_last = substr($name_last , 0, 23) . '...';
+				}
+				$this->session->set('name_last_order', $name_last);
+				$this->session->set('last_order', $this->url->ssl('order', 'update', array('order_id' => $order_id)));
+				$this->session->set('last_order_id', $order_id);
+			}
 			foreach ($this->data['products'] as $product) {
 				$sql = "insert into order_product set order_id = '?', product_id = '?', name = '?', model_number = '?', vendor_name = '?', vendor_id = '?', price = '?', discount = '?', special_price = '?', coupon = '?', general_discount = '?', total = '?', tax = '?', quantity = '?', barcode = '?', shipping = '?'";
 				$this->database->query($this->database->parse($sql, $order_id, $product['product_id'], $product['name'], $product['model_number'], $product['vendor_name'], $product['vendor_id'], $product['price'], $product['discount'], $product['special_price'], $product['coupon'], $product['general_discount'], $product['total'], $product['tax'], $product['quantity'], $product['barcode'], $product['shipping']));
@@ -130,26 +142,26 @@ class Order {
 				$this->coupon->redeem($this->data['coupon_id'], $this->data['customer_id'], $order_id);
 			}
 
-            $this->database->query("update customer set cart = '' where customer_id = '" . (int)$this->data['customer_id'] . "'");
+			$this->database->query("update customer set cart = '' where customer_id = '" . (int)$this->data['customer_id'] . "'");
 
-            if ($this->session->get('skipmail') == true) { 
-                $this->session->set('order_data', $this->data);
-            } else {
-			    if ($this->config->get('config_email_send') ) {
-				    $this->mail->setTo($this->data['email']);
-				    $this->mail->setFrom($this->config->get('config_email_orders') ? $this->config->get('config_email_orders') : $this->config->get('config_email'));
-				    $this->mail->setSender($this->config->get('config_store'));
-				    $this->mail->setSubject($this->data['email_subject']);
+			if ($this->session->get('skipmail') == true) { 
+				$this->session->set('order_data', $this->data);
+			} else {
+				if ($this->config->get('config_email_send') ) {
+					$this->mail->setTo($this->data['email']);
+					$this->mail->setFrom($this->config->get('config_email_orders') ? $this->config->get('config_email_orders') : $this->config->get('config_email'));
+					$this->mail->setSender($this->config->get('config_store'));
+					$this->mail->setSubject($this->data['email_subject']);
 					$this->mail->setText(str_replace('#XXXZZZ#', $invoice_number, $this->data['email_text']));
-				    $this->mail->setHtml(html_entity_decode(str_replace('#XXXZZZ#', $invoice_number, $this->data['email_html'])));
-				    $this->mail->send();
+					$this->mail->setHtml(html_entity_decode(str_replace('#XXXZZZ#', $invoice_number, $this->data['email_html'])));
+					$this->mail->send();
 					$this->mail->setTo($this->config->get('config_email_orders') ? $this->config->get('config_email_orders') : $this->config->get('config_email'));
 					$this->mail->send();
-			    }
+				}
 			}
 
-            $this->data = array();
-            
+			$this->data = array();
+
 			$sql = "delete from order_data where reference = '?'";
 			$this->database->query($this->database->parse($sql, $this->reference));
 		}

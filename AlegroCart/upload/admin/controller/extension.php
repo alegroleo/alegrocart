@@ -21,17 +21,22 @@ class ControllerExtension extends Controller {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
-
+		$this->session->delete('extension_tab');
+		$this->session->delete('extension_tabmini');
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
+
 	function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
+
+		$this->session->delete('extension_tab');
+		$this->session->delete('extension_tabmini');
 
 		if ($this->request->isPost() && $this->request->has('code', 'post') && $this->validateForm()) {
 			$this->modelExtension->insert_extension();
 			$insert_id = $this->modelExtension->get_insert_id();
 			$this->modelExtension->insert_description($insert_id);
+			$this->session->set('last_extension_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 		}
@@ -49,7 +54,18 @@ class ControllerExtension extends Controller {
 			$this->modelExtension->delete_description();
 			$this->modelExtension->insert_description((int)$this->request->gethtml('extension_id'));
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
+
+			if ($this->request->has('update_form', 'post')) {
+				$query = array(
+					'type'         => $this->request->gethtml('type'),
+					'extension_id' => $this->request->gethtml('extension_id')
+				);
+				$this->response->redirect($this->url->ssl('extension', 'update', $query));
+			} else {
+				$this->session->delete('extension_tab');
+				$this->session->delete('extension_tabmini');
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
+			}
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -63,6 +79,8 @@ class ControllerExtension extends Controller {
 		if (($this->request->gethtml('extension_id')) && ($this->validateDelete())) {
 			$this->modelExtension->delete_extension();
 			$this->session->set('message', $this->language->get('text_message'));
+			$this->session->delete('name_last_' . $this->request->gethtml('type'));
+			$this->session->delete('last_' . $this->request->gethtml('type'));
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 		}
 		$this->template->set('content', $this->getList());
@@ -70,16 +88,11 @@ class ControllerExtension extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-
 	function changeStatus() { 
-		
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
-
 			$this->modelExtension->change_extension_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
-	
 	}
-
 	function getList() {
 		$this->session->set('extension_validation', md5(time()));
         if($this->session->get('extension_type') != $this->request->gethtml('type')){
@@ -130,18 +143,22 @@ class ControllerExtension extends Controller {
 		$rows = array();
 
 		foreach ($results as $result) {
+			$last = $result['extension_id'] == $this->session->get('last_extension_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
 				'value' => $result['name'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['description'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['code'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			if ($sort_status){
 				$module_sort = str_replace($this->request->gethtml('type') . '_','' ,$result['controller']);
@@ -167,7 +184,8 @@ class ControllerExtension extends Controller {
 			if ($sort_status){
 				$cell[] = array(
 					'value' => $this->config->get($module_sort . '_sort_order') ? $this->config->get($module_sort . '_sort_order') : '0',
-					'align' => 'right'
+					'align' => 'right',
+					'last' => $last
 				);
 			}
 			$query = array(
@@ -217,7 +235,7 @@ class ControllerExtension extends Controller {
         		'action' => $action,
         		'align'  => 'action'
       		);
-			
+
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -251,7 +269,6 @@ class ControllerExtension extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -260,6 +277,10 @@ class ControllerExtension extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'extension');
 
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
@@ -284,7 +305,6 @@ class ControllerExtension extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 		$view->set('insert', $this->url->ssl('extension', 'insert', array('type' => $this->request->gethtml('type'))));
 
 		$view->set('pages', $this->modelExtension->get_pagination());
@@ -315,9 +335,9 @@ class ControllerExtension extends Controller {
 
 		$view->set('heading_description', $this->language->get('heading_description'));
 
-    	$view->set('text_enabled', $this->language->get('text_enabled'));
-    	$view->set('text_disabled', $this->language->get('text_disabled'));
-		
+		$view->set('text_enabled', $this->language->get('text_enabled'));
+		$view->set('text_disabled', $this->language->get('text_disabled'));
+
 		$view->set('entry_name', $this->language->get('entry_name'));
 		$view->set('entry_description', $this->language->get('entry_description'));
 		$view->set('entry_code', $this->language->get('entry_code'));
@@ -325,34 +345,46 @@ class ControllerExtension extends Controller {
 		$view->set('entry_filename', $this->language->get('entry_filename'));
 		$view->set('entry_controller', $this->language->get('entry_controller'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'extension');
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 		$view->set('tab_data', $this->language->get('tab_data'));
-		
-  		$view->set('error', @$this->error['message']);	
+		$view->set('error_update', $this->language->get('error_update'));
+
+		$view->set('error', @$this->error['message']);	
 		$view->set('error_name', @$this->error['name']);
 		$view->set('error_description', @$this->error['description']);
 		$view->set('error_code', @$this->error['code']);
 		$view->set('error_directory', @$this->error['directory']);
 		$view->set('error_filename', @$this->error['filename']);
 		$view->set('error_controller', @$this->error['controller']);
-		
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
+
+		$view->set('tab', $this->session->has('extension_tab') ? $this->session->get('extension_tab') : 0);
+		$view->set('tabmini', $this->session->has('extension_tabmini') ? $this->session->get('extension_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+
 		$query = array(
 			'type'         => $this->request->gethtml('type'),
 			'extension_id' => $this->request->gethtml('extension_id')
 		);
 			
 		$view->set('action', $this->url->ssl('extension', $this->request->gethtml('action'), $query));
-		
 
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 		$view->set('insert', $this->url->ssl('extension', 'insert'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 
@@ -369,6 +401,8 @@ class ControllerExtension extends Controller {
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_extension_id', $this->request->gethtml('extension_id'));
 
 		$extension_data = array();
 
@@ -442,26 +476,27 @@ class ControllerExtension extends Controller {
 				$this->error['description'] = $this->language->get('error_description');
 			}
 		}
-    	if (!$this->validate->strlen($this->request->gethtml('code', 'post'),1,32)) {
-      		$this->error['code'] = $this->language->get('error_code');
-    	}
-        if (!$this->validate->strlen($this->request->gethtml('directory', 'post'),1,32)) {
-      		$this->error['directory'] = $this->language->get('error_directory');
-    	}
-        if (!$this->validate->strlen($this->request->gethtml('filename', 'post'),1,128)) {
-      		$this->error['filename'] = $this->language->get('error_filename');
-    	}
-        if (!$this->validate->strlen($this->request->gethtml('controller', 'post'),1,128)) {
-      		$this->error['controller'] = $this->language->get('error_controller');
-    	}
-
+		if (!$this->validate->strlen($this->request->gethtml('code', 'post'),1,32)) {
+			$this->error['code'] = $this->language->get('error_code');
+		}
+		if (!$this->validate->strlen($this->request->gethtml('directory', 'post'),1,32)) {
+			$this->error['directory'] = $this->language->get('error_directory');
+		}
+		if (!$this->validate->strlen($this->request->gethtml('filename', 'post'),1,128)) {
+			$this->error['filename'] = $this->language->get('error_filename');
+		}
+		if (!$this->validate->strlen($this->request->gethtml('controller', 'post'),1,128)) {
+			$this->error['controller'] = $this->language->get('error_controller');
+		}
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -478,15 +513,14 @@ class ControllerExtension extends Controller {
 	}
 	function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'extension')) {//**
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+		$this->error['message'] = $this->language->get('error_permission');  
+	}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
-
 	function validateDelete() {
 		if(($this->session->get('extension_validation') != $this->request->sanitize('extension_validation')) || (strlen($this->session->get('extension_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -495,22 +529,19 @@ class ControllerExtension extends Controller {
 		if (!$this->user->hasPermission('modify', 'extension')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-
 	function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'extension')) {
-	      		return FALSE;
-	    	}  else {
+			return FALSE;
+		} else {
 			return TRUE;
 		}
 	}
-
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('extension.search', $this->request->gethtml('search', 'post'));
@@ -526,6 +557,27 @@ class ControllerExtension extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('extension_tab', $this->request->sanitize('activeTab', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('extension_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
 	}
 }
 ?>

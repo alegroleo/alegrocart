@@ -1,7 +1,13 @@
 <div class="task">
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="getValues()"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+  <input type="hidden" name="update_form" value="1">
+  <input type="hidden" name="global_zone_status" value="">
+  <input type="hidden" name="global_zone_tax_class_id" value="">
+  <input type="hidden" name="global_zone_sort_order" value="">
+</form>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
@@ -10,14 +16,19 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_shipping; ?><em><?php echo $heading_title; ?></em></div>
+<?php if ($message) { ?>
+<div class="message"><?php echo $message; ?></div>
+<?php } ?>
+<div class="heading"><?php echo $heading_shipping; ?><em><?php echo $heading_title; ?></em>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
-<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_module; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a></div>
     <div class="pages">
@@ -101,7 +112,6 @@
               <td colspan="5"><input type="button" class="button" value="<?php echo $button_add; ?>" onclick="getzones();"></td>
             </tr>
           </table>
-		  
         </div>
       </div>
     </div>
@@ -129,7 +139,6 @@ function addzone(){
    		}
  	});
 }
-
 function getzones(){
 	$.ajax({
    		type:    'GET',
@@ -140,10 +149,80 @@ function getzones(){
    		}
  	});
 }
-
 //--></script>
 <script type="text/javascript"><!--
     $(document).ready(function() {
 	  RegisterValidation();
     });
 //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	$('.task').each(function(){
+	$('.task .disabled').hide();
+	});
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+  });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=shipping_zone&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
+  //--></script>
+  <script type="text/javascript"><!--
+	$('.tabs a').on('click', function() {
+	var activeTab = $(this).index()+1;
+	var data_json = {'activeTab':activeTab};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=shipping_zone&action=tab',
+		data: data_json,
+		dataType:'json'
+	});
+	});
+	function copyAllZones() {
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=shipping_zone&action=getzoneids',
+		dataType:'json',
+		success: function (data) {
+			if (data.status===true) {
+				var ids = data.zoneids;
+				var html ='';
+				for (i =0, len = ids.length; i < len; i++) {
+					if (document.forms['form'].elements['geo_zone['+ids[i]+'][status]'] !=undefined){
+						html +='<input type="hidden" name="geo_zone['+ids[i]+'][status]" value="' + document.forms['form'].elements['geo_zone['+ids[i]+'][status]'].value + '">';
+						html +='<input type="hidden" name="geo_zone['+ids[i]+'][free_amount]" value="' + document.forms['form'].elements['geo_zone['+ids[i]+'][free_amount]'].value + '">';
+						html +='<input type="hidden" name="geo_zone['+ids[i]+'][cost]" value="' + document.forms['form'].elements['geo_zone['+ids[i]+'][cost]'].value + '">';
+						html +='<input type="hidden" name="geo_zone['+ids[i]+'][message]" value="' + document.forms['form'].elements['geo_zone['+ids[i]+'][message]'].value + '">';
+					}
+				}
+				document.forms['update_form'].innerHTML += html;
+				document.getElementById('update_form').submit();
+			} else {
+				$('<div class="warning"><?php echo $error_update; ?></div>').insertBefore(".heading");
+			}
+		}
+	});
+	}
+	function getValues() {
+		document.forms['update_form'].global_zone_status.value=document.forms['form'].global_zone_status.value;
+		document.forms['update_form'].global_zone_tax_class_id.value=document.forms['form'].global_zone_tax_class_id.value;
+		document.forms['update_form'].global_zone_sort_order.value=document.forms['form'].global_zone_sort_order.value;
+
+		copyAllZones();
+	}
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
+		tabview_switch('tab', <?php echo $tab; ?>);
+	}
+   });
+  //--></script>

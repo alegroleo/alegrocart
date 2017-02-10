@@ -1587,3 +1587,10 @@ CREATE TABLE IF NOT EXISTS `image_display_slides` (
   `sort_order` int(3) default '0',
   PRIMARY KEY (`image_display_slide_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#Start of Version 1.3 ***********
+
+#
+# Modify data in order_data table (from text to mediumtext)
+#
+ALTER TABLE `order_data` CHANGE `data` `data`  MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;

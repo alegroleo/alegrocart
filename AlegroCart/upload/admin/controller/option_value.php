@@ -3,7 +3,7 @@ class ControllerOptionValue extends Controller {
 	var $error = array();
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -31,48 +31,69 @@ class ControllerOptionValue extends Controller {
 	}
 
 	function insert() {
-	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('title', $this->language->get('heading_title'));
 		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
 		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 	    		$this->modelOptionvalue->insert_option_value(@$insert_id, $key, $value['name']);
-				$insert_id = $this->modelOptionvalue->get_last_id();
+			$insert_id = $this->modelOptionvalue->get_last_id();
+			if ($key == $this->language->getId()) {
+				$name_last = $value['name'];
+				if (strlen($name_last) > 26) {
+					$name_last = substr($name_last , 0, 23) . '...';
+				}
+				$this->session->set('name_last_option_value_id', $name_last);
+				$this->session->set('last_option_value', $this->url->ssl('option_value', 'update', array('option_value_id' => $insert_id, 'option_id' => $this->request->gethtml('option_id'))));
+			}
 		}
+			$this->session->set('last_option_value_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
 		}
-	$this->template->set('content', $this->getForm());
+		$this->template->set('content', $this->getForm());
+
+		$this->session->delete('name_last_option_value');
+		$this->session->delete('last_option_value');
+
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function update() {
-	$this->template->set('title', $this->language->get('heading_title'));
-	if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
+		$this->template->set('title', $this->language->get('heading_title'));
+		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
 			$this->modelOptionvalue->updatedelete_option_value();
 		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 				$this->modelOptionvalue->insert_option_value($this->request->gethtml('option_value_id'),$key, $value['name']);
 		}
 			$this->session->set('message', $this->language->get('text_message'));
-	  		$this->response->redirect($this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
-	}
-	$this->template->set('content', $this->getForm());
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('option_value', 'update', array('option_value_id' => $this->request->gethtml('option_value_id', 'post'), 'option_id' => $this->request->gethtml('option_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
+			}
+
+		}
+		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function delete() {
-	$this->template->set('title', $this->language->get('heading_title'));
-	if (($this->request->gethtml('option_value_id')) && ($this->validateDelete())) { 
+		$this->template->set('title', $this->language->get('heading_title'));
+		if (($this->request->gethtml('option_value_id')) && ($this->validateDelete())) { 
 			$this->modelOptionvalue->delete_option_value();
 			$this->session->set('message', $this->language->get('text_message'));
+			$this->session->delete('name_last_option_value');
+			$this->session->delete('last_option_value');
 			$this->response->redirect($this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
-	}
-	$this->template->set('content', $this->getList());
+		}
+		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function getList() {
@@ -91,10 +112,12 @@ class ControllerOptionValue extends Controller {
 		$results = $this->modelOptionvalue->get_page();
     	$rows = array();
     	foreach ($results as $result) {
+		$last = $result['option_value_id'] == $this->session->get('last_option_value_id') ? 'last_visited': '';
       		$cell = array();
       		$cell[] = array(
         		'value' => $result['name'],
-        		'align' => 'left'
+        		'align' => 'left',
+			'last' => $last
 		);
 			$query = array(
 			'option_value_id' => $result['option_value_id'],
@@ -138,7 +161,6 @@ class ControllerOptionValue extends Controller {
 	$view->set('entry_page', $this->language->get('entry_page'));
 	$view->set('entry_search', $this->language->get('entry_search'));
 
-	$view->set('button_list', $this->language->get('button_list'));
 	$view->set('button_insert', $this->language->get('button_insert'));
 	$view->set('button_update', $this->language->get('button_update'));
 	$view->set('button_delete', $this->language->get('button_delete'));
@@ -146,7 +168,10 @@ class ControllerOptionValue extends Controller {
 	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 	$view->set('button_print', $this->language->get('button_print'));
-	
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'option_value');
 	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 	$view->set('error', @$this->error['message']);
@@ -167,7 +192,6 @@ class ControllerOptionValue extends Controller {
     	$view->set('cols', $cols);
     	$view->set('rows', $rows);
 
-    	$view->set('list', $this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
     	$view->set('insert', $this->url->ssl('option_value', 'insert', array('option_id' => $this->request->gethtml('option_id'))));
     	$view->set('pages', $this->modelOptionvalue->get_pagination());
 
@@ -182,14 +206,15 @@ class ControllerOptionValue extends Controller {
 
     	$view->set('entry_name', $this->language->get('entry_name'));
 
-	$view->set('button_list', $this->language->get('button_list'));
 	$view->set('button_insert', $this->language->get('button_insert'));
 	$view->set('button_update', $this->language->get('button_update'));
 	$view->set('button_delete', $this->language->get('button_delete'));
 	$view->set('button_save', $this->language->get('button_save'));
 	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 	$view->set('error', @$this->error['message']);
@@ -205,25 +230,35 @@ class ControllerOptionValue extends Controller {
 		);
 
 		$view->set('action', $this->url->ssl('option_value', $this->request->gethtml('action'), $query));
-    	$view->set('list', $this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
-    	$view->set('insert', $this->url->ssl('option_value', 'insert', array('option_id' => $this->request->gethtml('option_id'))));
+    		$view->set('insert', $this->url->ssl('option_value', 'insert', array('option_id' => $this->request->gethtml('option_id'))));
 		$view->set('cancel', $this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
 
     	if ($this->request->gethtml('option_value_id')) {
       		$query = array(
 	    		'option_value_id' => $this->request->gethtml('option_value_id'),
 	    		'option_id'       => $this->request->gethtml('option_id'),
-				'option_value_validation' =>$this->session->get('option_value_validation')
+			'option_value_validation' =>$this->session->get('option_value_validation')
 	  		);
       		$view->set('update', 'enable');
 	  		$view->set('delete', $this->url->ssl('option_value', 'delete', $query));
 	}
-	$this->session->set('cdx',md5(mt_rand()));
+
+		$view->set('tab', $this->session->has('option_value_tab') && $this->session->get('option_value_id') == $this->request->gethtml('option_value_id') ? $this->session->get('option_value_tab') : 0);
+		$view->set('tabmini', $this->session->has('option_value_tabmini') && $this->session->get('option_value_id') == $this->request->gethtml('option_value_id') ? $this->session->get('option_value_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('option_id', $this->request->gethtml('option_id'));
+		$view->set('option_value_id', $this->request->gethtml('option_value_id'));
+
+		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
 
-	$option_value_data = array();
+		$this->session->set('last_option_value_id', $this->request->gethtml('option_value_id'));
+
+		$option_value_data = array();
 		$results = $this->modelOptionvalue->get_languages();
 	foreach ($results as $result) {
 		if($result['language_status'] =='1'){
@@ -237,6 +272,24 @@ class ControllerOptionValue extends Controller {
 	    		'language'    => $result['name'],
 	    		'name'        => (isset($option_value_description_info[$result['language_id']]) ? $option_value_description_info[$result['language_id']]['name'] : @$option_value_description_info['name']),
 	  		);
+
+			if ($result['language_id'] == $this->language->getId()) {
+				if (isset($option_value_description_info[$result['language_id']])) {
+					if ($option_value_description_info[$result['language_id']]['name'] != NULL) {
+						$name_last = $option_value_description_info[$result['language_id']]['name'];
+					} else {
+						$name_last = $this->session->get('name_last_option_value');
+					}
+				} else {
+					$name_last = @$option_value_description_info['name'];
+				}
+
+				if (strlen($name_last) > 26) {
+					$name_last = substr($name_last , 0, 23) . '...';
+				}
+				$this->session->set('name_last_option_value', $name_last);
+				$this->session->set('last_option_value', $this->url->ssl('option_value', 'update', array('option_value_id' => $this->request->gethtml('option_value_id'), 'option_id' => $this->request->gethtml('option_id'))));
+			}
 		}
 	}
 	$view->set('option_values', $option_value_data);
@@ -320,7 +373,13 @@ class ControllerOptionValue extends Controller {
 			return FALSE;
 		} 
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 	  		$this->session->set('option_value.search', $this->request->gethtml('search', 'post'));
@@ -337,5 +396,17 @@ class ControllerOptionValue extends Controller {
 
 		$this->response->redirect($this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
   	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTabmini', 'post')) {
+				$this->session->set('option_value_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				$this->session->set('option_value_id', $this->request->sanitize('id', 'post'));
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
+	}
 }
 ?>

@@ -1,6 +1,6 @@
 <?php //AdminModelReview AlegroCart
 class Model_Admin_Review extends Model {
-	function __construct(&$locator) {	
+	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
 		$this->language =& $locator->get('language');
@@ -63,6 +63,10 @@ function get_page(){
 	function get_pages(){
 		$pages = $this->database->getpages();
 		return $pages;
+	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
 	}
 }
 ?>

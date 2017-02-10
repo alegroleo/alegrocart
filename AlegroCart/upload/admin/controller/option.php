@@ -3,7 +3,7 @@ class ControllerOption extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
+		$model			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -30,76 +30,94 @@ class ControllerOption extends Controller {
 	}
 
 	function insert() {
-	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('title', $this->language->get('heading_title'));
 		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
-		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
-			$this->modelOptions->insert_option(@$insert_id, $key, $value['name']);
+			foreach ($this->request->gethtml('language', 'post') as $key => $value) {
+				$this->modelOptions->insert_option(@$insert_id, $key, $value['name']);
 				$insert_id = $this->modelOptions->get_last_id();
-		}
+				if ($key == $insert_id) {
+					$name_last = $value['name'];
+					if (strlen($name_last) > 26) {
+						$name_last = substr($name_last , 0, 23) . '...';
+					}
+					$this->session->set('name_last_option', $name_last);
+					$this->session->set('last_option', $this->url->ssl('option', 'update', array('option_id' => $insert_id)));
+				}
+			}
+			$this->session->set('last_option_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('option'));
 		}
-	$this->template->set('content', $this->getForm());
-		$this->template->set($this->module->fetch());
+		$this->template->set('content', $this->getForm());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
-	}
+		$this->session->delete('name_last_option');
+		$this->session->delete('last_option');
 
-	function update() {
-	$this->template->set('title', $this->language->get('heading_title'));
-	if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
-			$this->modelOptions->delete_option();
-		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
-				$this->modelOptions->insert_option($this->request->gethtml('option_id'), $key, $value['name']);
-		}
-			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('option'));
-	}
-	$this->template->set('content', $this->getForm());
-		$this->template->set($this->module->fetch());
-	
-	$this->response->set($this->template->fetch('layout.tpl'));
-	}
-
-	function delete() {
-
-	$this->template->set('title', $this->language->get('heading_title')); 
-
-	if (($this->request->gethtml('option_id')) && ($this->validateDelete())) {
-			$this->modelOptions->delete_option();
-			$this->modelOptions->delete_option_value();
-			$this->modelOptions->delete_product_to_option();
-			$this->session->set('message', $this->language->get('text_message'));
-		$this->response->redirect($this->url->ssl('option'));
-	}
-	$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
+	function update() {
+		$this->template->set('title', $this->language->get('heading_title'));
+		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
+			$this->modelOptions->delete_option();
+			foreach ($this->request->gethtml('language', 'post') as $key => $value) {
+					$this->modelOptions->insert_option($this->request->gethtml('option_id'), $key, $value['name']);
+			}
+			$this->session->set('message', $this->language->get('text_message'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('option', 'update', array('option_id' => $this->request->gethtml('option_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('option'));
+			}
+		}
+		$this->template->set('content', $this->getForm());
+		$this->template->set($this->module->fetch());
+
+		$this->response->set($this->template->fetch('layout.tpl'));
+	}
+	function delete() {
+
+		$this->template->set('title', $this->language->get('heading_title')); 
+
+		if (($this->request->gethtml('option_id')) && ($this->validateDelete())) {
+			$this->modelOptions->delete_option();
+			$this->modelOptions->delete_option_value();
+			$this->modelOptions->delete_product_to_option();
+			$this->session->set('message', $this->language->get('text_message'));
+			$this->session->delete('name_last_option');
+			$this->session->delete('last_option');
+			$this->response->redirect($this->url->ssl('option'));
+		}
+		$this->template->set('content', $this->getList());
+		$this->template->set($this->module->fetch());
+
+		$this->response->set($this->template->fetch('layout.tpl'));
+	}
 	function getList() {
 		$this->session->set('option_validation', md5(time()));
-	$cols = array();
-	$cols[] = array(
-		'name'  => $this->language->get('column_values'),
-		'folder_help' => $this->language->get('text_folder_help'),
-		'align' => 'option'
+		$cols = array();
+		$cols[] = array(
+			'name'  => $this->language->get('column_values'),
+			'folder_help' => $this->language->get('text_folder_help'),
+			'align' => 'option'
+			);
+		$cols[] = array(
+			'name'  => $this->language->get('column_name'),
+			'sort'  => 'name',
+			'align' => 'left'
 		);
-	$cols[] = array(
-		'name'  => $this->language->get('column_name'),
-		'sort'  => 'name',
-		'align' => 'left'
-	);
-	$cols[] = array(
-		'name'  => $this->language->get('column_action'),
-		'align' => 'action'
-	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 
-		$results = $this->modelOptions->get_page_option();
-	$rows = array();
+			$results = $this->modelOptions->get_page_option();
+		$rows = array();
 
 	foreach ($results as $result) {
+		$last = $result['option_id'] == $this->session->get('last_option_id') ? 'last_visited': '';
 		$cell = array();
 		$cell[] = array(
 			'icon'  => $this->modelOptions->check_children($result['option_id']) ? 'folderO.png' : 'folder.png',
@@ -108,7 +126,8 @@ class ControllerOption extends Controller {
 			);
 		$cell[] = array(
 			'value' => $result['name'],
-			'align' => 'left'
+			'align' => 'left',
+			'last' => $last
 		);
 			$action = array();
 			$action[] = array(
@@ -142,7 +161,6 @@ class ControllerOption extends Controller {
 	$view->set('entry_page', $this->language->get('entry_page'));
 	$view->set('entry_search', $this->language->get('entry_search'));
 
-	$view->set('button_list', $this->language->get('button_list'));
 	$view->set('button_insert', $this->language->get('button_insert'));
 	$view->set('button_update', $this->language->get('button_update'));
 	$view->set('button_delete', $this->language->get('button_delete'));
@@ -150,7 +168,10 @@ class ControllerOption extends Controller {
 	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'option');
 	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 	$view->set('error', @$this->error['message']);
@@ -169,7 +190,6 @@ class ControllerOption extends Controller {
 	$view->set('cols', $cols);
 	$view->set('rows', $rows);
 
-	$view->set('list', $this->url->ssl('option'));
 	$view->set('insert', $this->url->ssl('option', 'insert'));
 
 	$view->set('pages', $this->modelOptions->get_pagination());
@@ -185,14 +205,15 @@ class ControllerOption extends Controller {
 
 	$view->set('entry_name', $this->language->get('entry_name'));
 
-	$view->set('button_list', $this->language->get('button_list'));
 	$view->set('button_insert', $this->language->get('button_insert'));
 	$view->set('button_update', $this->language->get('button_update'));
 	$view->set('button_delete', $this->language->get('button_delete'));
 	$view->set('button_save', $this->language->get('button_save'));
 	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 	$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -204,7 +225,6 @@ class ControllerOption extends Controller {
 
 	$view->set('action', $this->url->ssl('option', $this->request->gethtml('action'), array('option_id' => $this->request->gethtml('option_id'))));
 
-	$view->set('list', $this->url->ssl('option'));
 	$view->set('insert', $this->url->ssl('option', 'insert'));
 		$view->set('cancel', $this->url->ssl('option'));
 
@@ -212,10 +232,19 @@ class ControllerOption extends Controller {
 		$view->set('update', 'enable');
 			$view->set('delete', $this->url->ssl('option', 'delete', array('option_id' => $this->request->gethtml('option_id'),'option_validation' =>$this->session->get('option_validation'))));
 	}
-	$this->session->set('cdx',md5(mt_rand()));
+		$view->set('tab', $this->session->has('option_tab') && $this->session->get('option_id') == $this->request->gethtml('option_id') ? $this->session->get('option_tab') : 0);
+		$view->set('tabmini', $this->session->has('option_tabmini') && $this->session->get('option_id') == $this->request->gethtml('option_id') ? $this->session->get('option_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('option_id', $this->request->gethtml('option_id'));
+
+		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_option_id', $this->request->gethtml('option_id'));
 
 	$option_data = array();
 	$results = $this->modelOptions->get_languages();
@@ -231,6 +260,24 @@ class ControllerOption extends Controller {
 			'language'    => $result['name'],
 			'name'        => (isset($option_description_info[$result['language_id']]) ? $option_description_info[$result['language_id']]['name'] : @$option_description_info['name']),
 			);
+
+			if ($result['language_id'] == $this->language->getId()) {
+				if (isset($option_description_info[$result['language_id']])) {
+					if ($option_description_info[$result['language_id']]['name'] != NULL) {
+						$name_last = $option_description_info[$result['language_id']]['name'];
+					} else {
+						$name_last = $this->session->get('name_last_option');
+					}
+				} else {
+					$name_last = @$option_description_info['name'];
+				}
+
+				if (strlen($name_last) > 26) {
+					$name_last = substr($name_last , 0, 23) . '...';
+				}
+				$this->session->set('name_last_option', $name_last);
+				$this->session->set('last_option', $this->url->ssl('option', 'update', array('option_id' => $this->request->gethtml('option_id'))));
+			}
 		}
 	}
 	$view->set('options', $option_data);
@@ -313,7 +360,13 @@ class ControllerOption extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('option.search', $this->request->gethtml('search', 'post'));
@@ -329,6 +382,18 @@ class ControllerOption extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('option'));
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTabmini', 'post')) {
+				$this->session->set('option_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				$this->session->set('option_id', $this->request->sanitize('id', 'post'));
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
 	}
 }
 ?>

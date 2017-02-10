@@ -12,6 +12,10 @@ class Model_Admin_Productoption extends Model {
 		$sql ="insert into product_to_option set product_id = '?', option_id = '?', option_value_id = '?', prefix = '?', price = '?', option_weight = '?', option_weightclass_id = '?', sort_order = '?'";
 		$this->database->query($this->database->parse($sql, $this->request->gethtml('product_id'), $option[0], $option[1], $this->request->gethtml('prefix', 'post'), $this->request->gethtml('price', 'post'), $this->request->gethtml('option_weight', 'post'), $this->request->gethtml('option_weightclass_id', 'post'), $this->request->gethtml('sort_order', 'post')));
 	}
+	function get_insert_id(){
+		$insert_id = $this->database->getLastId();
+		return $insert_id;
+	}
 	function update_option(){
 		$option = explode(':', $this->request->gethtml('option', 'post'));
 		$sql ="update product_to_option set product_id = '?', option_id = '?', option_value_id = '?', prefix = '?', price = '?', option_weight = '?', option_weightclass_id = '?', sort_order = '?' where product_to_option_id = '?'";
@@ -27,6 +31,10 @@ class Model_Admin_Productoption extends Model {
 	function get_option_values($option_id){
 		$results = $this->database->getRows("select option_value_id, option_id, name from option_value where option_id = '" . (int)$option_id . "' and language_id = '" . (int)$this->language->getId() . "'");
 		return $results;
+	}
+	function get_option_name($option_id, $option_value_id){
+		$result = $this->database->getRow("SELECT name FROM option_value ov INNER JOIN product_to_option p2o ON ov.option_id = p2o.option_id WHERE ov.option_value_id = p2o.option_value_id AND p2o.product_to_option_id = '" . (int)$this->request->gethtml('product_to_option_id') . "' AND language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
 	}
 	function get_product_option(){
 		$result = $this->database->getRow("select distinct * from product_to_option where product_to_option_id = '" . (int)$this->request->gethtml('product_to_option_id') . "'");

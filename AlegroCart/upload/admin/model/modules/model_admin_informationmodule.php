@@ -20,5 +20,9 @@ class Model_Admin_InformationModule extends Model {
 	function install_information(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'information', `key` = 'information_status', value = '1'");
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

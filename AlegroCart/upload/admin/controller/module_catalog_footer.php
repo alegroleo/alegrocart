@@ -3,7 +3,7 @@ class ControllerModuleCatalogFooter extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module		=& $locator->get('module');
 		$this->request  	=& $locator->get('request');
@@ -23,8 +23,12 @@ class ControllerModuleCatalogFooter extends Controller {
 			$this->modelFooter->delete_footer();
 			$this->modelFooter->update_footer();
 			$this->session->set('message', $this->language->get('text_message'));
-			
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('module_catalog_footer'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+			}
 		}
 		
 		$view = $this->locator->create('template');
@@ -39,25 +43,33 @@ class ControllerModuleCatalogFooter extends Controller {
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 		
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('module_catalog_footer'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('name_last_module', $this->language->get('heading_title'));
+		$this->session->set('last_module', 'module_catalog_footer');
+		$this->session->set('last_extension_id', $this->modelFooter->get_extension_id('module_catalog_footer'));
 
 		if (!$this->request->isPost()) {
 			$results = $this->modelFooter->get_footer();
@@ -93,9 +105,15 @@ class ControllerModuleCatalogFooter extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
 		if ($this->user->hasPermission('modify', 'module_catalog_footer')) {
 			$this->modelFooter->delete_footer();
@@ -103,19 +121,20 @@ class ControllerModuleCatalogFooter extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
-		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));	
+		}
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
-	
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'module_catalog_footer')) {
 			$this->modelFooter->delete_footer();
+			if ($this->session->get('last_module') == 'module_catalog_footer') {
+				$this->session->delete('name_last_module');
+				$this->session->delete('last_module');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
 }

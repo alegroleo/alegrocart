@@ -25,6 +25,10 @@ class Model_Admin_Image_Display extends Model {
 	function delete_slides($image_display_id){
 		$this->database->query("DELETE FROM image_display_slides WHERE image_display_id ='". (int)$image_display_id . "'");
 	}
+	function get_insert_id(){
+		$insert_id = $this->database->getLastId();
+		return $insert_id;
+	}
 	function insert_description(){
 		$insert_id = $this->database->getLastId();
 		$this->write_description($insert_id);
@@ -133,5 +137,9 @@ class Model_Admin_Image_Display extends Model {
 		$sql = "update image_display set status = '?' where image_display_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
-}	
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
+}
 ?>

@@ -34,6 +34,7 @@ class ControllerOrderStatus extends Controller {
 			$this->modelOrderStatus->insert_status();
 			$this->cache->delete('order_status');
 			$this->session->set('message', $this->language->get('text_message'));
+			$this->session->set('last_order_status_id', $this->modelOrderStatus->get_last_id());
 
 		$this->response->redirect($this->url->ssl('order_status'));
 		}
@@ -52,7 +53,11 @@ class ControllerOrderStatus extends Controller {
 			$this->cache->delete('order_status');
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('order_status'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('order_status', 'update', array('order_status_id' => $this->request->gethtml('order_status_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('order_status'));
+			}
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch()); 
@@ -93,11 +98,13 @@ class ControllerOrderStatus extends Controller {
 
     	$rows = array();
     	foreach ($results as $result) {
+		$last = $result['order_status_id'] == $this->session->get('last_order_status_id') ? 'last_visited': '';
       		$cell = array();
       		$cell[] = array(
         		'value'   => $result['name'],
         		'align'   => 'left',
-        		'default' => ($result['order_status_id'] == $this->config->get('config_order_status_id'))
+        		'default' => ($result['order_status_id'] == $this->config->get('config_order_status_id')),
+			'last' => $last
       		);
 			$action = array();
 			$action[] = array(
@@ -131,7 +138,6 @@ class ControllerOrderStatus extends Controller {
     	$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-    	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
     	$view->set('button_update', $this->language->get('button_update'));
     	$view->set('button_delete', $this->language->get('button_delete'));
@@ -139,7 +145,10 @@ class ControllerOrderStatus extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
 	$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'order_status');
 	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
     	$view->set('error', @$this->error['message']);
@@ -158,7 +167,6 @@ class ControllerOrderStatus extends Controller {
     	$view->set('cols', $cols);
     	$view->set('rows', $rows);
 
-    	$view->set('list', $this->url->ssl('order_status'));
     	$view->set('insert', $this->url->ssl('order_status', 'insert'));
 
     	$view->set('pages', $this->modelOrderStatus->get_pagination());
@@ -167,66 +175,75 @@ class ControllerOrderStatus extends Controller {
 	}
 
 	function getForm() {
-    	$view = $this->locator->create('template');
+    		$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_form_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+    		$view->set('heading_title', $this->language->get('heading_form_title'));
+    		$view->set('heading_description', $this->language->get('heading_description'));
 
-    	$view->set('entry_name', $this->language->get('entry_name'));
+    		$view->set('entry_name', $this->language->get('entry_name'));
 
-    	$view->set('button_list', $this->language->get('button_list'));
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-    	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
-	$view->set('button_print', $this->language->get('button_print'));
+    		$view->set('button_insert', $this->language->get('button_insert'));
+    		$view->set('button_update', $this->language->get('button_update'));
+    		$view->set('button_delete', $this->language->get('button_delete'));
+    		$view->set('button_save', $this->language->get('button_save'));
+    		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
-    	$view->set('tab_general', $this->language->get('tab_general'));
+		$view->set('help', $this->session->get('help'));
+    		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('error_name', @$this->error['name']);
 
 		if(!@$this->error['message']){
 			$view->set('error', @$this->error['warning']);
-	}
+		}
 
-	$view->set('action', $this->url->ssl('order_status', $this->request->gethtml('action'), array('order_status_id' => $this->request->gethtml('order_status_id'))));
+		$view->set('action', $this->url->ssl('order_status', $this->request->gethtml('action'), array('order_status_id' => $this->request->gethtml('order_status_id'))));
 
-    	$view->set('list', $this->url->ssl('order_status'));
-    	$view->set('insert', $this->url->ssl('order_status', 'insert'));
+    		$view->set('insert', $this->url->ssl('order_status', 'insert'));
 		$view->set('cancel', $this->url->ssl('order_status'));
 
-    	if ($this->request->gethtml('order_status_id')) {  
+    		if ($this->request->gethtml('order_status_id')) {  
 			$view->set('update', 'update');
 			$view->set('delete', $this->url->ssl('order_status', 'delete', array('order_status_id' => (int)$this->request->gethtml('order_status_id'),'order_status_validation' =>$this->session->get('order_status_validation'))));
-    	}
-    	$this->session->set('cdx',md5(mt_rand()));
+    		}
+
+		$view->set('tabmini', $this->session->has('order_status_tabmini') && $this->session->get('order_status_id') == $this->request->gethtml('order_status_id') ? $this->session->get('order_status_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('order_status_id', $this->request->gethtml('order_status_id'));
+
+    		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
 
+		$this->session->set('last_order_status_id', $this->request->gethtml('order_status_id'));
+
 		$post_info = $this->request->gethtml('post');
-    	$order_status_data = array();
+    		$order_status_data = array();
 
-    	$results = $this->modelOrderStatus->get_languages();
-        foreach ($results as $result) {
-		if($result['language_status'] =='1'){
-			if (($this->request->gethtml('order_status_id')) && (!$this->request->isPost())) {
-				$order_status_description_info = $this->modelOrderStatus->get_description($result['language_id']);
-			} else {
-				$order_status_description_info = $this->request->gethtml('language', 'post');
+    		$results = $this->modelOrderStatus->get_languages();
+        	foreach ($results as $result) {
+			if($result['language_status'] =='1'){
+				if (($this->request->gethtml('order_status_id')) && (!$this->request->isPost())) {
+					$order_status_description_info = $this->modelOrderStatus->get_description($result['language_id']);
+				} else {
+					$order_status_description_info = $this->request->gethtml('language', 'post');
+				}
+
+				$order_status_data[] = array(
+					'language_id' => $result['language_id'],
+					'language'    => $result['name'],
+					'name'        => (isset($order_status_description_info[$result['language_id']]) ? $order_status_description_info[$result['language_id']]['name'] : @$order_status_description_info['name']),
+				);
 			}
+        	}
 
-			$order_status_data[] = array(
-				'language_id' => $result['language_id'],
-				'language'    => $result['name'],
-				'name'        => (isset($order_status_description_info[$result['language_id']]) ? $order_status_description_info[$result['language_id']]['name'] : @$order_status_description_info['name']),
-			);
-		}
-        }
-
-    	$view->set('order_statuses', $order_status_data);  
+    		$view->set('order_statuses', $order_status_data);  
 
 		return $view->fetch('content/order_status.tpl');
 	}
@@ -254,7 +271,6 @@ class ControllerOrderStatus extends Controller {
 			return FALSE;
 		}
 	}
-
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -271,24 +287,23 @@ class ControllerOrderStatus extends Controller {
 	}
 	function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'order_status')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+      			$this->error['message'] = $this->language->get('error_permission');  
+    		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
-
 	function validateDelete() {
 		if(($this->session->get('order_status_validation') != $this->request->sanitize('order_status_validation')) || (strlen($this->session->get('order_status_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('order_status_validation');
 		if (!$this->user->hasPermission('modify', 'order_status')) {
-      		$this->error['message'] = $this->language->get('error_permission');
-    	}
-    	if ($this->config->get('config_order_status_id') == $this->request->gethtml('order_status_id')) {
+      			$this->error['message'] = $this->language->get('error_permission');
+    		}
+    		if ($this->config->get('config_order_status_id') == $this->request->gethtml('order_status_id')) {
 	  		$this->error['message'] = $this->language->get('error_default');
 		}
 
@@ -308,7 +323,13 @@ class ControllerOrderStatus extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('order_status.search', $this->request->gethtml('search', 'post'));
@@ -324,6 +345,18 @@ class ControllerOrderStatus extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('order_status'));
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTabmini', 'post')) {
+				$this->session->set('order_status_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				$this->session->set('order_status_id', $this->request->sanitize('id', 'post'));
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
 	}
 }
 ?>

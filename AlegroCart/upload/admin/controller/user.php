@@ -32,6 +32,8 @@ class ControllerUser extends Controller {
 
 	if ($this->request->isPost() && $this->request->has('username', 'post') && $this->validateForm()) {
 			$this->modelAdminUser->insert_user();
+			$insert_id = $this->modelAdminUser->get_last_id();
+			$this->session->set('last_user_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('user'));
 	}
@@ -51,7 +53,14 @@ class ControllerUser extends Controller {
 				$this->modelAdminUser->update_password($this->request->gethtml('user_id'));
 			}
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('user'));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('user', 'update', array('user_id' => $this->request->gethtml('user_id'))));
+			} else {
+				$this->response->redirect($this->url->ssl('user'));
+			}
+
+
 	}
 
 	$this->template->set('content', $this->getForm());
@@ -118,16 +127,18 @@ class ControllerUser extends Controller {
 	$rows = array();
 
 	foreach ($results as $result) {
+		$last = $result['user_id'] == $this->session->get('last_user_id') ? 'last_visited': '';
 		$cell = array();
-
 		$cell[] = array(
 			'value' => $result['username'],
-			'align' => 'left'
+			'align' => 'left',
+			'last' => $last
 		);
 
 		$cell[] = array(
 			'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
-			'align' => 'right'
+			'align' => 'right',
+			'last' => $last
 		);
 
 			$action = array();
@@ -164,14 +175,16 @@ class ControllerUser extends Controller {
 	$view->set('entry_page', $this->language->get('entry_page'));
 	$view->set('entry_search', $this->language->get('entry_search'));
 
-	$view->set('button_list', $this->language->get('button_list'));
 	$view->set('button_insert', $this->language->get('button_insert'));
 	$view->set('button_update', $this->language->get('button_update'));
 	$view->set('button_delete', $this->language->get('button_delete'));
 	$view->set('button_save', $this->language->get('button_save'));
 	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'user');
 	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
@@ -190,7 +203,6 @@ class ControllerUser extends Controller {
 	$view->set('cols', $cols);
 	$view->set('rows', $rows);
 
-	$view->set('list', $this->url->ssl('user'));
 	$view->set('insert', $this->url->ssl('user', 'insert'));
 	$view->set('pages', $this->modelAdminUser->get_pagination());
 
@@ -211,14 +223,15 @@ class ControllerUser extends Controller {
 	$view->set('entry_email', $this->language->get('entry_email'));
 	$view->set('entry_user_group', $this->language->get('entry_user_group'));
 
-	$view->set('button_list', $this->language->get('button_list'));
 	$view->set('button_insert', $this->language->get('button_insert'));
 	$view->set('button_update', $this->language->get('button_update'));
 	$view->set('button_delete', $this->language->get('button_delete'));
 	$view->set('button_save', $this->language->get('button_save'));
 	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 	$view->set('tab_general', $this->language->get('tab_general'));
 
 	$view->set('error', @$this->error['message']);
@@ -231,8 +244,11 @@ class ControllerUser extends Controller {
 
 	$view->set('action', $this->url->ssl('user', $this->request->gethtml('action'), array('user_id' => $this->request->gethtml('user_id'))));
 
-	$view->set('list', $this->url->ssl('user'));
 	$view->set('insert', $this->url->ssl('user', 'insert'));
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('user_id', $this->request->gethtml('user_id'));
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
@@ -245,6 +261,8 @@ class ControllerUser extends Controller {
 	}
 
 	$view->set('cancel', $this->url->ssl('user'));
+
+	$this->session->set('last_user_id', $this->request->gethtml('user_id'));
 
 	if (($this->request->gethtml('user_id')) && (!$this->request->isPost())) {
 			$user_info = $this->modelAdminUser->get_user($this->request->gethtml('user_id'));
@@ -388,7 +406,13 @@ class ControllerUser extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('user.search', $this->request->gethtml('search', 'post'));

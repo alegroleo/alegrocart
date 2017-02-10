@@ -45,7 +45,11 @@ class ControllerSetting extends Controller {
 
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('setting'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('setting'));
+			} else {
+				$this->response->redirect($this->url->ssl('home'));
+			}
 		}
 
 		$view = $this->locator->create('template');
@@ -171,9 +175,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_weight', $this->language->get('entry_weight'));
 		$view->set('entry_barcode', $this->language->get('entry_barcode'));
 		$view->set('entry_dimension_type', $this->language->get('entry_dimension_type'));
-		$entry_dimension = array(1 => $this->language->get('entry_linear'),
-								2 => $this->language->get('entry_area'),
-								3 =>$this->language->get('entry_volume'));
+		$entry_dimension = array(1 => $this->language->get('entry_linear'), 2 => $this->language->get('entry_area'), 3 =>$this->language->get('entry_volume'));
 
 		$view->set('entry_dimension', $entry_dimension);
 		$view->set('entry_tax', $this->language->get('entry_tax'));
@@ -327,14 +329,15 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_image_quality',$this->language->get('explanation_image_quality'));
 		$view->set('explanation_newsletter',$this->language->get('explanation_newsletter'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_shop', $this->language->get('tab_shop'));
 		$view->set('tab_admin', $this->language->get('tab_admin'));
 		$view->set('tab_local', $this->language->get('tab_local'));
@@ -364,10 +367,14 @@ class ControllerSetting extends Controller {
 		$view->set('error_email_newsletter', @$this->error['email_newsletter']);
 		$view->set('error_email_mail', @$this->error['email_mail']);
 		$view->set('error_email_contact', @$this->error['email_contact']);
+		$view->set('error_update', $this->language->get('error_update'));
 
 		if(!@$this->error['message']){
 		$view->set('error', @$this->error['warning']);
 		}
+
+		$view->set('tab', $this->session->has('setting_tab') ? $this->session->get('setting_tab') : 0);
+		$view->set('tabmini', $this->session->has('setting_tabmini') ? $this->session->get('setting_tabmini') : 0);
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
@@ -1251,10 +1258,10 @@ class ControllerSetting extends Controller {
 		}
 
 		$rss_sources = array(
-							'rss_featured' => $this->language->get('text_rss_featured'),
-							'rss_latest'   => $this->language->get('text_rss_latest'),
-							'rss_popular'  => $this->language->get('text_rss_popular'),
-							'rss_specials' => $this->language->get('text_rss_specials'));
+			'rss_featured' => $this->language->get('text_rss_featured'),
+			'rss_latest'   => $this->language->get('text_rss_latest'),
+			'rss_popular'  => $this->language->get('text_rss_popular'),
+			'rss_specials' => $this->language->get('text_rss_specials'));
 		$view->set('rss_sources', $rss_sources);
 
 		if ($this->request->has('global_config_sitemap_status')) {
@@ -1317,8 +1324,6 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_config_download_status', @$setting_info['catalog']['config_download_status']);
 		}
-
-
 		$this->template->set('content', $view->fetch('content/setting.tpl'));
 		$this->template->set($this->module->fetch());
 
@@ -1537,7 +1542,13 @@ class ControllerSetting extends Controller {
 		}
 		$this->response->set($output);
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function zone() {
 		$output = '<select name="global_config_zone_id">';
 		$results = $this->modelSetting->get_country_zones();
@@ -1554,6 +1565,20 @@ class ControllerSetting extends Controller {
 		$output .= '</select>';
 
 		$this->response->set($output);
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('setting_tab', $this->request->sanitize('activeTab', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('setting_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
 	}
 }
 ?>

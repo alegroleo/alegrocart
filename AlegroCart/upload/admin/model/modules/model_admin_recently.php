@@ -46,5 +46,9 @@ class Model_Admin_Recently extends Model {
 		$results = $this->database->getRows("select * from setting where type = 'catalog' and `group` = 'recently'");
 		return $results;
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

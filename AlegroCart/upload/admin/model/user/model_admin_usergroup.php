@@ -48,5 +48,9 @@ class Model_Admin_Usergroup extends Model {
 		$pages = $this->database->getpages();
 		return $pages;
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
 }
 ?>

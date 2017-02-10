@@ -24,5 +24,9 @@ class Model_Admin_LanguageModule extends Model {
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

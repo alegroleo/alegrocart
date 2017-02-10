@@ -1,9 +1,166 @@
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/list_disabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
+  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+  <input type="hidden" name="update_form" value="1">
+  <input type="hidden" name="global_config_store" value="">
+  <input type="hidden" name="global_config_owner" value="">
+  <input type="hidden" name="global_config_address" value="">
+  <input type="hidden" name="global_config_telephone" value="">
+  <input type="hidden" name="global_config_fax" value="">
+  <input type="hidden" name="catalog_config_unregistered" value="">
+  <input type="hidden" name="catalog_config_registered" value="">
+  <input type="hidden" name="catalog_config_template" value="">
+  <input type="hidden" name="catalog_config_columns" value="">
+  <input type="hidden" name="catalog_config_styles" value="">
+  <input type="hidden" name="catalog_config_colors" value="">
+  <input type="hidden" name="catalog_config_max_rows" value="">
+  <input type="hidden" name="global_config_url_alias" value="">
+  <input type="hidden" name="global_config_seo" value="">
+  <input type="hidden" name="catalog_config_ssl" value="">
+  <input type="hidden" name="catalog_config_parse_time" value="">
+  <input type="hidden" name="global_config_query_count" value="">
+  <input type="hidden" name="global_config_query_log" value="">
+  <input type="hidden" name="admin_config_template" value="">
+  <input type="hidden" name="admin_config_max_rows" value="">
+  <input type="hidden" name="admin_config_parse_time" value="">
+  <input type="hidden" name="admin_config_ssl" value="">
+  <input type="hidden" name="admin_config_language" value="">
+  <input type="hidden" name="global_config_token" value="">
+  <input type="hidden" name="global_config_session_expire" value="">
+  <input type="hidden" name="global_config_address_format" value="">
+  <input type="hidden" name="global_error_handler_status" value="">
+  <input type="hidden" name="global_error_email_status" value="">
+  <input type="hidden" name="global_config_error_email" value="">
+  <input type="hidden" name="global_error_show_user" value="">
+  <input type="hidden" name="global_error_show_developer" value="">
+  <input type="hidden" name="global_error_developer_ip" value="">
+  <input type="hidden" name="global_config_country_id" value="">
+  <input type="hidden" name="global_config_zone_id" value="">
+  <input type="hidden" name="catalog_config_language" value="">
+  <input type="hidden" name="global_config_time_zone" value="">
+  <input type="hidden" name="global_config_currency" value="">
+  <input type="hidden" name="default_currency" value="">
+  <input type="hidden" name="global_config_currency_surcharge" value="">
+  <input type="hidden" name="global_config_barcode_encoding" value="">
+  <input type="hidden" name="global_config_weight_class_id" value="">
+  <input type="hidden" name="global_config_weight_decimal" value="">
+  <input type="hidden" name="global_config_dimension_type_id" value="">
+  <?php for($i=1; $i < 4; $i++){?>
+	<?php if(isset($dimensions[$i])){?>
+		<input type="hidden" name="global_config_dimension_<?php echo $i;?>_id" value="">
+	<?php } ?>
+  <?php } ?>
+  <input type="hidden" name="global_config_dimension_decimal" value="">
+  <input type="hidden" name="catalog_config_estimate" value="">
+  <input type="hidden" name="global_config_tax" value="">
+  <input type="hidden" name="global_config_tax_store" value="">
+  <input type="hidden" name="catalog_config_social" value="">
+  <input type="hidden" name="global_config_page_load" value="">
+  <input type="hidden" name="global_config_order_status_id" value="">
+  <input type="hidden" name="global_invoice_number" value="">
+  <input type="hidden" name="catalog_config_stock_check" value="">
+  <input type="hidden" name="catalog_config_stock_checkout" value="">
+  <input type="hidden" name="global_config_stock_subtract" value="">
+  <input type="hidden" name="catalog_config_show_stock" value="">
+  <input type="hidden" name="catalog_config_show_stock_icon" value="">
+  <input type="hidden" name="catalog_config_low_stock_warning" value="">
+  <input type="hidden" name="catalog_config_discount_options" value="">
+  <input type="hidden" name="catalog_config_guest_checkout" value="">
+  <input type="hidden" name="catalog_config_vat" value="">
+  <input type="hidden" name="catalog_config_account_id" value="">
+  <input type="hidden" name="catalog_config_checkout_id" value="">
+  <input type="hidden" name="global_config_rss_status" value="">
+  <input type="hidden" name="global_config_rss_source" value="">
+  <input type="hidden" name="global_config_rss_limit" value="">
+  <input type="hidden" name="global_config_sitemap_status" value="">
+  <input type="hidden" name="catalog_config_store_logo" value="">
+  <input type="hidden" name="catalog_config_logo_left" value="">
+  <input type="hidden" name="catalog_config_logo_top" value="">
+  <input type="hidden" name="catalog_config_logo_width" value="">
+  <input type="hidden" name="catalog_config_logo_height" value="">
+  <input type="hidden" name="catalog_config_footer_logo" value="">
+  <input type="hidden" name="catalog_footer_logo_left" value="">
+  <input type="hidden" name="catalog_footer_logo_top" value="">
+  <input type="hidden" name="catalog_footer_logo_width" value="">
+  <input type="hidden" name="catalog_footer_logo_height" value="">
+  <input type="hidden" name="catalog_captcha_contactus" value="">
+  <input type="hidden" name="catalog_captcha_reg" value="">
+  <input type="hidden" name="catalog_captcha_length" value="">
+  <input type="hidden" name="global_config_email" value="">
+  <input type="hidden" name="global_config_email_send" value="">
+  <input type="hidden" name="global_config_email_log" value="">
+  <input type="hidden" name="global_config_email_auth" value="">
+  <input type="hidden" name="global_config_email_user" value="">
+  <input type="hidden" name="global_config_email_passw" value="">
+  <input type="hidden" name="global_config_email_host" value="">
+  <input type="hidden" name="global_config_email_lhost" value="">
+  <input type="hidden" name="global_config_email_port" value="">
+  <input type="hidden" name="global_config_email_tout" value="">
+  <input type="hidden" name="global_config_email_orders" value="">
+  <input type="hidden" name="global_config_email_accounts" value="">
+  <input type="hidden" name="global_config_email_newsletter" value="">
+  <input type="hidden" name="global_config_email_mail" value="">
+  <input type="hidden" name="global_config_email_contact" value="">
+  <input type="hidden" name="global_config_newsletter" value="">
+  <input type="hidden" name="global_config_cache_query" value="">
+  <input type="hidden" name="global_config_compress_output" value="">
+  <input type="hidden" name="global_config_compress_level" value="">
+  <input type="hidden" name="global_config_image_resize" value="">
+  <input type="hidden" name="global_config_image_width" value="">
+  <input type="hidden" name="global_config_image_height" value="">
+  <input type="hidden" name="global_config_image_quality" value="">
+  <input type="hidden" name="catalog_product_image_width" value="">
+  <input type="hidden" name="catalog_product_image_height" value="">
+  <input type="hidden" name="catalog_additional_image_width" value="">
+  <input type="hidden" name="catalog_additional_image_height" value="">
+  <input type="hidden" name="catalog_product_image_display" value="">
+  <input type="hidden" name="catalog_product_addtocart" value="">
+  <input type="hidden" name="catalog_product_options_select" value="">
+  <input type="hidden" name="catalog_alternate_description" value="">
+  <input type="hidden" name="catalog_magnifier" value="">
+  <input type="hidden" name="catalog_magnifier_width" value="">
+  <input type="hidden" name="catalog_magnifier_height" value="">
+  <input type="hidden" name="catalog_category_image_width" value="">
+  <input type="hidden" name="catalog_category_image_height" value="">
+  <input type="hidden" name="catalog_category_rows" value="">
+  <input type="hidden" name="catalog_category_addtocart" value="">
+  <input type="hidden" name="catalog_category_options_select" value="">
+  <input type="hidden" name="catalog_search_image_width" value="">
+  <input type="hidden" name="catalog_search_image_height" value="">
+  <input type="hidden" name="catalog_search_rows" value="">
+  <input type="hidden" name="catalog_search_addtocart" value="">
+  <input type="hidden" name="catalog_search_options_select" value="">
+  <input type="hidden" name="catalog_search_limit" value="">
+  <input type="hidden" name="catalog_content_image_display" value="">
+  <input type="hidden" name="catalog_content_lines_single" value="">
+  <input type="hidden" name="catalog_content_lines_multi" value="">
+  <input type="hidden" name="catalog_content_lines_char" value="">
+  <input type="hidden" name="catalog_options_manufacturer" value="">
+  <input type="hidden" name="catalog_options_model" value="">
+  <input type="hidden" name="catalog_addtocart_quantity_box" value="">
+  <input type="hidden" name="catalog_addtocart_quantity_max" value="">
+  <input type="hidden" name="wm_text" value="">
+  <input type="hidden" name="wm_font" value="">
+  <input type="hidden" name="wm_fontcolor" value="">
+  <input type="hidden" name="wm_transparency" value="">
+  <input type="hidden" name="wm_thposition" value="">
+  <input type="hidden" name="wm_tvposition" value="">
+  <input type="hidden" name="wm_thmargin" value="">
+  <input type="hidden" name="wm_tvmargin" value="">
+  <input type="hidden" name="wm_image" value="">
+  <input type="hidden" name="wm_scale" value="">
+  <input type="hidden" name="wm_ihposition" value="">
+  <input type="hidden" name="wm_ivposition" value="">
+  <input type="hidden" name="wm_ihmargin" value="">
+  <input type="hidden" name="wm_ivmargin" value="">
+  <input type="hidden" name="catalog_config_download" value="">
+  <input type="hidden" name="catalog_config_download_status" value="">
+  <input type="hidden" name="catalog_config_freedownload" value="">
+  </form>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs();document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
@@ -13,14 +170,16 @@
 <?php if ($message) { ?>
 <div class="message"><?php echo $message; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
-<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_shop; ?></div></a><a><div class="tab_text"><?php echo $tab_admin; ?></div></a><a><div class="tab_text"><?php echo $tab_local; ?></div></a><a><div class="tab_text"><?php echo $tab_stock; ?></div></a><a><div class="tab_text"><?php echo $tab_option; ?></div></a><a><div class="tab_text"><?php echo $tab_mail; ?></div></a><a><div class="tab_text"><?php echo $tab_cache; ?></div></a><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a></div>
     <div class="pages">
@@ -1806,5 +1965,224 @@
     $(document).ready(function() {
 	  RegisterValidation();
     });
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	$('.task').each(function(){
+	$('.task .disabled').hide();
+	});
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+  });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=setting&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
+  //--></script>
+  <script type="text/javascript"><!--
+	function saveTabs() {
+	var activeTab = $('#tab > .tabs > a.active').index()+1;
+	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
+	var data_json = {'activeTab':activeTab, 'activeTabmini':activeTabmini};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=setting&action=tab',
+		data: data_json,
+		dataType:'json'
+	});
+	}
+	function getTabs() {
+	var activeTab = $('#tab > .tabs > a.active').index()+1;
+	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
+	var data_json = {'activeTab':activeTab, 'activeTabmini':activeTabmini};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=setting&action=tab',
+		data: data_json,
+		dataType:'json',
+		success: function (data) {
+				if (data.status===true) {
+					getValues();
+					document.getElementById('update_form').submit();
+				} else {
+					$('<div class="warning"><?php echo $error_update; ?></div>').insertBefore(".heading");
+				}
+		}
+	});
+	}
+
+	function getValues() {
+		document.forms['update_form'].global_config_store.value=document.forms['form'].global_config_store.value;
+		document.forms['update_form'].global_config_owner.value=document.forms['form'].global_config_owner.value;
+		document.forms['update_form'].global_config_address.value=document.forms['form'].global_config_address.value;
+		document.forms['update_form'].global_config_telephone.value=document.forms['form'].global_config_telephone.value;
+		document.forms['update_form'].global_config_fax.value=document.forms['form'].global_config_fax.value;
+		document.forms['update_form'].catalog_config_unregistered.value=document.forms['form'].catalog_config_unregistered.value;
+		document.forms['update_form'].catalog_config_registered.value=document.forms['form'].catalog_config_registered.value;
+		document.forms['update_form'].catalog_config_template.value=document.forms['form'].catalog_config_template.value;
+		document.forms['update_form'].catalog_config_columns.value=document.forms['form'].catalog_config_columns.value;
+		document.forms['update_form'].catalog_config_styles.value=document.forms['form'].catalog_config_styles.value;
+		document.forms['update_form'].catalog_config_colors.value=document.forms['form'].catalog_config_colors.value;
+		document.forms['update_form'].catalog_config_max_rows.value=document.forms['form'].catalog_config_max_rows.value;
+		document.forms['update_form'].global_config_url_alias.value=document.forms['form'].global_config_url_alias.value;
+		document.forms['update_form'].global_config_seo.value=document.forms['form'].global_config_seo.value;
+		document.forms['update_form'].catalog_config_ssl.value=document.forms['form'].catalog_config_ssl.value;
+		document.forms['update_form'].catalog_config_parse_time.value=document.forms['form'].catalog_config_parse_time.value;
+		document.forms['update_form'].global_config_query_count.value=document.forms['form'].global_config_query_count.value;
+		document.forms['update_form'].global_config_query_log.value=document.forms['form'].global_config_query_log.value;
+		document.forms['update_form'].admin_config_template.value=document.forms['form'].admin_config_template.value;
+		document.forms['update_form'].admin_config_max_rows.value=document.forms['form'].admin_config_max_rows.value;
+		document.forms['update_form'].admin_config_parse_time.value=document.forms['form'].admin_config_parse_time.value;
+		document.forms['update_form'].admin_config_ssl.value=document.forms['form'].admin_config_ssl.value;
+		document.forms['update_form'].admin_config_language.value=document.forms['form'].admin_config_language.value;
+		document.forms['update_form'].global_config_token.value=document.forms['form'].global_config_token.value;
+		document.forms['update_form'].global_config_session_expire.value=document.forms['form'].global_config_session_expire.value;
+		document.forms['update_form'].global_config_address_format.value=document.forms['form'].global_config_address_format.value;
+		document.forms['update_form'].global_error_handler_status.value=document.forms['form'].global_error_handler_status.value;
+		document.forms['update_form'].global_error_email_status.value=document.forms['form'].global_error_email_status.value;
+		document.forms['update_form'].global_config_error_email.value=document.forms['form'].global_config_error_email.value;
+		document.forms['update_form'].global_error_show_user.value=document.forms['form'].global_error_show_user.value;
+		document.forms['update_form'].global_error_show_developer.value=document.forms['form'].global_error_show_developer.value;
+		document.forms['update_form'].global_error_developer_ip.value=document.forms['form'].global_error_developer_ip.value;
+		document.forms['update_form'].global_config_country_id.value=document.forms['form'].global_config_country_id.value;
+		document.forms['update_form'].global_config_zone_id.value=document.forms['form'].global_config_zone_id.value;
+		document.forms['update_form'].catalog_config_language.value=document.forms['form'].catalog_config_language.value;
+		document.forms['update_form'].global_config_time_zone.value=document.forms['form'].global_config_time_zone.value;
+		document.forms['update_form'].global_config_currency.value=document.forms['form'].global_config_currency.value;
+		document.forms['update_form'].default_currency.value=document.forms['form'].default_currency.value;
+		document.forms['update_form'].global_config_currency_surcharge.value=document.forms['form'].global_config_currency_surcharge.value;
+		document.forms['update_form'].global_config_barcode_encoding.value=document.forms['form'].global_config_barcode_encoding.value;
+		document.forms['update_form'].global_config_weight_class_id.value=document.forms['form'].global_config_weight_class_id.value;
+		document.forms['update_form'].global_config_weight_decimal.value=document.forms['form'].global_config_weight_decimal.value;
+		document.forms['update_form'].global_config_dimension_type_id.value=document.forms['form'].global_config_dimension_type_id.value;
+		<?php for($i=1; $i < 4; $i++){?>
+			<?php if(isset($dimensions[$i])){?>
+				document.forms['update_form'].global_config_dimension_<?php echo $i;?>_id.value=document.forms['form'].global_config_dimension_<?php echo $i;?>_id.value;
+			<?php } ?>
+		<?php } ?>
+		document.forms['update_form'].global_config_dimension_decimal.value=document.forms['form'].global_config_dimension_decimal.value;
+		document.forms['update_form'].catalog_config_estimate.value=document.forms['form'].catalog_config_estimate.value;
+		document.forms['update_form'].global_config_tax.value=document.forms['form'].global_config_tax.value;
+		document.forms['update_form'].global_config_tax_store.value=document.forms['form'].global_config_tax_store.value;
+		document.forms['update_form'].catalog_config_social.value=document.forms['form'].catalog_config_social.value;
+		document.forms['update_form'].global_config_page_load.value=document.forms['form'].global_config_page_load.value;
+		document.forms['update_form'].global_config_order_status_id.value=document.forms['form'].global_config_order_status_id.value;
+		document.forms['update_form'].global_invoice_number.value=document.forms['form'].global_invoice_number.value;
+		document.forms['update_form'].catalog_config_stock_check.value=document.forms['form'].catalog_config_stock_check.value;
+		document.forms['update_form'].catalog_config_stock_checkout.value=document.forms['form'].catalog_config_stock_checkout.value;
+		document.forms['update_form'].global_config_stock_subtract.value=document.forms['form'].global_config_stock_subtract.value;
+		document.forms['update_form'].catalog_config_show_stock.value=document.forms['form'].catalog_config_show_stock.value;
+		document.forms['update_form'].catalog_config_show_stock_icon.value=document.forms['form'].catalog_config_show_stock_icon.value;
+		document.forms['update_form'].catalog_config_low_stock_warning.value=document.forms['form'].catalog_config_low_stock_warning.value;
+		document.forms['update_form'].catalog_config_discount_options.value=document.forms['form'].catalog_config_discount_options.value;
+		document.forms['update_form'].catalog_config_guest_checkout.value=document.forms['form'].catalog_config_guest_checkout.value;
+		document.forms['update_form'].catalog_config_vat.value=document.forms['form'].catalog_config_vat.value;
+		document.forms['update_form'].catalog_config_account_id.value=document.forms['form'].catalog_config_account_id.value;
+		document.forms['update_form'].catalog_config_checkout_id.value=document.forms['form'].catalog_config_checkout_id.value;
+		document.forms['update_form'].global_config_rss_status.value=document.forms['form'].global_config_rss_status.value;
+		document.forms['update_form'].global_config_rss_source.value=document.forms['form'].global_config_rss_source.value;
+		document.forms['update_form'].global_config_rss_limit.value=document.forms['form'].global_config_rss_limit.value;
+		document.forms['update_form'].global_config_sitemap_status.value=document.forms['form'].global_config_sitemap_status.value;
+		document.forms['update_form'].catalog_config_store_logo.value=document.forms['form'].catalog_config_store_logo.value;
+		document.forms['update_form'].catalog_config_logo_left.value=document.forms['form'].catalog_config_logo_left.value;
+		document.forms['update_form'].catalog_config_logo_top.value=document.forms['form'].catalog_config_logo_top.value;
+		document.forms['update_form'].catalog_config_logo_width.value=document.forms['form'].catalog_config_logo_width.value;
+		document.forms['update_form'].catalog_config_logo_height.value=document.forms['form'].catalog_config_logo_height.value;
+		document.forms['update_form'].catalog_config_footer_logo.value=document.forms['form'].catalog_config_footer_logo.value;
+		document.forms['update_form'].catalog_footer_logo_left.value=document.forms['form'].catalog_footer_logo_left.value;
+		document.forms['update_form'].catalog_footer_logo_top.value=document.forms['form'].catalog_footer_logo_top.value;
+		document.forms['update_form'].catalog_footer_logo_width.value=document.forms['form'].catalog_footer_logo_width.value;
+		document.forms['update_form'].catalog_footer_logo_height.value=document.forms['form'].catalog_footer_logo_height.value;
+		document.forms['update_form'].catalog_captcha_contactus.value=document.forms['form'].catalog_captcha_contactus.value;
+		document.forms['update_form'].catalog_captcha_reg.value=document.forms['form'].catalog_captcha_reg.value;
+		document.forms['update_form'].catalog_captcha_length.value=document.forms['form'].catalog_captcha_length.value;
+		document.forms['update_form'].global_config_email.value=document.forms['form'].global_config_email.value;
+		document.forms['update_form'].global_config_email_send.value=document.forms['form'].global_config_email_send.value;
+		document.forms['update_form'].global_config_email_log.value=document.forms['form'].global_config_email_log.value;
+		document.forms['update_form'].global_config_email_auth.value=document.forms['form'].global_config_email_auth.value;
+		document.forms['update_form'].global_config_email_user.value=document.forms['form'].global_config_email_user.value;
+		document.forms['update_form'].global_config_email_passw.value=document.forms['form'].global_config_email_passw.value;
+		document.forms['update_form'].global_config_email_host.value=document.forms['form'].global_config_email_host.value;
+		document.forms['update_form'].global_config_email_lhost.value=document.forms['form'].global_config_email_lhost.value;
+		document.forms['update_form'].global_config_email_port.value=document.forms['form'].global_config_email_port.value;
+		document.forms['update_form'].global_config_email_tout.value=document.forms['form'].global_config_email_tout.value;
+		document.forms['update_form'].global_config_email_orders.value=document.forms['form'].global_config_email_orders.value;
+		document.forms['update_form'].global_config_email_accounts.value=document.forms['form'].global_config_email_accounts.value;
+		document.forms['update_form'].global_config_email_newsletter.value=document.forms['form'].global_config_email_newsletter.value;
+		document.forms['update_form'].global_config_email_mail.value=document.forms['form'].global_config_email_mail.value;
+		document.forms['update_form'].global_config_email_contact.value=document.forms['form'].global_config_email_contact.value;
+		document.forms['update_form'].global_config_newsletter.value=document.forms['form'].global_config_newsletter.value;
+		document.forms['update_form'].global_config_cache_query.value=document.forms['form'].global_config_cache_query.value;
+		document.forms['update_form'].global_config_compress_output.value=document.forms['form'].global_config_compress_output.value;
+		document.forms['update_form'].global_config_compress_level.value=document.forms['form'].global_config_compress_level.value;
+		document.forms['update_form'].global_config_image_resize.value=document.forms['form'].global_config_image_resize.value;
+		document.forms['update_form'].global_config_image_width.value=document.forms['form'].global_config_image_width.value;
+		document.forms['update_form'].global_config_image_height.value=document.forms['form'].global_config_image_height.value;
+		document.forms['update_form'].global_config_image_quality.value=document.forms['form'].global_config_image_quality.value;
+		document.forms['update_form'].catalog_product_image_width.value=document.forms['form'].catalog_product_image_width.value;
+		document.forms['update_form'].catalog_product_image_height.value=document.forms['form'].catalog_product_image_height.value;
+		document.forms['update_form'].catalog_additional_image_width.value=document.forms['form'].catalog_additional_image_width.value;
+		document.forms['update_form'].catalog_additional_image_height.value=document.forms['form'].catalog_additional_image_height.value;
+		document.forms['update_form'].catalog_product_image_display.value=document.forms['form'].catalog_product_image_display.value;
+		document.forms['update_form'].catalog_product_addtocart.value=document.forms['form'].catalog_product_addtocart.value;
+		document.forms['update_form'].catalog_product_options_select.value=document.forms['form'].catalog_product_options_select.value;
+		document.forms['update_form'].catalog_alternate_description.value=document.forms['form'].catalog_alternate_description.value;
+		document.forms['update_form'].catalog_magnifier.value=document.forms['form'].catalog_magnifier.value;
+		document.forms['update_form'].catalog_magnifier_width.value=document.forms['form'].catalog_magnifier_width.value;
+		document.forms['update_form'].catalog_magnifier_height.value=document.forms['form'].catalog_magnifier_height.value;
+		document.forms['update_form'].catalog_category_image_width.value=document.forms['form'].catalog_category_image_width.value;
+		document.forms['update_form'].catalog_category_image_height.value=document.forms['form'].catalog_category_image_height.value;
+		document.forms['update_form'].catalog_category_rows.value=document.forms['form'].catalog_category_rows.value;
+		document.forms['update_form'].catalog_category_addtocart.value=document.forms['form'].catalog_category_addtocart.value;
+		document.forms['update_form'].catalog_category_options_select.value=document.forms['form'].catalog_category_options_select.value;
+		document.forms['update_form'].catalog_search_image_width.value=document.forms['form'].catalog_search_image_width.value;
+		document.forms['update_form'].catalog_search_image_height.value=document.forms['form'].catalog_search_image_height.value;
+		document.forms['update_form'].catalog_search_rows.value=document.forms['form'].catalog_search_rows.value;
+		document.forms['update_form'].catalog_search_addtocart.value=document.forms['form'].catalog_search_addtocart.value;
+		document.forms['update_form'].catalog_search_options_select.value=document.forms['form'].catalog_search_options_select.value;
+		document.forms['update_form'].catalog_search_limit.value=document.forms['form'].catalog_search_limit.value;
+		document.forms['update_form'].catalog_content_image_display.value=document.forms['form'].catalog_content_image_display.value;
+		document.forms['update_form'].catalog_content_lines_single.value=document.forms['form'].catalog_content_lines_single.value;
+		document.forms['update_form'].catalog_content_lines_multi.value=document.forms['form'].catalog_content_lines_multi.value;
+		document.forms['update_form'].catalog_content_lines_char.value=document.forms['form'].catalog_content_lines_char.value;
+		document.forms['update_form'].catalog_options_manufacturer.value=document.forms['form'].catalog_options_manufacturer.value;
+		document.forms['update_form'].catalog_options_model.value=document.forms['form'].catalog_options_model.value;
+		document.forms['update_form'].catalog_addtocart_quantity_box.value=document.forms['form'].catalog_addtocart_quantity_box.value;
+		document.forms['update_form'].catalog_addtocart_quantity_max.value=document.forms['form'].catalog_addtocart_quantity_max.value;
+		document.forms['update_form'].wm_text.value=document.forms['form'].wm_text.value;
+		document.forms['update_form'].wm_font.value=document.forms['form'].wm_font.value;
+		document.forms['update_form'].wm_fontcolor.value=document.forms['form'].wm_fontcolor.value;
+		document.forms['update_form'].wm_transparency.value=document.forms['form'].wm_transparency.value;
+		document.forms['update_form'].wm_thposition.value=document.forms['form'].wm_thposition.value;
+		document.forms['update_form'].wm_tvposition.value=document.forms['form'].wm_tvposition.value;
+		document.forms['update_form'].wm_thmargin.value=document.forms['form'].wm_thmargin.value;
+		document.forms['update_form'].wm_tvmargin.value=document.forms['form'].wm_tvmargin.value;
+		document.forms['update_form'].wm_image.value=document.forms['form'].wm_image.value;
+		document.forms['update_form'].wm_scale.value=document.forms['form'].wm_scale.value;
+		document.forms['update_form'].wm_ihposition.value=document.forms['form'].wm_ihposition.value;
+		document.forms['update_form'].wm_ivposition.value=document.forms['form'].wm_ivposition.value;
+		document.forms['update_form'].wm_ihmargin.value=document.forms['form'].wm_ihmargin.value;
+		document.forms['update_form'].wm_ivmargin.value=document.forms['form'].wm_ivmargin.value;
+		document.forms['update_form'].catalog_config_download.value=document.forms['form'].catalog_config_download.value;
+		document.forms['update_form'].catalog_config_download_status.value=document.forms['form'].catalog_config_download_status.value;
+		document.forms['update_form'].catalog_config_freedownload.value=document.forms['form'].catalog_config_freedownload.value;
+	}
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
+		tabview_switch('tab', <?php echo $tab; ?>);
+	if (<?php echo $tabmini; ?>!=undefined && <?php echo $tabmini; ?> > 0) {
+			tabview_switch('tabmini', <?php echo $tabmini; ?>);
+		}
+	}
+   });
   //--></script>
 </form>

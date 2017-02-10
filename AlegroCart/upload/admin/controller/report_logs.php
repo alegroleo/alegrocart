@@ -2,9 +2,8 @@
 class ControllerReportLogs extends Controller {
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
-		
-		$this->ccvalidation =& $locator->get('ccvalidation');
+		$model 			=& $locator->get('model');
+		$this->ccvalidation	=& $locator->get('ccvalidation');
 		$this->config  		=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
@@ -24,13 +23,15 @@ class ControllerReportLogs extends Controller {
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('text_yes', $this->language->get('text_yes'));
 		$view->set('text_no', $this->language->get('text_no'));
@@ -124,6 +125,12 @@ class ControllerReportLogs extends Controller {
 		$output .= '</select></td></tr>' . "\n";
 		return $output;
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 }
 ?>

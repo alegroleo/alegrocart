@@ -80,7 +80,6 @@ $_['entry_page']	= 'Page';
 $_['entry_search']	= 'Search ';
 
 // Button
-$_['button_list']	= 'List';
 $_['button_insert']	= 'Insert';
 $_['button_update']	= 'Update';
 $_['button_delete']	= 'Delete';
@@ -90,11 +89,12 @@ $_['button_cancel']	= 'Cancel';
 $_['button_install']	= 'Install';
 $_['button_uninstall']	= 'Uninstall';
 $_['button_configure']	= 'Configure';
-$_['button_send']	= 'Send E-Mail';
+$_['button_send']	= 'Send';
 $_['button_enable_delete']	= 'Enable/Disable Delete Icon';
 $_['button_status']	= 'Change Status';
 $_['button_save_as']	= 'Save As...';
 $_['button_visibility']	= 'Change Visibility';
+$_['button_help']	= 'Help';
 
 // Tab
 $_['tab_general']       = 'General';
@@ -117,4 +117,5 @@ $_['tab_validity']      = 'Validity';
 $_['error_language']	= 'ERROR : %s does not exist in language file*';
 $_['error_referer']	= 'Invalid Request: Please try again';
 $_['error_warning']	= '* You have errors. Please check all tabs for error messages!';
+$_['error_update']	= 'Server Communication Error! Try to update your data again.';
 ?>

@@ -1,8 +1,79 @@
 <div class="task">
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
+  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+  <input type="hidden" name="update_form" value="1">
+  <input type="hidden" name="status" value="">
+  <input type="hidden" name="date_available_day" value="">
+  <input type="hidden" name="date_available_month" value="">
+  <input type="hidden" name="date_available_year" value="">
+  <input type="hidden" name="quantity" value="">
+  <input type="hidden" name="min_qty" value="">
+  <input type="hidden" name="max_qty" value="">
+  <input type="hidden" name="multiple" value="">
+  <?php if(!$option_status){?>
+    <input type="hidden" name="encoding" value="">
+    <input type="hidden" name="barcode" value="">
+  <?php } ?>
+  <input type="hidden" name="manufacturer_id" value="">
+  <input type="hidden" name="vendor_id" value="">
+  <input type="hidden" name="shipping" value="">
+  <input type="hidden" name="shipping_time_from" value="">
+  <input type="hidden" name="shipping_time_to" value="">
+  <input type="hidden" name="tax_class_id" value="">
+  <input type="hidden" name="price" value="">
+  <input type="hidden" name="sort_order" value="">
+  <input type="hidden" name="weight_class_id" value="">
+  <input type="hidden" name="weight" value="">
+  <input type="hidden" name="type_id" value="">
+  <input type="hidden" name="dimension_id" value="">
+  <input type="hidden" name="image_id" value="">
+  <input type="hidden" name="featured" value="">
+  <input type="hidden" name="special_offer" value="">
+  <input type="hidden" name="related" value="">
+  <input type="hidden" name="special_price" value="">
+  <input type="hidden" name="special_discount" value="">
+  <input type="hidden" name="start_date_day" value="">
+  <input type="hidden" name="start_date_month" value="">
+  <input type="hidden" name="start_date_year" value="">
+  <input type="hidden" name="end_date_day" value="">
+  <input type="hidden" name="end_date_month" value="">
+  <input type="hidden" name="end_date_year" value="">
+  <input type="hidden" name="remaining" value="">
+  <?php foreach ($products as $product) { ?>
+    <input type="hidden" name="name[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="model_number[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="model[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="description[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="meta_title[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="meta_description[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="meta_keywords[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="alt_description[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="technical_name[<?php echo $product['language_id']; ?>]" value="">
+    <input type="hidden" name="technical[<?php echo $product['language_id']; ?>]" value="">
+  <?php } ?>
+  <?php if($product_options){?>
+  <?php $option_rows = 0;?>
+    <?php foreach($product_options as $key => $product_option){?>
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][product_option]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][option_name]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][model_number]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][encoding]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][barcode]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][quantity]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][product_id]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][image_id]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][dimension_id]" value="">
+    <input type="hidden" name="product_options[<?php echo $option_rows;?>][dimension_value]" value="">
+    <?php ++$option_rows;?>
+    <?php }?>
+  <?php }?>
+  <input type="hidden" name="product_id" id="product_id" value="<?php echo $product_id; ?>">
+  </form>
+
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
@@ -11,14 +82,20 @@
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs;document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png"><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?><em></em></div>
+<?php if ($message) { ?>
+<div class="message"><?php echo $message; ?></div>
+<?php } ?>
+<div class="heading"><?php echo $heading_title; ?>
+ <em></em>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/datepicker/css/datepicker.css">
@@ -29,7 +106,7 @@
 <script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/datepicker/datepicker.js"></script>
-<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><?php if($product_options){echo '<a><div class="tab_text">' . $tab_product_options . '</div></a>';}?><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a><a><div class="tab_text"><?php echo $tab_category; ?></div></a><a><div class="tab_text"><?php echo $tab_home; ?></div></a><a href="#discount"><div class="tab_text"><?php echo $tab_discount; ?></div></a><a><div class="tab_text"><?php echo $tab_dated_special; ?></div></a><a><div class="tab_text"><?php echo $tab_alt_description; ?></div></a></div>
     <div class="pages">
@@ -55,7 +132,7 @@
                       <span class="error"><?php echo $error_duplicate_name[$product['language_id']]; ?></span>
                       <?php } ?>
 					</td>
-					<td class="expl"><?php echo $text_unique; ?></td>	
+					<td class="expl"><?php echo $text_unique; ?></td>
                   </tr>
 				  <tr>
 				    <td style="width: 185px;" class="set"><?php echo $entry_model_number; ?></td>
@@ -67,8 +144,8 @@
 				  <tr>
 					<td style="width: 185px;" class="set"><?php echo $entry_model; ?></td>
 					<td><input size="32" maxlength="32" id="model<?php echo $product['language_id']; ?>" name="model[<?php echo $product['language_id']; ?>]" value="<?php echo $product['model']; ?>"></td>
-					<td class="expl"><?php echo $text_model; ?></td>			  
-				  </tr>				  
+					<td class="expl"><?php echo $text_model; ?></td>
+				  </tr>	
 				  <tr>
 					<td style="width: 185px;" class="set"></td>
 					<td>
@@ -84,8 +161,8 @@
 						<?php } ?>
 					  </select>
 					</td>
-					<td class="expl"><?php echo $text_model_select; ?></td>			  
-				  </tr>		
+					<td class="expl"><?php echo $text_model_select; ?></td>
+				  </tr>
 				</table>
 				<table>
                   <tr>
@@ -161,8 +238,7 @@
 		<?php if ($error_multiple) { ?>
 		<span class="error"><?php echo $error_multiple; ?></span>
 		<?php } ?></td>
-	      <td class="expl"><?php echo $explanation_multiple; ?></td>	
-            </tr>
+	      <td class="expl"><?php echo $explanation_multiple; ?></td
 	    <tr><td colspan="2"><hr></td></tr>
 	    <tr>
               <td class="set"><?php echo $entry_barcode_encoding; ?></td>
@@ -244,7 +320,7 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_price; ?></td>
-              <td><input class="validate_float" name="price" id="price" value="<?php echo $price; ?>" onchange="price_update()"></td>			  
+              <td><input class="validate_float" name="price" id="price" value="<?php echo $price; ?>" onchange="price_update()"></td>
 			  <td class="expl"><?php echo 'Currency : '. $currency_code;?>
 			  <input type="hidden" id="decimal_place" value="<?php echo $decimal_place;?>">
 			  </td>
@@ -454,7 +530,7 @@
                   <?php } ?>
                 </select></td>
             </tr>
-			<!-- Related products by JT -->			
+			<!-- Related products by JT -->
 			<tr>
               <td class="set"><?php echo $entry_related; ?></td>
               <td><select name="related">
@@ -466,7 +542,7 @@
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
                 </select></td>
-            </tr>			
+            </tr>
 			<tr>
               <td width="185" valign="top" class="set"><?php echo $entry_related; ?></td>
               <td><select id="image_to_preview" name="relateddata[]" multiple="multiple" size="15">
@@ -492,13 +568,13 @@
           <table id="discounts">
             <?php $i = 0; ?>
             <?php foreach ($product_discounts as $product_discount) { ?>
-            <tr id="discount_<?php echo $i; ?>">
+            <tr name="qty_discount_<?php echo $i; ?>" id="discount_<?php echo $i; ?>">
               <td><?php echo $entry_quantity; ?></td>
               <td><input class="validate_int" id="discount_quantity<?php echo $i;?>" type="text" name="product_discount[<?php echo $i; ?>][quantity]" value="<?php echo $product_discount['quantity']; ?>" size="2"></td>
-			  <td><?php echo $entry_percent_discount;?></td>		  
+			  <td><?php echo $entry_percent_discount;?></td>
               <td><input class="validate_float" type="text" id="discount_percent<?php echo $i; ?>" name="product_discount[<?php echo $i; ?>][discount]" size="11" value="<?php echo $product_discount['discount']; ?>" onchange="quantity_percent('<?php echo $i; ?>')"></td>
               <td><?php echo $entry_discount; ?></td>
-			  <?php $discountvalue = number_format($price*($product_discount['discount']/100),2); ?>	
+			  <?php $discountvalue = number_format($price*($product_discount['discount']/100),2); ?>
 			  <td><input class="validate_float" type="text" id="discount_amount<?php echo $i;?>" size="8" value="<?php echo $discountvalue;?>" name="discount_amount<?php echo $i;?>" onchange="quantity_discount('<?php echo $i; ?>')"></td>
               <td><input type="button" class="button" value="<?php echo $button_remove; ?>" onclick="removeDiscount('discount_<?php echo $i; ?>');"></td>
             </tr>
@@ -514,7 +590,7 @@
 		    </td></tr></table>
         </div>
       </div>
-	  <!-- E: Quantity Discounts -->	  
+	  <!-- E: Quantity Discounts -->
 	  <!-- S: Dated Specials -->
       <div class="page">
         <div class="pad">
@@ -618,7 +694,7 @@
                   </tr>
 				  <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_description; ?></td>
-                    <td><input class="validate_meta" id="meta_description<?php echo $product['language_id']; ?>" size="60" maxlength="120" name="meta_description[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_description']; ?>"></td>					
+                    <td><input class="validate_meta" id="meta_description<?php echo $product['language_id']; ?>" size="60" maxlength="120" name="meta_description[<?php echo $product['language_id']; ?>]" value="<?php echo $product['meta_description']; ?>"></td>
 				  </tr>
 				  <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_keywords; ?></td>
@@ -646,14 +722,14 @@
             </div>
             <?php } ?>
           </div>
-        </div>	      
+        </div>
 	  </div>
 	  <!-- E: Alt Description Meta Tags -->
     </div>
   </div>
   <input type="hidden" id="product_id" name="product_id" value="<?php echo $product_id;?>">
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
-  
+
   <script type="text/javascript"><!--
   <?php foreach ($products as $product) { ?>
     CKEDITOR.replace( 'description<?php echo $product['language_id']; ?>' );
@@ -679,7 +755,7 @@
   if(RegularPrice > 0 && DiscountPercent >0){
     DiscountAmount = (((RegularPrice * (DiscountPercent/100))*100)/100).toFixed([Decimal]);
 	$('#discount_amount'+row).val(DiscountAmount);
-    $('#discount_percent'+row).val(((DiscountPercent*10000)/10000).toFixed([4]));	
+    $('#discount_percent'+row).val(((DiscountPercent*10000)/10000).toFixed([4]));
   }
   return;
   }
@@ -707,7 +783,7 @@
 	$('#special_discount').val(Percent);
     DiscountPrice = (((RegularPrice - (RegularPrice * (Percent/100)))*100)/100).toFixed([Decimal]);
 	$('#special_price').val(DiscountPrice);
-	$('#discount_special_price').val(DiscountPrice); 	
+	$('#discount_special_price').val(DiscountPrice); 
   }
   if($('#discounts tr').size() >0){
     QtyDiscount_Update(Price,RegularPrice);
@@ -730,10 +806,10 @@
 	$('#special_discount').val(Percent);
     DiscountPrice = (((Price - (Price * (Percent/100)))*100)/100).toFixed([Decimal]);
 	$('#special_price').val(DiscountPrice);
-	$('#discount_special_price').val(DiscountPrice);    	
+	$('#discount_special_price').val(DiscountPrice);
   }
   if($('#discounts tr').size() >0){
-	  QtyDiscount_Update(RegularPrice,Price);	  	
+	  QtyDiscount_Update(RegularPrice,Price);
   }
   $('#price').val(((Price*100)/100).toFixed([Decimal])); 
   $('#regular_price').val($('#price').val());
@@ -896,5 +972,182 @@ function removeDiscount(row) {
     showWeeks:true,
     statusFormat:"%l, %d %F %Y"
     });
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	$('.task').each(function(){
+	$('.task .disabled').hide();
+	});
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+  });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=product&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
+  //--></script>
+  <script type="text/javascript"><!--
+	function saveTabs() {
+	var activeTab = $('#tab > .tabs > a.active').index()+1;
+	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
+	var activeTabmini2 = $('#tabmini2 > .tabs > a:visible.active').index()+1;
+	var id = $('#product_id').val();
+	var data_json = {'activeTab':activeTab, 'activeTabmini':activeTabmini, 'id':id, 'activeTabmini2':activeTabmini2};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=product&action=tab',
+		data: data_json,
+		dataType:'json'
+	});
+	}
+	function getTabs() {
+	var activeTab = $('#tab > .tabs > a.active').index()+1;
+	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
+	var activeTabmini2 = $('#tabmini2 > .tabs > a:visible.active').index()+1;
+	var id = $('#product_id').val();
+	var data_json = {'activeTab':activeTab, 'activeTabmini':activeTabmini, 'id':id, 'activeTabmini2':activeTabmini2};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=product&action=tab',
+		data: data_json,
+		dataType:'json',
+		success: function (data) {
+				if (data.status===true) {
+					getValues();
+					document.getElementById('update_form').submit();
+				} else {
+					$('<div class="warning"><?php echo $error_update; ?></div>').insertBefore(".heading");
+				}
+		}
+	});
+	}
+	function copyDiscount() {
+		var html ='';
+			var boxes = document.querySelectorAll("[name^='qty_discount_']").length;
+			for (i =0; i < boxes; i++) {
+				if (document.forms['form'].elements['product_discount['+[i]+'][quantity]'] !=undefined){
+				html +='<input type="hidden" name="product_discount[' + [i] + '][quantity]" value="' + document.forms['form'].elements['product_discount['+[i]+'][quantity]'].value + '">';
+				html +='<input type="hidden" name="product_discount[' + [i] + '][discount]" value="' + document.forms['form'].elements['product_discount['+[i]+'][discount]'].value + '">';
+				html +='<input type="hidden" name="discount_amount' + [i] + '" value="' + document.forms['form'].elements['discount_amount'+[i]].value + '">';
+				}
+			}
+		document.forms['update_form'].innerHTML += html;
+	}
+	function getValues() {
+
+		document.forms['update_form'].status.value=document.forms['form'].status.value;
+		document.forms['update_form'].date_available_day.value=document.forms['form'].date_available_day.value;
+		document.forms['update_form'].date_available_month.value=document.forms['form'].date_available_month.value;
+		document.forms['update_form'].date_available_year.value=document.forms['form'].date_available_year.value;
+		document.forms['update_form'].quantity.value=document.forms['form'].quantity.value;
+		document.forms['update_form'].min_qty.value=document.forms['form'].min_qty.value;
+		document.forms['update_form'].max_qty.value=document.forms['form'].max_qty.value;
+		document.forms['update_form'].multiple.value=document.forms['form'].multiple.value;
+		<?php if(!$option_status){?>
+			document.forms['update_form'].encoding.value=document.forms['form'].encoding.value;
+			document.forms['update_form'].barcode.value=document.forms['form'].barcode.value;
+		<?php } ?>
+		document.forms['update_form'].manufacturer_id.value=document.forms['form'].manufacturer_id.value;
+		document.forms['update_form'].vendor_id.value=document.forms['form'].vendor_id.value;
+		document.forms['update_form'].shipping.value=document.forms['form'].shipping.value;
+		document.forms['update_form'].shipping_time_from.value=document.forms['form'].shipping_time_from.value;
+		document.forms['update_form'].shipping_time_to.value=document.forms['form'].shipping_time_to.value;
+		document.forms['update_form'].tax_class_id.value=document.forms['form'].tax_class_id.value;
+		document.forms['update_form'].price.value=document.forms['form'].price.value;
+		document.forms['update_form'].sort_order.value=document.forms['form'].sort_order.value;
+		document.forms['update_form'].weight_class_id.value=document.forms['form'].weight_class_id.value;
+		document.forms['update_form'].weight.value=document.forms['form'].weight.value;
+		document.forms['update_form'].type_id.value=document.forms['form'].type_id.value;
+		document.forms['update_form'].dimension_id.value=document.forms['form'].dimension_id.value;
+		document.forms['update_form'].image_id.value=document.forms['form'].image_id.value;
+		document.forms['update_form'].featured.value=document.forms['form'].featured.value;
+		document.forms['update_form'].special_offer.value=document.forms['form'].special_offer.value;
+		document.forms['update_form'].related.value=document.forms['form'].related.value;
+		document.forms['update_form'].special_price.value=document.forms['form'].special_price.value;
+		document.forms['update_form'].special_discount.value=document.forms['form'].special_discount.value;
+		document.forms['update_form'].start_date_day.value=document.forms['form'].start_date_day.value;
+		document.forms['update_form'].start_date_month.value=document.forms['form'].start_date_month.value;
+		document.forms['update_form'].start_date_year.value=document.forms['form'].start_date_year.value;
+		document.forms['update_form'].end_date_day.value=document.forms['form'].end_date_day.value;
+		document.forms['update_form'].end_date_month.value=document.forms['form'].end_date_month.value;
+		document.forms['update_form'].end_date_year.value=document.forms['form'].end_date_year.value;
+		document.forms['update_form'].remaining.value=document.forms['form'].remaining.value;
+
+		<?php foreach ($products as $product) { ?>
+			document.forms['update_form'].elements['name[<?php echo $product['language_id']; ?>]'].value=document.forms['form'].elements['name[<?php echo $product['language_id']; ?>]'].value;
+			document.forms['update_form'].elements['model_number[<?php echo $product['language_id']; ?>]'].value=document.forms['form'].elements['model_number[<?php echo $product['language_id']; ?>]'].value;
+			document.forms['update_form'].elements['model[<?php echo $product['language_id']; ?>]'].value=document.forms['form'].elements['model[<?php echo $product['language_id']; ?>]'].value;
+			document.forms['update_form'].elements['description[<?php echo $product['language_id']; ?>]'].value= CKEDITOR.instances.description<?php echo $product['language_id']; ?>.getData();
+			document.forms['update_form'].elements['meta_title[<?php echo $product['language_id']; ?>]'].value=document.forms['form'].elements['meta_title[<?php echo $product['language_id']; ?>]'].value;
+			document.forms['update_form'].elements['meta_description[<?php echo $product['language_id']; ?>]'].value=document.forms['form'].elements['meta_description[<?php echo $product['language_id']; ?>]'].value;
+			document.forms['update_form'].elements['meta_keywords[<?php echo $product['language_id']; ?>]'].value=document.forms['form'].elements['meta_keywords[<?php echo $product['language_id']; ?>]'].value;
+			document.forms['update_form'].elements['alt_description[<?php echo $product['language_id']; ?>]'].value= CKEDITOR.instances.alt_description<?php echo $product['language_id']; ?>.getData();
+			document.forms['update_form'].elements['technical_name[<?php echo $product['language_id']; ?>]'].value=document.forms['form'].elements['technical_name[<?php echo $product['language_id']; ?>]'].value;
+			document.forms['update_form'].elements['technical[<?php echo $product['language_id']; ?>]'].value= CKEDITOR.instances.technical<?php echo $product['language_id']; ?>.getData();
+		<?php } ?>
+
+		<?php if($product_options){?>
+			<?php $option_rows = 0;?>
+			<?php foreach($product_options as $key => $product_option){?>
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][product_option]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][product_option]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][option_name]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][option_name]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][model_number]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][model_number]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][encoding]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][encoding]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][barcode]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][barcode]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][quantity]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][quantity]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][product_id]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][product_id]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][image_id]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][image_id]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][dimension_id]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][dimension_id]'].value;
+				document.forms['update_form'].elements['product_options[<?php echo $option_rows; ?>][dimension_value]'].value=document.forms['form'].elements['product_options[<?php echo $option_rows; ?>][dimension_value]'].value;
+				<?php ++$option_rows;?>
+			<?php }?>
+		<?php }?>
+
+		getMultipleSelection('form', 'image[]', 'update_form');
+		getMultipleSelection('form', 'download[]', 'update_form');
+		getMultipleSelection('form', 'fdownload[]', 'update_form');
+		getMultipleSelection('form', 'relateddata[]', 'update_form');
+		getMultipleSelection('form', 'category[]', 'update_form');
+		getDimensionValues('form', 'dimension_value', 'update_form');
+		copyDiscount();
+	}
+	function getMultipleSelection(formName,elementName,newFormName){ 
+		var html ='';
+		var mySelect = document.forms[formName].elements[elementName];
+		for(j = 0; j < mySelect.options.length; j++) { 
+			if(mySelect.options[j].selected) { 
+				html +='<input type="hidden" name="' + elementName + '" value="' + mySelect.options[j].value + '">';
+			}
+		}
+		document.forms[newFormName].innerHTML += html;
+	}
+	function getDimensionValues(formName,elementName,newFormName){ 
+		var html ='';
+		var len = $('[id^='+ elementName + ']').length;
+		for(j = 0; j < len; j++) { 
+				html +='<input type="hidden" name="' + elementName + '[' + j + ']" value="' + document.forms[formName].elements[elementName + '[' + j +']'].value + '">';
+		}
+		document.forms[newFormName].innerHTML += html;
+	}
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
+		tabview_switch('tab', <?php echo $tab; ?>);
+		if (<?php echo $tabmini; ?>!=undefined && <?php echo $tabmini; ?> > 0) {
+			tabview_switch('tabmini', <?php echo $tabmini; ?>);
+		}
+		if (<?php echo $tabmini2; ?>!=undefined && <?php echo $tabmini2; ?> > 0) {
+			tabview_switch('tabmini2', <?php echo $tabmini2; ?>);
+		}
+	}
+   });
   //--></script>
 </form>

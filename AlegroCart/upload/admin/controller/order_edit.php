@@ -3,7 +3,7 @@ class ControllerOrderEdit extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->address  	=& $locator->get('address');
 		$this->config   	=& $locator->get('config');
 		$this->image    	=& $locator->get('image');   
@@ -15,7 +15,7 @@ class ControllerOrderEdit extends Controller {
 		$this->request  	=& $locator->get('request');
 		$this->response 	=& $locator->get('response');
 		$this->session 		=& $locator->get('session');
-		$this->tax			=  $locator->get('tax');
+		$this->tax		=  $locator->get('tax');
 		$this->template 	=& $locator->get('template');
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user'); 
@@ -30,9 +30,8 @@ class ControllerOrderEdit extends Controller {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
-    	$this->response->set($this->template->fetch('layout.tpl'));	
-  	}
-	
+		$this->response->set($this->template->fetch('layout.tpl'));
+	}
 	function update(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->isPost()) && ($this->validateForm())) {
@@ -46,9 +45,8 @@ class ControllerOrderEdit extends Controller {
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
-    	$this->response->set($this->template->fetch('layout.tpl'));	
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
 	function getForm() {
 		$view = $this->locator->create('template');
 
@@ -62,28 +60,28 @@ class ControllerOrderEdit extends Controller {
 		$view->set('text_telephone', $this->language->get('text_telephone'));
 		$view->set('text_fax', $this->language->get('text_fax'));
 		$view->set('text_shipping_address', $this->language->get('text_shipping_address'));
-    	$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
-    	$view->set('text_payment_address', $this->language->get('text_payment_address'));
-    	$view->set('text_payment_method', $this->language->get('text_payment_method'));
-    	$view->set('text_currency', $this->language->get('text_currency'));
-		$view->set('text_order_history', $this->language->get('text_order_history'));
-	$view->set('text_order_download', $this->language->get('text_order_download'));
-	$view->set('text_order_update', $this->language->get('text_order_update'));
-	$view->set('text_product', $this->language->get('text_product'));
-	$view->set('text_model_number', $this->language->get('text_model_number'));
-	$view->set('text_soldby', $this->language->get('text_soldby'));
-	$view->set('text_quantity', $this->language->get('text_quantity'));
-	$view->set('text_price', $this->language->get('text_price'));
-	$view->set('text_total', $this->language->get('text_total'));
-	$view->set('text_special', $this->language->get('text_special'));
-	$view->set('text_extended', $this->language->get('text_extended'));
-	$view->set('text_coupon_value', $this->language->get('text_coupon_value'));
-	$view->set('text_discount_value', $this->language->get('text_discount_value'));
-	$view->set('text_net', $this->language->get('text_net'));
-	$view->set('text_tax_rate', $this->language->get('text_tax_rate'));
-	$view->set('text_tax', $this->language->get('text_tax'));
-	$view->set('text_tax_amount', $this->language->get('text_tax_amount'));
-	$view->set('text_discount_total', $this->language->get('text_discount_total'));
+	    	$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
+	    	$view->set('text_payment_address', $this->language->get('text_payment_address'));
+	    	$view->set('text_payment_method', $this->language->get('text_payment_method'));
+	    	$view->set('text_currency', $this->language->get('text_currency'));
+			$view->set('text_order_history', $this->language->get('text_order_history'));
+		$view->set('text_order_download', $this->language->get('text_order_download'));
+		$view->set('text_order_update', $this->language->get('text_order_update'));
+		$view->set('text_product', $this->language->get('text_product'));
+		$view->set('text_model_number', $this->language->get('text_model_number'));
+		$view->set('text_soldby', $this->language->get('text_soldby'));
+		$view->set('text_quantity', $this->language->get('text_quantity'));
+		$view->set('text_price', $this->language->get('text_price'));
+		$view->set('text_total', $this->language->get('text_total'));
+		$view->set('text_special', $this->language->get('text_special'));
+		$view->set('text_extended', $this->language->get('text_extended'));
+		$view->set('text_coupon_value', $this->language->get('text_coupon_value'));
+		$view->set('text_discount_value', $this->language->get('text_discount_value'));
+		$view->set('text_net', $this->language->get('text_net'));
+		$view->set('text_tax_rate', $this->language->get('text_tax_rate'));
+		$view->set('text_tax', $this->language->get('text_tax'));
+		$view->set('text_tax_amount', $this->language->get('text_tax_amount'));
+		$view->set('text_discount_total', $this->language->get('text_discount_total'));
 		$view->set('text_product_totals', $this->language->get('text_product_totals'));
 		$view->set('text_shipping_cost', $this->language->get('text_shipping_cost'));
 		$view->set('text_free_shipping', $this->language->get('text_free_shipping'));
@@ -96,50 +94,50 @@ class ControllerOrderEdit extends Controller {
 		$view->set('text_select_payment', $this->language->get('text_select_payment'));
 		$view->set('text_tax_percent', $this->language->get('text_tax_percent'));
 		$view->set('text_coupon_total', $this->language->get('text_coupon_total'));
-	
-		$view->set('column_date_added', $this->language->get('column_date_added'));
-    	$view->set('column_status', $this->language->get('column_status'));
-    	$view->set('column_download', $this->language->get('column_download'));
-    	$view->set('column_filename', $this->language->get('column_filename'));
-    	$view->set('column_remaining', $this->language->get('column_remaining'));
-    	$view->set('column_notify', $this->language->get('column_notify'));
-    	$view->set('column_comment', $this->language->get('column_comment'));
 
-    	$view->set('entry_status', $this->language->get('entry_status'));
-    	$view->set('entry_comment', $this->language->get('entry_comment'));
-    	$view->set('entry_notify', $this->language->get('entry_notify'));
+		$view->set('column_date_added', $this->language->get('column_date_added'));
+	    	$view->set('column_status', $this->language->get('column_status'));
+	    	$view->set('column_download', $this->language->get('column_download'));
+	    	$view->set('column_filename', $this->language->get('column_filename'));
+	    	$view->set('column_remaining', $this->language->get('column_remaining'));
+	    	$view->set('column_notify', $this->language->get('column_notify'));
+	    	$view->set('column_comment', $this->language->get('column_comment'));
+
+	    	$view->set('entry_status', $this->language->get('entry_status'));
+	    	$view->set('entry_comment', $this->language->get('entry_comment'));
+	    	$view->set('entry_notify', $this->language->get('entry_notify'));
 		$view->set('entry_customer', $this->language->get('entry_customer'));
 		$view->set('entry_shipping_tax', $this->language->get('entry_shipping_tax'));
 		$view->set('entry_shipping', $this->language->get('entry_shipping'));
 		$view->set('entry_subtotal', $this->language->get('entry_subtotal'));
 		$view->set('entry_total_tax', $this->language->get('entry_total_tax'));
 		$view->set('entry_total_invoice', $this->language->get('entry_total_invoice'));
-		
+
 		$view->set('button_create', $this->language->get('button_create'));
 		$view->set('button_add', $this->language->get('button_add'));
-    	$view->set('button_list', $this->language->get('button_list'));
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-    	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
+	    	$view->set('button_insert', $this->language->get('button_insert'));
+	    	$view->set('button_update', $this->language->get('button_update'));
+	    	$view->set('button_delete', $this->language->get('button_delete'));
+	    	$view->set('button_save', $this->language->get('button_save'));
+	    	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
-    	$view->set('tab_original', $this->language->get('tab_original'));
+		$view->set('help', $this->session->get('help'));
+    		$view->set('tab_original', $this->language->get('tab_original'));
 		$view->set('tab_create', $this->language->get('tab_create'));
-	
+
 		$view->set('error', @$this->error['message']);
 
-    	$view->set('action', $this->url->ssl('order_edit', 'update', array('order_id' => $this->request->gethtml('order_id'))));
-      
-    	$view->set('list', $this->url->ssl('order'));
+    		$view->set('action', $this->url->ssl('order_edit', 'update', array('order_id' => $this->request->gethtml('order_id'))));
+
 		$view->set('cancel', $this->url->ssl('order'));
-		
+
 		if (!$this->request->gethtml('order_id')) {
 			$results = $this->modelOrderEdit->get_customers();
 			$view->set('customers' , $results);
 		}
-		
+
 		if ($this->request->gethtml('order_status_id') == "12"){
 			$view->set('order_cancelled', TRUE);
 		} else {
@@ -150,12 +148,12 @@ class ControllerOrderEdit extends Controller {
       		$view->set('update', 'update');
 	  		$view->set('delete', $this->url->ssl('order', 'delete', array('order_id' => $this->request->gethtml('order_id'),'order_validation' => $this->session->get('order_validation'))));
     	}*/
-		
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
 		$order_info = $this->modelOrder->get_order();
 		$view->set('reference', $order_info['reference']);
 		$view->set('invoice_number', $order_info['invoice_number']);
@@ -166,6 +164,15 @@ class ControllerOrderEdit extends Controller {
 			$view->set('telephone', $order_info['telephone']);
 			$view->set('fax', $order_info['fax']);
 			$view->set('customer_id', $this->modelOrderEdit->get_customer_id($order_info['email']));
+
+				$name_last = $order_info['invoice_number'];
+				if (strlen($name_last) > 26) {
+					$name_last = substr($name_last , 0, 23) . '...';
+				}
+				$this->session->set('name_last_order', $name_last);
+				$this->session->set('last_order', $this->url->ssl('order_edit', 'index', array('order_id' => $this->request->gethtml('order_id'))));
+				$this->session->set('last_order_id', $this->request->gethtml('order_id'));
+
 		} else {
 			$view->set('email','');
 			$view->set('telephone', '');
@@ -194,7 +201,7 @@ class ControllerOrderEdit extends Controller {
 		$view->set('coupon_sort_order', $order_info['coupon_sort_order']);
 		$view->set('discount_sort_order', $order_info['discount_sort_order']);
 		//$view->set('columns', $this->tpl_columns);
-    	
+
 		if ($this->request->gethtml('order_id')) {
 			$shipping_address = array(
 				'firstname' => $order_info['shipping_firstname'],
@@ -218,7 +225,7 @@ class ControllerOrderEdit extends Controller {
 				'shipping_zone'      => $order_info['shipping_zone'],
 				'shipping_country'   => $order_info['shipping_country']
 			);
-			
+
 			$view->set('new_shipping_address', $new_shipping_address);
 			if (array_filter($shipping_address)) {
 				$view->set('shipping_address', $this->address->format($shipping_address, $order_info['shipping_address_format'], '<br />'));
@@ -237,7 +244,7 @@ class ControllerOrderEdit extends Controller {
 			$view->set('shipping_method','');
 		}
 
-    	if ($this->request->gethtml('order_id')) {
+    		if ($this->request->gethtml('order_id')) {
 			$payment_address = array(
 				'firstname' => $order_info['payment_firstname'],
 				'lastname'  => $order_info['payment_lastname'],
@@ -260,24 +267,24 @@ class ControllerOrderEdit extends Controller {
 				'payment_zone'      => $order_info['payment_zone'],
 				'payment_country'   => $order_info['payment_country']
 			);
-			
+
 			$view->set('new_payment_address', $new_payment_address);
 			$view->set('payment_address', nl2br($this->address->format($payment_address, $order_info['payment_address_format'])));
 		} else {
 			$view->set('payment_address','<br><br><br><br>');
 		}
-		
-    	if ($this->request->gethtml('order_id')) {
+
+    		if ($this->request->gethtml('order_id')) {
 			$view->set('payment_method', $order_info['payment_method']);
 		} else {
 			$view->set('payment_method','');
 		}
 
-    	$products = $this->modelOrder->get_products();
+    		$products = $this->modelOrder->get_products();
 		if($this->request->gethtml('order_status_id') == "12"){
 			$order_product_data = array();
 		}
-    	$product_data = array();
+    		$product_data = array();
 
 		$tax_total = 0;	
 		$coupon_total = 0;
@@ -321,7 +328,7 @@ class ControllerOrderEdit extends Controller {
 					'value' => $option['value']
 				);
 			}
-			
+
 			if(!empty($option_data)){
 				$product_id= $product['product_id'] . ':';
 				foreach ($option_data as $option){
@@ -332,7 +339,7 @@ class ControllerOrderEdit extends Controller {
 			} else {
 				$product_id= $product['product_id'];
 			}
-			
+
 			$download = $this->modelOrder->check_downloads($product['order_product_id']);
  			$vendor_data = $this->modelOrder->get_vendor($product['order_product_id']);
 
@@ -350,7 +357,7 @@ class ControllerOrderEdit extends Controller {
 			$cart_tax_total = $tax_total + ($shipping_net ? $shipping_tax : NULL) - ($freeshipping_net ? $freeshipping_tax : NULL);
 			//$cart_totals_total = $order_info['taxed'] ? $cart_net_total : $cart_net_total + $cart_tax_total;
 			$cart_totals_total = $order_info['taxed'] ? $cart_net_total + ($shipping_tax - $freeshipping_tax): $cart_net_total + $cart_tax_total;
-			
+
 			$product_data[] = array(
 				'product_id'    => $product_id,
 				'name'     		=> $product['name'],
@@ -402,21 +409,20 @@ class ControllerOrderEdit extends Controller {
 					'product_net'   => $net
 				);
 			}
-			
-			
 		}
 		if($this->request->gethtml('order_status_id') == "12"){
 			$view->set('order_products', $order_product_data);
-		
+
 		}
-		
+
 		if($this->request->gethtml('order_id')){
-		$view->set('order_id', $this->request->gethtml('order_id')); 
+			$view->set('order_id', $this->request->gethtml('order_id'));
+#			$this->session->set('last_order_id', $this->request->gethtml('order_id'));
 		} else {
-		$view->set('order_id', ''); 
+			$view->set('order_id', ''); 
 		}
 		$view->set('taxed', $order_info['taxed']);
-      	$view->set('products', $product_data);
+      		$view->set('products', $product_data);
 		$view->set('totals',$this->modelOrder->get_totals($order_info['order_id']));
 		$view->set('tax_total', $this->currency->format($tax_total, $order_info['currency'], $order_info['value']));
 		$view->set('e_tax_total', $tax_total);
@@ -452,37 +458,37 @@ class ControllerOrderEdit extends Controller {
 		$view->set('total', isset($cart_totals_total) ? $cart_totals_total : '');
 		$view->set('total_invoice', isset($cart_totals_total) ? ($cart_totals_total * -1) : '');
 
-    	$history_data = array();
-    	$results = $this->modelOrder->get_history();
-    	foreach ($results as $result) {
-      		$history_data[] = array(
-        		'date_added' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
-        		'status'     => $result['status'],
-        		'comment'    => $result['comment'],
-        		'notify'     => $result['notify']
-      		);
-    	}
-    	$view->set('historys', $history_data);
-  
-    	$download_data = array();
-    	$results = $this->modelOrder->get_downloads();
-    	foreach ($results as $result) {
-      		$download_data[] = array(
-        		'name'      => $result['name'],
-        		'filename'  => $result['filename'],
-        		'remaining' => $result['remaining']
-      		);
-    	}
-    	$view->set('downloads', $download_data);
-    	$view->set('order_status_id', $order_info['order_status_id']);
-		$view->set('shipping_methods',$this->get_shipping_methods());
-		$view->set('payment_methods',$this->get_payment_methods());
-		
-    	$view->set('order_statuses', $this->modelOrder->get_order_statuses());
+	    	$history_data = array();
+	    	$results = $this->modelOrder->get_history();
+	    	foreach ($results as $result) {
+	      		$history_data[] = array(
+				'date_added' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'status'     => $result['status'],
+				'comment'    => $result['comment'],
+				'notify'     => $result['notify']
+	      		);
+	    	}
+	    	$view->set('historys', $history_data);
+
+	    	$download_data = array();
+	    	$results = $this->modelOrder->get_downloads();
+	    	foreach ($results as $result) {
+	      		$download_data[] = array(
+				'name'      => $result['name'],
+				'filename'  => $result['filename'],
+				'remaining' => $result['remaining']
+	      		);
+	    	}
+	    	$view->set('downloads', $download_data);
+	    	$view->set('order_status_id', $order_info['order_status_id']);
+			$view->set('shipping_methods',$this->get_shipping_methods());
+			$view->set('payment_methods',$this->get_payment_methods());
+
+	    	$view->set('order_statuses', $this->modelOrder->get_order_statuses());
 
 		return $view->fetch('content/order_edit.tpl');
 	}
-	
+
 	function modify_order(){
 		$order_id = $this->request->gethtml('order_id', 'post');
 		if($order_id){
@@ -493,7 +499,6 @@ class ControllerOrderEdit extends Controller {
 			$this->modelOrderEdit->update_status_history($order_id, '12', $this->language->get('text_comment_cancelled' ));
 		}
 	}
-	
 	function get_product_values(){
 		$products = $this->request->gethtml('products', 'post');
 		$this->product_tax = 0;
@@ -581,7 +586,7 @@ class ControllerOrderEdit extends Controller {
 				'tax'        	=> $this->tax->getRate($product_info['tax_class_id']), 
 				'shipping'   	=> $product_info['shipping']
 			);
-		  } ELSE {
+		  } else {
 			$product_data[] = array(
 				'product_key'	=> $product['product_id'],
 				'product_id' 	=> $product_id,
@@ -601,13 +606,12 @@ class ControllerOrderEdit extends Controller {
 				'total'      	=> $this->currency->format($product['extended'] , '', 1, FALSE),
 				'tax'        	=>  $this->currency->format($product['tax_rate'] , '', 1, FALSE),
 				'shipping'   	=> $product_info['shipping']
-			);	
+			);
 		  }
 		}
-		
+
 		return $product_data;
 	}
-
 	function get_totals(){
 		if($this->request->gethtml('order_status','post')){
 			$methods = array('totals_subtotal','totals_coupon','totals_discount','totals_shipping','totals_freeshipping','totals_tax','total_invoice');
@@ -629,7 +633,6 @@ class ControllerOrderEdit extends Controller {
 		}
 		return $totals;
 	}
-
 	function format_products(){
 		$products = $this->request->gethtml('products', 'post');
 		$this->product_tax = 0;
@@ -677,8 +680,8 @@ class ControllerOrderEdit extends Controller {
 			} else {
 				$product_option = array();
 			}
-			
-			
+
+
 			$downloads = $this->modelOrderEdit->get_downloads($product_id);
 			$download_data = array();
 			foreach ($downloads as $download) {
@@ -832,7 +835,7 @@ class ControllerOrderEdit extends Controller {
 		$email->set('email_order', $this->language->get('email_order', $this->order->getReference()));
 		$email->set('email_date', $this->language->get('email_date', $this->language->formatDate($this->language->get('date_format_long'))));
 		$email->set('email_invoice_number', $this->language->get('email_invoice_number'));
-		$email->set('email_invoice', $this->language->get('email_invoice', $this->url->ssl('account_invoice', FALSE, array('reference' => $this->order->getReference())), $this->url->ssl('account_invoice', FALSE, array('reference' => $this->order->getReference()))));
+		$email->set('email_invoice', $this->language->get('email_invoice', $this->get_invoice(), $this->get_invoice()));
 		$email->set('email_shipping_address', $this->language->get('email_shipping_address'));
 		$email->set('email_shipping_method', $this->language->get('email_shipping_method'));
     	$email->set('email_email', $this->language->get('email_email'));
@@ -966,8 +969,8 @@ class ControllerOrderEdit extends Controller {
 			$email->set('net_total', $this->currency->format($this->request->gethtml('subtotal','post') + ($this->config->get('config_tax') ? $this->product_tax : 0), '', 1, True));
 			$email->set('tax_total', $this->currency->format($this->product_tax, '', 1, True));
 			$email->set('totals_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->product_tax, '', 1, True));
-			$email->set('cart_net_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->request->gethtml('shipping','post') + ($this->config->get('config_tax') ? $cart_tax + $shipping_taxamount: 0), '', 1, True));
 			$cart_tax = $this->currency->format($this->product_tax, '', 1, FALSE);
+			$email->set('cart_net_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->request->gethtml('shipping','post') + ($this->config->get('config_tax') ? $cart_tax + $shipping_taxamount: 0), '', 1, True));
 			$email->set('cart_tax_total', $this->currency->format($cart_tax + $shipping_taxamount, '', 1, True));
 			$email->set('cart_totals_total', $this->currency->format($this->request->gethtml('subtotal','post') + $this->request->gethtml('shipping','post') + $cart_tax + $shipping_taxamount, '', 1, True));
 			$email->set('coupon_sort_order', '');
@@ -980,9 +983,16 @@ class ControllerOrderEdit extends Controller {
 		$email->set('totals', $totals);
 		$this->order->set('email_subject', $this->language->get('email_subject', $this->order->getReference()));
 		$this->order->set('email_html', $email->fetch('content/checkout_email.tpl'));
-		$this->order->set('email_text', $this->language->get('email_message', $this->config->get('config_store'), $this->order->getReference(), $this->url->ssl('account_invoice', FALSE, array('reference' => $this->order->getReference())), $this->language->formatDate($this->language->get('date_format_long')), strip_tags($this->session->get('comment'))));
+		$this->order->set('email_text', $this->language->get('email_message', $this->config->get('config_store'), $this->order->getReference(), $this->get_invoice(), $this->language->formatDate($this->language->get('date_format_long')), strip_tags($this->session->get('comment'))));
 	}
-	
+	function get_invoice(){
+		if (($this->config->get('config_ssl')) && (defined('HTTPS_CATALOG')) && (HTTPS_CATALOG)) {
+			$server = HTTPS_CATALOG;
+		} else {
+			$server = HTTP_CATALOG;
+		}
+		return $server . '?controller=account_invoice&reference=' . $this->order->getReference();
+	}
 	function get_payment_methods(){
 		$methods = array();
 		$results = $this->modelOrderEdit->get_payment_ext();
@@ -1203,6 +1213,13 @@ class ControllerOrderEdit extends Controller {
 		}
 		
 		$this->response->set($output);
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
 	}
 	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){

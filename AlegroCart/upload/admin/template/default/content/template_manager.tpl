@@ -1,8 +1,18 @@
 <div class="task">
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
+   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="getValues();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+   <input type="hidden" name="update_form" value="1">
+   <input type="hidden" name="tpl_controller" value="">
+   <input type="hidden" name="text_tpl_controller" value="">
+   <input type="hidden" name="tpl_columns" value="">
+   <input type="hidden" name="default_columns" value="<?php echo $default_columns;?>">
+   <input type="hidden" name="tpl_color" value="">
+   <input type="hidden" name="tpl_status" value="">
+  <input type="hidden" name="tpl_manager_id" id="tpl_manager_id" value="<?php echo $tpl_manager_id; ?>">
+  </form>
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
@@ -18,14 +28,20 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?><em></em></div>
+<?php if ($message) { ?>
+<div class="message"><?php echo $message; ?></div>
+<?php } ?>
+<div class="heading"><?php echo $heading_title; ?>
+ <em></em>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 
-<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
 	<div class="tabs"><a><div class="tab_text"><?php echo $tab_controller; ?></div></a><a><div class="tab_text"><?php echo $tab_header; ?></div></a><a><div class="tab_text"><?php echo $tab_extra; ?></div></a><a><div class="tab_text"><?php echo $tab_left_column; ?></div></a><a><div class="tab_text"><?php echo $tab_content; ?></div></a><a><div class="tab_text"><?php echo $tab_right_column; ?></div></a><a><div class="tab_text"><?php echo $tab_footer; ?></div></a><a><div class="tab_text"><?php echo $tab_page_bottom; ?></div></a></div>
     <div class="pages">
@@ -111,7 +127,7 @@
 		    <?php foreach($header as $header_info){?>
 			<tr id="header_<?php echo $i; ?>">
 			  <td class="set"><?php echo $entry_module; ?></td>
-			  <td><select name="header[<?php echo $i; ?>][module_code]">
+			  <td><select class="header" name="header[<?php echo $i; ?>][module_code]">
 			    <?php foreach($header_modules as $header_module){?>
 				  <?php if($header_module == $header_info['module_code']){?>
 				    <option value="<?php echo $header_module;?>" selected><?php echo $header_module;?></option>
@@ -429,4 +445,74 @@ function removeModule(row) {
     $(document).ready(function() {
 	  RegisterValidation();
     });
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	$('.task').each(function(){
+	$('.task .disabled').hide();
+	});
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+  });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=template_manager&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
+  //--></script>
+  <script type="text/javascript"><!--
+	function copyModules(module) {
+		var boxes = document.getElementsByClassName(module).length;
+		var html ='';
+		for (i =0; i < boxes; i++) {
+			if (document.forms['form'].elements[module+'['+[i]+'][module_code]'] !=undefined){
+				html +='<input type="hidden" name="' + module + '[' + [i] + '][module_code]" value="' + document.forms['form'].elements[module+'['+[i]+'][module_code]'].value + '">';
+				html +='<input type="hidden" name="' + module + '[' + [i] + '][sort_order]" value="' + document.forms['form'].elements[module+'['+[i]+'][sort_order]'].value + '">';
+				html +='<input type="hidden" name="' + module + '[' + [i] + '][location_id]" value="' + document.forms['form'].elements[module+'['+[i]+'][location_id]'].value + '">';
+			}
+		}
+		document.forms['update_form'].innerHTML += html;
+	}
+	function getValues() {
+		document.forms['update_form'].tpl_controller.value=document.forms['form'].tpl_controller.value;
+		document.forms['update_form'].text_tpl_controller.value=document.forms['form'].text_tpl_controller.value;
+		document.forms['update_form'].tpl_columns.value=document.forms['form'].tpl_columns.value;
+		document.forms['update_form'].tpl_color.value=document.forms['form'].tpl_color.value;
+		document.forms['update_form'].tpl_status.value=document.forms['form'].tpl_status.value;
+
+		copyModules('header');
+		copyModules('extra');
+		copyModules('column');
+		copyModules('content');
+		copyModules('columnright');
+		copyModules('footer');
+		copyModules('pagebottom');
+		document.getElementById('update_form').submit();
+	}
+  //--></script>
+  <script type="text/javascript"><!--
+	$('.tabs a').on('click', function() {
+	var activeTab = $(this).index()+1;
+	var id = $('#tpl_manager_id').val();
+	var data_json = {'activeTab':activeTab, 'id':id};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=template_manager&action=tab',
+		data: data_json,
+		dataType:'json'
+	});
+	});
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
+		tabview_switch('tab', <?php echo $tab; ?>);
+	}
+   });
   //--></script>

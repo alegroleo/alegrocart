@@ -26,5 +26,9 @@ class Model_Admin_CategoryMenuModule extends Model {
 		$this->database->query("INSERT INTO setting SET type = 'catalog', `group` = 'categorymenu', `key` = 'categorymenu_catimage', value = '1'");
 		$this->database->query("INSERT INTO setting SET type = 'catalog', `group` = 'categorymenu', `key` = 'categorymenu_subcatimage', value = '1'");
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

@@ -76,5 +76,9 @@ class Model_Admin_GeoZone extends Model {
 		$result = $this->database->getRows("select tr.tax_rate_id, tr.rate, tc.title, tr.tax_class_id from tax_rate tr left join tax_class tc on (tr.tax_class_id=tc.tax_class_id) where geo_zone_id = '" . (int)$this->request->gethtml('geo_zone_id') . "'");
 		return $result;
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
 }
 ?>

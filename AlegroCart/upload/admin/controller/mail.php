@@ -3,7 +3,7 @@ class ControllerMail extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
 		$this->mail     	=& $locator->get('mail');
@@ -59,14 +59,16 @@ class ControllerMail extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_send', $this->language->get('button_send'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -76,8 +78,6 @@ class ControllerMail extends Controller {
 		$view->set('entry_to', $this->language->get('entry_to'));
 		$view->set('entry_subject', $this->language->get('entry_subject'));
 		$view->set('entry_content', $this->language->get('entry_content'));
-		
-		$view->set('button_send', $this->language->get('button_send'));
 		
 		$view->set('error', @$this->error['message']);
 		$view->set('error_to', @$this->error['to']);
@@ -113,7 +113,13 @@ class ControllerMail extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -124,20 +130,17 @@ class ControllerMail extends Controller {
 		if (!$this->user->hasPermission('modify', 'mail')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-				
 		if (!$this->request->gethtml('subject', 'post')) {
 			$this->error['subject'] = $this->language->get('error_subject');
 		}
-
 		if (!$this->request->gethtml('content', 'post')) {
 			$this->error['content'] = $this->language->get('error_content');
 		}
-
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
-	}	
+	}
 }
 ?>

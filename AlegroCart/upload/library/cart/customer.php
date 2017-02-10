@@ -83,7 +83,7 @@ class Customer {
 		return ($customer_country_id['country_id'] == $this->config->get('config_country_id') ? TRUE : FALSE);
 	}
 	function hadProducts() {
-		$clevel= unserialize($this->data['cart']);
+		$clevel= (isset($this->data['cart']) ? unserialize(@$this->data['cart']) : NULL);
 		return (empty($clevel) ? FALSE : TRUE);
 	}
 }

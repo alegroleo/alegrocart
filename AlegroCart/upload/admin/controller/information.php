@@ -32,12 +32,27 @@ class ControllerInformation extends Controller {
 			$this->modelInformation->insert_information();
 			$insert_id = $this->modelInformation->get_insert_id();
 			$this->modelInformation->insert_description($insert_id);
+			foreach ($this->request->gethtml('language', 'post') as $key => $value) {
+				if ($key == $this->language->getId()) {
+					$name_last = $value['title'];
+					if (strlen($name_last) > 26) {
+						$name_last = substr($name_last , 0, 23) . '...';
+					}
+					$this->session->set('name_last_information', $name_last);
+					$this->session->set('last_information', $this->url->ssl('information', 'update', array('information_id' => $insert_id)));
+				}
+			}
+			$this->session->set('last_information_id', $insert_id);
 			$this->cache->delete('information');
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('information'));
 		}
 		$this->template->set('content', $this->getForm());
+
+		$this->session->delete('name_last_information');
+		$this->session->delete('last_information');
+
 		$this->template->set($this->module->fetch());
 
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -53,7 +68,12 @@ class ControllerInformation extends Controller {
 			$this->cache->delete('information');
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('information'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('information', 'update', array('information_id' => $this->request->gethtml('information_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('information'));
+			}
+
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -69,7 +89,8 @@ class ControllerInformation extends Controller {
 			$this->modelInformation->delete_description();
 			$this->cache->delete('information');
 			$this->session->set('message', $this->language->get('text_message'));
-
+			$this->session->delete('name_last_information');
+			$this->session->delete('last_information');
 			$this->response->redirect($this->url->ssl('information'));
 		}
 		$this->template->set('content', $this->getList());
@@ -115,10 +136,12 @@ class ControllerInformation extends Controller {
 
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['information_id'] == $this->session->get('last_information_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
 				'value' => $result['title'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 
 		if ($this->validateChangeVisibility()) {
@@ -140,7 +163,8 @@ class ControllerInformation extends Controller {
 
 			$cell[] = array(
 				'value' => $result['sort_order'],
-				'align' => 'right'
+				'align' => 'right',
+				'last' => $last
 			);
 			
 			$action = array();
@@ -174,7 +198,6 @@ class ControllerInformation extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -182,7 +205,10 @@ class ControllerInformation extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
-		
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'information');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -200,7 +226,6 @@ class ControllerInformation extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('information'));
 		$view->set('insert', $this->url->ssl('information', 'insert'));
 		$view->set('pages', $this->modelInformation->get_pagination());
 
@@ -221,20 +246,22 @@ class ControllerInformation extends Controller {
 		$view->set('text_yes', $this->language->get('text_yes'));
 		$view->set('text_no', $this->language->get('text_no'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 		$view->set('tab_data', $this->language->get('tab_data'));
 
 		$view->set('explanation_sort_order', $this->language->get('explanation_sort_order'));
 		$view->set('explanation_hide', $this->language->get('explanation_hide'));
 
+		$view->set('error_update', $this->language->get('error_update'));
 		$view->set('error', @$this->error['message']);
 		$view->set('error_title', @$this->error['title']);
 		$view->set('error_description', @$this->error['description']);
@@ -245,7 +272,6 @@ class ControllerInformation extends Controller {
 
 		$view->set('action', $this->url->ssl('information', $this->request->gethtml('action'), array('information_id' => $this->request->gethtml('information_id'))));
 
-		$view->set('list', $this->url->ssl('information'));
 		$view->set('insert', $this->url->ssl('information', 'insert'));
 		$view->set('cancel', $this->url->ssl('information'));
 
@@ -253,28 +279,56 @@ class ControllerInformation extends Controller {
 			$view->set('update', 'update');
 			$view->set('delete', $this->url->ssl('information', 'delete', array('information_id' => $this->request->gethtml('information_id'),'information_validation' =>$this->session->get('information_validation'))));
 		}
+
+		$view->set('tab', $this->session->has('information_tab') && $this->session->get('information_id') == $this->request->gethtml('information_id') ? $this->session->get('information_tab') : 0);
+		$view->set('tabmini', $this->session->has('information_tabmini') && $this->session->get('information_id') == $this->request->gethtml('information_id') ? $this->session->get('information_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('information_id', $this->request->gethtml('information_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		$this->session->set('last_information_id', $this->request->gethtml('information_id'));
+
 		$information_data = array();
 		$results = $this->modelInformation->get_languages();
 		foreach ($results as $result) {
 			if($result['language_status'] =='1'){
-			if (($this->request->gethtml('information_id')) && (!$this->request->isPost())) {		
-				$information_description_info = $this->modelInformation->get_description($result['language_id']);
-			} else {
-				$information_description_info = $this->request->gethtml('language', 'post');
+				if (($this->request->gethtml('information_id')) && (!$this->request->isPost())) {
+					$information_description_info = $this->modelInformation->get_description($result['language_id']);
+				} else {
+					$information_description_info = $this->request->gethtml('language', 'post');
+				}
+
+				$information_data[] = array(
+					'language_id' => $result['language_id'],
+					'language'    => $result['name'],
+					'title'       => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['title'] : @$information_description_info['title']),
+		    		'description' => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['description'] : @$information_description_info['description'])
+				);
+
+				if ($result['language_id'] == $this->language->getId()) {
+					if (isset($information_description_info[$result['language_id']])) {
+						if ($information_description_info[$result['language_id']]['title'] != NULL) {
+							$name_last = $information_description_info[$result['language_id']]['title'];
+						} else {
+							$name_last = $this->session->get('name_last_information');
+						}
+					} else {
+						$name_last = @$information_description_info['title'];
+					}
+
+					if (strlen($name_last) > 26) {
+						$name_last = substr($name_last , 0, 23) . '...';
+					}
+					$this->session->set('name_last_information', $name_last);
+					$this->session->set('last_information', $this->url->ssl('information', 'update', array('information_id' => $this->request->gethtml('information_id'))));
+				}
 			}
-			
-			$information_data[] = array(
-				'language_id' => $result['language_id'],
-				'language'    => $result['name'],
-				'title'       => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['title'] : @$information_description_info['title']),
-	    		'description' => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['description'] : @$information_description_info['description'])
-			);
-		}
 		}
 
 		$view->set('informations', $information_data);
@@ -374,7 +428,13 @@ class ControllerInformation extends Controller {
 			return TRUE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		$this->request  =& $this->locator->get('request');
 		$this->response =& $this->locator->get('response');
@@ -398,6 +458,21 @@ class ControllerInformation extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('information'));
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('information_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('information_id', $this->request->sanitize('id', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('information_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
 	}
 }
 ?>

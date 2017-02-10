@@ -92,5 +92,13 @@ class Model_Admin_Zone extends Model {
 		$result = $this->database->getRows("select distinct zone_id from address where vendor_id !='0'");
 		return $result;
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

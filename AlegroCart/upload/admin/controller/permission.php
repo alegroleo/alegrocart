@@ -1,8 +1,9 @@
 <?php    
-class ControllerPermission extends Controller {   	
+class ControllerPermission extends Controller {
 	function index() {  
     	$response =& $this->locator->get('response');
 		$language =& $this->locator->get('language');
+		$session  =& $this->locator->get('session');
 		$template =& $this->locator->get('template');
 		$module   =& $this->locator->get('module');
 		 
@@ -15,14 +16,22 @@ class ControllerPermission extends Controller {
     	$view->set('heading_title', $language->get('heading_title'));
 
     	$view->set('heading_description', $language->get('heading_description')); 
-		    
+		$view->set('button_help', $language->get('button_help'));
+
+		$view->set('help', $session->get('help'));
 		$template->set('content', $view->fetch('content/error.tpl'));
     
 		$template->set($module->fetch());
 	
 		$response->set($template->fetch('layout.tpl'));
   	}
-		
+	function help(){
+		if($session->get('help')){
+			$session->delete('help');
+		} else {
+			$session->set('help', TRUE);
+		}
+	}
 	function hasPermission() {
 		$request =& $this->locator->get('request');
 		$user    =& $this->locator->get('user');

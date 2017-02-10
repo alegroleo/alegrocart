@@ -67,5 +67,9 @@ class Model_Admin_Tax_Class extends Model {
 		$result = $this->database->getRows("select p.product_id, pd.name from product p left join product_description pd on (p.product_id=pd.product_id) where tax_class_id = '" . (int)$this->request->gethtml('tax_class_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
 		return $result;
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
 }
 ?>

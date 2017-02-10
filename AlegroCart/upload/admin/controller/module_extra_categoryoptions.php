@@ -23,9 +23,13 @@ class ControllerModuleExtraCategoryoptions extends Controller {
 		if (($this->request->isPost()) && ($this->validate())) {
 			$this->modelCatOptions->delete_category_options();
 			$this->modelCatOptions->update_category_options();
-
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('module_extra_categoryoptions'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+			}
 		}
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('heading_title'));
@@ -39,27 +43,35 @@ class ControllerModuleExtraCategoryoptions extends Controller {
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_display_lock', $this->language->get('entry_display_lock'));
 		
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('module_extra_categoryoptions'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
-		
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		$this->session->set('name_last_module', $this->language->get('heading_title'));
+		$this->session->set('last_module', 'module_extra_categoryoptions');
+		$this->session->set('last_extension_id', $this->modelCatOptions->get_extension_id('module_extra_categoryoptions'));
+
 		if (!$this->request->isPost()) {
 			$results = $this->modelCatOptions->get__category_options();
 			foreach ($results as $result) {
@@ -106,7 +118,13 @@ class ControllerModuleExtraCategoryoptions extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
 		if ($this->user->hasPermission('modify', 'module_extra_categoryoptions')) {
 			$this->modelCatOptions->delete_category_options();
@@ -114,20 +132,22 @@ class ControllerModuleExtraCategoryoptions extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
 	
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'module_extra_categoryoptions')) {
 			$this->modelCatOptions->delete_category_options();
+			if ($this->session->get('last_module') == 'module_extra_categoryoptions') {
+				$this->session->delete('name_last_module');
+				$this->session->delete('last_module');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
-}	
+}
 ?>

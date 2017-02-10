@@ -3,7 +3,7 @@ class ControllerCategory extends Controller {
 	var $error = array();
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -19,7 +19,7 @@ class ControllerCategory extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelCategory = $model->get('model_admin_category');
-		
+
 		$this->language->load('controller/category.php');
 	}
 	function index() {
@@ -46,6 +46,14 @@ class ControllerCategory extends Controller {
 			$this->modelCategory->get_description_post();
 			foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 				$this->modelCategory->write_description($insert_id,$key,$value['name']);
+				if ($key == $this->language->getId()) {
+					$name_last = $value['name'];
+					if (strlen($name_last) > 26) {
+						$name_last = substr($name_last , 0, 23) . '...';
+					}
+					$this->session->set('name_last_category', $name_last);
+					$this->session->set('last_category', $this->url->ssl('category', 'update', array('category_id' => $insert_id, 'path' => $path)));
+				}
 			}
 			if($url_alias && $url_seo){
 				$this->category_seo($insert_id, $path);
@@ -55,11 +63,16 @@ class ControllerCategory extends Controller {
 				$this->modelCategory->write_product($product_id, $insert_id);
 	  		}
 			$this->cache->delete('category');
+			$this->session->set('last_category_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
 		}
 		$this->template->set('content', $this->getForm());
+
+		$this->session->delete('name_last_category');
+		$this->session->delete('last_category');
+
 		$this->template->set($this->module->fetch());
 
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -89,7 +102,11 @@ class ControllerCategory extends Controller {
 			$this->cache->delete('category');
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('category', 'update', array('category_id' => $this->request->gethtml('category_id', 'post'), 'path' => $this->request->gethtml('path'))));
+			} else {
+				$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
+			}
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -116,7 +133,8 @@ class ControllerCategory extends Controller {
 			}
 			$this->cache->delete('category');
 			$this->session->set('message', $this->language->get('text_message'));
-
+			$this->session->delete('name_last_category');
+			$this->session->delete('last_category');
 			$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
 		}
 		$this->template->set('content', $this->getList());
@@ -126,14 +144,10 @@ class ControllerCategory extends Controller {
 	}
 
 	function changeStatus() {
-
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeVisibility()) {
-
 			$this->modelCategory->change_category_visibility($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
-	
 	}
-
 	function getList() {
 		$this->session->set('category_validation', md5(time()));
 		if($this->session->get('category_path') != $this->request->gethtml('path')){
@@ -177,6 +191,7 @@ class ControllerCategory extends Controller {
 
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['category_id'] == $this->session->get('last_category_id') ? 'last_visited': '';
 			$cell = array();
 			if ($this->request->gethtml('path')) {
 				$path = $this->request->gethtml('path') . '_' . $result['category_id'];
@@ -190,13 +205,14 @@ class ControllerCategory extends Controller {
 			);
 			$cell[] = array(
 				'value' => $result['name'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 		   	$cell[] = array(
-		       'image' => $this->image->resize($result['filename'], '26', '26'),
-		       'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-		       'title' => $result['filename'],
-		       'align' => 'center'
+		       		'image' => $this->image->resize($result['filename'], '26', '26'),
+		       		'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+		       		'title' => $result['filename'],
+		       		'align' => 'center'
 		        );
 
 		if ($this->validateChangeVisibility() && !$this->modelCategory->check_parent_status($result['category_id'])) {
@@ -218,11 +234,12 @@ class ControllerCategory extends Controller {
 
 			$cell[] = array(
 				'value' => $result['sort_order'],
-				'align' => 'right'
+				'align' => 'right',
+				'last' => $last
 			);
 			$query = array(
 				'category_id' => $result['category_id'],
-				'path'        => $this->request->gethtml('path'),
+				'path'        => $this->request->gethtml('path')
 			);
 			$action = array();
 			$action[] = array(
@@ -268,7 +285,6 @@ class ControllerCategory extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -277,7 +293,10 @@ class ControllerCategory extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_visibility', $this->language->get('button_visibility'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'category');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -305,7 +324,6 @@ class ControllerCategory extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
 		$view->set('insert', $this->url->ssl('category', 'insert', array('path' => $this->request->gethtml('path'))));
 		$view->set('pages', $this->modelCategory->get_pagination());
 
@@ -318,8 +336,8 @@ class ControllerCategory extends Controller {
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
-        $view->set('entry_name', $this->language->get('entry_name'));
-        $view->set('entry_description', $this->language->get('entry_description'));
+		$view->set('entry_name', $this->language->get('entry_name'));
+		$view->set('entry_description', $this->language->get('entry_description'));
 		$view->set('entry_meta_title', $this->language->get('entry_meta_title'));
 		$view->set('entry_meta_description', $this->language->get('entry_meta_description'));
 		$view->set('entry_meta_keywords', $this->language->get('entry_meta_keywords'));	
@@ -331,13 +349,15 @@ class ControllerCategory extends Controller {
 		$view->set('text_yes', $this->language->get('text_yes'));
 		$view->set('text_no', $this->language->get('text_no'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 		$view->set('tab_data', $this->language->get('tab_data'));
@@ -348,9 +368,9 @@ class ControllerCategory extends Controller {
 		$view->set('explanation_sort_order', $this->language->get('explanation_sort_order'));
 		$view->set('explanation_hide', $this->language->get('explanation_hide'));
 
+		$view->set('error_update', $this->language->get('error_update'));
 		$view->set('error_description', @$this->error['message']);
-
-        $view->set('error', @$this->error['message']);
+		$view->set('error', @$this->error['message']);
 		$view->set('error_name', @$this->error['name']);
 
 		$query = array(
@@ -358,10 +378,9 @@ class ControllerCategory extends Controller {
 			'path'        => $this->request->gethtml('path')
 		);
 		$view->set('action', $this->url->ssl('category', $this->request->gethtml('action'), $query));
-		$view->set('list', $this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
 		$view->set('insert', $this->url->ssl('category', 'insert', array('path' => $this->request->gethtml('path'))));
 		$view->set('cancel', $this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
-		
+
 		if ($this->request->gethtml('category_id')) {
 			$query = array(
 				'category_id' => $this->request->gethtml('category_id'),
@@ -371,11 +390,21 @@ class ControllerCategory extends Controller {
 			$view->set('update', 'enabled');
 			$view->set('delete', $this->url->ssl('category', 'delete', $query));
 		}
+
+		$view->set('tab', $this->session->has('category_tab') && $this->session->get('category_id') == $this->request->gethtml('category_id') ? $this->session->get('category_tab') : 0);
+		$view->set('tabmini', $this->session->has('category_tabmini') && $this->session->get('category_id') == $this->request->gethtml('category_id') ? $this->session->get('category_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('category_id', $this->request->gethtml('category_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-	
+
+		$this->session->set('last_category_id', $this->request->gethtml('category_id'));
+
 		$category_data = array();
 		$results = $this->modelCategory->get_languages();
 		foreach ($results as $result) {
@@ -399,6 +428,28 @@ class ControllerCategory extends Controller {
 		    			'meta_description'=> (isset($meta_description[$result['language_id']]) ? $meta_description[$result['language_id']] : @$category_description_info['meta_description']),
 		    			'meta_keywords' => (isset($meta_keywords[$result['language_id']]) ? $meta_keywords[$result['language_id']] : @$category_description_info['meta_keywords'])
 				);
+
+				if ($result['language_id'] == (int)$this->language->getId()) {
+					if (isset($category_description_info[$result['language_id']])) {
+						if ($category_description_info[$result['language_id']]['name'] != NULL) {
+							$name_last = $category_description_info[$result['language_id']]['name'];
+						} else {
+							$name_last = $this->session->get('name_last_category');
+						}
+					} else {
+						$name_last = @$category_description_info['name'];
+					}
+
+					if (strlen($name_last) > 26) {
+						$name_last = substr($name_last , 0, 23) . '...';
+					}
+					$this->session->set('name_last_category', $name_last);
+					$query = array(
+						'category_id' => $this->request->gethtml('category_id'),
+						'path'        => $this->request->gethtml('path')
+					);
+					$this->session->set('last_category', $this->url->ssl('category', 'update', $query));
+				}
 			}
 		}
 		$view->set('categories', $category_data);
@@ -549,7 +600,13 @@ class ControllerCategory extends Controller {
 			return TRUE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 		function page() {
 		$this->session->delete('category.search');
 		if ($this->request->has('search', 'post') && $this->request->gethtml('search','post') != '') {
@@ -566,6 +623,21 @@ class ControllerCategory extends Controller {
 		} 
 		
 		$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
-  	} 
+  	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('category_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('category_id', $this->request->sanitize('id', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('category_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
+	}
 }
 ?>

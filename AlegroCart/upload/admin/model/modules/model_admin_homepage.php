@@ -40,6 +40,10 @@ class Model_Admin_Homepage extends Model {
 		$insert_id = $this->database->getLastId();
 		$this->write_slides($insert_id);
 	}
+	function get_insert_id(){
+		$insert_id = $this->database->getLastId();
+		return $insert_id;
+	}
 	function update_description(){
 		$insert_id = (int)$this->request->gethtml('home_id');
 		$this->write_description($insert_id);
@@ -106,11 +110,11 @@ class Model_Admin_Homepage extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('homepage.search')){
-			$sql = "select h.home_id, h.name, h.status, hd.title, i.filename from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on (hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "'";
+			$sql = "select h.home_id, h.name, h.status, i.filename from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on (hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "'";
 		} else {
-			$sql = "select h.home_id, h.name, h.status, hd.title, i.filename from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on (hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "' and h.name like '?'";
+			$sql = "select h.home_id, h.name, h.status, i.filename from home_page h left join home_description hd on(h.home_id = hd.home_id) left join image i on (hd.image_id = i.image_id) where hd.language_id = '" . (int)$this->language->getId() . "' and h.name like '?'";
 		}
-		$sort = array('h.name',	'h.status',	'hd.title',	'i.filename');
+		$sort = array('h.name', 'h.status', 'i.filename');
 		if(in_array($this->session->get('homepage.sort'), $sort)){
 			$sql .= " order by " . $this->session->get('homepage.sort'). " " . (($this->session->get('homepage.order') == 'desc') ? 'desc' : 'asc');
 		} else {
@@ -144,6 +148,10 @@ class Model_Admin_Homepage extends Model {
 		$new_status = $status ? 0 : 1;
 		$sql = "update home_page set status = '?' where home_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
 	}
 }
 ?>

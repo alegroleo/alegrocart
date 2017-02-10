@@ -1,5 +1,4 @@
 <div class="task">
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
   <?php if (@$insert) { ?>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $insert; ?>'"><img src="template/<?php echo $this->directory?>/image/insert_enabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php } else { ?>
@@ -19,7 +18,9 @@
 <?php if ($message) { ?>
 <div class="message"><?php echo $message; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?></div>
+<div class="heading"><?php echo $heading_title; ?>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="list">
   <table class="a">
@@ -141,7 +142,8 @@
     <tr class="<?php echo $class; ?>" onmouseover="this.className='highlight'" onmouseout="this.className='<?php echo $class; ?>'">
       <?php foreach ($row['cell'] as $cell) { ?>
       <?php if (isset($cell['value'])) { ?>
-      <td class="<?php echo $cell['align']; ?>"><?php echo $cell['value']; ?>
+      <td class="<?php echo $cell['align']; ?><?php if (@$cell['last']) { ?>
+        <?php echo ' ' . $cell['last']; ?><?php } ?>"><?php echo $cell['value']; ?>
         <?php if (@$cell['default']) { ?>
         <b>(<?php echo $text_default; ?>)</b>
         <?php } ?>
@@ -308,4 +310,24 @@ $("#image_to_preview img").mousemove(function(e){
 	$("#preview").css("top",(posy - scrolled < effectiveHeight/2 ? (posy - yOffset) : posy - yOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(posx - xOffset - 2*($(this).attr('rel').substr(-7,3))) + "px");
 });
 });
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	$('.task').each(function(){
+	$('.task .disabled').hide();
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+	});
+  });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=<?php echo $controller; ?>&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
   //--></script>

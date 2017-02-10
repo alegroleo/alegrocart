@@ -46,13 +46,13 @@ class Model_Admin_Tax_Rate extends Model {
 		return $text_results;
 	}
 	function get_pagination(){
-    	$page_data = array();
-    	for ($i = 1; $i <= $this->get_pages(); $i++) {
-      		$page_data[] = array(
-        		'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
-        		'value' => $i
-      		);
-    	}
+    		$page_data = array();
+    		for ($i = 1; $i <= $this->get_pages(); $i++) {
+      			$page_data[] = array(
+        			'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
+        			'value' => $i
+      			);
+    		}
 		return $page_data;
 	}
 	function get_pages(){
@@ -62,6 +62,10 @@ class Model_Admin_Tax_Rate extends Model {
 	function get_taxclass_name($tax_class_id){
 		$result = $this->database->getRow("select title from tax_class where tax_class_id = '" . $tax_class_id . "'");
 		return $result['title'];
+	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
 	}
 }
 ?>

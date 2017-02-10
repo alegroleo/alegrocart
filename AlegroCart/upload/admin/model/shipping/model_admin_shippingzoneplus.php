@@ -56,5 +56,9 @@ class Model_Admin_ShippingZonePlus extends Model {
 		$result = $this->database->getRow("select weight_class_id, title from weight_class where weight_class_id = '" . $this->config->get('config_weight_class_id') . "' and language_id = '" . (int)$this->language->getId() . "'");
 		return $result['title'];
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

@@ -3,7 +3,7 @@ class ControllerCurrency extends Controller {
 	var $error = array();
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -33,6 +33,8 @@ class ControllerCurrency extends Controller {
 
 		if ($this->request->isPost() && $this->request->has('title', 'post') && $this->validateForm()) {
 			$this->modelCurrency->insert_currency();
+			$insert_id = $this->modelCurrency->get_last_id();
+			$this->session->set('last_currency_id', $insert_id);
 			$this->cache->delete('currency');
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -52,7 +54,12 @@ class ControllerCurrency extends Controller {
 			$this->cache->delete('currency');
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('currency'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('currency', 'update', array('currency_id' => $this->request->gethtml('currency_id'))));
+			} else {
+				$this->response->redirect($this->url->ssl('currency'));
+			}
+
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -110,13 +117,10 @@ class ControllerCurrency extends Controller {
 	}
 
 	function changeStatus() { 
-		
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
-
 			$this->modelCurrency->change_currency_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 			$this->cache->delete('currency');
 		}
-	
 	}
 
 	function getList() {
@@ -159,19 +163,23 @@ class ControllerCurrency extends Controller {
 		$results = $this->modelCurrency->get_page();
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['currency_id'] == $this->session->get('last_currency_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
 				'value'   => $result['title'],
 				'align'   => 'left',
-				'default' => ($result['code'] == $this->config->get('config_currency'))
+				'default' => ($result['code'] == $this->config->get('config_currency')),
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['code'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['value'],
-				'align' => 'center'
+				'align' => 'center',
+				'last' => $last
 			);
 			if ($this->validateChangeStatus() && $this->config->get('config_currency') !== $result['code']) {
 			$cell[] = array(
@@ -194,7 +202,8 @@ class ControllerCurrency extends Controller {
 			);
 			$cell[] = array(
 				'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_modified'])),
-				'align' => 'right'
+				'align' => 'right',
+				'last' => $last
 			);
 			$action = array();
 			$action[] = array(
@@ -229,7 +238,6 @@ class ControllerCurrency extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -242,7 +250,10 @@ class ControllerCurrency extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'currency');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -263,7 +274,6 @@ class ControllerCurrency extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('currency'));
 		$view->set('insert', $this->url->ssl('currency', 'insert'));
 
 		$view->set('pages', $this->modelCurrency->get_pagination());
@@ -291,14 +301,15 @@ class ControllerCurrency extends Controller {
 		$view->set('entry_symbol_right', $this->language->get('entry_symbol_right'));
 		$view->set('entry_decimal_place', $this->language->get('entry_decimal_place'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -307,7 +318,6 @@ class ControllerCurrency extends Controller {
 		$view->set('error_default', @$this->error['default']);
 
 		$view->set('action', $this->url->ssl('currency', $this->request->gethtml('action'), array('currency_id' => $this->request->gethtml('currency_id'))));
-		$view->set('list', $this->url->ssl('currency'));
 		$view->set('insert', $this->url->ssl('currency', 'insert'));
 		$view->set('cancel', $this->url->ssl('currency'));
 
@@ -315,10 +325,17 @@ class ControllerCurrency extends Controller {
 			$view->set('update', $this->url->ssl('currency', 'update', array('currency_id' => $this->request->gethtml('currency_id'))));
 			$view->set('delete', $this->url->ssl('currency', 'delete', array('currency_id' => $this->request->gethtml('currency_id'),'currency_validation' =>$this->session->get('currency_validation'))));
 		}
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('currency_id', $this->request->gethtml('currency_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_currency_id', $this->request->gethtml('currency_id'));
 
 		if (($this->request->gethtml('currency_id')) && (!$this->request->isPost())) {
 			$currency_info = $this->modelCurrency->get_currency();
@@ -374,7 +391,7 @@ class ControllerCurrency extends Controller {
 
 		return $view->fetch('content/currency.tpl');
 	}
-	
+
 	function enableDisable(){
 		if($this->validateUpdate()){
 			if($this->modelCurrency->check_status()){
@@ -401,7 +418,7 @@ class ControllerCurrency extends Controller {
 			return FALSE;
 		}		
 	}
-	
+
 	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -416,7 +433,7 @@ class ControllerCurrency extends Controller {
 			$this->error['title'] = $this->language->get('error_title');
 		}
 
-        if (!$this->validate->strlen($this->request->gethtml('code', 'post'),3,3)) {
+		if (!$this->validate->strlen($this->request->gethtml('code', 'post'),3,3)) {
 			$this->error['code'] = $this->language->get('error_code');
 		}
 		$result = $this->modelCurrency->check_default();
@@ -476,14 +493,19 @@ class ControllerCurrency extends Controller {
 	}	
 
 	function validateChangeStatus(){
-				
 		if (!$this->user->hasPermission('modify', 'currency')) {
 	      		return FALSE;
 	    	}  else {
 			return TRUE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('currency.search', $this->request->gethtml('search', 'post'));
@@ -497,8 +519,7 @@ class ControllerCurrency extends Controller {
 		if ($this->request->has('sort', 'post')) {
 			$this->session->set('currency.sort', $this->request->gethtml('sort', 'post'));
 		}
-
 		$this->response->redirect($this->url->ssl('currency'));
-	}		
+	}
 }
 ?>

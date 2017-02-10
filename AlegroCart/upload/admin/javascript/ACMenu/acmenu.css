@@ -1,7 +1,7 @@
 /* Admin Menu */
 #myMenuID {
 	height: 30px;
-	background: #0099FF;  
+	background: #09F;  
 	text-decoration: none;
 }
 #menu_lvl_0 {
@@ -21,13 +21,13 @@
 	position: relative;
 	top: 7px;
 	display: inline;
-	background: url("./image/divider.gif") no-repeat scroll 100% 0px #0099FF;
+	background: url("./image/divider.gif") no-repeat scroll 100% 0px #09F;
 }
 #menu_level_0 > a .arrow{
 	display: none;
 }
 #myMenuID ul li:hover a{
-	background: url("./image/hover.png") no-repeat scroll center bottom #0099FF;
+	background: url("./image/hover.png") no-repeat scroll center bottom #09F;
 	}
 #menu_level_1 img.icon, #menu_level_2 img.icon{
 	position: absolute;
@@ -58,11 +58,10 @@
 }
 #menu_level_0 a{
 	height: 14px;
-
 }
 #menu_level_1 a, #menu_level_2 a{
 	position: relative;
-	background-color: #0099FF;
+	background-color: #09F;
 	display: inline-block;
 	line-height: 30px;
 }
@@ -74,7 +73,7 @@
 	height: 30px;
 	list-style-type: none;
 	position: relative;
-	background-color:	#0099FF;
+	background-color: #09F;
 	list-style-position: outside;
 	overflow: visible;
 	white-space: nowrap;
@@ -92,8 +91,8 @@
 	top: 21px;
 	margin: 0px 0px 0px 0px;
 	min-width: 200px;
-	background-color:	#0099FF;
-	border-top: 1px dotted #EEEEEE;
+	background-color: #09F;
+	border-top: 1px dotted #EEE;
 }
 #menu_lvl_2{
 	position: absolute;
@@ -101,19 +100,19 @@
 	top: -1px;
 	min-width: 200px;
 	padding: 0px;
-	background-color: #0099FF;
-	border-top: 1px dotted #EEEEEE;
+	background-color: #09F;
+	border-top: 1px dotted #EEE;
 }
 #myMenuID .menu .menu_lvl_1, #myMenuID .menu .menu_lvl_2{
 	background: none repeat scroll 0 0 transparent;
 	min-width: 190px;
 }
 #myMenuID a {
-	color: #FFFFFF; /* Font Color*/
+	color: #FFF; /* Font Color*/
 }
 #myMenuID .menu_breadcrumb{
-	background-color: #0099FF;
-	color: #000000;
+	background-color: #09F;
+	color: #000;
 }
 #myMenuID .menu_lvl_0 {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
@@ -122,15 +121,15 @@
 	padding: 0px 25px 8px 25px;
 	white-space: nowrap;
 	cursor: default;
-	background-color: #0099FF;
-	color: #FFFFFF;
+	background-color: #09F;
+	color: #FFF;
 }
 #myMenuID .menu_lvl_0:hover{
-	color: #000000;
+	color: #000;
 }
 #myMenuID .menu_lvl_0:active {
-	background-color: #0099FF;
-	color: #FFFFFF;
+	background-color: #09F;
+	color: #FFF;
 }
 #myMenuID .menu_lvl_1 {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
@@ -139,17 +138,17 @@
 	padding: 0px 5px 8px 5px;
 	white-space: nowrap;
 	cursor: default;
-	background-color: #0099FF;
+	background-color: #09F;
 	height: 22px;
-	color: #FFFFFF;
+	color: #FFF;
 }
 #myMenuID .menu_lvl_1:hover{
-	color: #000000;
+	color: #000;
 	background: none repeat scroll 0 0 transparent;
 }
 #myMenuID .menu_lvl_1:active { 
-	background-color: #0099FF;
-	color: #FFFFFF;
+	background-color: #09F;
+	color: #FFF;
 }
 #myMenuID .menu_lvl_2 {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
@@ -158,21 +157,24 @@
 	padding: 0px 5px 0px 5px;
 	white-space: nowrap;
 	cursor: default;
-	background-color: #0099FF;
+	background-color: #09F;
 	height: 22px;
-	color: #FFFFFF;
+	color: #FFF;
 }
 #myMenuID .menu_lvl_2:hover{
-	color: #000000;
+	color: #000;
 	background: none repeat scroll 0 0 transparent;
 }
 #myMenuID .menu_lvl_2:active {
-	background-color: #0099FF;
-	color: #FFFFFF;
+	background-color: #09F;
+	color: #FFF;
 }
 #menu_level_1:hover, #menu_level_2:hover{
-	background-color: #0099FF;
+	background-color: #09F;
 }
 #menu_level_1, #menu_level_2{
-	border-bottom: 1px dotted #EEEEEE;
+	border-bottom: 1px dotted #EEE;
+}
+.last {
+	background-color: #FF5E00 !important;
 }

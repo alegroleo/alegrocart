@@ -3,7 +3,7 @@ class ControllerPaymentGoogle extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module		=& $locator->get('module');
 		$this->request  	=& $locator->get('request');
@@ -13,7 +13,7 @@ class ControllerPaymentGoogle extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelGoogle = $model->get('model_admin_paymentgoogle');
-		
+
 		$this->language->load('controller/payment_google.php');
 	}
 	function index() { 
@@ -24,7 +24,11 @@ class ControllerPaymentGoogle extends Controller {
 			$this->modelGoogle->update_google();
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('payment_google'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
+			}
 		}
 
 		$view = $this->locator->create('template');
@@ -48,13 +52,15 @@ class ControllerPaymentGoogle extends Controller {
 		$view->set('entry_currency', $this->language->get('entry_currency'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
@@ -63,13 +69,19 @@ class ControllerPaymentGoogle extends Controller {
 		$view->set('error_merchantkey', @$this->error['merchantkey']);
 		
 		$view->set('action', $this->url->ssl('payment_google'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'payment')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'payment')));
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('name_last_payment', $this->language->get('heading_title'));
+		$this->session->set('last_payment', 'payment_google');
+		$this->session->set('last_extension_id', $this->modelGoogle->get_extension_id('payment_google'));
 
 		if (!$this->request->isPost()) {
 			$results = $this->modelGoogle->get_google();
@@ -142,7 +154,6 @@ class ControllerPaymentGoogle extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
 	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -163,9 +174,15 @@ class ControllerPaymentGoogle extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
 		if ($this->user->hasPermission('modify', 'payment_google')) {
 			$this->modelGoogle->delete_google();
@@ -173,19 +190,20 @@ class ControllerPaymentGoogle extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
 	}
-	
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'payment_google')) {
 			$this->modelGoogle->delete_google();
+			if ($this->session->get('last_payment') == 'payment_google') {
+				$this->session->delete('name_last_payment');
+				$this->session->delete('last_payment');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
 	}
 }

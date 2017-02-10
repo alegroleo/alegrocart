@@ -3,7 +3,7 @@ class ControllerTaxClass extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -33,9 +33,11 @@ class ControllerTaxClass extends Controller {
 
 		if ($this->request->isPost() && $this->request->has('title', 'post') && $this->validateForm()) {
 			$this->modelTaxClass->insert_tax_class();
+			$insert_id = $this->modelTaxClass->get_last_id();
+			$this->session->set('last_tax_class_id', $insert_id);
 			$this->cache->delete('tax_class');
 			$this->session->set('message', $this->language->get('text_message'));
-			
+
 			$this->response->redirect($this->url->ssl('tax_class'));
 		}
 		$this->template->set('content', $this->getForm());
@@ -51,8 +53,12 @@ class ControllerTaxClass extends Controller {
 			$this->modelTaxClass->update_tax_class();
 			$this->cache->delete('tax_class');
 			$this->session->set('message', $this->language->get('text_message'));
-			
-			$this->response->redirect($this->url->ssl('tax_class'));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('tax_class', 'update', array('tax_class_id' => $this->request->gethtml('tax_class_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('tax_class'));
+			}
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -98,15 +104,17 @@ class ControllerTaxClass extends Controller {
 		$results = $this->modelTaxClass->get_page();
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['tax_class_id'] == $this->session->get('last_tax_class_id') ? 'last_visited': '';
 			$cell = array();
-      		$cell[] = array(
-        		'icon'  => $this->modelTaxClass->check_children($result['tax_class_id']) ? 'folderO.png' : 'folder.png',
-        		'align' => 'center',
+	      		$cell[] = array(
+	        		'icon'  => $this->modelTaxClass->check_children($result['tax_class_id']) ? 'folderO.png' : 'folder.png',
+	        		'align' => 'center',
 				'path'  => $this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $result['tax_class_id']))
 		  	);
 			$cell[] = array(
 				'value' => $result['title'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$action = array();
 			$action[] = array(
@@ -139,7 +147,6 @@ class ControllerTaxClass extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -147,7 +154,10 @@ class ControllerTaxClass extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
  		$view->set('button_print', $this->language->get('button_print'));
-		
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'tax_class');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -166,7 +176,6 @@ class ControllerTaxClass extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('tax_class'));
 		$view->set('insert', $this->url->ssl('tax_class', 'insert'));
 
 		$view->set('pages', $this->modelTaxClass->get_pagination());
@@ -183,14 +192,15 @@ class ControllerTaxClass extends Controller {
 		$view->set('entry_title', $this->language->get('entry_title'));
 		$view->set('entry_description', $this->language->get('entry_description'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -199,7 +209,6 @@ class ControllerTaxClass extends Controller {
 
 		$view->set('action', $this->url->ssl('tax_class', $this->request->gethtml('action'), array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 
-		$view->set('list', $this->url->ssl('tax_class'));
 		$view->set('insert', $this->url->ssl('tax_class', 'insert'));
 		$view->set('cancel', $this->url->ssl('tax_class'));
 
@@ -207,10 +216,17 @@ class ControllerTaxClass extends Controller {
 			$view->set('update', $this->url->ssl('tax_class', 'update', array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 			$view->set('delete', $this->url->ssl('tax_class', 'delete', array('tax_class_id' => $this->request->gethtml('tax_class_id'),'tax_class_validation' =>$this->session->get('tax_class_validation'))));
 		}
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('tax_class_id', $this->request->gethtml('tax_class_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_tax_class_id', $this->request->gethtml('tax_class_id'));
 
 		if (($this->request->gethtml('tax_class_id')) && (!$this->request->isPost())) {
 			$tax_class_info = $this->modelTaxClass->get_tax_class();
@@ -304,7 +320,13 @@ class ControllerTaxClass extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('tax_class.search', $this->request->gethtml('search', 'post'));

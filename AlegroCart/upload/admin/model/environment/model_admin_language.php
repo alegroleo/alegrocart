@@ -31,6 +31,10 @@ class Model_Admin_Language extends Model {
 		$result = $this->database->getRow("select value from setting where `key` = 'config_language' and `type`='catalog'");
 		return $result['value'];
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
 	function check_language_code(){
 		$result = $this->database->getRow("select distinct code from language where language_id = '" . (int)$this->request->gethtml('language_id') . "'");
 		return $result;

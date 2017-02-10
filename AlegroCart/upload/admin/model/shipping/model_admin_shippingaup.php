@@ -58,5 +58,9 @@ class Model_Admin_ShippingAup extends Model {
 		$results = $this->database->cache('tax_class', "select * from tax_class");
 		return $results;
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

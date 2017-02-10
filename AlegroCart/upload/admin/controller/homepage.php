@@ -39,10 +39,22 @@ class ControllerHomepage extends Controller {
 			$this->modelAdminHomepage->insert_status();
 			$this->modelAdminHomepage->insert_description();
 			$this->modelAdminHomepage->insert_slides();
+			$insert_id = $this->modelAdminHomepage->get_insert_id();
 			$this->session->set('message', $this->language->get('text_message'));
+			$name_last = $this->request->get('name', 'post');
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
+			}
+			$this->session->set('name_last_homepage', $name_last);
+			$this->session->set('last_homepage', $this->url->ssl('homepage', 'update', array('home_id' => $insert_id)));
+			$this->session->set('last_homepage_id', $insert_id);
 			$this->response->redirect($this->url->ssl('homepage'));
 		}
 		$this->template->set('content', $this->getForm());
+
+		$this->session->delete('name_last_homepage');
+		$this->session->delete('last_homepage');
+
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
@@ -58,7 +70,12 @@ class ControllerHomepage extends Controller {
 			$this->modelAdminHomepage->delete_slides($this->request->gethtml('home_id'));
 			$this->modelAdminHomepage->update_slides();
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('homepage'));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('homepage', 'update', array('home_id' => $this->request->gethtml('home_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('homepage'));
+			}
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -71,6 +88,8 @@ class ControllerHomepage extends Controller {
 			$this->modelAdminHomepage->delete_description($this->request->gethtml('home_id'));
 			$this->modelAdminHomepage->delete_slides($this->request->gethtml('home_id'));
 			$this->session->set('message', $this->language->get('text_message'));
+			$this->session->delete('name_last_homepage');
+			$this->session->delete('last_homepage');
 			$this->response->redirect($this->url->ssl('homepage'));
 		}
 		$this->template->set('content', $this->getList());
@@ -90,11 +109,6 @@ class ControllerHomepage extends Controller {
 	      		'sort'  => 'h.name',
 	      		'align' => 'left'
 		);
-		$cols[] = array(     //new
-	             'name'  => $this->language->get('column_title'),
-	             'sort'  => 'hd.title',
-	             'align' => 'left'
-	        );
 	    	$cols[] = array(
 	      		'name'  => $this->language->get('column_status'),
 	      		'sort'  => 'h.status',
@@ -114,14 +128,12 @@ class ControllerHomepage extends Controller {
 
 		$rows = array();
 	    	foreach ($results as $result) {
+			$last = $result['home_id'] == $this->session->get('last_homepage_id') ? 'last_visited': '';
 	      		$cell = array();
 	      		$cell[] = array(
 				'value' => $result['name'],
-				'align' => 'left'
-			  	);
-	      		$cell[] = array(
-				'value' => $result['title'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			  	);
 	      		if ($this->validateChangeStatus()) {
 				$cell[] = array(
@@ -172,7 +184,6 @@ class ControllerHomepage extends Controller {
 	    	$view->set('entry_page', $this->language->get('entry_page'));
 	    	$view->set('entry_search', $this->language->get('entry_search'));
 
-	    	$view->set('button_list', $this->language->get('button_list'));
 	    	$view->set('button_insert', $this->language->get('button_insert'));
 	    	$view->set('button_update', $this->language->get('button_update'));
    	 	$view->set('button_delete', $this->language->get('button_delete'));
@@ -181,7 +192,10 @@ class ControllerHomepage extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'homepage');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 	    	$view->set('error', @$this->error['message']);
@@ -199,7 +213,6 @@ class ControllerHomepage extends Controller {
 	    	$view->set('cols', $cols);
 	    	$view->set('rows', $rows);
 
-	    	$view->set('list', $this->url->ssl('homepage'));
 	    	$view->set('insert', $this->url->ssl('homepage', 'insert'));
 
     		$view->set('pages', $this->modelAdminHomepage->get_pagination());
@@ -242,7 +255,6 @@ class ControllerHomepage extends Controller {
 		$view->set('entry_sortorder', $this->language->get('entry_sortorder'));
 
 		$view->set('button_upload', $this->language->get('button_upload'));
-	    	$view->set('button_list', $this->language->get('button_list'));
 	    	$view->set('button_insert', $this->language->get('button_insert'));
 	    	$view->set('button_update', $this->language->get('button_update'));
 	    	$view->set('button_delete', $this->language->get('button_delete'));
@@ -251,13 +263,15 @@ class ControllerHomepage extends Controller {
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_name', $this->language->get('tab_name'));
 		$view->set('tab_description', $this->language->get('tab_description'));
 		$view->set('tab_meta', $this->language->get('tab_meta'));
 
+		$view->set('error_update', $this->language->get('error_update'));
 		$view->set('error_name', @$this->error['name']);
-		$view->set('error_title', @$this->error['title']);
 		$view->set('error', @$this->error['message']);
 		$view->set('error_file', "");
 
@@ -266,7 +280,6 @@ class ControllerHomepage extends Controller {
 		}
 
 	    	$view->set('action', $this->url->ssl('homepage', $this->request->gethtml('action'), array('home_id' => (int)$this->request->gethtml('home_id'))));
-	    	$view->set('list', $this->url->ssl('homepage'));
 	    	$view->set('insert', $this->url->ssl('homepage', 'insert'));
 	    	$view->set('cancel', $this->url->ssl('homepage'));
 		$view->set('action_flash', $this->url->ssl('homepage', 'flash_upload',array('home_id' => (int)$this->request->gethtml('home_id'))));
@@ -275,6 +288,14 @@ class ControllerHomepage extends Controller {
 	     		$view->set('update', 'enabled');
 	      		$view->set('delete', $this->url->ssl('homepage', 'delete', array('home_id' => (int)$this->request->gethtml('home_id'),'home_validation' =>$this->session->get('home_validation'))));
 	    	}
+
+		$view->set('tab', $this->session->has('home_tab') && $this->session->get('home_id') == $this->request->gethtml('home_id') ? $this->session->get('home_tab') : 0);
+		$view->set('tabmini', $this->session->has('home_tabmini') && $this->session->get('home_id') == $this->request->gethtml('home_id') ? $this->session->get('home_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('home_id', $this->request->gethtml('home_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
@@ -341,6 +362,21 @@ class ControllerHomepage extends Controller {
 		if(($this->request->gethtml('home_id')) && (!$this->request->isPost())){
 			$homepage_info = $this->modelAdminHomepage->getRow_homepage_info($this->request->gethtml('home_id'));
 		}
+		if ($this->request->has('name', 'post')) {
+			if ($this->request->gethtml('name', 'post') != NULL) {
+				$name_last = $this->request->has('name', 'post');
+			} else {
+				$name_last = $this->session->get('name_last_homepage');
+			}
+		} else {
+			$name_last = @$homepage_info['name'];
+		}
+		if (strlen($name_last) > 26) {
+			$name_last = substr($name_last , 0, 23) . '...';
+		}
+		$this->session->set('name_last_homepage', $name_last);
+		$this->session->set('last_homepage', $this->url->ssl('homepage', 'update', array('home_id' => $this->request->gethtml('home_id'))));
+		$this->session->set('last_homepage_id', $this->request->gethtml('home_id'));
 
 		if ($this->request->has('name', 'post')){
 			$view->set('name', $this->request->get('name', 'post'));
@@ -401,11 +437,6 @@ class ControllerHomepage extends Controller {
 		}
 		if(!$this->validate->strlen($this->request->get('name', 'post'),1,64)){
 			$this->error['name'] = $this->language->get('error_name');
-		}
-		foreach ($this->request->get('title', 'post', array()) as $value) {
-			if (!$this->validate->strlen($value,1,64)) {
-				$this->error['title'] = $this->language->get('error_title');
-			}
 		}
 		if (@$this->error && !@$this->error['message']){
 			$this->error['warning'] = $this->language->get('error_warning');
@@ -507,6 +538,28 @@ class ControllerHomepage extends Controller {
 		$view->set('language_id', $this->request->gethtml('language_id'));
 		$view->set('slide_id', $this->request->gethtml('slide_id'));
 		$this->response->set($view->fetch('content/slider_module.tpl'));
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('home_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('home_id', $this->request->sanitize('id', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('home_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
 	}
 }
 ?>

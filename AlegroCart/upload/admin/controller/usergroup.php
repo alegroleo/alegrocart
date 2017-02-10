@@ -3,7 +3,7 @@ class ControllerUserGroup extends Controller {
 	var $error = array();
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
@@ -15,7 +15,7 @@ class ControllerUserGroup extends Controller {
 		$this->user    	 	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelAdminUsergroup = $model->get('model_admin_usergroup');
-		
+
 		$this->language->load('controller/user_group.php');
 	}
 	function index() {
@@ -29,7 +29,7 @@ class ControllerUserGroup extends Controller {
 	function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('access', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$permission = array(
 				'access' => $this->request->gethtml('access', 'post'),
 				'modify' => $this->request->gethtml('modify', 'post')
@@ -43,6 +43,8 @@ class ControllerUserGroup extends Controller {
 			}
 
 			$this->modelAdminUsergroup->insert_usergroup($permission);
+			$insert_id = $this->modelAdminUsergroup->get_last_id();
+			$this->session->set('last_usergroup_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('usergroup'));
 		}
@@ -56,7 +58,7 @@ class ControllerUserGroup extends Controller {
 	function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('access', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$permission = array(
 				'access' => $this->request->gethtml('access', 'post'),
 				'modify' => $this->request->gethtml('modify', 'post')
@@ -71,7 +73,12 @@ class ControllerUserGroup extends Controller {
 
 			$this->modelAdminUsergroup->update_usergroup($permission);
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('usergroup'));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('usergroup', 'update', array('user_group_id' => $this->request->gethtml('user_group_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('usergroup'));
+			}
 		}
 
 		$this->template->set('content', $this->getForm());
@@ -128,11 +135,12 @@ class ControllerUserGroup extends Controller {
 		$rows = array();
 
 		foreach ($results as $result) {
+			$last = $result['user_group_id'] == $this->session->get('last_usergroup_id') ? 'last_visited': '';
 			$cell = array();
-
 			$cell[] = array(
 				'value' => $result['name'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			
 			$action = array();
@@ -169,7 +177,6 @@ class ControllerUserGroup extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -177,14 +184,17 @@ class ControllerUserGroup extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
-		
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'usergroup');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
-		
+
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
-		
+
 		$view->set('action', $this->url->ssl('usergroup', 'page'));
 		$view->set('action_delete', $this->url->ssl('usergroup', 'enableDelete'));
  
@@ -196,7 +206,6 @@ class ControllerUserGroup extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('usergroup'));
 		$view->set('insert', $this->url->ssl('usergroup', 'insert'));
 
 		$view->set('pages', $this->modelAdminUsergroup->get_pagination());
@@ -216,30 +225,35 @@ class ControllerUserGroup extends Controller {
 		$view->set('entry_all_modify', $this->language->get('entry_all_modify'));
 		$view->set('entry_modify', $this->language->get('entry_modify'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 		$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
-		
+
 		$view->set('error', @$this->error['message']);
 		$view->set('error_name', @$this->error['name']);
 
 		$view->set('action', $this->url->ssl('usergroup', $this->request->gethtml('action'), array('user_group_id' => $this->request->gethtml('user_group_id'))));
 
-		$view->set('list', $this->url->ssl('usergroup'));
-
 		$view->set('insert', $this->url->ssl('usergroup', 'insert'));
-		
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('user_group_id', $this->request->gethtml('user_group_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_usergroup_id', $this->request->gethtml('user_group_id'));
 
 		if ($this->request->gethtml('user_group_id')) {
 			$view->set('update', $this->url->ssl('usergroup', 'update', array('user_group_id' => $this->request->gethtml('user_group_id'))));
@@ -295,19 +309,18 @@ class ControllerUserGroup extends Controller {
 
 		return $view->fetch('content/user_group.tpl');
 	}
-
 	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-		
+
 		if (!$this->user->hasPermission('modify', 'usergroup')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-    
-        if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,64)) {
+
+		if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,64)) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
 
@@ -317,7 +330,6 @@ class ControllerUserGroup extends Controller {
 			return FALSE;
 		}
 	}
-	
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -334,15 +346,14 @@ class ControllerUserGroup extends Controller {
 	}
 	function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'usergroup')) {//**
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
-
 	function validateDelete() {
 		if(($this->session->get('user_validation') != $this->request->sanitize('user_validation')) || (strlen($this->session->get('user_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -363,7 +374,13 @@ class ControllerUserGroup extends Controller {
 			return FALSE;
 		}
 	}
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('user_group.search', $this->request->gethtml('search', 'post'));
@@ -382,6 +399,6 @@ class ControllerUserGroup extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('usergroup'));
-	}	
+	}
 }
 ?>

@@ -1,12 +1,21 @@
 <div class="task">
-  <?php if (@$list) {?>
-    <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
-  <?php } else { ?>
-    <div class="disabled"><img src="template/<?php echo $this->directory?>/image/list_disabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
-  <?php }?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
+  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+  <input type="hidden" name="update_form" value="1">
+  <input type="hidden" name="model_number" value="">
+  <input type="hidden" name="quantity" value="">
+  <input type="hidden" name="encoding" value="">
+  <input type="hidden" name="barcode" value="">
+  <input type="hidden" name="type_id" value="">
+  <input type="hidden" name="image_id" value="">
+  <input type="hidden" name="dimension_id" value="">
+  <input type="hidden" name="product_id" id="product_id" value="<?php echo $product_id; ?>">
+  <input type="hidden" name="product_option" id="product_option" value="<?php echo $product_option; ?>">
+  <input type="hidden" name="no_image_id" value="<?php echo $no_image_id; ?>">
+  </form>
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
@@ -30,7 +39,13 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?><?php if($productwo_id){ ?><em><?php echo $product_name;?></em><?php } ?></div>
+<?php if ($message) { ?>
+<div class="message"><?php echo $message; ?></div>
+<?php } ?>
+<div class="heading"><?php echo $heading_title; ?>
+ <?php if($productwo_id){ ?> <em><?php echo $product_name;?></em><?php } ?>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
@@ -53,7 +68,7 @@
 	</table>
   </form>
 <?php } else { ?>
-  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form>
     <table style="width: 100%;"><tr><td><hr></td></tr></table>
 	<table>
 	  <tr><td style="width: 185px;" class="set"><?php echo $entry_model_number;?></td>
@@ -148,4 +163,46 @@
     $(document).ready(function() {
 	  RegisterValidation();
     });
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	$('.task').each(function(){
+	$('.task .disabled').hide();
+	});
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+  });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=products_with_options&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
+  //--></script>
+  <script type="text/javascript"><!--
+	function getValues() {
+		document.forms['update_form'].model_number.value=document.forms['form'].model_number.value;
+		document.forms['update_form'].quantity.value=document.forms['form'].quantity.value;
+		document.forms['update_form'].encoding.value=document.forms['form'].encoding.value;
+		document.forms['update_form'].barcode.value=document.forms['form'].barcode.value;
+		document.forms['update_form'].type_id.value=document.forms['form'].type_id.value;
+		document.forms['update_form'].image_id.value=document.forms['form'].image_id.value;
+		document.forms['update_form'].dimension_id.value=document.forms['form'].dimension_id.value;
+
+		getDimensionValues('form', 'dimension_value', 'update_form');
+
+	}
+	function getDimensionValues(formName,elementName,newFormName){ 
+		var html ='';
+		var len = $('[id^='+ elementName + ']').length;
+		for(j = 0; j < len; j++) { 
+				html +='<input type="hidden" name="' + elementName + '[' + j + ']" value="' + document.forms[formName].elements[elementName + '[' + j +']'].value + '">';
+		}
+		document.forms[newFormName].innerHTML += html;
+	}
   //--></script>

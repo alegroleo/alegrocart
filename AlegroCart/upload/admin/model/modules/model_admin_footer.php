@@ -20,5 +20,9 @@ class Model_Admin_Footer extends Model {
 	function install_footer(){
 		$this->database->query("insert into setting set type = 'admin', `group` = 'footer', `key` = 'footer_status', value = '1'");
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

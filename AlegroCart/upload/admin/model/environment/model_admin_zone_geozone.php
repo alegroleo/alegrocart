@@ -88,5 +88,9 @@ class Model_Admin_Zone_GeoZone extends Model {
 		$result = $this->database->getRow("select name from geo_zone where geo_zone_id = '" . $geo_zone_id . "'");
 		return $result['name'];
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
 }
 ?>

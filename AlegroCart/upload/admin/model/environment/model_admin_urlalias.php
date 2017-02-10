@@ -56,5 +56,9 @@ class Model_Admin_UrlAlias extends Model {
 		$text_results = $this->language->get('text_results', $this->database->getFrom(), $this->database->getTo(), $this->database->getTotal());
 		return $text_results;
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
 }
 ?>

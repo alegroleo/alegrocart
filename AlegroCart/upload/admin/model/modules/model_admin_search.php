@@ -22,5 +22,9 @@ class Model_Admin_Search extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'search', `key` = 'search_status', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'search', `key` = 'search_ratings', value = '1'");
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

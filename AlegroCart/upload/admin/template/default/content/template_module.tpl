@@ -1,6 +1,6 @@
 <tr id="<?php echo $location . '_' . $module_id; ?>">
   <td><?php echo $entry_module; ?></td>
-  <td><select name="<?php echo $location . '[' .  $module_id; ?>][module_code]">
+  <td><select class="<?php echo $location; ?>" name="<?php echo $location . '[' .  $module_id; ?>][module_code]">
 	<?php foreach(${$location.'_modules'} as $module){?>
 	  <option value="<?php echo $module;?>"><?php echo $module;?></option>
 	<?php }?>

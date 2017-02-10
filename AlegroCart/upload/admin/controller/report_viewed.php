@@ -2,16 +2,17 @@
 class ControllerReportViewed extends Controller {
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->response 	=& $locator->get('response');
+		$this->session  	=& $locator->get('session');
 		$this->template 	=& $locator->get('template');
 		$this->modelReportViewed = $model->get('model_admin_report_viewed');
-		
+
 		$this->language->load('controller/report_viewed.php');
 		}
-	function index() {   
+	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
  
 		$view = $this->locator->create('template');
@@ -19,13 +20,15 @@ class ControllerReportViewed extends Controller {
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
- 		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('column_name', $this->language->get('column_name'));
 		$view->set('column_viewed', $this->language->get('column_viewed'));
@@ -60,6 +63,13 @@ class ControllerReportViewed extends Controller {
 		$this->template->set($this->module->fetch());
 
 		$this->response->set($this->template->fetch('layout.tpl'));
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
 	}
 }
 ?>

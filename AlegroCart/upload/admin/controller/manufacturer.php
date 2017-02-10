@@ -3,7 +3,7 @@ class ControllerManufacturer extends Controller {
 	var $error = array();
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -19,47 +19,55 @@ class ControllerManufacturer extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelManufacturer = $model->get('model_admin_manufacturer');
-		
+
 		$this->language->load('controller/manufacturer.php');
-	} 
-  	function index() {
+	}
+	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-  
-  	function insert() {
-    	$this->template->set('title', $this->language->get('heading_title'));
-			
+
+		$this->response->set($this->template->fetch('layout.tpl'));
+	}
+	function insert() {
+		$this->template->set('title', $this->language->get('heading_title'));
+
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$url_alias = $this->config->get('config_url_alias');
 			$url_seo = $this->config->get('config_seo');
-      		$this->modelManufacturer->insert_manufacturer();
-		$manufacturer_id = $this->modelManufacturer->get_last_id();			
-		if($url_alias && $url_seo){
-				$this->manufacturer_seo($manufacturer_id,$this->request->gethtml('name', 'post'));
-				$this->cache->delete('url');
+			$this->modelManufacturer->insert_manufacturer();
+			$manufacturer_id = $this->modelManufacturer->get_last_id();
+			if($url_alias && $url_seo){
+					$this->manufacturer_seo($manufacturer_id,$this->request->gethtml('name', 'post'));
+					$this->cache->delete('url');
+				}
+			foreach ($this->request->gethtml('productdata', 'post', array()) as $product_id) {
+					$this->modelManufacturer->write_product($product_id, $manufacturer_id);
+				}
+			$name_last = $this->request->get('name', 'post');
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
 			}
-		foreach ($this->request->gethtml('productdata', 'post', array()) as $product_id) {
-				$this->modelManufacturer->write_product($product_id, $manufacturer_id);
-	  		}
+			$this->session->set('name_last_manufacturer', $name_last);
+			$this->session->set('last_manufacturer', $this->url->ssl('manufacturer', 'update', array('manufacturer_id' => $manufacturer_id)));
+			$this->session->set('last_manufacturer_id', $manufacturer_id);
 			$this->cache->delete('manufacturer');
 			$this->session->set('message', $this->language->get('text_message'));
-			
-	  		$this->response->redirect($this->url->ssl('manufacturer'));
+			$this->response->redirect($this->url->ssl('manufacturer'));
 		}
-    	$this->template->set('content', $this->getForm());
-		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	} 
+		$this->template->set('content', $this->getForm());
 
-  	function update() {
-    	$this->template->set('title', $this->language->get('heading_title'));
-		
-    	if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
+		$this->session->delete('name_last_manufacturer');
+		$this->session->delete('last_manufacturer');
+
+		$this->template->set($this->module->fetch());
+
+		$this->response->set($this->template->fetch('layout.tpl'));
+	} 
+	function update() {
+		$this->template->set('title', $this->language->get('heading_title'));
+
+		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$url_alias = $this->config->get('config_url_alias');
 			$url_seo = $this->config->get('config_seo');
 			$this->modelManufacturer->update_manufacturer();
@@ -71,263 +79,289 @@ class ControllerManufacturer extends Controller {
 			$this->modelManufacturer->delete_manufacturerToProduct();
 			foreach ($this->request->gethtml('productdata', 'post', array()) as $product_id) {
 				$this->modelManufacturer->update_product($product_id);
-	  		}
+			}
 			$this->cache->delete('manufacturer');
 			$this->session->set('message', $this->language->get('text_message'));
 
-	  		$this->response->redirect($this->url->ssl('manufacturer'));
-		}
-    	$this->template->set('content', $this->getForm());
-		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}   
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('manufacturer', 'update', array('manufacturer_id' => $this->request->gethtml('manufacturer_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('manufacturer'));
+			}
 
-  	function delete() {
-    	$this->template->set('title', $this->language->get('heading_title'));
-			
-    	if (($this->request->gethtml('manufacturer_id')) && ($this->validateDelete())) {
+		}
+		$this->template->set('content', $this->getForm());
+		$this->template->set($this->module->fetch());
+
+		$this->response->set($this->template->fetch('layout.tpl'));
+	}
+	function delete() {
+		$this->template->set('title', $this->language->get('heading_title'));
+
+		if (($this->request->gethtml('manufacturer_id')) && ($this->validateDelete())) {
 			$url_alias = $this->config->get('config_url_alias');
 			$url_seo = $this->config->get('config_seo');
-      		$this->modelManufacturer->delete_manufacturer();
+			$this->modelManufacturer->delete_manufacturer();
 			if($url_alias && $url_seo){
 				$this->delete_manufacturer_seo($this->request->gethtml('manufacturer_id'));
 				$this->cache->delete('url');
 			}
 			$this->cache->delete('manufacturer');
 			$this->session->set('message', $this->language->get('text_message'));
-			
-	  		$this->response->redirect($this->url->ssl('manufacturer'));
-    	}
-    
-    	$this->template->set('content', $this->getList());
+			$this->session->delete('name_last_manufacturer');
+			$this->session->delete('last_manufacturer');
+			$this->response->redirect($this->url->ssl('manufacturer'));
+		}
+
+		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}  
-    
-  	function getList() {
+
+	 	$this->response->set($this->template->fetch('layout.tpl'));
+	}
+	function getList() {
 		$this->session->set('manufacturer_validation', md5(time()));
-    	$cols = array();
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_name'),
-      		'sort'  => 'm.name',
-      		'align' => 'left'
-    	);
+	    	$cols = array();
+	    	$cols[] = array(
+	      		'name'  => $this->language->get('column_name'),
+	      		'sort'  => 'm.name',
+	      		'align' => 'left'
+	    	);
 		$cols[] = array(
-             'name'  => $this->language->get('column_image'),
-             'sort'  => 'i.filename',
-             'align' => 'right'
-       );
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_sort_order'),
-      		'sort'  => 'm.sort_order',
-      		'align' => 'right'
-    	);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+	             'name'  => $this->language->get('column_image'),
+	             'sort'  => 'i.filename',
+	             'align' => 'right'
+	       );
+	    	$cols[] = array(
+	      		'name'  => $this->language->get('column_sort_order'),
+	      		'sort'  => 'm.sort_order',
+	      		'align' => 'right'
+	    	);
+	    	$cols[] = array(
+	      		'name'  => $this->language->get('column_action'),
+	      		'align' => 'action'
+	    	);
+
 		$results = $this->modelManufacturer->get_page();
-    	$rows = array();
-    	foreach ($results as $result) {
-      		$cell = array();
-      		$cell[] = array(
-        		'value' => $result['name'],
-        		'align' => 'left'
-      		);
-		$cell[] = array(
-		       'image' => $this->image->resize($result['filename'], '26', '26'),
-		       'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-		       'title' => $result['filename'],
-		       'align' => 'right'
-                );
-      		$cell[] = array(
-        		'value' => $result['sort_order'],
-        		'align' => 'right'
-      		);
+	    	$rows = array();
+	    	foreach ($results as $result) {
+			$last = $result['manufacturer_id'] == $this->session->get('last_manufacturer_id') ? 'last_visited': '';
+	      		$cell = array();
+	      		$cell[] = array(
+				'value' => $result['name'],
+				'align' => 'left',
+				'last' => $last
+	      		);
+			$cell[] = array(
+			       'image' => $this->image->resize($result['filename'], '26', '26'),
+			       'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+			       'title' => $result['filename'],
+			       'align' => 'right'
+		        );
+	      		$cell[] = array(
+				'value' => $result['sort_order'],
+				'align' => 'right',
+				'last' => $last
+	      		);
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('manufacturer', 'update', array('manufacturer_id' => $result['manufacturer_id']))
-      		);
-			
-			if($this->session->get('enable_delete')){
-				$action[] = array(
-					'icon' => 'delete.png',
-					'text' => $this->language->get('button_delete'),
-					'href' => $this->url->ssl('manufacturer', 'delete', array('manufacturer_id' => $result['manufacturer_id'],'manufacturer_validation' =>$this->session->get('manufacturer_validation')))
-				);
-			}
-			
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
-      		$rows[] = array('cell' => $cell);
-    	}
+	      		);
 
-    	$view = $this->locator->create('template');
+				if($this->session->get('enable_delete')){
+					$action[] = array(
+						'icon' => 'delete.png',
+						'text' => $this->language->get('button_delete'),
+						'href' => $this->url->ssl('manufacturer', 'delete', array('manufacturer_id' => $result['manufacturer_id'],'manufacturer_validation' =>$this->session->get('manufacturer_validation')))
+					);
+				}
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
-    	$view->set('text_results', $this->modelManufacturer->get_text_results());
+	      		$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+	      		);
+	      		$rows[] = array('cell' => $cell);
+	    	}
 
-    	$view->set('entry_page', $this->language->get('entry_page'));
-    	$view->set('entry_search', $this->language->get('entry_search'));
+	    	$view = $this->locator->create('template');
 
-    	$view->set('button_list', $this->language->get('button_list'));
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-    	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
+	    	$view->set('heading_title', $this->language->get('heading_title'));
+	    	$view->set('heading_description', $this->language->get('heading_description'));
+	    	$view->set('text_results', $this->modelManufacturer->get_text_results());
+
+	    	$view->set('entry_page', $this->language->get('entry_page'));
+	    	$view->set('entry_search', $this->language->get('entry_search'));
+
+	    	$view->set('button_insert', $this->language->get('button_insert'));
+	    	$view->set('button_update', $this->language->get('button_update'));
+	    	$view->set('button_delete', $this->language->get('button_delete'));
+	    	$view->set('button_save', $this->language->get('button_save'));
+	    	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
-	$view->set('button_print', $this->language->get('button_print'));
-	
-	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
-    	$view->set('error', @$this->error['message']);
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'manufacturer');
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+
+    		$view->set('error', @$this->error['message']);
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
-		
-    	$view->set('action', $this->url->ssl('manufacturer', 'page'));
+
+    		$view->set('action', $this->url->ssl('manufacturer', 'page'));
 		$view->set('action_delete', $this->url->ssl('manufacturer', 'enableDelete'));
-  
-    	$view->set('search', $this->session->get('manufacturer.search'));
-    	$view->set('sort', $this->session->get('manufacturer.sort'));
-    	$view->set('order', $this->session->get('manufacturer.order'));
-    	$view->set('page', $this->session->get('manufacturer.page'));
-  
-    	$view->set('cols', $cols);
-    	$view->set('rows', $rows);
-  
-		$view->set('list', $this->url->ssl('manufacturer'));
-    	$view->set('insert', $this->url->ssl('manufacturer', 'insert'));
-  
-    	$view->set('pages', $this->modelManufacturer->get_pagination());
+
+	    	$view->set('search', $this->session->get('manufacturer.search'));
+	    	$view->set('sort', $this->session->get('manufacturer.sort'));
+	    	$view->set('order', $this->session->get('manufacturer.order'));
+	    	$view->set('page', $this->session->get('manufacturer.page'));
+
+	    	$view->set('cols', $cols);
+	    	$view->set('rows', $rows);
+
+	    	$view->set('insert', $this->url->ssl('manufacturer', 'insert'));
+
+	    	$view->set('pages', $this->modelManufacturer->get_pagination());
 
 		return $view->fetch('content/list.tpl');
-  	}
-  
-  	function getForm() {
-    	$view = $this->locator->create('template');
+	}
+	function getForm() {
+	    	$view = $this->locator->create('template');
 
-    	$view->set('heading_title', $this->language->get('heading_form_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+	    	$view->set('heading_title', $this->language->get('heading_form_title'));
+	    	$view->set('heading_description', $this->language->get('heading_description'));
 
-    	$view->set('text_enabled', $this->language->get('text_enabled'));
-    	$view->set('text_disabled', $this->language->get('text_disabled'));
+	    	$view->set('text_enabled', $this->language->get('text_enabled'));
+	    	$view->set('text_disabled', $this->language->get('text_disabled'));
 
-    	$view->set('entry_name', $this->language->get('entry_name'));
-    	$view->set('entry_image', $this->language->get('entry_image'));
+	    	$view->set('entry_name', $this->language->get('entry_name'));
+	    	$view->set('entry_image', $this->language->get('entry_image'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
-      	$view->set('entry_product', $this->language->get('entry_product'));
+	      	$view->set('entry_product', $this->language->get('entry_product'));
 
-    	$view->set('button_list', $this->language->get('button_list'));
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-    	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
-	$view->set('button_print', $this->language->get('button_print'));
+	    	$view->set('button_insert', $this->language->get('button_insert'));
+	    	$view->set('button_update', $this->language->get('button_update'));
+	    	$view->set('button_delete', $this->language->get('button_delete'));
+	    	$view->set('button_save', $this->language->get('button_save'));
+	    	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 	  	$view->set('tab_product', $this->language->get('tab_product'));
-	$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
-    	
-	$view->set('error', @$this->error['message']);
-    	$view->set('error_name', @$this->error['name']);
-    
-    	$view->set('action', $this->url->ssl('manufacturer', $this->request->gethtml('action'), array('manufacturer_id' => $this->request->gethtml('manufacturer_id'))));
-      
-    	$view->set('list', $this->url->ssl('manufacturer'));
- 
-    	$view->set('insert', $this->url->ssl('manufacturer', 'insert'));
-		$view->set('cancel', $this->url->ssl('manufacturer'));
-  
-    	if ($this->request->gethtml('manufacturer_id')) {
-      		$view->set('update', $this->url->ssl('manufacturer', 'update', array('manufacturer_id' => $this->request->gethtml('manufacturer_id'))));
-	  		$view->set('delete', $this->url->ssl('manufacturer', 'delete', array('manufacturer_id' => $this->request->gethtml('manufacturer_id'),'manufacturer_validation' =>$this->session->get('manufacturer_validation'))));
-    	}
+		$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
+
+		$view->set('error', @$this->error['message']);
+	    	$view->set('error_name', @$this->error['name']);
+
+	    	$view->set('action', $this->url->ssl('manufacturer', $this->request->gethtml('action'), array('manufacturer_id' => $this->request->gethtml('manufacturer_id'))));
+
+	    	$view->set('insert', $this->url->ssl('manufacturer', 'insert'));
+			$view->set('cancel', $this->url->ssl('manufacturer'));
+
+	    	if ($this->request->gethtml('manufacturer_id')) {
+	      		$view->set('update', $this->url->ssl('manufacturer', 'update', array('manufacturer_id' => $this->request->gethtml('manufacturer_id'))));
+		  		$view->set('delete', $this->url->ssl('manufacturer', 'delete', array('manufacturer_id' => $this->request->gethtml('manufacturer_id'),'manufacturer_validation' =>$this->session->get('manufacturer_validation'))));
+	    	}
+
+		$view->set('tab', $this->session->has('manufacturer_tab') && $this->session->get('manufacturer_id') == $this->request->gethtml('manufacturer_id') ? $this->session->get('manufacturer_tab') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('manufacturer_id', $this->request->gethtml('manufacturer_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-    	
 
-    	if (($this->request->gethtml('manufacturer_id')) && (!$this->request->isPost())) {
-      		$manufacturer_info = $this->modelManufacturer->get_manufacturer();
-    	}
+	    	if (($this->request->gethtml('manufacturer_id')) && (!$this->request->isPost())) {
+	      		$manufacturer_info = $this->modelManufacturer->get_manufacturer();
+	    	}
 
-    	if ($this->request->has('name', 'post')) {
-      		$view->set('name', $this->request->gethtml('name', 'post'));
-    	} else {
-      		$view->set('name', @$manufacturer_info['name']);
-    	}
+		if ($this->request->has('name', 'post')) {
+			if ($this->request->gethtml('name', 'post') != NULL) {
+				$name_last = $this->request->has('name', 'post');
+			} else {
+				$name_last = $this->session->get('name_last_manufacturer');
+			}
+		} else {
+			$name_last = @$manufacturer_info['name'];
+		}
+		if (strlen($name_last) > 26) {
+			$name_last = substr($name_last , 0, 23) . '...';
+		}
+		$this->session->set('name_last_manufacturer', $name_last);
+		$this->session->set('last_manufacturer', $this->url->ssl('manufacturer', 'update', array('manufacturer_id' => $this->request->gethtml('manufacturer_id'))));
+		$this->session->set('last_manufacturer_id', $this->request->gethtml('manufacturer_id'));
 
-    	$image_data = array();
-    	$results = $this->modelManufacturer->get_images();
-    	foreach ($results as $result) {
-      		$image_data[] = array(
-        		'image_id'        => $result['image_id'],
-			'previewimage'    => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-        		'title'           => $result['title']
-      		);
-    	}
-    	$view->set('images', $image_data);
+	    	if ($this->request->has('name', 'post')) {
+	      		$view->set('name', $this->request->gethtml('name', 'post'));
+	    	} else {
+	      		$view->set('name', @$manufacturer_info['name']);
+	    	}
 
-    	if ($this->request->has('image_id', 'post')) {
-      		$view->set('image_id', $this->request->gethtml('image_id', 'post'));
-    	} else {
-      		$view->set('image_id', @$manufacturer_info['image_id']);
-    	}
-						
-    	if ($this->request->has('sort_order', 'post')) {
-      		$view->set('sort_order', $this->request->gethtml('sort_order', 'post'));
-    	} else {
-      		$view->set('sort_order', @$manufacturer_info['sort_order']);
-    	}
+	    	$image_data = array();
+	    	$results = $this->modelManufacturer->get_images();
+	    	foreach ($results as $result) {
+	      		$image_data[] = array(
+				'image_id'        => $result['image_id'],
+				'previewimage'    => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+				'title'           => $result['title']
+	      		);
+	    	}
+	    	$view->set('images', $image_data);
 
-	$product_data = array();
-    	$results = $this->modelManufacturer->get_products();
-    	foreach ($results as $result) {
+	    	if ($this->request->has('image_id', 'post')) {
+	      		$view->set('image_id', $this->request->gethtml('image_id', 'post'));
+	    	} else {
+	      		$view->set('image_id', @$manufacturer_info['image_id']);
+	    	}
+
+	    	if ($this->request->has('sort_order', 'post')) {
+	      		$view->set('sort_order', $this->request->gethtml('sort_order', 'post'));
+	    	} else {
+	      		$view->set('sort_order', @$manufacturer_info['sort_order']);
+	    	}
+
+		$product_data = array();
+	    	$results = $this->modelManufacturer->get_products();
+	    	foreach ($results as $result) {
 			if (($this->request->gethtml('manufacturer_id')) && (!$this->request->isPost())) {
-	  			$product_info = $this->modelManufacturer->get_manufacturerToProduct($result['product_id']);
+		  		$product_info = $this->modelManufacturer->get_manufacturerToProduct($result['product_id']);
 			}
 			$product_data[] = array(
-        		'product_id' => $result['product_id'],
+			'product_id' => $result['product_id'],
 			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-        		'name'        => $result['name'],
+			'name'        => $result['name'],
 			'productdata'	=> (isset($product_info) ? $product_info : in_array($result['product_id'], $this->request->gethtml('productdata', 'post', array()))));
-    	}
-    	$view->set('productdata', $product_data);
+	    	}
+    		$view->set('productdata', $product_data);
 
 		return $view->fetch('content/manufacturer.tpl');
-	}  
-	 
-  	function validateForm() {
+	}
+	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-    	if (!$this->user->hasPermission('modify', 'manufacturer')) {
-      		$this->error['message'] = $this->language->get('error_permission');
-    	}
-        if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,64)) {
-      		$this->error['name'] = $this->language->get('error_name');
-    	}
-		if (!$this->error) {
-	  		return TRUE;
-		} else {
-	  		return FALSE;
+		if (!$this->user->hasPermission('modify', 'manufacturer')) {
+			$this->error['message'] = $this->language->get('error_permission');
 		}
-  	}
-
+		if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,64)) {
+			$this->error['name'] = $this->language->get('error_name');
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -344,24 +378,23 @@ class ControllerManufacturer extends Controller {
 	}
 	function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'manufacturer')) {//**
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
-
-  	function validateDelete() {
+	function validateDelete() {
 		if(($this->session->get('manufacturer_validation') != $this->request->sanitize('manufacturer_validation')) || (strlen($this->session->get('manufacturer_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('manufacturer_validation');
-    	if (!$this->user->hasPermission('modify', 'manufacturer')) {
-      		$this->error['message'] = $this->language->get('error_permission');
-    	}	
-  		$product_info = $this->modelManufacturer->check_products();
+		if (!$this->user->hasPermission('modify', 'manufacturer')) {
+			$this->error['message'] = $this->language->get('error_permission');
+		}
+		$product_info = $this->modelManufacturer->check_products();
 		if ($product_info['total']) {
 			$this->error['message'] = $product_info['total'] == 1 ? $this->language->get('error_product') : $this->language->get('error_products', $product_info['total']) ;
 			$product_list = $this-> modelManufacturer->get_manufacturerToProducts();
@@ -371,18 +404,17 @@ class ControllerManufacturer extends Controller {
 				}
 		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
-  	}
-
-  	function page() {
+	}
+	function page() {
 		if ($this->request->has('search', 'post')) {
-	  		$this->session->set('manufacturer.search', $this->request->gethtml('search', 'post'));
+			$this->session->set('manufacturer.search', $this->request->gethtml('search', 'post'));
 		}
 		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
-	  		$this->session->set('manufacturer.page', $this->request->gethtml('page', 'post'));
+			$this->session->set('manufacturer.page', $this->request->gethtml('page', 'post'));
 		} 
 		if ($this->request->has('sort', 'post')) {
 			$this->session->set('manufacturer.order', (($this->session->get('manufacturer.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('manufacturer.order') == 'asc') ? 'desc' : 'asc'));
@@ -390,9 +422,8 @@ class ControllerManufacturer extends Controller {
 		if ($this->request->has('sort', 'post')) {
 			$this->session->set('manufacturer.sort', $this->request->gethtml('sort', 'post'));
 		}
-
 		$this->response->redirect($this->url->ssl('manufacturer'));
-  	}
+	}
 	function manufacturer_seo($manufacturer_id,$manufacturer_name){
 		$query_path = 'controller=manufacturer&manufacturer_id=' . $manufacturer_id;
 		$alias = '';
@@ -403,6 +434,21 @@ class ControllerManufacturer extends Controller {
 	function delete_manufacturer_seo($manufacturer_id){
 		$query_path = 'controller=manufacturer&manufacturer_id=' . $manufacturer_id;
 		$this->modelManufacturer->delete_SEO($query_path);
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('manufacturer_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('manufacturer_id', $this->request->sanitize('id', 'post'));
+			}
+		}
 	}
 }
 ?>

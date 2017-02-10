@@ -6,6 +6,7 @@ class Model_Admin_Coupon extends Model {
 		$this->language =& $locator->get('language');
 		$this->request 	=& $locator->get('request');
 		$this->session 	=& $locator->get('session');
+		$this->url	=& $locator->get('url');
 	}
 	function insert_coupon(){
 		$sql = "insert into coupon set code = '?', discount = '?', prefix = '?', minimum_order = '?', shipping = '?', date_start = '?', date_end = '?', uses_total = '?', uses_customer = '?', status = '?', date_added = now()";
@@ -15,7 +16,15 @@ class Model_Admin_Coupon extends Model {
 		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
         	$sql = "insert into coupon_description set coupon_id = '?', language_id = '?', name = '?', description = '?'";
         	$this->database->query($this->database->parse($sql, $insert_id, $key, $value['name'], $value['description']));
-      	}
+		if ($key == $this->language->getId()) {
+			$name_last = $value['name'];
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
+			}
+			$this->session->set('name_last_coupon', $name_last);
+			$this->session->set('last_coupon', $this->url->ssl('coupon', 'update', array('coupon_id' => $insert_id)));
+      		}
+	}
 	}
 	function insert_product($insert_id){
 		foreach ($this->request->gethtml('product', 'post', array()) as $product_id) {
@@ -100,6 +109,10 @@ class Model_Admin_Coupon extends Model {
 		$new_status = $status ? 0 : 1;
 		$sql = "update coupon set status = '?' where coupon_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
 	}
 }
 ?>

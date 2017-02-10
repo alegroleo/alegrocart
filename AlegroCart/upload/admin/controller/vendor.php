@@ -33,7 +33,7 @@ class ControllerVendor extends Controller {
 	}
 
 	function insert(){
-	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$this->modelVendor->insert_vendor();
@@ -44,14 +44,26 @@ class ControllerVendor extends Controller {
 				$this->modelVendor->write_product($product_id, $vendor_id);
 			}
 
+			$name_last = $this->request->get('name', 'post');
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
+			}
+			$this->session->set('name_last_vendor', $name_last);
+			$this->session->set('last_vendor', $this->url->ssl('vendor', 'update', array('vendor_id' => $vendor_id)));
+			$this->session->set('last_vendor_id', $vendor_id);
+
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('vendor'));
 		}
 
-	$this->template->set('content', $this->getForm());
-	$this->template->set($this->module->fetch());
+		$this->template->set('content', $this->getForm());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->session->delete('name_last_vendor');
+		$this->session->delete('last_vendor');
+
+		$this->template->set($this->module->fetch());
+
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function update(){
@@ -68,156 +80,158 @@ class ControllerVendor extends Controller {
 
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('vendor'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('vendor', 'update', array('vendor_id' => $this->request->gethtml('vendor_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('vendor'));
+			}
+
 		}
 
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-
 	function delete(){
-	$this->template->set('title', $this->language->get('heading_title'));
-
-	if (($this->request->gethtml('vendor_id')) && ($this->validateDelete())) {
-		$this->modelVendor->delete_vendor();
-		$this->session->set('message', $this->language->get('text_message'));
-		$this->response->redirect($this->url->ssl('vendor'));
-	}
-
-	$this->template->set('content', $this->getList());
+		$this->template->set('title', $this->language->get('heading_title'));
+		if (($this->request->gethtml('vendor_id')) && ($this->validateDelete())) {
+			$this->modelVendor->delete_vendor();
+			$this->session->set('message', $this->language->get('text_message'));
+			$this->session->delete('name_last_vendor');
+			$this->session->delete('last_vendor');
+			$this->response->redirect($this->url->ssl('vendor'));
+		}
+		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-
 	function changeStatus() { 
-		
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
-
 			$this->modelVendor->change_vendor_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
-	
 	}
-
 	function getList(){
-	$this->session->set('vendor_validation', md5(time()));
+		$this->session->set('vendor_validation', md5(time()));
 
-	$cols = array();
-	$cols[] = array(
-		'name'  => $this->language->get('column_name'),
-		'sort'  => 'v.name',
-		'align' => 'left'
-	);
-	$cols[] = array(
-		'name'  => $this->language->get('column_image'),
-		'sort'  => 'i.filename',
-		'align' => 'right'
-	);
-	$cols[] = array(
-		'name'  => $this->language->get('column_status'),
-		'sort'  => 'v.status',
-		'align' => 'center'
-	);
-	$cols[] = array(
-		'name'  => $this->language->get('column_action'),
-		'align' => 'action'
-	);
-
-	$results = $this->modelVendor->get_page();
-	$rows = array();
-	foreach ($results as $result) {
-		$cell = array();
-		$cell[] = array(
-			'value' => $result['name'],
+		$cols = array();
+		$cols[] = array(
+			'name'  => $this->language->get('column_name'),
+			'sort'  => 'v.name',
 			'align' => 'left'
 		);
-		$cell[] = array(
-			'image'		=> $this->image->resize($result['filename'], '26', '26'),
-			'previewimage'	=> $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-			'title'		=> $result['filename'],
-			'align'		=> 'right'
+		$cols[] = array(
+			'name'  => $this->language->get('column_image'),
+			'sort'  => 'i.filename',
+			'align' => 'right'
 		);
-		if ($this->validateChangeStatus()) {
-		$cell[] = array(
-			'status'		=> $result['status'],
-			'text'			=> $this->language->get('button_status'),
-			'align'			=> 'center',
-			'status_id'		=> $result['vendor_id'],
-			'status_controller'	=> 'vendor'
-			);
-
-		} else {
-
-		$cell[] = array(
-			'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+		$cols[] = array(
+			'name'  => $this->language->get('column_status'),
+			'sort'  => 'v.status',
 			'align' => 'center'
 		);
-		}
-
-		$action = array();
-		$action[] = array(
-			'icon' => 'update.png',
-			'text' => $this->language->get('button_update'),
-			'href' => $this->url->ssl('vendor', 'update', array('vendor_id' => $result['vendor_id']))
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
 		);
 
-		if($this->session->get('enable_delete')){
-			$action[] = array(
-				'icon' => 'delete.png',
-				'text' => $this->language->get('button_delete'),
-				'href' => $this->url->ssl('vendor', 'delete', array('vendor_id' => $result['vendor_id'],'vendor_validation' =>$this->session->get('vendor_validation')))
+		$results = $this->modelVendor->get_page();
+		$rows = array();
+		foreach ($results as $result) {
+			$cell = array();
+			$last = $result['vendor_id'] == $this->session->get('last_vendor_id') ? 'last_visited': '';
+			$cell[] = array(
+				'value' => $result['name'],
+				'align' => 'left',
+				'last' => $last
 			);
+			$cell[] = array(
+				'image'		=> $this->image->resize($result['filename'], '26', '26'),
+				'previewimage'	=> $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+				'title'		=> $result['filename'],
+				'align'		=> 'right'
+			);
+			if ($this->validateChangeStatus()) {
+			$cell[] = array(
+				'status'		=> $result['status'],
+				'text'			=> $this->language->get('button_status'),
+				'align'			=> 'center',
+				'status_id'		=> $result['vendor_id'],
+				'status_controller'	=> 'vendor'
+				);
+
+			} else {
+
+			$cell[] = array(
+				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+				'align' => 'center'
+			);
+			}
+
+			$action = array();
+			$action[] = array(
+				'icon' => 'update.png',
+				'text' => $this->language->get('button_update'),
+				'href' => $this->url->ssl('vendor', 'update', array('vendor_id' => $result['vendor_id']))
+			);
+
+			if($this->session->get('enable_delete')){
+				$action[] = array(
+					'icon' => 'delete.png',
+					'text' => $this->language->get('button_delete'),
+					'href' => $this->url->ssl('vendor', 'delete', array('vendor_id' => $result['vendor_id'],'vendor_validation' =>$this->session->get('vendor_validation')))
+				);
+			}
+
+			$cell[] = array(
+				'action'=> $action,
+				'align'	=> 'action'
+			);
+			$rows[] = array('cell' => $cell);
 		}
 
-		$cell[] = array(
-			'action'=> $action,
-			'align'	=> 'action'
-		);
-		$rows[] = array('cell' => $cell);
-	}
+		$view = $this->locator->create('template');
 
-	$view = $this->locator->create('template');
+		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('text_results', $this->modelVendor->get_text_results());
 
-	$view->set('heading_title', $this->language->get('heading_title'));
-	$view->set('heading_description', $this->language->get('heading_description'));
-	$view->set('text_results', $this->modelVendor->get_text_results());
+		$view->set('entry_page', $this->language->get('entry_page'));
+		$view->set('entry_search', $this->language->get('entry_search'));
 
-	$view->set('entry_page', $this->language->get('entry_page'));
-	$view->set('entry_search', $this->language->get('entry_search'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
-	$view->set('button_list', $this->language->get('button_list'));
-	$view->set('button_insert', $this->language->get('button_insert'));
-	$view->set('button_update', $this->language->get('button_update'));
-	$view->set('button_delete', $this->language->get('button_delete'));
-	$view->set('button_save', $this->language->get('button_save'));
-	$view->set('button_cancel', $this->language->get('button_cancel'));
-	$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'vendor');
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
-	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('error', @$this->error['message']);
 
-	$view->set('error', @$this->error['message']);
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
-	$view->set('message', $this->session->get('message'));
-	$this->session->delete('message');
+		$view->set('action', $this->url->ssl('vendor', 'page'));
+		$view->set('action_delete', $this->url->ssl('vendor', 'enableDelete'));
 
-	$view->set('action', $this->url->ssl('vendor', 'page'));
-	$view->set('action_delete', $this->url->ssl('vendor', 'enableDelete'));
+		$view->set('search', $this->session->get('vendor.search'));
+		$view->set('sort', $this->session->get('vendor.sort'));
+		$view->set('order', $this->session->get('vendor.order'));
+		$view->set('page', $this->session->get('vendor.page'));
 
-	$view->set('search', $this->session->get('vendor.search'));
-	$view->set('sort', $this->session->get('vendor.sort'));
-	$view->set('order', $this->session->get('vendor.order'));
-	$view->set('page', $this->session->get('vendor.page'));
+		$view->set('cols', $cols);
+		$view->set('rows', $rows);
 
-	$view->set('cols', $cols);
-	$view->set('rows', $rows);
+		$view->set('insert', $this->url->ssl('vendor', 'insert'));
 
-	$view->set('list', $this->url->ssl('vendor'));
-	$view->set('insert', $this->url->ssl('vendor', 'insert'));
-
-	$view->set('pages', $this->modelVendor->get_pagination());
+		$view->set('pages', $this->modelVendor->get_pagination());
 
 		return $view->fetch('content/list.tpl');
 	}
@@ -252,14 +266,15 @@ class ControllerVendor extends Controller {
 	$view->set('entry_description', $this->language->get('entry_description'));
 	$view->set('entry_discount', $this->language->get('entry_discount'));
 
-	$view->set('button_list', $this->language->get('button_list'));
 	$view->set('button_insert', $this->language->get('button_insert'));
 	$view->set('button_update', $this->language->get('button_update'));
 	$view->set('button_delete', $this->language->get('button_delete'));
 	$view->set('button_save', $this->language->get('button_save'));
 	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 	$view->set('tab_general', $this->language->get('tab_general'));
 	$view->set('tab_product', $this->language->get('tab_product'));
 	$view->set('tab_vendor', $this->language->get('tab_vendor'));
@@ -280,8 +295,6 @@ class ControllerVendor extends Controller {
 
 	$view->set('action', $this->url->ssl('vendor', $this->request->gethtml('action'), array('vendor_id' => $this->request->gethtml('vendor_id'))));
 
-	$view->set('list', $this->url->ssl('vendor'));
-
 	$view->set('insert', $this->url->ssl('vendor', 'insert'));
 	$view->set('cancel', $this->url->ssl('vendor'));
 
@@ -289,6 +302,12 @@ class ControllerVendor extends Controller {
 		$view->set('update', $this->url->ssl('vendor', 'update', array('vendor_id' => $this->request->gethtml('vendor_id'))));
 		$view->set('delete', $this->url->ssl('vendor', 'delete', array('vendor_id' => $this->request->gethtml('vendor_id'),'vendor_validation' =>$this->session->get('vendor_validation'))));
 	}
+
+		$view->set('tab', $this->session->has('vendor_tab') && $this->session->get('vendor_id') == $this->request->gethtml('vendor_id') ? $this->session->get('vendor_tab') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('vendor_id', $this->request->gethtml('vendor_id'));
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
@@ -299,6 +318,22 @@ class ControllerVendor extends Controller {
 		$vendor_info = $this->modelVendor->get_vendor();
 		$address_info = $this->modelVendor->get_address(@$vendor_info['address_id']);
 	}
+
+		if ($this->request->has('name', 'post')) {
+			if ($this->request->gethtml('name', 'post') != NULL) {
+				$name_last = $this->request->has('name', 'post');
+			} else {
+				$name_last = $this->session->get('name_last_vendor');
+			}
+		} else {
+			$name_last = @$vendor_info['name'];
+		}
+		if (strlen($name_last) > 26) {
+			$name_last = substr($name_last , 0, 23) . '...';
+		}
+		$this->session->set('name_last_vendor', $name_last);
+		$this->session->set('last_vendor', $this->url->ssl('vendor', 'update', array('vendor_id' => $this->request->gethtml('vendor_id'))));
+		$this->session->set('last_vendor_id', $this->request->gethtml('vendor_id'));
 
 	if ($this->request->has('name', 'post')) {
 		$view->set('name', $this->request->gethtml('name', 'post'));
@@ -560,7 +595,13 @@ class ControllerVendor extends Controller {
 
 		$this->response->set($output);
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page(){
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('vendor.search', $this->request->gethtml('search', 'post'));
@@ -575,6 +616,14 @@ class ControllerVendor extends Controller {
 			$this->session->set('vendor.sort', $this->request->gethtml('sort', 'post'));
 		}
 		$this->response->redirect($this->url->ssl('vendor'));
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('vendor_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('vendor_id', $this->request->sanitize('id', 'post'));
+			}
+		}
 	}
 }
 ?>

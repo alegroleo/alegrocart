@@ -52,5 +52,9 @@ class Model_Admin_User extends Model {
 		$pages = $this->database->getpages();
 		return $pages;
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
 }
 ?>

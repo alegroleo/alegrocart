@@ -29,4 +29,5 @@ $_['entry_sort_order']    = 'Sort Order:';
 
 // Error
 $_['error_permission']    = 'Warning: You do not have permission to modify product options';
+$_['error_option']        = 'Warning: No options are available';
 ?>

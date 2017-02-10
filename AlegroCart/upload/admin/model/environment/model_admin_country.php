@@ -117,5 +117,9 @@ class Model_Admin_Country extends Model {
 		$result = $this->database->getRows("select distinct country_id from address where vendor_id !='0'");
 		return $result;
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
 }
 ?>

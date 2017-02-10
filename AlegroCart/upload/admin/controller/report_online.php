@@ -2,19 +2,20 @@
 class ControllerReportOnline extends Controller {
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
 		$this->response 	=& $locator->get('response');
+		$this->session  	=& $locator->get('session');
 		$this->template 	=& $locator->get('template');
 		$this->modelReportOnline = $model->get('model_admin_report_online');
-		
+
 		$this->language->load('controller/report_online.php');
 		}
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
-				
-        $results = $this->modelReportOnline->get_sessions();
+
+		$results = $this->modelReportOnline->get_sessions();
 		$results = $this->remove_duplicates($results, 'ip');
 		$rows = array();
 
@@ -38,7 +39,7 @@ class ControllerReportOnline extends Controller {
 			} else {
 				$name = $this->language->get('text_guest');
 			}
-			
+
 			if (isset($value['cart'])) {
 				$items = '';
 				$keys = array_keys($value['cart']);
@@ -66,13 +67,15 @@ class ControllerReportOnline extends Controller {
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('column_name', $this->language->get('column_name'));
 		$view->set('column_time', $this->language->get('column_time'));
@@ -100,30 +103,36 @@ class ControllerReportOnline extends Controller {
 		return $new_array;
 	}
 	function is_serialized( $data ) {
-    // if it isn't a string, it isn't serialized
-    if ( !is_string( $data ) )
-        return false;
-    $data = trim( $data );
-    if ( 'N;' == $data )
-        return true;
-    if ( !preg_match( '/^([adObis]):/', $data, $badions ) )
-        return false;
-    switch ( $badions[1] ) {
-        case 'a' :
-        case 'O' :
-        case 's' :
-            if ( preg_match( "/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data ) )
-                return true;
-            break;
-        case 'b' :
-        case 'i' :
-        case 'd' :
-            if ( preg_match( "/^{$badions[1]}:[0-9.E-]+;\$/", $data ) )
-                return true;
-            break;
-    }
-    return false;
-}
-
+	// if it isn't a string, it isn't serialized
+		if ( !is_string( $data ) )
+			return false;
+		$data = trim( $data );
+		if ( 'N;' == $data )
+			return true;
+		if ( !preg_match( '/^([adObis]):/', $data, $badions ) )
+			return false;
+		switch ( $badions[1] ) {
+			case 'a' :
+			case 'O' :
+			case 's' :
+				if ( preg_match( "/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data ) )
+				return true;
+				break;
+			case 'b' :
+			case 'i' :
+			case 'd' :
+				if ( preg_match( "/^{$badions[1]}:[0-9.E-]+;\$/", $data ) )
+				return true;
+				break;
+		}
+		return false;
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 }
 ?>

@@ -26,5 +26,9 @@ class Model_Admin_CategoryModule extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_pcount', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'category', `key` = 'category_ratings', value = '1'");
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

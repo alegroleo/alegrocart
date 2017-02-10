@@ -20,5 +20,9 @@ class Model_Admin_Header extends Model {
 		$results = $this->database->getRows("select * from setting where type = 'admin' and `group` = 'header'");
 		return $results;
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

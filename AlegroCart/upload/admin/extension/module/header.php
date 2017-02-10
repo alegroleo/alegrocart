@@ -10,9 +10,6 @@ class ModuleHeader extends Controller {
 
 			$view = $this->locator->create('template');
 
-			$view->set('text_heading', $language->get('text_heading'));
-			$view->set('version', $config->get('version'));
-
 			if ($user->isLogged()) {
 				$view->set('user', $language->get('text_user', $user->getUserName()));
 			} else {

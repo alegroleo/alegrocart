@@ -2,8 +2,8 @@
 class ControllerUrlAlias extends Controller {
 	var $error = array();
  	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->generate_seo =& $locator->get('generateseo');
@@ -11,13 +11,13 @@ class ControllerUrlAlias extends Controller {
 		$this->module   	=& $locator->get('module');
 		$this->request 	 	=& $locator->get('request');
 		$this->response	 	=& $locator->get('response');
-		$this->session 	 	=& $locator->get('session');
+		$this->session	 	=& $locator->get('session');
 		$this->template 	=& $locator->get('template');
-		$this->url     		=& $locator->get('url');
-		$this->user    	 	=& $locator->get('user');
+		$this->url		=& $locator->get('url');
+		$this->user	 	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelAdminAlias = $model->get('model_admin_urlalias');
-		
+
 		$this->language->load('controller/url_alias.php');
 	}
 
@@ -35,6 +35,8 @@ class ControllerUrlAlias extends Controller {
 		if ($this->request->isPost() && $this->request->has('query', 'post') && $this->validateForm()) {
 			$this->modelAdminAlias->insert_url();
 			$this->cache->delete('url');
+			$insert_id = $this->modelAdminAlias->get_last_id();
+			$this->session->set('last_url_alias_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('url_alias'));
 		}
@@ -49,7 +51,12 @@ class ControllerUrlAlias extends Controller {
 			$this->modelAdminAlias->update_url();
 			$this->cache->delete('url');
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('url_alias'));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('url_alias', 'update', array('url_alias_id' => $this->request->gethtml('url_alias_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('url_alias'));
+			}
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -86,19 +93,21 @@ class ControllerUrlAlias extends Controller {
       		'name'  => $this->language->get('column_action'),
       		'align' => 'action'
     	);
-		
+
 		$results = $this->modelAdminAlias->get_page();
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['url_alias_id'] == $this->session->get('last_url_alias_id') ? 'last_visited': '';
 			$cell = array();
-
 			$cell[] = array(
 				'value' => $result['query'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['alias'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$action = array();
 			$action[] = array(
@@ -131,7 +140,6 @@ class ControllerUrlAlias extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -140,7 +148,10 @@ class ControllerUrlAlias extends Controller {
 		$view->set('button_refresh', $this->language->get('button_generate_seo'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'url_alias');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 		$view->set('text_generate_explanation', $this->language->get('text_generate_explanation'));
 
@@ -159,7 +170,6 @@ class ControllerUrlAlias extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('url_alias'));
 		$view->set('insert', $this->url->ssl('url_alias', 'insert'));
 		$view->set('pages', $this->modelAdminAlias->get_pagination());
 
@@ -175,14 +185,15 @@ class ControllerUrlAlias extends Controller {
 		$view->set('entry_query', $this->language->get('entry_query'));
 		$view->set('entry_alias', $this->language->get('entry_alias'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -190,7 +201,6 @@ class ControllerUrlAlias extends Controller {
 
 		$view->set('action', $this->url->ssl('url_alias', $this->request->get('action'), array('url_alias_id' => $this->request->get('url_alias_id'))));
 
-		$view->set('list', $this->url->ssl('url_alias'));
 		$view->set('insert', $this->url->ssl('url_alias', 'insert'));
 		$view->set('cancel', $this->url->ssl('url_alias'));
 		
@@ -198,10 +208,17 @@ class ControllerUrlAlias extends Controller {
 			$view->set('update', $this->url->ssl('url_alias', 'update', array('url_alias_id' => $this->request->get('url_alias_id'))));
 			$view->set('delete', $this->url->ssl('url_alias', 'delete', array('url_alias_id' => $this->request->get('url_alias_id'),'urlalias_validation' =>$this->session->get('urlalias_validation'))));
 		}
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('url_alias_id', $this->request->gethtml('url_alias_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_url_alias_id', $this->request->gethtml('url_alias_id'));
 
 		if (($this->request->get('url_alias_id')) && (!$this->request->isPost())) {
 			$url_alias_info = $this->modelAdminAlias->get_url_alias();
@@ -255,12 +272,12 @@ class ControllerUrlAlias extends Controller {
 	}
 	function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'url_alias')) {//**
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 	
@@ -278,7 +295,13 @@ class ControllerUrlAlias extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('url_alias.search', $this->request->gethtml('search', 'post'));
@@ -293,6 +316,6 @@ class ControllerUrlAlias extends Controller {
 			$this->session->set('url_alias.sort', $this->request->gethtml('sort', 'post'));
 		}
 		$this->response->redirect($this->url->ssl('url_alias'));
-	}	
+	}
 }
 ?>

@@ -3,7 +3,7 @@ class ControllerShippingZone extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module		=& $locator->get('module');
 		$this->request  	=& $locator->get('request');
@@ -13,7 +13,7 @@ class ControllerShippingZone extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelZone = $model->get('model_admin_shippingzone');
-		
+
 		$this->language->load('controller/shipping_zone.php');
 	}
 	function index() {  
@@ -24,7 +24,11 @@ class ControllerShippingZone extends Controller {
 			$this->modelZone->update_zone();
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('shipping_zone'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));
+			}
 		}
 
 		$view = $this->locator->create('template');
@@ -38,7 +42,7 @@ class ControllerShippingZone extends Controller {
 		$view->set('text_disabled', $this->language->get('text_disabled'));
 		$view->set('text_instruction',$this->language->get('text_instruction'));
 		$view->set('text_zone_info', $this->language->get('text_zone_info'));
-		
+
 		$view->set('entry_module_status', $this->language->get('entry_module_status'));
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_cost', $this->language->get('entry_cost'));
@@ -47,8 +51,7 @@ class ControllerShippingZone extends Controller {
 		$view->set('entry_geo_zone', $this->language->get('entry_geo_zone'));
 		$view->set('entry_free_amount', $this->language->get('entry_free_amount'));
 		$view->set('entry_message', $this->language->get('entry_message'));
-		
-		$view->set('button_list', $this->language->get('button_list'));
+
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -57,27 +60,39 @@ class ControllerShippingZone extends Controller {
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_module', $this->language->get('tab_module'));
 		$view->set('tab_data', $this->language->get('tab_data'));
 
+		$view->set('error_update', $this->language->get('error_update'));
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('shipping_zone'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'shipping')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'shipping')));	
+
+		$view->set('tab', $this->session->has('shipping_zone_tab') ? $this->session->get('shipping_zone_tab') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		$this->session->set('name_last_shipping', $this->language->get('heading_title'));
+		$this->session->set('last_shipping', 'shipping_zone');
+		$this->session->set('last_extension_id', $this->modelZone->get_extension_id('shipping_zone'));
+
 		if (!$this->request->isPost()) {
 			$results = $this->modelZone->get_zones();
 			foreach ($results as $result) {
 				$setting_info[$result['type']][$result['key']] = $result['value'];
 			}
 		}
-		
+
 		$geo_zone_data = array();
 		$results = $this->modelZone->get_geo_zones();
 		foreach ($results as $result) {
@@ -95,7 +110,7 @@ class ControllerShippingZone extends Controller {
 				}
 			} else {
 				$geo_zone_info = $this->request->gethtml('geo_zone', 'post');
-			
+
 				$geo_zone_data[] = array(
 					'geo_zone_id' => $result['geo_zone_id'],
 					'name'        => $result['name'],
@@ -104,30 +119,27 @@ class ControllerShippingZone extends Controller {
 					'free_amount' => $geo_zone_info[$result['geo_zone_id']]['free_amount'],
 					'status'      => $geo_zone_info[$result['geo_zone_id']]['status'],
 					'message'	  => $geo_zone_info[$result['geo_zone_id']]['message']
-				);			
+				);
 			}
 		}
-		
+
 		$view->set('geo_zones', $geo_zone_data);
-		
-		
+
 		if ($this->request->has('global_zone_tax_class_id', 'post')) {
 			$view->set('global_zone_tax_class_id', $this->request->gethtml('global_zone_tax_class_id', 'post'));
 		} else {
 			$view->set('global_zone_tax_class_id', @$setting_info['global']['zone_tax_class_id']);
 		}
-		
 		if ($this->request->has('global_zone_sort_order', 'post')) {
 			$view->set('global_zone_sort_order', $this->request->gethtml('global_zone_sort_order', 'post'));
 		} else {
 			$view->set('global_zone_sort_order', @$setting_info['global']['zone_sort_order']);
 		}
-		
 		if ($this->request->has('global_zone_status', 'post')) {
 			$view->set('global_zone_status', $this->request->gethtml('global_zone_status', 'post'));
 		} else {
 			$view->set('global_zone_status', @$setting_info['global']['zone_status']);
-		}	
+		}
 
 		$view->set('tax_classes', $this->modelZone->get_tax_classes());
 
@@ -137,7 +149,6 @@ class ControllerShippingZone extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
 	function addzone(){
 		$geozone_id = $this->request->gethtml('geozone_id');
 		$geozone = $this->modelZone->get_geozone($geozone_id);
@@ -158,11 +169,9 @@ class ControllerShippingZone extends Controller {
 		$output .= '<tr id="geozone' . $geozone_id . 'C">' . "\n"; 
 		$output .= '<td colspan="5"><hr style="color: #EEEEEE;"></td>' . "\n"; 
 		$output .= '</tr>';
-		
-		
+
 		$this->response->set($output);
 	}
-	
 	function getzones(){
 		$geo_zones = $this->modelZone->get_geo_zones();
 		$output = '<tr id="geo_select"><td colspan="2">' . "\n";
@@ -175,7 +184,18 @@ class ControllerShippingZone extends Controller {
 		$output .='</select></td></tr>' . "\n";
 		$this->response->set($output);
 	}
-
+	function getzoneids(){
+		if ($geo_zones = $this->modelZone->get_geo_zones()) {
+			$zoneids = array();
+			foreach ($geo_zones as $geo_zone) {
+				$zoneids[] = $geo_zone['geo_zone_id'];
+			}
+			$output = array('status' => true, 'zoneids' => $zoneids);
+		} else {
+			$output = array('status' => false);
+		}
+		echo json_encode($output);
+	}
 	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -185,35 +205,48 @@ class ControllerShippingZone extends Controller {
 		if (!$this->user->hasPermission('modify', 'shipping_zone')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-		
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
-		if ($this->user->hasPermission('modify', 'shipping_zone')) {		
+		if ($this->user->hasPermission('modify', 'shipping_zone')) {
 			$this->modelZone->delete_zone();
 			$this->modelZone->install_zone();
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
-		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));		
+		}
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));
 	}
-	
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'shipping_zone')) {
 			$this->modelZone->delete_zone();
+			if ($this->session->get('last_shipping') == 'shipping_zone') {
+				$this->session->delete('name_last_shipping');
+				$this->session->delete('last_shipping');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('shipping_zone_tab', $this->request->sanitize('activeTab', 'post'));
+			}
+		}
 	}
 }
 ?>

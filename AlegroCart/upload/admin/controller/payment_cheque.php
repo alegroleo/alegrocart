@@ -13,7 +13,7 @@ class ControllerPaymentCheque extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelCheque = $model->get('model_admin_paymentcheque');
-		
+
 		$this->language->load('controller/payment_cheque.php');
 	}
 	function index() { 
@@ -23,8 +23,12 @@ class ControllerPaymentCheque extends Controller {
 			$this->modelCheque->delete_cheque();
 			$this->modelCheque->update_cheque();
 			$this->session->set('message', $this->language->get('text_message'));
-			
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('payment_cheque'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
+			}
 		}
 
 		$view = $this->locator->create('template');
@@ -48,26 +52,34 @@ class ControllerPaymentCheque extends Controller {
         	$view->set('explanation_cheque_geo_zone', $this->language->get('explanation_cheque_geo_zone'));
         	$view->set('explanation_cheque_sort_order', $this->language->get('explanation_cheque_sort_order'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('payment_cheque'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'payment')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'payment')));	
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		$this->session->set('name_last_payment', $this->language->get('heading_title'));
+		$this->session->set('last_payment', 'payment_cheque');
+		$this->session->set('last_extension_id', $this->modelCheque->get_extension_id('payment_cheque'));
+
 		if (!$this->request->isPost()) {
 			$results = $this->modelCheque->get_cheque();
 			foreach ($results as $result) {
@@ -101,7 +113,6 @@ class ControllerPaymentCheque extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
 	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -116,9 +127,15 @@ class ControllerPaymentCheque extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
 		if ($this->user->hasPermission('modify', 'payment_cheque')) {
 			$this->modelCheque->delete_cheque();
@@ -126,19 +143,20 @@ class ControllerPaymentCheque extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
 	}
-	
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'payment_cheque')) {
 			$this->modelCheque->delete_cheque();
+			if ($this->session->get('last_payment') == 'payment_cheque') {
+				$this->session->delete('name_last_payment');
+				$this->session->delete('last_payment');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
 	}
 }

@@ -3,7 +3,7 @@ class ControllerTaxRate extends Controller {
 	var $error = array();
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -33,6 +33,8 @@ class ControllerTaxRate extends Controller {
 
 		if ($this->request->isPost() && $this->request->has('geo_zone_id', 'post') && $this->validateForm()) {
 			$this->modelTaxRate->insert_taxrate();
+			$insert_id = $this->modelTaxRate->get_last_id();
+			$this->session->set('last_tax_rate_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
@@ -49,8 +51,13 @@ class ControllerTaxRate extends Controller {
 		if ($this->request->isPost() && $this->request->has('geo_zone_id', 'post') && $this->validateForm()) {
 			$this->modelTaxRate->update_taxrate();
 			$this->session->set('message', $this->language->get('text_message'));
-			
-			$this->response->redirect($this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('tax_rate', 'update', array('tax_rate_id' => $this->request->gethtml('tax_rate_id'), 'tax_class_id' => $this->request->gethtml('tax_class_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
+			}
+
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -104,22 +111,27 @@ class ControllerTaxRate extends Controller {
 		$results = $this->modelTaxRate->get_page();
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['tax_rate_id'] == $this->session->get('last_tax_rate_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
 				'value' => $result['priority'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['name'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['description'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => round($result['rate'], 2) . '%',
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$query = array(
 				'tax_rate_id'  => $result['tax_rate_id'],
@@ -161,7 +173,6 @@ class ControllerTaxRate extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -169,7 +180,10 @@ class ControllerTaxRate extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'tax_rate');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -190,7 +204,6 @@ class ControllerTaxRate extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 		$view->set('insert', $this->url->ssl('tax_rate', 'insert', array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 
 		$view->set('pages', $this->modelTaxRate->get_pagination());
@@ -209,14 +222,15 @@ class ControllerTaxRate extends Controller {
 		$view->set('entry_rate', $this->language->get('entry_rate'));
 		$view->set('entry_description', $this->language->get('entry_description'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -230,7 +244,6 @@ class ControllerTaxRate extends Controller {
 		);
 
 		$view->set('action', $this->url->ssl('tax_rate', $this->request->gethtml('action'), $query));
-		$view->set('list', $this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 		$view->set('insert', $this->url->ssl('tax_rate', 'insert', array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 		$view->set('cancel', $this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 
@@ -246,10 +259,17 @@ class ControllerTaxRate extends Controller {
 
 		$view->set('tax_name', $this->modelTaxRate->get_taxclass_name($this->request->gethtml('tax_class_id')));
 
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('tax_class_id', $this->request->gethtml('tax_class_id'));
+		$view->set('tax_rate_id', $this->request->gethtml('tax_rate_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_tax_rate_id', $this->request->gethtml('tax_rate_id'));
 
 		if (($this->request->gethtml('tax_rate_id')) && (!$this->request->isPost())) {
 			$tax_rate_info = $this->modelTaxRate->get_taxrate();
@@ -350,7 +370,13 @@ class ControllerTaxRate extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('tax_rate.search', $this->request->gethtml('search', 'post'));

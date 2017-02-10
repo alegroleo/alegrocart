@@ -4,7 +4,7 @@ class ControllerModuleExtraManufacturerSlider extends Controller {
 	// All References change to module_extra_ due to new module loader  
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module		=& $locator->get('module');
 		$this->request  	=& $locator->get('request');
@@ -14,17 +14,22 @@ class ControllerModuleExtraManufacturerSlider extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelManufacturerSlider = $model->get('model_admin_manufacturerslider');
-		
+
 		$this->language->load('controller/module_extra_manufacturerslider.php');
 	}
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
-		
+
 		if (($this->request->isPost()) && ($this->validate())) {
 			$this->modelManufacturerSlider->delete_manufacturerslider();
 			$this->modelManufacturerSlider->update_manufacturerslider();
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('module_extra_manufacturerslider'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+			}
 		}
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('heading_title'));
@@ -39,33 +44,41 @@ class ControllerModuleExtraManufacturerSlider extends Controller {
 		$view->set('entry_height', $this->language->get('entry_height'));
 		$view->set('entry_width', $this->language->get('entry_width'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('module_extra_manufacturerslider'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
-		
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		$this->session->set('name_last_module', $this->language->get('heading_title'));
+		$this->session->set('last_module', 'module_extra_manufacturerslider');
+		$this->session->set('last_extension_id', $this->modelManufacturerSlider->get_extension_id('module_extra_manufacturerslider'));
+
 		if (!$this->request->isPost()) {
 			$results = $this->modelManufacturerSlider->get_manufacturerslider();
 			foreach ($results as $result) {
 				$setting_info[$result['type']][$result['key']] = $result['value'];
 			}
-		}			
+		}
 		if ($this->request->has('catalog_manufacturerslider_status', 'post')) {
 			$view->set('catalog_manufacturerslider_status', $this->request->gethtml('catalog_manufacturerslider_status', 'post'));
 		} else {
@@ -87,8 +100,8 @@ class ControllerModuleExtraManufacturerSlider extends Controller {
 		$this->template->set($this->module->fetch());
 
 		$this->response->set($this->template->fetch('layout.tpl'));
-	}			
-			
+	}
+
 	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -105,7 +118,13 @@ class ControllerModuleExtraManufacturerSlider extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
 		if ($this->user->hasPermission('modify', 'module_extra_manufacturerslider')) {
 			$this->modelManufacturerSlider->delete_manufacturerslider();
@@ -113,20 +132,21 @@ class ControllerModuleExtraManufacturerSlider extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-				
-		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));	
-	}	
-	
+		}
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+	}
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'module_extra_manufacturerslider')) {
 			$this->modelManufacturerSlider->delete_manufacturerslider();
+			if ($this->session->get('last_module') == 'module_extra_manufacturerslider') {
+				$this->session->delete('name_last_module');
+				$this->session->delete('last_module');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
-}	
+}
 ?>

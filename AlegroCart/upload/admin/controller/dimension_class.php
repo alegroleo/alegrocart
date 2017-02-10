@@ -3,7 +3,7 @@ class ControllerDimensionClass extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
@@ -16,7 +16,7 @@ class ControllerDimensionClass extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelDimensions = $model->get('model_admin_dimension_class');
-		
+
 		$this->language->load('controller/dimension_class.php');
 	}
 
@@ -30,7 +30,7 @@ class ControllerDimensionClass extends Controller {
 
 	function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
-		
+
 		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
 			foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 				$this->modelDimensions->insert_dimension(@$insert_id, $key, $value['title'], $value['unit']);
@@ -40,7 +40,11 @@ class ControllerDimensionClass extends Controller {
 				$this->modelDimensions->insert_dimension_rule($insert_id, $key, $value);
 			}
 			$this->cache->delete('dimension');
+
+			$this->session->set('last_dimension_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
+
+			$this->session->set('dimension_id', $insert_id);
 
 			$this->response->redirect($this->url->ssl('dimension_class'));
 		}
@@ -65,7 +69,11 @@ class ControllerDimensionClass extends Controller {
 			$this->cache->delete('dimension');
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('dimension_class'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('dimension_class', 'update', array('dimension_id' => $this->request->gethtml('dimension_id', 'post'), 'type_id' => $this->request->gethtml('type_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('dimension_class'));
+			}
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -116,19 +124,23 @@ class ControllerDimensionClass extends Controller {
 		$results = $this->modelDimensions->get_page();
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['dimension_id'] == $this->session->get('last_dimension_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
 				'value'   => $result['title'],
 				'align'   => 'left',
-				'default' => ($result['dimension_id'] == $this->config->get('config_dimension_'. $result['type_id'] . '_id'))
+				'default' => ($result['dimension_id'] == $this->config->get('config_dimension_'. $result['type_id'] . '_id')),
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['unit'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $this->language->get('text_'. $result['type_name']),
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 
 			$action = array();
@@ -137,7 +149,7 @@ class ControllerDimensionClass extends Controller {
         		'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('dimension_class', 'update', array('dimension_id' => $result['dimension_id'], 'type_id' => $result['type_id']))
-      		);
+      			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -149,7 +161,7 @@ class ControllerDimensionClass extends Controller {
 			$cell[] = array(
         		'action' => $action,
         		'align'  => 'action'
-      		);
+      			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -164,7 +176,6 @@ class ControllerDimensionClass extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -172,7 +183,10 @@ class ControllerDimensionClass extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
-		
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'dimension_class');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -190,7 +204,6 @@ class ControllerDimensionClass extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('dimension_class'));
 		$view->set('insert', $this->url->ssl('dimension_class', 'insert'));
 
 		$view->set('pages', $this->modelDimensions->get_pagination());
@@ -208,17 +221,19 @@ class ControllerDimensionClass extends Controller {
 		$view->set('entry_unit', $this->language->get('entry_unit'));
 		$view->set('entry_type', $this->language->get('entry_type'));
 		
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 		$view->set('tab_data', $this->language->get('tab_data'));
-		
+
+		$view->set('error_update', $this->language->get('error_update'));
 		$view->set('error', @$this->error['message']);
 		$view->set('error_title', @$this->error['title']);
 		$view->set('error_unit', @$this->error['unit']);
@@ -229,7 +244,6 @@ class ControllerDimensionClass extends Controller {
 
 		$view->set('action', $this->url->ssl('dimension_class', $this->request->gethtml('action'), array('dimension_id' => $this->request->gethtml('dimension_id'))));
 
-		$view->set('list', $this->url->ssl('dimension_class'));
 		$view->set('insert', $this->url->ssl('dimension_class', 'insert'));
 		$view->set('cancel', $this->url->ssl('dimension_class'));
 
@@ -237,10 +251,20 @@ class ControllerDimensionClass extends Controller {
 			$view->set('update', 'enable');
 			$view->set('delete', $this->url->ssl('dimension_class', 'delete', array('dimension_id' => $this->request->gethtml('dimension_id'),'dimension_class_validation' =>$this->session->get('dimension_class_validation'))));
 		}
+
+		$view->set('tab', $this->session->has('dimension_class_tab') && $this->session->get('dimension_id') == $this->request->gethtml('dimension_id') ? $this->session->get('dimension_class_tab') : 0);
+		$view->set('tabmini', $this->session->has('dimension_class_tabmini') && $this->session->get('dimension_id') == $this->request->gethtml('dimension_id') ? $this->session->get('dimension_class_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('dimension_id', $this->request->gethtml('dimension_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_dimension_id', $this->request->gethtml('dimension_id'));
 
 		$dimension_class_data = array();
 		$results = $this->modelDimensions->get_languages();
@@ -257,7 +281,7 @@ class ControllerDimensionClass extends Controller {
 				'language_id' => $result['language_id'],
 				'language'    => $result['name'],
 				'title'       => (isset($dimension_info[$result['language_id']]) ? $dimension_info[$result['language_id']]['title'] : @$dimension_info['title']),
-	    		'unit'        => (isset($dimension_info[$result['language_id']]) ? $dimension_info[$result['language_id']]['unit'] : @$dimension_info['unit']),
+			'unit'        => (isset($dimension_info[$result['language_id']]) ? $dimension_info[$result['language_id']]['unit'] : @$dimension_info['unit']),
 				'type_id'     => @$type_id,
 			);
 			}
@@ -314,7 +338,6 @@ class ControllerDimensionClass extends Controller {
 		}
 		return $view->fetch('content/dimension_class.tpl');
 	}
-
 	function dimensionClasses(){
 		$type_id = $this->request->gethtml('type_id');
 		$output = '';
@@ -327,7 +350,6 @@ class ControllerDimensionClass extends Controller {
 		}
 			$this->response->set($output);
 	}
-
 	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -341,7 +363,7 @@ class ControllerDimensionClass extends Controller {
 			if (!$this->validate->strlen($value['title'],1,32)) {
 				$this->error['title'] = $this->language->get('error_title');
 			}
-		} 
+		}
 		foreach ($this->request->gethtml('language', 'post') as $value) {
 			if ((!$value['unit']) || (strlen($value['unit']) > 24)) {
 				$this->error['unit'] = $this->language->get('error_unit');
@@ -356,7 +378,6 @@ class ControllerDimensionClass extends Controller {
 			return FALSE;
 		}
 	}
-
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -373,12 +394,12 @@ class ControllerDimensionClass extends Controller {
 	}
 	function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'dimension_class')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 	function validateDelete() {
@@ -414,7 +435,13 @@ class ControllerDimensionClass extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('dimension.search', $this->request->gethtml('search', 'post'));
@@ -431,6 +458,20 @@ class ControllerDimensionClass extends Controller {
 
 		$this->response->redirect($this->url->ssl('dimension_class'));
 	}	
-	
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('dimension_class_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('dimension_id', $this->request->sanitize('id', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('dimension_class_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
+	}
 }
 ?>

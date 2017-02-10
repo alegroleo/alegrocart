@@ -24,7 +24,11 @@ class ControllerCalculateSubtotal extends Controller {
 			$this->modelSubtotal->update_subtotal();
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'calculate')));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('calculate_subtotal'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'calculate')));
+			}
 		}
 
 		$view = $this->locator->create('template');
@@ -39,25 +43,33 @@ class ControllerCalculateSubtotal extends Controller {
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('calculate_subtotal'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'calculate')));
-		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'calculate')));	
+		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'calculate')));
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('name_last_calculate', $this->language->get('heading_title'));
+		$this->session->set('last_calculate', 'calculate_subtotal');
+		$this->session->set('last_extension_id', $this->modelSubtotal->get_extension_id('calculate_subtotal'));
 
 		if (!$this->request->isPost()) {
 			$results = $this->modelSubtotal->get_subtotal();
@@ -84,7 +96,7 @@ class ControllerCalculateSubtotal extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
+
 	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -94,32 +106,42 @@ class ControllerCalculateSubtotal extends Controller {
 		if (!$this->user->hasPermission('modify', 'calculate_subtotal')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-		
+
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
 		if ($this->user->hasPermission('modify', 'calculate_subtotal')) {
 			$this->modelSubtotal->delete_subtotal();
 			$this->modelSubtotal->install_subtotal();
+			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
 		}
-		
-		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'calculate')));			
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'calculate')));
 	}
 	
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'calculate_subtotal')) {
 			$this->modelSubtotal->delete_subtotal();
+			if ($this->session->get('last_calculate') == 'calculate_subtotal') {
+				$this->session->delete('name_last_calculate');
+				$this->session->delete('last_calculate');
+			}
+			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
 		}
-
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'calculate')));
 	}
 }

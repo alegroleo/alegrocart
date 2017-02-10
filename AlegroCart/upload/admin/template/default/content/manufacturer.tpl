@@ -1,8 +1,15 @@
 <div class="task">
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
+  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+  <input type="hidden" name="update_form" value="1">
+  <input type="hidden" name="name" value="">
+  <input type="hidden" name="image_id" value="">
+  <input type="hidden" name="sort_order" value="">
+  <input type="hidden" name="manufacturer_id" id="manufacturer_id" value="<?php echo $manufacturer_id; ?>">
+  </form>
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
@@ -18,14 +25,20 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?><em></em></div>
+<?php if ($message) { ?>
+<div class="message"><?php echo $message; ?></div>
+<?php } ?>
+<div class="heading"><?php echo $heading_title; ?>
+ <em></em>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/preview/preview.js"></script>
-<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_product; ?></div></a></div>
     <div class="pages">
@@ -101,5 +114,65 @@
     $(document).ready(function() {
 	  RegisterValidation();
     });
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	$('.task').each(function(){
+	$('.task .disabled').hide();
+	});
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+  });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=manufacturer&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
+  //--></script>
+  <script type="text/javascript"><!--
+	$('.tabs a').on('click', function() {
+	var activeTab = $(this).index()+1;
+	var id = $('#manufacturer_id').val();
+	var data_json = {'activeTab':activeTab, 'id':id};
+	$.ajax({
+		type:	'POST',
+		url:	'index.php?controller=manufacturer&action=tab',
+		data: data_json,
+		dataType:'json'
+	});
+	});
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
+		tabview_switch('tab', <?php echo $tab; ?>);
+	}
+   });
+  //--></script>
+  <script type="text/javascript"><!--
+	function getValues() {
+		document.forms['update_form'].name.value=document.forms['form'].name.value;
+		document.forms['update_form'].image_id.value=document.forms['form'].image_id.value;
+		document.forms['update_form'].sort_order.value=document.forms['form'].sort_order.value;
+
+		getMultipleSelection('form', 'productdata[]', 'update_form');
+
+	}
+	function getMultipleSelection(formName,elementName,newFormName){ 
+		var html ='';
+		var mySelect = document.forms[formName].elements[elementName];
+		for(j = 0; j < mySelect.options.length; j++) { 
+			if(mySelect.options[j].selected) { 
+				html +='<input type="hidden" name="' + elementName + '" value="' + mySelect.options[j].value + '">';
+			}
+		}
+		document.forms[newFormName].innerHTML += html;
+	}
   //--></script>
 </form>

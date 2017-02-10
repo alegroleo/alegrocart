@@ -1,7 +1,25 @@
 <div class="task">
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/default/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png" /><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/default/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png" /><?php echo $button_insert; ?></div>
-  <div class="disabled"><img src="template/default/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png" /><?php echo $button_update; ?></div>
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+  <input type="hidden" name="update_form" value="1">
+  <input type="hidden" name="catalog_alsobought_status" value="">
+  <input type="hidden" name="catalog_alsobought_total" value="">
+  <input type="hidden" name="catalog_alsobought_image_height" value="">
+  <input type="hidden" name="catalog_alsobought_image_width" value="">
+  <input type="hidden" name="catalog_alsobought_image_display" value="">
+  <input type="hidden" name="catalog_alsobought_ratings" value="">
+  <input type="hidden" name="catalog_alsobought_addtocart" value="">
+  <input type="hidden" name="catalog_alsobought_lines_single" value="">
+  <input type="hidden" name="catalog_alsobought_lines_multi" value="">
+  <input type="hidden" name="catalog_alsobought_lines_char" value="">
+  <input type="hidden" name="catalog_alsobought_slider" value="">
+  <input type="hidden" name="catalog_alsobought_scolumns" value="">
+  <input type="hidden" name="catalog_alsobought_slimit" value="">
+  <input type="hidden" name="catalog_alsobought_columns" value="">
+  <input type="hidden" name="catalog_alsobought_limit" value="">
+</form>
   <div class="disabled"><img src="template/default/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png" /><?php echo $button_delete; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/default/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png" /><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
@@ -10,13 +28,18 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_module; ?><em><?php echo $heading_title; ?></em></div>
+<?php if ($message) { ?>
+<div class="message"><?php echo $message; ?></div>
+<?php } ?>
+<div class="heading"><?php echo $heading_module; ?><em><?php echo $heading_title; ?></em>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" />
-<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a></div>
     <div class="pages">
@@ -200,5 +223,44 @@
     $(document).ready(function() {
 	  RegisterValidation();
     });
+  //--></script>
+  <script type="text/javascript"><!--
+	function getValues() {
+		document.forms['update_form'].catalog_alsobought_status.value=document.forms['form'].catalog_alsobought_status.value;
+		document.forms['update_form'].catalog_alsobought_total.value=document.forms['form'].catalog_alsobought_total.value;
+		document.forms['update_form'].catalog_alsobought_image_width.value=document.forms['form'].catalog_alsobought_image_width.value;
+		document.forms['update_form'].catalog_alsobought_image_height.value=document.forms['form'].catalog_alsobought_image_height.value;
+		document.forms['update_form'].catalog_alsobought_image_display.value=document.forms['form'].catalog_alsobought_image_display.value;
+		document.forms['update_form'].catalog_alsobought_ratings.value=document.forms['form'].catalog_alsobought_ratings.value;
+		document.forms['update_form'].catalog_alsobought_addtocart.value=document.forms['form'].catalog_alsobought_addtocart.value;
+		document.forms['update_form'].catalog_alsobought_lines_single.value=document.forms['form'].catalog_alsobought_lines_single.value;
+		document.forms['update_form'].catalog_alsobought_lines_multi.value=document.forms['form'].catalog_alsobought_lines_multi.value;
+		document.forms['update_form'].catalog_alsobought_lines_char.value=document.forms['form'].catalog_alsobought_lines_char.value;
+		document.forms['update_form'].catalog_alsobought_slider.value=document.forms['form'].catalog_alsobought_slider.value;
+		document.forms['update_form'].catalog_alsobought_scolumns.value=document.forms['form'].catalog_alsobought_scolumns.value;
+		document.forms['update_form'].catalog_alsobought_slimit.value=document.forms['form'].catalog_alsobought_slimit.value;
+		document.forms['update_form'].catalog_alsobought_columns.value=document.forms['form'].catalog_alsobought_columns.value;
+		document.forms['update_form'].catalog_alsobought_limit.value=document.forms['form'].catalog_alsobought_limit.value;
+	}
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+$('.task').each(function(){
+    $('.task .disabled').hide();
+});
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+   });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=module_extra_alsobought&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
   //--></script>
 </form>

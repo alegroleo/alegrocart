@@ -7,7 +7,7 @@ class ControllerWatermark extends Controller {
 
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->image    	=& $locator->get('image');  
@@ -87,7 +87,6 @@ class ControllerWatermark extends Controller {
  		$view->set('explanation_wm_original',$this->language->get('explanation_wm_original'));
  		$view->set('explanation_wm_watermarked',$this->language->get('explanation_wm_watermarked'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -97,7 +96,9 @@ class ControllerWatermark extends Controller {
 
 		$view->set('button_preview', $this->language->get('button_preview'));
 		$view->set('button_save_wmi', $this->language->get('button_save_wmi'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_watermark', $this->language->get('tab_watermark'));
 
 		$view->set('error', @$this->error['message']);
@@ -285,7 +286,13 @@ class ControllerWatermark extends Controller {
 			}
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function validate_update() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');

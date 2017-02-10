@@ -4,7 +4,7 @@ class ControllerTemplateManager extends Controller {
 	var $types = array('css');
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -18,16 +18,15 @@ class ControllerTemplateManager extends Controller {
 		$this->user     	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelTplManager = $model->get('model_admin_tpl_manager');
-		
+
 		$this->language->load('controller/template_manager.php');
 		$this->language->load('controller/layout_locations.php');
 	}
-	
+
 	function index(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
-
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	function insert(){
@@ -45,12 +44,24 @@ class ControllerTemplateManager extends Controller {
 					$this->modelTplManager->insert_module($module_data, $tpl_id);
 				}
 			}
+			$name_last = $this->request->get('text_tpl_controller', 'post');
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
+			}
+			$this->session->set('name_last_template_manager', $name_last);
+			$this->session->set('last_template_manager', $this->url->ssl('template_manager', 'update', array('tpl_manager_id' => $tpl_id)));
+			$this->session->set('last_template_manager_id', $tpl_id);
+
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('template_manager'));
 		}
-		$this->template->set('content', $this->getForm());	
+		$this->template->set('content', $this->getForm());
+
+		$this->session->delete('name_last_template_manager');
+		$this->session->delete('last_template_manager');
+
 		$this->template->set($this->module->fetch());
-    	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	function update(){
 		$this->template->set('title', $this->language->get('heading_title'));
@@ -64,11 +75,15 @@ class ControllerTemplateManager extends Controller {
 				}
 			}
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('template_manager'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('template_manager', 'update', array('tpl_manager_id' => $this->request->gethtml('tpl_manager_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('template_manager'));
+			}
 		}
-		$this->template->set('content', $this->getForm());	
+		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
-    	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	function delete(){
 		$this->template->set('title', $this->language->get('heading_title'));
@@ -76,20 +91,20 @@ class ControllerTemplateManager extends Controller {
 			$this->modelTplManager->delete_controller();
 			$this->modelTplManager->delete_modules();
 			$this->session->set('message', $this->language->get('text_message'));
+			$this->session->delete('name_last_template_manager');
+			$this->session->delete('last_template_manager');
 			$this->response->redirect($this->url->ssl('template_manager'));
 		}
-		$this->template->set('content', $this->getForm());	
+		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
-    	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function changeStatus() { 
 		
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
-
 			$this->modelTplManager->change_template_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
-	
 	}
 
 	function getList(){
@@ -125,17 +140,21 @@ class ControllerTemplateManager extends Controller {
 		$rows = array();
     	foreach ($results as $result) {
       		$cell = array();
+		$last = $result['tpl_manager_id'] == $this->session->get('last_template_manager_id') ? 'last_visited': '';
       		$cell[] = array(
-				'value' => $this->language->get('text_controller_' . $result['tpl_controller']) . ' (' . $result['tpl_controller'] . ')',
-        		'align' => 'left'
+			'value' => $this->language->get('text_controller_' . $result['tpl_controller']) . ' (' . $result['tpl_controller'] . ')',
+        		'align' => 'left',
+			'last' => $last
 		  	);
       		$cell[] = array(
         		'value' => $result['tpl_columns'],
-        		'align' => 'left'
+        		'align' => 'left',
+			'last' => $last
 		  	);
 			$cell[] = array(
         		'value' => $result['tpl_color'] ? $result['tpl_color'] : 'Default',
-        		'align' => 'left'
+        		'align' => 'left',
+			'last' => $last
 		  	);
 		if ($this->validateChangeStatus()) {
 			$cell[] = array(
@@ -176,54 +195,54 @@ class ControllerTemplateManager extends Controller {
 		
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+    		$view->set('heading_description', $this->language->get('heading_description'));
 		$view->set('text_results', $this->modelTplManager->get_text_results());
-		
-		
+
 		$view->set('entry_page', $this->language->get('entry_page'));
-    	$view->set('entry_search', $this->language->get('entry_search'));
-		
-		$view->set('button_list', $this->language->get('button_list'));
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
+	    	$view->set('entry_search', $this->language->get('entry_search'));
+
+	    	$view->set('button_insert', $this->language->get('button_insert'));
+	    	$view->set('button_update', $this->language->get('button_update'));
    	 	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
+	    	$view->set('button_save', $this->language->get('button_save'));
+	    	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'template_manager');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
-		
+
 		$view->set('action', $this->url->ssl('template_manager', 'page'));
 		$view->set('action_delete', $this->url->ssl('template_manager', 'enableDelete'));
-		
-    	$view->set('search', $this->session->get('tpl.search'));
+
+	    	$view->set('search', $this->session->get('tpl.search'));
 		$view->set('sort', $this->session->get('tpl.sort'));
-    	$view->set('order', $this->session->get('tpl.order'));
-    	$view->set('page', $this->session->get('tpl.page'));
-    	$view->set('cols', $cols);
-    	$view->set('rows', $rows);
+	    	$view->set('order', $this->session->get('tpl.order'));
+	    	$view->set('page', $this->session->get('tpl.page'));
+	    	$view->set('cols', $cols);
+	    	$view->set('rows', $rows);
 
-    	$view->set('list', $this->url->ssl('template_manager'));
-    	$view->set('insert', $this->url->ssl('template_manager', 'insert'));
+	    	$view->set('insert', $this->url->ssl('template_manager', 'insert'));
 
-    	$view->set('pages', $this->modelTplManager->get_pagination());
+	    	$view->set('pages', $this->modelTplManager->get_pagination());
 		return $view->fetch('content/list.tpl');
-		
+
 	}
 	function getForm(){
 		$view = $this->locator->create('template');
-		
+
 		$view->set('heading_title', $this->language->get('heading_form_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
-		
+	    	$view->set('heading_description', $this->language->get('heading_description'));
+
 		$view->set('text_enabled', $this->language->get('text_enabled'));
-    	$view->set('text_disabled', $this->language->get('text_disabled'));
+	    	$view->set('text_disabled', $this->language->get('text_disabled'));
 		$view->set('text_tpl_manager', $this->language->get('text_tpl_manager'));
 		$view->set('text_tpl_content', $this->language->get('text_tpl_content'));
 		$view->set('text_tpl_header', $this->language->get('text_tpl_header'));
@@ -233,7 +252,7 @@ class ControllerTemplateManager extends Controller {
 		$view->set('text_tpl_footer', $this->language->get('text_tpl_footer'));
 		$view->set('text_tpl_pagebottom', $this->language->get('text_tpl_pagebottom'));
 		$view->set('text_select_controller', $this->language->get('text_select_controller'));
-		
+
 		$view->set('entry_controller', $this->language->get('entry_controller'));
 		$view->set('entry_columns', $this->language->get('entry_columns'));
 		$view->set('entry_status', $this->language->get('entry_status'));
@@ -241,7 +260,7 @@ class ControllerTemplateManager extends Controller {
 		$view->set('entry_location', $this->language->get('entry_location'));
 		$view->set('entry_module', $this->language->get('entry_module'));
 		$view->set('entry_sortorder', $this->language->get('entry_sortorder'));
-		
+
 		$view->set('tab_controller', $this->language->get('tab_controller'));
 		$view->set('tab_header', $this->language->get('tab_header'));
 		$view->set('tab_extra', $this->language->get('tab_extra'));
@@ -250,33 +269,40 @@ class ControllerTemplateManager extends Controller {
 		$view->set('tab_right_column', $this->language->get('tab_right_column'));
 		$view->set('tab_footer', $this->language->get('tab_footer'));
 		$view->set('tab_page_bottom', $this->language->get('tab_page_bottom'));
-		
-		$view->set('button_list', $this->language->get('button_list'));
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-    	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
+
+	    	$view->set('button_insert', $this->language->get('button_insert'));
+	    	$view->set('button_update', $this->language->get('button_update'));
+	    	$view->set('button_delete', $this->language->get('button_delete'));
+	    	$view->set('button_save', $this->language->get('button_save'));
+	    	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('error', @$this->error['message']);
-		
+
 		$view->set('action', $this->url->ssl('template_manager', $this->request->gethtml('action'), array('tpl_manager_id' => (int)$this->request->gethtml('tpl_manager_id'))));
-		$view->set('list', $this->url->ssl('template_manager'));
 		$view->set('insert', $this->url->ssl('template_manager', 'insert'));
 		$view->set('cancel', $this->url->ssl('template_manager'));
-		
+
 		if ($this->request->gethtml('tpl_manager_id')) {
      		$view->set('update', $this->url->ssl('template_manager', 'update', array('tpl_manager_id' => (int)$this->request->gethtml('tpl_manager_id'))));
       		$view->set('delete', $this->url->ssl('template_manager', 'delete', array('tpl_manager_id' => (int)$this->request->gethtml('tpl_manager_id'),'tpl_validation' =>$this->session->get('tpl_validation'))));
     	}
+
+		$view->set('tab', $this->session->has('tpl_manager_tab') && $this->session->get('tpl_manager_id') == $this->request->gethtml('tpl_manager_id') ? $this->session->get('tpl_manager_tab') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('tpl_manager_id', $this->request->gethtml('tpl_manager_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
 		$results = $this->modelTplManager->get_locations();
 
 		$module_data = array();
@@ -300,11 +326,28 @@ class ControllerTemplateManager extends Controller {
 			}
 			$view->set($result['location'], $module_data);
 		}
-		
+
 		if(($this->request->gethtml('tpl_manager_id')) && (!$this->request->isPost())){
 			$template_info = $this->modelTplManager->getRow_template_info($this->request->gethtml('tpl_manager_id'));
 		}
-		
+
+		if ($this->request->has('text_tpl_controller', 'post')) {
+			if ($this->request->gethtml('text_tpl_controller', 'post') != NULL) {
+				$name_last = $this->request->has('text_tpl_controller', 'post');
+			} else {
+				$name_last = $this->session->get('name_last_template_manager');
+			}
+		} else {
+			$controller = @$template_info['tpl_controller'];
+			$name_last = $controller ? $this->language->get('text_controller_' . $controller) . ' (' . $controller . ')' : '';
+		}
+		if (strlen($name_last) > 26) {
+			$name_last = substr($name_last , 0, 23) . '...';
+		}
+		$this->session->set('name_last_template_manager', $name_last);
+		$this->session->set('last_template_manager', $this->url->ssl('template_manager', 'update', array('tpl_manager_id' => $this->request->gethtml('tpl_manager_id'))));
+		$this->session->set('last_template_manager_id', $this->request->gethtml('tpl_manager_id'));
+
 		if ($this->request->has('tpl_controller', 'post')){
 			$controller = $this->request->get('tpl_controller', 'post');
 			$view->set('tpl_controller', $controller);
@@ -555,7 +598,13 @@ class ControllerTemplateManager extends Controller {
 			return TRUE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page(){
 		if ($this->request->has('search', 'post')) {
 	  		$this->session->set('tpl.search', $this->request->gethtml('search', 'post'));
@@ -570,8 +619,14 @@ class ControllerTemplateManager extends Controller {
 			$this->session->set('tpl.sort', $this->request->gethtml('sort', 'post'));
 		}
 		$this->response->redirect($this->url->ssl('template_manager'));	
-	
 	}
-
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('tpl_manager_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('tpl_manager_id', $this->request->sanitize('id', 'post'));
+			}
+		}
+	}
 }
 ?>

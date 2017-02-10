@@ -33,41 +33,60 @@ class ControllerImageDisplay extends Controller {
 		if (($this->request->isPost()) && ($this->validateForm())) {
 			$this->modelImageDisplay->insert_image_display();
 			$this->modelImageDisplay->insert_description();
+			$insert_id = $this->modelImageDisplay->get_insert_id();
 			$this->modelImageDisplay->insert_slides();
 			$this->session->set('message', $this->language->get('text_message'));
+			$name_last = $this->request->get('name', 'post');
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
+			}
+			$this->session->set('name_last_image_display', $name_last);
+			$this->session->set('last_image_display', $this->url->ssl('image_display', 'update', array('image_display_id' => $insert_id)));
+			$this->session->set('last_image_display_id', $insert_id);
 			$this->response->redirect($this->url->ssl('image_display'));
 		}
 		$this->template->set('content', $this->getForm());
+
+		$this->session->delete('name_last_image_display');
+		$this->session->delete('last_image_display');
+
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	function update() {
-	$this->template->set('title', $this->language->get('heading_title'));
-	if (($this->request->isPost()) && ($this->validateForm())) {
+		$this->template->set('title', $this->language->get('heading_title'));
+		if (($this->request->isPost()) && ($this->validateForm())) {
 			$this->modelImageDisplay->update_image_display();
 			$this->modelImageDisplay->delete_description($this->request->gethtml('image_display_id'));
 			$this->modelImageDisplay->update_description();
 			$this->modelImageDisplay->delete_slides($this->request->gethtml('image_display_id'));
 			$this->modelImageDisplay->update_slides();
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->ssl('image_display'));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('image_display', 'update', array('image_display_id' => $this->request->gethtml('image_display_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('image_display'));
+			}
 		}
-	$this->template->set('content', $this->getForm());
-	$this->template->set($this->module->fetch());
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->template->set('content', $this->getForm());
+		$this->template->set($this->module->fetch());
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	function delete() {
-	$this->template->set('title', $this->language->get('heading_title'));
-	if (($this->request->gethtml('image_display_id')) && ($this->validateDelete())) {
+		$this->template->set('title', $this->language->get('heading_title'));
+		if (($this->request->gethtml('image_display_id')) && ($this->validateDelete())) {
 			$this->modelImageDisplay->delete_image_display($this->request->gethtml('image_display_id'));
 			$this->modelImageDisplay->delete_description($this->request->gethtml('image_display_id'));
 			$this->modelImageDisplay->delete_slides($this->request->gethtml('image_display_id'));
 			$this->session->set('message', $this->language->get('text_message'));
+			$this->session->delete('name_last_image_display');
+			$this->session->delete('last_image_display');
 			$this->response->redirect($this->url->ssl('image_display'));
 		}
-	$this->template->set('content', $this->getList());
+		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	function changeStatus() { 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
@@ -106,18 +125,22 @@ class ControllerImageDisplay extends Controller {
 
 		$rows = array();
     		foreach ($results as $result) {
+			$last = $result['image_display_id'] == $this->session->get('last_image_display_id') ? 'last_visited': '';
 			$cell = array();
       			$cell[] = array(
         		'value' => $result['name'],
-        		'align' => 'left'
+        		'align' => 'left',
+			'last' => $last
 		  	);
 			$cell[] = array(
         		'value' => $this->language->get('text_location_' .$result['location']),
-        		'align' => 'left'
+        		'align' => 'left',
+			'last' => $last
 		  	);
 			$cell[] = array(
         		'value' => $result['sort_order'],
-        		'align' => 'center'
+        		'align' => 'center',
+			'last' => $last
 		  	);
 			if ($this->validateChangeStatus()) {
 			$cell[] = array(
@@ -162,7 +185,6 @@ class ControllerImageDisplay extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 	    	$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 	    	$view->set('button_insert', $this->language->get('button_insert'));
 	    	$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -171,7 +193,10 @@ class ControllerImageDisplay extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'image_display');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -188,7 +213,6 @@ class ControllerImageDisplay extends Controller {
 	    	$view->set('cols', $cols);
 	    	$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('image_display'));
 	    	$view->set('insert', $this->url->ssl('image_display', 'insert'));
 
 		$view->set('pages', $this->modelImageDisplay->get_pagination());
@@ -238,7 +262,6 @@ class ControllerImageDisplay extends Controller {
 		$view->set('explanation_entry_filename', $this->language->get('explanation_entry_filename'));
 
 		$view->set('button_upload', $this->language->get('button_upload'));
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -247,16 +270,18 @@ class ControllerImageDisplay extends Controller {
 		$view->set('button_add', $this->language->get('button_add'));
 		$view->set('button_remove', $this->language->get('button_remove'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_name', $this->language->get('tab_name'));
 		$view->set('tab_description', $this->language->get('tab_description'));
 
+		$view->set('error_update', $this->language->get('error_update'));
 		$view->set('error_name', @$this->error['name']);
 		$view->set('error', @$this->error['message']);
 		$view->set('error_file', "");
 
 		$view->set('action', $this->url->ssl('image_display', $this->request->gethtml('action'), array('image_display_id' => (int)$this->request->gethtml('image_display_id'))));
-		$view->set('list', $this->url->ssl('image_display'));
 		$view->set('insert', $this->url->ssl('image_display', 'insert'));
 		$view->set('cancel', $this->url->ssl('image_display'));
 		$view->set('action_flash', $this->url->ssl('image_display', 'flash_upload',array('image_display_id' => (int)$this->request->gethtml('image_display_id'))));
@@ -265,10 +290,20 @@ class ControllerImageDisplay extends Controller {
 		$view->set('update', 'enabled');
 		$view->set('delete', $this->url->ssl('image_display', 'delete', array('image_display_id' => (int)$this->request->gethtml('image_display_id'),'image_display_validation' =>$this->session->get('image_display_validation'))));
 		}
+
+		$view->set('tab', $this->session->has('image_display_tab') && $this->session->get('image_display_id') == $this->request->gethtml('image_display_id') ? $this->session->get('image_display_tab') : 0);
+		$view->set('tabmini', $this->session->has('image_display_tabmini') && $this->session->get('image_display_id') == $this->request->gethtml('image_display_id') ? $this->session->get('image_display_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('image_display_id', $this->request->gethtml('image_display_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_image_display_id', $this->request->gethtml('image_display_id'));
 
 		$image_description_data = array();
 		$slides_info = array();
@@ -319,6 +354,22 @@ class ControllerImageDisplay extends Controller {
 		if(($this->request->gethtml('image_display_id')) && (!$this->request->isPost())){
 			$image_display_info = $this->modelImageDisplay->getRow_image_display_info($this->request->gethtml('image_display_id'));
 		}
+
+		if ($this->request->has('name', 'post')) {
+			if ($this->request->gethtml('name', 'post') != NULL) {
+				$name_last = $this->request->has('name', 'post');
+			} else {
+				$name_last = $this->session->get('name_last_template_manager');
+			}
+		} else {
+			$name_last = @$image_display_info['name'];
+		}
+		if (strlen($name_last) > 26) {
+			$name_last = substr($name_last , 0, 23) . '...';
+		}
+		$this->session->set('name_last_image_display', $name_last);
+		$this->session->set('last_image_display', $this->url->ssl('image_display', 'update', array('image_display_id' => $this->request->gethtml('image_display_id'))));
+
 		if ($this->request->has('name', 'post')){
 			$view->set('name', $this->request->get('name', 'post'));
 		} else {
@@ -511,6 +562,28 @@ class ControllerImageDisplay extends Controller {
 		$view->set('language_id', $this->request->gethtml('language_id'));
 		$view->set('slide_id', $this->request->gethtml('slide_id'));
 		$this->response->set($view->fetch('content/slider_module.tpl'));
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('image_display_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('image_display_id', $this->request->sanitize('id', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('image_display_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
 	}
 }
 ?>

@@ -51,7 +51,7 @@
 }
 #invoice .vendor{
 	font-size: smaller;
-	color: #0099FF;
+	color: #09F;
 }
 .invoice_price_old {
 	text-decoration: line-through;
@@ -61,7 +61,7 @@
 }
 
 .invoice_price_new {
-	color: #FF0000;
+	color: #F00;
 	font-size: 10px;
 	text-align: right;
 	font-weight: 200;
@@ -69,7 +69,7 @@
 }
 .tax{
 	font-weight: bold;
-	color: #CC0000;
+	color: #C00;
 }
 
 #create{
@@ -130,7 +130,7 @@
 }
 #create .vendor{
 	font-size: smaller;
-	color: #0099FF;
+	color: #09F;
 }
 .create_price_old {
 	text-decoration: line-through;
@@ -140,7 +140,7 @@
 }
 
 .create_price_new {
-	color: #FF0000;
+	color: #F00;
 	font-size: 10px;
 	text-align: right;
 	font-weight: 200;
@@ -148,5 +148,5 @@
 }
 .tax{
 	font-weight: bold;
-	color: #CC0000;
+	color: #C00;
 }

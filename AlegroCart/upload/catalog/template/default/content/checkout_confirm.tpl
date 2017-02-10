@@ -229,7 +229,9 @@
 	<td><input type="button" value="<?php echo $button_back; ?>" onclick="location='<?php echo $back; ?>'"></td>
 	<td class="rtext"><?php echo $agree; ?></td>
 	<td width="5"><input type="checkbox" id="agree" name="agreed" value="1" class="agreement"></td>
-	<td width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled"></td>
+	<td width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled">
+	<img width="128" id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE">
+	</td>
       </tr>
     </table>
   </div>
@@ -241,9 +243,12 @@
 	 <?php if($hasnoshipping){?>
 	<td align="right"><?php echo $text_warehouse_pickup; ?></td>
 	<td align="right" width="5"><input type="checkbox" id="pickup" name="pickup" value="1" class="agreement"></td>
-        <td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled"></td>
+        <td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled">
+		<img width="128" id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE"></td>
 	 <?php } else { ?>
-        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>"></td>
+        <td align="right"><input type="submit" value="<?php echo $button_continue; ?>">
+		<img width="128" id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE">
+		</td>
 	 <?php }?>
       </tr>
     </table>
@@ -253,7 +258,8 @@
 <div class="contentBodyBottom"></div>
 <script type="text/javascript"><!--
 $("#submit").on("click", function(){
-	$('#submit').attr('disabled', true);
+	$('#working').show();
+	$('#submit').attr("hidden","hidden");
 });
 //--></script>
 <script type="text/javascript"><!--

@@ -39,13 +39,15 @@ $_['text_catalog']        = 'Catalog';
 	$_['text_product']        = 'Product';
 	$_['text_products_with_options'] = 'Products with Options';
 	$_['text_option']         = 'Product Option';
-	$_['text_manufacturer']   = 'Manufacturer';
-	$_['text_vendor']         = 'Vendor';
 	$_['text_image']          = 'Image';
 	$_['text_watermark']	  = 'Watermark';
 	$_['text_download']       = 'Download';
 	$_['text_review']         = 'Review';
 	$_['text_information']    = 'Information';
+
+$_['text_commerce']        = 'Commerce';
+	$_['text_manufacturer']   = 'Manufacturer';
+	$_['text_vendor']         = 'Vendor';
 
 $_['text_extension']      = 'Extensions';
 	$_['text_module']         = 'Module';

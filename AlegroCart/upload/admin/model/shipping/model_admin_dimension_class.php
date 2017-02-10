@@ -90,5 +90,9 @@ class Model_Admin_Dimension_Class extends Model {
 		$result = $this->database->getRows("select p.product_id, pd.name from product p left join product_description pd on (p.product_id=pd.product_id) where dimension_id = '" . (int)$this->request->gethtml('dimension_id') . "' and pd.language_id = '" . (int)$this->language->getId() . "'");
 		return $result;
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

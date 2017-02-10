@@ -5,7 +5,7 @@ class ControllerLanguage extends Controller {
 	var $image_path;
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
@@ -34,6 +34,7 @@ class ControllerLanguage extends Controller {
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$this->modelLanguage->insert_language();
+			$insert_id = $this->modelLanguage->get_last_id();
 
 			$this->modelLanguage->duplicate_category_description();
 			$this->modelLanguage->duplicate_coupon_description();
@@ -50,6 +51,7 @@ class ControllerLanguage extends Controller {
 			$this->modelLanguage->duplicate_product_description();
 			$this->modelLanguage->duplicate_weight_class();
 
+			$this->session->set('last_language_id', $insert_id);
 			$this->cache->delete('language');
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -73,7 +75,12 @@ class ControllerLanguage extends Controller {
 			setcookie('admin_language','', time() - 86400 * 2,'/');
 			setcookie('catalog_language','', time() - 86400 * 2,'/');
 
-			$this->response->redirect($this->url->ssl('language'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('language', 'update', array('language_id' => $this->request->gethtml('language_id'))));
+			} else {
+				$this->response->redirect($this->url->ssl('language'));
+			}
+
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -141,13 +148,15 @@ class ControllerLanguage extends Controller {
 		$catalog_language = $this->modelLanguage->get_catalog_language();
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['language_id'] == $this->session->get('last_language_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
 				'value'   => $result['name'],
 				'align'   => 'left',
 				'default_development' => ($result['code'] == 'en'),
 				'default_admin' => ($result['code'] == $this->config->get('config_language')),
-				'default_catalog' => ($result['code'] == $catalog_language)
+				'default_catalog' => ($result['code'] == $catalog_language),
+				'last' => $last
 			);
 			if ($this->validateChangeStatus() && $result['code'] != $this->config->get('config_language') && $result['code'] != $catalog_language) {
 			$cell[] = array(
@@ -166,11 +175,13 @@ class ControllerLanguage extends Controller {
 			}
 			$cell[] = array(
 				'value' => $result['code'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['sort_order'],
-				'align' => 'right'
+				'align' => 'right',
+				'last' => $last
 			);
 			$action = array();
 			$action[] = array(
@@ -205,7 +216,6 @@ class ControllerLanguage extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -214,7 +224,10 @@ class ControllerLanguage extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
  		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'language');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -232,7 +245,6 @@ class ControllerLanguage extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('language'));
 		$view->set('insert', $this->url->ssl('language', 'insert'));
 
 		$view->set('pages', $this->modelLanguage->get_pagination());
@@ -257,14 +269,15 @@ class ControllerLanguage extends Controller {
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 		$view->set('entry_language_status', $this->language->get('entry_language_status'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -276,7 +289,6 @@ class ControllerLanguage extends Controller {
 
 		$view->set('action', $this->url->ssl('language', $this->request->gethtml('action'), array('language_id' => $this->request->gethtml('language_id'))));
 
-		$view->set('list', $this->url->ssl('language'));
 		$view->set('insert', $this->url->ssl('language', 'insert'));
 		$view->set('cancel', $this->url->ssl('language'));
 
@@ -284,10 +296,17 @@ class ControllerLanguage extends Controller {
 			$view->set('update', 'enable');
 			$view->set('delete', $this->url->ssl('language', 'delete', array('language_id' => $this->request->gethtml('language_id'),'language_validation' =>$this->session->get('language_validation'))));
 		}
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('language_id', $this->request->gethtml('language_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_language_id', $this->request->gethtml('language_id'));
 
 		if (($this->request->gethtml('language_id')) && (! $this->request->isPost())) {
 			$language_info = $this->modelLanguage->get_language();
@@ -471,7 +490,14 @@ class ControllerLanguage extends Controller {
 		} else {
 			return FALSE;
 		}
-	}	
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('language.search', $this->request->gethtml('search', 'post'));

@@ -3,7 +3,7 @@ class ControllerGeoZone extends Controller {
 	var $error = array();
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -33,6 +33,8 @@ class ControllerGeoZone extends Controller {
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$this->modelGeoZone->insert_geozone();
+			$insert_id = $this->modelGeoZone->get_last_id();
+			$this->session->set('last_geo_zone_id', $insert_id);
 			$this->cache->delete('geo_zone');
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -52,7 +54,12 @@ class ControllerGeoZone extends Controller {
 			$this->cache->delete('geo_zone');
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('geo_zone'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('geo_zone', 'update', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
+			} else {
+				$this->response->redirect($this->url->ssl('geo_zone'));
+			}
+
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -105,18 +112,21 @@ class ControllerGeoZone extends Controller {
 		$rows = array();
 		foreach ($results as $result) {
 			$cell = array();
-      		$cell[] = array(
-        		'icon'  => $this->modelGeoZone->check_children($result['geo_zone_id']) ? 'folderO.png' : 'folder.png',
-        		'align' => 'center',
+			$last = $result['geo_zone_id'] == $this->session->get('last_geo_zone_id') ? 'last_visited': '';
+      			$cell[] = array(
+        			'icon'  => $this->modelGeoZone->check_children($result['geo_zone_id']) ? 'folderO.png' : 'folder.png',
+        			'align' => 'center',
 				'path'  => $this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $result['geo_zone_id']))
 		  	);
 			$cell[] = array(
 				'value' => $result['name'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['description'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$action = array();
 			$action[] = array(
@@ -148,7 +158,6 @@ class ControllerGeoZone extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -156,7 +165,10 @@ class ControllerGeoZone extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'geo_zone');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 	
 		$view->set('error', @$this->error['message']);
@@ -175,7 +187,6 @@ class ControllerGeoZone extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('geo_zone'));
 		$view->set('insert', $this->url->ssl('geo_zone', 'insert'));
 
 		$view->set('pages', $this->modelGeoZone->get_pagination());
@@ -195,14 +206,15 @@ class ControllerGeoZone extends Controller {
 		$view->set('explanation_name', $this->language->get('explanation_name'));
 		$view->set('explanation_description', $this->language->get('explanation_description'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -211,7 +223,6 @@ class ControllerGeoZone extends Controller {
 
 		$view->set('action', $this->url->ssl('geo_zone', $this->request->gethtml('action'), array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 
-		$view->set('list', $this->url->ssl('geo_zone'));
 		$view->set('insert', $this->url->ssl('geo_zone', 'insert'));
 		$view->set('cancel', $this->url->ssl('geo_zone'));
 		
@@ -219,10 +230,17 @@ class ControllerGeoZone extends Controller {
 			$view->set('update', $this->url->ssl('geo_zone', 'update', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 			$view->set('delete', $this->url->ssl('geo_zone', 'delete', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'),'geo_zone_validation' =>$this->session->get('geo_zone_validation'))));
 		}
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('geo_zone_id', $this->request->gethtml('geo_zone_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('last_geo_zone_id', $this->request->gethtml('geo_zone_id'));
 
 		if (($this->request->gethtml('geo_zone_id')) && (!$this->request->isPost())) {
 			$geo_zone_info = $this->modelGeoZone->get_geozone();
@@ -324,7 +342,13 @@ class ControllerGeoZone extends Controller {
 			return FALSE;
 		}
 	}	
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('geo_zone.search', $this->request->gethtml('search', 'post'));

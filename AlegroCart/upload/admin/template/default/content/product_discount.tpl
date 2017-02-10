@@ -1,4 +1,4 @@
-<tr id="discount_<?php echo $discount_id; ?>">
+<tr name="qty_discount_<?php echo $discount_id; ?>" id="discount_<?php echo $discount_id; ?>">
   <td><?php echo $entry_quantity; ?></td>
   <td><input class="validate_int" type="text" id="discount_quantity<?php echo $discount_id;?>" name="product_discount[<?php echo $discount_id; ?>][quantity]" value="" size="2" onfocus="RegisterValidation()"></td>
 

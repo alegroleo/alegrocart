@@ -39,6 +39,7 @@ class ControllerWeightClass extends Controller {
 				$this->modelWeightClass->insert_weight_rule($insert_id, $key, $value);
 			}
 			$this->cache->delete('weight_class');
+			$this->session->set('last_weight_class_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('weight_class'));
@@ -64,7 +65,11 @@ class ControllerWeightClass extends Controller {
 			$this->cache->delete('weight_class');
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('weight_class'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('weight_class', 'update', array('weight_class_id' => $this->request->gethtml('weight_class_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('weight_class'));
+			}
 		}
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -111,15 +116,18 @@ class ControllerWeightClass extends Controller {
 
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['weight_class_id'] == $this->session->get('last_weight_class_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
 				'value'   => $result['title'],
 				'align'   => 'left',
-				'default' => ($result['weight_class_id'] == $this->config->get('config_weight_class_id'))
+				'default' => ($result['weight_class_id'] == $this->config->get('config_weight_class_id')),
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $result['unit'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 
 			$action = array();
@@ -129,7 +137,7 @@ class ControllerWeightClass extends Controller {
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('weight_class', 'update', array('weight_class_id' => $result['weight_class_id']))
       		);
-			if($this->session->get('enable_delete')){	
+			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
 					'text' => $this->language->get('button_delete'),
@@ -155,7 +163,6 @@ class ControllerWeightClass extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -163,7 +170,10 @@ class ControllerWeightClass extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
  		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'weight_class');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -182,7 +192,6 @@ class ControllerWeightClass extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('weight_class'));
 		$view->set('insert', $this->url->ssl('weight_class', 'insert'));
 
 		$view->set('pages', $this->modelWeightClass->get_pagination());
@@ -199,17 +208,19 @@ class ControllerWeightClass extends Controller {
 		$view->set('entry_title', $this->language->get('entry_title'));
 		$view->set('entry_unit', $this->language->get('entry_unit'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 		$view->set('tab_data', $this->language->get('tab_data'));
 
+		$view->set('error_update', $this->language->get('error_update'));
 		$view->set('error', @$this->error['message']);
 		$view->set('error_title', @$this->error['title']);
 		$view->set('error_unit', @$this->error['unit']);
@@ -220,7 +231,6 @@ class ControllerWeightClass extends Controller {
 
 		$view->set('action', $this->url->ssl('weight_class', $this->request->gethtml('action'), array('weight_class_id' => $this->request->gethtml('weight_class_id'))));
 
-		$view->set('list', $this->url->ssl('weight_class'));
 		$view->set('insert', $this->url->ssl('weight_class', 'insert'));
 		$view->set('cancel', $this->url->ssl('weight_class'));
 
@@ -228,11 +238,21 @@ class ControllerWeightClass extends Controller {
 			$view->set('update', 'enable');
 			$view->set('delete', $this->url->ssl('weight_class', 'delete', array('weight_class_id' => $this->request->gethtml('weight_class_id'),'weight_class_validation' =>$this->session->get('weight_class_validation'))));
 		}
+
+		$view->set('tab', $this->session->has('weight_class_tab') && $this->session->get('weight_class_id') == $this->request->gethtml('weight_class_id') ? $this->session->get('weight_class_tab') : 0);
+		$view->set('tabmini', $this->session->has('weight_class_tabmini') && $this->session->get('weight_class_id') == $this->request->gethtml('weight_class_id') ? $this->session->get('weight_class_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('weight_class_id', $this->request->gethtml('weight_class_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		$this->session->set('last_weight_class_id', $this->request->gethtml('weight_class_id'));
+
 		$weight_class_data = array();
 		$results = $this->modelWeightClass->get_languages();
 		foreach ($results as $result) {
@@ -358,7 +378,13 @@ class ControllerWeightClass extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('weight_class.search', $this->request->gethtml('search', 'post'));
@@ -374,6 +400,21 @@ class ControllerWeightClass extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('weight_class'));
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('weight_class_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('weight_class_id', $this->request->sanitize('id', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('weight_class_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
 	}
 }
 ?>

@@ -1,8 +1,19 @@
 <div class="task">
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $list; ?>'"><img src="template/<?php echo $this->directory?>/image/list_enabled.png" alt="<?php echo $button_list; ?>" class="png"><?php echo $button_list; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
+  <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+  <input type="hidden" name="update_form" value="1">
+  <input type="hidden" name="option" value="">
+  <input type="hidden" name="option_name" value="">
+  <input type="hidden" name="prefix" value="">
+  <input type="hidden" name="price" value="">
+  <input type="hidden" name="option_weightclass_id" value="">
+  <input type="hidden" name="option_weight" value="">
+  <input type="hidden" name="sort_order" value="">
+  <input type="hidden" name="product_to_option_id" id="product_to_option_id" value="<?php echo $product_to_option_id; ?>">
+  </form>
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
@@ -18,12 +29,18 @@
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>
-<div class="heading"><?php echo $heading_title; ?><em></em></div>
+<?php if ($message) { ?>
+<div class="message"><?php echo $message; ?></div>
+<?php } ?>
+<div class="heading"><?php echo $heading_title; ?>
+ <em></em>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+</div>
 <div class="description"><?php echo $heading_description; ?></div>
 <script type="text/javascript" src="javascript/tab/tab.js"></script>
 <script type="text/javascript" src="javascript/ajax/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
-<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a></div>
     <div class="pages">
@@ -91,14 +108,47 @@
     </div>
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
+  <input type="hidden" name="option_name" value="">
   <script type="text/javascript"><!--
   tabview_initialize('tab');
   //--></script>
   <script type="text/javascript">
   $(function(){
 	$('#productoption').change(function(){
-	$(".heading em").text("<?php echo $option_name;?>"+" : "+$('#productoption option:selected').text());
+	var poselected = $('#productoption option:selected').text();
+	$(".heading em").text("<?php echo $product_name;?>"+" : "+ poselected);
+	$('input[name=option_name]').val(poselected);
   }).change();
   });
+  //--></script>
+  <script type="text/javascript"><!--
+  $(document).ready(function() {
+	$('.task').each(function(){
+	$('.task .disabled').hide();
+	});
+	<?php if (!$help) { ?>
+		$('.description').hide(0);
+	<?php } ?>
+  });
+  function ShowDesc(){
+	$.ajax({
+		type:    'POST',
+		url:     'index.php?controller=product_option&action=help',
+		async:   false,
+		success: function(data) {
+			$('.description').toggle('slow');
+		}
+	});
+  }
+  //--></script>
+  <script type="text/javascript"><!--
+	function getValues() {
+		document.forms['update_form'].option.value=document.forms['form'].option.value;
+		document.forms['update_form'].prefix.value=document.forms['form'].prefix.value;
+		document.forms['update_form'].price.value=document.forms['form'].price.value;
+		document.forms['update_form'].option_weightclass_id.value=document.forms['form'].option_weightclass_id.value;
+		document.forms['update_form'].option_weight.value=document.forms['form'].option_weight.value;
+		document.forms['update_form'].sort_order.value=document.forms['form'].sort_order.value;
+	}
   //--></script>
 </form>

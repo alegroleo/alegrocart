@@ -22,5 +22,9 @@ class Model_Admin_Cart extends Model {
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'cart', `key` = 'cart_status', value = '1'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'cart', `key` = 'cart_offset', value = '0'");
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

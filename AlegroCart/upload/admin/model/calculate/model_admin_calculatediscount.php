@@ -11,7 +11,7 @@ class Model_Admin_CalculateDiscount extends Model {
 		$this->database->query("delete from setting where `group` = 'discount'");
 	}
 	function install_discount(){
-		$this->database->query("insert into setting set type = 'global', `group` = 'discount', `key` = 'discount_status', value = '0'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'discount', `key` = 'discount_status', value = '1'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'discount', `key` = 'discount_sort_order', value = '3'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'discount', `key` = 'discount_lprice', value = '0.00'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'discount', `key` = 'discount_lprice_percent', value = '0.00'");
@@ -30,6 +30,10 @@ class Model_Admin_CalculateDiscount extends Model {
 	function get_discount(){
 		$results = $this->database->getRows("select * from setting where `group` = 'discount'");
 		return $results;
+	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
 	}
 }
 ?>

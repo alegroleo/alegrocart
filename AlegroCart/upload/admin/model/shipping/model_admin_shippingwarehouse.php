@@ -38,5 +38,9 @@ class Model_Admin_ShippingWarehouse extends Model {
 		$results = $this->database->cache('geo_zone', "select * from geo_zone");
 		return $results;
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

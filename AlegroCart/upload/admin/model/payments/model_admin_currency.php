@@ -78,5 +78,13 @@ class Model_Admin_Currency extends Model {
 		$sql = "update currency set status = '?' where currency_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
+	function get_last_id(){
+		$result = $this->database->getLastId();
+		return $result;
+	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

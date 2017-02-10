@@ -20,5 +20,9 @@ class Model_Admin_Converter extends Model {
 	function install_converter(){
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'converter', `key` = 'converter_status', value = '1'");
 	}
+	function get_extension_id($controller) {
+		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
+		return $result['extension_id'];
+	}
 }
 ?>

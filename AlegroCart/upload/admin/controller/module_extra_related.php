@@ -3,7 +3,7 @@ class ControllerModuleExtraRelated extends Controller {
 	var $error = array(); // All References change to module_extra_ due to new module loader   
  	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->cache    	=& $locator->get('cache');
 		$this->config   	=& $locator->get('config');
 		$this->currency 	=& $locator->get('currency');
@@ -26,8 +26,12 @@ class ControllerModuleExtraRelated extends Controller {
 			$this->modelRelated->delete_related();
 			$this->modelRelated->update_related();
 			$this->session->set('message', $this->language->get('text_message'));
-			
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('module_extra_related'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+			}
 		}
 		
 		$view = $this->locator->create('template');
@@ -53,13 +57,15 @@ class ControllerModuleExtraRelated extends Controller {
 		$view->set('entry_columnb', $this->language->get('entry_columnb'));
 		$view->set('entry_sliderb', $this->language->get('entry_sliderb'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('explanation_entry_status', $this->language->get('explanation_entry_status'));
 		$view->set('explanation_entry_limit', $this->language->get('explanation_entry_limit'));
@@ -79,14 +85,20 @@ class ControllerModuleExtraRelated extends Controller {
 		$view->set('error', @$this->error['message']);
 
 		$view->set('action', $this->url->ssl('module_extra_related'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		$this->session->set('name_last_module', $this->language->get('heading_title'));
+		$this->session->set('last_module', 'module_extra_related');
+		$this->session->set('last_extension_id', $this->modelRelated->get_extension_id('module_extra_related'));
+
 		$view->set('column_data', array(1,2,3,4,5));
 		$view->set('scolumn_data', array(2,3,4,5));
 		$view->set('image_displays',array('no_image', 'image_link', 'thickbox', 'fancybox', 'lightbox'));
@@ -189,7 +201,13 @@ class ControllerModuleExtraRelated extends Controller {
 			return FALSE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
 		if ($this->user->hasPermission('modify', 'module_extra_related')) {
 			$this->modelRelated->delete_related();
@@ -197,19 +215,20 @@ class ControllerModuleExtraRelated extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-				
-		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));	
+		}
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
-
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'module_extra_related')) {
 			$this->modelRelated->delete_related();
+			if ($this->session->get('last_module') == 'module_extra_related') {
+				$this->session->delete('name_last_module');
+				$this->session->delete('last_module');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
 }

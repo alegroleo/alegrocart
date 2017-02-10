@@ -2,8 +2,8 @@
 class ControllerNewsletter extends Controller {
 	var $error = array();
 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
 		$this->mail     	=& $locator->get('mail');
@@ -15,7 +15,7 @@ class ControllerNewsletter extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelNewsletter = $model->get('model_admin_newsletter');
-		
+
 		$this->language->load('controller/newsletter.php');
 	}
 	function index() {
@@ -25,14 +25,23 @@ class ControllerNewsletter extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
+
 	function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('subject', 'post') && $this->validateForm()) {
 			$this->modelNewsletter->insert_newsletter();
+			$newsletter_id = $this->modelNewsletter->get_insert_id();
+
+			$name_last = $this->request->get('subject', 'post');
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
+			}
+			$this->session->set('name_last_newsletter', $name_last);
+			$this->session->set('last_newsletter', $this->url->ssl('newsletter', 'update', array('newsletter_id' => $newsletter_id)));
+			$this->session->set('last_newsletter_id', $newsletter_id);
+
 			if ($this->request->get('send', 'post')) {
-				$newsletter_id = $this->modelNewsletter->get_insert_id();
 				$this->modelNewsletter->update_send($newsletter_id);
 				$email = array();
 				$results = $this->modelNewsletter->get_customers();
@@ -66,6 +75,10 @@ class ControllerNewsletter extends Controller {
 		}
 
 		$this->template->set('content', $this->getForm());
+
+		$this->session->delete('name_last_newsletter');
+		$this->session->delete('last_newsletter');
+
 		$this->template->set($this->module->fetch());
 
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -106,7 +119,11 @@ class ControllerNewsletter extends Controller {
 
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('newsletter'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('newsletter', 'update', array('newsletter_id' => $this->request->gethtml('newsletter_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('newsletter'));
+			}
 		}
 
 		$this->template->set('content', $this->getForm());
@@ -122,16 +139,15 @@ class ControllerNewsletter extends Controller {
 			$this->modelNewsletter->delete_newsletter();
 
 			$this->session->set('message', $this->language->get('text_message'));
-
+			$this->session->delete('name_last_newsletter');
+			$this->session->delete('last_newsletter');
 			$this->response->redirect($this->url->ssl('newsletter'));
 		}
 
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
-
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-		
 	function getList() {
 		$this->session->set('newsletter_validation', md5(time()));
 		$cols = array();
@@ -153,29 +169,31 @@ class ControllerNewsletter extends Controller {
 			'sort'  => 'date_sent',
 			'align' => 'left'
 		);
+	    	$cols[] = array(
+	      		'name'  => $this->language->get('column_action'),
+	      		'align' => 'action'
+	    	);
 
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-
-		
 		$results = $this->modelNewsletter->get_page();
-		
+
 		$rows = array();
 		foreach ($results as $result) {
+			$last = $result['newsletter_id'] == $this->session->get('last_newsletter_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
 				'value' => $result['subject'],
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$cell[] = array(
 				'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_sent'])),
-				'align' => 'left'
+				'align' => 'left',
+				'last' => $last
 			);
 			$action = array();
       		
@@ -183,7 +201,7 @@ class ControllerNewsletter extends Controller {
         		'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('newsletter', 'update', array('newsletter_id' => $result['newsletter_id']))
-      		);
+      			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -196,7 +214,7 @@ class ControllerNewsletter extends Controller {
         		'action' => $action,
         		'align'  => 'action'
       		);
-			
+
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -210,7 +228,6 @@ class ControllerNewsletter extends Controller {
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -218,7 +235,10 @@ class ControllerNewsletter extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'newsletter');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
@@ -236,14 +256,13 @@ class ControllerNewsletter extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-		$view->set('list', $this->url->ssl('newsletter'));
 		$view->set('insert', $this->url->ssl('newsletter', 'insert'));
 
 		$view->set('pages', $this->modelNewsletter->get_pagination());
 
 		return $view->fetch('content/list.tpl');
 	}
-		
+
 	function getForm() {
 		$view = $this->locator->create('template');
 
@@ -252,26 +271,26 @@ class ControllerNewsletter extends Controller {
 		
 		$view->set('text_yes', $this->language->get('text_yes'));
 		$view->set('text_no', $this->language->get('text_no'));
-				
+
 		$view->set('entry_subject', $this->language->get('entry_subject'));
 		$view->set('entry_content', $this->language->get('entry_content'));
 		$view->set('entry_send', $this->language->get('entry_send'));
-		
-		$view->set('button_list', $this->language->get('button_list'));
+
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('error', @$this->error['message']);
 		$view->set('error_subject', @$this->error['subject']);
 		$view->set('error_content', @$this->error['content']);
-		
+
 		$view->set('action', $this->url->ssl('newsletter', $this->request->gethtml('action'), array('newsletter_id' => $this->request->gethtml('newsletter_id'))));
-		
-		$view->set('list', $this->url->ssl('newsletter'));
+
 		$view->set('insert', $this->url->ssl('newsletter', 'insert'));
 		$view->set('cancel', $this->url->ssl('newsletter'));
 
@@ -279,7 +298,11 @@ class ControllerNewsletter extends Controller {
 			$view->set('update', 'enable');
 			$view->set('delete', $this->url->ssl('newsletter', 'delete', array('newsletter_id' => $this->request->gethtml('newsletter_id'),'newsletter_validation' =>$this->session->get('newsletter_validation'))));
 		}
-		
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('newsletter_id', $this->request->gethtml('newsletter_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
@@ -290,17 +313,31 @@ class ControllerNewsletter extends Controller {
 		}
 
 		if ($this->request->has('subject', 'post')) {
+			if ($this->request->gethtml('subject', 'post') != NULL) {
+				$name_last = $this->request->has('subject', 'post');
+			} else {
+				$name_last = $this->session->get('name_last_newsletter');
+			}
+		} else {
+			$name_last = @$newsletter_info['subject'];
+		}
+		if (strlen($name_last) > 26) {
+			$name_last = substr($name_last , 0, 23) . '...';
+		}
+		$this->session->set('name_last_newsletter', $name_last);
+		$this->session->set('last_newsletter', $this->url->ssl('newsletter', 'update', array('newsletter_id' => $this->request->gethtml('newsletter_id'))));
+		$this->session->set('last_newsletter_id', $this->request->gethtml('newsletter_id'));
+
+		if ($this->request->has('subject', 'post')) {
 			$view->set('subject', $this->request->get('subject', 'post'));
 		} else {
 			$view->set('subject', @$newsletter_info['subject']);
 		}
-		 
 		if ($this->request->has('content', 'post')) {
 			$view->set('content', $this->request->get('content', 'post'));
 		} else {
 			$view->set('content', @$newsletter_info['content']);
 		}
-		
 		if ($this->request->has('send', 'post')) {
 			$view->set('send', $this->request->gethtml('send', 'post'));
 		} else {
@@ -309,7 +346,7 @@ class ControllerNewsletter extends Controller {
 
 		return $view->fetch('content/newsletter.tpl');
 	}
-	
+
 	function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -320,7 +357,7 @@ class ControllerNewsletter extends Controller {
 		if (!$this->user->hasPermission('modify', 'newsletter')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-				
+
 		if (!$this->request->get('subject', 'post')) {
 			$this->error['subject'] = $this->language->get('error_subject');
 		}
@@ -335,7 +372,7 @@ class ControllerNewsletter extends Controller {
 			return FALSE;
 		}
 	}
-	
+
 	function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -360,7 +397,7 @@ class ControllerNewsletter extends Controller {
 	  		return FALSE;
 		}
 	}
-	
+
 	function validateDelete() {
 		if(($this->session->get('newsletter_validation') != $this->request->sanitize('newsletter_validation')) || (strlen($this->session->get('newsletter_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -392,5 +429,12 @@ class ControllerNewsletter extends Controller {
 
 		$this->response->redirect($this->url->ssl('newsletter'));
   	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 }
 ?>

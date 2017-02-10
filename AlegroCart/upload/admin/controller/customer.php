@@ -24,57 +24,73 @@ class ControllerCustomer extends Controller {
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function insert() {
-	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('firstname', 'post') && $this->validateForm()) {
 			$this->modelCustomer->insert_customer();
-		$customer_id = $this->modelCustomer->get_insert_id();
-			$this->modelCustomer->insert_address($customer_id);
-			$this->modelCustomer->insert_default_address($customer_id);
+			$insert_id = $this->modelCustomer->get_insert_id();
+			$this->modelCustomer->insert_address($insert_id);
+			$this->modelCustomer->insert_default_address($insert_id);
+			$name_last = $this->request->get('firstname', 'post') . ' ' . $this->request->get('lastname', 'post');
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
+			}
+			$this->session->set('name_last_customer', $name_last);
+			$this->session->set('last_customer', $this->url->ssl('customer', 'update', array('customer_id' => $insert_id)));
+			$this->session->set('last_customer_id', $insert_id);
 
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('customer'));
 		}
-	$this->template->set('content', $this->getForm());
+		$this->template->set('content', $this->getForm());
+
+		$this->session->delete('name_last_customer');
+		$this->session->delete('last_customer');
+
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function update() {
-	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('title', $this->language->get('heading_title'));
 
-	if ($this->request->isPost() && $this->request->has('firstname', 'post') && $this->validateForm()) {
-		$this->modelCustomer->update_customer();
+		if ($this->request->isPost() && $this->request->has('firstname', 'post') && $this->validateForm()) {
+			$this->modelCustomer->update_customer();
 			$this->modelCustomer->update_address();
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('customer'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('customer', 'update', array('customer_id' => $this->request->gethtml('customer_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('customer'));
+			}
 		}
-	$this->template->set('content', $this->getForm());
+		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function delete() {
-	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('title', $this->language->get('heading_title'));
 
-	if (($this->request->gethtml('customer_id')) && ($this->validateDelete())) {
+		if (($this->request->gethtml('customer_id')) && ($this->validateDelete())) {
 			$this->modelCustomer->delete_customer();
 			$this->session->set('message', $this->language->get('text_message'));
-
+			$this->session->delete('name_last_customer');
+			$this->session->delete('last_customer');
 			$this->response->redirect($this->url->ssl('customer'));
-	}
-	$this->template->set('content', $this->getList());
+		}
+		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
-	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function changeStatus() { 
@@ -123,18 +139,22 @@ class ControllerCustomer extends Controller {
 
 	$rows = array();
 	foreach ($results as $result) {
+		$last = $result['customer_id'] == $this->session->get('last_customer_id') ? 'last_visited': '';
 		$cell = array();
 		$cell[] = array(
 			'value' => $result['lastname'],
-			'align' => 'left'
+			'align' => 'left',
+			'last' => $last
 		);
 		$cell[] = array(
 			'value' => $result['firstname'],
-		'align' => 'left'
+			'align' => 'left',
+			'last' => $last
 		);
 		$cell[] = array(
 			'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
-			'align' => 'left'
+			'align' => 'left',
+			'last' => $last
 		);
 		if ($this->validateChangeStatus()) {
 		$cell[] = array(
@@ -185,7 +205,6 @@ class ControllerCustomer extends Controller {
 	$view->set('entry_page', $this->language->get('entry_page'));
 	$view->set('entry_search', $this->language->get('entry_search'));
 
-	$view->set('button_list', $this->language->get('button_list'));
 	$view->set('button_insert', $this->language->get('button_insert'));
 	$view->set('button_update', $this->language->get('button_update'));
 	$view->set('button_delete', $this->language->get('button_delete'));
@@ -194,7 +213,10 @@ class ControllerCustomer extends Controller {
 	$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 	$view->set('button_print', $this->language->get('button_print'));
 	$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'customer');
 	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 	$view->set('error', @$this->error['message']);
@@ -212,7 +234,6 @@ class ControllerCustomer extends Controller {
 	$view->set('cols', $cols);
 	$view->set('rows', $rows);
 
-	$view->set('list', $this->url->ssl('customer'));
 	$view->set('insert', $this->url->ssl('customer', 'insert'));
 
 	$view->set('pages', $this->modelCustomer->get_pagination());
@@ -221,78 +242,101 @@ class ControllerCustomer extends Controller {
 	}
 
 	function getForm() {
-	$view = $this->locator->create('template');
+		$view = $this->locator->create('template');
 
-	$view->set('heading_title', $this->language->get('heading_form_title'));
-	$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('heading_title', $this->language->get('heading_form_title'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 
-	$view->set('text_enabled', $this->language->get('text_enabled'));
-	$view->set('text_disabled', $this->language->get('text_disabled'));
-	$view->set('text_no_postal', $this->language->get('text_no_postal'));
+		$view->set('text_enabled', $this->language->get('text_enabled'));
+		$view->set('text_disabled', $this->language->get('text_disabled'));
+		$view->set('text_no_postal', $this->language->get('text_no_postal'));
 
-	$view->set('entry_firstname', $this->language->get('entry_firstname'));
-	$view->set('entry_lastname', $this->language->get('entry_lastname'));
-	$view->set('entry_company', $this->language->get('entry_company'));
-	$view->set('entry_address_1', $this->language->get('entry_address_1'));
-	$view->set('entry_address_2', $this->language->get('entry_address_2'));
-	$view->set('entry_postcode', $this->language->get('entry_postcode'));
-	$view->set('entry_city', $this->language->get('entry_city'));
-	$view->set('entry_country', $this->language->get('entry_country'));
-	$view->set('entry_zone', $this->language->get('entry_zone'));
-	$view->set('entry_email', $this->language->get('entry_email'));
-	$view->set('entry_telephone', $this->language->get('entry_telephone'));
-	$view->set('entry_fax', $this->language->get('entry_fax'));
-	$view->set('entry_newsletter', $this->language->get('entry_newsletter'));
-	$view->set('entry_status', $this->language->get('entry_status'));
+		$view->set('entry_firstname', $this->language->get('entry_firstname'));
+		$view->set('entry_lastname', $this->language->get('entry_lastname'));
+		$view->set('entry_company', $this->language->get('entry_company'));
+		$view->set('entry_address_1', $this->language->get('entry_address_1'));
+		$view->set('entry_address_2', $this->language->get('entry_address_2'));
+		$view->set('entry_postcode', $this->language->get('entry_postcode'));
+		$view->set('entry_city', $this->language->get('entry_city'));
+		$view->set('entry_country', $this->language->get('entry_country'));
+		$view->set('entry_zone', $this->language->get('entry_zone'));
+		$view->set('entry_email', $this->language->get('entry_email'));
+		$view->set('entry_telephone', $this->language->get('entry_telephone'));
+		$view->set('entry_fax', $this->language->get('entry_fax'));
+		$view->set('entry_newsletter', $this->language->get('entry_newsletter'));
+		$view->set('entry_status', $this->language->get('entry_status'));
 
-	$view->set('button_list', $this->language->get('button_list'));
-	$view->set('button_insert', $this->language->get('button_insert'));
-	$view->set('button_update', $this->language->get('button_update'));
-	$view->set('button_delete', $this->language->get('button_delete'));
-	$view->set('button_save', $this->language->get('button_save'));
-	$view->set('button_cancel', $this->language->get('button_cancel'));
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_customer', $this->language->get('tab_customer'));
 		$view->set('tab_address', $this->language->get('tab_address'));
 
-	$view->set('error', @$this->error['message']);
-	$view->set('error_firstname', @$this->error['firstname']);
-	$view->set('error_lastname', @$this->error['lastname']);
-	$view->set('error_address_1', @$this->error['address_1']);
-	$view->set('error_city', @$this->error['city']);
-	$view->set('error_postcode', @$this->error['postcode']);
-	$view->set('error_email', @$this->error['email']);
-	$view->set('error_telephone', @$this->error['telephone']);
+		$view->set('error', @$this->error['message']);
+		$view->set('error_firstname', @$this->error['firstname']);
+		$view->set('error_lastname', @$this->error['lastname']);
+		$view->set('error_address_1', @$this->error['address_1']);
+		$view->set('error_city', @$this->error['city']);
+		$view->set('error_postcode', @$this->error['postcode']);
+		$view->set('error_email', @$this->error['email']);
+		$view->set('error_telephone', @$this->error['telephone']);
 		if(!@$this->error['message']){
 			$view->set('error', @$this->error['warning']);
 		}
 
-	$view->set('action', $this->url->ssl('customer', $this->request->gethtml('action'), array('customer_id' => $this->request->gethtml('customer_id'))));
+		$view->set('action', $this->url->ssl('customer', $this->request->gethtml('action'), array('customer_id' => $this->request->gethtml('customer_id'))));
 
-	$view->set('list', $this->url->ssl('customer'));
-	$view->set('insert', $this->url->ssl('customer', 'insert'));
-	$view->set('cancel', $this->url->ssl('customer'));
+		$view->set('insert', $this->url->ssl('customer', 'insert'));
+		$view->set('cancel', $this->url->ssl('customer'));
 
-	if ($this->request->gethtml('customer_id')) {
-		$view->set('update', 'enable');
+		if ($this->request->gethtml('customer_id')) {
+			$view->set('update', 'enable');
 			$view->set('delete', $this->url->ssl('customer', 'delete', array('customer_id' => $this->request->gethtml('customer_id'),'customer_validation' =>$this->session->get('customer_validation'))));
-	}
+		}
+
+		$view->set('tab', $this->session->has('customer_tab') && $this->session->get('customer_id') == $this->request->gethtml('customer_id') ? $this->session->get('customer_tab') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('customer_id', $this->request->gethtml('customer_id'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
 
-	if (($this->request->gethtml('customer_id')) && (!$this->request->isPost())) {
+		$this->session->set('last_customer_id', $this->request->gethtml('customer_id'));
+
+		if (($this->request->gethtml('customer_id')) && (!$this->request->isPost())) {
 			$customer_info = $this->modelCustomer->get_customer();
-		$address_info = $this->modelCustomer->get_address(@$customer_info['address_id']);
-	}
+			$address_info = $this->modelCustomer->get_address(@$customer_info['address_id']);
+		}
+		if ($this->request->has('firstname', 'post') && $this->request->has('lastname', 'post')) {
+			if ($this->request->gethtml('firstname', 'post') != NULL && $this->request->gethtml('lastname', 'post') != NULL) {
+				$name_last = $this->request->has('firstname', 'post') . ' ' . $this->request->has('lastname', 'post');
+			} else {
+				$name_last = $this->session->get('name_last_customer');
+			}
+		} else {
+			$name_last = @$customer_info['firstname'] . ' ' . @$customer_info['lastname'];
+		}
+		if (strlen($name_last) > 26) {
+			$name_last = substr($name_last , 0, 23) . '...';
+		}
+		$this->session->set('name_last_customer', $name_last);
+		$this->session->set('last_customer', $this->url->ssl('customer', 'update', array('customer_id' => $this->request->gethtml('customer_id'))));
 
 		if ($this->request->has('address_id', 'post')) {
-		$view->set('address_id', $this->request->gethtml('address_id', 'post'));
-	} else {
-		$view->set('address_id', @$customer_info['address_id']);
-	}
+			$view->set('address_id', $this->request->gethtml('address_id', 'post'));
+		} else {
+			$view->set('address_id', @$customer_info['address_id']);
+		}
 
 	if ($this->request->has('firstname', 'post')) {
 		$view->set('firstname', $this->request->gethtml('firstname', 'post'));
@@ -500,7 +544,13 @@ class ControllerCustomer extends Controller {
 			return TRUE;
 		}
 	}
-
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('customer.search', $this->request->gethtml('search', 'post'));
@@ -516,6 +566,14 @@ class ControllerCustomer extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('customer'));
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('customer_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('customer_id', $this->request->sanitize('id', 'post'));
+			}
+		}
 	}
 }
 ?>

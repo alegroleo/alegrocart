@@ -2,27 +2,32 @@
 class ControllerMinov extends Controller {
 	var $error = array();
 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
-		$this->request 	 	=& $locator->get('request');
-		$this->response	 	=& $locator->get('response');
-		$this->session 	 	=& $locator->get('session');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
 		$this->user     	=& $locator->get('user'); 
 		$this->template 	=& $locator->get('template');
-		$this->url     		=& $locator->get('url');
-		$this->modelMinov 	= $model->get('model_admin_minov');
+		$this->url		=& $locator->get('url');
+		$this->modelMinov	= $model->get('model_admin_minov');
 		$this->language->load('controller/minov.php');
 	}
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->isPost()) && ($this->validate())) {
-		$this->modelMinov->delete_minov();
-		$this->modelMinov->update_minov();
-		$this->session->set('message', $this->language->get('text_message'));
-		$this->response->redirect($this->url->ssl('minov'));
+			$this->modelMinov->delete_minov();
+			$this->modelMinov->update_minov();
+			$this->session->set('message', $this->language->get('text_message'));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('minov'));
+			} else {
+				$this->response->redirect($this->url->ssl('home'));
+			}
 		}
 
 		$view = $this->locator->create('template');
@@ -38,14 +43,15 @@ class ControllerMinov extends Controller {
 		$view->set('explanation_entry_minov', $this->language->get('explanation_entry_minov'));
 		$view->set('explanation_entry_minov_status', $this->language->get('explanation_entry_minov_status'));
  
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
@@ -54,7 +60,7 @@ class ControllerMinov extends Controller {
 		$this->session->delete('message');
 		$view->set('action', $this->url->ssl('minov'));
 		$view->set('cancel', $this->url->ssl('minov'));
-		
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
@@ -92,13 +98,20 @@ class ControllerMinov extends Controller {
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-    	if (!$this->user->hasPermission('modify', 'minov')) {
-      		$this->error['message'] = $this->language->get('error_permission');
-    	}
+	    	if (!$this->user->hasPermission('modify', 'minov')) {
+	      		$this->error['message'] = $this->language->get('error_permission');
+	    	}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
+		}
+	}
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
 		}
 	}
 }

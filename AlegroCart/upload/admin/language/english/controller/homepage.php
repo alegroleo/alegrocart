@@ -54,6 +54,5 @@ $_['button_remove']        = 'Remove';
 $_['button_upload']        = 'Upload File';
 // Error
 $_['error_name']            = '*Name must be between 1 and 64 characters!';
-$_['error_title']           = '* Title must be between 1 and 32 characters!';
 $_['error_permission']    = 'Warning: You do not have permission to modify homepage';
 ?>

@@ -4,7 +4,7 @@ $_['heading_title']         = 'Minimum Order Value';
 $_['heading_description']   = 'You can enter Minimum Order Value for the global store here.';
 
 // Text
-$_['text_message']          = 'Success: You have successfully saved your settings!';
+$_['text_message']          = 'Success: You have updated Minimum Order Value!';
 
 // Entry
 $_['entry_minov']        = 'Minimum Order Value:';

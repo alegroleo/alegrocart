@@ -1,9 +1,9 @@
 <?php //Coupon AlegroCart
 class ControllerCoupon extends Controller {
 	var $error = array();
-    function __construct(&$locator){
+	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->image    	=& $locator->get('image');
 		$this->config   	=& $locator->get('config');
 		$this->language 	=& $locator->get('language');
@@ -16,98 +16,91 @@ class ControllerCoupon extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelCoupon = $model->get('model_admin_coupon');
-		
+
 		$this->language->load('controller/coupon.php');
 	}
-  	function index() {
+	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
-    	$this->template->set('content', $this->getList());
+		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
-    	
 		$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-  
-  	function insert() {
-    	$this->template->set('title', $this->language->get('heading_title'));
-		
-    	if ($this->request->isPost() && $this->request->has('code', 'post') && $this->validateForm()) {
+	}
+	function insert() {
+		$this->template->set('title', $this->language->get('heading_title'));
+		if ($this->request->isPost() && $this->request->has('code', 'post') && $this->validateForm()) {
 			$this->modelCoupon->insert_coupon();
-      		$insert_id = $this->modelCoupon->get_insert_id();
-      		$this->modelCoupon->insert_description($insert_id);
+      			$insert_id = $this->modelCoupon->get_insert_id();
+      			$this->modelCoupon->insert_description($insert_id);
 			$this->modelCoupon->insert_product($insert_id);
-			
+			$name_last = $this->request->get('name', 'post');
+			if (strlen($name_last) > 26) {
+				$name_last = substr($name_last , 0, 23) . '...';
+			}
+			$this->session->set('name_last_coupon', $name_last);
+			$this->session->set('last_coupon', $this->url->ssl('coupon', 'update', array('coupon_id' => $insert_id)));
+			$this->session->set('last_coupon_id', $insert_id);
 			$this->session->set('message', $this->language->get('text_message'));
+			$this->response->redirect($this->url->ssl('coupon'));
+    		}
+		$this->template->set('content', $this->getForm());
 
-	  		$this->response->redirect($this->url->ssl('coupon'));
-    	}
-    
-    	$this->template->set('content', $this->getForm());
+		$this->session->delete('name_last_coupon');
+		$this->session->delete('last_coupon');
+
 		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-
+		$this->response->set($this->template->fetch('layout.tpl'));
+	}
   	function update() {
-    	$this->template->set('title', $this->language->get('heading_title'));
-	
-    	if ($this->request->isPost() && $this->request->has('code', 'post') && $this->validateForm()) {
+		$this->template->set('title', $this->language->get('heading_title'));
+		if ($this->request->isPost() && $this->request->has('code', 'post') && $this->validateForm()) {
 			$this->modelCoupon->update_coupon();
 			$this->modelCoupon->delete_description();
 			$this->modelCoupon->insert_description((int)$this->request->gethtml('coupon_id'));
-		  	$this->modelCoupon->delete_product();
-      		$this->modelCoupon->insert_product((int)$this->request->gethtml('coupon_id'));
-
+			$this->modelCoupon->delete_product();
+			$this->modelCoupon->insert_product((int)$this->request->gethtml('coupon_id'));
 			$this->session->set('message', $this->language->get('text_message'));
-	  
-	  		$this->response->redirect($this->url->ssl('coupon'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('coupon', 'update', array('coupon_id' => $this->request->gethtml('coupon_id', 'post'))));
+			} else {
+				$this->response->redirect($this->url->ssl('coupon'));
+			}
 		}
-    
-    	$this->template->set('content', $this->getForm());
+		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
   	}
-
   	function delete() {
-
-    	$this->template->set('title', $this->language->get('heading_title'));
-	
-    	if (($this->request->gethtml('coupon_id')) && ($this->validateDelete())) { 
-      		$this->modelCoupon->delete_coupon();
-      		$this->modelCoupon->delete_description();
-      		$this->modelCoupon->delete_product();
+		$this->template->set('title', $this->language->get('heading_title'));
+	    	if (($this->request->gethtml('coupon_id')) && ($this->validateDelete())) { 
+	      		$this->modelCoupon->delete_coupon();
+	      		$this->modelCoupon->delete_description();
+	      		$this->modelCoupon->delete_product();
 			$this->modelCoupon->delete_redeem();
-			
 			$this->session->set('message', $this->language->get('text_message'));
-	  
+			$this->session->delete('name_last_coupon');
+			$this->session->delete('last_coupon');
 	  		$this->response->redirect($this->url->ssl('coupon'));
-    	}
-    
-    	$this->template->set('content', $this->getList());
+	    	}
+	    	$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
+	    	$this->response->set($this->template->fetch('layout.tpl'));
   	}
-
 	function changeStatus() { 
 		
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
-
 			$this->modelCoupon->change_coupon_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
-	
 	}
-
   	function getList() {
-    	$this->session->set('coupon_validation', md5(time()));
-    	$cols = array();
+	    	$this->session->set('coupon_validation', md5(time()));
+	    	$cols = array();
 
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_name'),
-      		'sort'  => 'cd.name',
-      		'align' => 'left'
-    	);
-		
+	    	$cols[] = array(
+	      		'name'  => $this->language->get('column_name'),
+	      		'sort'  => 'cd.name',
+	      		'align' => 'left'
+	    	);
+
     	$cols[] = array(
       		'name'  => $this->language->get('column_code'),
       		'sort'  => 'c.code',
@@ -153,38 +146,38 @@ class ControllerCoupon extends Controller {
 
     	$rows = array();
     	foreach ($results as $result) {
+		$last = $result['coupon_id'] == $this->session->get('last_coupon_id') ? 'last_visited': '';
       		$cell = array();
-
       		$cell[] = array(
         		'value' => $result['name'],
-        		'align' => 'left'
+        		'align' => 'left',
+			'last' => $last
 		  	);
-
       		$cell[] = array(
         		'value' => $result['code'],
-        		'align' => 'left'
+        		'align' => 'left',
+			'last' => $last
       		);
-			
       		$cell[] = array(
         		'value' => $result['discount'],
-        		'align' => 'right'
-      		);			
-			
+        		'align' => 'right',
+			'last' => $last
+      		);
       		$cell[] = array(
         		'value' => $result['prefix'],
-        		'align' => 'left'
-      		);			
-
+        		'align' => 'left',
+			'last' => $last
+      		);
       		$cell[] = array(
         		'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_start'])),
-        		'align' => 'left'
-      		);			
-
+        		'align' => 'left',
+			'last' => $last
+      		);
       		$cell[] = array(
         		'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_end'])),
-        		'align' => 'left'
-      		);	
-						
+        		'align' => 'left',
+			'last' => $last
+      		);
       		if ($this->validateChangeStatus()) {
 			$cell[] = array(
 				'status'  => $result['status'],
@@ -234,7 +227,6 @@ class ControllerCoupon extends Controller {
     	$view->set('entry_page', $this->language->get('entry_page'));
     	$view->set('entry_search', $this->language->get('entry_search'));
 
-    	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
     	$view->set('button_update', $this->language->get('button_update'));
    	 	$view->set('button_delete', $this->language->get('button_delete'));
@@ -243,28 +235,30 @@ class ControllerCoupon extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 	$view->set('button_print', $this->language->get('button_print'));
 	$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
+		$view->set('controller', 'coupon');
 	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
-    	$view->set('error', @$this->error['message']);
+		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
-		  
-    	$view->set('action', $this->url->ssl('coupon', 'page'));
+
+		$view->set('action', $this->url->ssl('coupon', 'page'));
 		$view->set('action_delete', $this->url->ssl('coupon', 'enableDelete'));
 
-    	$view->set('search', $this->session->get('coupon.search'));
-    	$view->set('sort', $this->session->get('coupon.sort'));
-    	$view->set('order', $this->session->get('coupon.order'));
-    	$view->set('page', $this->session->get('coupon.page'));
- 
-    	$view->set('cols', $cols);
-    	$view->set('rows', $rows);
+	$view->set('search', $this->session->get('coupon.search'));
+	$view->set('sort', $this->session->get('coupon.sort'));
+	$view->set('order', $this->session->get('coupon.order'));
+	$view->set('page', $this->session->get('coupon.page'));
 
-    	$view->set('list', $this->url->ssl('coupon'));
-    	$view->set('insert', $this->url->ssl('coupon', 'insert'));
-  
-    	$view->set('pages', $this->modelCoupon->get_pagination());
+	$view->set('cols', $cols);
+	$view->set('rows', $rows);
+
+	$view->set('insert', $this->url->ssl('coupon', 'insert'));
+
+	$view->set('pages', $this->modelCoupon->get_pagination());
 
 		return $view->fetch('content/list.tpl');
   	}
@@ -281,7 +275,7 @@ class ControllerCoupon extends Controller {
     	$view->set('text_no', $this->language->get('text_no'));
     	$view->set('text_percent', $this->language->get('text_percent'));
     	$view->set('text_minus', $this->language->get('text_minus'));
-		  
+
     	$view->set('entry_name', $this->language->get('entry_name'));
     	$view->set('entry_description', $this->language->get('entry_description'));
     	$view->set('entry_code', $this->language->get('entry_code'));
@@ -299,18 +293,20 @@ class ControllerCoupon extends Controller {
 	$view->set('explanation_entry_product', $this->language->get('explanation_entry_product'));
 	$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
 
-    	$view->set('button_list', $this->language->get('button_list'));
     	$view->set('button_insert', $this->language->get('button_insert'));
     	$view->set('button_update', $this->language->get('button_update'));
     	$view->set('button_delete', $this->language->get('button_delete'));
     	$view->set('button_save', $this->language->get('button_save'));
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
 
+		$view->set('help', $this->session->get('help'));
     	$view->set('tab_general', $this->language->get('tab_general'));
     	$view->set('tab_data', $this->language->get('tab_data'));
     	$view->set('tab_validity', $this->language->get('tab_validity'));
 
+		$view->set('error_update', $this->language->get('error_update'));
     	$view->set('error', @$this->error['message']);
     	$view->set('error_name', @$this->error['name']);
     	$view->set('error_description', @$this->error['description']);
@@ -324,41 +320,65 @@ class ControllerCoupon extends Controller {
 		}
 
     	$view->set('action', $this->url->ssl('coupon', $this->request->gethtml('action'), array('coupon_id' => $this->request->gethtml('coupon_id'))));
-  
-    	$view->set('list', $this->url->ssl('coupon'));
+
     	$view->set('insert', $this->url->ssl('coupon', 'insert'));
 		$view->set('cancel', $this->url->ssl('coupon'));
-  
+
     	if ($this->request->gethtml('coupon_id')) {
      		$view->set('update', 'enable');
       		$view->set('delete', $this->url->ssl('coupon', 'delete', array('coupon_id' => $this->request->gethtml('coupon_id'),'coupon_validation' =>$this->session->get('coupon_validation'))));
     	}
-  
-    	$this->session->set('cdx',md5(mt_rand()));
+
+		$view->set('tab', $this->session->has('coupon_tab') && $this->session->get('coupon_id') == $this->request->gethtml('coupon_id') ? $this->session->get('coupon_tab') : 0);
+		$view->set('tabmini', $this->session->has('coupon_tabmini') && $this->session->get('coupon_id') == $this->request->gethtml('coupon_id') ? $this->session->get('coupon_tabmini') : 0);
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
+		$view->set('coupon_id', $this->request->gethtml('coupon_id'));
+
+		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
+		$this->session->set('last_coupon_id', $this->request->gethtml('coupon_id'));
 
     	$coupon_data = array();
      	$results = $this->modelCoupon->get_languages();
 
-    	foreach ($results as $result) {
-		if($result['language_status'] =='1'){
-			if (($this->request->gethtml('coupon_id')) && (!$this->request->isPost())) {
-	  			$coupon_description_info = $this->modelCoupon->get_description($result['language_id']);
-			} else {
-				$coupon_description_info = $this->request->gethtml('language', 'post');
+	    	foreach ($results as $result) {
+			if($result['language_status'] =='1'){
+				if (($this->request->gethtml('coupon_id')) && (!$this->request->isPost())) {
+		  			$coupon_description_info = $this->modelCoupon->get_description($result['language_id']);
+				} else {
+					$coupon_description_info = $this->request->gethtml('language', 'post');
+				}
+
+				$coupon_data[] = array(
+		    		'language_id' => $result['language_id'],
+		    		'language'    => $result['name'],
+		    		'name'        => (isset($coupon_description_info[$result['language_id']]) ? $coupon_description_info[$result['language_id']]['name'] : @$coupon_description_info['name']),
+		    		'description' => (isset($coupon_description_info[$result['language_id']]) ? $coupon_description_info[$result['language_id']]['description'] : @$coupon_description_info['description'])
+		  		);
+				if ($result['language_id'] == $this->language->getId()) {
+					if (isset($coupon_description_info[$result['language_id']])) {
+						if ($coupon_description_info[$result['language_id']]['name'] != NULL) {
+							$name_last = $coupon_description_info[$result['language_id']]['name'];
+						} else {
+							$name_last = $this->session->get('name_last_coupon');
+						}
+					} else {
+						$name_last = @$coupon_description_info['name'];
+					}
+
+					if (strlen($name_last) > 26) {
+						$name_last = substr($name_last , 0, 23) . '...';
+					}
+					$this->session->set('name_last_coupon', $name_last);
+					$this->session->set('last_coupon', $this->url->ssl('coupon', 'update', array('coupon_id' => $this->request->gethtml('coupon_id'))));
+				}
 			}
-			
-			$coupon_data[] = array(
-	    		'language_id' => $result['language_id'],
-	    		'language'    => $result['name'],
-	    		'name'        => (isset($coupon_description_info[$result['language_id']]) ? $coupon_description_info[$result['language_id']]['name'] : @$coupon_description_info['name']),
-	    		'description' => (isset($coupon_description_info[$result['language_id']]) ? $coupon_description_info[$result['language_id']]['description'] : @$coupon_description_info['description'])
-	  		);
-		}
-    	}
+    		}
 
     	$view->set('coupons', $coupon_data);
 
@@ -635,34 +655,50 @@ class ControllerCoupon extends Controller {
 		} else {
 	  		return FALSE;
 		}
-  	}	
-
+  	}
 	function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'coupon')) {
-	      		return FALSE;
-	    	}  else {
+			return FALSE;
+		}  else {
 			return TRUE;
 		}
 	}
-
-  	function page() {
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
+	function page() {
 		if ($this->request->has('search', 'post')) {
-	  		$this->session->set('coupon.search', $this->request->gethtml('search', 'post'));
+			$this->session->set('coupon.search', $this->request->gethtml('search', 'post'));
 		}
-	 
 		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
-	  		$this->session->set('coupon.page', $this->request->gethtml('page', 'post'));
-		} 
-	
-		if ($this->request->has('sort', 'post')) {
-	  		$this->session->set('coupon.order', (($this->session->get('coupon.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('coupon.order') == 'asc') ? 'desc' : 'asc'));
+			$this->session->set('coupon.page', $this->request->gethtml('page', 'post'));
 		}
-		
+		if ($this->request->has('sort', 'post')) {
+			$this->session->set('coupon.order', (($this->session->get('coupon.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('coupon.order') == 'asc') ? 'desc' : 'asc'));
+		}
 		if ($this->request->has('sort', 'post')) {
 			$this->session->set('coupon.sort', $this->request->gethtml('sort', 'post'));
 		}
-
 		$this->response->redirect($this->url->ssl('coupon'));
-  	} 	
+	}
+	function tab() {
+		if ($this->request->isPost()) {
+			if ($this->request->has('activeTab', 'post')) {
+				$this->session->set('coupon_tab', $this->request->sanitize('activeTab', 'post'));
+				$this->session->set('coupon_id', $this->request->sanitize('id', 'post'));
+				if ($this->request->has('activeTabmini', 'post')) {
+					$this->session->set('coupon_tabmini', $this->request->sanitize('activeTabmini', 'post'));
+				}
+				$output = array('status' => true);
+			} else {
+				$output = array('status' => false);
+			}
+			echo json_encode($output);
+		}
+	}
 }
 ?>

@@ -23,15 +23,19 @@ class ControllerModuleAdminlanguage extends Controller {
 			$this->modelLanguage->delete_language();
 			$this->modelLanguage->update_langauge();
 			$this->session->set('message', $this->language->get('text_message'));
-			
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('module_admin_footer'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
+			}
 		}
 		
 		$view = $this->locator->create('template');
 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_module', $this->language->get('heading_module'));
-		$view->set('heading_description', $this->language->get('heading_description'));		
+		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));
@@ -39,25 +43,33 @@ class ControllerModuleAdminlanguage extends Controller {
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
 
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('module_admin_language'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'module')));
-		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));	
+		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('name_last_module', $this->language->get('heading_title'));
+		$this->session->set('last_module', 'module_admin_language');
+		$this->session->set('last_extension_id', $this->modelLanguage->get_extension_id('module_admin_language'));
 
 		if (!$this->request->isPost()) {
 			$results = $this->modelLanguage->get_langauge();
@@ -95,7 +107,13 @@ class ControllerModuleAdminlanguage extends Controller {
 			return FALSE;
 		}	
 	}
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
 		if ($this->user->hasPermission('modify', 'module_admin_language')) {
 			$this->modelLanguage->delete_language();
@@ -103,20 +121,21 @@ class ControllerModuleAdminlanguage extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-				
-		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));			
+		}
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
-	
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'module_admin_language')) {
 			$this->modelLanguage->delete_language();
+			if ($this->session->get('last_module') == 'module_admin_language') {
+				$this->session->delete('name_last_module');
+				$this->session->delete('last_module');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
-		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));	
+		}
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
 }
 ?>

@@ -26,7 +26,11 @@ class ControllerShippingWarehouse extends Controller {
 			$this->modelWarehouse->update_warehouse();
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('shipping_warehouse'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));
+			}
 		}
 
 		$view = $this->locator->create('template');
@@ -54,13 +58,15 @@ class ControllerShippingWarehouse extends Controller {
 		$view->set('explanation_entry_handling_fee', $this->language->get('explanation_entry_handling_fee'));
 		$view->set('explanation_entry_tax', $this->language->get('explanation_entry_tax'));
 		
-		$view->set('button_list', $this->language->get('button_list'));
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_help', $this->language->get('button_help'));
+
+		$view->set('help', $this->session->get('help'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
@@ -69,13 +75,19 @@ class ControllerShippingWarehouse extends Controller {
 
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('shipping_warehouse'));
-		$view->set('list', $this->url->ssl('extension', FALSE, array('type' => 'shipping')));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'shipping')));
+
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+
+		$this->session->set('name_last_shipping', $this->language->get('heading_title'));
+		$this->session->set('last_shipping', 'shipping_warehouse');
+		$this->session->set('last_extension_id', $this->modelWarehouse->get_extension_id('shipping_warehouse'));
 
 		if (!$this->request->isPost()) {
 			$results = $this->modelWarehouse->get_warehouse();
@@ -129,8 +141,7 @@ class ControllerShippingWarehouse extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
-		function validate() {
+	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -144,29 +155,36 @@ class ControllerShippingWarehouse extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
-	
+	function help(){
+		if($this->session->get('help')){
+			$this->session->delete('help');
+		} else {
+			$this->session->set('help', TRUE);
+		}
+	}
 	function install() {
-		if ($this->user->hasPermission('modify', 'shipping_warehouse')) {		
+		if ($this->user->hasPermission('modify', 'shipping_warehouse')) {
 			$this->modelWarehouse->delete_warehouse();
 			$this->modelWarehouse->install_warehouse();
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
-		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));		
+		}
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));
 	}
-	
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'shipping_warehouse')) {
 			$this->modelWarehouse->delete_warehouse();
+			if ($this->session->get('last_shipping') == 'shipping_warehouse') {
+				$this->session->delete('name_last_shipping');
+				$this->session->delete('last_shipping');
+			}
 			$this->session->set('message', $this->language->get('text_message'));
 		} else {
 			$this->session->set('error', $this->language->get('error_permission'));
-		}	
-
+		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'shipping')));
 	}
 }

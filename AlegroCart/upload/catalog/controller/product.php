@@ -11,7 +11,7 @@ class ControllerProduct extends Controller {
 		$this->modelCategory	= $model->get('model_category');
 		$this->modelCore	= $model->get('model_core');
 		$this->tpl_manager	= $this->modelCore->get_tpl_manager('product'); 
-		$this->locations =	$this->modelCore->get_tpl_locations();
+		$this->locations	= $this->modelCore->get_tpl_locations();
 		$this->tpl_columns	= $this->modelCore->get_columns();
 		$this->download		=& $locator->get('download');
 	}
@@ -321,8 +321,9 @@ class ControllerProduct extends Controller {
 			$view->set('head_def',$head_def);
 			$view->set('product_addtocart',$this->config->get('product_addtocart')); 
 			$view->set('columns', 1);
+			$view->set('tpl_columns', $this->modelCore->tpl_columns);
 			$view->set('product_options', $this->modelProducts->get_product_with_options($product_info['product_id'],$this->config->get('product_image_width'), $this->config->get('product_image_height')));
-			$view->set('this_controller', 'product');	
+			$view->set('this_controller', 'product');
 			$this->template->set('head_def',$head_def);
 			$this->has_related = $product_info['related'];
 			$view->set('freedownload',$this->config->get('config_freedownload'));
@@ -335,10 +336,14 @@ class ControllerProduct extends Controller {
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $language->get('text_error'));
 		$view->set('text_error', $language->get('text_error'));
+		$view->set('this_controller', 'product');
+		$view->set('tpl_columns', $this->modelCore->tpl_columns);
+		$view->set('magnifier', $this->config->get('magnifier'));
+		$view->set('image_display', $this->config->get('product_image_display'));
 		$view->set('button_continue', $language->get('button_continue'));
 		$view->set('continue', $url->href('home'));
 
-			$this->template->set('content', $view->fetch('content/error.tpl'));
+		$this->template->set('content', $view->fetch('content/error.tpl'));
 
 	}
 

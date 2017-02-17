@@ -18,37 +18,38 @@ class ControllerInformation extends Controller {
 		$response =& $this->locator->get('response');
 		$session  =& $this->locator->get('session');
 		$url      =& $this->locator->get('url');
-		
-		$head_def =& $this->locator->get('HeaderDefinition');  // New Header		
-		
-    	$language->load('controller/information.php');
+
+		$head_def =& $this->locator->get('HeaderDefinition');  // New Header
+
+    		$language->load('controller/information.php');
 		$information_info = $this->modelCore->getRow_information($request->gethtml('information_id'));
-   		
+
 		if ($information_info) {
 	  		$this->template->set('title', $information_info['title']); 
-      		$view = $this->locator->create('template');
-      		$view->set('heading_title', $information_info['title']);
-      		$view->set('description', $information_info['description']);
-      		$view->set('button_continue', $language->get('button_continue'));
-      		$view->set('continue', "location='" . ($session->get('current_page') ? $session->get('current_page') : $url->href('home')) . "'");
+      			$view = $this->locator->create('template');
+      			$view->set('heading_title', $information_info['title']);
+      			$view->set('description', $information_info['description']);
+      			$view->set('button_continue', $language->get('button_continue'));
+      			$view->set('continue', "location='" . ($session->get('current_page') ? $session->get('current_page') : $url->href('home')) . "'");
 			$view->set('head_def',$head_def);    // New Header
-			$this->template->set('head_def',$head_def);    // New Header			
-      		$this->template->set('content', $view->fetch('content/information.tpl'));
-    	} else {
+			$this->template->set('head_def',$head_def);    // New Header
+      			$this->template->set('content', $view->fetch('content/information.tpl'));
+    		} else {
 	  		$this->template->set('title', $language->get('text_error'));
-      		$view = $this->locator->create('template');
-      		$view->set('heading_title', $language->get('text_error'));
-      		$view->set('text_error', $language->get('text_error'));
-      		$view->set('button_continue', $language->get('button_continue'));
-      		$view->set('continue', $url->href('home'));
+      			$view = $this->locator->create('template');
+      			$view->set('heading_title', $language->get('text_error'));
+      			$view->set('text_error', $language->get('text_error'));
+			$view->set('this_controller', 'information');
+      			$view->set('button_continue', $language->get('button_continue'));
+      			$view->set('continue', $url->href('home'));
 	  		$this->template->set('content', $view->fetch('content/error.tpl'));
-    	}
+    		}
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 	  	$this->template->set($this->module->fetch());
 	  	$response->set($this->template->fetch('layout.tpl'));
   	}
-	
+
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){

@@ -10,32 +10,47 @@ class ModuleHomePage extends Controller {
 		$template =& $this->locator->get('template'); 
 		$head_def =& $this->locator->get('HeaderDefinition');
 		$this->modelCore = $this->model->get('model_core');
+
 		require_once('library/application/string_modify.php');
 
-		if (!$config->get('homepage_status')) {return;}
+		if (!$config->get('homepage_status')) {return;} //if disabled in extensions/module
 		$home_data = $this->modelCore->get_homepage();
 		$slides_data = $this->modelCore->get_homepage_slides($home_data['home_id']);
-		if (!$home_data['status']){return;}
-		if($home_data['run_times'] != -1){
-			if($home_data['run_times'] > 0){
-				if($session->has('homepage')){
-					$times = $session->get('homepage');
-					if ($times < $home_data['run_times']){
+		if (!$home_data['status']){return;} // if status disabled
+		if($home_data['run_times'] != -1){ // -1 disables home page module on settings tab
+			if($home_data['run_times'] > 0){ // if limited, as 0 means no limit
+				if($session->has('homepage')){ // it was run at least once
+					$times = $session->get('homepage'); // get number of runs
+					if ($times < $home_data['run_times']){ // if runtimes is less than permitted
 						$run_homepage = TRUE;
-						$session->set('homepage', $times+1);
-					} else {
+						$session->set('homepage', $times+1); // increase by one
+					} else { // we reached the max
 						$run_homepage = FALSE;
 					}
-				} else {
+				} else { //the first time
 					$session->set('homepage', 1);
 					$run_homepage = TRUE;
 				}
-			} else {
+			} else { // no limit
 				$run_homepage = TRUE;
 			}
-			if($run_homepage != TRUE){return;}
-		} else {
-		   return;
+
+			if($run_homepage != TRUE){ // i.e. false
+				if ($config->get('config_page_load')) { //if condense enabled we load the css and js files to keep the condensed files unchanged
+					$head_def->setcss( $template->style . "/css/homepage.css");
+					$head_def->set_javascript("ajax/jquery.js");
+					$head_def->set_javascript("ajax/jqueryadd2cart.js");
+					if(isset($slides_data)){ // if slider was added as well
+						$head_def->setcss($template->style . "/css/slick.css");
+						$head_def->setcss($template->style . "/css/slick-theme.css");
+						$head_def->set_javascript("slider/slick.min.js");
+					}
+				}
+			return;
+			}
+
+		} else { // disabled, as it is set to -1
+			return;
 		}
 		$language->load('extension/module/homepage.php');
 		$view = $this->locator->create('template');

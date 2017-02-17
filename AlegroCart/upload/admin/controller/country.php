@@ -52,6 +52,8 @@ class ControllerCountry extends Controller {
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
 			$this->modelCountry->update_country();
+			// if status is updated, it automatically updates zones to matching status
+			$this->modelCountry->update_zones();
 			$this->cache->delete('country');
 			$this->cache->delete('zone');
 			$this->session->set('message', $this->language->get('text_message'));
@@ -72,7 +74,7 @@ class ControllerCountry extends Controller {
 	function enableDisable(){
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if($this->validateEnable()){
+		if($this->validateEnable()){ //permission check
 			if ($this->modelCountry->check_status()){
 				$status = 0;
 			} else {
@@ -143,24 +145,29 @@ class ControllerCountry extends Controller {
 	    	);
 
 		$results = $this->modelCountry->get_page();
-		$vendors = $this->modelCountry->get_vendors();
+		$vendors = $this->modelCountry->get_vendorCountries();
 			$vendorcountry = array();
 			foreach ($vendors as $vendor){
 				$vendorcountry[] = $vendor['country_id'];
 			}
-
+		$geos = $this->modelCountry->get_zone_to_geo_zoneCountries();
+			$geozcountry = array();
+			foreach ($geos as $geo){
+				$geozcountry[] = $geo['country_id'];
+			}
 		$rows = array();
 		foreach ($results as $result) {
 			$last = $result['country_id'] == $this->session->get('last_country_id') ? 'last_visited': '';
 			$cell = array();
 			$cell[] = array(
-				'value'   => $result['name'],
-				'align'   => 'left',
-				'default' => ($result['country_id'] == $this->config->get('config_country_id')),
-				'vendor'  => in_array($result['country_id'], $vendorcountry),
-				'last' => $last
+				'value'		=> $result['name'],
+				'align'		=> 'left',
+				'default'	=> ($result['country_id'] == $this->config->get('config_country_id')),
+				'vendor'	=> in_array($result['country_id'], $vendorcountry),
+				'geo'		=> in_array($result['country_id'], $geozcountry),
+				'last'		=> $last
 			);
-			if ($this->validateChangeStatus() && $this->config->get('config_country_id') !== $result['country_id'] && !in_array($result['country_id'], $vendorcountry)) {
+			if ($this->validateChangeStatus() && !in_array($result['country_id'], $geozcountry) && $this->config->get('config_country_id') !== $result['country_id']) {
 			$cell[] = array(
 				'status'  => $result['country_status'],
 				'text' => $this->language->get('button_status'),
@@ -214,6 +221,7 @@ class ControllerCountry extends Controller {
 
 		$view->set('text_default', $this->language->get('text_default'));
 		$view->set('text_vendor', $this->language->get('text_vendor'));
+		$view->set('text_geo', $this->language->get('text_geo'));
 		$view->set('text_results', $this->modelCountry->get_text_results());
 
 		$view->set('entry_page', $this->language->get('entry_page'));
@@ -347,7 +355,7 @@ class ControllerCountry extends Controller {
 		return $view->fetch('content/country.tpl');
 	}
 
-	private function validateForm() {
+	private function validateForm() { //update or insert
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -362,16 +370,21 @@ class ControllerCountry extends Controller {
 		if ($this->config->get('config_country_id') == $this->request->gethtml('country_id') && $this->request->gethtml('country_status', 'post') == FALSE) {
 			$this->error['message'] = $this->language->get('error_default');
 		}
-		if($this->request->has('country_status', 'post') && !$this->request->gethtml('country_status', 'post')){
+		if($this->request->has('country_status', 'post') && !$this->request->gethtml('country_status', 'post')){ //if we want to disable status
+
+			// vendor has nothing to do with countries
+			// permit status change even if customer's address is affected
 			$zone_to_geo_zone_info = $this->modelCountry->check_zone_to_geo();
 			if ($zone_to_geo_zone_info['total']) {
-				$this->error['message'] = $this->language->get('error_zone_to_geo_zone', $zone_to_geo_zone_info['total']);
-			}
-			$address_info = $this->modelCountry->check_address();
-			if ($address_info['total']) {
-				$this->error['message'] = $this->language->get('error_address', $address_info['total']);
+				$this->error['message'] = $zone_to_geo_zone_info['total'] ==1 ? $this->language->get('error_disable_zone_to_geo_zone') : $this->language->get('error_disable_zone_to_geo_zones', $zone_to_geo_zone_info['total']);
+				$zone_to_geo_zone_list = $this-> modelCountry->get_countryToZoneToGeoZone();
+					$this->error['message'] .= '<br>';
+					foreach ($zone_to_geo_zone_list as $geo_zone) {
+						$this->error['message'] .= '<a href="' . $this->url->ssl('zone_to_geo_zone', '', array('geo_zone_id' => $geo_zone['geo_zone_id'])) . '">' . $geo_zone['name'] . '</a>&nbsp;';
+					}
 			}
 		}
+
 		if (!$this->error) {
 			return TRUE;
 		} else {
@@ -412,7 +425,7 @@ class ControllerCountry extends Controller {
 			return FALSE;
 		}
 	}
-	private function validateDelete() {
+	private function validateDelete() { //deletion
 		if(($this->session->get('country_validation') != $this->request->sanitize('country_validation')) || (strlen($this->session->get('country_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -432,7 +445,6 @@ class ControllerCountry extends Controller {
 					$this->error['message'] .= '<a href="' . $this->url->ssl('customer', 'update', array('customer_id' => $address['customer_id'])) . '">' . $address['firstname'] . '&nbsp;' . $address['lastname'] .'</a>&nbsp;';
 				}
 		}
-
 		$zone_info = $this->modelCountry->check_zone();
 		if ($zone_info['total']) {
 			$this->error['message'] = $zone_info['total'] ==1 ? $this->language->get('error_zone') : $this->language->get('error_zones', $zone_info['total']);
@@ -440,16 +452,6 @@ class ControllerCountry extends Controller {
 				$this->error['message'] .= '<br>';
 				foreach ($zone_list as $zone) {
 					$this->error['message'] .= '<a href="' . $this->url->ssl('zone', 'update', array('zone_id' => $zone['zone_id'])) . '">' . $zone['name'] . '</a>&nbsp;';
-				}
-		}
-
-		$vendor_info = $this->modelCountry->check_vendor();
-		if ($vendor_info['total']) {
-			$this->error['message'] = $vendor_info['total'] ==1 ? $this->language->get('error_vendor') : $this->language->get('error_vendors', $vendor_info['total']);
-			$vendor_list = $this-> modelCountry->get_countryToVendor();
-				$this->error['message'] .= '<br>';
-				foreach ($vendor_list as $vendor) {
-					$this->error['message'] .= '<a href="' . $this->url->ssl('vendor', 'update', array('vendor_id' => $vendor['vendor_id'])) . '">' . $vendor['name'] . '</a>&nbsp;';
 				}
 		}
 

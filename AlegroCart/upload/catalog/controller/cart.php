@@ -402,6 +402,8 @@ class ControllerCart extends Controller {
 		$this->template->set('content', $view->fetch('content/cart.tpl'));
 	} else {
 		$view->set('text_error', $this->language->get('text_error'));
+		$view->set('this_controller', 'cart');
+		$view->set('tax_included', $this->config->get('config_tax'));
 		$view->set('button_continue', $this->language->get('button_continue'));
 		$view->set('continue', $this->url->href('home'));
 		$this->template->set('content', $view->fetch('content/error.tpl'));

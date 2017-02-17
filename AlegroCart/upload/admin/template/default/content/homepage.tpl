@@ -328,17 +328,19 @@
     //--></script>
   <script type="text/javascript">//<!--
 function addSlides(Language_id) {
+	var Last = $('#slidertable' + Language_id + ' tr:last');
+	var nextId = Last.size() == 0 ? 1 : + Last.attr('id').split("_").pop() + 1;
 	$.ajax({
-   		type:    'GET',
-   		url:     'index.php?controller=homepage&action=slides&slide_id='+$('#slidertable' + Language_id +' tr').size()+'&language_id='+Language_id,
+		type:    'GET',
+		url:     'index.php?controller=homepage&action=slides&slide_id='+nextId+'&language_id='+Language_id,
 		async:   false,
-   		success: function(data) {
-     		$('#slidertable' + Language_id).append(data);
-   		}
- 	});
+		success: function(data) {
+		$('#slidertable' + Language_id).append(data);
+		}
+	});
 }
 function removeModule(row) {
-  	$('#'+row).remove();
+	$('#'+row).remove();
 }
   //--></script>
   <?php } ?>
@@ -418,11 +420,16 @@ function removeModule(row) {
 	function copySlides() {
 		var html ='';
 		<?php foreach ($home_descriptions as $home_description) { ?>
-			var boxes = document.querySelectorAll("[name^='sliderimage_id[<?php echo $home_description['language_id']; ?>]']").length;
-			for (i =0; i < boxes; i++) {
-				if (document.forms['form'].elements['sliderimage_id[<?php echo $home_description['language_id']; ?>]['+[i]+']'] !=undefined){
-				html +='<input type="hidden" name="sliderimage_id[<?php echo $home_description['language_id']; ?>]' + '[' + [i] + ']" value="' + document.forms['form'].elements['sliderimage_id[<?php echo $home_description['language_id']; ?>]['+[i]+']'].value + '">';
-				html +='<input type="hidden" name="sort_order[<?php echo $home_description['language_id']; ?>]' + '[' + [i] + ']" value="' + document.forms['form'].elements['sort_order[<?php echo $home_description['language_id']; ?>]['+[i]+']'].value + '">';
+			var ids = [];
+			var slides = document.querySelectorAll("[id^='slider<?php echo $home_description['language_id']; ?>_']");
+			var slidesLenght = slides.length;
+			for (j =0; j < slidesLenght; j++) {
+				ids[j] = slides[j].getAttribute("id").split("_").pop();
+			}
+			for (i =0; i < slidesLenght; i++) {
+				if (document.forms['form'].elements['sliderimage_id[<?php echo $home_description['language_id']; ?>]['+ids[i]+']'] !=undefined){
+				html +='<input type="hidden" name="sliderimage_id[<?php echo $home_description['language_id']; ?>]' + '[' + [i] + ']" value="' + document.forms['form'].elements['sliderimage_id[<?php echo $home_description['language_id']; ?>]['+ids[i]+']'].value + '">';
+				html +='<input type="hidden" name="sort_order[<?php echo $home_description['language_id']; ?>]' + '[' + [i] + ']" value="' + document.forms['form'].elements['sort_order[<?php echo $home_description['language_id']; ?>]['+ids[i]+']'].value + '">';
 				}
 			}
 		<?php } ?>

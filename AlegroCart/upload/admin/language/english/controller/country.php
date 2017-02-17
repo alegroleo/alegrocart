@@ -9,6 +9,7 @@ $_['text_message']		= 'Success: You have updated countries!';
 $_['text_address_explantion']	='You can set your address format for each country here.<br>The address format requires the following field names entered in the address box exactly as they appear here, only in the order you choose. Field Names:<br><b>firstname lastname<br>company<br>address_1<br>address_2<br>city, zone<br>country, postcode</b>';
 $_['text_address_help']		= 'Address HELP!';
 $_['text_vendor']		= 'Vendor';
+$_['text_geo']			= 'Geo Zone';
 
 // Button
 $_['button_enable_disable']	= 'Enable/Disable Countries';
@@ -38,4 +39,10 @@ $_['error_zone']		= 'Warning: This Country cannot be deleted as it is currently 
 $_['error_zones']		= 'Warning: This Country cannot be deleted as it is currently assigned to %s zones:';
 $_['error_zone_to_geo_zone']	= 'Warning: This Country cannot be deleted as it is currently assigned to 1 zones to geo zone:';
 $_['error_zone_to_geo_zones']	= 'Warning: This Country cannot be deleted as it is currently assigned to %s zones to geo zones:';
+$_['error_disable_vendor']		= 'Warning: This Country cannot be disabled as it is currently assigned to 1 vendor!';
+$_['error_disable_vendors']		= 'Warning: This Country cannot be disabled as it is currently assigned to %s vendors!';
+$_['error_disable_address']		= 'Warning: This Country cannot be disabled as it is currently assigned to 1 address book entry:';
+$_['error_disable_addresses']		= 'Warning: This Country cannot be disabled as it is currently assigned to %s address book entries:';
+$_['error_disable_zone_to_geo_zone']	= 'Warning: This Country cannot be disabled as it is currently assigned to 1 zones to geo zone:';
+$_['error_disable_zone_to_geo_zones']	= 'Warning: This Country cannot be disabled as it is currently assigned to %s zones to geo zones:';
 ?>

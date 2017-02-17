@@ -2,6 +2,11 @@
   $head_def->setcss($this->style . "/css/search.css");
   $head_def->setcss($this->style . "/css/paging.css");
   $head_def->setcss($this->style . "/css/product_cat.css");
+  if ($this->condense && $tpl_columns != 1) {
+	$head_def->setcss($this->style . "/css/display_options.css");
+	$head_def->setcss($this->style . "/css/manufacturer.css");
+	$head_def->setcss( $this->style . "/css/module_column.css");
+  }
   $head_def->set_javascript("ajax/jquery.js");
   $head_def->set_javascript("ajax/jqueryadd2cart.js");
   if($image_display == 'thickbox'){

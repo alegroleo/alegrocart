@@ -87,8 +87,9 @@ class ControllerAccountHistory extends Controller {
 	  		$this->template->set('content', $view->fetch('content/account_history.tpl'));
     	} else {
       		$view->set('text_error', $this->language->get('text_error'));
+		$view->set('this_controller', 'account_history');
       		$view->set('button_continue', $this->language->get('button_continue'));
-	  		$this->template->set('content', $view->fetch('content/error.tpl'));
+	  	$this->template->set('content', $view->fetch('content/error.tpl'));
 		}
 		
 		$this->load_modules();  // Template Manager

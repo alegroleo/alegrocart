@@ -164,7 +164,7 @@
 		    <?php foreach($extra as $extra_info){?>
 			<tr id="extra_<?php echo $i; ?>">
 			  <td class="set"><?php echo $entry_module; ?></td>
-			  <td><select name="extra[<?php echo $i; ?>][module_code]">
+			  <td><select class="extra" name="extra[<?php echo $i; ?>][module_code]">
 			    <?php foreach($extra_modules as $extra_module){?>
 				  <?php if($extra_module == $extra_info['module_code']){?>
 				    <option value="<?php echo $extra_module;?>" selected><?php echo $extra_module;?></option>
@@ -200,7 +200,7 @@
 		    <?php foreach($column as $column_info){?>
 			<tr id="column_<?php echo $i; ?>">
 			  <td class="set"><?php echo $entry_module; ?></td>
-			  <td><select name="column[<?php echo $i; ?>][module_code]">
+			  <td><select class="column" name="column[<?php echo $i; ?>][module_code]">
 			    <?php foreach($column_modules as $column_module){?>
 				  <?php if($column_module == $column_info['module_code']){?>
 				    <option value="<?php echo $column_module;?>" selected><?php echo $column_module;?></option>
@@ -236,7 +236,7 @@
 		    <?php foreach($content as $content_info){?>
 			<tr id="content_<?php echo $i; ?>">
 			  <td class="set"><?php echo $entry_module; ?></td>
-			  <td><select name="content[<?php echo $i; ?>][module_code]">
+			  <td><select class="content" name="content[<?php echo $i; ?>][module_code]">
 			    <?php foreach($content_modules as $content_module){?>
 				  <?php if($content_module == $content_info['module_code']){?>
 				    <option value="<?php echo $content_module;?>" selected><?php echo $content_module;?></option>
@@ -272,7 +272,7 @@
 		    <?php foreach($columnright as $columnright_info){?>
 			<tr id="columnright_<?php echo $i; ?>">
 			  <td class="set"><?php echo $entry_module; ?></td>
-			  <td><select name="columnright[<?php echo $i; ?>][module_code]">
+			  <td><select class="columnright" name="columnright[<?php echo $i; ?>][module_code]">
 			    <?php foreach($columnright_modules as $columnright_module){?>
 				  <?php if($columnright_module == $columnright_info['module_code']){?>
 				    <option value="<?php echo $columnright_module;?>" selected><?php echo $columnright_module;?></option>
@@ -308,7 +308,7 @@
 		    <?php foreach($footer as $footer_info){?>
 			<tr id="footer_<?php echo $i; ?>">
 			  <td class="set"><?php echo $entry_module; ?></td>
-			  <td><select name="footer[<?php echo $i; ?>][module_code]">
+			  <td><select class="footer" name="footer[<?php echo $i; ?>][module_code]">
 			    <?php foreach($footer_modules as $footer_module){?>
 				  <?php if($footer_module == $footer_info['module_code']){?>
 				    <option value="<?php echo $footer_module;?>" selected><?php echo $footer_module;?></option>
@@ -344,7 +344,7 @@
 		    <?php foreach($pagebottom as $pagebottom_info){?>
 			<tr id="pagebottom_<?php echo $i; ?>">
 			  <td class="set"><?php echo $entry_module; ?></td>
-			  <td><select name="pagebottom[<?php echo $i; ?>][module_code]">
+			  <td><select class="pagebottom" name="pagebottom[<?php echo $i; ?>][module_code]">
 			    <?php foreach($pagebottom_modules as $pagebottom_module){?>
 				  <?php if($pagebottom_module == $pagebottom_info['module_code']){?>
 				    <option value="<?php echo $pagebottom_module;?>" selected><?php echo $pagebottom_module;?></option>
@@ -416,6 +416,8 @@ function set_columns(){
 }
 function addModule(Location,Location_id) {
 	var Columns;
+	var Last = $('#' + Location + ' tr:last');
+	var nextId = Last.size() == 0 ? 1 : + Last.attr('id').split("_").pop() + 1;
 	if($('#tpl_columns').val() > 0) {
 		Columns = $('#tpl_columns').val();
 	} else {
@@ -423,7 +425,7 @@ function addModule(Location,Location_id) {
 	}
 	$.ajax({
    		type:    'GET',
-   		url:     'index.php?controller=template_manager&action=module&module_id='+$('#'+Location + ' tr').size()+'&location_id='+Location_id+'&tpl_controller='+$('#tpl_controller').val()+'&tpl_column='+Columns,
+   		url:     'index.php?controller=template_manager&action=module&module_id='+ nextId +'&location_id='+Location_id+'&tpl_controller='+$('#tpl_controller').val()+'&tpl_column='+Columns,
 		async:   false,
    		success: function(data) {
      		$('#'+Location).append(data);
@@ -468,13 +470,18 @@ function removeModule(row) {
   //--></script>
   <script type="text/javascript"><!--
 	function copyModules(module) {
-		var boxes = document.getElementsByClassName(module).length;
+		var ids = [];
+		var modules = document.querySelectorAll("[id^='" + module + "_']");
+		var modulesLenght = modules.length;
+		for (j =0; j < modulesLenght; j++) {
+			ids[j] = modules[j].getAttribute("id").split("_").pop();
+		}
 		var html ='';
-		for (i =0; i < boxes; i++) {
-			if (document.forms['form'].elements[module+'['+[i]+'][module_code]'] !=undefined){
-				html +='<input type="hidden" name="' + module + '[' + [i] + '][module_code]" value="' + document.forms['form'].elements[module+'['+[i]+'][module_code]'].value + '">';
-				html +='<input type="hidden" name="' + module + '[' + [i] + '][sort_order]" value="' + document.forms['form'].elements[module+'['+[i]+'][sort_order]'].value + '">';
-				html +='<input type="hidden" name="' + module + '[' + [i] + '][location_id]" value="' + document.forms['form'].elements[module+'['+[i]+'][location_id]'].value + '">';
+		for (i =0; i < modulesLenght; i++) {
+			if (document.forms['form'].elements[module+'['+ids[i]+'][module_code]'] !=undefined){
+				html +='<input type="hidden" name="' + module + '[' + [i] + '][module_code]" value="' + document.forms['form'].elements[module+'['+ids[i]+'][module_code]'].value + '">';
+				html +='<input type="hidden" name="' + module + '[' + [i] + '][sort_order]" value="' + document.forms['form'].elements[module+'['+ids[i]+'][sort_order]'].value + '">';
+				html +='<input type="hidden" name="' + module + '[' + [i] + '][location_id]" value="' + document.forms['form'].elements[module+'['+ids[i]+'][location_id]'].value + '">';
 			}
 		}
 		document.forms['update_form'].innerHTML += html;

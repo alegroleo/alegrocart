@@ -80,6 +80,7 @@ class ControllerAccountDownload extends Controller {
 			$this->template->set('content', $view->fetch('content/account_download.tpl'));
 		} else {
 			$view->set('text_error', $this->language->get('text_error'));
+			$view->set('this_controller', 'account_download');
 			$view->set('button_continue', $this->language->get('button_continue'));
 			$view->set('continue', $this->url->ssl('account'));
 			$this->template->set('content', $view->fetch('content/error.tpl'));

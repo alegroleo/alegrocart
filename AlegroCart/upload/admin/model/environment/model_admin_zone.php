@@ -28,9 +28,9 @@ class Model_Admin_Zone extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('zone.search')) {
-			$sql = "select z.zone_id, z.name, z.zone_status, z.code, c.name as country from zone z left join country c on (z.country_id = c.country_id)";
+			$sql = "select z.zone_id, z.name, z.zone_status, z.code, c.country_id, c.name as country from zone z left join country c on (z.country_id = c.country_id)";
 		} else {
-			$sql = "select z.zone_id, z.name, z.zone_status, z.code, c.name as country from zone z left join country c on (z.country_id = c.country_id) where c.name like '?' or z.name like '?'";
+			$sql = "select z.zone_id, z.name, z.zone_status, z.code, c.country_id, c.name as country from zone z left join country c on (z.country_id = c.country_id) where c.name like '?' or z.name like '?'";
 		}
 		$sort = array('z.name',	'z.zone_status', 'z.code', 'c.name');
 		if (in_array($this->session->get('zone.sort'), $sort)) {
@@ -60,15 +60,11 @@ class Model_Admin_Zone extends Model {
 		return $pages;
 	}
 	function check_address(){
-		$result = $this->database->getRow("select count(*) as total from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "' and customer_id !='0'");
+		$result = $this->database->getRow("SELECT count(*) AS total FROM address a LEFT JOIN customer c ON (c.address_id = a.address_id) WHERE zone_id = '" . (int)$this->request->gethtml('zone_id') . "' AND a.customer_id !='0' AND c.status = '1'");
 		return $result;
 	}
 	function check_zone_to_geo(){
-		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where (zone_id = '" . (int)$this->request->gethtml('zone_id') . "') or (country_id = '" .  $this->request->gethtml('country_id', 'post') . "' and  zone_id = '0')");
-		return $result;
-	}
-	function check_vendor(){
-		$result = $this->database->getRow("select count(*) as total from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "' and vendor_id !='0'");
+		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where (zone_id = '" . (int)$this->request->gethtml('zone_id') . "' and  zone_id != '0') or (country_id = '" . $this->request->gethtml('country_id', 'post') . "' and  zone_id = '0') or (country_id = '" . (int)$this->request->gethtml('country_id') . "' and zone_id = '0')");
 		return $result;
 	}
 	function change_zone_status($status, $status_id){
@@ -77,19 +73,11 @@ class Model_Admin_Zone extends Model {
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
 	}
 	function get_zoneToAddress(){
-		$result = $this->database->getRows("select customer_id, firstname, lastname from address where zone_id = '" . (int)$this->request->gethtml('zone_id') . "' and customer_id !='0'");
+		$result = $this->database->getRows("SELECT a.customer_id, a.firstname, a.lastname FROM address a LEFT JOIN customer c ON (c.address_id = a.address_id) WHERE a.zone_id = '" . (int)$this->request->gethtml('zone_id') . "' AND a.customer_id !='0' AND c.status ='1'");
 		return $result;
 	}
 	function get_zoneToZoneToGeoZone(){
-		$result = $this->database->getRows("select distinct z2g.geo_zone_id, gz.name from zone_to_geo_zone z2g left join geo_zone gz on (z2g.geo_zone_id=gz.geo_zone_id) where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
-		return $result;
-	}
-	function get_zoneToVendor(){
-		$result = $this->database->getRows("select a.vendor_id, v.name from vendor v left join address a on (a.vendor_id=v.vendor_id) where zone_id = '" . (int)$this->request->gethtml('zone_id') . "'");
-		return $result;
-	}
-	function get_vendors(){
-		$result = $this->database->getRows("select distinct zone_id from address where vendor_id !='0'");
+		$result = $this->database->getRows("select distinct z2g.geo_zone_id, gz.name from zone_to_geo_zone z2g left join geo_zone gz on (z2g.geo_zone_id=gz.geo_zone_id) where zone_id = '" . (int)$this->request->gethtml('zone_id') . "' or (country_id = '" .  $this->request->gethtml('country_id', 'post') . "' and  zone_id = '0') or (country_id = '" . (int)$this->request->gethtml('country_id') . "' and zone_id = '0')");
 		return $result;
 	}
 	function get_last_id(){
@@ -99,6 +87,18 @@ class Model_Admin_Zone extends Model {
 	function get_extension_id($controller) {
 		$result = $this->database->getRow("SELECT extension_id FROM extension WHERE controller ='" . $controller . "'");
 		return $result['extension_id'];
+	}
+	function get_vendorZones(){
+		$result = $this->database->getRows("SELECT distinct zone_id FROM address a LEFT JOIN vendor v ON (v.address_id = a.address_id) WHERE a.vendor_id !='0' AND v.status='1'");
+		return $result;
+	}
+	function get_customerZones(){
+		$result = $this->database->getRows("SELECT distinct zone_id FROM address a LEFT JOIN customer c ON (c.address_id = a.address_id) WHERE a.customer_id !='0' AND c.status ='1'");
+		return $result;
+	}
+	function get_zone_to_geo_zonesZones() {
+		$result = $this->database->getRows("SELECT distinct z2g.zone_id FROM zone_to_geo_zone z2g WHERE zone_id !='0' UNION SELECT distinct z.zone_id z FROM zone z JOIN zone_to_geo_zone z2g ON (z.country_id = z2g.country_id) WHERE z2g.zone_id = '0'");
+		return $result;
 	}
 }
 ?>

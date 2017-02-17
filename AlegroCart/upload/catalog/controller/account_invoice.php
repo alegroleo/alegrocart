@@ -249,7 +249,8 @@ class ControllerAccountInvoice extends Controller {
 			$this->template->set('content', $view->fetch('content/account_invoice.tpl'));
 	} else {
 		$view->set('text_error', $this->language->get('text_error'));
-			$this->template->set('content', $view->fetch('content/error.tpl'));
+		$view->set('this_controller', 'account_invoice');
+		$this->template->set('content', $view->fetch('content/error.tpl'));
 	}
 
 		$this->load_modules();  // Template Manager

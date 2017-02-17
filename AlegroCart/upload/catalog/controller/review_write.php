@@ -115,12 +115,13 @@ class ControllerReviewWrite extends controller {
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('text_error'));
 		$view->set('text_error', $this->language->get('text_error'));
-
+		$view->set('image_display', $this->config->get('content_image_display'));
+		$view->set('this_controller', 'review_write');
 		$view->set('button_continue', $this->language->get('button_continue'));
 		$view->set('continue', $this->url->href('home'));
-			$view->set('head_def',$this->head_def);
-			$this->template->set('head_def',$this->head_def);
-			$this->template->set('content', $view->fetch('content/error.tpl'));
+		$view->set('head_def',$this->head_def);
+		$this->template->set('head_def',$this->head_def);
+		$this->template->set('content', $view->fetch('content/error.tpl'));
 
 		}
 

@@ -158,6 +158,9 @@
         <?php } ?>
         <?php if (@$cell['vendor']) { ?>
         <b>(<?php echo $text_vendor; ?>)</b>
+        <?php } ?>
+        <?php if (@$cell['geo']) { ?>
+        <b>(<?php echo $text_geo; ?>)</b>
         <?php } ?></td>
       <?php } elseif (isset($cell['image'])) { ?>
       <td id="image_to_preview" class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>" rel="<?php echo $cell['previewimage']; ?>" title="<?php echo $cell['title']; ?>"></td>

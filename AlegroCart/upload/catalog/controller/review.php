@@ -89,23 +89,23 @@ class ControllerReview extends Controller {
 	  		$this->template->set('content', $view->fetch('content/review.tpl'));
     	} else {
       		$this->template->set('title', $language->get('text_empty'));
- 
       		$view = $this->locator->create('template');
       		$view->set('heading_title', $language->get('text_empty'));
+		$view->set('this_controller', 'review');
       		$view->set('text_error', $language->get('text_empty'));
       		$view->set('button_continue', $language->get('button_continue'));
       		$view->set('continue', $url->href('home'));
-			$view->set('head_def',$head_def);
-			$this->template->set('head_def',$head_def);
-	  		$this->template->set('content', $view->fetch('content/error.tpl'));
+		$view->set('head_def',$head_def);
+		$this->template->set('head_def',$head_def);
+	  	$this->template->set('content', $view->fetch('content/error.tpl'));
     	}
-		
+
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
 		$response->set($this->template->fetch('layout.tpl'));
   	}
-	
+
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){

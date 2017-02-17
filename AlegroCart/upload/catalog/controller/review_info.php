@@ -92,18 +92,20 @@ class ControllerReviewInfo extends Controller {
 	} else {  // Error no Reviews
 		$this->template->set('title', $language->get('text_error'));
 		$view = $this->locator->create('template');
+		$view->set('this_controller', 'review_info');
+		$view->set('image_display', $this->config->get('content_image_display'));
 		$view->set('heading_title', $language->get('text_error'));
 		$view->set('text_error', $language->get('text_error'));
 		$view->set('button_continue', $language->get('button_continue'));
 		$view->set('continue', $url->href('home'));
-			$view->set('head_def',$head_def); 
-			$this->template->set('head_def',$head_def);
-			$this->template->set('content', $view->fetch('content/error.tpl'));
+		$view->set('head_def',$head_def); 
+		$this->template->set('head_def',$head_def);
+		$this->template->set('content', $view->fetch('content/error.tpl'));
 	}
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
-	$response->set($this->template->fetch('layout.tpl'));
+		$response->set($this->template->fetch('layout.tpl'));
 	}
 
 	function load_modules(){ // Template Manager

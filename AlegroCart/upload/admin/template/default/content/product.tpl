@@ -893,9 +893,11 @@ function validate_barcode(optionRow){
   
   <script type="text/javascript"><!--
 function addDiscount() {
+	var Last = $('#discounts tr:last');
+	var nextId = Last.size() == 0 ? 1 : + Last.attr('id').split("_").pop() + 1;
 	$.ajax({
    		type:    'GET',
-   		url:     'index.php?controller=product&action=discount&discount_id='+$('#discounts tr').size(),
+   		url:     'index.php?controller=product&action=discount&discount_id='+nextId,
 		async:   false,
    		success: function(data) {
      		$('#discounts').append(data);
@@ -1029,15 +1031,20 @@ function removeDiscount(row) {
 	});
 	}
 	function copyDiscount() {
+		var ids = [];
 		var html ='';
-			var boxes = document.querySelectorAll("[name^='qty_discount_']").length;
-			for (i =0; i < boxes; i++) {
-				if (document.forms['form'].elements['product_discount['+[i]+'][quantity]'] !=undefined){
-				html +='<input type="hidden" name="product_discount[' + [i] + '][quantity]" value="' + document.forms['form'].elements['product_discount['+[i]+'][quantity]'].value + '">';
-				html +='<input type="hidden" name="product_discount[' + [i] + '][discount]" value="' + document.forms['form'].elements['product_discount['+[i]+'][discount]'].value + '">';
-				html +='<input type="hidden" name="discount_amount' + [i] + '" value="' + document.forms['form'].elements['discount_amount'+[i]].value + '">';
-				}
+		var boxes = document.querySelectorAll("[name^='qty_discount_']");
+		var boxesLenght = boxes.length;
+		for (j =0; j < boxesLenght; j++) {
+			ids[j] = boxes[j].getAttribute("name").split("_").pop();
+		}
+		for (i =0; i < boxesLenght; i++) {
+			if (document.forms['form'].elements['product_discount['+ids[i]+'][quantity]'] !=undefined){
+			html +='<input type="hidden" name="product_discount[' + [i] + '][quantity]" value="' + document.forms['form'].elements['product_discount['+ids[i]+'][quantity]'].value + '">';
+			html +='<input type="hidden" name="product_discount[' + [i] + '][discount]" value="' + document.forms['form'].elements['product_discount['+ids[i]+'][discount]'].value + '">';
+			html +='<input type="hidden" name="discount_amount' + [i] + '" value="' + document.forms['form'].elements['discount_amount'+ids[i]].value + '">';
 			}
+		}
 		document.forms['update_form'].innerHTML += html;
 	}
 	function getValues() {

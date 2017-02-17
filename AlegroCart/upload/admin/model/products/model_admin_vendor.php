@@ -43,15 +43,15 @@ class Model_Admin_Vendor extends Model {
 		return $result;
 	}
 	function get_countries(){
-		$results = $this->database->cache('country', "select * from country where country_status = '1'  order by name");
+		$results = $this->database->cache('country', "select * from country order by name");
 		return $results;
 	}
 	function get_zones(){ 
-		$results = $this->database->cache('zone', "select * from zone where zone_status = '1' order by country_id, name");
+		$results = $this->database->cache('zone', "select * from zone order by country_id, name");
 		return $results;
 	}
 	function return_zones($country_id){
-		$results = $this->database->cache('zone-' . (int)$country_id, "select zone_id, name, zone_status from zone where country_id = '" . (int)$country_id . "' AND zone_status = '1' order by name");
+		$results = $this->database->cache('zone-' . (int)$country_id, "select zone_id, name, zone_status from zone where country_id = '" . (int)$country_id . "' order by name");
 		return $results;
 	}
 	function get_images(){

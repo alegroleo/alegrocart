@@ -1,38 +1,38 @@
 <?php  //Error  AlegroCart
-class ControllerError extends Controller {   
+class ControllerError extends Controller {
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
-		$this->module   	=& $locator->get('module');
-		$this->template 	=& $locator->get('template');
-		$this->modelCore 	= $model->get('model_core');
-		$this->tpl_manager = $this->modelCore->get_tpl_manager('error'); // Template Manager
-		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
-		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
+		$model			=& $locator->get('model');
+		$this->module		=& $locator->get('module');
+		$this->template		=& $locator->get('template');
+		$this->modelCore	= $model->get('model_core');
+		$this->tpl_manager	= $this->modelCore->get_tpl_manager('error'); // Template Manager
+		$this->locations	= $this->modelCore->get_tpl_locations();// Template Manager
+		$this->tpl_columns	= $this->modelCore->get_columns();// Template Manager
 	}
-	function index() {		
+	function index() {
 		$language =& $this->locator->get('language');
 		$response =& $this->locator->get('response');
-		$url      =& $this->locator->get('url');	
-			
-		$language->load('controller/error.php');
- 
-    	$this->template->set('title', $language->get('heading_title')); 
-    	$view = $this->locator->create('template');
-    	$view->set('heading_title', $language->get('heading_title'));
+		$url      =& $this->locator->get('url');
 
-    	$view->set('text_error', $language->get('text_error'));
-    	$view->set('button_continue', $language->get('button_continue'));
-    	$view->set('continue', $url->href('home'));
-    
+		$language->load('controller/error.php');
+
+		$this->template->set('title', $language->get('heading_title')); 
+		$view = $this->locator->create('template');
+		$view->set('heading_title', $language->get('heading_title'));
+
+		$view->set('text_error', $language->get('text_error'));
+		$view->set('button_continue', $language->get('button_continue'));
+		$view->set('continue', $url->href('home'));
+		$view->set('this_controller', 'error');
 		$this->template->set('content', $view->fetch('content/error.tpl'));
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch()); 
-	
+
 		$response->set($this->template->fetch('layout.tpl'));
-  	}
-	
+	}
+
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){

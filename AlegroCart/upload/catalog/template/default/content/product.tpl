@@ -1,6 +1,9 @@
 <?php 
   $head_def->setcss($this->style . "/css/product.css");
   $head_def->setcss($this->style . "/css/tab.css");
+  if ($this->condense && $tpl_columns != 1) {
+	$head_def->setcss( $this->style . "/css/module_column.css");
+  }
   $head_def->set_javascript("ajax/jquery.js");
   $head_def->set_javascript("ajax/jqueryadd2cart.js");
   $head_def->set_javascript("tab/tab.js");

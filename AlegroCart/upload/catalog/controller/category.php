@@ -443,17 +443,21 @@ class ControllerCategory extends Controller {
 
 		} else {
 			$view->set('text_error', $language->get('text_empty'));
-
-				$this->template->set('content', $view->fetch('content/error.tpl'));
+			$view->set('this_controller', 'category');
+			$view->set('tpl_columns', $this->modelCore->tpl_columns);
+			$view->set('image_display', $this->config->get('content_image_display'));
+			$this->template->set('content', $view->fetch('content/error.tpl'));
 		}
 	} else {
-			$this->template->set('title', $language->get('text_error'));	
-
+		$this->template->set('title', $language->get('text_error'));
+		$view->set('this_controller', 'category');
+		$view->set('tpl_columns', $this->modelCore->tpl_columns);
+		$view->set('image_display', $this->config->get('content_image_display'));
 		$view->set('heading_title', $language->get('text_error'));
 		$view->set('text_error', $language->get('text_error'));
 
-			$this->template->set('content', $view->fetch('content/error.tpl'));
-		}
+		$this->template->set('content', $view->fetch('content/error.tpl'));
+	}
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());

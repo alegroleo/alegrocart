@@ -4,18 +4,18 @@ class ControllerZone extends Controller {
 	function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->validate 	=& $locator->get('validate');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->validate		=& $locator->get('validate');
 		$this->modelZone	= $model->get('model_admin_zone');
 
 		$this->language->load('controller/zone.php');
@@ -83,12 +83,10 @@ class ControllerZone extends Controller {
 	}
 
 	function changeStatus() { 
-
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelZone->change_zone_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 			$this->cache->delete('zone');
 		}
-	
 	}
 
 	function getList() {
@@ -120,10 +118,20 @@ class ControllerZone extends Controller {
 	);
 
 		$results = $this->modelZone->get_page();
-		$vendors = $this->modelZone->get_vendors();
+		$vendors = $this->modelZone->get_vendorZones();
 			$vendorzone = array();
 			foreach ($vendors as $vendor){
 				$vendorzone[] = $vendor['zone_id'];
+			}
+		$customers = $this->modelZone->get_customerZones();
+			$customerzone = array();
+			foreach ($customers as $customer){
+				$customerzone[] = $customer['zone_id'];
+			}
+		$geos = $this->modelZone->get_zone_to_geo_zonesZones();
+			$geozone = array();
+			foreach ($geos as $geo){
+				$geozone[] = $geo['zone_id'];
 			}
 
 		$rows = array();
@@ -140,6 +148,7 @@ class ControllerZone extends Controller {
 				'align'   => 'left',
 				'default' => ($result['zone_id'] == $this->config->get('config_zone_id')),
 				'vendor'  => in_array($result['zone_id'], $vendorzone),
+				'geo'  => in_array($result['zone_id'], $geozone),
 				'last' => $last
 			);
 			$cell[] = array(
@@ -147,7 +156,7 @@ class ControllerZone extends Controller {
 				'align' => 'center',
 				'last' => $last
 			);
-			if ($this->validateChangeStatus() && $this->config->get('config_zone_id') !== $result['zone_id']) {
+			if ($this->validateChangeStatus() && !in_array($result['zone_id'], $customerzone) && $this->config->get('config_zone_id') !== $result['zone_id']) {
 			$cell[] = array(
 				'status'  => $result['zone_status'],
 				'text' => $this->language->get('button_status'),
@@ -167,14 +176,14 @@ class ControllerZone extends Controller {
 			$action[] = array(
 				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
-				'href' => $this->url->ssl('zone', 'update', array('zone_id' => $result['zone_id']))
+				'href' => $this->url->ssl('zone', 'update', array('zone_id' => $result['zone_id'],'country_id' => $result['country_id']))
 			);
 			
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
 					'text' => $this->language->get('button_delete'),
-					'href' => $this->url->ssl('zone', 'delete', array('zone_id' => $result['zone_id'],'zone_validation' =>$this->session->get('zone_validation')))
+					'href' => $this->url->ssl('zone', 'delete', array('zone_id' => $result['zone_id'],'country_id' => $result['country_id'],'zone_validation' =>$this->session->get('zone_validation')))
 				); 
 			}
 
@@ -192,6 +201,7 @@ class ControllerZone extends Controller {
 
 		$view->set('text_default', $this->language->get('text_default'));
 		$view->set('text_vendor', $this->language->get('text_vendor'));
+		$view->set('text_geo', $this->language->get('text_geo'));
 		$view->set('text_results', $this->modelZone->get_text_results());
 
 		$view->set('entry_page', $this->language->get('entry_page'));
@@ -265,10 +275,15 @@ class ControllerZone extends Controller {
  
 		$view->set('insert', $this->url->ssl('zone', 'insert'));
 		$view->set('cancel', $this->url->ssl('zone'));
-		
+
+		if (($this->request->gethtml('zone_id')) && (!$this->request->isPost())) {
+			$zone_info = $this->modelZone->get_zone();
+		}
+
 		if ($this->request->gethtml('zone_id')) {
+			$country_id= @$zone_info['country_id'] ? @$zone_info['country_id'] : $this->request->gethtml('country_id');
 			$view->set('update', $this->url->ssl('zone', 'update', array('zone_id' => $this->request->gethtml('zone_id'))));
-			$view->set('delete', $this->url->ssl('zone', 'delete', array('zone_id' => $this->request->gethtml('zone_id'),'zone_validation' =>$this->session->get('zone_validation'))));
+			$view->set('delete', $this->url->ssl('zone', 'delete', array('zone_id' => $this->request->gethtml('zone_id'), 'country_id' => $country_id ? $country_id : $this->request->gethtml('country_id', 'post'), 'zone_validation' =>$this->session->get('zone_validation'))));
 		}
 
 		$view->set('message', $this->session->get('message'));
@@ -281,10 +296,6 @@ class ControllerZone extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 
 		$this->session->set('last_zone_id', $this->request->gethtml('zone_id'));
-
-		if (($this->request->gethtml('zone_id')) && (!$this->request->isPost())) {
-			$zone_info = $this->modelZone->get_zone();
-		}
 
 		if ($this->request->has('name', 'post')) {
 			$view->set('name', $this->request->gethtml('name', 'post'));
@@ -314,7 +325,7 @@ class ControllerZone extends Controller {
 
 		return $view->fetch('content/zone.tpl');
 	}
-	function validateForm() {
+	function validateForm() { //insert or update
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -326,16 +337,19 @@ class ControllerZone extends Controller {
 		if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,32)) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
-		
-		if($this->request->has('zone_status', 'post') && !$this->request->gethtml('zone_status','post')){
+
+		//if form is posted (updated or inserted), status is disabled and updated
+		if($this->request->has('zone_status', 'post') && !$this->request->gethtml('zone_status','post') && (int)$this->request->gethtml('zone_id') > 0){ //if zone id is zero, it is insertion
 			$address_info = $this->modelZone->check_address();
 			if ($address_info['total']) {
-				$this->error['message'] = $this->language->get('error_address', $address_info['total']);
+				$this->error['message'] = $address_info['total'] ==1 ? $this->language->get('error_disable_address') : $this->language->get('error_disable_addresses',$address_info['total']);
+			$address_list = $this-> modelZone->get_zoneToAddress();
+				$this->error['message'] .= '<br>';
+				foreach ($address_list as $address) {
+					$this->error['message'] .= '<a href="' . $this->url->ssl('customer', 'update', array('customer_id' => $address['customer_id'])) . '">' . $address['firstname'] . '&nbsp;' . $address['lastname'] .'</a>&nbsp;';
+				}
 			}
-			$zone_to_geo_zone_info = $this->modelZone->check_zone_to_geo();
-			if ($zone_to_geo_zone_info['total']) {
-				$this->error['message'] = $this->language->get('error_zone_to_geo_zone', $zone_to_geo_zone_info['total']);
-			}
+		//don't check vendor as it is independent. Allow status change even though zone is active in geo_zone
 		}
 
 		if (!$this->error) {
@@ -368,7 +382,7 @@ class ControllerZone extends Controller {
 			return FALSE;
 		}
 	}
-	function validateDelete() {
+	function validateDelete() { //deletion
 		if(($this->session->get('zone_validation') != $this->request->sanitize('zone_validation')) || (strlen($this->session->get('zone_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -389,16 +403,7 @@ class ControllerZone extends Controller {
 				}
 		}
 
-		$vendor_info = $this->modelZone->check_vendor();
-		if ($vendor_info['total']) {
-			$this->error['message'] = $vendor_info['total'] ==1 ? $this->language->get('error_vendor') : $this->language->get('error_vendors', $vendor_info['total']);
-			$vendor_list = $this-> modelZone->get_zoneToVendor();
-				$this->error['message'] .= '<br>';
-				foreach ($vendor_list as $vendor) {
-					$this->error['message'] .= '<a href="' . $this->url->ssl('vendor', 'update', array('vendor_id' => $vendor['vendor_id'])) . '">' . $vendor['name'] . '</a>&nbsp;';
-				}
-		}
-
+		//don't permit deletion if zone is active in geo_zone; don't check vendor as it is independent
 		$zone_to_geo_zone_info = $this->modelZone->check_zone_to_geo();
 		if ($zone_to_geo_zone_info['total']) {
 			$this->error['message'] = $zone_to_geo_zone_info['total'] ==1 ? $this->language->get('error_zone_to_geo_zone') : $this->language->get('error_zone_to_geo_zones', $zone_to_geo_zone_info['total']);

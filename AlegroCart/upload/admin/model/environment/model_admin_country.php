@@ -15,29 +15,30 @@ class Model_Admin_Country extends Model {
 		$sql = "update country set name = '?', country_status = '?', iso_code_2 = '?', iso_code_3 = '?', address_format = '?' where country_id = '?'";
 		$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('country_status', 'post'), $this->request->gethtml('iso_code_2', 'post'), $this->request->gethtml('iso_code_3', 'post'), $this->request->gethtml('address_format', 'post'), $this->request->gethtml('country_id')));
 	}
-	function set_status($status){
-		$vendors = $this->get_vendors();
-		$vendorcountry = array();
-		foreach ($vendors as $vendor){
-			$vendorcountry[] = $vendor['country_id'];
-		}
-		$vendorlist = implode (',',$vendorcountry);
-		$this->database->query("UPDATE country SET country_status = '" . $status . "' WHERE country_id != '" . $this->config->get('config_country_id')  ."' AND country_id NOT IN (".$vendorlist.")");
-	}
 	function delete_country(){
 		$this->database->query("delete from country where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
 	}
-	function check_status(){
-		$vendors = $this->get_vendors();
-		$vendorcountry = array();
-		foreach ($vendors as $vendor){
-			$vendorcountry[] = $vendor['country_id'];
+	function set_status($status){
+		$zone_to_geo_zones = $this->get_zone_to_geo_zoneCountries();
+		$zone_to_geo_zonecountry = array();
+		foreach ($zone_to_geo_zones as $zone_to_geo_zone){
+			$zone_to_geo_zonecountry[] = $zone_to_geo_zone['country_id'];
 		}
-		if (!in_array($this->config->get('config_country_id'), $vendorcountry)) {
-		$vendorcountry[] = $this->config->get('config_country_id'); 
+		$zone_to_geo_zone_list = implode(',', $zone_to_geo_zonecountry);
+		$this->database->query("UPDATE country SET country_status = '" . (int)$status . "' WHERE country_id != '" . $this->config->get('config_country_id')  ."' AND country_id NOT IN (" . $zone_to_geo_zone_list . ")");
+		$this->database->query("UPDATE zone SET zone_status = '" . (int)$status . "' WHERE country_id != '" . $this->config->get('config_country_id')  ."' AND country_id NOT IN (" . $zone_to_geo_zone_list . ")");
+	}
+	function check_status(){
+		$zone_to_geo_zones = $this->get_zone_to_geo_zoneCountries();
+		$zone_to_geo_zonecountry = array();
+		foreach ($zone_to_geo_zones as $zone_to_geo_zone){
+			$zone_to_geo_zonecountry[] = $zone_to_geo_zone['country_id'];
+		}
+		if (!in_array($this->config->get('config_country_id'), $zone_to_geo_zonecountry)) {
+		$zone_to_geo_zonecountry[] = $this->config->get('config_country_id'); 
 		}
 		$result = count($this->database->getRows("SELECT country_status FROM country WHERE country_status = '1'"));
-		return $result>count($vendorcountry) ? TRUE : FALSE;
+		return $result>count($zone_to_geo_zonecountry) ? TRUE : FALSE;
 	}
 	function get_country_info(){
 		$result = $this->database->getRow("select distinct * from country where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
@@ -77,44 +78,48 @@ class Model_Admin_Country extends Model {
 		return $pages;
 	}
 	function check_address(){
-		$result = $this->database->getRow("select count(*) as total from address where country_id = '" . (int)$this->request->gethtml('country_id') . "' and customer_id !='0'");
+		$result = $this->database->getRow("SELECT count(*) AS total FROM address a LEFT JOIN customer c ON (c.address_id = a.address_id) WHERE a.country_id = '" . (int)$this->request->gethtml('country_id') . "' AND a.customer_id !='0' AND c.status ='1'");
 		return $result;
 	}
 	function check_zone(){
-		$result = $this->database->getRow("select count(*) as total from zone where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
+		$result = $this->database->getRow("SELECT count(*) AS total FROM zone WHERE country_id = '" . (int)$this->request->gethtml('country_id') . "' AND zone_status='1'");
 		return $result;
+	}
+	function update_zones(){
+		$this->database->query("UPDATE zone SET zone_status = '" . (int)$this->request->gethtml('country_status', 'post') . "' WHERE country_id = '" . (int)$this->request->gethtml('country_id') ."'");
 	}
 	function check_zone_to_geo(){
-		$result = $this->database->getRow("select count(*) as total from zone_to_geo_zone where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
-		return $result;
-	}
-	function check_vendor(){
-		$result = $this->database->getRow("select count(*) as total from address where country_id = '" . (int)$this->request->gethtml('country_id') . "' and vendor_id !='0'");
+		$result = $this->database->getRow("SELECT count(*) AS total FROM zone_to_geo_zone WHERE country_id = '" . (int)$this->request->gethtml('country_id') . "'");
 		return $result;
 	}
 	function change_country_status($status, $status_id){
 		$new_status = $status ? 0 : 1;
 		$sql = "update country set country_status = '?' where country_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$new_status, (int)$status_id));
+		$this->database->query("UPDATE zone SET zone_status = '" . (int)$new_status . "' WHERE country_id = '" . (int)$status_id ."'");
 	}
 	function get_countryToAddress(){
-		$result = $this->database->getRows("select customer_id, firstname, lastname from address where country_id = '" . (int)$this->request->gethtml('country_id') . "'  and customer_id !='0'");
+		$result = $this->database->getRows("SELECT a.customer_id, a.firstname, a.lastname FROM address a LEFT JOIN customer c ON (c.address_id = a.address_id) WHERE a.country_id = '" . (int)$this->request->gethtml('country_id') . "'  AND a.customer_id !='0' AND c.status='1'");
 		return $result;
 	}
 	function get_countryToZone(){
-		$result = $this->database->getRows("select zone_id, name from zone where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
+		$result = $this->database->getRows("SELECT zone_id, name FROM zone WHERE country_id = '" . (int)$this->request->gethtml('country_id') . "' AND zone_status='1'");
 		return $result;
 	}
 	function get_countryToZoneToGeoZone(){
-		$result = $this->database->getRows("select distinct z2g.geo_zone_id, gz.name from zone_to_geo_zone z2g left join geo_zone gz on (z2g.geo_zone_id=gz.geo_zone_id) where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
+		$result = $this->database->getRows("SELECT distinct z2g.geo_zone_id, gz.name FROM zone_to_geo_zone z2g LEFT JOIN geo_zone gz ON (z2g.geo_zone_id=gz.geo_zone_id) WHERE country_id = '" . (int)$this->request->gethtml('country_id') . "'");
 		return $result;
 	}
-	function get_countryToVendor(){
-		$result = $this->database->getRows("select a.vendor_id, v.name from vendor v left join address a on (a.vendor_id=v.vendor_id) where country_id = '" . (int)$this->request->gethtml('country_id') . "'");
+	function get_vendorCountries(){
+		$result = $this->database->getRows("SELECT distinct country_id FROM address a LEFT JOIN vendor v ON (v.address_id = a.address_id) WHERE a.vendor_id !='0' AND v.status='1'");
 		return $result;
 	}
-	function get_vendors(){
-		$result = $this->database->getRows("select distinct country_id from address where vendor_id !='0'");
+	function get_customerCountries(){
+		$result = $this->database->getRows("SELECT distinct country_id FROM address a LEFT JOIN customer c ON (c.address_id = a.address_id) WHERE a.customer_id !='0' AND c.status='1'");
+		return $result;
+	}
+	function get_zone_to_geo_zoneCountries(){
+		$result = $this->database->getRows("SELECT distinct country_id FROM zone_to_geo_zone");
 		return $result;
 	}
 	function get_last_id(){

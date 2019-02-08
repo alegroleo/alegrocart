@@ -13,6 +13,8 @@ class ControllerCalculateDiscount extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelDiscount	= $model->get('model_admin_calculatediscount');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('calculate_discount');
 
 		$this->language->load('controller/calculate_discount.php');
 	}
@@ -32,7 +34,7 @@ class ControllerCalculateDiscount extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_calculate', $this->language->get('heading_calculate'));
 		$view->set('heading_description', $this->language->get('heading_description'));

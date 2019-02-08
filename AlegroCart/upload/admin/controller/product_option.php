@@ -20,12 +20,15 @@ class ControllerProductOption extends Controller {
 		$this->validate		=& $locator->get('validate');
 		$this->modelOption	= $model->get('model_admin_productoption');
 		$this->modelProduct	= $model->get('model_admin_product');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('product_option');
 
 		$this->language->load('controller/product_option.php');
 	}
 
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -47,6 +50,7 @@ class ControllerProductOption extends Controller {
 			$this->session->set('last_product_to_option_id', $insert_id);
 			$this->response->redirect($this->url->ssl('product_option', FALSE, array('product_id' => $this->request->gethtml('product_id'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_product');
@@ -68,6 +72,7 @@ class ControllerProductOption extends Controller {
 				$this->response->redirect($this->url->ssl('product_option', FALSE, array('product_id' => $this->request->gethtml('product_id'))));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -83,6 +88,7 @@ class ControllerProductOption extends Controller {
 			$this->session->delete('last_product');
 			$this->response->redirect($this->url->ssl('product_option', FALSE, array('product_id' => $this->request->gethtml('product_id'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -201,7 +207,7 @@ class ControllerProductOption extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title').'<em>'.$this->modelOption->get_product_name($this->request->gethtml('product_id')).'</em>');
 		$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -253,7 +259,7 @@ class ControllerProductOption extends Controller {
 
 	private function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

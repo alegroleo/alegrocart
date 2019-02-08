@@ -31,5 +31,5 @@ $_['column_avgrating']    = 'Average Rating';
 $_['error_install_dir']		= 'Warning: Immediately delete the Install directory!';
 $_['error_permission_config']	= 'Warning: Make the config.php unwritable!';
 $_['error_permission_htaccess']	= 'Warning: Make the .htaccess unwritable!';
-$_['error_page_load']		= 'Warning: Is your cart under development? Decreasing page load time is not enabled!';
+$_['error_page_load']		= 'Warning: Is your cart under development? Decreasing page load time of your store is not enabled!';
 ?>

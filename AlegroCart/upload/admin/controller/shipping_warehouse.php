@@ -15,6 +15,8 @@ class ControllerShippingWarehouse extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelWarehouse   = $model->get('model_admin_shippingwarehouse');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('shipping_warehouse');
 
 		$this->language->load('controller/shipping_warehouse.php');
 	}
@@ -34,10 +36,10 @@ class ControllerShippingWarehouse extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_shipping', $this->language->get('heading_shipping'));
-		$view->set('heading_description', $this->language->get('heading_description'));		
+		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_enabled', $this->language->get('text_enabled'));
 		$view->set('text_disabled', $this->language->get('text_disabled'));

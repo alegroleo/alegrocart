@@ -24,10 +24,14 @@ class ControllerOrderEdit extends Controller {
 		$this->modelOrderEdit = $model->get('model_admin_orderedit');
 		$this->barcode     	=& $locator->get('barcode'); 
 		$this->decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('order_edit');
+
 		$this->language->load('controller/order_edit.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -49,7 +53,7 @@ class ControllerOrderEdit extends Controller {
 	}
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_title'));
 
 		$view->set('heading_description', $this->language->get('heading_description'));

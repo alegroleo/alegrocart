@@ -19,11 +19,14 @@ class ControllerManufacturer extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelManufacturer = $model->get('model_admin_manufacturer');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('manufacturer');
 
 		$this->language->load('controller/manufacturer.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -55,6 +58,7 @@ class ControllerManufacturer extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('manufacturer'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_manufacturer');
@@ -90,6 +94,7 @@ class ControllerManufacturer extends Controller {
 			}
 
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -112,7 +117,7 @@ class ControllerManufacturer extends Controller {
 			$this->session->delete('last_manufacturer');
 			$this->response->redirect($this->url->ssl('manufacturer'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -185,7 +190,7 @@ class ControllerManufacturer extends Controller {
 	    	}
 
 	    	$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def); 
 	    	$view->set('heading_title', $this->language->get('heading_title'));
 	    	$view->set('heading_description', $this->language->get('heading_description'));
 	    	$view->set('text_results', $this->modelManufacturer->get_text_results());
@@ -230,7 +235,7 @@ class ControllerManufacturer extends Controller {
 	}
 	function getForm() {
 	    	$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 	    	$view->set('heading_title', $this->language->get('heading_form_title'));
 	    	$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -261,7 +266,7 @@ class ControllerManufacturer extends Controller {
 	    	$view->set('action', $this->url->ssl('manufacturer', $this->request->gethtml('action'), array('manufacturer_id' => $this->request->gethtml('manufacturer_id'))));
 
 	    	$view->set('insert', $this->url->ssl('manufacturer', 'insert'));
-			$view->set('cancel', $this->url->ssl('manufacturer'));
+		$view->set('cancel', $this->url->ssl('manufacturer'));
 
 	    	if ($this->request->gethtml('manufacturer_id')) {
 	      		$view->set('update', $this->url->ssl('manufacturer', 'update', array('manufacturer_id' => $this->request->gethtml('manufacturer_id'))));

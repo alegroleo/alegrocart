@@ -1,13 +1,17 @@
 <?php
 Class HeaderDefinition {
   var $CssDef = array();
+  var $CssAdminDef = array();
   var $java_script = array();
+  var $java_admin_script = array();
   var $java_path = array();
+  var $java_admin_path = array();
   var $css_path = array();
+  var $css_admin_path = array();
   var $meta_title;
   var $meta_description;
   var $meta_keywords = array();
-  
+
   function setcss($CssStyle){
     $Temp_CSS = $CssStyle;
 	if (array_search($Temp_CSS, $this->css_path)===false){
@@ -18,6 +22,16 @@ Class HeaderDefinition {
       $this->CssDef[]=$CssStyle;
     }
   }
+	function set_admin_css($CssStyle){
+		$Temp_CSS = $CssStyle;
+		if (array_search($Temp_CSS, $this->css_admin_path)===false){
+			$this->css_admin_path[]=$Temp_CSS;
+		}
+		$CssStyle = "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $CssStyle . "\">";
+		if (array_search($CssStyle,$this->CssAdminDef)===false){
+			$this->CssAdminDef[]=$CssStyle;
+		}
+	}
   function set_javascript($JavaDef){
 	$Temp_JS = "catalog/javascript/" . $JavaDef;
 	if (array_search($Temp_JS, $this->java_path)===false){
@@ -27,7 +41,17 @@ Class HeaderDefinition {
     if (array_search($JavaDef,$this->java_script)===false){
       $this->java_script[]=$JavaDef;
     }
-  }  
+  }
+	function set_admin_javascript($JavaDef){
+		$Temp_JS = $JavaDef;
+		if (array_search($Temp_JS, $this->java_admin_path)===false){
+			$this->java_admin_path[]=$Temp_JS;
+		}
+		$JavaDef = "<script type=\"text/javascript\" src=\"" . $JavaDef . "\"></script>";
+		if (array_search($JavaDef,$this->java_admin_script)===false){
+			$this->java_admin_script[]=$JavaDef;
+		}
+	}
   function set_MetaTitle($CssTitle){
     if (strpos($this->meta_title,$CssTitle)===false){
       $this->meta_title.= $CssTitle;

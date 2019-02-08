@@ -16,11 +16,14 @@ class ControllerZoneToGeoZone extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user'); 
 		$this->modelZonetoGeo = $model->get('model_admin_zone_geozone');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('zone_to_geo_zone');
 
 		$this->language->load('controller/zone_to_geo_zone.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -38,6 +41,7 @@ class ControllerZoneToGeoZone extends Controller {
 
 			$this->response->redirect($this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
     		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -61,6 +65,7 @@ class ControllerZoneToGeoZone extends Controller {
 				$this->response->redirect($this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 			}
 	}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -76,6 +81,7 @@ class ControllerZoneToGeoZone extends Controller {
 
 	  		$this->response->redirect($this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
     	}
+		$this->template->set('head_def',$this->head_def);
     	$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 	
@@ -179,7 +185,7 @@ class ControllerZoneToGeoZone extends Controller {
     	}
 
     	$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
     	$view->set('heading_title', $this->language->get('heading_title').'<em>'.$this->modelZonetoGeo->get_geozone_name($this->request->gethtml('geo_zone_id')).'</em>');
     	$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -230,7 +236,7 @@ class ControllerZoneToGeoZone extends Controller {
 
   	function getForm() {
     	$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 

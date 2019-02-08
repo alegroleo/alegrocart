@@ -1,3 +1,6 @@
+<?php 
+  $head_def->set_admin_javascript("javascript/ckeditor/ckeditor.js");
+?>
 <div class="task">
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
@@ -17,7 +20,6 @@
 <?php if ($message) { ?>
 <div class="message"><?php echo $message; ?></div>
 <?php } ?>
-<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <div id="mail">
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
     <table>

@@ -13,6 +13,8 @@ class ControllerShippingCanadaPost extends Controller{
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelCANpost = $model->get('model_admin_shippingcanpost');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('shipping_canadapost');
 
 		$this->language->load('controller/shipping_canadapost.php');
 	}
@@ -33,7 +35,7 @@ class ControllerShippingCanadaPost extends Controller{
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_shipping', $this->language->get('heading_shipping'));
 		$view->set('heading_description', $this->language->get('heading_description'));

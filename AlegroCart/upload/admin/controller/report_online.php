@@ -9,6 +9,8 @@ class ControllerReportOnline extends Controller {
 		$this->session  	=& $locator->get('session');
 		$this->template 	=& $locator->get('template');
 		$this->modelReportOnline = $model->get('model_admin_report_online');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('report_online');
 
 		$this->language->load('controller/report_online.php');
 		}
@@ -63,7 +65,7 @@ class ControllerReportOnline extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

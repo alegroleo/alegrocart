@@ -26,6 +26,8 @@ class ControllerSetting extends Controller {
 		$this->validate		=& $locator->get('validate');
 		$this->modelSetting	= $model->get('model_admin_setting');
 		$this->modelWatermark	= $model->get('model_admin_watermark');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('setting');
 
 		$this->language->load('controller/setting.php');
 	}
@@ -53,6 +55,8 @@ class ControllerSetting extends Controller {
 		}
 
 		$view = $this->locator->create('template');
+
+		$view->set('head_def',$this->head_def); 
 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
@@ -281,6 +285,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_page_load',$this->language->get('entry_page_load'));
 		$view->set('entry_social',$this->language->get('entry_social'));
 		$view->set('entry_newsletter',$this->language->get('entry_newsletter'));
+		$view->set('entry_admin_page_load',$this->language->get('entry_admin_page_load'));
 
 		$view->set('explanation_email_log',$this->language->get('explanation_email_log'));
 		$view->set('explanation_email_auth',$this->language->get('explanation_email_auth'));
@@ -328,6 +333,7 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_page_load',$this->language->get('explanation_page_load'));
 		$view->set('explanation_image_quality',$this->language->get('explanation_image_quality'));
 		$view->set('explanation_newsletter',$this->language->get('explanation_newsletter'));
+		$view->set('explanation_admin_page_load',$this->language->get('explanation_admin_page_load'));
 
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -583,6 +589,11 @@ class ControllerSetting extends Controller {
 		}
 		$view->set('admin_templates', $template_data);
 
+		if ($this->request->has('admin_config_admin_page_load', 'post')) {
+			$view->set('admin_config_admin_page_load', $this->request->gethtml('admin_config_admin_page_load', 'post'));
+		} else {
+			$view->set('admin_config_admin_page_load', @$setting_info['admin']['config_admin_page_load']);
+		}
 		if ($this->request->has('catalog_config_max_rows', 'post')) {
 			$view->set('catalog_config_max_rows', $this->request->gethtml('catalog_config_max_rows', 'post'));
 		} else {

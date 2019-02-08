@@ -1,7 +1,17 @@
+<?php 
+  $head_def->set_admin_css("template/".$this->directory."/css/tab.css");
+  $head_def->set_admin_css("template/".$this->directory."/css/datepicker.css");
+  $head_def->set_admin_javascript("javascript/ajax/jquery.js");
+  $head_def->set_admin_javascript("javascript/tab/tab.js");
+  $head_def->set_admin_javascript("javascript/ajax/validateforms.js");
+  $head_def->set_admin_javascript("javascript/ckeditor/ckeditor.js");
+  $head_def->set_admin_javascript("javascript/preview/preview.js");
+  $head_def->set_admin_javascript("javascript/ajax/tooltip.js");
+  $head_def->set_admin_javascript("javascript/datepicker/datepicker.js");
+?>
 <div class="task">
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-
   <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
@@ -73,7 +83,6 @@
   <?php }?>
   <input type="hidden" name="product_id" id="product_id" value="<?php echo $product_id; ?>">
   </form>
-
   <?php } else { ?>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
@@ -97,15 +106,6 @@
  <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
-<script type="text/javascript" src="javascript/tab/tab.js"></script>
-<link rel="stylesheet" type="text/css" href="javascript/datepicker/css/datepicker.css">
-<link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
-<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-<script type="text/javascript" src="javascript/preview/preview.js"></script>
-<script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
-<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
-<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
-<script type="text/javascript" src="javascript/datepicker/datepicker.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a><a><div class="tab_text"><?php echo $tab_data; ?></div></a><?php if($product_options){echo '<a><div class="tab_text">' . $tab_product_options . '</div></a>';}?><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a><a><div class="tab_text"><?php echo $tab_category; ?></div></a><a><div class="tab_text"><?php echo $tab_home; ?></div></a><a href="#discount"><div class="tab_text"><?php echo $tab_discount; ?></div></a><a><div class="tab_text"><?php echo $tab_dated_special; ?></div></a><a><div class="tab_text"><?php echo $tab_alt_description; ?></div></a></div>

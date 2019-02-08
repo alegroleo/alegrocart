@@ -1,4 +1,6 @@
-<link rel="stylesheet" type="text/css" href="template/default/css/login.css">
+<?php 
+  $head_def->set_admin_css("template/".$this->directory."/css/login.css");
+?>
 <?php if ($maintenance_status) { ?>
 <div class="message"><?php echo $text_maintenance; ?></div>
 <?php } ?>

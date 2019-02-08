@@ -30,12 +30,11 @@ $(document).ready(function(){
 		});
     });
 });
-function init() {
+$(document).ready(function() {
 	var imgDefer = document.getElementsByTagName('img');
 	for (var i=0, len =imgDefer.length; i<len; i++) {
 		if(imgDefer[i].getAttribute('data-src')) {
 			imgDefer[i].setAttribute('src',imgDefer[i].getAttribute('data-src'));
 		}
 	}
-}
-window.onload = init;
+});

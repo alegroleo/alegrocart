@@ -17,11 +17,14 @@ class ControllerCurrency extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelCurrency = $model->get('model_admin_currency');
-		
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('currency');
+
 		$this->language->load('controller/currency.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -40,6 +43,7 @@ class ControllerCurrency extends Controller {
 
 			$this->response->redirect($this->url->ssl('currency'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -61,6 +65,7 @@ class ControllerCurrency extends Controller {
 			}
 
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -110,6 +115,7 @@ class ControllerCurrency extends Controller {
 
 			$this->response->redirect($this->url->ssl('currency'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -228,7 +234,7 @@ class ControllerCurrency extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description', $this->config->get('config_currency_surcharge')));
 
@@ -283,7 +289,7 @@ class ControllerCurrency extends Controller {
 
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

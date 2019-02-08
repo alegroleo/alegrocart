@@ -19,11 +19,15 @@ class ControllerHomepage extends Controller {
 		$this->user    	 	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelAdminHomepage = $model->get('model_admin_homepage');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('homepage');
+
 		$this->language->load('controller/homepage.php');
 	}
 
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -50,6 +54,7 @@ class ControllerHomepage extends Controller {
 			$this->session->set('last_homepage_id', $insert_id);
 			$this->response->redirect($this->url->ssl('homepage'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_homepage');
@@ -77,6 +82,7 @@ class ControllerHomepage extends Controller {
 				$this->response->redirect($this->url->ssl('homepage'));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -92,6 +98,7 @@ class ControllerHomepage extends Controller {
 			$this->session->delete('last_homepage');
 			$this->response->redirect($this->url->ssl('homepage'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -177,6 +184,7 @@ class ControllerHomepage extends Controller {
 		}
 
 		$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 	    	$view->set('heading_description', $this->language->get('heading_description'));
 		$view->set('text_results', $this->modelAdminHomepage->get_text_results());
@@ -220,7 +228,7 @@ class ControllerHomepage extends Controller {
 	}
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 	    	$view->set('heading_title', $this->language->get('heading_form_title'));
 	    	$view->set('heading_description', $this->language->get('heading_description'));
 

@@ -13,6 +13,8 @@ class ControllerShippingZone extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelZone = $model->get('model_admin_shippingzone');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('shipping_zone');
 
 		$this->language->load('controller/shipping_zone.php');
 	}
@@ -32,10 +34,10 @@ class ControllerShippingZone extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_shipping', $this->language->get('heading_shipping'));
-		$view->set('heading_description', $this->language->get('heading_description'));		
+		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_none', $this->language->get('text_none'));
 		$view->set('text_enabled', $this->language->get('text_enabled'));

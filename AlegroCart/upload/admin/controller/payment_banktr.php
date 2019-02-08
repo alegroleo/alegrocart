@@ -1,7 +1,7 @@
 <?php // Payment BankTransfer AlegroCart
 class ControllerPaymentbanktr extends Controller {
-    var $error = array();
-    function __construct(&$locator){
+	var $error = array();
+	function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
@@ -13,59 +13,62 @@ class ControllerPaymentbanktr extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelBTR = $model->get('model_admin_paymentbanktr');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('payment_banktr');
 
 		$this->language->load('controller/payment_banktr.php');
 	}
-	function index() { 
+	function index() {
+
 		$this->template->set('title', $this->language->get('heading_title'));
 
-        if (($this->request->isPost()) && ($this->validate())) {
+        	if (($this->request->isPost()) && ($this->validate())) {
 			$results = $this->modelBTR->get_BTR();
 			$this->modelBTR->delete_BTR();
-            foreach ($results as $result) {
-                    $combo = $result['type'] . "_" . $result['key'];
-                    $this->modelBTR->update_BTR($result['type'], $result['key'], $combo);
-            }
+            		foreach ($results as $result) {
+                    		$combo = $result['type'] . "_" . $result['key'];
+                    		$this->modelBTR->update_BTR($result['type'], $result['key'], $combo);
+            		}
 
-            $this->session->set('message', $this->language->get('text_message'));
-		if ($this->request->has('update_form', 'post')) {
-			$this->response->redirect($this->url->ssl('payment_banktr'));
-		} else {
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
-		}
-        }
+            		$this->session->set('message', $this->language->get('text_message'));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('payment_banktr'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
+			}
+        	}
 
-        $view = $this->locator->create('template');
+        	$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def);
+        	$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_payment', $this->language->get('heading_payment'));
+        	$view->set('heading_description', $this->language->get('heading_description'));        
 
-        $view->set('heading_title', $this->language->get('heading_title'));
-	$view->set('heading_payment', $this->language->get('heading_payment'));
-        $view->set('heading_description', $this->language->get('heading_description'));        
-
-        $view->set('text_enabled', $this->language->get('text_enabled'));
-        $view->set('text_disabled', $this->language->get('text_disabled'));
-        $view->set('text_all_zones', $this->language->get('text_all_zones'));
-        $view->set('text_none', $this->language->get('text_none'));
+        	$view->set('text_enabled', $this->language->get('text_enabled'));
+        	$view->set('text_disabled', $this->language->get('text_disabled'));
+        	$view->set('text_all_zones', $this->language->get('text_all_zones'));
+        	$view->set('text_none', $this->language->get('text_none'));
         
-        $view->set('button_insert', $this->language->get('button_insert'));
-        $view->set('button_update', $this->language->get('button_update'));
-        $view->set('button_delete', $this->language->get('button_delete'));
-        $view->set('button_save', $this->language->get('button_save'));
-        $view->set('button_cancel', $this->language->get('button_cancel'));
+        	$view->set('button_insert', $this->language->get('button_insert'));
+        	$view->set('button_update', $this->language->get('button_update'));
+        	$view->set('button_delete', $this->language->get('button_delete'));
+        	$view->set('button_save', $this->language->get('button_save'));
+        	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_help', $this->language->get('button_help'));
 
 		$view->set('help', $this->session->get('help'));
 
-        $view->set('tab_general', $this->language->get('tab_general'));
+        	$view->set('tab_general', $this->language->get('tab_general'));
 
-        $view->set('error', @$this->error['message']);
-        
-        $view->set('action', $this->url->ssl('payment_banktr'));
-        $view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'payment')));    
+        	$view->set('error', @$this->error['message']);
+
+        	$view->set('action', $this->url->ssl('payment_banktr'));
+        	$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'payment')));    
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 
-        $this->session->set('cdx',md5(mt_rand()));
+        	$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
@@ -74,27 +77,27 @@ class ControllerPaymentbanktr extends Controller {
 		$this->session->set('last_payment', 'payment_banktr');
 		$this->session->set('last_extension_id', $this->modelBTR->get_extension_id('payment_banktr'));
 
-        $results = $this->modelBTR->get_BTR();
-        foreach ($results as $result) {
-            $setting_info[$result['type']][$result['key']] = $result['value'];
-            $combo = $result['type'] . "_" . $result['key'];
-            if ($this->request->has($combo, 'post')) {
-                $view->set($combo, $this->request->gethtml($combo, 'post'));
-            } else {
-                $view->set($combo, htmlspecialchars_decode(@$setting_info[$result['type']][$result['key']]));
-            }
+        	$results = $this->modelBTR->get_BTR();
+        	foreach ($results as $result) {
+            		$setting_info[$result['type']][$result['key']] = $result['value'];
+            		$combo = $result['type'] . "_" . $result['key'];
+            		if ($this->request->has($combo, 'post')) {
+                		$view->set($combo, $this->request->gethtml($combo, 'post'));
+            		} else {
+                		$view->set($combo, htmlspecialchars_decode(@$setting_info[$result['type']][$result['key']]));
+            		}
             
-            $view->set('entry_' . $result['key'], $this->language->get('entry_' . $result['key']));
-            $view->set('explanation_' . $result['key'], $this->language->get('explanation_' . $result['key']));
-        }
+            		$view->set('entry_' . $result['key'], $this->language->get('entry_' . $result['key']));
+            		$view->set('explanation_' . $result['key'], $this->language->get('explanation_' . $result['key']));
+        	}
 
-        $view->set('geo_zones', $this->modelBTR->get_geo_zones());
+        	$view->set('geo_zones', $this->modelBTR->get_geo_zones());
 
-        $this->template->set('content', $view->fetch('content/payment_banktr.tpl'));
+        	$this->template->set('content', $view->fetch('content/payment_banktr.tpl'));
 
-        $this->template->set($this->module->fetch());
+        	$this->template->set($this->module->fetch());
 
-        $this->response->set($this->template->fetch('layout.tpl'));
+        	$this->response->set($this->template->fetch('layout.tpl'));
 	}
 	function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){

@@ -10,37 +10,39 @@ class Controller {
 	var $error;
 	var $pre_action = array();
 	var $controller;
+	var $action;
 
 	function __construct(&$locator) {
 		$this->locator =& $locator;
+		$this->template =& $locator->get('template');
 		$this->model =& $this->locator->get('model');
 	}
-	
+
 	function setDirectory($directory) {
 		$this->directory = $directory;
 	}
-		
+
 	function setDefault($class, $method) {
 		$this->default = $this->forward($class, $method);
 	}
-	
+
 	function setError($class, $method) {
 		$this->error = $this->forward($class, $method);
 	}
-	
+
 	function addPreAction($class, $method) {
 		$this->pre_action[] = $this->forward($class, $method);
 	}
-	
+
 	function forward($class, $method) {
 		$action = array(
 			'class'  => $class,
 			'method' => $method
 		);
 		return $action;
-  	}
-	
-  	function dispatch(&$request) {
+	}
+
+	function dispatch(&$request) {
 		$action = $this->requestHandler($request);
 		$i = 0;
 		while ($action) {
@@ -56,7 +58,7 @@ class Controller {
 			$action = $this->execute($action);
 		}
 	}
-	
+
 	function execute($action) {
 		$file = $this->directory.basename($action['class']).'.php';
 		if (file_exists($file)) {
@@ -69,21 +71,29 @@ class Controller {
 		}
 		if ($this->error) { return $this->error; }
 	}
-	
+
 	function requestHandler(&$request) {
-	    return $this->forward($this->getClass($request), $this->getMethod($request));
+		return $this->forward($this->getClass($request), $this->getMethod($request));
 	}
+
 	function getClass(&$request) {
 		if ($request->has('controller')) {
 			$class = $request->gethtml('controller');
 			$this->controller = $class;
 		} else { 
-			$class=$this->default['class']; }
+			$class=$this->default['class']; 
+		}
+		$this->template->controller = $class;
 	return $class;
 	}
+
 	function getMethod(&$request) {
-	    if ($request->has('action')) { $method = $request->gethtml('action'); }
-		else { $method=$this->default['method']; }
+		if ($request->has('action')) {
+			$method = $request->gethtml('action');
+		} else {
+			$method=$this->default['method'];
+		}
+		$this->template->action = $method;
 		return $method;
 	}
 }

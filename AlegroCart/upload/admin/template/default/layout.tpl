@@ -4,8 +4,25 @@
 <title><?php echo $title; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset; ?>">
 <base href="<?php echo $base; ?>">
-<link rel="stylesheet" type="text/css" href="template/<?php echo $this->directory?>/css/default.css">
 <link rel="shortcut icon" href="template/<?php echo $this->directory; ?>/image/favicon.ico">
+<?php if ($this->admin_condense){ 
+	echo $this->condense_admin_css()."\n";
+	echo $this->condense_admin_js()."\n";
+} else { ?>
+	<link rel="stylesheet" type="text/css" href="template/<?php echo $this->directory; ?>/css/default.css">
+	<?php if ($this->head_def->CssAdminDef){ 
+		foreach ($this->head_def->CssAdminDef as $pagecss){
+			echo $pagecss."\n";
+		}
+	}
+	?>
+	<?php if($this->head_def->java_admin_script){
+		foreach ($this->head_def->java_admin_script as $pagejs){
+			echo $pagejs."\n";
+		}
+	}
+}
+?>
 </head>
 <body onload="if (document.form_login && document.form_login.username) document.form_login.username.focus()">
 

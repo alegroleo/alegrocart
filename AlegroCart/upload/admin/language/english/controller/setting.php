@@ -224,8 +224,9 @@ $_['entry_unregistered']	= 'Display on public pages:';
 $_['entry_registered']		= 'Display on protected pages:';
 $_['entry_estimate']		= 'Estimate Shipping and Tax:';
 $_['entry_social']		= 'Display Social Media Buttons:';
-$_['entry_page_load']		= 'Decrease Page Load Time:';
+$_['entry_page_load']		= 'Decrease Page Load Time of Catalog:';
 $_['entry_newsletter']		= 'Group Newsletter by:';
+$_['entry_admin_page_load']	= 'Decrease Page Load Time of Administration:';
 
 //Explanations
 $_['explanation_query_log']       = 'Use this only for testing. This process requires disc space and time to process. Not for production use.';
@@ -271,9 +272,10 @@ $_['explanation_seo']			= 'This will enable automatic creation of SEO urls when 
 $_['explanation_estimate']		= 'This will enable shipping cost and tax estimation in cart for not logged in customers as well.';
 $_['explanation_columns']		= '1 = only content; 1.2 = left column + content; 2.1 = content + right column; 3 = left column + content + right column';
 $_['explanation_social']		= 'This will display social media share buttons (Facebook, Twitter, LinkedId) on the product page.';
-$_['explanation_page_load']		= 'This will compress css and javascript files to speed up page load. Compression results no human readable rendered files, so enable it after customization of your cart. Original css and javascript files won \'t be overwritten!';
+$_['explanation_page_load']		= 'This will compress css and javascript files to speed up page load of your store. Compression results no human readable rendered files, so enable it after customization of your cart. Original css and javascript files won \'t be overwritten!';
 $_['explanation_image_quality']		= 'Quality of the resized image.<br>Ranges from 0 (worst quality, smaller file, faster page load) to 100 (best quality, biggest file, slower page load).<br>Default is 75. Try to find the optimum for your site.';
 $_['explanation_newsletter']		= 'Group newsletter if your host rejects bulk e-mail sending. Default is 0 that means no grouping.';
+$_['explanation_admin_page_load']	= 'This will compress css and javascript files to speed up page load of the administration. Compression results no human readable rendered files. Original css and javascript files won \'t be overwritten! Do not change this setting unless you notice problems.';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

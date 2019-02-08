@@ -28,6 +28,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_query_count', `value` = '" . $this->request->gethtml('global_config_query_count', 'post') . "'");
 		$this->database->query("insert into setting set type = 'catalog', `group` = 'config', `key` = 'config_ssl', `value` = '" . $this->request->gethtml('catalog_config_ssl', 'post') . "'");
 		$this->database->query("insert into setting set type = 'admin', `group` = 'config', `key` = 'config_template', `value` = '" . $this->request->gethtml('admin_config_template', 'post') . "'");
+		$this->database->query("insert into setting set type = 'admin', `group` = 'config', `key` = 'config_admin_page_load', `value` = '" . $this->request->gethtml('admin_config_admin_page_load', 'post') . "'");
 		$this->database->query("insert into setting set type = 'admin', `group` = 'config', `key` = 'config_max_rows', `value` = '" . $this->request->gethtml('admin_config_max_rows', 'post') . "'");
 		$this->database->query("insert into setting set type = 'admin', `group` = 'config', `key` = 'config_parse_time', `value` = '" . $this->request->gethtml('admin_config_parse_time', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'admin', `group` = 'config', `key` = 'config_ssl', `value` = '" . $this->request->gethtml('admin_config_ssl', 'post')  . "'");

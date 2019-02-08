@@ -1,3 +1,6 @@
+<?php 
+  $head_def->set_admin_css("template/".$this->directory."/css/order.css");
+?>
 <div class="task">
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
@@ -21,7 +24,6 @@
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
-<link rel="stylesheet" type="text/css" href="template/<?php echo $this->directory?>/css/order.css">
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>

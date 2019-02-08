@@ -1594,3 +1594,11 @@ CREATE TABLE IF NOT EXISTS `image_display_slides` (
 # Modify data in order_data table (from text to mediumtext)
 #
 ALTER TABLE `order_data` CHANGE `data` `data`  MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
+
+#
+#Add Condense Admin
+#
+
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_admin_page_load';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'admin', 'config', 'config_admin_page_load', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;

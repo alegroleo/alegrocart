@@ -1,3 +1,7 @@
+<?php 
+  $head_def->set_admin_javascript("javascript/ajax/jquery.js");
+  $head_def->set_admin_javascript("javascript/ckeditor/ckeditor.js");
+?>
 <div class="task">
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
@@ -32,7 +36,6 @@
  <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
-<script type="text/javascript" src="javascript/ckeditor/ckeditor.js"></script> 
 <div id="mail">
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
     <table>

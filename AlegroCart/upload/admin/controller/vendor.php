@@ -20,12 +20,15 @@ class ControllerVendor extends Controller {
 		$this->user		=& $locator->get('user'); 
 		$this->validate		=& $locator->get('validate');
 		$this->modelVendor	= $model->get('model_admin_vendor');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('vendor');
 
 		$this->language->load('controller/vendor.php');
 	}
 
 	function index(){
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -55,7 +58,7 @@ class ControllerVendor extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('vendor'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_vendor');
@@ -87,7 +90,7 @@ class ControllerVendor extends Controller {
 			}
 
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -102,6 +105,7 @@ class ControllerVendor extends Controller {
 			$this->session->delete('last_vendor');
 			$this->response->redirect($this->url->ssl('vendor'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -192,7 +196,7 @@ class ControllerVendor extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 		$view->set('text_results', $this->modelVendor->get_text_results());
@@ -237,57 +241,57 @@ class ControllerVendor extends Controller {
 	}
 
 	function getForm(){
-	$view = $this->locator->create('template');
+		$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def); 
+		$view->set('heading_title', $this->language->get('heading_form_title'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 
-	$view->set('heading_title', $this->language->get('heading_form_title'));
-	$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('text_enabled', $this->language->get('text_enabled'));
+		$view->set('text_disabled', $this->language->get('text_disabled'));
 
-	$view->set('text_enabled', $this->language->get('text_enabled'));
-	$view->set('text_disabled', $this->language->get('text_disabled'));
+		$view->set('entry_name', $this->language->get('entry_name'));
+		$view->set('entry_image', $this->language->get('entry_image'));
+		$view->set('entry_product', $this->language->get('entry_product'));
+		$view->set('entry_firstname', $this->language->get('entry_firstname'));
+		$view->set('entry_lastname', $this->language->get('entry_lastname'));
+		$view->set('entry_company', $this->language->get('entry_company'));
+		$view->set('entry_address_1', $this->language->get('entry_address_1'));
+		$view->set('entry_address_2', $this->language->get('entry_address_2'));
+		$view->set('entry_postcode', $this->language->get('entry_postcode'));
+		$view->set('entry_city', $this->language->get('entry_city'));
+		$view->set('entry_country', $this->language->get('entry_country'));
+		$view->set('entry_zone', $this->language->get('entry_zone'));
+		$view->set('entry_email', $this->language->get('entry_email'));
+		$view->set('entry_telephone', $this->language->get('entry_telephone'));
+		$view->set('entry_fax', $this->language->get('entry_fax'));
+		$view->set('entry_website', $this->language->get('entry_website'));
+		$view->set('entry_trade', $this->language->get('entry_trade'));
+		$view->set('entry_status', $this->language->get('entry_status'));
+		$view->set('entry_description', $this->language->get('entry_description'));
+		$view->set('entry_discount', $this->language->get('entry_discount'));
 
-	$view->set('entry_name', $this->language->get('entry_name'));
-	$view->set('entry_image', $this->language->get('entry_image'));
-	$view->set('entry_product', $this->language->get('entry_product'));
-	$view->set('entry_firstname', $this->language->get('entry_firstname'));
-	$view->set('entry_lastname', $this->language->get('entry_lastname'));
-	$view->set('entry_company', $this->language->get('entry_company'));
-	$view->set('entry_address_1', $this->language->get('entry_address_1'));
-	$view->set('entry_address_2', $this->language->get('entry_address_2'));
-	$view->set('entry_postcode', $this->language->get('entry_postcode'));
-	$view->set('entry_city', $this->language->get('entry_city'));
-	$view->set('entry_country', $this->language->get('entry_country'));
-	$view->set('entry_zone', $this->language->get('entry_zone'));
-	$view->set('entry_email', $this->language->get('entry_email'));
-	$view->set('entry_telephone', $this->language->get('entry_telephone'));
-	$view->set('entry_fax', $this->language->get('entry_fax'));
-	$view->set('entry_website', $this->language->get('entry_website'));
-	$view->set('entry_trade', $this->language->get('entry_trade'));
-	$view->set('entry_status', $this->language->get('entry_status'));
-	$view->set('entry_description', $this->language->get('entry_description'));
-	$view->set('entry_discount', $this->language->get('entry_discount'));
-
-	$view->set('button_insert', $this->language->get('button_insert'));
-	$view->set('button_update', $this->language->get('button_update'));
-	$view->set('button_delete', $this->language->get('button_delete'));
-	$view->set('button_save', $this->language->get('button_save'));
-	$view->set('button_cancel', $this->language->get('button_cancel'));
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
 
 		$view->set('help', $this->session->get('help'));
-	$view->set('tab_general', $this->language->get('tab_general'));
-	$view->set('tab_product', $this->language->get('tab_product'));
-	$view->set('tab_vendor', $this->language->get('tab_vendor'));
-	$view->set('tab_address', $this->language->get('tab_address'));
+		$view->set('tab_general', $this->language->get('tab_general'));
+		$view->set('tab_product', $this->language->get('tab_product'));
+		$view->set('tab_vendor', $this->language->get('tab_vendor'));
+		$view->set('tab_address', $this->language->get('tab_address'));
 
-	$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
-	$view->set('explanation_description', $this->language->get('explanation_description'));
-	$view->set('explanation_discount', $this->language->get('explanation_discount'));
-	$view->set('text_no_postal', $this->language->get('text_no_postal'));
+		$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
+		$view->set('explanation_description', $this->language->get('explanation_description'));
+		$view->set('explanation_discount', $this->language->get('explanation_discount'));
+		$view->set('text_no_postal', $this->language->get('text_no_postal'));
 
-	$view->set('error', @$this->error['message']);
-	$view->set('error_name', @$this->error['name']);
-	$view->set('error_email', @$this->error['email']);
+		$view->set('error', @$this->error['message']);
+		$view->set('error_name', @$this->error['name']);
+		$view->set('error_email', @$this->error['email']);
 
 	if(!@$this->error['message']){
 	$view->set('error', @$this->error['warning']);

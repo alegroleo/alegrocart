@@ -16,11 +16,14 @@ class ControllerOrderStatus extends Controller {
 		$this->user		=& $locator->get('user'); 
 		$this->validate		=& $locator->get('validate');
 		$this->modelOrderStatus	= $model->get('model_admin_orderstatus');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('order_status');
 
 		$this->language->load('controller/order_status.php');
 	}
 	function index() {
 	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -38,6 +41,7 @@ class ControllerOrderStatus extends Controller {
 
 		$this->response->redirect($this->url->ssl('order_status'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -59,6 +63,7 @@ class ControllerOrderStatus extends Controller {
 				$this->response->redirect($this->url->ssl('order_status'));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch()); 
 
@@ -75,6 +80,7 @@ class ControllerOrderStatus extends Controller {
 			
 			$this->response->redirect($this->url->ssl('order_status'));
 		}
+		$this->template->set('head_def',$this->head_def);
     	$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -128,7 +134,7 @@ class ControllerOrderStatus extends Controller {
     	}
 
     	$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -176,7 +182,7 @@ class ControllerOrderStatus extends Controller {
 
 	function getForm() {
     		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
     		$view->set('heading_title', $this->language->get('heading_form_title'));
     		$view->set('heading_description', $this->language->get('heading_description'));
 

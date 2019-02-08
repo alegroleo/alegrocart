@@ -1,3 +1,8 @@
+<?php 
+  $head_def->set_admin_css("template/".$this->directory."/css/tab.css");
+  $head_def->set_admin_javascript("javascript/ajax/jquery.js");
+  $head_def->set_admin_javascript("javascript/tab/tab.js");
+?>
 <div class="task">
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
@@ -32,9 +37,6 @@
  <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
-<script type="text/javascript" src="javascript/tab/tab.js"></script>
-<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-<link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_general; ?></div></a></div>

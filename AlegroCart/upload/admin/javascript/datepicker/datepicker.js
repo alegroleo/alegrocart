@@ -20,7 +20,7 @@ var datePickerController = (function datePickerController() {
         deriveLocale        = true,
         localeImport        = false,
         nodrag              = false,
-        langFileFolder      = false,
+        langFileFolder      = 'javascript/datepicker/lang/',
         returnLocaleDate    = false,
         kbEvent             = false,
         dateParseFallback   = true,
@@ -3466,7 +3466,7 @@ var datePickerController = (function datePickerController() {
         
         for(t = 0; t < transitions.length; t++) {
             if(transitions[t] in elm.style) {
-                transitionEnd = transitions[t] == "webkitTransition" || transitions[t] == "OTransition" ? transitions[t] + "End" : "transitionend"
+                transitionEnd = transitions[t] == "webkitTransition" || transitions[t] == "OTransition" ? transitions[t] + "End" : "transitionend";
                 break;
             }
         }

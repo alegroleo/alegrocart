@@ -18,6 +18,8 @@ class ControllerTemplateManager extends Controller {
 		$this->user     	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelTplManager = $model->get('model_admin_tpl_manager');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('template_manager');
 
 		$this->language->load('controller/template_manager.php');
 		$this->language->load('controller/layout_locations.php');
@@ -25,6 +27,7 @@ class ControllerTemplateManager extends Controller {
 
 	function index(){
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -55,6 +58,7 @@ class ControllerTemplateManager extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('template_manager'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_template_manager');
@@ -81,6 +85,7 @@ class ControllerTemplateManager extends Controller {
 				$this->response->redirect($this->url->ssl('template_manager'));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -95,6 +100,7 @@ class ControllerTemplateManager extends Controller {
 			$this->session->delete('last_template_manager');
 			$this->response->redirect($this->url->ssl('template_manager'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -194,6 +200,7 @@ class ControllerTemplateManager extends Controller {
 		}
 		
 		$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
     		$view->set('heading_description', $this->language->get('heading_description'));
 		$view->set('text_results', $this->modelTplManager->get_text_results());
@@ -237,7 +244,7 @@ class ControllerTemplateManager extends Controller {
 	}
 	function getForm(){
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 	    	$view->set('heading_description', $this->language->get('heading_description'));
 

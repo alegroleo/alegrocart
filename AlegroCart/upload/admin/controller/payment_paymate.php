@@ -13,6 +13,8 @@ class ControllerPaymentPayMate extends Controller{
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelPaymate = $model->get('model_admin_paymentpaymate');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('payment_paymate');
 
 		$this->language->load('controller/payment_paymate.php');
 	}
@@ -32,7 +34,7 @@ class ControllerPaymentPayMate extends Controller{
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_payment', $this->language->get('heading_payment'));
 		$view->set('heading_description', $this->language->get('heading_description'));

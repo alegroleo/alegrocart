@@ -1,9 +1,9 @@
 <?php // Payment AuthorizeNetAIM AlegroCart
 class ControllerPaymentauthnetaim extends Controller {
-    var $error = array();
-    function __construct(&$locator){
+	var $error = array();
+	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module		=& $locator->get('module');
 		$this->request  	=& $locator->get('request');
@@ -13,33 +13,36 @@ class ControllerPaymentauthnetaim extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelAIM = $model->get('model_admin_paymentauthnetaim');
-		
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('payment_authnetaim');
+
 		$this->language->load('controller/payment_authnetaim.php');
 	}
-    function index() { 
-        $this->template->set('title', $this->language->get('heading_title'));
- 
-        if (($this->request->isPost()) && ($this->validate())) {
+
+	function index() { 
+		$this->template->set('title', $this->language->get('heading_title'));
+
+		if (($this->request->isPost()) && ($this->validate())) {
 			$results = $this->modelAIM->get_AIM_keys();
 			$this->modelAIM->delete_AIM();
-            foreach ($results as $result) {
-                    $combo = $result['type'] . "_" . $result['key'];
-                    $this->modelAIM->update_AIM($result['type'], $result['key'], $combo);
-            }
-            /* Special case for currency multiple select box
+			foreach ($results as $result) {
+				$combo = $result['type'] . "_" . $result['key'];
+				$this->modelAIM->update_AIM($result['type'], $result['key'], $combo);
+			}
+			/* Special case for currency multiple select box
 				$this->modelAIM->update_AIM_currency();
 			*/
-            $this->session->set('message', $this->language->get('text_message'));
+			$this->session->set('message', $this->language->get('text_message'));
 
-		if ($this->request->has('update_form', 'post')) {
-			$this->response->redirect($this->url->ssl('payment_authnetaim'));
-		} else {
-			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
+			if ($this->request->has('update_form', 'post')) {
+				$this->response->redirect($this->url->ssl('payment_authnetaim'));
+			} else {
+				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
+			}
 		}
-        }
-        
+
         $view = $this->locator->create('template');
-        
+		$view->set('head_def',$this->head_def);
         $view->set('heading_title', $this->language->get('heading_title'));
 	$view->set('heading_payment', $this->language->get('heading_payment'));
         $view->set('heading_description', $this->language->get('heading_description'));
@@ -130,17 +133,17 @@ class ControllerPaymentauthnetaim extends Controller {
 			$this->session->set('help', TRUE);
 		}
 	}
-    function install() {
-        if ($this->user->hasPermission('modify', 'payment_authnetaim')) {
-            $this->modelAIM->delete_AIM();
-            $this->modelAIM->install_AIM();
-            $this->session->set('message', $this->language->get('text_message'));
-        } else {
-            $this->session->set('error', $this->language->get('error_permission'));
-        }    
+	function install() {
+		if ($this->user->hasPermission('modify', 'payment_authnetaim')) {
+			$this->modelAIM->delete_AIM();
+			$this->modelAIM->install_AIM();
+			$this->session->set('message', $this->language->get('text_message'));
+		} else {
+			$this->session->set('error', $this->language->get('error_permission'));
+		}
 
-        $this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
-    }
+		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'payment')));
+	}
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'payment_authnetaim')) {
 			$this->modelAIM->delete_AIM();

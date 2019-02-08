@@ -22,7 +22,9 @@ class ControllerWatermark extends Controller {
 		$this->watermark      	=& $locator->get('watermark');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelWatermark   = $model->get('model_admin_watermark');
-		
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('watermark');
+
 		$this->language->load('controller/watermark.php');
 	}	
 	function index() { 
@@ -37,7 +39,7 @@ class ControllerWatermark extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

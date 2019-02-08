@@ -1,3 +1,10 @@
+<?php 
+  $head_def->set_admin_css("template/".$this->directory."/css/tab.css");
+  $head_def->set_admin_javascript("javascript/ajax/jquery.js");
+  $head_def->set_admin_javascript("javascript/tab/tab.js");
+  $head_def->set_admin_javascript("javascript/ajax/validateforms.js");
+  $head_def->set_admin_javascript("javascript/ajax/tooltip.js");
+?>
 <div class="task">
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
@@ -23,6 +30,7 @@
   <input type="hidden" name="global_config_query_count" value="">
   <input type="hidden" name="global_config_query_log" value="">
   <input type="hidden" name="admin_config_template" value="">
+  <input type="hidden" name="admin_config_admin_page_load" value="">
   <input type="hidden" name="admin_config_max_rows" value="">
   <input type="hidden" name="admin_config_parse_time" value="">
   <input type="hidden" name="admin_config_ssl" value="">
@@ -174,11 +182,6 @@
  <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
-<script type="text/javascript" src="javascript/tab/tab.js"></script>
-<link rel="stylesheet" type="text/css" href="javascript/tab/tab.css">
-<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-<script type="text/javascript" src="javascript/ajax/tooltip.js"></script>
-<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
     <div class="tabs"><a><div class="tab_text"><?php echo $tab_shop; ?></div></a><a><div class="tab_text"><?php echo $tab_admin; ?></div></a><a><div class="tab_text"><?php echo $tab_local; ?></div></a><a><div class="tab_text"><?php echo $tab_stock; ?></div></a><a><div class="tab_text"><?php echo $tab_option; ?></div></a><a><div class="tab_text"><?php echo $tab_mail; ?></div></a><a><div class="tab_text"><?php echo $tab_cache; ?></div></a><a><div class="tab_text"><?php echo $tab_image; ?></div></a><a><div class="tab_text"><?php echo $tab_download; ?></div></a></div>
@@ -452,6 +455,24 @@
                   <?php } ?>
                 </select></td>
             </tr>
+            <tr>
+              <td width="185" class="set"><?php echo $entry_admin_page_load; ?></td>
+              <td width="100"><?php if ($admin_config_admin_page_load) { ?>
+                <input type="radio" name="admin_config_admin_page_load" value="1" id="gcplyes" checked>
+                <label for="gcplyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="admin_config_admin_page_load" value="0" id="gcplno">
+                <label for="gcplno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="admin_config_admin_page_load" value="1" id="gcplyes">
+                <label for="gcplyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="admin_config_admin_page_load" value="0" id="gcplno" checked>
+                <label for="gcplno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+				<td class="expl">
+				  <?php echo $explanation_admin_page_load; ?>
+				</td>
+			</tr>
+            <tr>
             <tr>
               <td class="set"><?php echo $entry_rows_per_page; ?></td>
               <td><input class="validate_int" id="admin_config_max_rows" type="text" name="admin_config_max_rows" value="<?php echo $admin_config_max_rows;?>" size="4"></td>
@@ -2038,6 +2059,7 @@
 		document.forms['update_form'].global_config_query_count.value=document.forms['form'].global_config_query_count.value;
 		document.forms['update_form'].global_config_query_log.value=document.forms['form'].global_config_query_log.value;
 		document.forms['update_form'].admin_config_template.value=document.forms['form'].admin_config_template.value;
+		document.forms['update_form'].admin_config_admin_page_load.value=document.forms['form'].admin_config_admin_page_load.value;
 		document.forms['update_form'].admin_config_max_rows.value=document.forms['form'].admin_config_max_rows.value;
 		document.forms['update_form'].admin_config_parse_time.value=document.forms['form'].admin_config_parse_time.value;
 		document.forms['update_form'].admin_config_ssl.value=document.forms['form'].admin_config_ssl.value;

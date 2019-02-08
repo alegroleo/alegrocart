@@ -1,3 +1,9 @@
+<?php 
+  $head_def->set_admin_css("template/".$this->directory."/css/datepicker.css");
+  $head_def->set_admin_javascript("javascript/ajax/jquery.js");
+  $head_def->set_admin_javascript("javascript/ajax/validateforms.js");
+  $head_def->set_admin_javascript("javascript/datepicker/datepicker.js");
+?>
 <div class="task">
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
@@ -7,10 +13,6 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
   
 </div>
-<link rel="stylesheet" type="text/css" href="javascript/datepicker/css/datepicker.css">
-<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
-<script type="text/javascript" src="javascript/datepicker/datepicker.js"></script>
 <div class="heading"><?php echo $heading_title; ?>
  <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>

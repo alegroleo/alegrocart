@@ -14,7 +14,9 @@ class ControllerHome extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelHome = $model->get('model_admin_home');
-		
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('home');
+
 		$this->language->load('controller/home.php');
 	}
 	function index() {
@@ -135,6 +137,8 @@ class ControllerHome extends Controller {
 	    	}
 		if($results){ $this->session->set('review_validation', md5(time()));}
 		$view->set('latest_reviews', $review_data);
+
+		$view->set('head_def',$this->head_def); 
 
 		$this->template->set('content', $view->fetch('content/home.tpl')); 
 

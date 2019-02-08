@@ -14,6 +14,8 @@ class ControllerBackup extends Controller {
 		$this->url		=& $locator->get('url');
 		$this->user		=& $locator->get('user');
 		$this->modelBackup = $model->get('model_admin_backup');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('backup');
 
 		$this->language->load('controller/backup.php');
 	}
@@ -66,6 +68,7 @@ class ControllerBackup extends Controller {
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
+		$view->set('head_def',$this->head_def); 
 
 		$view->set('cancel', $this->url->ssl('backup'));
 

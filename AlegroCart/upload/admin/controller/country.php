@@ -17,11 +17,14 @@ class ControllerCountry extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelCountry = $model->get('model_admin_country');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('country');
 
 		$this->language->load('controller/country.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -41,6 +44,7 @@ class ControllerCountry extends Controller {
 
 			$this->response->redirect($this->url->ssl('country'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -65,6 +69,7 @@ class ControllerCountry extends Controller {
 			}
 
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -102,6 +107,7 @@ class ControllerCountry extends Controller {
 
 			$this->response->redirect($this->url->ssl('country'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -215,7 +221,7 @@ class ControllerCountry extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -268,7 +274,7 @@ class ControllerCountry extends Controller {
 
 	private function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

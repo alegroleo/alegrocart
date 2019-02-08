@@ -11,6 +11,8 @@ class ControllerServerInfo extends Controller {
 		$this->template =& $locator->get('template');
 		$this->module   =& $locator->get('module');
 		$this->modelServerInfo = $model->get('model_admin_server_info');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('server_info');
 
 		$this->language->load('controller/server_info.php');
 	}
@@ -61,6 +63,8 @@ class ControllerServerInfo extends Controller {
 		preg_match('#<body>(.*?)</body>#is', $phpinfo, $regs);
 
 		$view->set('phpinfo', $regs[1]);
+
+		$view->set('head_def',$this->head_def); 
 
 		$this->template->set('content', $view->fetch('content/server_info.tpl'));
 

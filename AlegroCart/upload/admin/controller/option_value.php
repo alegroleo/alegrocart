@@ -18,12 +18,15 @@ class ControllerOptionValue extends Controller {
 		$this->user     	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelOptionvalue = $model->get('model_admin_optionvalue');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('option_value');
 
 		$this->language->load('controller/option_value.php');
 	}
   	function index() {
 
 	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 	$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -49,6 +52,7 @@ class ControllerOptionValue extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_option_value');
@@ -75,6 +79,7 @@ class ControllerOptionValue extends Controller {
 			}
 
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -90,6 +95,7 @@ class ControllerOptionValue extends Controller {
 			$this->session->delete('last_option_value');
 			$this->response->redirect($this->url->ssl('option_value', FALSE, array('option_id' => $this->request->gethtml('option_id'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -151,7 +157,7 @@ class ControllerOptionValue extends Controller {
     	}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 	$view->set('heading_title', $this->language->get('heading_title').'<em>'.$this->modelOptionvalue->get_option_name($this->request->gethtml('option_id')).'</em>');
 	$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -200,7 +206,7 @@ class ControllerOptionValue extends Controller {
 
 	function getForm() {
 	$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
     	$view->set('heading_title', $this->language->get('heading_form_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 

@@ -16,6 +16,9 @@ class ControllerLogin extends Controller {
 		$this->url      =& $locator->get('url');
 		$this->user     =& $locator->get('user');
 		$this->modelMaintenance = $model->get('model_admin_maintenance');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('login');
+
 		$this->language->load('controller/login.php');
 	}
 
@@ -68,7 +71,7 @@ class ControllerLogin extends Controller {
 		$view->set('validation', $this->session->get('validation'));
 
 		$view->set('username', $this->request->sanitize('username', 'post'));
-
+		$view->set('head_def',$this->head_def); 
 		$this->template->set('content', $view->fetch('content/login.tpl'));
 
 		$this->template->set($this->module->fetch());

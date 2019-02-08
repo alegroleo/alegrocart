@@ -15,7 +15,9 @@ class ControllerMail extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelMail = $model->get('model_admin_mail');
-		
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('mail');
+
 		$this->language->load('controller/mail.php');
 	}
 	function index() {
@@ -59,6 +61,7 @@ class ControllerMail extends Controller {
 		}
 
 		$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def); 
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));

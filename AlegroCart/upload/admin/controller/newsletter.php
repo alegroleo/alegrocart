@@ -15,11 +15,14 @@ class ControllerNewsletter extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelNewsletter = $model->get('model_admin_newsletter');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('newsletter');
 
 		$this->language->load('controller/newsletter.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -73,7 +76,7 @@ class ControllerNewsletter extends Controller {
 
 			$this->response->redirect($this->url->ssl('newsletter'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_newsletter');
@@ -116,7 +119,7 @@ class ControllerNewsletter extends Controller {
 					}
 				}
 			}
-
+			$this->template->set('head_def',$this->head_def);
 			$this->session->set('message', $this->language->get('text_message'));
 
 			if ($this->request->has('update_form', 'post')) {
@@ -143,7 +146,7 @@ class ControllerNewsletter extends Controller {
 			$this->session->delete('last_newsletter');
 			$this->response->redirect($this->url->ssl('newsletter'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -219,7 +222,7 @@ class ControllerNewsletter extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -265,7 +268,7 @@ class ControllerNewsletter extends Controller {
 
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 		

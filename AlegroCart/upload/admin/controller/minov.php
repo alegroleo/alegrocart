@@ -13,6 +13,9 @@ class ControllerMinov extends Controller {
 		$this->template 	=& $locator->get('template');
 		$this->url		=& $locator->get('url');
 		$this->modelMinov	= $model->get('model_admin_minov');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('minov');
+
 		$this->language->load('controller/minov.php');
 	}
 	function index() { 
@@ -31,7 +34,7 @@ class ControllerMinov extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

@@ -21,6 +21,8 @@ class ControllerProduct extends Controller {
 		$this->validate		=& $locator->get('validate');
 		$this->modelProduct	= $model->get('model_admin_product');
 		$this->barcode		=& $locator->get('barcode'); 
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('product');
 
 		$this->language->load('controller/product.php');
 		$this->language->load('controller/product_lfs.php');
@@ -28,6 +30,7 @@ class ControllerProduct extends Controller {
 
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -87,7 +90,7 @@ class ControllerProduct extends Controller {
 
 			$this->response->redirect($this->url->ssl('product'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_product');
@@ -157,7 +160,7 @@ class ControllerProduct extends Controller {
 			}
 
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -197,7 +200,7 @@ class ControllerProduct extends Controller {
 			$this->session->delete('last_product');
 			$this->response->redirect($this->url->ssl('product'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -262,7 +265,7 @@ class ControllerProduct extends Controller {
 
 			$this->response->redirect($this->url->ssl('product'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -463,7 +466,7 @@ class ControllerProduct extends Controller {
 	$this->get_orphans();
 
 	$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
     	$view->set('heading_title', $this->language->get('heading_title'));
     	$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -515,7 +518,7 @@ class ControllerProduct extends Controller {
 	}
 	private function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
     		$view->set('heading_title', $this->language->get('heading_form_title'));
     		$view->set('heading_description', $this->language->get('heading_description'));
 

@@ -18,10 +18,14 @@ class ControllerDownload extends Controller {
 		$this->user    	 	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelDownload = $model->get('model_admin_download');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('download');
+
 		$this->language->load('controller/download.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 	
@@ -118,6 +122,7 @@ class ControllerDownload extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('download'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_download');
@@ -145,6 +150,7 @@ class ControllerDownload extends Controller {
 				$this->response->redirect($this->url->ssl('download'));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -168,6 +174,7 @@ class ControllerDownload extends Controller {
 			$this->session->delete('last_download');
 			$this->response->redirect($this->url->ssl('download'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 	
@@ -253,7 +260,7 @@ class ControllerDownload extends Controller {
 	}
 
 	$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 	$view->set('heading_title', $this->language->get('heading_title'));
 	$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 
@@ -300,7 +307,7 @@ class ControllerDownload extends Controller {
 
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 

@@ -13,6 +13,8 @@ class ControllerModuleCatalogsearch extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelSearch = $model->get('model_admin_search');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('module_catalog_search');
 
 		$this->language->load('controller/module_catalog_search.php');
 	}
@@ -32,7 +34,7 @@ class ControllerModuleCatalogsearch extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_module', $this->language->get('heading_module'));
 		$view->set('heading_description', $this->language->get('heading_description'));

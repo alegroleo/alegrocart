@@ -1,3 +1,10 @@
+<?php 
+  $head_def->set_admin_css("template/".$this->directory."/css/tab.css");
+  $head_def->set_admin_css("template/".$this->directory."/css/order_create.css");
+  $head_def->set_admin_javascript("javascript/ajax/jquery.js");
+  $head_def->set_admin_javascript("javascript/tab/tab.js");
+  $head_def->set_admin_javascript("javascript/ajax/validateforms.js");
+?>
 <div class="task">
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
@@ -10,11 +17,6 @@
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 </div>
-<script type="text/javascript" src="javascript/tab/tab.js"></script>
-<link rel="stylesheet" type="text/css" href="javascript/tab/tab.css" >
-<script type="text/javascript" src="javascript/ajax/jquery.js"></script>
-<script type="text/javascript" src="javascript/ajax/validateforms.js"></script>
-<link rel="stylesheet" type="text/css" href="template/<?php echo $this->directory?>/css/order_create.css">
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
 <?php } ?>

@@ -18,12 +18,15 @@ class ControllerCategory extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
-		$this->modelCategory = $model->get('model_admin_category');
+		$this->modelCategory	= $model->get('model_admin_category');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('category');
 
 		$this->language->load('controller/category.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -68,6 +71,7 @@ class ControllerCategory extends Controller {
 
 			$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_category');
@@ -108,6 +112,7 @@ class ControllerCategory extends Controller {
 				$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -137,6 +142,7 @@ class ControllerCategory extends Controller {
 			$this->session->delete('last_category');
 			$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -323,7 +329,7 @@ class ControllerCategory extends Controller {
 
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
-
+		$view->set('head_def',$this->head_def); 
 		$view->set('insert', $this->url->ssl('category', 'insert', array('path' => $this->request->gethtml('path'))));
 		$view->set('pages', $this->modelCategory->get_pagination());
 
@@ -500,7 +506,7 @@ class ControllerCategory extends Controller {
 			'productdata'	=> (isset($product_info) ? $product_info : in_array($result['product_id'], $this->request->gethtml('productdata', 'post', array()))));
     		}
     		$view->set('productdata', $product_data);
-
+		$view->set('head_def',$this->head_def); 
 
 		return $view->fetch('content/category.tpl');
 	}

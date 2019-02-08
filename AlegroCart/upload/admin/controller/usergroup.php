@@ -15,11 +15,14 @@ class ControllerUserGroup extends Controller {
 		$this->user    	 	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelAdminUsergroup = $model->get('model_admin_usergroup');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('usergroup');
 
 		$this->language->load('controller/user_group.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
  
@@ -48,7 +51,7 @@ class ControllerUserGroup extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('usergroup'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -80,7 +83,7 @@ class ControllerUserGroup extends Controller {
 				$this->response->redirect($this->url->ssl('usergroup'));
 			}
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -95,7 +98,7 @@ class ControllerUserGroup extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('usergroup'));
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -168,7 +171,7 @@ class ControllerUserGroup extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -215,7 +218,7 @@ class ControllerUserGroup extends Controller {
 
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

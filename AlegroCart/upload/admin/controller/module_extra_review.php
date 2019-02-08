@@ -14,6 +14,8 @@ class ControllerModuleExtraReview extends Controller {
 		$this->url		=& $locator->get('url');
 		$this->user		=& $locator->get('user');
 		$this->modelReview	= $model->get('model_admin_reviewmodule');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('module_extra_review');
 
 		$this->language->load('controller/module_extra_review.php');
 	}
@@ -34,7 +36,7 @@ class ControllerModuleExtraReview extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_module', $this->language->get('heading_module'));
 		$view->set('heading_description', $this->language->get('heading_description'));

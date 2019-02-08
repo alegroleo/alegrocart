@@ -1,7 +1,6 @@
 <?php
 class ModuleMenu extends Controller {
 	var $menu_info = array();
-	var $image_path = "javascript/ACMenu/image/";
 	function fetch() {
 		$config   =& $this->locator->get('config');
 		$language =& $this->locator->get('language');
@@ -82,7 +81,7 @@ class ModuleMenu extends Controller {
 		} else {
 			$type = "none";
 			$status = "disabled";
-			$image = $last ? '' : $this->image_path . $menu_key . '.png';
+			$image = $last ? '' : $menu_key . '.png';
 		}
 
 		$this->menu_info[] = array(

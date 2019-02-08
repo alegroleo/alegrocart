@@ -17,11 +17,14 @@ class ControllerTaxRate extends Controller {
 		$this->user     	=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
 		$this->modelTaxRate = $model->get('model_admin_tax_rate');
-		
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('tax_rate');
+
 		$this->language->load('controller/tax_rate.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -39,6 +42,7 @@ class ControllerTaxRate extends Controller {
 
 			$this->response->redirect($this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -59,6 +63,7 @@ class ControllerTaxRate extends Controller {
 			}
 
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -74,6 +79,7 @@ class ControllerTaxRate extends Controller {
 			
 			$this->response->redirect($this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -163,7 +169,7 @@ class ControllerTaxRate extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title').'<em>'.$this->modelTaxRate->get_taxclass_name($this->request->gethtml('tax_class_id')).'</em>');
 		$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -213,7 +219,7 @@ class ControllerTaxRate extends Controller {
 
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

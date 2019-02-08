@@ -13,6 +13,8 @@ class ControllerPaymentPayPal extends Controller {
 		$this->url      	=& $locator->get('url');
 		$this->user     	=& $locator->get('user');
 		$this->modelPaypal = $model->get('model_admin_paymentpaypal');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('payment_paypal');
 
 		$this->language->load('controller/payment_paypal.php');
 	}
@@ -32,7 +34,7 @@ class ControllerPaymentPayPal extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_payment', $this->language->get('heading_payment'));
 		$view->set('heading_description', $this->language->get('heading_description'));
@@ -50,17 +52,17 @@ class ControllerPaymentPayPal extends Controller {
 		$view->set('entry_test', $this->language->get('entry_test'));
 		$view->set('entry_currency', $this->language->get('entry_currency'));
 		$view->set('entry_sort_order', $this->language->get('entry_sort_order'));
-        $view->set('entry_auth_type', $this->language->get('entry_auth_type'));
-        $view->set('entry_pdt_token', $this->language->get('entry_pdt_token'));
-        $view->set('entry_itemized', $this->language->get('entry_itemized'));
-        $view->set('entry_ipn_debug', $this->language->get('entry_ipn_debug'));
+        	$view->set('entry_auth_type', $this->language->get('entry_auth_type'));
+        	$view->set('entry_pdt_token', $this->language->get('entry_pdt_token'));
+        	$view->set('entry_itemized', $this->language->get('entry_itemized'));
+        	$view->set('entry_ipn_debug', $this->language->get('entry_ipn_debug'));
 
-        $view->set('extra_auth_type', $this->language->get('extra_auth_type'));
-        $view->set('extra_pdt_token', $this->language->get('extra_pdt_token'));
-        $view->set('extra_itemized', $this->language->get('extra_itemized'));
-        $view->set('extra_ipn_debug', $this->language->get('extra_ipn_debug'));
-        $view->set('text_support', $this->language->get('text_support'));
-	$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
+        	$view->set('extra_auth_type', $this->language->get('extra_auth_type'));
+        	$view->set('extra_pdt_token', $this->language->get('extra_pdt_token'));
+        	$view->set('extra_itemized', $this->language->get('extra_itemized'));
+        	$view->set('extra_ipn_debug', $this->language->get('extra_ipn_debug'));
+        	$view->set('text_support', $this->language->get('text_support'));
+		$view->set('explanation_multiselect', $this->language->get('explanation_multiselect'));
 
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -72,15 +74,15 @@ class ControllerPaymentPayPal extends Controller {
 
 		$view->set('help', $this->session->get('help'));
 
-        $view->set('text_authorization', $this->language->get('text_authorization'));
-        $view->set('text_sale', $this->language->get('text_sale'));
-        $view->set('text_order', $this->language->get('text_order'));
+        	$view->set('text_authorization', $this->language->get('text_authorization'));
+        	$view->set('text_sale', $this->language->get('text_sale'));
+        	$view->set('text_order', $this->language->get('text_order'));
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
 		$view->set('error_email', @$this->error['email']);
-        $view->set('error_pdt_token', @$this->error['pdt_token']);
+        	$view->set('error_pdt_token', @$this->error['pdt_token']);
 		
 		$view->set('action', $this->url->ssl('payment_paypal'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'payment')));	
@@ -122,12 +124,12 @@ class ControllerPaymentPayPal extends Controller {
 			$view->set('global_paypal_email', @$setting_info['global']['paypal_email']);
 		}
         
-        if ($this->request->has('global_paypal_pdt_token', 'post')) {
-            $view->set('global_paypal_pdt_token', $this->request->gethtml('global_paypal_pdt_token', 'post'));
-        } else {
-            $view->set('global_paypal_pdt_token', @$setting_info['global']['paypal_pdt_token']);
-        }
-		
+        	if ($this->request->has('global_paypal_pdt_token', 'post')) {
+           		$view->set('global_paypal_pdt_token', $this->request->gethtml('global_paypal_pdt_token', 'post'));
+        	} else {
+            		$view->set('global_paypal_pdt_token', @$setting_info['global']['paypal_pdt_token']);
+        	}
+
 		if ($this->request->has('global_paypal_test', 'post')) {
 			$view->set('global_paypal_test', $this->request->gethtml('global_paypal_test', 'post'));
 		} else {
@@ -148,23 +150,23 @@ class ControllerPaymentPayPal extends Controller {
 			$view->set('global_paypal_sort_order', @$setting_info['global']['paypal_sort_order']);
 		}
         
-        if ($this->request->has('global_paypal_auth_type', 'post')) {
-            $view->set('global_paypal_auth_type', $this->request->gethtml('global_paypal_auth_type', 'post'));
-        } else {
-            $view->set('global_paypal_auth_type', @$setting_info['global']['paypal_auth_type']);
-        }
+        	if ($this->request->has('global_paypal_auth_type', 'post')) {
+            		$view->set('global_paypal_auth_type', $this->request->gethtml('global_paypal_auth_type', 'post'));
+        	} else {
+            	$view->set('global_paypal_auth_type', @$setting_info['global']['paypal_auth_type']);
+        	}
         
-        if ($this->request->has('global_paypal_itemized', 'post')) {
-            $view->set('global_paypal_itemized', $this->request->gethtml('global_paypal_itemized', 'post'));
-        } else {
-            $view->set('global_paypal_itemized', @$setting_info['global']['paypal_itemized']);
-        }
-        
-        if ($this->request->has('global_paypal_ipn_debug', 'post')) {
-            $view->set('global_paypal_ipn_debug', $this->request->gethtml('global_paypal_ipn_debug', 'post'));
-        } else {
-            $view->set('global_paypal_ipn_debug', @$setting_info['global']['paypal_ipn_debug']);
-        }
+        	if ($this->request->has('global_paypal_itemized', 'post')) {
+            		$view->set('global_paypal_itemized', $this->request->gethtml('global_paypal_itemized', 'post'));
+        	} else {
+            		$view->set('global_paypal_itemized', @$setting_info['global']['paypal_itemized']);
+        	}
+
+        	if ($this->request->has('global_paypal_ipn_debug', 'post')) {
+            		$view->set('global_paypal_ipn_debug', $this->request->gethtml('global_paypal_ipn_debug', 'post'));
+        	} else {
+            		$view->set('global_paypal_ipn_debug', @$setting_info['global']['paypal_ipn_debug']);
+        	}
 
 		$view->set('geo_zones', $this->modelPaypal->get_geo_zones());
 

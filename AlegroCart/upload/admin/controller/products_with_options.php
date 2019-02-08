@@ -18,6 +18,8 @@ class ControllerProductsWithOptions extends Controller {
 		$this->validate 	=& $locator->get('validate');
 		$this->modelProductOptions = $model->get('model_admin_productswithoptions');
 		$this->barcode     	=& $locator->get('barcode'); 
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('products_with_options');
 
 		$this->language->load('controller/products_with_options.php');
 	}
@@ -29,6 +31,7 @@ class ControllerProductsWithOptions extends Controller {
 		} else {
 			$this->template->set('content', $this->getProduct());
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
@@ -46,7 +49,7 @@ class ControllerProductsWithOptions extends Controller {
 				$this->response->redirect($this->url->ssl('products_with_options'));
 			}
 		}
-
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -54,7 +57,7 @@ class ControllerProductsWithOptions extends Controller {
 	}
 	function getProduct(){
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		if($this->request->isPost()){
 			$this->session->set('productwoptions.page', (INT)'1');
 			$this->session->set('productwoptions.search', '');
@@ -163,7 +166,7 @@ class ControllerProductsWithOptions extends Controller {
 		}
 		
 		$view = $this->locator->create('template');
-		
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title').'<em>'. (isset($result['name']) ? $result['name']  : '') .'</em>');
 		
     		$view->set('heading_description', $this->language->get('heading_description'));
@@ -210,7 +213,7 @@ class ControllerProductsWithOptions extends Controller {
 
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -369,6 +372,12 @@ class ControllerProductsWithOptions extends Controller {
 		$no_image_data=$this->modelProductOptions->get_no_image();
 		$view->set('no_image_id', $no_image_data['image_id']);
 		$view->set('no_image_filename', $this->image->resize($no_image_data['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')));
+
+		$rvalidation = '';
+		$rvalidation .= '<script type="text/javascript"><!--'. "\n";
+		$rvalidation .= '$(document).ready(function() { RegisterValidation(); });'. "\n";
+		$rvalidation .= '//--></script>'. "\n";
+		$view->set('rvalidation', $rvalidation);
 
 		return $view->fetch('content/products_with_options.tpl');
 	}

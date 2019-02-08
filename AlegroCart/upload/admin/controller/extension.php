@@ -15,10 +15,14 @@ class ControllerExtension extends Controller {
 		$this->user    	 	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelExtension = $model->get('model_admin_extension');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('extension');
+
 		$this->language->load('controller/extension.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->session->delete('extension_tab');
@@ -40,6 +44,7 @@ class ControllerExtension extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -67,6 +72,7 @@ class ControllerExtension extends Controller {
 				$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
@@ -83,6 +89,7 @@ class ControllerExtension extends Controller {
 			$this->session->delete('last_' . $this->request->gethtml('type'));
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
@@ -240,6 +247,7 @@ class ControllerExtension extends Controller {
 		}
 
 		$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def);
 
 		switch ($this->session->get('extension_type')){
 			case 'payment':
@@ -314,6 +322,7 @@ class ControllerExtension extends Controller {
 	
 	function getForm() {
 		$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def);
 
 		switch ($this->session->get('extension_type')){
 			case 'payment':

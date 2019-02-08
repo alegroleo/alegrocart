@@ -13,13 +13,16 @@ class ControllerReportLogs extends Controller {
 		$this->template 	=& $locator->get('template');
 		$this->url      	=& $locator->get('url');
 		$this->modelReportLogs = $model->get('model_admin_report_logs');
-		
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('report_logs');
+
 		$this->language->load('controller/report_logs.php');
 	}
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 		
 		$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

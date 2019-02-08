@@ -14,6 +14,8 @@ class ControllerMaintenance extends Controller{
 		$this->user    	 	=& $locator->get('user');
 		$this->modelMaintenance = $model->get('model_admin_maintenance');
 		$this->language->load('controller/maintenance.php');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('maintenance');
 	}
 	function index(){
 		$this->template->set('title', $this->language->get('heading_title'));
@@ -73,7 +75,7 @@ class ControllerMaintenance extends Controller{
 		} else {
 			$view->set('catalog_maintenance_status', @$setting_info['catalog']['maintenance_status']);
 		}
-		
+		$view->set('head_def',$this->head_def); 
 		$this->template->set('content', $view->fetch('content/maintenance.tpl'));
 
 		$this->template->set($this->module->fetch());

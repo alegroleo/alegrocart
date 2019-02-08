@@ -19,11 +19,15 @@ class ControllerImageDisplay extends Controller {
 		$this->user		=& $locator->get('user');
 		$this->validate		=& $locator->get('validate');
 		$this->modelImageDisplay = $model->get('model_admin_image_display');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('image_display');
+
 		$this->language->load('controller/image_display.php');
 		$this->language->load('controller/layout_locations.php');
 	}
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -45,6 +49,7 @@ class ControllerImageDisplay extends Controller {
 			$this->session->set('last_image_display_id', $insert_id);
 			$this->response->redirect($this->url->ssl('image_display'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 
 		$this->session->delete('name_last_image_display');
@@ -69,6 +74,7 @@ class ControllerImageDisplay extends Controller {
 				$this->response->redirect($this->url->ssl('image_display'));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -84,6 +90,7 @@ class ControllerImageDisplay extends Controller {
 			$this->session->delete('last_image_display');
 			$this->response->redirect($this->url->ssl('image_display'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -178,6 +185,7 @@ class ControllerImageDisplay extends Controller {
 		}
 		
 		$view = $this->locator->create('template');
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
     		$view->set('heading_description', $this->language->get('heading_description'));
 		$view->set('text_results', $this->modelImageDisplay->get_text_results());
@@ -221,7 +229,7 @@ class ControllerImageDisplay extends Controller {
 	}
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

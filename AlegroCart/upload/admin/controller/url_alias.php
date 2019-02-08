@@ -17,12 +17,15 @@ class ControllerUrlAlias extends Controller {
 		$this->user	 	=& $locator->get('user');
 		$this->validate 	=& $locator->get('validate');
 		$this->modelAdminAlias = $model->get('model_admin_urlalias');
+		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->adminController = $this->template->set_controller('url_alias');
 
 		$this->language->load('controller/url_alias.php');
 	}
 
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 
 		$this->template->set($this->module->fetch());
@@ -40,6 +43,7 @@ class ControllerUrlAlias extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('url_alias'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -58,6 +62,7 @@ class ControllerUrlAlias extends Controller {
 				$this->response->redirect($this->url->ssl('url_alias'));
 			}
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
@@ -71,6 +76,7 @@ class ControllerUrlAlias extends Controller {
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->response->redirect($this->url->ssl('url_alias'));
 		}
+		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($module->fetch());
 		$this->response->set($template->fetch('layout.tpl'));
@@ -131,7 +137,7 @@ class ControllerUrlAlias extends Controller {
 		}
 
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 
@@ -178,7 +184,7 @@ class ControllerUrlAlias extends Controller {
 
 	function getForm() {
 		$view = $this->locator->create('template');
-
+		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
 

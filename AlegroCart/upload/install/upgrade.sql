@@ -1602,3 +1602,13 @@ ALTER TABLE `order_data` CHANGE `data` `data`  MEDIUMTEXT CHARACTER SET utf8 COL
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_admin_page_load';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'admin', 'config', 'config_admin_page_load', '1') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+#
+#Modify `user` table
+#
+ALTER TABLE `user`
+ADD `telephone` varchar(32) collate utf8_unicode_ci NOT NULL default '',
+ADD `mobile` varchar(32) collate utf8_unicode_ci NOT NULL default '',
+ADD `fax` varchar(32) collate utf8_unicode_ci NOT NULL default '',
+ADD `monogram` varchar(4) collate utf8_unicode_ci NOT NULL default '',
+ADD `signature` varchar(64) collate utf8_unicode_ci NOT NULL default '';

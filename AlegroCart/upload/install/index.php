@@ -50,6 +50,7 @@ $files0755=array(
 		'image'.D_S.'flash'.D_S,
 		'image'.D_S.'mask'.D_S,
 		'image'.D_S.'barcode'.D_S,
+		'image'.D_S.'signatures'.D_S,
 		'image'.D_S.'watermark'.D_S,
 		'download'.D_S,
 		'catalog'.D_S.'javascript'.D_S.'render'.D_S,

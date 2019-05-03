@@ -15,6 +15,11 @@
    <input type="hidden" name="firstname" value="">
    <input type="hidden" name="lastname" value="">
    <input type="hidden" name="email" value="">
+   <input type="hidden" name="mobile" value="">
+   <input type="hidden" name="telephone" value="">
+   <input type="hidden" name="fax" value="">
+   <input type="hidden" name="signature" value="">
+   <input type="hidden" name="monogram" value="">
    <input type="hidden" name="user_group_id" value="">
    <input type="hidden" name="password" value="">
    <input type="hidden" name="confirm" value="">
@@ -58,6 +63,35 @@
                 <?php } ?></td>
             </tr>
             <tr>
+              <td class="set"><?php echo $entry_user_group; ?></td>
+              <td><select name="user_group_id">
+                  <?php foreach ($user_groups as $user_group) { ?>
+                  <?php if ($user_group['user_group_id'] == $user_group_id) { ?>
+                  <option value="<?php echo $user_group['user_group_id']; ?>" selected><?php echo $user_group['name']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $user_group['user_group_id']; ?>"><?php echo $user_group['name']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select></td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_password; ?></td>
+              <td><input type="password" name="password" value="<?php echo $password; ?>" readonly onfocus="this.removeAttribute('readonly');">
+                <?php if ($error_password) { ?>
+                <span class="error"><?php echo $error_password; ?></span>
+                <?php  } ?></td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_confirm; ?></td>
+              <td><input type="password" name="confirm" value="<?php echo $confirm; ?>">
+                <?php if ($error_confirm) { ?>
+                <span class="error"><?php echo $error_confirm; ?></span>
+                <?php  } ?></td>
+            </tr>
+	    <tr>
+	      <td colspan="2"><hr></td>
+	    </tr>
+            <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_firstname; ?></td>
               <td><input class="validate_alpha" id="firstname" type="text" name="firstname" value="<?php echo $firstname; ?>">
                 <?php if ($error_firstname) { ?>
@@ -72,38 +106,38 @@
                 <?php } ?></td>
             </tr>
             <tr>
-              <td class="set"><?php echo $entry_email; ?></td>
+              <td class="set"><?php echo $entry_monogram; ?></td>
+              <td><input class="validate_alpha" size="4" id="monogram" type="text" name="monogram" value="<?php echo $monogram; ?>"></td>
+            </tr>
+            <tr>
+              <td class="set"><span class="required">*</span> <?php echo $entry_email; ?></td>
               <td><input class="validate_mail" id="email" type="text" name="email" value="<?php echo $email; ?>">
                 <?php if ($error_email) { ?>
                 <span class="error"><?php echo $error_email; ?></span>
                 <?php  } ?></td>
             </tr>
             <tr>
-              <td class="set"><?php echo $entry_user_group; ?></td>
-              <td><select name="user_group_id">
-                  <?php foreach ($user_groups as $user_group) { ?>
-                  <?php if ($user_group['user_group_id'] == $user_group_id) { ?>
-                  <option value="<?php echo $user_group['user_group_id']; ?>" selected><?php echo $user_group['name']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $user_group['user_group_id']; ?>"><?php echo $user_group['name']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select></td>
+              <td class="set"><?php echo $entry_telephone; ?></td>
+              <td><input class="validate_phone" id="telephone" type="text" name="telephone" value="<?php echo $telephone; ?>"></td>
             </tr>
             <tr>
-              <td class="set"><?php echo $entry_password; ?></td>
-              <td><input type="password" name="password" value="<?php echo $password; ?>" >
-                <?php if ($error_password) { ?>
-                <span class="error"><?php echo $error_password; ?></span>
-                <?php  } ?></td>
+              <td class="set"><?php echo $entry_mobile; ?></td>
+              <td><input class="validate_phone" id="mobile" type="text" name="mobile" value="<?php echo $mobile; ?>"></td>
             </tr>
             <tr>
-              <td class="set"><?php echo $entry_confirm; ?></td>
-              <td><input type="password" name="confirm" value="<?php echo $confirm; ?>">
-                <?php if ($error_confirm) { ?>
-                <span class="error"><?php echo $error_confirm; ?></span>
-                <?php  } ?></td>
+              <td class="set"><?php echo $entry_fax; ?></td>
+              <td><input class="validate_phone" id="fax" type="text" name="fax" value="<?php echo $fax; ?>"></td>
             </tr>
+	    <tr>
+		<td class="set"><?php echo $entry_signature;?></td>
+	      <td><select id="signature_id" name="signature" onchange="$('#signature_image').load('index.php?controller=user&action=viewSignature&signature='+this.value);">
+		    <option value="0"><?php echo $text_none; ?></option>
+		    <?php foreach ($user_signatures as $user_signature){?>
+			  <option value="<?php echo $user_signature['signature'];?>"<?php if($user_signature['signature'] == $signature){echo ' selected';}?>><?php echo $user_signature['signature'];?></option>
+		    <?php }?>
+		  </select></td>
+		<td class="signature_image" id="signature_image"></td>
+		</tr>
           </table>
         </div>
       </div>
@@ -130,6 +164,11 @@
 		document.forms['update_form'].firstname.value=document.forms['form'].firstname.value;
 		document.forms['update_form'].lastname.value=document.forms['form'].lastname.value;
 		document.forms['update_form'].email.value=document.forms['form'].email.value;
+		document.forms['update_form'].monogram.value=document.forms['form'].monogram.value;
+		document.forms['update_form'].telephone.value=document.forms['form'].telephone.value;
+		document.forms['update_form'].mobile.value=document.forms['form'].mobile.value;
+		document.forms['update_form'].fax.value=document.forms['form'].fax.value;
+		document.forms['update_form'].signature.value=document.forms['form'].signature.value;
 		document.forms['update_form'].user_group_id.value=document.forms['form'].user_group_id.value;
 		document.forms['update_form'].password.value=document.forms['form'].password.value;
 		document.forms['update_form'].confirm.value=document.forms['form'].confirm.value;
@@ -154,5 +193,8 @@
 		}
 	});
   }
+  //--></script>
+  <script type="text/javascript"><!--
+    $('#signature_image').load('index.php?controller=user&action=viewSignature&signature='+document.getElementById('signature_id').value);
   //--></script>
 </form>

@@ -234,6 +234,7 @@ form {
 	text-decoration: none;
 	text-transform: none;
 }
+
 .description {
 	color: #333;
 	margin: 0px 0px 5px 20px;
@@ -291,10 +292,16 @@ form {
 	color: #000;
 	text-decoration: underline;
 }
-
+.list a[href^="mailto:"] { 
+	text-decoration: none;
+}
 .list img {
 	border: 0px;
 	padding-top: 1px;
+}
+.last_visited {
+	color: #FF5E00;
+	font-weight: bold;
 }
 
 .left {
@@ -334,10 +341,6 @@ form {
  
 .row2 {
 	background-color: #F9F9F9;
-}
-.last_visited {
-	color: #FF5E00;
-	font-weight: bold;
 }
 .previous {
 	cursor: pointer;
@@ -589,14 +592,7 @@ form {
 	width: 102px;
 	height: 102px;
 }
-.footer_logo_image{
-	border: 1px solid #999;
-	width: 500px;
-	height: 70px;
-	text-align: center;
-	background: url('../image/trbg.png');
-}
-.logo_image{
+.footer_logo_image, .logo_image, .signature_image{
 	border: 1px solid #999;
 	width: 500px;
 	height: 70px;

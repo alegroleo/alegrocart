@@ -626,7 +626,6 @@
 ./template/default/image/index.php
 ./template/default/image/order_edit.png
 ./template/default/image/print_disabled.png
-./template/default/image/list_enabled.png
 ./template/default/image/working.gif
 ./template/default/image/customer.png
 ./template/default/image/save_disabled.png
@@ -639,7 +638,6 @@
 ./template/default/image/cancel_enabled.png
 ./template/default/image/Instruction489x289.png
 ./template/default/image/downloadable.png
-./template/default/image/list_disabled.png
 ./template/default/image/disable_update.png
 ./template/default/image/desc.png
 ./template/default/image/update_enabled.png

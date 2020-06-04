@@ -24,11 +24,9 @@
 ./image/FEATURED.jpg
 ./image/image_1.jpg
 ./image/logo/index.php
-./image/logo/shoppingcart.png
 ./image/logo/YourSSL-115x65.gif
 ./image/logo/paypal-visa-mastercard.png
 ./image/logo/aclogo.png
-./image/logo/shoppingcart2.png
 ./image/Related5.jpg
 ./image/barcode/index.php
 ./image/cache/index.php
@@ -71,7 +69,7 @@
 ./image/Related8.jpg
 ./image/PerformanceFriction.jpg
 ./image/watermark/index.php
-./image/watermark/ac_logo.png
+./image/watermark/aclogo.png
 ./image/Featured9.jpg
 ./image/image_3.jpg
 ./image/Related10.jpg
@@ -1061,7 +1059,6 @@
 ./catalog/styles/default/css2/categorymenu.css
 ./catalog/styles/default/css2/account_history.css
 ./catalog/styles/default/css2/slick.css
-./catalog/styles/default/css2/filtermodule.css
 ./catalog/styles/default/css2/jquery.fancybox.css
 ./catalog/styles/default/css2/lightbox.css
 ./catalog/styles/default/css2/sitemap.css
@@ -1113,7 +1110,6 @@
 ./catalog/styles/default/css3/categorymenu.css
 ./catalog/styles/default/css3/account_history.css
 ./catalog/styles/default/css3/slick.css
-./catalog/styles/default/css3/filtermodule.css
 ./catalog/styles/default/css3/jquery.fancybox.css
 ./catalog/styles/default/css3/lightbox.css
 ./catalog/styles/default/css3/sitemap.css

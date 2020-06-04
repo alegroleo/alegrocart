@@ -11,11 +11,11 @@ if ($dir_root_handle) {
 			$root_dirs[] = $fname;
 		}
 	}
-closedir($dir_root_handle);
+	closedir($dir_root_handle);
 }
 
 if (count($root_dirs)!==1) {
-$errors[] = $language->get('error_dir'); 
+	$errors[] = $language->get('error_dir'); 
 }
 ?>
 
@@ -23,7 +23,7 @@ $errors[] = $language->get('error_dir');
 <?php if (!empty($errors)) { ?>
 		<p class="b"><?php echo $language->get('error')?></p>
 		<?php foreach ($errors as $error) {?>
-		<div class="warning"><?php echo $error;?></div>
+		<div class="error"><?php echo $error;?></div>
 		<?php } ?>
 		<p class="b"><?php echo $language->get('error_fix')?></p>
 <?php } ?>
@@ -31,12 +31,26 @@ $errors[] = $language->get('error_dir');
 <input type="hidden" name="step" value="2">
 <input type="hidden" name="language" value="<?php echo isset($_POST['language']) ? $_POST['language'] : $language->detect(); ?>">
 <input type="hidden" name="root_dirs" value="<?php echo $root_dirs[0]; ?>">
-    <p class="a"><?php echo $language->get('rename')?></p>
+    <p class="b"><?php echo $language->get('rename')?></p>
     <table>
       <tr>
-        <td width="185" class="set"><?php echo $language->get('new_admin')?></td>
+        <td width="185" class="set"><span class="required">*</span><?php echo $language->get('new_admin')?></td>
         <td><input type="text" name="new_admin_name" value="<?php echo (isset($_POST['new_admin_name']) ? $_POST['new_admin_name'] : ($root_dirs[0] !== 'admin' ? $root_dirs[0] : '')); ?>" <?php echo ($root_dirs[0] !== 'admin' ? 'readonly="readonly"' : ''); ?>>
-          <span class="required">*</span>
+		<?php if (isset($ferrors['new_admin_name'])) { ?>
+                      <span class="error"><?php echo $ferrors['new_admin_name']; ?></span>
+		<?php } ?>
+		<?php if (isset($ferrors['length'])) { ?>
+                      <span class="error"><?php echo $ferrors['length']; ?></span>
+		<?php } ?>
+		<?php if (isset($ferrors['restricted'])) { ?>
+                      <span class="error"><?php echo $ferrors['restricted']; ?></span>
+		<?php } ?>
+		<?php if (isset($ferrors['alphanumeric'])) { ?>
+                      <span class="error"><?php echo $ferrors['alphanumeric']; ?></span>
+		<?php } ?>
+		<?php if (isset($ferrors['post'])) { ?>
+                      <span class="error"><?php echo $ferrors['post']; ?></span>
+		<?php } ?>
 	</td>
       </tr>
       <tr>

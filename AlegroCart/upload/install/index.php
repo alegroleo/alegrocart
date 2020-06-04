@@ -15,7 +15,11 @@ define('UPLOADC', 'install/upload_common.txt');
 define('UPLOADA', 'install/upload_admin.txt');
 require('../common.php');
 
-$errors = array();
+$errors = array(); //common errors
+$ferrors = array(); //errors originated from the input fields
+
+$root_dirs = array();
+$existing = array('cache','library', 'logs','catalog','image','download','install');
 
 $language = new language;
 $language->get_languages();
@@ -34,14 +38,28 @@ $step=(isset($_REQUEST['step']))?$_REQUEST['step']:1;
 if (filesize('../config.php') > 0) { $step=3; }
 
 if (file_exists(DIR_BASE.UPLOADC)) {
-$lines=array();
-$lines = file(DIR_BASE.UPLOADC);
-foreach ($lines as $line) {
-$line=DIR_BASE.(substr(trim($line),2));
-	if (!file_exists($line)) { $errors[]=$language->get('error_not_found',$line);}
-}
+	$lines=array();
+	$lines = file(DIR_BASE.UPLOADC);
+	foreach ($lines as $line) {
+		$line=DIR_BASE.(substr(trim($line),2));
+		if (!file_exists($line)) { $errors[]=$language->get('error_not_found',$line);}
+	}
 } else {
-$errors[]= DIR_BASE.UPLOADC.$language->get('error_not_found'); 
+	$errors[]= DIR_BASE.UPLOADC.$language->get('error_not_found'); 
+}
+
+$dir_root_handle = opendir(DIR_BASE);
+if ($dir_root_handle) {
+	while (false !== ($fname = readdir($dir_root_handle))) {
+		if (($fname != '.') && ($fname != '..') && (!in_array($fname, $existing )) && is_dir(DIR_BASE.$fname)) {
+			$root_dirs[] = $fname;
+		}
+	}
+closedir($dir_root_handle);
+}
+
+if (count($root_dirs)!==1) {
+	$errors[] = $language->get('error_dir'); 
 }
 
 $files0755=array(
@@ -53,6 +71,8 @@ $files0755=array(
 		'image'.D_S.'signatures'.D_S,
 		'image'.D_S.'watermark'.D_S,
 		'download'.D_S,
+		($root_dirs[0] !== 'admin' ? $root_dirs[0] : 'admin').D_S.'javascript'.D_S.'render'.D_S,
+		($root_dirs[0] !== 'admin' ? $root_dirs[0] : 'admin').D_S.'template'.D_S.'default'.D_S.'render'.D_S,
 		'catalog'.D_S.'javascript'.D_S.'render'.D_S,
 		'catalog'.D_S.'styles'.D_S.'default'.D_S.'render'.D_S
 );
@@ -155,28 +175,20 @@ foreach ($files0666 as $file) {
 		      <input type="hidden" name="password" value="<?php echo $_POST['password']; ?>"><?php } ?>
 		<?php if (isset($_POST['new_admin_name'])) { ?>
 		      <input type="hidden" name="new_admin_name" value="<?php echo $_POST['new_admin_name']; ?>"><?php } ?>
-		<?php if (isset($_POST['root_dirs'])) { ?>
-		      <input type="hidden" name="root_dirs" value="<?php echo $_POST['root_dirs']; ?>"><?php } ?>
 		</div>
 		</form>
 	      <?php } ?>
 	    </div>
 	    </div>
 	</div>
-	<div id="header_bottom">
-	  <div class="header_bottom_content">
-	    <div class="header_text">
-	      <?php echo $language->get('heading_step'.$step)?>
-	    </div>
-	  </div>
-	</div>
+	      <h1><?php echo $language->get('heading_step'.$step)?></h1>
 	<div id="container">
 
 	<?php 
 	if (!empty($errors)) { ?>
 		<p class="b"><?php echo $language->get('error')?></p>
 		<?php foreach ($errors as $error) {?>
-		<div class="warning"><?php echo $error;?></div>
+		<div class="error"><?php echo $error;?></div>
 		<?php } ?>
 		<p class="b"><?php echo $language->get('error_fix')?></p>
 	<?php
@@ -199,8 +211,8 @@ foreach ($files0666 as $file) {
 	</div>
 	<div id="footer">
 	    <ul>
-		<li><a href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
-		<li><a href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
+		<li><a target="_blank" href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
+		<li><a target="_blank" href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
 	    </ul>
 	</div>
 

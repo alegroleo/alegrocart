@@ -13,7 +13,8 @@ if (!defined('DIR_BASE')) { define('DIR_BASE', getbasepath()); }
 if (!defined('HTTP_BASE')) { define('HTTP_BASE', getbaseurl()); }
 require('../common.php');
 
-$errors = array();
+$errors = array(); //common errors
+$ferrors = array(); //errors originated from the input fields
 
 $language = new language;
 $language->get_languages();
@@ -22,7 +23,7 @@ $language->check_default();
 $database = new Database;
 
 if ($language->error) {
-$errors[]=$language->error;
+	$errors[]=$language->error;
 }
 
 $language->load(isset($_POST['language']) ? $_POST['language'] : ($language->detect() ? $language->detect(): 'en'));
@@ -75,20 +76,14 @@ foreach ($files as $file) {
 	    </div>
 	</div>
 	</div>
-	<div id="header_bottom">
-	  <div class="header_bottom_content">
-	    <div class="header_text">
-	      <?php echo $language->get('heading_title')?>
-	    </div>
-	  </div>
-	</div>
+	<h1><?php echo $language->get('heading_title')?></h1>
 	<div id="container">
 
 	<?php 
 	if (!empty($errors)) { ?>
 		<p class="b"><?php echo $language->get('error')?></p>
 		<?php foreach ($errors as $error) {?>
-		<div class="warning"><?php echo $error;?></div>
+		<div class="error"><?php echo $error;?></div>
 		<?php } ?>
 		<p class="b"><?php echo $language->get('error_fix')?></p>
 	<?php
@@ -108,8 +103,8 @@ foreach ($files as $file) {
 	</div>
 		<div id="footer">
 		<ul>
-			<li><a href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
-			<li><a href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
+			<li><a target="_blank" href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
+			<li><a target="_blank" href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
 		</ul>
 		</div>
 	</body>

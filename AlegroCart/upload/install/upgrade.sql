@@ -1044,11 +1044,11 @@ CREATE TABLE IF NOT EXISTS `product_options` (
 # Add selectable Logo
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_store_logo';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_store_logo', 'shoppingcart2.png') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_store_logo', 'aclogo.png') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_left';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_left', '385') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_left', '350') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_top';
@@ -1056,11 +1056,11 @@ INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@i
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_width';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_width', '230') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_width', '300') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_logo_height';
-INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_height', '60') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'catalog', 'config', 'config_logo_height', '67') ON DUPLICATE KEY UPDATE setting_id=setting_id;
 
 # Add Magnifier
 SET @id=NULL;
@@ -1287,7 +1287,7 @@ CREATE TABLE IF NOT EXISTS `watermark`(
 # data for table `watermark`
 INSERT INTO `watermark` (`wm_id`, `wm_method`, `wm_text`, `wm_font`, `wm_fontcolor`, `wm_transparency`, `wm_thposition`, `wm_tvposition`, `wm_thmargin`, `wm_tvmargin`, `wm_image`, `wm_ihposition`, `wm_ivposition`, `wm_ihmargin`, `wm_ivmargin`, `wm_scale`) VALUES
 (NULL, 'auto', '', 5, 'CCCCCC', 80, 'CENTER', 'TOP', 10, 15, '0', 'RIGHT', 'BOTTOM', 12, 21, 50),
-(NULL, 'manual', 'Alegrocart TEST manual watermark', 4, '000000', 70, 'CENTER', 'TOP', 15, 25, 'ac_logo.png', 'RIGHT', 'BOTTOM', 15, 25, 60)
+(NULL, 'manual', 'Alegrocart TEST manual watermark', 4, '000000', 70, 'CENTER', 'TOP', 15, 25, 'aclogo.png', 'RIGHT', 'BOTTOM', 15, 25, 60)
  ON DUPLICATE KEY UPDATE wm_id=wm_id;
 
 #Add Show Remaining Days

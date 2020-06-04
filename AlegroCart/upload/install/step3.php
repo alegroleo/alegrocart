@@ -8,22 +8,22 @@ $length = function_exists('mb_strlen')?mb_strlen($_POST['new_admin_name'],'UTF-8
 $restricted = array('admin','administration');
 $existing = array('cache','library', 'logs','catalog','image','download','install');
 
-if (empty($_POST['username'])) { $errors[] = $language->get('error_admin_uname'); }
-if (empty($_POST['password'])) { $errors[] = $language->get('error_admin_passw'); }
+if (empty($_POST['username'])) { $ferrors['admin_uname'] = $language->get('error_admin_uname'); }
+if (empty($_POST['password'])) { $ferrors['admin_passw'] = $language->get('error_admin_passw'); }
 
 if (empty($_POST['new_admin_name'])) {
-$errors[] = $language->get('error_new_admin_name');
+	$ferrors['new_admin_name'] = $language->get('error_new_admin_name');
 }
 elseif ($length<5 || $length>15) {
-	$errors[] = $language->get('error_length'); 
+	$ferrors['length'] = $language->get('error_length'); 
 }
 elseif (in_array($_POST['new_admin_name'], $restricted) || in_array($_POST['new_admin_name'], $existing)) {
-	$errors[] = $language->get('error_restricted', $_POST['new_admin_name']); 
+	$ferrors['restricted'] = $language->get('error_restricted', $_POST['new_admin_name']); 
 }
 elseif (!preg_match('/^[a-z0-9_\-]+$/', $_POST['new_admin_name'])) {
-	$errors[] = $language->get('error_alphanumeric'); 
+	$ferrors['alphanumeric'] = $language->get('error_alphanumeric'); 
 } else {
-	if ($_POST['root_dirs']=='admin'){
+	if ($root_dirs[0]=='admin'){
 	//not renamed yet, let us rename it
 		if (!$renamed=rename(DIR_BASE.'admin', DIR_BASE.$_POST['new_admin_name'])) {
 		$errors[] = $language->get('error_rename'); 
@@ -40,13 +40,13 @@ elseif (!preg_match('/^[a-z0-9_\-]+$/', $_POST['new_admin_name'])) {
 		}
 	} else {
 		//already renamed manually?
-		if ($_POST['root_dirs']!==$_POST['new_admin_name']){
-			$errors[] = $language->get('error_post'); 
+		if ($root_dirs[0]!==$_POST['new_admin_name']){
+			$ferrors['post'] = $language->get('error_post'); 
 		}
 	}
 }
 
-if (!$errors) {
+if (!$errors && !$ferrors) {
 		//replace existing config with new one
 		$newfile='default.config.php';
 		$file='../config.php';
@@ -66,12 +66,12 @@ if (!$errors) {
 			}
 
 			if (fwrite($handle, $str)) {
-				echo "<p class=\"a\">".$language->get('success',$file)."</p>\n";
+				echo "<p class=\"b\">".$language->get('success',$file)."</p>\n";
 				fclose($handle);
 			}
 			else { $errors[]=$language->get('error_write',$file); }
 		} 
-		else { $errors[]="<b>$language->get('error_open',$file)"; }
+		else { $errors[]=$language->get('error_open',$file); }
 		unset($str);
 
 		//change .htaccess if necessary
@@ -161,23 +161,23 @@ if (!$errors) {
 			$content .= 'FileETag None'."\n";
 
 		if (fwrite($handle2, $content)) {
-			echo "<p class=\"a\">".$language->get('success',$file2)."</p>\n";
+			echo "<p class=\"b\">".$language->get('success',$file2)."</p>\n";
 			fclose($handle2);
 		} else { 
 			$errors[]=$language->get('error_write',$file2); 
 		}
 		} else { 
-			$errors[]="<b>$language->get('error_open',$file2)"; 
+			$errors[]=$language->get('error_open',$file2); 
 		}
 		unset($content);
 }
 }
 
-if (!$errors) {
+if (!$errors && !$ferrors) {
 	$database->connect($_POST['db_host'], $_POST['db_user'], $_POST['db_pass'], $_POST['db_name']);
 }
 
-if (!$errors) {
+if (!$errors && !$ferrors) {
 
 	$database->runQuery('set @@session.sql_mode="MYSQL40"');
 	$database->runQuery("delete from user where user_id = '1'");
@@ -189,7 +189,7 @@ if (!$errors) {
 
 } //end install check
 
-if ($errors && $step == 3) {
+if (($errors || $ferrors) && $step == 3) {
 	require('step2.php');
 } else {
 
@@ -259,20 +259,20 @@ if ($errors && $step == 3) {
 			<div class="warning"><?php echo $language->get('htaccess')?></div>
 		<?php }
 	}?>
-	<p class="a"><?php echo $language->get('congrat')?></p>
+	<p class="b"><?php echo $language->get('congrat')?></p>
 	</div>
 	<div id="buttons">
 	<div class="left">
 	<a onclick="location='<?php echo HTTP_CATALOG; ?>';" >
 	<img src="../image/install/Shopping_Cart.png" alt="<?php echo $language->get('shop')?>" title="<?php echo $language->get('shop')?>">
 	</a>
-	<p class="a"><?php echo HTTP_CATALOG; ?></p>
+	<p class="b"><?php echo HTTP_CATALOG; ?></p>
 	</div>
 	<div class="right">
 	<a onclick="location='<?php echo HTTP_BASE.$_POST['new_admin_name']; ?>';">
 	<img src="../image/install/Admin.png" alt="<?php echo $language->get('admin')?>" title="<?php echo $language->get('admin')?>">
 	</a>
-	<p class="a"><?php echo HTTP_BASE.$_POST['new_admin_name']; ?></p>
+	<p class="b"><?php echo HTTP_BASE.$_POST['new_admin_name']; ?></p>
 	</div>
 	</div>
 

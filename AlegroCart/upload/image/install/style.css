@@ -5,120 +5,78 @@ html, body, form {
 html, body {
 	height: 100%;
 }
+body {
+	background-color: #FFFFFF;
+	color: #858585;
+	font-size: 11px;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+}
 #wrap {
 	min-height: 100%;
 }
-body, td, th {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 11px;
-	
-}
 select, textarea, input {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 11px;
 	color: #000000;
-	border: 1px solid #999999;
-	background-color: #FFFFFF;
-}
-body {
-	background-color: #AFDDE5;
-}
-p {
-	padding: 2px 0;
+	border: 1px solid #858585;
 }
 h1 {
 	font-size: 28px;
 	text-align: center;
-	padding: 10px 0;
+	font-weight: normal;
 }
 #header { 
-	background-color: #015666;
-	height: 60px; 
-	border-bottom: 3px solid #222222;
+	height: 70px; 
 }
-#header .header_content {
-	background-color: #015666;
+.header_content {
 	width: 1000px;
 	margin: auto;
 }
-#header .header_content img {
+.header_content img {
 	position: absolute;
- 	height: 38px; 
- 	width: 200px; 
-	top: 12px;
+ 	height: 67px; 
+ 	width: 300px; 
+	top: 5px;
 	padding-left: 5px;
 }
-#header .header_content .language {
+.header_content .language {
 	position: relative;
 	float: right;
 	top: 23px;
 }
-#header .header_content .language form {
+.header_content .language form {
 	display: inline-block;
-}
-#header_bottom {
-	background-color: #CCCCCC;
-	height: 30px; 
-	border-bottom: 1px solid #222222;
-}
-#header_bottom .header_bottom_content {
-	background-color: #CCCCCC;
-	width: 1000px;
-	margin: auto;	
-	padding: 3px;
-}
-#header_bottom .header_bottom_content .header_text {
-	text-align: center;
-	position: relative;
-	text-transform: uppercase;
-	font-weight: bold;
-	font-size: 12px;
-	top: 3px;
-	line-height: 1.5;
-	color: #333333;
 }
 #container {
 	width: 800px;
 	margin: 0 auto;
-/* 	padding: 10px; */
-/* 	height: 430px; */
-/* 	overflow-y: auto; */
  	overflow: auto;
  	padding-bottom: 40px; 
 }
 #content {
-	padding: 5px;
+	padding: 0px;
 	margin: 0px;
 }
 #content input[type="text"] {
-	padding: 5px;
-	border-radius: 2px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	-khtml-border-radius: 2px;
+	padding: 10px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
 	width: 190px;
 }
 #content input[readonly] {
 	background-color: #DDDDDD;
 }
-#content table {
-	padding: 20px;
-	background-color: #FFFFFF;
-	border: 5px solid #0099FF;
-	border-radius: 10px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	width: 64%;
-	margin-left: 18%;
-	margin-right: 18%;
+table {
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
+}
+table tr {
+	height: 40px;
 }
 #footer {
-/* 	padding: 2px; */
 	margin: 0 auto;
 	text-align: center;
-	background-color: #015666;
-/* 	margin-top: 10px; */
 	position: relative;
 	margin-top: -40px;
 	height: 40px;
@@ -132,7 +90,7 @@ h1 {
 	display: inline;
 }
 #footer ul li a {
-	color: #FFFFFF;
+	color: #858585;
 	font-weight: bold;
 	text-decoration: none;
 	margin: 0px 100px;
@@ -142,38 +100,24 @@ h1 {
 	margin-right: 5px;
 }
 .error {
-	color: #E78C83;
+	color: #DE1616;
 	display: block;
 	clear: both;
 	line-height: 18px;
+	padding-left: 5%;
 }
 .warning {
-	background-color: #E78C83;
-	padding: 3px;
+	padding-left: 5%;
 	line-height: 16px;
-	margin: 6px;
-}
-.good {
-	color: #669900;
-	font-weight: bold;
-}
-
-.bad {
-	color: #E78C83;
-	font-weight: bold;	
-}
-.center {
-	text-align: center;
-	margin: 0 auto;
-	background-color: #EEEEEE;
+	color: #FFAE00;
 }
 .set{
-	color: #2D2D2D;
+	color: #000000;
 	font-weight: bold;
 }
 .submit {
 	border: none;
-	background: #FFB000;
+	background: #DE1616;
 	color: #FFFFFF;
 	font-weight: bold;
 	height: 25px;
@@ -181,29 +125,13 @@ h1 {
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	-khtml-border-radius: 2px;
-}
-.button {
-	border: none;
-	background: #FFB000;
-	color: #FFFFFF;
-	font-weight: bold;
-	height: 25px;
-	cursor: pointer;
-	border-radius: 2px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	-khtml-border-radius: 2px;
-}
-.a {
-	color: #015666;
-	font-weight: bold;
 }
 #buttons {
 	text-align: center;
 	padding: 5px;
 }
 #buttons img {
-	border: 1px solid #015666;
+	border: 1px solid #858585;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -221,13 +149,13 @@ h1 {
 	padding-left: 30px;
 }
 .b {
-	color: #A61000;
+	color: #FF5E00;
 	font-weight: bold;
+	font-size: 14px;
 }
-/*Opera Fix by Maleika (Kohoutec)
-Sticky Footer Solution
-by Steve Hatcher 
-*/
+/*Opera Fix by Maleika (Kohoutec)*/
+/*Sticky Footer Solution*/
+/*by Steve Hatcher */
 body:before {
 	content:"";
 	height:100%;

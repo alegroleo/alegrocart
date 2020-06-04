@@ -72,7 +72,7 @@ class Database {
 						}
 					}
 				}
-				echo $this->mysqli->error;
+				echo '<div class="error">'.$this->mysqli->error.'</div>';
 			}
 		}
 	}

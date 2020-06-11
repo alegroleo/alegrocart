@@ -1,7 +1,7 @@
 <?php  //Customer AlegroCart
 class ControllerCustomer extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+	public $error = array();
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
@@ -21,7 +21,7 @@ class ControllerCustomer extends Controller {
 
 		$this->language->load('controller/customer.php');
 	}
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -30,7 +30,7 @@ class ControllerCustomer extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('firstname', 'post') && $this->validateForm()) {
@@ -61,7 +61,7 @@ class ControllerCustomer extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('firstname', 'post') && $this->validateForm()) {
@@ -82,7 +82,7 @@ class ControllerCustomer extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('customer_id')) && ($this->validateDelete())) {
@@ -99,7 +99,7 @@ class ControllerCustomer extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function changeStatus() { 
+	protected function changeStatus() { 
 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 
@@ -108,76 +108,88 @@ class ControllerCustomer extends Controller {
 
 	}
 
-	function getList() {
-	$this->session->set('customer_validation', md5(time()));
-	$cols = array();
+	private function getList() {
+		$this->session->set('customer_validation', md5(time()));
+		$cols = array();
 
-	$cols[] = array(
-		'name'  => $this->language->get('column_lastname'),
-		'sort'  => 'lastname',
-		'align' => 'left'
-	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_lastname'),
+			'sort'  => 'lastname',
+			'align' => 'left'
+		);
 
-	$cols[] = array(
-		'name'  => $this->language->get('column_firstname'),
-		'sort'  => 'firstname',
-		'align' => 'left'
-	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_firstname'),
+			'sort'  => 'firstname',
+			'align' => 'left'
+		);
 
-	$cols[] = array(
-		'name'  => $this->language->get('column_date_added'),
-		'sort'  => 'date_added',
-		'align' => 'left'
-	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_email'),
+			'sort'  => 'email',
+			'align' => 'left'
+		);
 
-	$cols[] = array(
-		'name'  => $this->language->get('column_status'),
-		'sort'  => 'status',
-		'align' => 'center'
-	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_telephone'),
+			'sort'  => 'telephone',
+			'align' => 'left'
+		);
 
-	$cols[] = array(
-		'name'  => $this->language->get('column_action'),
-		'align' => 'action'
-	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_status'),
+			'sort'  => 'status',
+			'align' => 'center'
+		);
+
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 
 		$results = $this->modelCustomer->get_page();
 
-	$rows = array();
-	foreach ($results as $result) {
-		$last = $result['customer_id'] == $this->session->get('last_customer_id') ? 'last_visited': '';
-		$cell = array();
-		$cell[] = array(
-			'value' => $result['lastname'],
-			'align' => 'left',
-			'last' => $last
-		);
-		$cell[] = array(
-			'value' => $result['firstname'],
-			'align' => 'left',
-			'last' => $last
-		);
-		$cell[] = array(
-			'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
-			'align' => 'left',
-			'last' => $last
-		);
-		if ($this->validateChangeStatus()) {
-		$cell[] = array(
-			'status'  => $result['status'],
-			'text' => $this->language->get('button_status'),
-			'align' => 'center',
-			'status_id' => $result['customer_id'],
-			'status_controller' => 'customer'
-		);
+		$rows = array();
+		foreach ($results as $result) {
+			$last = $result['customer_id'] == $this->session->get('last_customer_id') ? 'last_visited': '';
+			$cell = array();
+			$cell[] = array(
+				'value' => $result['lastname'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['firstname'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => '<a href="mailto:' . $result['email'] . '">'. $result['email'] . '</a>',
+				'align' => 'left',
+				'last' => $last
+			);
 
-		} else {
+			$cell[] = array(
+				'value' => $result['telephone'],
+				'align' => 'left',
+				'last' => $last
+			);
+			if ($this->validateChangeStatus()) {
+			$cell[] = array(
+				'status'  => $result['status'],
+				'text' => $this->language->get('button_status'),
+				'align' => 'center',
+				'status_id' => $result['customer_id'],
+				'status_controller' => 'customer'
+			);
 
-		$cell[] = array(
-			'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-			'align' => 'center'
-		);
-		}
+			} else {
+
+				$cell[] = array(
+					'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+					'align' => 'center'
+				);
+			}
 
 			$action = array();
 			$action[] = array(
@@ -193,61 +205,61 @@ class ControllerCustomer extends Controller {
 				);
 			}
 
-		$cell[] = array(
-			'action' => $action,
-			'align'  => 'action'
-		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 
-		$rows[] = array('cell' => $cell);
-	}
+			$rows[] = array('cell' => $cell);
+		}
 
-	$view = $this->locator->create('template');
+		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def); 
-	$view->set('heading_title', $this->language->get('heading_title'));
-	$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 
-	$view->set('text_results', $this->modelCustomer->get_text_results());
+		$view->set('text_results', $this->modelCustomer->get_text_results());
 
-	$view->set('entry_page', $this->language->get('entry_page'));
-	$view->set('entry_search', $this->language->get('entry_search'));
+		$view->set('entry_page', $this->language->get('entry_page'));
+		$view->set('entry_search', $this->language->get('entry_search'));
 
-	$view->set('button_insert', $this->language->get('button_insert'));
-	$view->set('button_update', $this->language->get('button_update'));
-	$view->set('button_delete', $this->language->get('button_delete'));
-	$view->set('button_save', $this->language->get('button_save'));
-	$view->set('button_cancel', $this->language->get('button_cancel'));
-	$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
-	$view->set('button_print', $this->language->get('button_print'));
-	$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
+		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'customer');
-	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
-	$view->set('error', @$this->error['message']);
-	$view->set('message', $this->session->get('message'));
-	$this->session->delete('message');
+		$view->set('error', @$this->error['message']);
+		$view->set('message', $this->session->get('message'));
+		$this->session->delete('message');
 
-	$view->set('action', $this->url->ssl('customer', 'page'));
-	$view->set('action_delete', $this->url->ssl('customer', 'enableDelete'));
+		$view->set('action', $this->url->ssl('customer', 'page'));
+		$view->set('action_delete', $this->url->ssl('customer', 'enableDelete'));
 
-	$view->set('search', $this->session->get('customer.search'));
-	$view->set('sort', $this->session->get('customer.sort'));
-	$view->set('order', $this->session->get('customer.order'));
-	$view->set('page', $this->session->get('customer.page'));
+		$view->set('search', $this->session->get('customer.search'));
+		$view->set('sort', $this->session->get('customer.sort'));
+		$view->set('order', $this->session->get('customer.order'));
+		$view->set('page', $this->session->get('customer.page'));
 
-	$view->set('cols', $cols);
-	$view->set('rows', $rows);
+		$view->set('cols', $cols);
+		$view->set('rows', $rows);
 
-	$view->set('insert', $this->url->ssl('customer', 'insert'));
+		$view->set('insert', $this->url->ssl('customer', 'insert'));
 
-	$view->set('pages', $this->modelCustomer->get_pagination());
+		$view->set('pages', $this->modelCustomer->get_pagination());
 
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -344,93 +356,93 @@ class ControllerCustomer extends Controller {
 			$view->set('address_id', @$customer_info['address_id']);
 		}
 
-	if ($this->request->has('firstname', 'post')) {
-		$view->set('firstname', $this->request->gethtml('firstname', 'post'));
-	} else {
-		$view->set('firstname', @$customer_info['firstname']);
-	}
+		if ($this->request->has('firstname', 'post')) {
+			$view->set('firstname', $this->request->gethtml('firstname', 'post'));
+		} else {
+			$view->set('firstname', @$customer_info['firstname']);
+		}
 
-	if ($this->request->has('lastname', 'post')) {
-		$view->set('lastname', $this->request->gethtml('lastname', 'post'));
-	} else {
-		$view->set('lastname', @$customer_info['lastname']);
-	}
+		if ($this->request->has('lastname', 'post')) {
+			$view->set('lastname', $this->request->gethtml('lastname', 'post'));
+		} else {
+			$view->set('lastname', @$customer_info['lastname']);
+		}
 
-	if ($this->request->has('email', 'post')) {
-		$view->set('email', $this->request->gethtml('email', 'post'));
-	} else {
-		$view->set('email', @$customer_info['email']);
-	}
+		if ($this->request->has('email', 'post')) {
+			$view->set('email', $this->request->gethtml('email', 'post'));
+		} else {
+			$view->set('email', @$customer_info['email']);
+		}
 
-	if ($this->request->has('telephone', 'post')) {
-		$view->set('telephone', $this->request->gethtml('telephone', 'post'));
-	} else {
-		$view->set('telephone', @$customer_info['telephone']);
-	}
+		if ($this->request->has('telephone', 'post')) {
+			$view->set('telephone', $this->request->gethtml('telephone', 'post'));
+		} else {
+			$view->set('telephone', @$customer_info['telephone']);
+		}
 
-	if ($this->request->has('fax', 'post')) {
-		$view->set('fax', $this->request->gethtml('fax', 'post'));
-	} else {
-		$view->set('fax', @$customer_info['fax']);
-	}
+		if ($this->request->has('fax', 'post')) {
+			$view->set('fax', $this->request->gethtml('fax', 'post'));
+		} else {
+			$view->set('fax', @$customer_info['fax']);
+		}
 
-	if ($this->request->has('newsletter', 'post')) {
-		$view->set('newsletter', $this->request->gethtml('newsletter', 'post'));
-	} else {
-		$view->set('newsletter', @$customer_info['newsletter']);
-	}
+		if ($this->request->has('newsletter', 'post')) {
+			$view->set('newsletter', $this->request->gethtml('newsletter', 'post'));
+		} else {
+			$view->set('newsletter', @$customer_info['newsletter']);
+		}
 
-	if ($this->request->has('status', 'post')) {
-		$view->set('status', $this->request->gethtml('status', 'post'));
-	} else {
-		$view->set('status', @$customer_info['status']);
-	}
+		if ($this->request->has('status', 'post')) {
+			$view->set('status', $this->request->gethtml('status', 'post'));
+		} else {
+			$view->set('status', @$customer_info['status']);
+		}
 
-		if ($this->request->has('company', 'post')) { // New
-		$view->set('company', $this->request->gethtml('company', 'post'));
-	} else {
-		$view->set('company', @$address_info['company']);
-	}
+			if ($this->request->has('company', 'post')) { // New
+			$view->set('company', $this->request->gethtml('company', 'post'));
+		} else {
+			$view->set('company', @$address_info['company']);
+		}
 
-		if ($this->request->has('address_1', 'post')) {  // New
-		$view->set('address_1', $this->request->gethtml('address_1', 'post'));
-	} else {
-		$view->set('address_1', @$address_info['address_1']);
-	}
+			if ($this->request->has('address_1', 'post')) {  // New
+			$view->set('address_1', $this->request->gethtml('address_1', 'post'));
+		} else {
+			$view->set('address_1', @$address_info['address_1']);
+		}
 
-		if ($this->request->has('address_2', 'post')) {// New
-		$view->set('address_2', $this->request->sanitize('address_2', 'post'));
-	} else {
-		$view->set('address_2', @$address_info['address_2']);
-	}	
+			if ($this->request->has('address_2', 'post')) {// New
+			$view->set('address_2', $this->request->sanitize('address_2', 'post'));
+		} else {
+			$view->set('address_2', @$address_info['address_2']);
+		}	
 
-		if ($this->request->has('postcode', 'post')) {// New
-		$view->set('postcode', $this->request->sanitize('postcode', 'post'));
-	} else {
-		$view->set('postcode', @$address_info['postcode']);
-	}
+			if ($this->request->has('postcode', 'post')) {// New
+			$view->set('postcode', $this->request->sanitize('postcode', 'post'));
+		} else {
+			$view->set('postcode', @$address_info['postcode']);
+		}
 
-		if ($this->request->has('city', 'post')) {// New
-		$view->set('city', $this->request->sanitize('city', 'post'));
-	} else {
-		$view->set('city', @$address_info['city']);
-	}
+			if ($this->request->has('city', 'post')) {// New
+			$view->set('city', $this->request->sanitize('city', 'post'));
+		} else {
+			$view->set('city', @$address_info['city']);
+		}
 
-		if ($this->request->has('country_id', 'post')) {// New
-		$view->set('country_id', $this->request->gethtml('country_id', 'post'));
-	}  elseif (isset($address_info['country_id'])) {
-		$view->set('country_id', $address_info['country_id']);
-	} else {
-		$view->set('country_id', $this->config->get('config_country_id'));
-	}
+			if ($this->request->has('country_id', 'post')) {// New
+			$view->set('country_id', $this->request->gethtml('country_id', 'post'));
+		}  elseif (isset($address_info['country_id'])) {
+			$view->set('country_id', $address_info['country_id']);
+		} else {
+			$view->set('country_id', $this->config->get('config_country_id'));
+		}
 
-		if ($this->request->has('zone_id', 'post')) {// New
-		$view->set('zone_id', $this->request->gethtml('zone_id', 'post'));
-	}  elseif (isset($address_info['zone_id'])) {
-		$view->set('zone_id', $address_info['zone_id']);
-	} else {
-		$view->set('zone_id', $this->config->get('config_zone_id'));
-	}
+			if ($this->request->has('zone_id', 'post')) {// New
+			$view->set('zone_id', $this->request->gethtml('zone_id', 'post'));
+		}  elseif (isset($address_info['zone_id'])) {
+			$view->set('zone_id', $address_info['zone_id']);
+		} else {
+			$view->set('zone_id', $this->config->get('config_zone_id'));
+		}
 
 		$view->set('countries',$this->modelCustomer->get_countries());
 		$view->set('zones', $this->modelCustomer->get_zones());
@@ -438,7 +450,7 @@ class ControllerCustomer extends Controller {
 		return $view->fetch('content/customer.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -483,7 +495,7 @@ class ControllerCustomer extends Controller {
 		}
 	}
 
-	function enableDelete(){
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -498,7 +510,7 @@ class ControllerCustomer extends Controller {
 		}
 	}
 
-	function validateEnableDelete(){
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'customer')) {
 		$this->error['message'] = $this->language->get('error_permission');  
 	}
@@ -509,7 +521,7 @@ class ControllerCustomer extends Controller {
 		}
 	}
 
-	function validateDelete() {
+	private function validateDelete() {
 		if(($this->session->get('customer_validation') != $this->request->sanitize('customer_validation')) || (strlen($this->session->get('customer_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -525,7 +537,7 @@ class ControllerCustomer extends Controller {
 		}
 	}
 
-	function zone() {
+	protected function zone() {
 	$output = '<select name="zone_id">';
 		$results = $this->modelCustomer->return_zones($this->request->gethtml('country_id'));
 	foreach ($results as $result) {
@@ -543,21 +555,23 @@ class ControllerCustomer extends Controller {
 		$this->response->set($output);	
 	}
 
-	function validateChangeStatus(){
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'customer')) {
 			return FALSE;
 		} else {
 			return TRUE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('customer.search', $this->request->gethtml('search', 'post'));
 		}
@@ -573,7 +587,8 @@ class ControllerCustomer extends Controller {
 
 		$this->response->redirect($this->url->ssl('customer'));
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('customer_tab', $this->request->sanitize('activeTab', 'post'));

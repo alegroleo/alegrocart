@@ -241,6 +241,7 @@ class ControllerUser extends Controller {
 		$view->set('entry_confirm', $this->language->get('entry_confirm'));
 		$view->set('entry_firstname', $this->language->get('entry_firstname'));
 		$view->set('entry_lastname', $this->language->get('entry_lastname'));
+		$view->set('entry_position', $this->language->get('entry_position'));
 		$view->set('entry_email', $this->language->get('entry_email'));
 		$view->set('entry_telephone', $this->language->get('entry_telephone'));
 		$view->set('entry_mobile', $this->language->get('entry_mobile'));
@@ -248,6 +249,8 @@ class ControllerUser extends Controller {
 		$view->set('entry_monogram', $this->language->get('entry_monogram'));
 		$view->set('entry_signature', $this->language->get('entry_signature'));
 		$view->set('entry_user_group', $this->language->get('entry_user_group'));
+
+		$view->set('explanation_signature',$this->language->get('explanation_signature'));
 
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -315,6 +318,12 @@ class ControllerUser extends Controller {
 			$view->set('lastname', @$user_info['lastname']);
 			}
 
+		if ($this->request->has('position', 'post')) {
+			$view->set('position', $this->request->sanitize('position', 'post'));
+		} else {
+			$view->set('position', @$user_info['position']);
+			}
+
 		if ($this->request->has('email', 'post')) {
 			$view->set('email', $this->request->sanitize('email', 'post'));
 		} else {
@@ -358,6 +367,9 @@ class ControllerUser extends Controller {
 		}
 
 		$view->set('user_signatures', $this->getSignatures());
+		$signatures_location = DIR_BASE . 'image/signatures/';
+		$view->set('signatures_location', $signatures_location);
+
 		$view->set('user_groups', $this->modelAdminUser->get_user_groups());
 
 		return $view->fetch('content/user.tpl');

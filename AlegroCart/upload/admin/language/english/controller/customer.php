@@ -15,8 +15,9 @@ $_['tab_address']         = 'Address';
 // Column
 $_['column_firstname']    = 'First Name';
 $_['column_lastname']     = 'Last Name';
+$_['column_email']		= 'E-Mail';
+$_['column_telephone']		= 'Telephone';
 $_['column_status']       = 'Status';
-$_['column_date_added']   = 'Date Added';
 $_['column_action']       = 'Action';
 
 // Entry

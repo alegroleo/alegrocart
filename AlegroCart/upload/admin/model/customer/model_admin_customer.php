@@ -56,11 +56,11 @@ class Model_Admin_Customer extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('customer.search')) {
-		$sql = "select customer_id, lastname, firstname, status, date_added from customer";
+		$sql = "select customer_id, lastname, firstname, status, telephone, email from customer";
 		} else {
-		$sql = "select customer_id, lastname, firstname, status, date_added from customer where lastname like '?' or firstname like '?'";
+		$sql = "select customer_id, lastname, firstname, status, telephone, email from customer where lastname like '?' or firstname like '?'";
 	}
-		$sort = array('lastname', 'firstname', 'status', 'date_added');
+		$sort = array('lastname', 'firstname', 'status', 'email', 'telephone');
 		if (in_array($this->session->get('customer.sort'), $sort)) {
 		$sql .= " order by " . $this->session->get('customer.sort') . " " . (($this->session->get('customer.order') == 'desc') ? 'desc' : 'asc');
 	} else {

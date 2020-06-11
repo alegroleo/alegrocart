@@ -8,7 +8,7 @@ class ControllerSetting extends Controller {
 	var $mr_status = NULL;
 	var $cgi = NULL;
 
-	function __construct(&$locator){
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->cache		=& $locator->get('cache');
@@ -31,7 +31,7 @@ class ControllerSetting extends Controller {
 
 		$this->language->load('controller/setting.php');
 	}
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('global_config_store', 'post') && $this->validate_update()) {
@@ -134,10 +134,12 @@ class ControllerSetting extends Controller {
 		$view->set('text_watermark', $this->language->get('text_watermark'));
 		$view->set('text_slogo', $this->language->get('text_slogo'));
 		$view->set('text_flogo', $this->language->get('text_flogo'));
+		$view->set('text_stamp', $this->language->get('text_stamp'));
 
 		$view->set('entry_token', $this->language->get('entry_token'));
 		$view->set('entry_store', $this->language->get('entry_store'));
 		$view->set('entry_owner', $this->language->get('entry_owner'));
+		$view->set('entry_stamp', $this->language->get('entry_stamp'));
 		$view->set('entry_address', $this->language->get('entry_address'));
 		$view->set('entry_telephone', $this->language->get('entry_telephone'));
 		$view->set('entry_fax', $this->language->get('entry_fax'));
@@ -334,6 +336,9 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_image_quality',$this->language->get('explanation_image_quality'));
 		$view->set('explanation_newsletter',$this->language->get('explanation_newsletter'));
 		$view->set('explanation_admin_page_load',$this->language->get('explanation_admin_page_load'));
+		$view->set('explanation_stamp',$this->language->get('explanation_stamp'));
+		$view->set('explanation_owner',$this->language->get('explanation_owner'));
+		$view->set('explanation_logo',$this->language->get('explanation_logo'));
 
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -429,6 +434,15 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('global_config_owner', @$setting_info['global']['config_owner']);
 		}
+
+		if ($this->request->has('global_config_stamp', 'post')) {
+			$view->set('global_config_stamp', $this->request->gethtml('global_config_stamp', 'post'));
+		} else {
+			$view->set('global_config_stamp', @$setting_info['global']['config_stamp']);
+		}
+		$view->set('rubber_stamps', $this->getStamps());
+		$stamps_location = DIR_BASE . 'image/stamp/';
+		$view->set('stamps_location', $stamps_location);
 
 		if ($this->request->has('global_config_address', 'post')) {
 			$view->set('global_config_address', $this->request->gethtml('global_config_address', 'post'));
@@ -577,6 +591,8 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('catalog_footer_logo_height', @$setting_info['catalog']['footer_logo_height']);
 		}
+		$logos_location = DIR_BASE . 'image/logo/';
+		$view->set('logos_location', $logos_location);
 
 		if ($this->request->has('admin_config_template', 'post')) {  // Admin Template
 			$view->set('admin_config_template', $this->request->gethtml('admin_config_template', 'post'));
@@ -1143,6 +1159,9 @@ class ControllerSetting extends Controller {
 		} else {
 			$view->set('wm_ivmargin', @$watermark_data['wm_ivmargin']);
 		}
+
+		$watermarks_location = DIR_BASE . 'image/watermark/';
+		$view->set('watermarks_location', $watermarks_location);
 		//End of Watermark
 
 
@@ -1553,7 +1572,7 @@ class ControllerSetting extends Controller {
 		}
 		$this->response->set($output);
 	}
-	function help(){
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
@@ -1590,6 +1609,30 @@ class ControllerSetting extends Controller {
 			}
 			echo json_encode($output);
 		}
+	}
+	protected function viewStamp(){
+		if($this->request->gethtml('stamp')){
+			$output = '<img src="' . HTTP_IMAGE . '/stamp/' . $this->request->gethtml('stamp') . '"';
+			$output .= 'alt="' . $this->language->get('text_stamp'). '" title="'. $this->language->get('text_stamp') .'">';
+		} else {
+			$output = '';
+		}
+		$this->response->set($output);
+	}
+	private function getStamps(){
+		$stamps_data = array();
+		$files = glob(DIR_IMAGE.'stamp'.D_S.'*.*');
+		if (!$files) { return; }
+		foreach ($files as $file) {
+			$pattern='/\.('.implode('|',$this->logo_types).')$/';
+			if (preg_match($pattern,$file)) {
+				$filename = basename($file);
+				$stamps_data[] = array(
+					'stamp'	=> $filename
+				);
+			}
+		}
+		return $stamps_data;
 	}
 }
 ?>

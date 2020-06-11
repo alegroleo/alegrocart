@@ -5,6 +5,9 @@ $_['heading_description'] = 'You can send newsletters to your customers here.';
 
 // Text
 $_['text_message']        = 'Success: You have updated newsletters!';
+$_['text_telephone']		= 'Telephone:';
+$_['text_fax']			= 'Fax:';
+$_['text_mobile']		= 'Mobile:';
 
 // Column
 $_['column_subject']      = 'Subject';

@@ -7,6 +7,9 @@ $_['heading_description'] = 'You can send emails to your customers here.';
 $_['text_newsletter']     = 'Newsletter Subscribers';
 $_['text_customer']       = 'All Customers';
 $_['text_message']        = 'Your message has been successfully sent!';
+$_['text_telephone']		= 'Telephone:';
+$_['text_fax']			= 'Fax:';
+$_['text_mobile']		= 'Mobile:';
 
 // Entry
 $_['entry_to']            = 'To:';

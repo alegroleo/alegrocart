@@ -13,6 +13,7 @@
   <input type="hidden" name="update_form" value="1">
   <input type="hidden" name="global_config_store" value="">
   <input type="hidden" name="global_config_owner" value="">
+  <input type="hidden" name="global_config_stamp" value="">
   <input type="hidden" name="global_config_address" value="">
   <input type="hidden" name="global_config_telephone" value="">
   <input type="hidden" name="global_config_fax" value="">
@@ -205,6 +206,9 @@
                 <?php if ($error_owner) { ?>
                 <span class="error"><?php echo $error_owner; ?></span>
                 <?php } ?></td>
+	      <td class="expl">
+			<?php echo $explanation_owner; ?>
+	      </td>
             </tr>
             <tr>
               <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_address; ?></td>
@@ -216,6 +220,23 @@
 			    <?php echo $explanation_address; ?>
 	      </td>
             </tr>
+
+	    <tr>
+		<td class="set" rowspan="2"><?php echo $entry_stamp;?></td>
+	      <td rowspan="2"><select id="stamp_id" name="global_config_stamp" onchange="$('#stamp_image').load('index.php?controller=setting&action=viewStamp&stamp='+this.value);">
+		    <option value="0"><?php echo $text_none; ?></option>
+		    <?php foreach ($rubber_stamps as $rubber_stamp){?>
+			  <option value="<?php echo $rubber_stamp['stamp'];?>"<?php if($rubber_stamp['stamp'] == $global_config_stamp){echo ' selected';}?>><?php echo $rubber_stamp['stamp'];?></option>
+		    <?php }?>
+		  </select></td>
+		<td class="stamp_image" id="stamp_image"></td>
+		</tr>
+	    <tr>
+	      <td class="expl">
+			    <?php echo $explanation_stamp . $stamps_location; ?>
+	      </td>
+            </tr>
+
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_telephone; ?></td>
               <td><input class="validate_phone" id="config_telephone" type="text" name="global_config_telephone" value="<?php echo $global_config_telephone; ?>">
@@ -1085,14 +1106,19 @@
 			  <td width="130"></td>
 			</tr>
 		    <tr>
-			  <td class="set"><?php echo $entry_logo;?></td>
-		      <td><select id="logo_id" name="catalog_config_store_logo" onchange="$('#logo_image').load('index.php?controller=setting&action=viewLogo&store_logo='+this.value);">
+			  <td class="set" rowspan ="2"><?php echo $entry_logo;?></td>
+		      <td rowspan="2"><select id="logo_id" name="catalog_config_store_logo" onchange="$('#logo_image').load('index.php?controller=setting&action=viewLogo&store_logo='+this.value);">
 			    <?php foreach ($logos as $logo){?>
 				  <option value="<?php echo $logo['logo'];?>"<?php if($logo['logo'] == $catalog_config_store_logo){echo ' selected';}?>><?php echo $logo['logo'];?></option>
 			    <?php }?>
 			  </select></td>
 			<td class="logo_image" id="logo_image"></td>
 			</tr>
+		    <tr>
+		      <td class="expl">
+				    <?php echo $explanation_logo . $logos_location; ?>
+		      </td>
+		    </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_logo_left;?></td>
 			  <td><input class="validate_int" id="config_logo_left" type="text" name="catalog_config_logo_left" value="<?php echo $catalog_config_logo_left; ?>" size="6"></td>
@@ -1120,8 +1146,8 @@
 			  <td width="130"></td>
 			</tr>
 		    <tr>
-			  <td class="set"><?php echo $entry_footer_logo;?></td>
-		      <td><select id="footer_logo_id" name="catalog_config_footer_logo" onchange="$('#footer_logo_image').load('index.php?controller=setting&action=viewFooterLogo&footer_logo='+this.value);">
+			  <td class="set" rowspan="2"><?php echo $entry_footer_logo;?></td>
+		      <td rowspan="2"><select id="footer_logo_id" name="catalog_config_footer_logo" onchange="$('#footer_logo_image').load('index.php?controller=setting&action=viewFooterLogo&footer_logo='+this.value);">
 			    <option value="0"><?php echo $text_none; ?></option>
 			    <?php foreach ($logos as $logo){?>
 				  <option value="<?php echo $logo['logo'];?>"<?php if($logo['logo'] == $catalog_config_footer_logo){echo ' selected';}?>><?php echo $logo['logo'];?></option>
@@ -1129,6 +1155,11 @@
 			  </select></td>
 			<td class="footer_logo_image" id="footer_logo_image"></td>
 			</tr>
+		    <tr>
+		      <td class="expl">
+				    <?php echo $explanation_logo . $logos_location; ?>
+		      </td>
+		    </tr>
 		    <tr>
 			  <td class="set"><?php echo $entry_footer_logo_left;?></td>
 			  <td><input class="validate_int" id="footer_logo_left" type="text" name="catalog_footer_logo_left" value="<?php echo $catalog_footer_logo_left; ?>" size="6"></td>
@@ -1794,7 +1825,7 @@
 			<?php }?>
 		      </select></td>
 		  <td class="expl">
-		    <?php echo $explanation_wm_image; ?>
+		    <?php echo $explanation_wm_image . $watermarks_location; ?>
 		  </td>
 	      </tr>
 	      <tr>
@@ -2042,6 +2073,7 @@
 	function getValues() {
 		document.forms['update_form'].global_config_store.value=document.forms['form'].global_config_store.value;
 		document.forms['update_form'].global_config_owner.value=document.forms['form'].global_config_owner.value;
+		document.forms['update_form'].global_config_stamp.value=document.forms['form'].global_config_stamp.value;
 		document.forms['update_form'].global_config_address.value=document.forms['form'].global_config_address.value;
 		document.forms['update_form'].global_config_telephone.value=document.forms['form'].global_config_telephone.value;
 		document.forms['update_form'].global_config_fax.value=document.forms['form'].global_config_fax.value;
@@ -2206,5 +2238,8 @@
 		}
 	}
    });
+  //--></script>
+  <script type="text/javascript"><!--
+    $('#stamp_image').load('index.php?controller=setting&action=viewStamp&stamp='+document.getElementById('stamp_id').value);
   //--></script>
 </form>

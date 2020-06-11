@@ -14,6 +14,7 @@
    <input type="hidden" name="username" value="">
    <input type="hidden" name="firstname" value="">
    <input type="hidden" name="lastname" value="">
+   <input type="hidden" name="position" value="">
    <input type="hidden" name="email" value="">
    <input type="hidden" name="mobile" value="">
    <input type="hidden" name="telephone" value="">
@@ -110,6 +111,11 @@
               <td><input class="validate_alpha" size="4" id="monogram" type="text" name="monogram" value="<?php echo $monogram; ?>"></td>
             </tr>
             <tr>
+              <td class="set"><?php echo $entry_position; ?></td>
+              <td><input class="validate_alpha" id="position" type="text" name="position" value="<?php echo $position; ?>">
+	    </td>
+            </tr>
+            <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_email; ?></td>
               <td><input class="validate_mail" id="email" type="text" name="email" value="<?php echo $email; ?>">
                 <?php if ($error_email) { ?>
@@ -129,8 +135,8 @@
               <td><input class="validate_phone" id="fax" type="text" name="fax" value="<?php echo $fax; ?>"></td>
             </tr>
 	    <tr>
-		<td class="set"><?php echo $entry_signature;?></td>
-	      <td><select id="signature_id" name="signature" onchange="$('#signature_image').load('index.php?controller=user&action=viewSignature&signature='+this.value);">
+		<td class="set" rowspan="2"><?php echo $entry_signature;?></td>
+	      <td rowspan="2"><select id="signature_id" name="signature" onchange="$('#signature_image').load('index.php?controller=user&action=viewSignature&signature='+this.value);">
 		    <option value="0"><?php echo $text_none; ?></option>
 		    <?php foreach ($user_signatures as $user_signature){?>
 			  <option value="<?php echo $user_signature['signature'];?>"<?php if($user_signature['signature'] == $signature){echo ' selected';}?>><?php echo $user_signature['signature'];?></option>
@@ -138,6 +144,11 @@
 		  </select></td>
 		<td class="signature_image" id="signature_image"></td>
 		</tr>
+		    <tr>
+		      <td class="expl">
+				    <?php echo $explanation_signature . $signatures_location; ?>
+		      </td>
+		    </tr>
           </table>
         </div>
       </div>
@@ -163,6 +174,7 @@
 		document.forms['update_form'].username.value=document.forms['form'].username.value;
 		document.forms['update_form'].firstname.value=document.forms['form'].firstname.value;
 		document.forms['update_form'].lastname.value=document.forms['form'].lastname.value;
+		document.forms['update_form'].position.value=document.forms['form'].position.value;
 		document.forms['update_form'].email.value=document.forms['form'].email.value;
 		document.forms['update_form'].monogram.value=document.forms['form'].monogram.value;
 		document.forms['update_form'].telephone.value=document.forms['form'].telephone.value;

@@ -1611,4 +1611,12 @@ ADD `telephone` varchar(32) collate utf8_unicode_ci NOT NULL default '',
 ADD `mobile` varchar(32) collate utf8_unicode_ci NOT NULL default '',
 ADD `fax` varchar(32) collate utf8_unicode_ci NOT NULL default '',
 ADD `monogram` varchar(4) collate utf8_unicode_ci NOT NULL default '',
+ADD `position` varchar(32) collate utf8_unicode_ci NOT NULL default '',
 ADD `signature` varchar(64) collate utf8_unicode_ci NOT NULL default '';
+
+#
+# Stamp
+#
+SET @id=NULL;
+SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_stamp';
+INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_stamp', 'example_stamp.png') ON DUPLICATE KEY UPDATE setting_id=setting_id;

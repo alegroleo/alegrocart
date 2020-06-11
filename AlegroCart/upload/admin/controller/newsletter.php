@@ -1,26 +1,26 @@
 <?php // Newsletter AlegroCart
 class ControllerNewsletter extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+	public $error = array();
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
-		$this->config   	=& $locator->get('config');
-		$this->language 	=& $locator->get('language');
-		$this->mail     	=& $locator->get('mail');
+		$this->config		=& $locator->get('config');
+		$this->language		=& $locator->get('language');
+		$this->mail		=& $locator->get('mail');
 		$this->module		=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->template 	=& $locator->get('template');
-		$this->session  	=& $locator->get('session');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user');
-		$this->modelNewsletter = $model->get('model_admin_newsletter');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->template		=& $locator->get('template');
+		$this->session		=& $locator->get('session');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user');
+		$this->modelNewsletter	= $model->get('model_admin_newsletter');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('newsletter');
+		$this->adminController	= $this->template->set_controller('newsletter');
 
 		$this->language->load('controller/newsletter.php');
 	}
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -29,7 +29,7 @@ class ControllerNewsletter extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('subject', 'post') && $this->validateForm()) {
@@ -87,7 +87,7 @@ class ControllerNewsletter extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('subject', 'post') && $this->validateForm()) {
@@ -135,7 +135,7 @@ class ControllerNewsletter extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('newsletter_id')) && ($this->validateDelete())) {
@@ -151,7 +151,8 @@ class ControllerNewsletter extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function getList() {
+
+	private function getList() {
 		$this->session->set('newsletter_validation', md5(time()));
 		$cols = array();
 
@@ -172,10 +173,10 @@ class ControllerNewsletter extends Controller {
 			'sort'  => 'date_sent',
 			'align' => 'left'
 		);
-	    	$cols[] = array(
-	      		'name'  => $this->language->get('column_action'),
-	      		'align' => 'action'
-	    	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 
 		$results = $this->modelNewsletter->get_page();
 
@@ -199,12 +200,12 @@ class ControllerNewsletter extends Controller {
 				'last' => $last
 			);
 			$action = array();
-      		
+
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('newsletter', 'update', array('newsletter_id' => $result['newsletter_id']))
-      			);
+			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -213,10 +214,10 @@ class ControllerNewsletter extends Controller {
 				);
 			}
 
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 
 			$rows[] = array('cell' => $cell);
 		}
@@ -266,7 +267,7 @@ class ControllerNewsletter extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
@@ -336,11 +337,15 @@ class ControllerNewsletter extends Controller {
 		} else {
 			$view->set('subject', @$newsletter_info['subject']);
 		}
+
 		if ($this->request->has('content', 'post')) {
 			$view->set('content', $this->request->get('content', 'post'));
-		} else {
+		} elseif (isset($newsletter_info['content'])) {
 			$view->set('content', @$newsletter_info['content']);
+		} else {
+			$view->set('content', $this->createSignature());
 		}
+
 		if ($this->request->has('send', 'post')) {
 			$view->set('send', $this->request->gethtml('send', 'post'));
 		} else {
@@ -350,7 +355,7 @@ class ControllerNewsletter extends Controller {
 		return $view->fetch('content/newsletter.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -376,7 +381,7 @@ class ControllerNewsletter extends Controller {
 		}
 	}
 
-	function enableDelete(){
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -390,18 +395,19 @@ class ControllerNewsletter extends Controller {
 			$this->response->redirect($this->url->ssl('newsletter'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'newsletter')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+		$this->error['message'] = $this->language->get('error_permission');
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 
-	function validateDelete() {
+	private function validateDelete() {
 		if(($this->session->get('newsletter_validation') != $this->request->sanitize('newsletter_validation')) || (strlen($this->session->get('newsletter_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -416,12 +422,13 @@ class ControllerNewsletter extends Controller {
 			return FALSE;
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
-	  		$this->session->set('newsletter.search', $this->request->gethtml('search', 'post'));
+			$this->session->set('newsletter.search', $this->request->gethtml('search', 'post'));
 		}
 		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
-	  		$this->session->set('newsletter.page', $this->request->gethtml('page', 'post'));
+			$this->session->set('newsletter.page', $this->request->gethtml('page', 'post'));
 		} 
 		if ($this->request->has('sort', 'post')) {
 			$this->session->set('newsletter.order', (($this->session->get('newsletter.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('newsletter.order') == 'asc') ? 'desc' : 'asc'));
@@ -431,13 +438,35 @@ class ControllerNewsletter extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('newsletter'));
-  	}
-	function help(){
+	}
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
+	}
+
+	private function createSignature() {
+		$signature ='';
+		if($this->user->getFullName()) {
+			$signature .= '<p></p><br><p style="font-size: 15px; text-transform: uppercase; "><font face="Arial" size="1"><b>'.$this->user->getFullName().'</b><br>'.$this->user->getPosition().'</font></p>';
+		}
+		$signature .= '<p style="text-transform: capitalize;"><b><font face="Arial" size="1">'.$this->config->get('config_owner').'</font></b><br><font face="Arial" size="1">'.nl2br($this->config->get('config_address')).'</font></p>';
+		$signature .= '<p><font face="Arial" size="1">';
+		if($this->user->getTelephone()) {
+			$signature .= $this->language->get('text_telephone').$this->user->getTelephone().'<br>';
+		}
+		if($this->user->getMobile()) {
+			$signature .= $this->language->get('text_mobile').$this->user->getMobile().'<br>';
+		}
+		if($this->user->getFax()) {
+			$signature .= $this->language->get('text_fax').$this->user->getFax();
+		}
+		$signature .='</font></p>';
+
+		return $signature;
 	}
 }
 ?>

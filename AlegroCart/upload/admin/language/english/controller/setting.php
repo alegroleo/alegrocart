@@ -78,10 +78,12 @@ $_['text_vendors']		= 'My Vendors';
 $_['text_appearance']		= 'Appearance';
 $_['text_developer']		= 'Developer\'s Information';
 $_['text_newsletter']		= 'Newsletter';
+$_['text_stamp']		= 'Rubber stamp';
 
 // Entry
 $_['entry_store']           = 'Store Name:';
 $_['entry_owner']           = 'Store Owner:';
+$_['entry_stamp']		= 'Stamp:';
 $_['entry_address']         = 'Address:';
 $_['entry_address_format']  = 'Default Address Format:';
 $_['entry_telephone']       = 'Telephone:';
@@ -243,7 +245,7 @@ $_['explanation_wm_ihposition']   = 'Possible settings: Left, Center, Right acco
 $_['explanation_wm_ivposition']   = 'Possible settings: Top, Center, Bottom according to the original image.';
 $_['explanation_wm_ihmargin']     = 'Number of pixels from left side of the original image.';
 $_['explanation_wm_ivmargin']     = 'Number of pixels from top of the original image.';
-$_['explanation_wm_image']        = 'If you select a watermark image every image that you upload will be watermarked automatically from now on. Use watermark image with transparent background for the better result. Only png is supported.';
+$_['explanation_wm_image']        = 'If you select a watermark image every image that you upload will be watermarked automatically from now on. Use watermark image with transparent background for the better result. Only png is supported. Upload your watermark image to: ';
 $_['explanation_address']         = 'Use this field to enter your address and any information related to your store, e.g. tax number, trade register number, fiscal code or whatever you want to be displayed on the customer\'s invoices and the Contact Us page.';
 $_['explanation_default_weight']  = 'Most shipping methods will use this unless otherwise specified in the individual shipping method.';
 $_['explanation_option_discount'] = 'Enable to include option price in quantity discounts';
@@ -276,6 +278,9 @@ $_['explanation_page_load']		= 'This will compress css and javascript files to s
 $_['explanation_image_quality']		= 'Quality of the resized image.<br>Ranges from 0 (worst quality, smaller file, faster page load) to 100 (best quality, biggest file, slower page load).<br>Default is 75. Try to find the optimum for your site.';
 $_['explanation_newsletter']		= 'Group newsletter if your host rejects bulk e-mail sending. Default is 0 that means no grouping.';
 $_['explanation_admin_page_load']	= 'This will compress css and javascript files to speed up page load of the administration. Compression results no human readable rendered files. Original css and javascript files won \'t be overwritten! Do not change this setting unless you notice problems.';
+$_['explanation_owner']			= 'Your name or your official campany name that is displayed on the invoices.';
+$_['explanation_stamp']			= 'Upload your stamp to: ';
+$_['explanation_logo']			= 'Upload your logo to: ';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';

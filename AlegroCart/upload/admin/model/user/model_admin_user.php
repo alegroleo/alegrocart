@@ -9,13 +9,13 @@ class Model_Admin_User extends Model {
 	}
 
 	function insert_user(){
-		$sql = "insert into user set username = '?', password = '?', firstname = '?', lastname = '?', email = '?', telephone ='?', mobile = '?', fax ='?', monogram ='?', signature ='?', user_group_id = '?', date_added = now()";
-		$this->database->query($this->database->parse($sql, $this->request->sanitize('username', 'post'), md5($this->request->sanitize('password', 'post')), $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('email', 'post'), $this->request->sanitize('telephone', 'post'), $this->request->sanitize('mobile', 'post'), $this->request->sanitize('fax', 'post'), $this->request->sanitize('monogram', 'post'), $this->request->sanitize('signature', 'post'), $this->request->gethtml('user_group_id', 'post')));
+		$sql = "insert into user set username = '?', password = '?', firstname = '?', lastname = '?', position ='?', email = '?', telephone ='?', mobile = '?', fax ='?', monogram ='?', signature ='?', user_group_id = '?', date_added = now()";
+		$this->database->query($this->database->parse($sql, $this->request->sanitize('username', 'post'), md5($this->request->sanitize('password', 'post')), $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('position', 'post'), $this->request->sanitize('email', 'post'), $this->request->sanitize('telephone', 'post'), $this->request->sanitize('mobile', 'post'), $this->request->sanitize('fax', 'post'), $this->request->sanitize('monogram', 'post'), $this->request->sanitize('signature', 'post'), $this->request->gethtml('user_group_id', 'post')));
 	}
 
 	function update_user($user_id){
-		$sql = "update user set username = '?', firstname = '?', lastname = '?', email = '?', telephone ='?', mobile = '?', fax ='?', monogram ='?', signature ='?', user_group_id = '?', date_added = now() where user_id = '?'";
-		$this->database->query($this->database->parse($sql, $this->request->sanitize('username', 'post'), $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('email', 'post'), $this->request->sanitize('telephone', 'post'), $this->request->sanitize('mobile', 'post'), $this->request->sanitize('fax', 'post'), $this->request->sanitize('monogram', 'post'), $this->request->sanitize('signature', 'post'), $this->request->gethtml('user_group_id', 'post'), (int)$user_id));
+		$sql = "update user set username = '?', firstname = '?', lastname = '?', position ='?', email = '?', telephone ='?', mobile = '?', fax ='?', monogram ='?', signature ='?', user_group_id = '?', date_added = now() where user_id = '?'";
+		$this->database->query($this->database->parse($sql, $this->request->sanitize('username', 'post'), $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('position', 'post'), $this->request->sanitize('email', 'post'), $this->request->sanitize('telephone', 'post'), $this->request->sanitize('mobile', 'post'), $this->request->sanitize('fax', 'post'), $this->request->sanitize('monogram', 'post'), $this->request->sanitize('signature', 'post'), $this->request->gethtml('user_group_id', 'post'), (int)$user_id));
 	}
 
 	function update_password($user_id){

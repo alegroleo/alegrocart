@@ -592,12 +592,15 @@ form {
 	width: 102px;
 	height: 102px;
 }
-.footer_logo_image, .logo_image, .signature_image{
+.footer_logo_image, .logo_image, .signature_image, .stamp_image{
 	border: 1px solid #999;
 	width: 500px;
 	height: 70px;
 	text-align: center;
 	background: url('../image/trbg.png');
+}
+.stamp_image {
+	height: 140px;
 }
 #favicon{
 	text-align: center;

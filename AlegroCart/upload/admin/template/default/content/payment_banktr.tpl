@@ -11,11 +11,6 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <input type="hidden" name="update_form" value="1">
   <input type="hidden" name="global_banktr_status" value="">
-  <input type="hidden" name="global_banktr_bank_name" value="">
-  <input type="hidden" name="global_banktr_owner" value="">
-  <input type="hidden" name="global_banktr_ban" value="">
-  <input type="hidden" name="global_banktr_iban" value="">
-  <input type="hidden" name="global_banktr_swift" value="">
   <input type="hidden" name="global_banktr_geo_zone_id" value="">
   <input type="hidden" name="global_banktr_sort_order" value="">
 </form>
@@ -53,31 +48,6 @@
                 </select></td>
                 <td class="expl"><?php echo $explanation_banktr_status; ?></td>
             </tr>
-            <tr>
-              <td class="set" valign="top"><?php echo $entry_banktr_bank_name; ?></td>
-              <td><textarea rows="5" cols="30" name="global_banktr_bank_name"><?php echo $global_banktr_bank_name; ?></textarea>
-              <td class="expl" valign="top"><?php echo $explanation_banktr_bank_name; ?></td>
-            </tr>
-	    <tr>
-              <td class="set"><?php echo $entry_banktr_owner; ?></td>
-              <td><input class="validate_alpha_num" id="banktr_owner" type="text" size="25" name="global_banktr_owner" value="<?php echo $global_banktr_owner; ?>">
-              <td class="expl"><?php echo $explanation_banktr_owner; ?></td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_banktr_ban; ?></td>
-              <td><input class="validate_alpha_num" id="banktr_ban" type="text" size="25" name="global_banktr_ban" value="<?php echo $global_banktr_ban; ?>">
-              <td class="expl"><?php echo $explanation_banktr_ban; ?></td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_banktr_iban; ?></td>
-              <td><input class="validate_alpha_num" id="banktr_iban" type="text" size="25" name="global_banktr_iban" value="<?php echo $global_banktr_iban; ?>">
-              <td class="expl"><?php echo $explanation_banktr_iban; ?></td>
-            </tr>
-            <tr>
-              <td class="set"><?php echo $entry_banktr_swift; ?></td>
-              <td><input class="validate_alpha_num" id="banktr_swift" type="text" size="25" name="global_banktr_swift" value="<?php echo $global_banktr_swift; ?>">
-              <td class="expl"><?php echo $explanation_banktr_swift; ?></td>
-            </tr>
 	    <tr>
               <td width="185" class="set"><?php echo $entry_banktr_geo_zone_id; ?></td>
               <td><select name="global_banktr_geo_zone_id">
@@ -107,18 +77,8 @@
   tabview_initialize('tab');
   //--></script>
   <script type="text/javascript"><!--
-    $(document).ready(function() {
-	  RegisterValidation();
-    });
-  //--></script>
-  <script type="text/javascript"><!--
 	function getValues() {
 		document.forms['update_form'].global_banktr_status.value=document.forms['form'].global_banktr_status.value;
-		document.forms['update_form'].global_banktr_bank_name.value=document.forms['form'].global_banktr_bank_name.value;
-		document.forms['update_form'].global_banktr_owner.value=document.forms['form'].global_banktr_owner.value;
-		document.forms['update_form'].global_banktr_ban.value=document.forms['form'].global_banktr_ban.value;
-		document.forms['update_form'].global_banktr_iban.value=document.forms['form'].global_banktr_iban.value;
-		document.forms['update_form'].global_banktr_swift.value=document.forms['form'].global_banktr_swift.value;
 		document.forms['update_form'].global_banktr_geo_zone_id.value=document.forms['form'].global_banktr_geo_zone_id.value;
 		document.forms['update_form'].global_banktr_sort_order.value=document.forms['form'].global_banktr_sort_order.value;
 	}
@@ -142,5 +102,10 @@ $('.task').each(function(){
 		}
 	});
   }
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

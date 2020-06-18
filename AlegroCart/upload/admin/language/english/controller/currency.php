@@ -8,6 +8,7 @@ $_['heading_description']  = 'You can edit the different currencies here. Conver
 $_['text_message']        = 'Success: You have updated currencies!';
 $_['text_lock_rate']      = 'This will disable Automatic Update!';
 $_['text_default_rate']   = 'Set your default currency to 1.0000'; 
+$_['text_bank_account']		= 'Bank Account';
 
 // Buttons
 $_['button_rate']         = 'Update Rates';
@@ -39,5 +40,7 @@ $_['error_permission']     = 'Warning: You do not have permission to modify curr
 $_['error_title']          = '* Currency Title must be between 1 and 32 characters!';
 $_['error_code']           = '* Currency Code must contain exactly 3 characters!';
 $_['error_disable']        = '* You cannot disable default currency!';// Change to error_disable
+$_['error_ba_disable']		= 'Warning: This Currency cannot be disabled as it is currently assigned to 1 bank account!';
 $_['error_default']        = 'Warning: This Currency cannot be deleted as it is currently assigned as the default store currency!';
+$_['error_bank_account']	= 'Warning: This Currency cannot be deleted as it is currently assigned to 1 bank account!';
 ?>

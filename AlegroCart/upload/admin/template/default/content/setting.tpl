@@ -707,9 +707,9 @@
               <td><select name="global_config_currency">
                   <?php foreach ($currencies as $currencies) { ?>
                   <?php if ($currencies['code'] == $global_config_currency) { ?>
-                  <option value="<?php echo $currencies['code']; ?>" selected><?php echo $currencies['title']; ?></option>
+                  <option value="<?php echo $currencies['code']; ?>" selected><?php echo $currencies['title']; ?> (<?php echo $currencies['code']; ?>)</option>
                   <?php } else { ?>
-                  <option value="<?php echo $currencies['code']; ?>"><?php echo $currencies['title']; ?></option>
+                  <option value="<?php echo $currencies['code']; ?>"><?php echo $currencies['title']; ?> (<?php echo $currencies['code']; ?>)</option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>

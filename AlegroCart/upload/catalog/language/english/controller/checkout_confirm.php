@@ -77,7 +77,11 @@ $_['email_banktr_owner_name']= 'Account Owner\'s Name: ';
 $_['email_banktr_ban']       = 'Bank Account Number: ';
 $_['email_banktr_iban']      = 'International Bank Account Number: ';
 $_['email_banktr_swift']     = 'BIC/SWIFT code: ';
-					   
+$_['email_banktr_ben']       = 'You don\'t have to pay any bank transfer charges. Please, select BEN (Beneficiary Costs) in the transfer from.';
+$_['email_banktr_our']       = 'You have to pay all the bank transfer charges! Please, select OUR (Our Costs) in the transfer from.';
+$_['email_banktr_sha']       = 'You have to pay only your bank’s outgoing transfer charges. Please, select SHA (Shared Costs) in the transfer from.';
+
+//Errors
 $_['error_coupon']           = 'Error: Coupon is either invalid, expired or reached its usage limit!';	
-$_['error_product']          = 'Error: You don\'t have any products in your shopping cart that this coupon can be used with!';			
+$_['error_product']          = 'Error: You don\'t have any products in your shopping cart that this coupon can be used with!';
 ?>

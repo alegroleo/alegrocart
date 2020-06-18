@@ -16,9 +16,10 @@ class ModuleMenu extends Controller {
 			// new code
 			$menu = array('system', 'configuration', 'catalog', 'commerce', 'extension', 'customers', 'reports');
 			$submenu1[$menu[0]]= array('home', 'shop', 'maintenance', 'backup', 'server_info', 'logout');
-			$submenu1[$menu[1]]= array('setting', 'users', 'localisation', 'url_alias', 'homepage', 'last_homepage', 'template_manager', 'last_template_manager', 'image_display', 'last_image_display', 'minov');
+			$submenu1[$menu[1]]= array('setting', 'users', 'localisation', 'finance', 'url_alias', 'homepage', 'last_homepage', 'template_manager', 'last_template_manager', 'image_display', 'last_image_display', 'minov');
 			$submenu2[$submenu1[$menu[1]][1]] = array('user', 'usergroup');
-			$submenu2[$submenu1[$menu[1]][2]] = array('language', 'currency', 'order_status', 'country' ,'zone', 'geo_zone', 'tax_class', 'weight_class', 'dimension_class');
+			$submenu2[$submenu1[$menu[1]][2]] = array('language', 'order_status', 'country' ,'zone', 'geo_zone', 'weight_class', 'dimension_class');
+			$submenu2[$submenu1[$menu[1]][3]] = array('currency', 'tax_class', 'bank_account');
 			$submenu1[$menu[2]]= array('category', 'last_category', 'product', 'last_product', 'products_with_options', 'last_products_with_options', 'option', 'last_option', 'last_option_value', 'image', 'last_image', 'watermark', 'download', 'last_download', 'review', 'last_review', 'information', 'last_information');
 			$submenu1[$menu[3]]= array('manufacturer', 'last_manufacturer', 'vendor', 'last_vendor');
 			$submenu1[$menu[4]]= array('module', 'last_module', 'shipping', 'last_shipping', 'payment', 'last_payment', 'calculate', 'last_calculate');

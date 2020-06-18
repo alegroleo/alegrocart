@@ -1620,3 +1620,29 @@ ADD `signature` varchar(64) collate utf8_unicode_ci NOT NULL default '';
 SET @id=NULL;
 SELECT @id:=setting_id FROM setting WHERE `group` = 'config' and `key` = 'config_stamp';
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (@id, 'global', 'config', 'config_stamp', 'example_stamp.png') ON DUPLICATE KEY UPDATE setting_id=setting_id;
+
+
+#
+# Delete from extension Bank Transfer
+#
+DELETE from `setting` WHERE `key` = 'banktr_swift';
+DELETE from `setting` WHERE `key` = 'banktr_ban';
+DELETE from `setting` WHERE `key` = 'banktr_iban';
+DELETE from `setting` WHERE `key` = 'banktr_owner';
+DELETE from `setting` WHERE `key` = 'banktr_bank_name';
+
+#
+# Add Bank Account
+#
+CREATE TABLE IF NOT EXISTS `bank_account` (
+ `bank_account_id` int(11) NOT NULL auto_increment,
+ `bank_name` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+ `bank_address` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+ `owner` varchar(32) collate utf8_unicode_ci NOT NULL default '',
+ `ban` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+ `iban` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+ `swift` varchar(16) collate utf8_unicode_ci NOT NULL default '',
+ `charge` varchar(3) collate utf8_unicode_ci NOT NULL default '',
+ `currency` varchar(3) collate utf8_unicode_ci NOT NULL default '',
+  PRIMARY KEY  (`bank_account_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

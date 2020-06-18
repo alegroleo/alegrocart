@@ -161,6 +161,9 @@
         <?php if (@$cell['vendor']) { ?>
         <b>(<?php echo $text_vendor; ?>)</b>
         <?php } ?>
+        <?php if (@$cell['bank_account']) { ?>
+        <b>(<?php echo $text_bank_account; ?>)</b>
+        <?php } ?>
         <?php if (@$cell['geo']) { ?>
         <b>(<?php echo $text_geo; ?>)</b>
         <?php } ?></td>
@@ -243,6 +246,25 @@ $("input").click(function (event) {
 		}
 		$(this).attr('src','template/<?php echo $this->directory?>/image/'+imgstatus2);
 		$(this).attr('name', imgstatus == '0' ? '1' : '0'); 
+	}
+});
+//--></script>
+<?php } elseif(isset($controller) && $controller == 'currency') {?>
+<script type="text/javascript"><!--
+$("input").click(function (event) {
+	var imgstatus = $(this).attr('name');
+	var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png');
+	var urlid = $(this).attr('id');
+	var isclass = $(this).attr('class');
+	if (isclass == "status") {
+		<?php if (@$allcurr) { ?>
+			if (imgstatus == '0'){
+				$(this).css('cursor', 'default').attr('disabled', 'disabled');
+				$('td:first', $(this).parents('tr')).append('<b>(<?php echo $text_bank_account?>)</b>');
+			}
+		<?php } ?>
+			$(this).attr('src','template/<?php echo $this->directory?>/image/'+imgstatus2);
+			$(this).attr('name', imgstatus == '0' ? '1' : '0'); 
 	}
 });
 //--></script>

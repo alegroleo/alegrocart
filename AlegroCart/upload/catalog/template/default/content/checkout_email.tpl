@@ -285,6 +285,7 @@ body, td, th, input, textarea, select {
 <?php if ($email_banktr_message) { ?>
 <div class="g">
     <?php echo $email_banktr_message; ?><br><br>
+    <b><?php echo $email_banktr_charge; ?></b><br><br>
     <b><?php echo $email_banktr_owner_name; ?></b><?php echo $banktr_owner; ?><br>
     	<?php if ($same_country) { ?>
 	    <b><?php echo $email_banktr_ban; ?></b><?php echo $banktr_ban; ?><br>
@@ -292,7 +293,7 @@ body, td, th, input, textarea, select {
 	    <b><?php echo $email_banktr_iban; ?></b><?php echo $banktr_iban; ?><br>
 	    <b><?php echo $email_banktr_swift; ?></b><?php echo $banktr_swift; ?><br>
 	<?php } ?>
-    <b><?php echo $email_banktr_bank_name; ?></b><br><?php echo $banktr_address; ?><br>
+    <b><?php echo $email_banktr_bank_name; ?></b><br><?php echo $banktr_bank_name; ?><br><?php echo $banktr_address; ?><br>
 </div>
 <?php } ?>
   <?php if ($comment) { ?>

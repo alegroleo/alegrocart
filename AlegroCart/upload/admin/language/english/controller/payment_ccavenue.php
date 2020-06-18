@@ -6,8 +6,8 @@ $_['heading_description'] = 'You can edit payment ccAvenue account details here.
 
 // Text 
 $_['text_message']        = 'Success: You have updated ccAenue account details!';
-$_['text_usd']		  = 'US Dollar';
-$_['text_inr']            = 'Indian Rupee';
+$_['text_usd']		  = 'U.S. Dollars (USD)';
+$_['text_inr']            = 'Indian Rupee (INR)';
 
 // Entry
 $_['entry_status']        = 'Status:';

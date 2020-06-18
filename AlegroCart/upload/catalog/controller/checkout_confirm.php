@@ -424,21 +424,23 @@ class ControllerCheckoutConfirm extends Controller {
 		}
 
 		if ($this->session->get('payment_method') == 'banktr') {
-
+			$account = $this->modelCheckout->getBankAccount($this->currency->getCode());
 			$email->set('email_banktr_message', $this->language->get('email_banktr_message', $this->order->getReference()));
-			$email->set('banktr_address', str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('banktr_bank_name')));
+			$email->set('banktr_address', str_replace(array("\r\n", "\r", "\n"), '<br>', $account['bank_address']));
+			$email->set('banktr_bank_name', $account['bank_name']);
 			$email->set('email_banktr_bank_name', $this->language->get('email_banktr_bank_name'));
 			$email->set('email_banktr_owner_name', $this->language->get('email_banktr_owner_name'));
-			$email->set('banktr_owner', $this->config->get('banktr_owner'));
+			$email->set('banktr_owner', $account['owner']);
 
 			$email->set('same_country', $this->customer->country_compare($this->session->get('payment_address_id')));
 
 			$email->set('email_banktr_ban', $this->language->get('email_banktr_ban'));
-			$email->set('banktr_ban', $this->config->get('banktr_ban'));
+			$email->set('banktr_ban', $account['ban']);
 			$email->set('email_banktr_iban', $this->language->get('email_banktr_iban'));
 			$email->set('email_banktr_swift', $this->language->get('email_banktr_swift'));
-			$email->set('banktr_iban', $this->config->get('banktr_iban'));
-			$email->set('banktr_swift', $this->config->get('banktr_swift'));
+			$email->set('banktr_iban', $account['iban']);
+			$email->set('banktr_swift', $account['swift']);
+			$email->set('email_banktr_charge', $this->language->get('email_banktr_'.strtolower($account['charge'])));
 		} else {
 			$email->set('email_banktr_message', NULL);
 		}

@@ -232,6 +232,7 @@ class ControllerLanguage extends Controller {
  		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'language');
@@ -253,6 +254,7 @@ class ControllerLanguage extends Controller {
 		$view->set('rows', $rows);
 
 		$view->set('insert', $this->url->ssl('language', 'insert'));
+		$view->set('last', $this->url->getLast('language'));
 
 		$view->set('pages', $this->modelLanguage->get_pagination());
 
@@ -283,6 +285,7 @@ class ControllerLanguage extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -298,6 +301,7 @@ class ControllerLanguage extends Controller {
 
 		$view->set('insert', $this->url->ssl('language', 'insert'));
 		$view->set('cancel', $this->url->ssl('language'));
+		$view->set('last', $this->url->getLast('language'));
 
 		if ($this->request->gethtml('language_id')) {
 			$view->set('update', 'enable');

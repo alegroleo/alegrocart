@@ -32,4 +32,13 @@ $_['error_install_dir']		= 'Warning: Immediately delete the Install directory!';
 $_['error_permission_config']	= 'Warning: Make the config.php unwritable!';
 $_['error_permission_htaccess']	= 'Warning: Make the .htaccess unwritable!';
 $_['error_page_load']		= 'Warning: Is your cart under development? Decreasing page load time of your store is not enabled!';
+
+//Explanation
+$_['explanation_customer']	= 'Registered during the last 7 days / All customers';
+$_['explanation_order']		= '%s / All orders';
+$_['explanation_product']	= 'Enabled / All products';
+$_['explanation_review']	= 'Enabled / All reviews';
+$_['explanation_language']	= 'Enabled / All languages';
+$_['explanation_currency']	= 'Enabled / All currencies';
+$_['explanation_country']	= 'Enabled / All countries';
 ?>

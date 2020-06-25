@@ -55,6 +55,7 @@ class ControllerPaymentbanktr extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -64,6 +65,7 @@ class ControllerPaymentbanktr extends Controller {
 
 		$view->set('action', $this->url->ssl('payment_banktr'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'payment')));
+		$view->set('last', $this->url->getLast('extension_payment'));
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');

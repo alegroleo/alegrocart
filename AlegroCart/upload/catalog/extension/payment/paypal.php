@@ -279,7 +279,7 @@ class PaymentPayPal extends Payment {
     */
     function callback() {
         // if IPN callback is called
-		SLEEP(5);
+		SLEEP(10);
         if ($this->request->gethtml('method') == 'ipn'){ 
             
             // read the post from PayPal system and add 'cmd'

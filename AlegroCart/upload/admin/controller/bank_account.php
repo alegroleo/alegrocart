@@ -161,6 +161,7 @@ class ControllerBankAccount extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'bank_account');
@@ -182,6 +183,7 @@ class ControllerBankAccount extends Controller {
 		$view->set('rows', $rows);
 
 		$view->set('insert', $this->url->ssl('bank_account', 'insert'));
+		$view->set('last', $this->url->getLast('bank_account'));
 
 		$view->set('pages', $this->modelBankAccount->get_pagination());
 
@@ -212,6 +214,7 @@ class ControllerBankAccount extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('explanation_bank_name', $this->language->get('explanation_bank_name'));
 		$view->set('explanation_bank_address', $this->language->get('explanation_bank_address'));
@@ -232,7 +235,7 @@ class ControllerBankAccount extends Controller {
 		$view->set('error_ban', @$this->error['ban']);
 
 		$view->set('action', $this->url->ssl('bank_account', $this->request->gethtml('action'), array('bank_account_id' => $this->request->gethtml('bank_account_id'))));
-
+		$view->set('last', $this->url->getLast('bank_account'));
 		$view->set('insert', $this->url->ssl('bank_account', 'insert'));
 		$view->set('cancel', $this->url->ssl('bank_account'));
 

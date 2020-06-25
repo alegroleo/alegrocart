@@ -95,7 +95,7 @@ class ControllerWatermark extends Controller {
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
-
+		$view->set('button_last', $this->language->get('button_last'));
 		$view->set('button_preview', $this->language->get('button_preview'));
 		$view->set('button_save_wmi', $this->language->get('button_save_wmi'));
 		$view->set('button_help', $this->language->get('button_help'));
@@ -114,6 +114,7 @@ class ControllerWatermark extends Controller {
 		
 		$view->set('action', $this->url->ssl('watermark'));
 		$view->set('cancel', $this->url->ssl('watermark'));
+		$view->set('last', $this->url->getLast('watermark'));
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));

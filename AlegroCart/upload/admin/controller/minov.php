@@ -53,6 +53,7 @@ class ControllerMinov extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -63,6 +64,7 @@ class ControllerMinov extends Controller {
 		$this->session->delete('message');
 		$view->set('action', $this->url->ssl('minov'));
 		$view->set('cancel', $this->url->ssl('minov'));
+		$view->set('last', $this->url->getLast('minov'));
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));

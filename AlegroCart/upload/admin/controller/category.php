@@ -300,6 +300,7 @@ class ControllerCategory extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_visibility', $this->language->get('button_visibility'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'category');
@@ -326,7 +327,7 @@ class ControllerCategory extends Controller {
 		$view->set('sort', $this->session->get('category.sort'));
 		$view->set('order', $this->session->get('category.order'));
 		$view->set('page', ($this->request->has('path') ? $this->session->get('category.' . $this->request->gethtml('path') . 'page') : $this->session->get('category.page')));
-
+		$view->set('last', $this->url->getLast('category'));
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 		$view->set('head_def',$this->head_def); 
@@ -362,6 +363,7 @@ class ControllerCategory extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -386,6 +388,7 @@ class ControllerCategory extends Controller {
 		$view->set('action', $this->url->ssl('category', $this->request->gethtml('action'), $query));
 		$view->set('insert', $this->url->ssl('category', 'insert', array('path' => $this->request->gethtml('path'))));
 		$view->set('cancel', $this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
+		$view->set('last', $this->url->getLast('category'));
 
 		if ($this->request->gethtml('category_id')) {
 			$query = array(

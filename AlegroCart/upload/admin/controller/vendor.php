@@ -212,6 +212,7 @@ class ControllerVendor extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'vendor');
@@ -224,6 +225,7 @@ class ControllerVendor extends Controller {
 
 		$view->set('action', $this->url->ssl('vendor', 'page'));
 		$view->set('action_delete', $this->url->ssl('vendor', 'enableDelete'));
+		$view->set('last', $this->url->getLast('vendor'));
 
 		$view->set('search', $this->session->get('vendor.search'));
 		$view->set('sort', $this->session->get('vendor.sort'));
@@ -277,6 +279,7 @@ class ControllerVendor extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -301,6 +304,7 @@ class ControllerVendor extends Controller {
 
 	$view->set('insert', $this->url->ssl('vendor', 'insert'));
 	$view->set('cancel', $this->url->ssl('vendor'));
+		$view->set('last', $this->url->getLast('vendor'));
 
 	if ($this->request->gethtml('vendor_id')) {
 		$view->set('update', $this->url->ssl('vendor', 'update', array('vendor_id' => $this->request->gethtml('vendor_id'))));

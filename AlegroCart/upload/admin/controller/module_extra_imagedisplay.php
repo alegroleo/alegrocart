@@ -53,6 +53,7 @@ class ControllerModuleExtraImageDisplay extends Controller {
 		$view->set('tab_module', $this->language->get('tab_module'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -60,6 +61,7 @@ class ControllerModuleExtraImageDisplay extends Controller {
 		$view->set('action', $this->url->ssl('module_extra_imagedisplay'));
 		$view->set('action_home', $this->url->ssl('image_display'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
+		$view->set('last', $this->url->getLast('extension_module'));
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');

@@ -4,8 +4,8 @@ $_['code']              = 'en';
 $_['charset']           = 'utf-8';
 $_['direction']         = 'ltr';
 $_['locale']            = 'en_US.UTF-8,en_US,english';
-$_['date_format_short'] = 'j F Y';
-$_['date_format_long']  = 'l, F dS Y';
+$_['date_format_short']	= 'F j, Y';
+$_['date_format_long']	= 'l, F jS, Y';
 $_['time_format']       = 'h:i:s A';
 $_['decimal_point']     = '.';
 $_['thousand_point']    = ',';
@@ -95,6 +95,7 @@ $_['button_status']	= 'Change Status';
 $_['button_save_as']	= 'Save As...';
 $_['button_visibility']	= 'Change Visibility';
 $_['button_help']	= 'Help';
+$_['button_last']	= 'Last page';
 
 // Tab
 $_['tab_general']       = 'General';

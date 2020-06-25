@@ -161,6 +161,7 @@ class ControllerTaxClass extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
  		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'tax_class');
@@ -173,6 +174,7 @@ class ControllerTaxClass extends Controller {
 		
 		$view->set('action', $this->url->ssl('tax_class', 'page'));
 		$view->set('action_delete', $this->url->ssl('tax_class', 'enableDelete'));
+		$view->set('last', $this->url->getLast('tax_class'));
 
 		$view->set('search', $this->session->get('tax_class.search'));
 		$view->set('sort', $this->session->get('tax_class.sort'));
@@ -205,6 +207,7 @@ class ControllerTaxClass extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -217,6 +220,7 @@ class ControllerTaxClass extends Controller {
 
 		$view->set('insert', $this->url->ssl('tax_class', 'insert'));
 		$view->set('cancel', $this->url->ssl('tax_class'));
+		$view->set('last', $this->url->getLast('tax_class'));
 
 		if ($this->request->gethtml('tax_class_id')) {
 			$view->set('update', $this->url->ssl('tax_class', 'update', array('tax_class_id' => $this->request->gethtml('tax_class_id'))));

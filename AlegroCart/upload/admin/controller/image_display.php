@@ -202,6 +202,7 @@ class ControllerImageDisplay extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'image_display');
@@ -222,6 +223,7 @@ class ControllerImageDisplay extends Controller {
 	    	$view->set('rows', $rows);
 
 	    	$view->set('insert', $this->url->ssl('image_display', 'insert'));
+		$view->set('last', $this->url->getLast('image_display'));
 
 		$view->set('pages', $this->modelImageDisplay->get_pagination());
 
@@ -279,6 +281,7 @@ class ControllerImageDisplay extends Controller {
 		$view->set('button_remove', $this->language->get('button_remove'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_name', $this->language->get('tab_name'));
@@ -293,6 +296,7 @@ class ControllerImageDisplay extends Controller {
 		$view->set('insert', $this->url->ssl('image_display', 'insert'));
 		$view->set('cancel', $this->url->ssl('image_display'));
 		$view->set('action_flash', $this->url->ssl('image_display', 'flash_upload',array('image_display_id' => (int)$this->request->gethtml('image_display_id'))));
+		$view->set('last', $this->url->getLast('image_display'));
 
 		if ($this->request->gethtml('image_display_id')) {
 		$view->set('update', 'enabled');

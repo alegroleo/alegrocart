@@ -55,6 +55,7 @@ class ControllerModuleCatalogsearch extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -63,6 +64,7 @@ class ControllerModuleCatalogsearch extends Controller {
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('module_catalog_search'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));	
+		$view->set('last', $this->url->getLast('extension_module'));
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');

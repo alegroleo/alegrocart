@@ -269,6 +269,7 @@ class ControllerCurrency extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'currency');
@@ -293,6 +294,7 @@ class ControllerCurrency extends Controller {
 		$view->set('rows', $rows);
 
 		$view->set('insert', $this->url->ssl('currency', 'insert'));
+		$view->set('last', $this->url->getLast('currency'));
 
 		$view->set('pages', $this->modelCurrency->get_pagination());
 
@@ -326,6 +328,7 @@ class ControllerCurrency extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -339,6 +342,7 @@ class ControllerCurrency extends Controller {
 		$view->set('action', $this->url->ssl('currency', $this->request->gethtml('action'), array('currency_id' => $this->request->gethtml('currency_id'))));
 		$view->set('insert', $this->url->ssl('currency', 'insert'));
 		$view->set('cancel', $this->url->ssl('currency'));
+		$view->set('last', $this->url->getLast('currency'));
 
 		if ($this->request->gethtml('currency_id')) {
 			$view->set('update', $this->url->ssl('currency', 'update', array('currency_id' => $this->request->gethtml('currency_id'))));

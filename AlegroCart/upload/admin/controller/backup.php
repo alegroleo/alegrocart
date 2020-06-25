@@ -19,6 +19,7 @@ class ControllerBackup extends Controller {
 
 		$this->language->load('controller/backup.php');
 	}
+
 	function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -52,6 +53,7 @@ class ControllerBackup extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -71,6 +73,7 @@ class ControllerBackup extends Controller {
 		$view->set('head_def',$this->head_def); 
 
 		$view->set('cancel', $this->url->ssl('backup'));
+		$view->set('last', $this->url->getLast('backup'));
 
 		$view->set('download', $this->url->ssl('backup', 'download&validation='.$this->session->get('validation')));
 
@@ -97,6 +100,7 @@ class ControllerBackup extends Controller {
 			$this->response->redirect($this->url->ssl('backup'));
 		}
 	}
+
 	function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
@@ -104,6 +108,7 @@ class ControllerBackup extends Controller {
 			$this->session->set('help', TRUE);
 		}
 	}
+
 	function validate_download(){
 		if($this->session->get('validation') == $this->request->get('validation')){
 			if (!$this->user->hasPermission('modify', 'backup')) {
@@ -121,6 +126,7 @@ class ControllerBackup extends Controller {
 			return FALSE;
 		}
 	}
+
 	function validate_upload() {
 		if(($this->session->get('validation') == $this->request->sanitize($this->session->get('cdx'),'post')) && (strlen($this->session->get('validation')) > 10)){
 			if (!$this->user->hasPermission('modify', 'backup')) {

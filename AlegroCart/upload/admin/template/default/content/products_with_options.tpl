@@ -47,6 +47,11 @@
   <?php } else { ?>
     <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
   <?php } ?>
+<?php if (@$last) { ?>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } else { ?>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } ?>
 </div>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>

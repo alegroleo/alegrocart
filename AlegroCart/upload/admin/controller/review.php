@@ -242,6 +242,7 @@ class ControllerReview extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'review');
@@ -263,6 +264,7 @@ class ControllerReview extends Controller {
 		$view->set('rows', $rows);
 
 		$view->set('insert', $this->url->ssl('review', 'insert'));
+		$view->set('last', $this->url->getLast('review'));
 
 		$view->set('pages', $this->modelReview->get_pagination());
 
@@ -296,6 +298,7 @@ class ControllerReview extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -309,6 +312,7 @@ class ControllerReview extends Controller {
 
 		$view->set('insert', $this->url->ssl('review', 'insert'));
 		$view->set('cancel', $this->url->ssl('review'));
+		$view->set('last', $this->url->getLast('review'));
 
 		if ($this->request->gethtml('review_id')) {
 			$view->set('update', 'update');

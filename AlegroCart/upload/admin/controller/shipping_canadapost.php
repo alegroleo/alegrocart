@@ -78,6 +78,7 @@ class ControllerShippingCanadaPost extends Controller{
 		$view->set('button_save', $this->language->get('button_save'));
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -87,6 +88,7 @@ class ControllerShippingCanadaPost extends Controller{
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('shipping_canadapost'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'shipping')));	
+		$view->set('last', $this->url->getLast('extension_shipping'));
 
 		$view->set('tab', $this->session->has('shipping_canadapost_tab') ? $this->session->get('shipping_canadapost_tab') : 0);
 

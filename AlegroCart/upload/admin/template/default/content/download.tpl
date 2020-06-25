@@ -30,6 +30,11 @@
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs();document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+<?php if (@$last) { ?>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } else { ?>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } ?>
 </div>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
@@ -80,15 +85,18 @@
           <table>
             <tr>
               <td width="185" class="set"><?php echo $entry_filename; ?></td>
-               <td><input type="text" id="fileName" name="fileName" class="file_input_textbox" readonly="readonly" value="<?php echo $filename;?>">
-	      <?php if ($error_file) { ?>
+               <td>
+		<input type="text" id="fileName" name="fileName" class="file_input_textbox" readonly="readonly">
+                <?php if ($error_file) { ?>
                 <span class="error"><?php echo $error_file; ?></span>
                 <?php } ?>
-	      <td><div class="file_input_div">
-	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
-	      <input type="file" id="download" name="download" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value; set_mask()" />
-	      </div><td>
-                </td>
+	      </td>
+	      <td>
+		<div class="file_input_div">
+		<input type="file" name="download" id="download" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value; set_mask()" />
+		<label for="download"><?php echo $text_browse; ?></label>
+		</div>
+              </td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_mask; ?></td>
@@ -128,7 +136,8 @@
   return str;
   }
   function CleanFile(Download){
-	var str = Download.match(/^[a-zA-Z\s]{1}[\s\w\-]*\.?[a-zA-Z]*/);
+	var str = Download.split('\\').pop();
+	str = str.match(/^[a-zA-Z\s]{1}[\s\w\-]*\.?[a-zA-Z]*/);
 	str = str.join("");
 	str = str.toLowerCase();
 	$('#fileName').val(str);
@@ -158,11 +167,6 @@
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
-  //--></script>
-  <script type="text/javascript"><!--
-    $(document).ready(function() {
-	  RegisterValidation();
-    });
   //--></script>
   <script type="text/javascript"><!--
   $(document).ready(function() {
@@ -235,5 +239,20 @@
 		}
 	}
    });
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
+  //--></script>
+  <script type="text/javascript"><!--
+	( function ( document, window, index ) {
+		var inputs = document.querySelectorAll( '.file_input_hidden' );
+		Array.prototype.forEach.call( inputs, function( input ) {
+			// Firefox bug fix
+			input.addEventListener( 'focus', function(){ input.classList.add( 'has-focus' ); });
+			input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
+		});
+	}( document, window, 0 ));
   //--></script>
 </form>

@@ -21,33 +21,33 @@
   <div class="a">
     <table>
       <tr>
-        <td onclick="location='<?php echo $online; ?>'"><img src="template/<?php echo $this->directory?>/image/online.png" class="png"><br>
+        <td onclick="location='<?php echo $online; ?>'"><img src="template/<?php echo $this->directory?>/image/online.png" alt="<?php echo $text_online; ?>" class="png"><br>
           <?php echo $text_online; ?><br>
           <?php echo $users; ?></td>
-        <td onclick="location='<?php echo $customer; ?>'"><img src="template/<?php echo $this->directory?>/image/customer.png" class="png"><br>
+        <td onclick="location='<?php echo $customer; ?>'"><img src="template/<?php echo $this->directory?>/image/customer.png" alt="<?php echo $text_customer; ?>" title="<?php echo $explanation_customer; ?>"class="png"><br>
           <?php echo $text_customer; ?><br>
-          <?php echo $customers; ?></td>
-        <td onclick="location='<?php echo $order; ?>'"><img src="template/<?php echo $this->directory?>/image/order.png" class="png"><br>
+          <?php echo $new_customers; ?> / <?php echo $customers; ?></td>
+        <td onclick="location='<?php echo $order; ?>'"><img src="template/<?php echo $this->directory?>/image/order.png" alt="<?php echo $text_order; ?>" title="<?php echo $explanation_order; ?>"class="png"><br>
           <?php echo $text_order; ?><br>
-          <?php echo $orders; ?></td>
-        <td onclick="location='<?php echo $product; ?>'"><img src="template/<?php echo $this->directory?>/image/product.png" class="png"><br>
+          <?php echo $new_orders; ?> / <?php echo $orders; ?></td>
+        <td onclick="location='<?php echo $product; ?>'"><img src="template/<?php echo $this->directory?>/image/product.png" alt="<?php echo $text_product; ?>" title="<?php echo $explanation_product; ?>"class="png"><br>
           <?php echo $text_product; ?><br>
-          <?php echo $products; ?></td>
-        <td onclick="location='<?php echo $image; ?>'"><img src="template/<?php echo $this->directory?>/image/image.png" class="png"><br>
+          <?php echo $active_products; ?> / <?php echo $products; ?></td>
+        <td onclick="location='<?php echo $review; ?>'"><img src="template/<?php echo $this->directory?>/image/review.png" alt="<?php echo $text_review; ?>" title="<?php echo $explanation_review; ?>"class="png"><br>
+          <?php echo $text_review; ?><br>
+          <?php echo $active_reviews; ?> / <?php echo $reviews; ?></td>
+        <td onclick="location='<?php echo $language; ?>'"><img src="template/<?php echo $this->directory?>/image/language.png" alt="<?php echo $text_language; ?>" title="<?php echo $explanation_language; ?>"class="png"><br>
+          <?php echo $text_language; ?><br>
+          <?php echo $active_languages; ?> / <?php echo $languages; ?></td>
+        <td onclick="location='<?php echo $currency; ?>'"><img src="template/<?php echo $this->directory?>/image/currency.png" alt="<?php echo $text_currency; ?>" title="<?php echo $explanation_currency; ?>"class="png"><br>
+          <?php echo $text_currency; ?><br>
+          <?php echo $active_currencies; ?> / <?php echo $currencies; ?></td>
+        <td onclick="location='<?php echo $country; ?>'"><img src="template/<?php echo $this->directory?>/image/country.png" alt="<?php echo $text_country; ?>" title="<?php echo $explanation_country; ?>"class="png"><br>
+          <?php echo $text_country; ?><br>
+          <?php echo $active_countries; ?> / <?php echo $countries; ?></td>
+        <td onclick="location='<?php echo $image; ?>'"><img src="template/<?php echo $this->directory?>/image/image.png" alt="<?php echo $text_online; ?>" class="png"><br>
           <?php echo $text_image; ?><br>
           <?php echo $images; ?></td>
-        <td onclick="location='<?php echo $review; ?>'"><img src="template/<?php echo $this->directory?>/image/review.png" class="png"><br>
-          <?php echo $text_review; ?><br>
-          <?php echo $reviews; ?></td>
-        <td onclick="location='<?php echo $language; ?>'"><img src="template/<?php echo $this->directory?>/image/language.png" class="png"><br>
-          <?php echo $text_language; ?><br>
-          <?php echo $languages; ?></td>
-        <td onclick="location='<?php echo $currency; ?>'"><img src="template/<?php echo $this->directory?>/image/currency.png" class="png"><br>
-          <?php echo $text_currency; ?><br>
-          <?php echo $currencies; ?></td>
-        <td onclick="location='<?php echo $country; ?>'"><img src="template/<?php echo $this->directory?>/image/country.png" class="png"><br>
-          <?php echo $text_country; ?><br>
-          <?php echo $countries; ?></td>
       </tr>
     </table>
   </div>
@@ -115,7 +115,7 @@
         <td class="left"><?php echo $review['product']; ?></td>
         <td class="left"><?php echo $review['author']; ?></td>
         <td class="center"><?php echo $review['avgrating']; ?></td>
-        <td class="center"><img src="template/<?php echo $this->directory?>/image/<?php echo (($review['status']) ? 'enabled' : 'disabled'); ?>.png" class="png"></td>
+        <td class="center"><img src="template/<?php echo $this->directory?>/image/<?php echo (($review['status']) ? 'enabled' : 'disabled'); ?>.png" alt="" class="png"></td>
       </tr>
       <?php } ?>
     </table>

@@ -140,6 +140,7 @@ class ControllerReportSale extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -161,6 +162,7 @@ class ControllerReportSale extends Controller {
 		$view->set('rows', $rows);
 
 		$view->set('action', $this->url->ssl('report_sale', 'page'));
+		$view->set('last', $this->url->getLast('report_sale'));
 
 		$group_data = array();
 

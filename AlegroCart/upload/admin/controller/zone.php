@@ -222,6 +222,7 @@ class ControllerZone extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'zone');
@@ -234,6 +235,7 @@ class ControllerZone extends Controller {
 
 		$view->set('action', $this->url->ssl('zone', 'page'));
 		$view->set('action_delete', $this->url->ssl('zone', 'enableDelete'));
+		$view->set('last', $this->url->getLast('zone'));
 
 		$view->set('search', $this->session->get('zone.search'));
 		$view->set('sort', $this->session->get('zone.sort'));
@@ -270,6 +272,7 @@ class ControllerZone extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('error', @$this->error['message']);
@@ -281,6 +284,7 @@ class ControllerZone extends Controller {
  
 		$view->set('insert', $this->url->ssl('zone', 'insert'));
 		$view->set('cancel', $this->url->ssl('zone'));
+		$view->set('last', $this->url->getLast('zone'));
 
 		if (($this->request->gethtml('zone_id')) && (!$this->request->isPost())) {
 			$zone_info = $this->modelZone->get_zone();

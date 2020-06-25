@@ -175,6 +175,7 @@ class ControllerOption extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 	$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'option');
@@ -187,6 +188,7 @@ class ControllerOption extends Controller {
 
 	$view->set('action', $this->url->ssl('option', 'page'));
 		$view->set('action_delete', $this->url->ssl('option', 'enableDelete'));
+		$view->set('last', $this->url->getLast('option'));
 
 	$view->set('search', $this->session->get('option.search'));
 	$view->set('sort', $this->session->get('option.sort'));
@@ -218,6 +220,7 @@ class ControllerOption extends Controller {
 	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 	$view->set('tab_general', $this->language->get('tab_general'));
@@ -230,7 +233,7 @@ class ControllerOption extends Controller {
 	}
 
 	$view->set('action', $this->url->ssl('option', $this->request->gethtml('action'), array('option_id' => $this->request->gethtml('option_id'))));
-
+		$view->set('last', $this->url->getLast('option'));
 	$view->set('insert', $this->url->ssl('option', 'insert'));
 		$view->set('cancel', $this->url->ssl('option'));
 

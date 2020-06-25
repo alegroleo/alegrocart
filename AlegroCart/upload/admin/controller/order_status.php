@@ -152,6 +152,7 @@ class ControllerOrderStatus extends Controller {
 	$view->set('button_print', $this->language->get('button_print'));
 	$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'order_status');
@@ -164,6 +165,7 @@ class ControllerOrderStatus extends Controller {
 		  
     	$view->set('action', $this->url->ssl('order_status', 'page'));
 		$view->set('action_delete', $this->url->ssl('order_status', 'enableDelete'));
+		$view->set('last', $this->url->getLast('order_status'));
 
     	$view->set('search', $this->session->get('order_status.search'));
     	$view->set('sort', $this->session->get('order_status.sort'));
@@ -195,6 +197,7 @@ class ControllerOrderStatus extends Controller {
     		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
     		$view->set('tab_general', $this->language->get('tab_general'));
@@ -207,7 +210,7 @@ class ControllerOrderStatus extends Controller {
 		}
 
 		$view->set('action', $this->url->ssl('order_status', $this->request->gethtml('action'), array('order_status_id' => $this->request->gethtml('order_status_id'))));
-
+		$view->set('last', $this->url->getLast('order_status'));
     		$view->set('insert', $this->url->ssl('order_status', 'insert'));
 		$view->set('cancel', $this->url->ssl('order_status'));
 

@@ -187,6 +187,7 @@ class ControllerTaxRate extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'tax_rate');
@@ -199,7 +200,8 @@ class ControllerTaxRate extends Controller {
 		
 		$view->set('action', $this->url->ssl('tax_rate', 'page', array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 		$view->set('action_delete', $this->url->ssl('tax_rate', 'enableDelete', array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
-		
+		$view->set('last', $this->url->getLast('tax_rate'));
+
 		$view->set('previous', $this->url->ssl('tax_class', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 
 		$view->set('search', $this->session->get('tax_rate.search')); 
@@ -235,6 +237,7 @@ class ControllerTaxRate extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -252,6 +255,7 @@ class ControllerTaxRate extends Controller {
 		$view->set('action', $this->url->ssl('tax_rate', $this->request->gethtml('action'), $query));
 		$view->set('insert', $this->url->ssl('tax_rate', 'insert', array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 		$view->set('cancel', $this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
+		$view->set('last', $this->url->getLast('tax_rate'));
 
 		if ($this->request->gethtml('tax_rate_id')) {
 			$query = array(

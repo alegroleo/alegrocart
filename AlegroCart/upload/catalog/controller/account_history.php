@@ -73,7 +73,7 @@ class ControllerAccountHistory extends Controller {
           			'name'       => $result['firstname'] . ' ' . $result['lastname'],
 					'invoice_number' => $result['invoice_number'] ? $result['invoice_number'] : 0,
           			'status'     => $result['status'],
-          			'date_added' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
+          			'date_added' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
           			'products'   => $product_info['products'],
           			'total'      => $this->currency->format($result['total'], $result['currency'], $result['value'])
         		);

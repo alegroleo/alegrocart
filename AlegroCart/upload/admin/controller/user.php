@@ -200,6 +200,7 @@ class ControllerUser extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'user');
@@ -213,6 +214,7 @@ class ControllerUser extends Controller {
 
 		$view->set('action', $this->url->ssl('user', 'page'));
 		$view->set('action_delete', $this->url->ssl('user', 'enableDelete'));
+		$view->set('last', $this->url->getLast('user'));
 
 		$view->set('search', $this->session->get('user.search'));
 		$view->set('sort', $this->session->get('user.sort'));
@@ -259,6 +261,7 @@ class ControllerUser extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -273,6 +276,7 @@ class ControllerUser extends Controller {
 
 		$view->set('action', $this->url->ssl('user', $this->request->gethtml('action'), array('user_id' => $this->request->gethtml('user_id'))));
 		$view->set('insert', $this->url->ssl('user', 'insert'));
+		$view->set('last', $this->url->getLast('user'));
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');

@@ -1,4 +1,4 @@
-<?php       
+<?php 
 class ControllerServerInfo extends Controller {
 	function __construct(&$locator){
 		$this->locator	=& $locator;
@@ -9,6 +9,7 @@ class ControllerServerInfo extends Controller {
 		$this->session  =& $locator->get('session');
 		$this->language =& $locator->get('language');
 		$this->template =& $locator->get('template');
+		$this->url      	=& $locator->get('url');
 		$this->module   =& $locator->get('module');
 		$this->modelServerInfo = $model->get('model_admin_server_info');
 		$this->head_def		=& $locator->get('HeaderDefinition');
@@ -16,9 +17,10 @@ class ControllerServerInfo extends Controller {
 
 		$this->language->load('controller/server_info.php');
 	}
+
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
-		
+
 		$view = $this->locator->create('template'); 
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -27,8 +29,11 @@ class ControllerServerInfo extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
+
+		$view->set('last', $this->url->getLast('server_info'));
 
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
@@ -72,6 +77,7 @@ class ControllerServerInfo extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl')); 
 	}
+
 	function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');

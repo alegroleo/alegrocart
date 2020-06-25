@@ -225,6 +225,7 @@ class ControllerProductOption extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'product_option');
@@ -238,6 +239,7 @@ class ControllerProductOption extends Controller {
 		
 		$view->set('action', $this->url->ssl('product_option', 'page', array('product_id' => $this->request->gethtml('product_id'))));
 		$view->set('action_delete', $this->url->ssl('product_option', 'enableDelete', array('product_id' => $this->request->gethtml('product_id'))));
+		$view->set('last', $this->url->getLast('product_option'));
 
 		$view->set('previous', $this->url->ssl('product', FALSE, array('product_id' => $this->request->gethtml('product_id'))));
  
@@ -281,6 +283,7 @@ class ControllerProductOption extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -298,6 +301,7 @@ class ControllerProductOption extends Controller {
 
 		$view->set('insert', $this->url->ssl('product_option', 'insert', array('product_id' => $this->request->gethtml('product_id'))));
 		$view->set('cancel', $this->url->ssl('product_option', FALSE, array('product_id' => $this->request->gethtml('product_id'))));
+		$view->set('last', $this->url->getLast('product_option'));
 
 		if ($this->request->gethtml('product_to_option_id')) {
 			$query = array(

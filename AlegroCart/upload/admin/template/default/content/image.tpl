@@ -27,6 +27,11 @@
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs();document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+<?php if (@$last) { ?>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } else { ?>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } ?>
 </div>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
@@ -77,14 +82,16 @@
 	    </td></tr><?php } ?>
             <tr>
               <td style="width: 100px;" class="set"><?php echo $entry_filename; ?></td>
-              <td><input type="text" id="fileName" class="file_input_textbox" readonly="readonly">
-	      <div class="file_input_div">
-	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
-	      <input type="file" name="image" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value" />
-	      </div>
+              <td>
+		<div class="file_input_div">
+			<input type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+			<input type="file" name="image" id="image" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value" />
+			<label for="image"><?php echo $text_browse; ?></label>
+		</div>
                 <?php if ($error_file) { ?>
                 <span class="error"><?php echo $error_file; ?></span>
-                <?php } ?></td>
+                <?php } ?>
+	      </td>
             </tr>
 		  </table>
 		  <?php if(isset($image_data)){?>
@@ -181,5 +188,15 @@
 		}
 	}
    });
+  //--></script>
+  <script type="text/javascript"><!--
+	( function ( document, window, index ) {
+		var inputs = document.querySelectorAll( '.file_input_hidden' );
+		Array.prototype.forEach.call( inputs, function( input ) {
+			// Firefox bug fix
+			input.addEventListener( 'focus', function(){ input.classList.add( 'has-focus' ); });
+			input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
+		});
+	}( document, window, 0 ));
   //--></script>
 </form>

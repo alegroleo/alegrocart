@@ -8,6 +8,7 @@ class ControllerReportOnline extends Controller {
 		$this->response 	=& $locator->get('response');
 		$this->session  	=& $locator->get('session');
 		$this->template 	=& $locator->get('template');
+		$this->url      	=& $locator->get('url');
 		$this->modelReportOnline = $model->get('model_admin_report_online');
 		$this->head_def		=& $locator->get('HeaderDefinition');
 		$this->adminController = $this->template->set_controller('report_online');
@@ -76,6 +77,9 @@ class ControllerReportOnline extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
+
+		$view->set('last', $this->url->getLast('report_online'));
 
 		$view->set('help', $this->session->get('help'));
 

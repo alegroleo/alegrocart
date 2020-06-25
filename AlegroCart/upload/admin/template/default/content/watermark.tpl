@@ -12,6 +12,11 @@
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png" /><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png" /><?php echo $button_cancel; ?></div>
+<?php if (@$last) { ?>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } else { ?>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } ?>
 </div>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
@@ -235,11 +240,6 @@
   $('#wm_image').load('index.php?controller=watermark&action=viewImage&wm_image='+document.getElementById('wm_image_id').value);
   //--></script>
   <script type="text/javascript"><!--
-    $(document).ready(function() {
-	  RegisterValidation();
-    });
-  //--></script>
-  <script type="text/javascript"><!--
   $("#save_button").on("click", function(){
 	var save = $('#wm_wmimage_id').val();
 	var data_json = {'save':save};
@@ -283,4 +283,9 @@
 		}
 	});
   }
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>

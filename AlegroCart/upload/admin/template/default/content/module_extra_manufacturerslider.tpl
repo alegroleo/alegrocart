@@ -18,6 +18,11 @@
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/default/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png" /><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/default/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png" /><?php echo $button_cancel; ?></div>
+<?php if (@$last) { ?>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } else { ?>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } ?>
 </div>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
@@ -67,11 +72,6 @@
   tabview_initialize('tab');
   //--></script>
   <script type="text/javascript"><!--
-    $(document).ready(function() {
-	  RegisterValidation();
-    });
-  //--></script>
-  <script type="text/javascript"><!--
 	function getValues() {
 		document.forms['update_form'].catalog_manufacturerslider_status.value=document.forms['form'].catalog_manufacturerslider_status.value;
 		document.forms['update_form'].catalog_manufacturerslider_image_width.value=document.forms['form'].catalog_manufacturerslider_image_width.value;
@@ -97,5 +97,10 @@ $('.task').each(function(){
 		}
 	});
   }
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>
 </form>

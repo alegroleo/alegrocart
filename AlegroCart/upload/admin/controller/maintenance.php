@@ -48,6 +48,7 @@ class ControllerMaintenance extends Controller{
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -59,6 +60,7 @@ class ControllerMaintenance extends Controller{
 		$this->session->delete('message');
 		$view->set('action', $this->url->ssl('maintenance'));
 		$view->set('cancel', $this->url->ssl('maintenance'));
+		$view->set('last', $this->url->getLast('maintenance'));
 
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));

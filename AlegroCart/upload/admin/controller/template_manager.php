@@ -217,6 +217,7 @@ class ControllerTemplateManager extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'template_manager');
@@ -228,6 +229,7 @@ class ControllerTemplateManager extends Controller {
 
 		$view->set('action', $this->url->ssl('template_manager', 'page'));
 		$view->set('action_delete', $this->url->ssl('template_manager', 'enableDelete'));
+		$view->set('last', $this->url->getLast('template_manager'));
 
 	    	$view->set('search', $this->session->get('tpl.search'));
 		$view->set('sort', $this->session->get('tpl.sort'));
@@ -286,6 +288,7 @@ class ControllerTemplateManager extends Controller {
 		$view->set('button_remove', $this->language->get('button_remove'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('error', @$this->error['message']);
@@ -293,6 +296,7 @@ class ControllerTemplateManager extends Controller {
 		$view->set('action', $this->url->ssl('template_manager', $this->request->gethtml('action'), array('tpl_manager_id' => (int)$this->request->gethtml('tpl_manager_id'))));
 		$view->set('insert', $this->url->ssl('template_manager', 'insert'));
 		$view->set('cancel', $this->url->ssl('template_manager'));
+		$view->set('last', $this->url->getLast('template_manager'));
 
 		if ($this->request->gethtml('tpl_manager_id')) {
      		$view->set('update', $this->url->ssl('template_manager', 'update', array('tpl_manager_id' => (int)$this->request->gethtml('tpl_manager_id'))));

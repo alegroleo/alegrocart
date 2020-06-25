@@ -177,6 +177,7 @@ class ControllerWeightClass extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
  		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'weight_class');
@@ -189,6 +190,7 @@ class ControllerWeightClass extends Controller {
 		
 		$view->set('action', $this->url->ssl('weight_class', 'page'));
 		$view->set('action_delete', $this->url->ssl('weight_class', 'enableDelete'));
+		$view->set('last', $this->url->getLast('weight_class'));
 
 		$view->set('search', $this->session->get('weight_class.search'));
 		$view->set('sort', $this->session->get('weight_class.sort'));
@@ -221,6 +223,7 @@ class ControllerWeightClass extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -236,7 +239,7 @@ class ControllerWeightClass extends Controller {
 		}
 
 		$view->set('action', $this->url->ssl('weight_class', $this->request->gethtml('action'), array('weight_class_id' => $this->request->gethtml('weight_class_id'))));
-
+		$view->set('last', $this->url->getLast('weight_class'));
 		$view->set('insert', $this->url->ssl('weight_class', 'insert'));
 		$view->set('cancel', $this->url->ssl('weight_class'));
 

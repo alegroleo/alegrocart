@@ -77,6 +77,7 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('error', @$this->error['message']);
@@ -85,6 +86,7 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('productwo_id', $this->session->get('productwo_id'));
 		$view->set('action', '');
 		$view->set('action_product', $this->url->ssl('products_with_options', 'getProduct'));
+		$view->set('last', $this->url->getLast('products_with_options'));
 		$view->set('products' , $this->modelProductOptions->get_products());
 
 		return $view->fetch('content/products_with_options.tpl');
@@ -184,6 +186,7 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('button_refresh', $this->language->get('button_refresh'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'products_with_options');
@@ -193,6 +196,7 @@ class ControllerProductsWithOptions extends Controller {
 
 		$view->set('action', $this->url->ssl('products_with_options', 'page'));
 		$view->set('action_refresh', $this->url->ssl('products_with_options', 'getProduct', array('productwo_id' => '0')));
+		$view->set('last', $this->url->getLast('products_with_options'));
 
 		$view->set('search', $this->session->get('productwoptions.search'));
 	    	$view->set('sort', $this->session->get('productwoptions.sort'));
@@ -231,6 +235,7 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('entry_barcode', $this->language->get('entry_barcode'));
@@ -241,7 +246,7 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('error', @$this->error['message']);
 
 		$view->set('action', $this->url->ssl('products_with_options', $this->request->gethtml('action'), array('product_option' => $this->request->gethtml('product_option'))));
-
+		$view->set('last', $this->url->getLast('products_with_options'));
 		$view->set('cancel', $this->url->ssl('products_with_options'));
 
 		if($this->request->gethtml('product_option')){

@@ -243,6 +243,8 @@ class ControllerCountry extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
+
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'country');
@@ -256,6 +258,7 @@ class ControllerCountry extends Controller {
 		$view->set('action', $this->url->ssl('country', 'page'));
 		$view->set('action_refresh', $this->url->ssl('country', 'enableDisable'));
 		$view->set('action_delete', $this->url->ssl('country', 'enableDelete'));
+		$view->set('last', $this->url->getLast('country'));
 
 		$view->set('search', $this->session->get('country.search'));
 		$view->set('sort', $this->session->get('country.sort'));
@@ -296,7 +299,7 @@ class ControllerCountry extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
-
+		$view->set('button_last', $this->language->get('button_last'));
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
 
@@ -307,7 +310,8 @@ class ControllerCountry extends Controller {
 
 		$view->set('insert', $this->url->ssl('country', 'insert'));
 		$view->set('cancel', $this->url->ssl('country'));
-		
+		$view->set('last', $this->url->getLast('country'));
+
 		if ($this->request->gethtml('country_id')) {
 			$view->set('update', 'update');
 			$view->set('delete', $this->url->ssl('country', 'delete', array('country_id' => $this->request->gethtml('country_id'),'country_validation' => $this->session->get('country_validation'))));

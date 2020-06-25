@@ -240,6 +240,7 @@ class ControllerNewsletter extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'newsletter');
@@ -251,7 +252,8 @@ class ControllerNewsletter extends Controller {
 		
 		$view->set('action', $this->url->ssl('newsletter', 'page'));
 		$view->set('action_delete', $this->url->ssl('newsletter', 'enableDelete'));
- 
+ 		$view->set('last', $this->url->getLast('newsletter'));
+
 		$view->set('search', $this->session->get('newsletter.search'));
 		$view->set('sort', $this->session->get('newsletter.sort'));
 		$view->set('order', $this->session->get('newsletter.order'));
@@ -287,6 +289,7 @@ class ControllerNewsletter extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('error', @$this->error['message']);
@@ -294,7 +297,7 @@ class ControllerNewsletter extends Controller {
 		$view->set('error_content', @$this->error['content']);
 
 		$view->set('action', $this->url->ssl('newsletter', $this->request->gethtml('action'), array('newsletter_id' => $this->request->gethtml('newsletter_id'))));
-
+		$view->set('last', $this->url->getLast('newsletter'));
 		$view->set('insert', $this->url->ssl('newsletter', 'insert'));
 		$view->set('cancel', $this->url->ssl('newsletter'));
 

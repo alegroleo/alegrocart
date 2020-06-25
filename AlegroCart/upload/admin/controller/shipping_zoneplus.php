@@ -68,6 +68,7 @@ class ControllerShippingZonePlus extends Controller {
 		$view->set('button_remove', $this->language->get('button_remove'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -78,6 +79,7 @@ class ControllerShippingZonePlus extends Controller {
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('shipping_zoneplus'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'shipping')));	
+		$view->set('last', $this->url->getLast('extension_shipping'));
 
 		$view->set('tab', $this->session->has('shipping_zoneplus_tab') ? $this->session->get('shipping_zoneplus_tab') : 0);
 

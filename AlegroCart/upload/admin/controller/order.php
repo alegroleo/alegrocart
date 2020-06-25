@@ -177,7 +177,7 @@ class ControllerOrder extends Controller {
 			'align' => 'center'
 			);
       		$cell[] = array(
-        		'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
+        		'value' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
         		'align' => 'left',
 			'last' => $last
       		);
@@ -233,6 +233,7 @@ class ControllerOrder extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 	$view->set('controller', 'order');
@@ -249,7 +250,8 @@ class ControllerOrder extends Controller {
 					    
     	$view->set('action', $this->url->ssl('order', 'page'));
 		$view->set('action_delete', $this->url->ssl('order', 'enableDelete'));
- 
+		$view->set('last', $this->url->getLast('order'));
+
     	$view->set('search', $this->session->get('order.search'));
     	$view->set('sort', $this->session->get('order.sort'));
     	$view->set('order', $this->session->get('order.order'));
@@ -325,6 +327,7 @@ class ControllerOrder extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
     	$view->set('tab_general', $this->language->get('tab_general'));
@@ -332,7 +335,7 @@ class ControllerOrder extends Controller {
 		$view->set('error', @$this->error['message']);
 
     	$view->set('action', $this->url->ssl('order', 'update', array('order_id' => $this->request->gethtml('order_id'))));
-
+		$view->set('last', $this->url->getLast('order'));
 		$view->set('cancel', $this->url->ssl('order'));
 
 		if ($this->request->gethtml('order_id')) {
@@ -512,7 +515,7 @@ class ControllerOrder extends Controller {
     	$results = $this->modelOrder->get_history();
     	foreach ($results as $result) {
       		$history_data[] = array(
-        		'date_added' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
+        		'date_added' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
         		'status'     => $result['status'],
         		'comment'    => $result['comment'],
         		'notify'     => $result['notify']

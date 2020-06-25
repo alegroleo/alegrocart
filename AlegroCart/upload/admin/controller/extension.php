@@ -286,6 +286,7 @@ class ControllerExtension extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'extension');
@@ -314,6 +315,7 @@ class ControllerExtension extends Controller {
 		$view->set('rows', $rows);
 
 		$view->set('insert', $this->url->ssl('extension', 'insert', array('type' => $this->request->gethtml('type'))));
+		$view->set('last', $this->url->getLast('extension_' . $this->request->gethtml('type')));
 
 		$view->set('pages', $this->modelExtension->get_pagination());
 
@@ -361,6 +363,7 @@ class ControllerExtension extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'extension');
@@ -393,7 +396,7 @@ class ControllerExtension extends Controller {
 		);
 			
 		$view->set('action', $this->url->ssl('extension', $this->request->gethtml('action'), $query));
-
+		$view->set('last', $this->url->getLast('extension_' . $this->request->gethtml('type')));
 		$view->set('insert', $this->url->ssl('extension', 'insert'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 

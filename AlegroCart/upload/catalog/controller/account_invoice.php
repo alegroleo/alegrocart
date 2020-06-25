@@ -232,7 +232,7 @@ class ControllerAccountInvoice extends Controller {
 			$results = $this->modelAccountInvoice->get_order_history($order_info['order_id']);
 		foreach ($results as $result) {
 			$history_data[] = array(
-				'date_added' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'date_added' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
 				'status'     => $result['status'],
 				'comment'    => $result['comment']
 			);

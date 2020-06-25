@@ -13,13 +13,13 @@
     <td id="login_form"><form id="form_login" name="form_login" action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
         <table cellpadding="1">
           <tr>
-            <td><?php echo $entry_username; ?></td>
+            <td class="set"><?php echo $entry_username; ?></td>
           </tr>
           <tr>
             <td><input type="text" name="username" value="<?php if (isset($username)) echo $username; ?>"></td>
           </tr>
           <tr>
-            <td><?php echo $entry_password; ?></td>
+            <td class="set"><?php echo $entry_password; ?></td>
           </tr>
           <tr>
             <td><input type="password" name="password"></td>

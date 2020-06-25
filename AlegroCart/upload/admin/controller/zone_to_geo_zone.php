@@ -204,6 +204,7 @@ class ControllerZoneToGeoZone extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 	$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'zone_to_geo_zone');
@@ -217,7 +218,7 @@ class ControllerZoneToGeoZone extends Controller {
 		$view->set('action_refresh', $this->url->ssl('zone_to_geo_zone', 'addDeleteAll', array('geo_zone_id' => $this->request->gethtml('geo_zone_id')))); 
     	$view->set('action', $this->url->ssl('zone_to_geo_zone', 'page', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 		$view->set('action_delete', $this->url->ssl('zone_to_geo_zone', 'enableDelete', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
-		
+		$view->set('last', $this->url->getLast('zone_to_geo_zone'));
     	$view->set('previous', $this->url->ssl('geo_zone', FALSE, array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
    
     	$view->set('search', $this->session->get('zone_to_geo_zone.search'));
@@ -252,6 +253,7 @@ class ControllerZoneToGeoZone extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
     	$view->set('tab_general', $this->language->get('tab_general'));
@@ -267,6 +269,7 @@ class ControllerZoneToGeoZone extends Controller {
   
     	$view->set('insert', $this->url->ssl('zone_to_geo_zone', 'insert', array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 		$view->set('cancel', $this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
+		$view->set('last', $this->url->getLast('zone_to_geo_zone'));
 
     	if ($this->request->gethtml('zone_to_geo_zone_id')) {
       		$query = array(

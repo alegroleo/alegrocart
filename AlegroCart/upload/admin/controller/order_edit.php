@@ -126,6 +126,7 @@ class ControllerOrderEdit extends Controller {
 	    	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
     		$view->set('tab_original', $this->language->get('tab_original'));

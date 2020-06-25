@@ -272,6 +272,7 @@ class ControllerImage extends Controller {
 	$view->set('button_print', $this->language->get('button_print'));
 	$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'image');
@@ -294,6 +295,7 @@ class ControllerImage extends Controller {
 		$view->set('rows', $rows);
 
     	$view->set('insert', $this->url->ssl('image', 'insert'));
+		$view->set('last', $this->url->getLast('image'));
 
     	$view->set('pages', $this->modelImage->get_pagination());
 
@@ -320,6 +322,7 @@ class ControllerImage extends Controller {
     	$view->set('button_cancel', $this->language->get('button_cancel'));
 	$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -339,7 +342,8 @@ class ControllerImage extends Controller {
   
     	$view->set('insert', $this->url->ssl('image', 'insert'));
 		$view->set('cancel', $this->url->ssl('image'));
-  
+		$view->set('last', $this->url->getLast('image'));
+
     	if ($this->request->gethtml('image_id')) {
       		$view->set('update', $this->url->ssl('image', 'update', array('image_id' => $this->request->gethtml('image_id'))));
 	  		$view->set('delete', $this->url->ssl('image', 'delete', array('image_id' => $this->request->gethtml('image_id'),'image_validation' =>$this->session->get('image_validation'))));

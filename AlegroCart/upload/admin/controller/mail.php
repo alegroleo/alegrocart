@@ -70,6 +70,7 @@ class ControllerMail extends Controller {
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
 		$view->set('button_send', $this->language->get('button_send'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('heading_title', $this->language->get('heading_title'));
@@ -90,7 +91,8 @@ class ControllerMail extends Controller {
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 		$view->set('action', $this->url->ssl('mail'));
-		
+		$view->set('last', $this->url->getLast('mail'));
+
 		$this->session->set('cdx',md5(mt_rand()));
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));

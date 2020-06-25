@@ -3,7 +3,7 @@ class ControllerModuleAdminFooter extends Controller {
 	var $error = array();
 	function __construct(&$locator){
 		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
+		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module		=& $locator->get('module');
 		$this->request  	=& $locator->get('request');
@@ -18,6 +18,7 @@ class ControllerModuleAdminFooter extends Controller {
 
 		$this->language->load('controller/module_admin_footer.php');
 	}
+
 	function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -53,6 +54,7 @@ class ControllerModuleAdminFooter extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 
@@ -61,6 +63,7 @@ class ControllerModuleAdminFooter extends Controller {
 		$view->set('error', @$this->error['message']);
 		$view->set('action', $this->url->ssl('module_admin_footer'));
 		$view->set('cancel', $this->url->ssl('extension', FALSE, array('type' => 'module')));
+		$view->set('last', $this->url->getLast('extension_module'));
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
@@ -109,6 +112,7 @@ class ControllerModuleAdminFooter extends Controller {
 			return FALSE;
 		}
 	}
+
 	function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
@@ -116,6 +120,7 @@ class ControllerModuleAdminFooter extends Controller {
 			$this->session->set('help', TRUE);
 		}
 	}
+
 	function install() {
 		if ($this->user->hasPermission('modify', 'module_admin_footer')) {
 			$this->modelFooter->delete_footer();
@@ -126,6 +131,7 @@ class ControllerModuleAdminFooter extends Controller {
 		}
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => 'module')));
 	}
+
 	function uninstall() {
 		if ($this->user->hasPermission('modify', 'module_admin_footer')) {
 			$this->modelFooter->delete_footer();

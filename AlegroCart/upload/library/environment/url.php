@@ -5,20 +5,21 @@ class Url {
 	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
+		$this->session   =& $locator->get('session');
 		if ($this->config->get('config_url_alias') && (!preg_match('#/' . PATH_ADMIN . '/#i',$_SERVER['PHP_SELF']))) {
-	  		$results = $this->database->cache('url', "select * from url_alias");
-	
-	  		foreach ($results as $result) {
-	    		$this->data[htmlspecialchars_decode($result['query'])] = htmlspecialchars_decode($result['alias']);
-	  		} 	  
-    	}
-  	}
+			$results = $this->database->cache('url', "select * from url_alias");
+
+			foreach ($results as $result) {
+			$this->data[htmlspecialchars_decode($result['query'])] = htmlspecialchars_decode($result['alias']);
+			}
+		}
+	}
 
 	function requested($url) {
 		if (isset($_SERVER['REQUEST_URI'])) { return htmlspecialchars($_SERVER['REQUEST_URI']); }
 		else { return $url; }
 	}
-	
+
 	function validate_referer(){
 		if(strstr($this->referer(''),$this->get_server())){
 			return TRUE;
@@ -41,47 +42,47 @@ class Url {
 			}
 		}
 	}
-	
+
 	function raw($controller, $action = NULL, $query = array()) {
 		return $this->create(HTTP_SERVER, $controller, $action, $query);
-  	}
+	}
 
 	function href($controller, $action = NULL, $query = array()) {
 		return htmlspecialchars($this->create(HTTP_SERVER, $controller, $action, $query));
-  	}
+	}
 
-  	function ssl($controller, $action = NULL, $query = array()) {
+	function ssl($controller, $action = NULL, $query = array()) {
 		$server=$this->get_server();
 		return htmlspecialchars($this->create($server, $controller, $action, $query));
-  	}
+	}
 
 	function rawssl($controller, $action = NULL, $query = array()) {
 		$server=$this->get_server();
 		return $this->create($server, $controller, $action, $query);
-  	}
+	}
 
 	function get_server() {
 		if (($this->config->get('config_ssl')) && (defined('HTTPS_SERVER')) && (HTTPS_SERVER)) {
-	  		$server = HTTPS_SERVER;
+			$server = HTTPS_SERVER;
 		} else {
-	  		$server = HTTP_SERVER;
+			$server = HTTP_SERVER;
 		}
 		return $server;
 	}
 
 	function create($server, $controller, $action = NULL, $query = array()) {
-    	$qs = 'controller=' . $controller;
+		$qs = 'controller=' . $controller;
 
-    	if ($action) { $query['action']=$action; }
+		if ($action) { $query['action']=$action; }
 
 		foreach ($query as $key => $value) {
-	  		if ($value) { $qs .= '&' . $key . '=' . $value; }
+			if ($value) { $qs .= '&' . $key . '=' . $value; }
 		}
 
 		if (isset($this->data[$qs])) {
 			$link=$this->data[$qs];
 		} else {
-	  		$link = '?' . $qs;
+			$link = '?' . $qs;
 			//Remastered URLs Out
 			$link=$this->Remaster($link);
 		}
@@ -100,6 +101,7 @@ class Url {
 		}
 		return $link;
 	}
+
 	function get_controller($referer, $controllers){
 		if(stristr($referer,'https')){
 			$path = substr($referer,strlen(HTTPS_BASE));
@@ -120,6 +122,7 @@ class Url {
 		}
 		return FALSE;
 	}
+
 	function check_controller($path, $controllers){
 		foreach($controllers as $controller){
 			if(strstr($path, $controller)){
@@ -128,6 +131,7 @@ class Url {
 		}
 		return FALSE;
 	}
+
 	function Rework($path) {
 		$query=(strstr($path,'/'))?explode('/', $path):$path;
 		$path='controller=';
@@ -144,6 +148,7 @@ class Url {
 		$path = trim($path, '/');
 		return $path;
 	}
+
 	function getAlias($path){
 		$page = strpos($path,'/page') ? substr($path,strpos($path,'/page/')) : '';
 		$page = $page ? '&page=' . (int)str_replace('/page/','',$page): '' ;
@@ -154,6 +159,17 @@ class Url {
 			$result = $this->database->getRow($this->database->parse($sql,$path));
 		}
 		if ($result) return htmlspecialchars_decode($result['query']).$page;
+	}
+
+	function getLast($controller) {
+		if ($controller == $this->session->get('prev_controller')) {
+			$this->session->set('prev_path', $this->current_page());
+		} else {
+			$this->session->set('last', $this->session->get('prev_path'));
+			$this->session->set('prev_path', $this->current_page());
+			$this->session->set('prev_controller', $controller);
+		}
+		return $this->session->get('last');
 	}
 }
 ?>

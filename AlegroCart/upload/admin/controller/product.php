@@ -485,6 +485,7 @@ class ControllerProduct extends Controller {
 	$view->set('button_status', $this->language->get('button_status'));
     	$view->set('button_save_as', $this->language->get('button_save_as'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'product');
@@ -501,6 +502,7 @@ class ControllerProduct extends Controller {
 
     	$view->set('action', $this->url->ssl('product', 'page'));
 		$view->set('action_delete', $this->url->ssl('product', 'enableDelete')); // Enable Delete Button
+		$view->set('last', $this->url->getLast('product'));
 
     	$view->set('search', $this->session->get('product.search'));
     	$view->set('sort', $this->session->get('product.sort'));
@@ -608,6 +610,7 @@ class ControllerProduct extends Controller {
 		$view->set('button_remove', $this->language->get('button_remove'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
     		$view->set('tab_general', $this->language->get('tab_general'));
@@ -652,6 +655,7 @@ class ControllerProduct extends Controller {
 
     	$view->set('insert', $this->url->ssl('product', 'insert'));
 		$view->set('cancel', $this->url->ssl('product'));
+		$view->set('last', $this->url->getLast('product'));
 
 		$currency_code = $this->config->get('config_currency');
 		$decimal_place = $this->currency->currencies[$currency_code]['decimal_place'];

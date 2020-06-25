@@ -43,6 +43,11 @@
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs;document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+<?php if (@$last) { ?>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } else { ?>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } ?>
 </div>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
@@ -55,20 +60,15 @@
  <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
-<form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
-  <table align="center">
-	<tr>
-	  <td class="set"><?php echo $entry_filename;?></td>
-	      <td><input size="64" type="text" id="fileName" class="file_input_textbox" readonly="readonly">
-	      <div class="file_input_div">
-	      <input type="button" value="<?php echo $text_browse; ?>" class="file_input_button" />
-	      <input type="file" name="flashimage" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value" />
-	      </div></td>
-	      <td><input type="submit" class="submit" value="<?php echo $button_upload;?>">
-		</td>
-	</tr>
-  </table>
-</form>
+<div class="file_input_div center">
+  <form action="<?php echo $action_flash; ?>" method="post" enctype="multipart/form-data">
+	<?php echo $entry_filename;?>
+	<input size="64" type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+	<input type="file" name="flashimage" id="flashimage" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value" />
+	<label for="flashimage"><?php echo $text_browse; ?></label>
+	<input type="submit" class="submit" value="<?php echo $button_upload;?>">
+  </form>
+</div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
   <div class="tab" id="tab">
 	<div class="tabs"><a><div class="tab_text"><?php echo $tab_name; ?></div></a><a><div class="tab_text"><?php echo $tab_description; ?></div></a><a><div class="tab_text"><?php echo $tab_meta; ?></div></a></div>
@@ -362,11 +362,6 @@ function removeModule(row) {
     }).change();
   //--></script>
   <script type="text/javascript"><!--
-    $(document).ready(function() {
-	  RegisterValidation();
-    });
-  //--></script>
-  <script type="text/javascript"><!--
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -467,4 +462,19 @@ function removeModule(row) {
 		}
 	}
    });
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
+  //--></script>
+  <script type="text/javascript"><!--
+	( function ( document, window, index ) {
+		var inputs = document.querySelectorAll( '.file_input_hidden' );
+		Array.prototype.forEach.call( inputs, function( input ) {
+			// Firefox bug fix
+			input.addEventListener( 'focus', function(){ input.classList.add( 'has-focus' ); });
+			input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
+		});
+	}( document, window, 0 ));
   //--></script>

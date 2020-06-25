@@ -189,6 +189,7 @@ class ControllerDimensionClass extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'dimension_class');
@@ -210,6 +211,7 @@ class ControllerDimensionClass extends Controller {
 		$view->set('rows', $rows);
 
 		$view->set('insert', $this->url->ssl('dimension_class', 'insert'));
+		$view->set('last', $this->url->getLast('dimension_class'));
 
 		$view->set('pages', $this->modelDimensions->get_pagination());
 
@@ -233,6 +235,7 @@ class ControllerDimensionClass extends Controller {
 		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
@@ -251,6 +254,7 @@ class ControllerDimensionClass extends Controller {
 
 		$view->set('insert', $this->url->ssl('dimension_class', 'insert'));
 		$view->set('cancel', $this->url->ssl('dimension_class'));
+		$view->set('last', $this->url->getLast('dimension_class'));
 
 		if ($this->request->gethtml('dimension_id')) {
 			$view->set('update', 'enable');

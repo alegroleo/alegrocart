@@ -277,6 +277,7 @@ class ControllerDownload extends Controller {
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 	$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'download');
@@ -299,6 +300,7 @@ class ControllerDownload extends Controller {
 	$view->set('rows', $rows);
 
 	$view->set('insert', $this->url->ssl('download', 'insert'));
+		$view->set('last', $this->url->getLast('download'));
 
 	$view->set('pages', $this->modelDownload->get_pagination());
 
@@ -324,6 +326,7 @@ class ControllerDownload extends Controller {
 	    	$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
+		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
     		$view->set('tab_general', $this->language->get('tab_general'));
@@ -347,6 +350,7 @@ class ControllerDownload extends Controller {
 
 		$view->set('insert', $this->url->ssl('download', 'insert'));
 		$view->set('cancel', $this->url->ssl('download'));
+		$view->set('last', $this->url->getLast('download'));
 
     		if ($this->request->gethtml('download_id')) {
       			$view->set('update', 'enable');
@@ -448,7 +452,7 @@ class ControllerDownload extends Controller {
 				if (!$this->validate->strlen($this->upload->getName('download'),1,128)) {
 					$this->error['file'] = $this->language->get('error_filename');
 				}
-				if (substr(strrchr($this->upload->getName('filename'), '.'), 1) == 'php') {
+				if (substr(strrchr($this->upload->getName('download'), '.'), 1) == 'php') {
 					$this->error['file'] = $this->language->get('error_filetype');
 				}
 				if ($this->upload->hasError('download')) {

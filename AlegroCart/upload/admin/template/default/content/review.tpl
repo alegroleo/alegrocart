@@ -6,7 +6,7 @@
   $head_def->set_admin_javascript("javascript/preview/preview.js");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><div class="btext"><?php echo $button_insert; ?></div></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
   <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
@@ -23,16 +23,21 @@
   <input type="hidden" name="review_id" value="<?php echo $review_id; ?>">
   </form>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><div class="btext"><?php echo $button_update; ?></div></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
   <?php if (@$delete) { ?>
-  <div class="enabled delete" onmouseover="className='hover delete'" onmouseout="className='enabled delete'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><div class="btext"><?php echo $button_delete; ?></div></div>
+  <div class="enabled delete" onmouseover="className='hover delete'" onmouseout="className='enabled delete'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><div class="btext"><?php echo $button_delete; ?></div></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
-  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><div class="btext"><?php echo $button_save; ?></div></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><div class="btext"><?php echo $button_print; ?></div></div>
-  <div class="enabled cancel" onmouseover="className='hover cancel'" onmouseout="className='enabled cancel'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><div class="btext"><?php echo $button_cancel; ?></div></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png"><?php echo $button_print; ?></div>
+  <div class="enabled cancel" onmouseover="className='hover cancel'" onmouseout="className='enabled cancel'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+<?php if (@$last) { ?>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } else { ?>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <?php } ?>
 </div>
 <?php if ($error) { ?>
 <div class="warning"><?php echo $error; ?></div>
@@ -145,11 +150,6 @@
     }).change();
   //--></script>
   <script type="text/javascript"><!--
-    $(document).ready(function() {
-	  RegisterValidation();
-    });
-  //--></script>
-  <script type="text/javascript"><!--
 	function getValues() {
 		document.forms['update_form'].author.value=document.forms['form'].author.value;
 		document.forms['update_form'].product_id.value=document.forms['form'].product_id.value;
@@ -180,4 +180,9 @@
 		}
 	});
   }
+  //--></script>
+  <script type="text/javascript"><!--
+    $(document).ready(function() {
+	  RegisterValidation();
+    });
   //--></script>

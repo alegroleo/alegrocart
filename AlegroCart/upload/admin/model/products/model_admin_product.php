@@ -107,16 +107,55 @@ class Model_Admin_Product extends Model {
 	}
 	function get_page(){
 		if (!$this->session->get('product.search')) {
-            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, p.weight_class_id, pd.model, p.sort_order, p.status, p.special_price, p.sale_start_date, p.sale_end_date, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "'";
-       } else {
-            $sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, p.weight_class_id, pd.model, p.sort_order, p.status, p.special_price, p.sale_start_date, p.sale_end_date, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and pd.name like '?'";
-       }
+			$sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, p.weight_class_id, pd.model, p.sort_order, p.status, p.special_price, p.sale_start_date, p.sale_end_date, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "'";
+		} else {
+			$sql = "select p.product_id, pd.name, p.price, p.quantity, p.weight, p.weight_class_id, pd.model, p.sort_order, p.status, p.special_price, p.sale_start_date, p.sale_end_date, p.featured, p.special_offer, p.related, i.filename from product p left join product_description pd on (p.product_id = pd.product_id) left join image i on (p.image_id = i.image_id) where pd.language_id = '" . (int)$this->language->getId() . "' and pd.name like '?'";
+		}
+
+		switch ($this->session->get('product.specialities')){
+			case 1:
+				$sql .= " AND p.featured = '1'";
+				break;
+			case 2:
+				$sql .= " AND p.special_offer = '1'";
+				break;
+			case 3:
+				$sql .= " AND p.related = '1'";
+				break;
+			case 4: //paid
+				$Downloads = $this->get_productToDownload('paid');
+				if ($Downloads) {
+					$productToDownloads = array();
+					foreach ($Downloads as $Download) {
+						$productToDownloads[] = $Download['product_id'];
+					}
+					$productlist = implode(',', $productToDownloads);
+					$sql .= " AND p.product_id IN (" . $productlist . ")";
+				} else {
+					$sql .= " AND p.product_id IS NULL";
+				}
+				break;
+			case 5: //free
+				$Downloads = $this->get_productToDownload('free');
+				if ($Downloads) {
+					$productToDownloads = array();
+					foreach ($Downloads as $Download) {
+						$productToDownloads[] = $Download['product_id'];
+					}
+					$productlist = implode(',', $productToDownloads);
+					$sql .= " AND p.product_id IN (" . $productlist . ")";
+				} else {
+					$sql .= " AND p.product_id IS NULL";
+				}
+				break;
+		}
+
 		$sort = array('pd.name', 'p.price', 'p.quantity', 'p.weight', 'pd.model', 'p.sort_order', 'p.featured', 'p.status',	'p.special_price', 'i.filename');
-    	if (in_array($this->session->get('product.sort'), $sort)) {
-      		$sql .= " order by " . $this->session->get('product.sort') . " " . (($this->session->get('product.order') == 'desc') ? 'desc' : 'asc');
-    	} else {
-      		$sql .= " order by pd.name asc";
-    	}	
+		if (in_array($this->session->get('product.sort'), $sort)) {
+			$sql .= " order by " . $this->session->get('product.sort') . " " . (($this->session->get('product.order') == 'desc') ? 'desc' : 'asc');
+		} else {
+			$sql .= " order by pd.name asc";
+		}
 		$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('product.search') . '%'), $this->session->get('product.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}
@@ -125,13 +164,13 @@ class Model_Admin_Product extends Model {
 		return $text_results;
 	}
 	function get_pagination(){
-    	$page_data = array();
-    	for ($i = 1; $i <= $this->get_pages(); $i++) {
-      		$page_data[] = array(
-        		'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
-        		'value' => $i
-      		);
-    	}
+		$page_data = array();
+		for ($i = 1; $i <= $this->get_pages(); $i++) {
+			$page_data[] = array(
+			'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
+			'value' => $i
+			);
+		}
 		return $page_data;
 	}
 	function get_pages(){
@@ -313,6 +352,11 @@ class Model_Admin_Product extends Model {
 	}
 	function check_orphans(){
 		$results = $this->database->getRows("select pd.product_id, pd.name from product_description pd inner join product p on (p.product_id = pd.product_id) where p.status = '1' and not exists (select * from product_to_category p2c  where pd.product_id = p2c.product_id)");
+		return $results;
+	}
+	function get_productToDownload($free){
+		$status = $free == 'free' ? 1 : 0;
+		$results = $this->database->getRows("SELECT product_id FROM product_to_download WHERE free = '" . $status . "'");
 		return $results;
 	}
 }

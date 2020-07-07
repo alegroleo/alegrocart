@@ -1,6 +1,7 @@
 <?php // Maintenance AlegroCart
 class ControllerMaintenance extends Controller {
 	function index() {
+		$model			=& $this->locator->get('model');
 		$config   =& $this->locator->get('config');
 		$language =& $this->locator->get('language');
 		$module   =& $this->locator->get('module');
@@ -9,6 +10,7 @@ class ControllerMaintenance extends Controller {
 		$url      =& $this->locator->get('url');
 		$session  =& $this->locator->get('session');
 		$head_def =& $this->locator->get('HeaderDefinition');
+		$this->modelCore	= $this->model->get('model_core');
 
 		$language->load('controller/maintenance.php');
 
@@ -18,7 +20,11 @@ class ControllerMaintenance extends Controller {
 
 		$view->set('heading_title', $language->get('heading_title'));
 		$session->set('maintenance', 'enabled');
-		$view->set('text_maintenance', $language->get('text_maintenance'));
+		$maintenance_data = array();
+
+		$result = $this->modelCore->get_maintenance();
+		$view->set('maintenance_description', $result['description']);
+		$view->set('maintenance_header', $result['header']);
 		$view->set('head_def',$head_def);
 
 		$template->controller = 'maintenance';

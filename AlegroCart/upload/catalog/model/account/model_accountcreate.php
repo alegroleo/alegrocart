@@ -26,14 +26,14 @@ class Model_AccountCreate extends Model{
 	}
 	function update_customer($customer_id){
 		$sql = "update customer set firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', status = '1' where customer_id = '?'";
-			$this->database->query($this->database->parse($sql, $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('email', 'post'), $this->request->sanitize('telephone', 'post'), $this->request->sanitize('fax', 'post'), $customer_id));
+			$this->database->query($this->database->parse($sql, $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('email', 'post'), $this->request->sanitize('telephone', 'post'), $this->request->sanitize('fax', 'post'), (int)$customer_id));
 	}
 	function get_customer($customer_id){
 		$result = $this->database->getRow("select * from customer where customer_id = '" . (int)$customer_id . "'");
 		return $result;
 	}
 	function check_email($customer_id){
-		return $this->database->getRow($this->database->parse("select * from customer where email = '?' and customer_id != '?'", $this->request->gethtml('email', 'post'), $customer_id))? TRUE : FALSE;
+		return $this->database->getRow($this->database->parse("select * from customer where email = '?' and customer_id != '?'", $this->request->gethtml('email', 'post'), (int)$customer_id))? TRUE : FALSE;
 	
 	}
 	function check_customer($email){
@@ -41,13 +41,18 @@ class Model_AccountCreate extends Model{
 	}
 	function update_password($customer_id){ 
 		$sql = "update customer set password = '?' where customer_id = '?'";
-      	$this->database->query($this->database->parse($sql, md5($this->request->sanitize('password', 'post')), $customer_id));
+      	$this->database->query($this->database->parse($sql, md5($this->request->sanitize('password', 'post')), (int)$customer_id));
 	}
 	function reset_password($password){
 		$this->database->query($this->database->parse("update customer set password = '?', status = '1', guest = '0' where email = '?'", md5($password), $this->request->sanitize('email', 'post')));
 	}
 	function update_newsletter($customer_id){
 		$this->database->query("update customer set newsletter = '" . (int)$this->request->gethtml('newsletter', 'post') . "' where customer_id = '" . (int)$customer_id . "'");
+	}
+	function get_password($customer_id){ 
+		$sql = "SELECT password FROM customer WHERE customer_id = '?'";
+		$result = $this->database->getRow($this->database->parse($sql, (int)$customer_id));
+		return $result['password'];
 	}
 }
 ?>

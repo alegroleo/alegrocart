@@ -179,13 +179,13 @@
 				</tr>
                   <tr>
                     <td style="vertical-align: top; width: 165px" class="set"><?php echo $entry_welcome; ?></td>
-                    <td><textarea name="welcome[<?php echo $home_description['language_id']; ?>]" id="welcome<?php echo $home_description['language_id']; ?>"><?php echo $home_description['welcome']; ?></textarea>
+                    <td><textarea name="welcome[<?php echo $home_description['language_id']; ?>]" id="welcome<?php echo $home_description['language_id']; ?>"><?php echo $home_description['welcome']; ?></textarea></td>
                   </tr>
 				</table>
 				<table>
                   <tr>
                     <td style="vertical-align: top; width: 165px" class="set"><?php echo $entry_description; ?></td>
-                    <td><textarea name="description[<?php echo $home_description['language_id']; ?>]" id="description<?php echo $home_description['language_id']; ?>"><?php echo $home_description['description']; ?></textarea>
+                    <td><textarea name="description[<?php echo $home_description['language_id']; ?>]" id="description<?php echo $home_description['language_id']; ?>"><?php echo $home_description['description']; ?></textarea></td>
                   </tr>
 				</table>
 				<table>

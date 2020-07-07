@@ -78,99 +78,115 @@ if (!$errors && !$ferrors) {
 		$pieces = array_filter(explode('/', HTTP_BASE));
 		$pieces = array_slice($pieces,2);
 		if (array_filter($pieces)) {
-		$rwb = implode('/', $pieces);
-		$rwb = "/".$rwb."/";
-		$file2='../.htaccess';
-		if ($handle2 = fopen($file2, 'w')) {
-			$content  = '# Uncomment this to ensure that register_globals is Off'."\n";
-			$content .= '# php_flag register_globals Off'."\n";
-			$content .= "\n";
-			$content .= '# URL Alias - see install.txt'."\n";
-			$content .= '# Prevent access to .tpl'."\n";
-			$content .= '<Files ~ "\.tpl$">'."\n";
-			$content .= 'Order allow,deny'."\n";
-			$content .= 'Deny from all'."\n";
-			$content .= '</Files>'."\n";
-			$content .= "\n";
-			$content .= 'Options +FollowSymlinks'."\n";
-			$content .= "\n";
-			$content .= '<IfModule mod_rewrite.c>'."\n";
-			$content .= 'RewriteEngine On'."\n";
-			$content .= "\n";
-			$content .= 'RewriteBase '.$rwb."\n";
-			$content .= "\n";
-			$content .= '# AlegroCart REWRITES START'."\n";
-			$content .= 'RewriteCond %{REQUEST_FILENAME} !-f'."\n";
-			$content .= 'RewriteCond %{REQUEST_FILENAME} !-d'."\n";
-			$content .= 'RewriteRule ^(.*) index.php?$1 [L,QSA]'."\n";
-			$content .= '# AlegroCart REWRITES END'."\n";
-			$content .= "\n";
-			$content .= '</IfModule>'."\n";
-			$content .= '# Try if you have problems with url alias'."\n";
-			$content .= '# RewriteRule ^(.*) index.php [L,QSA]'."\n";
-			$content .= "\n";
-			$content .= '# Focus on one domain - Uncomment to use'."\n";
-			$content .= '# RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]'."\n";
-			$content .= '# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]'."\n";
-			$content .= "\n";
-			$content .= '# Hide Apache version normally seen at the bottom of 404 error pages, directory listing..etc.'."\n";
-			$content .= 'ServerSignature Off'."\n";
-			$content .= "\n";
-			$content .= '#Modify max uploadable file size if needed'."\n";
-			$content .= '#php_value upload_max_filesize 128M'."\n";
-			$content .= '#php_value post_max_size 128M'."\n";
-			$content .= "\n";
-			$content .= '# Enable compression for text files'."\n";
-			$content .= '<IfModule mod_deflate.c>'."\n";
-			$content .= ' <FilesMatch ".+\.(js|css|html|htm|php|xml)$">'."\n";
-			$content .= '  SetOutputFilter DEFLATE'."\n";
-			$content .= ' </FilesMatch>'."\n";
-			$content .= '</IfModule>'."\n";
-			$content .= "\n";
-			$content .= '# EXPIRES CACHING'."\n";
-			$content .= '# Store website’s components in browser’s cache until they expire. Support old browsers.'."\n";
-			$content .= '<IfModule mod_expires.c>'."\n";
-			$content .= 'ExpiresActive On'."\n";
-			$content .= 'ExpiresDefault A31536000'."\n";
-			$content .= ' <FilesMatch ".+\.(ico|jpe?g|png|gif|swf)$">'."\n";
-			$content .= '  ExpiresDefault A604800'."\n";
-			$content .= ' </FilesMatch>'."\n";
-			$content .= 'ExpiresByType application/xhtml+xml "access plus 0 seconds"'."\n";
-			$content .= 'ExpiresByType text/html "access plus 0 seconds"'."\n";
-			$content .= '</IfModule>'."\n";
-			$content .= '# EXPIRES CACHING'."\n";
-			$content .= "\n";
-			$content .= '# BEGIN Cache-Control Headers. This will override Expires Caching set above'."\n";
-			$content .= '<IfModule mod_headers.c>'."\n";
-			$content .= ' <filesMatch ".+\.(ico|jpe?g|png|gif|swf)$">'."\n";
-			$content .= '  Header set Cache-Control "max-age=604800, public"'."\n";
-			$content .= ' </filesMatch>'."\n";
-			$content .= ' <filesMatch ".+\.(js|css)$">'."\n";
-			$content .= '  Header set Cache-Control "max-age=31536000, public"'."\n";
-			$content .= ' </filesMatch>'."\n";
-			$content .= ' <filesMatch ".+\.(x?html?|php)$">'."\n";
-			$content .= '  Header set Cache-Control "max-age=0, private, no-store, no-cache, must-revalidate"'."\n";
-			$content .= ' </filesMatch>'."\n";
-			$content .= '</IfModule>'."\n";
-			$content .= '# END Cache-Control Headers'."\n";
-			$content .= "\n";
-			$content .= '# Disable ETags as we have own process'."\n";
-			$content .= '<IfModule mod_headers.c>'."\n";
-			$content .= 'Header unset ETag'."\n";
-			$content .= '</IfModule>'."\n";
-			$content .= 'FileETag None'."\n";
+			$rwb = implode('/', $pieces);
+			$rwb = "/".$rwb."/";
+			$file2='../.htaccess';
+			if ($handle2 = fopen($file2, 'w')) {
+				$content  = '# Uncomment this to ensure that register_globals is Off'."\n";
+				$content .= '# php_flag register_globals Off'."\n";
+				$content .= "\n";
+				$content .= '# URL Alias - see install.txt'."\n";
+				$content .= '# Prevent access to .tpl'."\n";
+				$content .= '<Files ~ "\.tpl$">'."\n";
+				$content .= 'Order allow,deny'."\n";
+				$content .= 'Deny from all'."\n";
+				$content .= '</Files>'."\n";
+				$content .= "\n";
+				$content .= 'Options +FollowSymlinks'."\n";
+				$content .= "\n";
+				$content .= '<IfModule mod_rewrite.c>'."\n";
+				$content .= 'RewriteEngine On'."\n";
+				$content .= "\n";
+				$content .= 'RewriteBase '.$rwb."\n";
+				$content .= "\n";
+				$content .= '# AlegroCart REWRITES START'."\n";
+				$content .= 'RewriteCond %{REQUEST_FILENAME} !-f'."\n";
+				$content .= 'RewriteCond %{REQUEST_FILENAME} !-d'."\n";
+				$content .= 'RewriteRule ^(.*) index.php?$1 [L,QSA]'."\n";
+				$content .= '# AlegroCart REWRITES END'."\n";
+				$content .= "\n";
+				$content .= '</IfModule>'."\n";
+				$content .= '# Try if you have problems with url alias'."\n";
+				$content .= '# RewriteRule ^(.*) index.php [L,QSA]'."\n";
+				$content .= "\n";
+				$content .= '# Focus on one domain - Uncomment to use'."\n";
+				$content .= '# RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]'."\n";
+				$content .= '# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]'."\n";
+				$content .= "\n";
+				$content .= '# Hide Apache version normally seen at the bottom of 404 error pages, directory listing..etc.'."\n";
+				$content .= 'ServerSignature Off'."\n";
+				$content .= "\n";
+				$content .= '#Modify max uploadable file size if needed'."\n";
+				$content .= '#php_value upload_max_filesize 128M'."\n";
+				$content .= '#php_value post_max_size 128M'."\n";
+				$content .= "\n";
+				$content .= '# Enable compression for text files'."\n";
+				$content .= '<IfModule mod_deflate.c>'."\n";
+				$content .= ' <FilesMatch ".+\.(js|css|html|htm|php|xml)$">'."\n";
+				$content .= '  SetOutputFilter DEFLATE'."\n";
+				$content .= ' </FilesMatch>'."\n";
+				$content .= '</IfModule>'."\n";
+				$content .= "\n";
+				$content .= '# EXPIRES CACHING'."\n";
+				$content .= '# Store website’s components in browser’s cache until they expire. Support old browsers.'."\n";
+				$content .= '<IfModule mod_expires.c>'."\n";
+				$content .= 'ExpiresActive On'."\n";
+				$content .= 'ExpiresDefault A31536000'."\n";
+				$content .= ' <FilesMatch ".+\.(ico|jpe?g|png|gif|swf)$">'."\n";
+				$content .= '  ExpiresDefault A604800'."\n";
+				$content .= ' </FilesMatch>'."\n";
+				$content .= 'ExpiresByType application/xhtml+xml "access plus 0 seconds"'."\n";
+				$content .= 'ExpiresByType text/html "access plus 0 seconds"'."\n";
+				$content .= '</IfModule>'."\n";
+				$content .= '# EXPIRES CACHING'."\n";
+				$content .= "\n";
+				$content .= '# BEGIN Cache-Control Headers. This will override Expires Caching set above'."\n";
+				$content .= '<IfModule mod_headers.c>'."\n";
+				$content .= ' <filesMatch ".+\.(ico|jpe?g|png|gif|swf)$">'."\n";
+				$content .= '  Header set Cache-Control "max-age=604800, public"'."\n";
+				$content .= ' </filesMatch>'."\n";
+				$content .= ' <filesMatch ".+\.(js|css)$">'."\n";
+				$content .= '  Header set Cache-Control "max-age=31536000, public"'."\n";
+				$content .= ' </filesMatch>'."\n";
+				$content .= ' <filesMatch ".+\.(x?html?|php)$">'."\n";
+				$content .= '  Header set Cache-Control "max-age=0, private, no-store, no-cache, must-revalidate"'."\n";
+				$content .= ' </filesMatch>'."\n";
+				$content .= '</IfModule>'."\n";
+				$content .= '# END Cache-Control Headers'."\n";
+				$content .= "\n";
+				$content .= '# Disable ETags as we have own process'."\n";
+				$content .= '<IfModule mod_headers.c>'."\n";
+				$content .= 'Header unset ETag'."\n";
+				$content .= '</IfModule>'."\n";
+				$content .= 'FileETag None'."\n";
 
-		if (fwrite($handle2, $content)) {
-			echo "<p class=\"b\">".$language->get('success',$file2)."</p>\n";
-			fclose($handle2);
-		} else { 
-			$errors[]=$language->get('error_write',$file2); 
+				if (fwrite($handle2, $content)) {
+					echo "<p class=\"b\">".$language->get('success',$file2)."</p>\n";
+					fclose($handle2);
+				} else { 
+					$errors[]=$language->get('error_write',$file2); 
+				}
+			} else { 
+				$errors[]=$language->get('error_open',$file2); 
+			}
+			unset($content);
 		}
+
+		//add sitemap to robots.txt
+		$file3='../robots.txt';
+		if ($handle3 = fopen($file3, 'a+')) {
+			$sitemap  = 'Sitemap: '. HTTP_BASE . 'sitemap.php'."\n";
+
+			if (fwrite($handle3, $sitemap)) {
+				echo "<p class=\"b\">".$language->get('success',$file3)."</p>\n";
+				fclose($handle3);
+			} else { 
+				$errors[]=$language->get('error_write',$file3); 
+			}
 		} else { 
-			$errors[]=$language->get('error_open',$file2); 
+			$errors[]=$language->get('error_open',$file3); 
 		}
-		unset($content);
-}
+		unset($sitemap);
 }
 
 if (!$errors && !$ferrors) {
@@ -246,6 +262,7 @@ if (($errors || $ferrors) && $step == 3) {
 
 	@chmod(DIR_BASE.'config.php', 0644);
 	@chmod(DIR_BASE.'.htaccess', 0644);
+	@chmod(DIR_BASE.'robots.txt', 0644);
 	?>
 
 	<div id="content">
@@ -257,6 +274,10 @@ if (($errors || $ferrors) && $step == 3) {
 
 	if (substr(decoct(fileperms(DIR_BASE . '.htaccess')), 3) != 644) { ?>
 			<div class="warning"><?php echo $language->get('htaccess')?></div>
+		<?php }
+
+	if (substr(decoct(fileperms(DIR_BASE . 'robots.txt')), 3) != 644) { ?>
+			<div class="warning"><?php echo $language->get('robots')?></div>
 		<?php }
 	}?>
 	<p class="b"><?php echo $language->get('congrat')?></p>

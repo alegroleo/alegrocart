@@ -4,6 +4,7 @@ class ErrorHandler{
 	function __construct(&$locator){
 		$this->config	=& $locator->get('config');
 		$this->mail	=& $locator->get('mail');
+		$this->session  	=& $locator->get('session');
 
 		$this->ip = $this->config->get('error_developer_ip') ? $this->config->get('error_developer_ip') : $_SERVER['REMOTE_ADDR'];
 		$this->show_user = $this->config->get('error_show_user') ? TRUE : FALSE;
@@ -111,6 +112,8 @@ class ErrorHandler{
 	}
 
 	function send_error_msg(){
+		$pattern = '/(^Array|^\\(\n|^\\)\n|^\s*)/m';
+
 		$message = "file: ".print_r( $this->errfile, true)."\r\n";
 		$message .= "line: ".print_r( $this->errline, true)."\r\n";
 		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true)."\r\n";
@@ -119,8 +122,15 @@ class ErrorHandler{
 		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\r\n" : "";
 		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\r\n" : "";
 		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\r\n";
-		$message .= "log: ".print_r( $this->log_message, true)."\r\n";
+		$message .= "log: ".print_r( $this->log_message, true)."\r\n\r\n";
 		$message .= "##################################################\r\n\r\n";
+		$message .= "POST variables:\r\n".preg_replace($pattern, '', print_r($_POST, true))."\r\n";
+		$message .= "##################################################\r\n\r\n";
+		$message .= "GET variables:\r\n".preg_replace($pattern, '', print_r($_GET, true))."\r\n";
+		$message .= "##################################################\r\n\r\n";
+		$message .= "COOKIES:\r\n".preg_replace($pattern, '', print_r($_COOKIE, true))."\r\n";
+		$message .= "##################################################\r\n\r\n";
+		$message .= "SESSION variables:\r\n".preg_replace($pattern, '', print_r($this->session->getAll(), true))."\r\n";
 
 		$this->email_sent = false;
 		

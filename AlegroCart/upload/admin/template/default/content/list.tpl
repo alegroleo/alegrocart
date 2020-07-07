@@ -51,6 +51,18 @@
 		  </form>
 		</td>
 	  <?php }?>
+	  <?php if(isset($controller) && $controller == 'product') {?>
+	    <td class="d">
+		  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
+			<?php echo $entry_specialities; ?>
+			<select id="specialities" name="specialities" onchange="this.form.submit()">
+			  <?php foreach ($specialities_data as $key => $value) { ?>
+			    <option value="<?php echo $key; ?>"<?php if($key == $specialities){ echo " selected";}?>><?php echo $value; ?></option>
+			  <?php } ?>
+			</select>
+		  </form>
+	    </td>
+	  <?php }?>
 	  <?php if(isset($action_enable_disable)){?>
 	    <td class="d">
 	      <form action="<?php echo $action_enable_disable; ?>" method="post" enctype="multipart/form-data">
@@ -65,7 +77,6 @@
 		  </form>
 		</td>
 	  <?php }?>
-	  
 	  <?php if(isset($controller) && $controller == 'order') {?>
 	    <td class="d">
 		  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
@@ -78,7 +89,6 @@
 		  </form>
 	    </td>
 	  <?php }?>
-	  
       <td class="e"><form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
           <?php echo $entry_search; ?>
           <input type="input" name="search" value="<?php echo $search; ?>">
@@ -109,9 +119,9 @@
           <?php echo $col['name']; ?>
           <?php if ($sort == $col['sort']) { ?>
           <?php if ($order == 'asc') { ?>
-          &nbsp;<img src="template/<?php echo $this->directory?>/image/asc.png" class="png">
+          &nbsp;<img src="template/<?php echo $this->directory?>/image/asc.png" class="png" alt="">
           <?php } else { ?>
-          &nbsp;<img src="template/<?php echo $this->directory?>/image/desc.png" class="png">
+          &nbsp;<img src="template/<?php echo $this->directory?>/image/desc.png" class="png" alt="">
           <?php } ?>
           <?php } ?>
           <input type="hidden" name="sort" value="<?php echo $col['sort']; ?>">
@@ -125,7 +135,7 @@
     <?php $j = 1; ?>
     <?php if (isset($previous)) { ?>
     <tr class="row1" id="prev" onmouseover="this.className='previous'" onmouseout="this.className='row1'" onclick="self.location.href='<?php echo $previous; ?>'">
-      <td colspan="2"><img src="template/<?php echo $this->directory?>/image/previous.png" class="png">&nbsp;<?php echo $text_previous; ?></td>
+      <td colspan="2"><img src="template/<?php echo $this->directory?>/image/previous.png" class="png" alt="">&nbsp;<?php echo $text_previous; ?></td>
       <?php for ($i = 1; $i < sizeof($cols)-1; $i++) { ?>
       <td>&nbsp;</td>
       <?php $j = 0; ?>
@@ -173,9 +183,9 @@
         <b>(<?php echo $text_geo; ?>)</b>
         <?php } ?></td>
       <?php } elseif (isset($cell['image'])) { ?>
-      <td id="image_to_preview" class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>" rel="<?php echo $cell['previewimage']; ?>" title="<?php echo $cell['title']; ?>"></td>
+      <td id="image_to_preview" class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>" rel="<?php echo $cell['previewimage']; ?>" alt="" title="<?php echo $cell['title']; ?>"></td>
       <?php } elseif (isset($cell['path'])) { ?>
-      <td width="30" class="<?php echo $cell['align']; ?>"><a href="<?php echo $cell['path']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a></td>
+      <td width="30" class="<?php echo $cell['align']; ?>"><a href="<?php echo $cell['path']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png" alt=""></a></td>
       <?php } elseif (isset($cell['status'])) { ?>
       <td class="<?php echo $cell['align']; ?>">
       <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$('#'+this.id).load('index.php?controller=<?php echo ($cell['status_controller'])?>&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
@@ -191,9 +201,9 @@
 
       <?php } elseif (isset($cell['icon'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php if (isset($cell['href'])) { ?>
-        <a href="<?php echo $cell['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png"></a>
+        <a href="<?php echo $cell['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png" alt=""></a>
         <?php } else { ?>
-        <img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png">
+        <img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png" alt="">
         <?php } ?>
       </td>
       <?php } elseif (isset($cell['action'])) { ?>
@@ -319,7 +329,7 @@ $("#image_to_preview img").hover(function (e) {
 	else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) scrolled = document.body.scrollTop;
 	else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) scrolled = document.documentElement.scrollTop;
 
-	$("body").append("<p id='preview'><img src='"+ $(this).attr('rel') + "' >" + c + "</p>");
+	$("body").append("<p id='preview'><img src='"+ $(this).attr('rel') + "' alt=''>" + c + "</p>");
 	$("#preview").css("top", (posy - scrolled < effectiveHeight/2 ? (posy - yOffset) : posy - yOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(posx - xOffset - 2*($(this).attr('rel').substr(-7,3))) + "px").fadeIn("fast");
 },
 function() {

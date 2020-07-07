@@ -15,7 +15,7 @@ function get_languages(){
 $dir_handle = opendir(DIR_BASE.D_S.DIR_LANG);
   if ($dir_handle) {
 	  while (false !== ($fname = readdir($dir_handle))) {
-		  if (($fname != '.') && ($fname != '..')) {
+		  if (($fname != '.') && ($fname != '..') && ($fname !='index.php')) {
 			$this->langs[]  = substr($fname,0,-4);
 			}
 	  }

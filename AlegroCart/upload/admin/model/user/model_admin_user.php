@@ -23,6 +23,12 @@ class Model_Admin_User extends Model {
 		$this->database->query($this->database->parse($sql, md5($this->request->sanitize('password', 'post')), (int)$user_id));
 	}
 
+	function get_password($user_id){ 
+		$sql = "SELECT password FROM user WHERE user_id = '?'";
+		$result = $this->database->getRow($this->database->parse($sql, (int)$user_id));
+		return $result['password'];
+	}
+
 	function delete_user($user_id){
 		$this->database->query("delete from user where user_id = '" . (int)$user_id . "'");
 	}

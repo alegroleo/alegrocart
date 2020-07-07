@@ -283,5 +283,9 @@ class Model_Core extends Model {
 		$results = $this->database->cache('country', "SELECT * FROM country WHERE country_status = '1'  ORDER BY name");
 		return $results;
 	}
+	function get_maintenance(){
+		$result = $this->database->getRow("SELECT * FROM maintenance_description WHERE language_id = '" . (int)$this->language->getId() . "'");
+		return $result;
+	}
 }
 ?>

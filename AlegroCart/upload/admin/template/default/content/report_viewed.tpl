@@ -16,6 +16,14 @@
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="list">
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
+    <table class="a">
+      <tr>
+        <td class="left" id="reset"><input type="submit" class="submit" value="<?php echo $button_reset; ?>"></td>
+      </tr>
+    </table>
+  <input type="hidden" name="reset" value="1">
+  </form>
   <table class="list">
     <tr>
       <th class="left"><?php echo $column_name; ?></th>

@@ -39,11 +39,16 @@ class ControllerHome extends Controller {
 			if (substr(decoct(fileperms(DIR_BASE . '.htaccess')), 3) != 644) { 
 				$this->error['htaccess'] = $this->language->get('error_permission_htaccess');
 			}
+
+			if (substr(decoct(fileperms(DIR_BASE . 'robots.txt')), 3) != 644) { 
+				$this->error['robots'] = $this->language->get('error_permission_robots');
+			}
 		}
 
 		$view->set('error_install_dir', @$this->error['install_dir']);
 		$view->set('error_config', @$this->error['config']);
 		$view->set('error_htaccess', @$this->error['htaccess']);
+		$view->set('error_robots', @$this->error['robots']);
 		$view->set('error_page_load', !$this->config->get('config_page_load') ? $this->language->get('error_page_load') : NULL);
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');

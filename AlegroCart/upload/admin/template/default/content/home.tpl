@@ -7,6 +7,9 @@
 <?php if ($error_htaccess) { ?>
 <div class="warning"><?php echo $error_htaccess; ?></div>
 <?php } ?>
+<?php if ($error_robots) { ?>
+<div class="warning"><?php echo $error_robots; ?></div>
+<?php } ?>
 <?php if ($error_page_load) { ?>
 <div class="warning"><?php echo $error_page_load; ?></div>
 <?php } ?>

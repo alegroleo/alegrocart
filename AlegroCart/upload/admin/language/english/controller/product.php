@@ -101,6 +101,8 @@ $_['entry_product_option']	= 'Product Option';
 $_['entry_po_quantity']		= 'Quantity in Stock';
 $_['entry_po_barcode']		= 'Barcode Digits';
 $_['entry_po_barcode_encoding']	= 'Barcode Encoding';
+$_['entry_specialities']	= 'Specialities ';
+
 // Button
 $_['button_add']		= 'Add';
 $_['button_remove']		= 'Remove';

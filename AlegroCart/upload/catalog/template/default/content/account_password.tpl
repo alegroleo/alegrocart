@@ -24,6 +24,13 @@
             <span class="error"><?php echo $error_confirm; ?></span>
             <?php } ?></td>
         </tr>
+        <tr>
+          <td><span class="required">*</span> <?php echo $entry_old; ?></td>
+          <td><input type="password" name="old" value="<?php echo $old; ?>">
+            <?php if ($error_old) { ?>
+            <span class="error"><?php echo $error_old; ?></span>
+            <?php } ?></td>
+        </tr>
       </table>
     </div>
   </div></div>

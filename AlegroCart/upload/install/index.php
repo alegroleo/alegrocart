@@ -100,12 +100,13 @@ foreach ($files0750 as $file) {
 	if (!is_writable($file)){
 			$errors[]=$language->get('error_not_666',$file);
 		}
-	}	
+	}
 }
 
 $files0666=array(
 		'config.php',
-		'.htaccess'
+		'.htaccess',
+		'robots.txt'
 );
 foreach ($files0666 as $file) {
 	$file=DIR_BASE.$file;

@@ -5,6 +5,7 @@ class ControllerReportViewed extends Controller {
 		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
 		$this->module   	=& $locator->get('module');
+		$this->request		=& $locator->get('request');
 		$this->response 	=& $locator->get('response');
 		$this->session  	=& $locator->get('session');
 		$this->template 	=& $locator->get('template');
@@ -33,13 +34,19 @@ class ControllerReportViewed extends Controller {
 		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('last', $this->url->getLast('report_viewed'));
-
+		$view->set('action', $this->url->ssl('report_viewed'));
 		$view->set('help', $this->session->get('help'));
+
+		$view->set('button_reset', $this->language->get('button_reset'));
 
 		$view->set('column_name', $this->language->get('column_name'));
 		$view->set('column_viewed', $this->language->get('column_viewed'));
 		$view->set('column_percent', $this->language->get('column_percent'));
-		
+
+		if ($this->request->isPost() && $this->request->has('reset', 'post')) {
+			$result = $this->modelReportViewed->reset(); 
+		}
+
 		$product_data = array();
 		
 		$results = $this->modelReportViewed->get_viewed();
@@ -59,7 +66,7 @@ class ControllerReportViewed extends Controller {
 				'name'    => $result['name'],
 				'viewed'  => $result['viewed'],
 				'percent' => $percent.'%',
-				'graph'   => number_format((100/$max)*$percent, 2,'.','') . '%'
+				'graph'   => $max ? number_format((100/$max)*$percent, 2,'.','') . '%' : number_format(0, 2,'.','') .'%'
 			);
 		}
 		

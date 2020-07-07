@@ -1,8 +1,9 @@
 <?php // Admin Product AlegroCart
 class ControllerProduct extends Controller {
-	var $error = array();
-	var $option_status = FALSE;
-	function __construct(&$locator){
+	public $error = array();
+	private $option_status = FALSE;
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->cache		=& $locator->get('cache');
@@ -28,14 +29,15 @@ class ControllerProduct extends Controller {
 		$this->language->load('controller/product_lfs.php');
 	}
 
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function insert() {
+
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->isPost()) && ($this->validateForm())) {
 			$url_alias = $this->config->get('config_url_alias');
@@ -99,7 +101,8 @@ class ControllerProduct extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function update() {
+
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->isPost()) && ($this->validateForm())) {
@@ -165,7 +168,8 @@ class ControllerProduct extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function delete() {
+
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('product_id')) && ($this->validateDelete())) {
@@ -206,7 +210,8 @@ class ControllerProduct extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function saveas() {
+
+	protected function saveas() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->isPost()) && ($this->validateForm())) {
 			$url_alias = $this->config->get('config_url_alias');
@@ -270,12 +275,13 @@ class ControllerProduct extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function changeStatus() { 
+	protected function changeStatus() { 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelProduct->change_product_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 			$this->cache->delete('product');
 		}
 	}
+
 	private function getList() {
 		$this->session->set('product_validation', md5(time()));
 		$cols = array();
@@ -345,45 +351,45 @@ class ControllerProduct extends Controller {
 
 		$decimal_place = $this->currency->currencies[$this->currency->code]['decimal_place'];
 		$results = $this->modelProduct->get_page();
-	$rows = array();
-    	foreach ($results as $result) {
-		$last = $result['product_id'] == $this->session->get('last_product_id') ? 'last_visited': '';
-      		$cell = array();
-      		$cell[] = array(
-        		'icon'  => $this->modelProduct->get_options($result['product_id']) ? 'folderO.png' : 'folder.png',
-        		'align' => 'center',
+		$rows = array();
+		foreach ($results as $result) {
+			$last = $result['product_id'] == $this->session->get('last_product_id') ? 'last_visited': '';
+			$cell = array();
+			$cell[] = array(
+				'icon'  => $this->modelProduct->get_options($result['product_id']) ? 'folderO.png' : 'folder.png',
+				'align' => 'center',
 				'path'  => $this->url->ssl('product_option', FALSE, array('product_id' => $result['product_id']))
-		  	);
-      		$cell[] = array(
-        		'value' => $result['name'],
-        		'align' => 'left',
-			'last' => $last
-		  	);
+			);
+				$cell[] = array(
+				'value' => $result['name'],
+				'align' => 'left',
+				'last' => $last
+			);
 			$cell[] = array(
-               'value' => number_format($result['price'],$decimal_place,'.',''),
-               'align' => 'left',
-		'last' => $last
-            );
-            $cell[] = array(
-               'value' => $result['quantity'],
-               'align' => 'left',
-		'last' => $last
-            );
-            $cell[] = array(
-               'value' => $result['weight'],
-               'align' => 'left',
-		'last' => $last
-            );
-			$cell[] = array(
-               'value' => $this->modelProduct->get_weight_class($result['weight_class_id']),
-               'align' => 'left',
-		'last' => $last
-            );
-      		$cell[] = array(
-        		'value' => $result['model'],
-        		'align' => 'left',
+				'value' => number_format($result['price'],$decimal_place,'.',''),
+				'align' => 'left',
 			'last' => $last
-      		);
+			);
+			$cell[] = array(
+				'value' => $result['quantity'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['weight'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $this->modelProduct->get_weight_class($result['weight_class_id']),
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['model'],
+				'align' => 'left',
+				'last' => $last
+			);
 			if($result['special_price'] >0 && date('Y-m-d') >= $result['sale_start_date'] && date('Y-m-d') <= $result['sale_end_date']){
 				$special_price = '<span style="color:#ff0000;">' . number_format($result['special_price'],$decimal_place,'.','') . '</span>';
 			} else {
@@ -407,46 +413,46 @@ class ControllerProduct extends Controller {
 				'align' => 'center'
 			);
 
-		if ($this->validateChangeStatus()) {
+			if ($this->validateChangeStatus()) {
+				$cell[] = array(
+					'status'  => $result['status'],
+					'text' => $this->language->get('button_status'),
+					'align' => 'center',
+					'status_id' => $result['product_id'],
+					'status_controller' => 'product'
+				);
+			} else {
+				$cell[] = array(
+					'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+					'align' => 'center'
+				);
+			}
+
 			$cell[] = array(
-				'status'  => $result['status'],
-				'text' => $this->language->get('button_status'),
-				'align' => 'center',
-				'status_id' => $result['product_id'],
-				'status_controller' => 'product'
-		);
+				'image' => $this->image->resize($result['filename'], '26', '26'),
+				'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+				'title' => $result['filename'],
+				'align' => 'right'
+			);
+			$cell[] = array(
+				'value' => $result['sort_order'],
+				'align' => 'right',
+				'last' => $last
+			);
 
-		} else {
-
-		$cell[] = array(
-				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-				'align' => 'center'
-		);
-		}
-		$cell[] = array(
-               'image' => $this->image->resize($result['filename'], '26', '26'),
-	       'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-               'title' => $result['filename'],
-               'align' => 'right'
-                );
-      		$cell[] = array(
-        		'value' => $result['sort_order'],
-        		'align' => 'right',
-			'last' => $last
-      		);
 			$action = array();
 
 			$action[] = array(
-        			'icon' => 'save_as.png',
+				'icon' => 'save_as.png',
 				'text' => $this->language->get('button_save_as'),
 				'href' => $this->url->ssl('product', 'saveas', array('product_id' => $result['product_id']))
-      		);
+			);
 
 			$action[] = array(
-        			'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('product', 'update', array('product_id' => $result['product_id']))
-      		);
+			);
 
 			if($this->session->get('enable_delete')){
 				$action[] = array(
@@ -456,68 +462,81 @@ class ControllerProduct extends Controller {
 				);
 			}
 
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
-    	}
+		}
 
-	$this->get_orphans();
+		$this->get_orphans();
 
-	$view = $this->locator->create('template');
+		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
-    	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 
-    	$view->set('text_results', $this->modelProduct->get_text_results());
+		$view->set('text_results', $this->modelProduct->get_text_results());
 
-    	$view->set('entry_page', $this->language->get('entry_page'));
-    	$view->set('entry_search', $this->language->get('entry_search'));
+		$view->set('entry_page', $this->language->get('entry_page'));
+		$view->set('entry_search', $this->language->get('entry_search'));
+		$view->set('entry_specialities', $this->language->get('entry_specialities'));
 
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-   	 	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
-	$view->set('button_status', $this->language->get('button_status'));
-    	$view->set('button_save_as', $this->language->get('button_save_as'));
+		$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_save_as', $this->language->get('button_save_as'));
 		$view->set('button_help', $this->language->get('button_help'));
 		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'product');
-	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
-    	$view->set('error', @$this->error['message']);
+		$view->set('error', @$this->error['message']);
 
-        if(!@$this->error['message']){	
-		$view->set('error', @$this->error['error_orphans']);
-	}
- 		$view->set('message', $this->session->get('message'));
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['error_orphans']);
+		}
+		$view->set('message', $this->session->get('message'));
 
 		$this->session->delete('message');
 
-    	$view->set('action', $this->url->ssl('product', 'page'));
+		$view->set('action', $this->url->ssl('product', 'page'));
 		$view->set('action_delete', $this->url->ssl('product', 'enableDelete')); // Enable Delete Button
 		$view->set('last', $this->url->getLast('product'));
 
-    	$view->set('search', $this->session->get('product.search'));
-    	$view->set('sort', $this->session->get('product.sort'));
-    	$view->set('order', $this->session->get('product.order'));
-    	$view->set('page', $this->session->get('product.page'));
+		$specialities_data = array(
+			0 => $this->language->get('text_none'),
+			1   => 'F',
+			2   => 'S',
+			3   => 'R',
+			4   => 'pD',
+			5   => 'fD'
+		);
+		$view->set('specialities_data', $specialities_data);
 
-    	$view->set('cols', $cols);
-    	$view->set('rows', $rows);
+		$view->set('search', $this->session->get('product.search'));
+		$view->set('sort', $this->session->get('product.sort'));
+		$view->set('order', $this->session->get('product.order'));
+		$view->set('page', $this->session->get('product.page'));
+		$view->set('specialities', $this->session->get('product.specialities'));
 
-    	$view->set('insert', $this->url->ssl('product', 'insert'));
+		$view->set('cols', $cols);
+		$view->set('rows', $rows);
 
-	$view->set('pages', $this->modelProduct->get_pagination());
+		$view->set('insert', $this->url->ssl('product', 'insert'));
+
+		$view->set('pages', $this->modelProduct->get_pagination());
 
 		return $view->fetch('content/list.tpl');
 	}
+
 	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
@@ -645,15 +664,15 @@ class ControllerProduct extends Controller {
 		$view->set('error_max_qty', @$this->error['max_qty']);
 		$view->set('error_multiple', @$this->error['multiple']);
 
-	if(!@$this->error['message']){
-	$view->set('error', @$this->error['warning']);
-	}
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
-        $view->set('error_duplicate_name', @$this->error['duplicate_name']);
+		$view->set('error_duplicate_name', @$this->error['duplicate_name']);
 
-    	$view->set('action', $this->url->ssl('product', $this->request->gethtml('action'), array('product_id' => $this->request->gethtml('product_id'))));
+		$view->set('action', $this->url->ssl('product', $this->request->gethtml('action'), array('product_id' => $this->request->gethtml('product_id'))));
 
-    	$view->set('insert', $this->url->ssl('product', 'insert'));
+		$view->set('insert', $this->url->ssl('product', 'insert'));
 		$view->set('cancel', $this->url->ssl('product'));
 		$view->set('last', $this->url->getLast('product'));
 
@@ -662,10 +681,10 @@ class ControllerProduct extends Controller {
 		$view->set('decimal_place', $decimal_place);
 		$view->set('currency_code' , $currency_code);
 
-    	if ($this->request->gethtml('product_id')) {
-     		$view->set('update', $this->url->ssl('product', 'update', array('product_id' => $this->request->gethtml('product_id'))));
-      		$view->set('delete', $this->url->ssl('product', 'delete', array('product_id' => $this->request->gethtml('product_id'),'product_validation' =>$this->session->get('product_validation'))));
-    	}
+		if ($this->request->gethtml('product_id')) {
+			$view->set('update', $this->url->ssl('product', 'update', array('product_id' => $this->request->gethtml('product_id'))));
+			$view->set('delete', $this->url->ssl('product', 'delete', array('product_id' => $this->request->gethtml('product_id'),'product_validation' =>$this->session->get('product_validation'))));
+	 	}
 
 		$view->set('tab', $this->session->has('product_tab') && $this->session->get('product_id') == $this->request->gethtml('product_id') ? $this->session->get('product_tab') : 0);
 		$view->set('tabmini', $this->session->has('product_tabmini') && $this->session->get('product_id') == $this->request->gethtml('product_id') ? $this->session->get('product_tabmini') : 0);
@@ -683,69 +702,69 @@ class ControllerProduct extends Controller {
 		$this->session->set('last_product_id', $this->request->gethtml('product_id'));
 
 		$this->check_options();
-    		$product_data = array();
+		$product_data = array();
 
-    		$results = $this->modelProduct->get_languages();
+		$results = $this->modelProduct->get_languages();
 		$product_name = '';
-	foreach ($results as $result) {
-		if($result['language_status'] =='1'){
-			$model_data = array();
-			$models_results = $this->modelProduct->get_models($result['language_id']);//Get all models
-			foreach($models_results as $model_result){
-				$model_data[] = array(
-					'model'	=> $model_result['model']
+		foreach ($results as $result) {
+			if($result['language_status'] =='1'){
+				$model_data = array();
+				$models_results = $this->modelProduct->get_models($result['language_id']);//Get all models
+				foreach($models_results as $model_result){
+					$model_data[] = array(
+						'model'	=> $model_result['model']
+					);
+				}
+				if (($this->request->gethtml('product_id')) && (!$this->request->isPost())) {
+					$product_description_info = $this->modelProduct->get_product_description($result['language_id']);
+				}
+
+				$name             = $this->request->get('name', 'post');
+				$model			  = $this->request->get('model', 'post');
+				$model_number     = $this->request->get('model_number', 'post');
+				$description      = $this->request->get('description', 'post');
+				$technical        = $this->request->get('technical', 'post');
+				$technical_name   = $this->request->get('technical_name', 'post');
+				$alt_description  = $this->request->get('alt_destription', 'post');
+				$meta_title       = $this->request->gethtml('meta_title', 'post');
+				$meta_description = $this->request->gethtml('meta_description', 'post');
+				$meta_keywords    = $this->request->gethtml('meta_keywords', 'post');
+
+				$product_data[] = array(
+					'models_data'   => $model_data,
+		    			'language_id' 	=> $result['language_id'],
+		    			'language'    	=> $result['name'],
+		    			'name'        	=> (isset($name[$result['language_id']]) ? $name[$result['language_id']] : @$product_description_info['name']),
+					'model'         => (isset($model[$result['language_id']]) ? $model[$result['language_id']] : @$product_description_info['model']),
+					'model_number'  => !$this->option_status ? (isset($model_number[$result['language_id']]) ? $model_number[$result['language_id']] : @$product_description_info['model_number']) : '',
+		    			'description' 	=> (isset($description[$result['language_id']]) ? $description[$result['language_id']] : @$product_description_info['description']),
+					'technical'     => (isset($technical[$result['language_id']]) ? $technical[$result['language_id']] : @$product_description_info['technical']),
+					'technical_name' => (isset($technical_name[$result['language_id']]) ? $technical_name[$result['language_id']] : @$product_description_info['technical_name']),
+					'alt_description' => (isset($alt_description[$result['language_id']]) ? $alt_description[$result['language_id']] : @$product_description_info['alt_description']),
+		    			'meta_title' 	=> (isset($meta_title[$result['language_id']]) ? $meta_title[$result['language_id']] : @$product_description_info['meta_title']),
+		    			'meta_description'=> (isset($meta_description[$result['language_id']]) ? $meta_description[$result['language_id']] : @$product_description_info['meta_description']),
+		    			'meta_keywords' => (isset($meta_keywords[$result['language_id']]) ? $meta_keywords[$result['language_id']] : @$product_description_info['meta_keywords'])
 				);
-			}
-			if (($this->request->gethtml('product_id')) && (!$this->request->isPost())) {
-				$product_description_info = $this->modelProduct->get_product_description($result['language_id']);
-			}
-
-			$name             = $this->request->get('name', 'post');
-			$model			  = $this->request->get('model', 'post');
-			$model_number     = $this->request->get('model_number', 'post');
-			$description      = $this->request->get('description', 'post');
-			$technical        = $this->request->get('technical', 'post');
-			$technical_name   = $this->request->get('technical_name', 'post');
-			$alt_description  = $this->request->get('alt_destription', 'post');
-			$meta_title       = $this->request->gethtml('meta_title', 'post');
-			$meta_description = $this->request->gethtml('meta_description', 'post');
-			$meta_keywords    = $this->request->gethtml('meta_keywords', 'post');
-
-			$product_data[] = array(
-				'models_data'   => $model_data,
-	    			'language_id' 	=> $result['language_id'],
-	    			'language'    	=> $result['name'],
-	    			'name'        	=> (isset($name[$result['language_id']]) ? $name[$result['language_id']] : @$product_description_info['name']),
-				'model'         => (isset($model[$result['language_id']]) ? $model[$result['language_id']] : @$product_description_info['model']),
-				'model_number'  => !$this->option_status ? (isset($model_number[$result['language_id']]) ? $model_number[$result['language_id']] : @$product_description_info['model_number']) : '',
-	    			'description' 	=> (isset($description[$result['language_id']]) ? $description[$result['language_id']] : @$product_description_info['description']),
-				'technical'     => (isset($technical[$result['language_id']]) ? $technical[$result['language_id']] : @$product_description_info['technical']),
-				'technical_name' => (isset($technical_name[$result['language_id']]) ? $technical_name[$result['language_id']] : @$product_description_info['technical_name']),
-				'alt_description' => (isset($alt_description[$result['language_id']]) ? $alt_description[$result['language_id']] : @$product_description_info['alt_description']),
-	    			'meta_title' 	=> (isset($meta_title[$result['language_id']]) ? $meta_title[$result['language_id']] : @$product_description_info['meta_title']),
-	    			'meta_description'=> (isset($meta_description[$result['language_id']]) ? $meta_description[$result['language_id']] : @$product_description_info['meta_description']),
-	    			'meta_keywords' => (isset($meta_keywords[$result['language_id']]) ? $meta_keywords[$result['language_id']] : @$product_description_info['meta_keywords'])
-			);
-			if($result['language_id'] == (int)$this->language->getId()){
-				$product_name = (isset($name[$result['language_id']]) ? $name[$result['language_id']] : @$product_description_info['name']);
-				if (isset($product_description_info[$result['language_id']])) {
-					if ($product_description_info[$result['language_id']]['name'] != NULL) {
-						$name_last = $product_description_info[$result['language_id']]['name'];
+				if($result['language_id'] == (int)$this->language->getId()){
+					$product_name = (isset($name[$result['language_id']]) ? $name[$result['language_id']] : @$product_description_info['name']);
+					if (isset($product_description_info[$result['language_id']])) {
+						if ($product_description_info[$result['language_id']]['name'] != NULL) {
+							$name_last = $product_description_info[$result['language_id']]['name'];
+						} else {
+							$name_last = $this->session->get('name_last_product');
+						}
 					} else {
-						$name_last = $this->session->get('name_last_product');
+						$name_last = @$product_description_info['name'];
 					}
-				} else {
-					$name_last = @$product_description_info['name'];
-				}
 
-				if (strlen($name_last) > 26) {
-					$name_last = substr($name_last , 0, 23) . '...';
+					if (strlen($name_last) > 26) {
+						$name_last = substr($name_last , 0, 23) . '...';
+					}
+					$this->session->set('name_last_product', $name_last);
+					$this->session->set('last_product', $this->url->ssl('product', 'update', array('product_id' => $this->request->gethtml('product_id'))));
 				}
-				$this->session->set('name_last_product', $name_last);
-				$this->session->set('last_product', $this->url->ssl('product', 'update', array('product_id' => $this->request->gethtml('product_id'))));
 			}
 		}
-	}
 
     	$view->set('products', $product_data);
 
@@ -1185,10 +1204,11 @@ class ControllerProduct extends Controller {
         		'name'        => $result['name'],
 			'relateddata'	=> (isset($related_info) ? $related_info : in_array($result['product_id'], $this->request->gethtml('relateddata', 'post', array()))));
     	}
-    	$view->set('relateddata', $related_data);
+		$view->set('relateddata', $related_data);
 
 		return $view->fetch('content/product.tpl');
 	}
+
 	private function get_options(){
 		$results = $this->check_options();
 		$options = array();
@@ -1199,11 +1219,13 @@ class ControllerProduct extends Controller {
 		}
 		return $options;
 	}
+
 	private function check_options(){
 		$results = $this->modelProduct->get_options($this->request->gethtml('product_id'));
 		$this->option_status = $results ? TRUE : FALSE;
 		return $results;
 	}
+
 	private function get_option_names(){
 		$results = $this->get_options();
 		$option_names = '';
@@ -1216,6 +1238,7 @@ class ControllerProduct extends Controller {
 		}
 		return $option_names;
 	}
+
 	private function get_product_options(){
 		$results = $this->modelProduct->get_product_options();
 		$product_options = array();
@@ -1233,6 +1256,7 @@ class ControllerProduct extends Controller {
 		}
 		return $product_options;
 	}
+
 	private function get_option_values($product_name){
 		$product_id =$this->request->gethtml('product_id');
 		$results = $this->modelProduct->get_option_values();
@@ -1315,6 +1339,7 @@ class ControllerProduct extends Controller {
 
 		return $option_list;
 	}
+
 	private function compare_key($product_options, $option_key){
 		$options = explode('.', substr($option_key,strpos($option_key, ':' ) + 1));
 		foreach($product_options as $product_option){
@@ -1333,9 +1358,11 @@ class ControllerProduct extends Controller {
 		}
 		return FALSE;
 	}
-	function dimensions(){
+
+	protected function dimensions(){
 		$this->response->set($this->getDimensions((int)$this->request->gethtml('type_id')));
 	}
+
 	private function getDimensions($type_id, $dimension_id = 0, $dimension_value = 0){
 		$output = '';
 		$dimension_data = array();
@@ -1358,6 +1385,7 @@ class ControllerProduct extends Controller {
 		}
 		return $output;
 	}
+
 	private function dimension_value($type_id, $dimension_value){
 		$output = '';
 		$dimensions = explode(':', $dimension_value);
@@ -1417,6 +1445,7 @@ class ControllerProduct extends Controller {
 		}
 		return $output;
 	}
+
 	private function dimension_select($results, $dimension_id){
 		$output = '<option value="0">' . $this->language->get('text_no_dim') . '</option>' . "\n";
 		foreach ($results as $result) {
@@ -1428,7 +1457,8 @@ class ControllerProduct extends Controller {
 		}
 		return $output;
 	}
-	function validate_barcode(){
+
+	protected function validate_barcode(){
 		$barcode = $this->request->gethtml('barcode');
 		$encoding = $this->request->gethtml('encoding');
 		$product_id = $this->request->gethtml('product_id');
@@ -1483,7 +1513,8 @@ class ControllerProduct extends Controller {
 
 		$this->response->set($output);
 	}
-	function enableDelete(){
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -1497,6 +1528,7 @@ class ControllerProduct extends Controller {
 			$this->response->redirect($this->url->ssl('product'));
 		}
 	}
+
 	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -1572,6 +1604,7 @@ class ControllerProduct extends Controller {
 			return FALSE;
 		}
 	}
+
 	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'product')) {
 		$this->error['message'] = $this->language->get('error_permission');  
@@ -1582,15 +1615,16 @@ class ControllerProduct extends Controller {
 			return FALSE;
 		}
 	}
+
 	private function validateDelete() {
 		if(($this->session->get('product_validation') != $this->request->sanitize('product_validation')) || (strlen($this->session->get('product_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('product_validation');
 
-	if (!$this->user->hasPermission('modify', 'product')) {
-		$this->error['message'] = $this->language->get('error_permission');  
-	}
+		if (!$this->user->hasPermission('modify', 'product')) {
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 
 		if (!$this->error) {
 			return TRUE;
@@ -1598,14 +1632,16 @@ class ControllerProduct extends Controller {
 			return FALSE;
 		}
 	}
-	function validateChangeStatus(){
+
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'product')) {
 			return FALSE;
 		}  else {
 			return TRUE;
 		}
 	}
-	function get_orphans(){
+
+	private function get_orphans(){
 		$orphans = $this->modelProduct->check_orphans();
 		if ($orphans) {
 			$this->error['error_orphans'] = $this->language->get('error_orphans');
@@ -1615,12 +1651,13 @@ class ControllerProduct extends Controller {
 		}
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('product.search', $this->request->gethtml('search', 'post'));
 		}
 
-		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
+		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post')) || ($this->request->has('specialities', 'post'))) {
 			$this->session->set('product.page', (int)$this->request->gethtml('page', 'post'));
 		}
 
@@ -1632,10 +1669,14 @@ class ControllerProduct extends Controller {
 			$this->session->set('product.sort', $this->request->gethtml('sort', 'post'));
 		}
 
+		if ($this->request->has('specialities', 'post')) {
+			$this->session->set('product.specialities', $this->request->gethtml('specialities', 'post'));
+		}
+
 		$this->response->redirect($this->url->ssl('product'));
 	}
-	function discount() {
 
+	protected function discount() {
 		$symbol_right = $this->currency->currencies[$this->currency->code]['symbol_right'];
 		$symbol_left = $this->currency->currencies[$this->currency->code]['symbol_left'];
 
@@ -1653,6 +1694,7 @@ class ControllerProduct extends Controller {
 
 		$this->response->set($view->fetch('content/product_discount.tpl'));
 	}
+
 	private function product_seo($product_id, $product_name){
 		$alias = '';
 		$alias .= $this->generate_seo->clean_alias($product_name);
@@ -1660,10 +1702,12 @@ class ControllerProduct extends Controller {
 		$alias .= '.html';
 		$this->generate_seo->_insert_url_alias($query_path, $alias);
 	}
+
 	private function delete_product_seo($product_id){
 		$query_path = 'controller=product&product_id=' . $product_id;
 		$this->modelProduct->delete_SEO($query_path);
 	}
+
 	private function product_to_category_seo($product_id,$category_id){
 		$product_info = $this->modelProduct->get_product_name($product_id);
 		$category_info = $this->modelProduct->get_category_path($category_id);
@@ -1679,11 +1723,13 @@ class ControllerProduct extends Controller {
 		$query_path = 'controller=product&path=' . $category_info['path'] . '&product_id=' . $product_id;
 		$this->generate_seo->_insert_url_alias($query_path, $alias);
 	}
+
 	private function delete_product_to_category_seo($product_id,$category_id){
 		$category_info = $this->modelProduct->get_category_path($category_id);
 		$query_path = 'controller=product&path=' . $category_info['path'] . '&product_id=' . $product_id;
 		$this->modelProduct->delete_SEO($query_path);
 	}
+
 	private function manufacturer_to_product_seo($product_id, $manufacturer_id){
 		$manufacturer_info = $this->modelProduct->get_manufacturer_name($manufacturer_id);
 		$product_info = $this->modelProduct->get_product_name($product_id);
@@ -1694,18 +1740,21 @@ class ControllerProduct extends Controller {
 		$alias .= '.html';
 		$this->generate_seo->_insert_url_alias($query_path, $alias);
 	}
+
 	private function delete_manufacturer_to_product_seo($product_id, $manufacturer_id){
 		$query_path = 'controller=product&manufacturer_id=' . $manufacturer_id . '&product_id=' . $product_id;
 		$this->modelProduct->delete_SEO($query_path);
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('product_tab', $this->request->sanitize('activeTab', 'post'));

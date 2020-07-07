@@ -11,7 +11,7 @@ class Session {
 		$this->request  = $locator->get('request');
 		$this->config   = $locator->get('config');
 
-    	register_shutdown_function(array($this, 'save_session'));
+		register_shutdown_function(array($this, 'save_session'));
 		$this->expire = ($this->config->get('config_session_expire') > 1800) ? $this->config->get('config_session_expire') : 1800;
 		if (!$this->request->has('alegro', 'cookie') && $this->request->isPost()) {
 			$this->log_access();
@@ -24,17 +24,16 @@ class Session {
 				exit;
 			}
 		}
-		
+
 		if (!$this->request->has('alegro', 'cookie')) {
-	    	setcookie('alegro', 'accept', time() + 60 * 60 * 24 * 30, '/', NULL, false);
+			setcookie('alegro', 'accept', time() + 60 * 60 * 24 * 30, '/', NULL, false);
 		}
-		
+
 		if ($this->request->has('alegro', 'cookie')) {
 			$this->start_session();
-  		}
-			
+		}
 	}
-	
+
 	function save_session(){
 		if(!$this->check_bots()){
 			$this->write($this->session_id);
@@ -43,7 +42,7 @@ class Session {
 	}
 	private function start_session(){
 		$this->user_agent = @$_SERVER['HTTP_USER_AGENT'];
-		
+
 		if (!$this->request->has('alegro_sid', 'cookie')) {
 			$this->CreateSID();
 			setcookie('alegro_sid', $this->session_id . '_' . md5($this->user_agent), 0, '/', NULL, false);
@@ -66,11 +65,11 @@ class Session {
 		}
 		return FALSE;
 	}
-	
+
 	private function CreateSID(){
 		$this->session_id = md5(time()-rand(10000,100000));
 	}
-	
+
 	private function check_access(){
 		$contents = file_get_contents($this->log_file);
 		$contents = preg_split("#((\r(?!\n))|((?!\r)\n)|(\r\n))#",$contents);
@@ -85,7 +84,7 @@ class Session {
 		}
 		return FALSE;
 	}
-	
+
 	private function log_access(){
 		$log_path = DIR_BASE . 'logs' . D_S . 'access_log' . D_S;
 		if (is_writable($log_path)){
@@ -100,7 +99,7 @@ class Session {
 			fclose($fp); 
 		}
 	}
-	
+
 	private function close_connection(){
 		setcookie('alegro_sid','', time() - 86400 * 2,'/');
 		setcookie('currency','', time() - 86400 * 2, '/');
@@ -113,20 +112,24 @@ class Session {
 		$error_response .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\n";
 		return $error_response;
 	}
-	
+
 	function nslookup($ip) {
 		$host_name = gethostbyaddr($ip);
 		return $host_name;
 	}
-		
+
 	function set($key, $value) {
 		$this->session_data[$key] = $value;
 	}
-	
+
 	function get($key) {
 		return (isset($this->session_data[$key]) ? $this->session_data[$key] : NULL);
 	}
-		
+
+	function getAll() {
+		return $this->session_data;
+	}
+
 	function has($key) {
 		return isset($this->session_data[$key]);
 	}
@@ -136,39 +139,39 @@ class Session {
 			unset($this->session_data[$key]);
 		}
 	}
-	
-  	function open() {
-    	return TRUE;
-  	}
 
-  	function close() {
+	function open() {
 		return TRUE;
-  	}
+	}
 
-  	private function read($session_id) {
-    	$result = $this->database->getRow($this->database->parse("select value from session where session_id = '?' and expire > '?'", $session_id, time()));
+	function close() {
+		return TRUE;
+	}
+
+	private function read($session_id) {
+		$result = $this->database->getRow($this->database->parse("select value from session where session_id = '?' and expire > '?'", $session_id, time()));
 		if(isset($result['value']) && $result['value']){
 			$this->session_data = unserialize($result['value']);
 		}
-  	}
+	}
 
-  	private function write($session_id) {
+	private function write($session_id) {
 		if (!$this->database->getRow($this->database->parse("select * from session where session_id = '?'", $session_id))) {
-	  		$sql = "insert into session set session_id = '?', expire = '?', `value` = '?', ip = '?', time = now(), url = '?'";
-      		$this->database->query($this->database->parse($sql, $session_id, time() + $this->expire, serialize($this->session_data), isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:''));
+			$sql = "insert into session set session_id = '?', expire = '?', `value` = '?', ip = '?', time = now(), url = '?'";
+			$this->database->query($this->database->parse($sql, $session_id, time() + $this->expire, serialize($this->session_data), isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:''));
 		} else {
-      		$sql = "update session set expire = '?', `value` = '?', ip = '?', time = now(), url = '?' where session_id = '?'";
-      		$this->database->query($this->database->parse($sql, time() + $this->expire, serialize($this->session_data), isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'', $session_id));
+			$sql = "update session set expire = '?', `value` = '?', ip = '?', time = now(), url = '?' where session_id = '?'";
+			$this->database->query($this->database->parse($sql, time() + $this->expire, serialize($this->session_data), isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'', $session_id));
 		}
-  	}
+	}
 
-  	function destroy($session_id) {
+	function destroy($session_id) {
 		$this->database->query($this->database->parse("delete from session where session_id = '?'", $session_id));
 		$this->session_data = array();
-  	}
+	}
 
-  	function clean() {
-    	$this->database->query($this->database->parse("delete from session where expire < '?'", time()));
-  	}
+	function clean() {
+		$this->database->query($this->database->parse("delete from session where expire < '?'", time()));
+	}
 }
 ?>

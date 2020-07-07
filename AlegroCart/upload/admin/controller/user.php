@@ -241,6 +241,7 @@ class ControllerUser extends Controller {
 		$view->set('entry_username', $this->language->get('entry_username'));
 		$view->set('entry_password', $this->language->get('entry_password'));
 		$view->set('entry_confirm', $this->language->get('entry_confirm'));
+		$view->set('entry_old', $this->language->get('entry_old'));
 		$view->set('entry_firstname', $this->language->get('entry_firstname'));
 		$view->set('entry_lastname', $this->language->get('entry_lastname'));
 		$view->set('entry_position', $this->language->get('entry_position'));
@@ -270,6 +271,7 @@ class ControllerUser extends Controller {
 		$view->set('error_username', @$this->error['username']);
 		$view->set('error_password', @$this->error['password']);
 		$view->set('error_confirm', @$this->error['confirm']);
+		$view->set('error_old', @$this->error['old']);
 		$view->set('error_firstname', @$this->error['firstname']);
 		$view->set('error_lastname', @$this->error['lastname']);
 		$view->set('error_email', @$this->error['email']);
@@ -307,8 +309,8 @@ class ControllerUser extends Controller {
 		}
 
 		$view->set('password', $this->request->sanitize('password', 'post'));
-
 		$view->set('confirm', $this->request->sanitize('confirm', 'post'));
+		$view->set('old', $this->request->sanitize('old', 'post'));
 
 		if ($this->request->has('firstname', 'post')) {
 			$view->set('firstname', $this->request->sanitize('firstname', 'post'));
@@ -416,6 +418,9 @@ class ControllerUser extends Controller {
 			}
 			if ($this->request->sanitize('password', 'post') != $this->request->sanitize('confirm', 'post')) {
 				$this->error['confirm'] = $this->language->get('error_confirm');
+			}
+			if (md5($this->request->sanitize('old', 'post')) != $this->modelAdminUser->get_password((int)$this->request->gethtml('user_id'))) {
+				$this->error['old'] = $this->language->get('error_old');
 			}
 		}
 

@@ -24,6 +24,7 @@
    <input type="hidden" name="user_group_id" value="">
    <input type="hidden" name="password" value="">
    <input type="hidden" name="confirm" value="">
+   <input type="hidden" name="old" value="">
   <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
   </form>
   <?php } else { ?>
@@ -92,6 +93,13 @@
               <td><input type="password" name="confirm" value="<?php echo $confirm; ?>">
                 <?php if ($error_confirm) { ?>
                 <span class="error"><?php echo $error_confirm; ?></span>
+                <?php  } ?></td>
+            </tr>
+            <tr>
+              <td class="set"><?php echo $entry_old; ?></td>
+              <td><input type="password" name="old" value="<?php echo $old; ?>">
+                <?php if ($error_old) { ?>
+                <span class="error"><?php echo $error_old; ?></span>
                 <?php  } ?></td>
             </tr>
 	    <tr>
@@ -184,6 +192,7 @@
 		document.forms['update_form'].user_group_id.value=document.forms['form'].user_group_id.value;
 		document.forms['update_form'].password.value=document.forms['form'].password.value;
 		document.forms['update_form'].confirm.value=document.forms['form'].confirm.value;
+		document.forms['update_form'].old.value=document.forms['form'].old.value;
 	}
   //--></script>
   <script type="text/javascript"><!--

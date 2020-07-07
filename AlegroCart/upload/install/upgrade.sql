@@ -1646,3 +1646,16 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
  `currency` varchar(3) collate utf8_unicode_ci NOT NULL default '',
   PRIMARY KEY  (`bank_account_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+# Add Description to Maintenance
+#
+CREATE TABLE IF NOT EXISTS `maintenance_description` (
+  `maintenance_id` int(11) NOT NULL default '0',
+  `language_id` int(11) NOT NULL default '1',
+  `header` varchar(64) collate utf8_unicode_ci NOT NULL default '',
+  `description` text collate utf8_unicode_ci default NULL,
+  PRIMARY KEY  (`maintenance_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `maintenance_description` (`maintenance_id`, `language_id`, `header`, `description`) VALUES ('1', '1', 'Maintenance', '<p>This site is unavailable due to scheduled maintenance.</p><p>Check back soon!</p>');

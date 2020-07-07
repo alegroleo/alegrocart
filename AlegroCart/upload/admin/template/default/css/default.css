@@ -749,7 +749,7 @@ form {
 	  color: black; 
 	  background-color: white;
      }
-     #header, #myMenuID, .task, .description, #footer, #list .a .e, #list .a .d, .list .action, #prev, #search, #encrypt  {
+     #header, #myMenuID, .task, .description, .help, #footer, #list .a .e, #list .a .d, .list .action, #prev, #search, #encrypt, #reset  {
           display:none;
      }
      #list .a .f select {border: none;}

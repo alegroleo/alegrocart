@@ -327,6 +327,46 @@ b, strong, th {
 .category_filter .lowerleft, .category_filter .man_filter{
 	border-right: 1px solid #DDDDDD;
 }
+.bought_filter input {
+	border: 1px solid #DDDDDD;
+	padding: 3px;
+}
+.bought_filter select {
+	border: 1px solid #DDDDDD;
+	padding: 3px;
+	background-color: #FFFFFF;
+}
+.bought_filter input[type="submit"] {
+	height: 25px;
+	margin: 3px;
+	color: #FFFFFF;
+	background-color: #C1002B;
+	border: none;
+	padding: 3px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	font-weight: bold;
+}
+.bought_filter tr, .bought_filter td input{
+	margin: 3px;
+}
+.bought_filter .left{
+	border-right: 1px solid #DDDDDD;
+}
+.bought_filter .left .data input{
+	margin-right: 5px;
+}
+.bought_filter .floatleft{
+	border-right: 1px solid #DDDDDD;
+}
+.bought_filter .floatleft .data input{
+	margin-right: 5px;
+}
+.bought_filter .lowerleft, .bought_filter .man_filter{
+	border-right: 1px solid #DDDDDD;
+}
 .manufacturer_module {
 	 border-left: 1px solid #DDDDDD;
 	 border-right: 1px solid #DDDDDD;

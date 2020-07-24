@@ -704,7 +704,7 @@
             </tr>
 			<tr>
 			  <td class="set"><?php echo $entry_time_zone;?></td>
-			  <td><input class="validate_alpha" id="config_time_zone" type="text" name="global_config_time_zone" value="<?php echo $global_config_time_zone;?>"></td>
+			  <td><input class="validate_zone" id="config_time_zone" type="text" name="global_config_time_zone" value="<?php echo $global_config_time_zone;?>"></td>
 			  <td class="expl"><?php echo $text_time_zone;?></td>
 			</tr>
             <tr>

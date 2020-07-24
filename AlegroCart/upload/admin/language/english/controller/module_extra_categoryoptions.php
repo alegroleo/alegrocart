@@ -12,5 +12,5 @@ $_['entry_status']        = 'Status:';
 $_['entry_columns']       = 'Default Number of Display Columns:';
 $_['entry_display_lock']  = 'Lock Column Display to Default:';
 // Error
-$_['error_permission']    = 'Warning: You do not have permission to modify category module';
+$_['error_permission']    = 'Warning: You do not have permission to modify category options module';
 ?>

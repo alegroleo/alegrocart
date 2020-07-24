@@ -1,29 +1,31 @@
 <?php //Order AlegroCart
 class ControllerOrder extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->address  	=& $locator->get('address');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
+		$model			=& $locator->get('model');
+		$this->address		=& $locator->get('address');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
 		$this->mail		=& $locator->get('mail');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->modelOrder = $model->get('model_admin_order');
-		$this->barcode     	=& $locator->get('barcode'); 
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->modelOrder	= $model->get('model_admin_order');
+		$this->barcode		=& $locator->get('barcode'); 
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('order');
+		$this->adminController	= $this->template->set_controller('order');
 
 		$this->language->load('controller/order.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -32,7 +34,7 @@ class ControllerOrder extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('order_status_id', 'post') && $this->validateForm()) {
@@ -41,24 +43,24 @@ class ControllerOrder extends Controller {
 				$this->response->redirect($this->url->ssl('order_edit&order_id=' . $this->request->gethtml('order_id') . '&order_status_id=12'));
 			}
 
-      			$this->modelOrder->update_order();
+			$this->modelOrder->update_order();
 			$this->modelOrder->insert_order_history();
-      			if (($this->config->get('config_email_send')) && ($this->request->gethtml('notify', 'post'))) {
+			if (($this->config->get('config_email_send')) && ($this->request->gethtml('notify', 'post'))) {
 				$order_info = $this->modelOrder->get_order_info();
-		    		$order_id = $order_info['reference'];
+				$order_id = $order_info['reference'];
 				$invoice_number = $order_info['invoice_number'];
 				$invoice  = $this->url->create(HTTP_CATALOG, 'account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id')));
-		    		$date     = $this->language->formatDate($this->language->get('date_format_long'),strtotime($order_info['date_added']));
-		    		$status   = $order_info['status'];
-		    		$comment  = $this->request->gethtml('comment', 'post');
+				$date     = $this->language->formatDate($this->language->get('date_format_long'),strtotime($order_info['date_added']));
+				$status   = $order_info['status'];
+				$comment  = $this->request->gethtml('comment', 'post');
 
-		    		$this->mail->setTo($order_info['email']);
+				$this->mail->setTo($order_info['email']);
 				$this->mail->setFrom($this->config->get('config_email'));
-		    		$this->mail->setSender($this->config->get('config_store'));
-		    		$this->mail->setSubject($this->language->get('email_subject', $order_id));
-		    		$this->mail->setText($this->language->get('email_message', $order_id, $invoice_number, $invoice, $date, $status, $comment));
-		    		$this->mail->send();
-      			}
+				$this->mail->setSender($this->config->get('config_store'));
+				$this->mail->setSubject($this->language->get('email_subject', $order_id));
+				$this->mail->setText($this->language->get('email_message', $order_id, $invoice_number, $invoice, $date, $status, $comment));
+				$this->mail->send();
+			}
 			$this->session->set('last_order_id', $this->request->gethtml('order_id'));
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -67,34 +69,34 @@ class ControllerOrder extends Controller {
 			} else {
 				$this->response->redirect($this->url->ssl('order'));
 			}
-    		}
+		}
 		$this->template->set('head_def',$this->head_def);
-    		$this->template->set('content', $this->getForm());
+		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
 
-    		$this->response->set($this->template->fetch('layout.tpl'));
+		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-    		if (($this->request->gethtml('order_id')) && ($this->validateDelete())) {
+		if (($this->request->gethtml('order_id')) && ($this->validateDelete())) {
 			$this->modelOrder->delete_order();
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->session->delete('name_last_order');
 			$this->session->delete('last_order');
 			$this->response->redirect($this->url->ssl('order'));
-	    	}
+		}
 		$this->template->set('head_def',$this->head_def);
-    		$this->template->set('content', $this->getList());
+		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 
-    		$this->response->set($this->template->fetch('layout.tpl'));
-  	}
-      
-  	function getList() {
+		$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
+	private function getList() {
 		$this->session->set('order_validation', md5(time()));
-		
+
     	$cols = array();
     	$cols[] = array(
       		'name'  => $this->language->get('column_order_id'),
@@ -247,7 +249,7 @@ class ControllerOrder extends Controller {
     	$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
-					    
+
     	$view->set('action', $this->url->ssl('order', 'page'));
 		$view->set('action_delete', $this->url->ssl('order', 'enableDelete'));
 		$view->set('last', $this->url->getLast('order'));
@@ -260,18 +262,18 @@ class ControllerOrder extends Controller {
     	$view->set('cols', $cols);
     	$view->set('rows', $rows);
 
-    	$view->set('pages', $this->modelOrder->get_pagination());
+		$view->set('pages', $this->modelOrder->get_pagination());
 
 		return $view->fetch('content/list.tpl');
-  	}
+	}
 
-  	function getForm() {
-    	$view = $this->locator->create('template');
+	private function getForm() {
+		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def); 
-    	$view->set('heading_title', $this->language->get('heading_form_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('heading_title', $this->language->get('heading_form_title'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 
-    	$view->set('text_order', $this->language->get('text_order'));
+		$view->set('text_order', $this->language->get('text_order'));
 		$view->set('text_invoice_number', $this->language->get('text_invoice_number'));
 		$view->set('text_email', $this->language->get('text_email'));
 		$view->set('text_telephone', $this->language->get('text_telephone'));
@@ -455,7 +457,7 @@ class ControllerOrder extends Controller {
 				);
 			}
 			$download = $this->modelOrder->check_downloads($product['order_product_id']);
-      	 
+
 			$special_pr = $product['special_price'];
 			$net = $product['total'] - (($product['coupon'] != 0) ? $product['coupon'] : NULL ) - (($product['general_discount'] != 0) ? $product['general_discount'] : NULL );
 			$producttax = $order_info['taxed'] ? $net - roundDigits($net / ((100 + $product['tax'])/100), $this->decimal_place) : roundDigits($net * ($product['tax'] / 100), $this->decimal_place);
@@ -470,32 +472,34 @@ class ControllerOrder extends Controller {
 			$cart_tax_total = $tax_total + (($shipping_net != 0) ? $shipping_tax : NULL) - (($freeshipping_net != 0) ? $freeshipping_tax : NULL);
 			//$cart_totals_total = $order_info['taxed'] ? $cart_net_total : $cart_net_total + $cart_tax_total;
 			$cart_totals_total = $order_info['taxed'] ? $cart_net_total + ($shipping_tax - $freeshipping_tax): $cart_net_total + $cart_tax_total;
-		
+
 			$product_data[] = array(
-				'name'     		=> $product['name'],
+				'name'			=> $product['name'],
 				'model_number'		=> $product['model_number'],
 				'vendor_name'		=> $product['vendor_id'] !='0' ? $product['vendor_name'] : NULL,
-				'option'   		=> $option_data,
-				'download'      => $download,
-				'quantity' 		=> $product['quantity'],
+				'option'		=> $option_data,
+				'download'		=> $download,
+				'quantity'		=> $product['quantity'],
 				'barcode' 		=> $product['barcode'],
-				'barcode_url' 		=> $product['barcode'] ? $this->barcode->show($product['barcode']) : NULL,
+				'barcode_url'		=> $product['barcode'] ? $this->barcode->show($product['barcode']) : NULL,
 				'special_price'	=> $special_pr != 0 ? $this->currency->format($special_pr, $order_info['currency'], $order_info['value']) : "$0.00",
-				'price'    		=> $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
-				'discount' 		=> (ceil($product['discount']) ? $this->currency->format($product['discount'], $order_info['currency'], $order_info['value']) : NULL),
-				'coupon' 		=> ($product['coupon'] != 0 ? $this->currency->format(($product['coupon'] * -1), $order_info['currency'], $order_info['value']) : NULL),
-				'general_discount' 	=> ($product['general_discount'] !=0 ? $this->currency->format(($product['general_discount'] * -1), $order_info['currency'], $order_info['value']) : NULL),
-				'tax'     		=> round($product['tax'], $this->decimal_place),
-				'shipping'     		=> $product['shipping'],
-				'total'   		=> $this->currency->format($product['total'],$order_info['currency'], $order_info['value']),
+				'price'			=> $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
+				'discount'		=> (ceil($product['discount']) ? $this->currency->format($product['discount'], $order_info['currency'], $order_info['value']) : NULL),
+				'coupon'		=> ($product['coupon'] != 0 ? $this->currency->format(($product['coupon'] * -1), $order_info['currency'], $order_info['value']) : NULL),
+				'general_discount'	=> ($product['general_discount'] !=0 ? $this->currency->format(($product['general_discount'] * -1), $order_info['currency'], $order_info['value']) : NULL),
+				'tax'			=> round($product['tax'], $this->decimal_place),
+				'shipping'		=> $product['shipping'],
+				'total'			=> $this->currency->format($product['total'],$order_info['currency'], $order_info['value']),
 				'net'			=> $this->currency->format($net, $order_info['currency'], $order_info['value']),
-				'product_tax'	=> $this->currency->format($producttax, $order_info['currency'], $order_info['value']),
-				'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value'])
+				'product_tax'		=> $this->currency->format($producttax, $order_info['currency'], $order_info['value']),
+				'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value']),
+				'href'			=> $this->url->href('product', 'update', array('product_id' => $product['product_id'])),
+				'product_id'		=> $product['product_id']
 			);
 		}
 
 		$view->set('taxed', $order_info['taxed']);
-      	$view->set('products', $product_data);
+      		$view->set('products', $product_data);
 		$view->set('totals',$this->modelOrder->get_totals($order_info['order_id']));
 		$view->set('tax_total', $this->currency->format($tax_total, $order_info['currency'], $order_info['value']));
 		$view->set('coupon_total', $coupon_total ? $this->currency->format(($coupon_total * -1), $order_info['currency'], $order_info['value']) : NULL);
@@ -537,9 +541,9 @@ class ControllerOrder extends Controller {
     	$view->set('order_statuses', $this->modelOrder->get_order_statuses());
 
 		return $view->fetch('content/order.tpl');
-  	}
+	}
 
-	function update_status(){
+	protected function update_status(){
 		$order_id = $this->request->gethtml('order_id');
 		$order_status_id = $this->request->gethtml('order_status_id');
 		$this->modelOrder->update_order_status($order_id, $order_status_id);
@@ -550,36 +554,36 @@ class ControllerOrder extends Controller {
 			$invoice_number = $order_info['invoice_number'];
 			$invoice  = $this->url->create(HTTP_CATALOG, 'account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id')));
 			$date     = $this->language->formatDate($this->language->get('date_format_long'),strtotime($order_info['date_added']));
-	    	$status   = $order_info['status'];
-	    	$comment  = '';
-	    	$this->mail->setTo($order_info['email']);
+			$status   = $order_info['status'];
+			$comment  = '';
+			$this->mail->setTo($order_info['email']);
 			$this->mail->setFrom($this->config->get('config_email'));
-	    	$this->mail->setSender($this->config->get('config_store'));
-	    	$this->mail->setSubject($this->language->get('email_subject', $order_id));
-	    	$this->mail->setText($this->language->get('email_message', $order_id, $invoice_number, $invoice, $date, $status, $comment));
-	    	$this->mail->send();
+			$this->mail->setSender($this->config->get('config_store'));
+			$this->mail->setSubject($this->language->get('email_subject', $order_id));
+			$this->mail->setText($this->language->get('email_message', $order_id, $invoice_number, $invoice, $date, $status, $comment));
+			$this->mail->send();
 		}
 		$this->response->set(TRUE);
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-    	if (!$this->user->hasPermission('modify', 'order')) {
-      		$this->error['message'] = $this->language->get('error_permission'); 
-    	}
+		if (!$this->user->hasPermission('modify', 'order')) {
+			$this->error['message'] = $this->language->get('error_permission'); 
+		}
 
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
-  	}
+	}
 
-	function enableDelete(){
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -593,18 +597,19 @@ class ControllerOrder extends Controller {
 			$this->response->redirect($this->url->ssl('order'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'order')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+		$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 
-	function validateDelete() {
+	private function validateDelete() {
 		if(($this->session->get('order_validation') != $this->request->sanitize('order_validation')) || (strlen($this->session->get('order_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -614,29 +619,31 @@ class ControllerOrder extends Controller {
     	}
 
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-  	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
-	  		$this->session->set('order.search', $this->request->gethtml('search', 'post'));
+			$this->session->set('order.search', $this->request->gethtml('search', 'post'));
 		}
 
 		if (($this->request->has('page', 'post')) || ($this->request->has('search', 'post'))) {
-	  		$this->session->set('order.page', $this->request->gethtml('page', 'post'));
+			$this->session->set('order.page', $this->request->gethtml('page', 'post'));
 		} 
 
 		if ($this->request->has('sort', 'post')) {
-	  		$this->session->set('order.order', (($this->session->get('order.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('order.order') == 'asc') ? 'desc' : 'asc'));
+			$this->session->set('order.order', (($this->session->get('order.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('order.order') == 'asc') ? 'desc' : 'asc'));
 		}
 
 		if ($this->request->has('sort', 'post')) {
@@ -648,6 +655,6 @@ class ControllerOrder extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('order'));
-  	}
+	}
 }
 ?>

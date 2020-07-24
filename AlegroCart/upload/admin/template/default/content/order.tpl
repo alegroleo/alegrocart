@@ -115,7 +115,11 @@
 	  <tr><td colspan="12"><hr></td></tr>
       <?php foreach ($products as $product) { ?>
       <tr>
-        <td class="left"><?php echo $product['name']; ?></a>
+        <td class="left"><?php if ($product['product_id']) { ?>
+	<a href="<?php echo $product['href'] ?>"><?php echo $product['name']; ?></a>
+	<?php } else { ?>
+	<?php echo $product['name']; ?>
+	<?php } ?>
           <?php foreach ($product['option'] as $option) { ?>
           <br>
           &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
@@ -259,9 +263,9 @@
           <td class="left"><?php echo $history['status']; ?></td>
           <td class="right"><?php echo $history['comment']; ?></td>
           <td class="center"><?php if ($history['notify']) { ?>
-            <img src="template/<?php echo $this->directory?>/image/enabled.png">
+            <img src="template/<?php echo $this->directory?>/image/enabled.png" alt="">
             <?php } else { ?>
-            <img src="template/<?php echo $this->directory?>/image/disabled.png">
+            <img src="template/<?php echo $this->directory?>/image/disabled.png" alt="">
             <?php } ?></td>
         </tr>
         <?php } ?>

@@ -39,7 +39,12 @@
     }
     ?>
     <tr class="<?php echo $class; ?>" onmouseover="this.className='highlight'" onmouseout="this.className='<?php echo $class; ?>'">
-      <td class="left"><?php echo $product['name']; ?></td>
+	<td class="left"><?php if ($product['product_id']) { ?>
+	<a href="<?php echo $product['href'] ?>"><?php echo $product['name']; ?></a>
+	<?php } else { ?>
+	<?php echo $product['name']; ?>
+	<?php } ?>
+	</td>
       <td class="left"><?php echo $product['model_number']; ?></td>
       <td class="right"><?php echo $product['quantity']; ?></td>
       <td class="right"><?php echo $product['total']; ?></td>

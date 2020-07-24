@@ -11,7 +11,7 @@ class Model_AccountInvoice extends Model{
 		$this->url      =& $locator->get('url');
 	}
 	function get_order_products($order_id){
-		$results = $this->database->getRows("select * from order_product where order_id = '" . (int)$order_id . "'");
+		$results = $this->database->getRows("SELECT op.*, p.status FROM order_product op LEFT JOIN product p ON (op.product_id = p.product_id) WHERE order_id = '" . (int)$order_id . "'");
 		return $results;
 	}
 	function get_options($order_id,$order_product_id){

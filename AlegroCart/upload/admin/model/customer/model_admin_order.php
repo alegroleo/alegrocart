@@ -35,7 +35,7 @@ class Model_Admin_Order extends Model {
 		return $result;
 	}
 	function get_products(){
-		$results = $this->database->getRows("select * from order_product where order_id = '" . (int)$this->request->gethtml('order_id') . "'");
+		$results = $this->database->getRows("SELECT op.*, p.product_id FROM order_product op LEFT JOIN product p ON (op.product_id = p.product_id) WHERE order_id = '" . (int)$this->request->gethtml('order_id') . "'");
 		return $results;
 	}
 	function get_options($order_product_id){

@@ -78,7 +78,8 @@ class Controller {
 
 	function getClass(&$request) {
 		if ($request->has('controller')) {
-			$class = $request->gethtml('controller');
+			$class = $request->sanitize('controller');
+			$class = str_replace('../','',$class);
 			$this->controller = $class;
 		} else { 
 			$class=$this->default['class']; 
@@ -89,7 +90,8 @@ class Controller {
 
 	function getMethod(&$request) {
 		if ($request->has('action')) {
-			$method = $request->gethtml('action');
+			$method = $request->sanitize('action');
+			$method = str_replace('../','',$method);
 		} else {
 			$method=$this->default['method'];
 		}

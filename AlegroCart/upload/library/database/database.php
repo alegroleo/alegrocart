@@ -33,12 +33,15 @@ class Database {
 		$this->mysqli->set_charset('utf8');
 		$this->mysqli->query('set @@session.sql_mode="MYSQL40"');
 	}
+
 	function disconnect() {
 		$this->mysqli->close();
 	}
+
 	function server_info() {
 		return $this->mysqli->server_info;
 	}
+
 	function query($sql) {
 		$this->result = $this->mysqli->query($sql);
 		if ($this->result) {
@@ -48,20 +51,24 @@ class Database {
 		}
 		$this->SQL_handler(sprintf(E_DB_QUERY,$this->mysqli->error,$this->mysqli->errno,$sql));
 	}
+
 	function clearSql($sql) {
 		return $this->mysqli->real_escape_string($sql);
 	}
+
 	function parse() {
 		$args = func_get_args();
 		$sql = array_shift($args);
 		return vsprintf(str_replace('?', '%s', $sql), array_map(array($this,'clearSql'), $args));
 	}
+
 	function getRow($sql) {
 		$this->query($sql);
 		$row = $this->result->fetch_assoc();
 		$this->result->free();
 		return $row;
 	}
+
 	function getRows($sql) {
 		if (func_num_args()) {
 			$this->query(implode(func_get_args(), ', '));
@@ -76,16 +83,20 @@ class Database {
 		$this->result->free();
 		return $rows;
 	}
+
 	function countRows() {
 		$this->query(implode(func_get_args(), ', '));
 		return $this->result->num_rows;
 	}
+
 	function countAffected() {
 		return $this->mysqli->affected_rows;
 	}
+
 	function getLastId() {
 		return $this->mysqli->insert_id;
 	}
+
 	function cache($key, $sql) {
 		if ($this->config->get('config_cache_query')) {
 			if (!$result = $this->cache->get($key)) {
@@ -97,8 +108,9 @@ class Database {
 		}
 		return ($result);
 	}
-	function splitQuery($sql, $page = '1', $max_rows = '20' , $max_results = '0') {	
-		$count = $this->getRow(preg_replace(array('/select(.*)from /As', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql, 1));
+
+	function splitQuery($sql, $page = '1', $max_rows = '20' , $max_results = '0') {
+		$count = $this->getRow(preg_replace(array('/select(.*)from /Asi', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql, 1));
 		if(($max_results != '0') && ($max_results < $count['total'])){
 			$count['total'] = $max_results;
 		}
@@ -122,21 +134,89 @@ class Database {
 		} else {
 			$this->to = (int)($offset + $max_rows);
 		}
-
 		return $sql;
 	}
+
+	function splitQueries($sql1, $sql2, $page = '1', $max_rows = '20' , $max_results = '0') { //sql1 and sql2 are not empty
+		$count1 = $this->getRow(preg_replace(array('/select(.*)from /Asi', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql1, 1));
+		$count2 = $this->getRow(preg_replace(array('/select(.*)from /Asi', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql2, 1));
+
+		$count = array ('total' => $count1['total'] + $count2['total']);
+
+		if(($max_results != '0') && ($max_results < $count['total'])){
+			//max_results is total number of products pooled from database. 0 is unlimited.
+			$count['total'] = $max_results;
+		}
+
+		//max_rows is total number of products per page to be display
+		$pages = ceil($count['total'] / (int)$max_rows); //total number of pages needed
+
+		if (!$page) { $page = 1; } //the current page we are on
+
+		$offset = ((int)$max_rows * ($page - 1));  //start on record - 1
+
+		$limits = array();
+
+		if(($max_results != '0') && ($max_results <= $count1['total'])) { //if limited but the limit is less than or equal to the result of the first query, i.e. the second query is not needed
+			if (($page*$max_rows)>$max_results){
+				$limits[] = array(0 =>' limit ' .(int)$offset. ', '. (int)($max_results-$offset), 1 =>' limit 0, 0');
+			} else {
+				$limits[] = array(0 =>' limit ' .(int)$offset. ', '. (int)$max_rows, 1 =>' limit 0, 0');
+			}
+		} else{ //unlimited or limited but the limit is more than the result of the first query. 2 queries are needed
+
+			$rest1 = $count1['total'] % $max_rows;
+			$rest = $max_results % $max_rows;
+
+			if ($max_results =='0') { //unlimited
+				if (($page*$max_rows)<=$count1['total']){ //*****
+					$limits[] = array(0 =>' limit ' .(int)$offset. ', '. (int)$max_rows, 1 =>' limit 0, 0');
+				} elseif ($rest1 != 0 && (($page*$max_rows-$count1['total']) < $max_rows)) {  //**ooo
+					$limits[] = array(0 =>' limit ' .(int)$offset. ', '. (int)($rest1), 1 =>' limit 0, ' . (int)($max_rows-$rest1));
+				} else { //ooooo
+					$limits[] = array(0 =>' limit 0, 0', 1 =>' limit '. (int)($offset-$count1['total']) . ', ' .(int)($max_rows));
+				}
+			} else { //limited but the limit is more than the result of the first query
+				if (($page*$max_rows)<=$count1['total']){ //*****
+					$limits[] = array(0 =>' limit ' .(int)$offset. ', '. (int)$max_rows, 1 =>' limit 0, 0');
+				} elseif ($rest1 != 0 && (($page*$max_rows-$count1['total']) < $max_rows)){ //**oooo
+					$limits[] = array(0 =>' limit ' .(int)$offset. ', '. (int)($rest1), 1 =>' limit 0, ' .(int)($rest ==  0 ? $max_rows-$rest1 : $rest-$rest1));
+				} else { //ooooo
+					$limits[] = array(0 =>' limit 0, 0', 1 =>' limit ' . (int)($offset-$count1['total']) . ', '. (int)($rest == 0 ? $max_rows : $rest));
+				}
+			}
+		}
+
+		$this->pages = (int)(($pages > 0) ? $pages : '1');
+		$this->total = (int)$count['total']; 
+		$this->from  = (int)(($offset > 0 || $count['total'] > 0) ? $offset+1 : '0');
+
+		if ($count['total'] < $max_rows) {
+			$this->to = (int)$count['total'];
+		} elseif ($this->pages == $page) {
+			$this->to = (int)($offset + $max_rows - ($offset + $max_rows - $count['total']));
+		} else {
+			$this->to = (int)($offset + $max_rows);
+		}
+		return $limits;
+	}
+
 	function getPages() {
 		return $this->pages;
 	}
+
 	function getTotal() {
 		return $this->total;
 	}
+
 	function getFrom() {
 		return $this->from;
 	}
+
 	function getTo() {
 		return $this->to;
 	}
+
 	function import($file) {
 		$quotes = array("'","`");
 		if ($sql=file($file)) {
@@ -184,6 +264,7 @@ class Database {
 			}
 		}
 	}
+
 	function export() {
 		$this->query('set @@session.sql_mode=""');
 		$output = '';
@@ -218,6 +299,7 @@ class Database {
 		}
 		return $output;
 	}
+
 	function SQL_handler($error){
 		$this->initailize_handler();
 		if($this->log_file){
@@ -232,7 +314,10 @@ class Database {
 			$this->sql_msg_developer($error);
 		}
 	}
+
 	function send_error_msg($error){
+		$pattern = '/(^Array|^\\(\n|^\\)\n|^\s*)/m';
+
 		$error = str_replace(array('<br />', '<br>'), "\r\n", $error);
 		$message = "MySQL ". $error . "\r\n" ;
 		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. @$_SERVER['REQUEST_URI'] . "\r\n" : "";
@@ -241,6 +326,11 @@ class Database {
 		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\r\n";
 		$message .= "log: ".print_r( $this->log_message, true)."\r\n";
 		$message .= "##################################################\r\n\r\n";
+		$message .= "POST variables:\r\n".preg_replace($pattern, '', print_r($_POST, true))."\r\n";
+		$message .= "##################################################\r\n\r\n";
+		$message .= "GET variables:\r\n".preg_replace($pattern, '', print_r($_GET, true))."\r\n";
+		$message .= "##################################################\r\n\r\n";
+		$message .= "COOKIES:\r\n".preg_replace($pattern, '', print_r($_COOKIE, true))."\r\n";
 
 		$this->email_sent = false;
 
@@ -253,6 +343,7 @@ class Database {
 
 		$this->email_sent = true;
 	}
+
 	function log_error_msg($error){
 		$error = str_replace(array('<br />', '<br>'), "\n", $error);
 		$message =  "time: ".date("j-m-d H:i:s (T)", time())."\n";
@@ -273,6 +364,7 @@ class Database {
 		}
 		fclose($fp); 
 	}
+
 	function sql_msg_developer($error){
 		$color='red';
 		$message = "<span style='color:$color;font-size: 12px'>";
@@ -282,6 +374,7 @@ class Database {
 		$message .= "</span>";
 		echo $message;
 	}
+
 	function initailize_handler(){
 		$this->ip = $this->config->get('error_developer_ip') ? $this->config->get('error_developer_ip') : $_SERVER['REMOTE_ADDR'];
 		$this->show_developer = $this->config->get('error_show_developer') ? TRUE : FALSE;
@@ -295,13 +388,16 @@ class Database {
 		$this->log_message = NULL;
 		$this->email_sent = FALSE;
 	}
+
 	function nslookup($ip) {
 		$host_name = gethostbyaddr($ip);
 		return $host_name;
 	}
+
 	function countQueries() {
 		return $this->queries;
 	}
+
 	function log_queries(){
 		$request =&  $this->locator->get('request');
 		$controller =& $this->locator->get('controller');

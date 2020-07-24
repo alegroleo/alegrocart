@@ -217,6 +217,31 @@ a:hover {
 	-khtml-border-radius: 2px;
 	font-weight: bold;
 }
+.bought_filter .left{
+	border-right: 1px solid #EEEEEE;
+}
+.bought_filter .floatleft{
+	border-right: 1px solid #EEEEEE;
+}
+.bought_filter .lowerleft{
+	border-right: 1px solid #EEEEEE;
+}
+.bought_filter .man_filter{
+	border-right: 1px solid #EEEEEE;
+}
+.bought_filter .entry input {
+	height: 25px;
+	margin: 3px;
+	color: #FFFFFF;
+	background-color: #0099FF;
+	border: none;
+	padding: 3px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	font-weight: bold;
+}
 .manufacturer_filter input[type="submit"], .search_filter input[type="submit"], .category_filter input[type="submit"] {
 	height: 25px;
 	margin: 3px;

@@ -472,7 +472,9 @@ class ControllerCheckoutConfirm extends Controller {
 		foreach ($product['option'] as $option) {
 			$option_data[] = array(
 				'name'   => $option['name'],
+				'option_id'      => $option['option_id'],
 				'value'  => $option['value'],
+				'option_value_id'=> $option['option_value_id'],
 				'prefix' => $option['prefix']
 			);
 		}

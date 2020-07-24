@@ -172,6 +172,18 @@ a:hover {
 .category_filter .man_filter{
 	border-right: 1px solid #EEEEEE;
 }
+.bought_filter .left{
+	border-right: 1px solid #EEEEEE;
+}
+.bought_filter .floatleft{
+	border-right: 1px solid #EEEEEE;
+}
+.bought_filter .lowerleft{
+	border-right: 1px solid #EEEEEE;
+}
+.bought_filter .man_filter{
+	border-right: 1px solid #EEEEEE;
+}
 .manufacturer_module {
 	background: url('../image/color1/black/columnCenter.png') top left repeat-y;
 }
@@ -182,7 +194,7 @@ a:hover {
 	border-right: 1px solid #EEEEEE;
 }
 .manufacturer_filter .lowerleft{
-	border-right: 1px solid #EEEEEE;	
+	border-right: 1px solid #EEEEEE;
 }
 .category {
 	background: url('../image/color1/black/columnCenter.png') top left repeat-y;

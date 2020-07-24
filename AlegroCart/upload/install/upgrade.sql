@@ -1659,3 +1659,42 @@ CREATE TABLE IF NOT EXISTS `maintenance_description` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `maintenance_description` (`maintenance_id`, `language_id`, `header`, `description`) VALUES ('1', '1', 'Maintenance', '<p>This site is unavailable due to scheduled maintenance.</p><p>Check back soon!</p>');
+
+#
+# Add Bought Products module
+#
+SET @lid=1;
+SET @id=NULL;
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_bought';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(@id, 'bought', 'module', 'module', 'bought.php', 'module_extra_bought') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_bought';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog Bought Products', 'Display Bought Products') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+# Add Bought Products Options module
+#
+SET @lid=1;
+SET @id=NULL;
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_boughtoptions';
+INSERT INTO `extension` (`extension_id`, `code`, `type`, `directory`, `filename`, `controller`) VALUES
+(@id, 'boughtoptions', 'module', 'module', 'boughtoptions.php', 'module_extra_boughtoptions') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+SET @id=NULL;
+SELECT @id:=extension_id FROM `extension` WHERE `controller` = 'module_extra_boughtoptions';
+INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES
+(@id, @lid, 'Catalog Bought Products Options', 'Display Bought Products Options') ON DUPLICATE KEY UPDATE extension_id=extension_id;
+
+#
+# Add new columns to order_option table
+#
+ALTER TABLE `order_option`
+ADD `option_id` int(11) NOT NULL DEFAULT '0' After `order_product_id`,
+ADD `option_value_id` int(11) NOT NULL DEFAULT '0' After `name`;
+
+#
+# Update order_option table, i.e. import option_ids and option_value_ids from option and option_value tables
+#
+UPDATE `order_option` JOIN `option` ON `order_option`.`name` = `option`.`name` SET `order_option`.`option_id` = `option`.`option_id`;
+UPDATE `order_option` JOIN `option_value` ON `order_option`.`value` = `option_value`.`name` SET `order_option`.`option_value_id` = `option_value`.`option_value_id`;

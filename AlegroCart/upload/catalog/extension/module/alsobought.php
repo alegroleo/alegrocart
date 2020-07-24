@@ -204,7 +204,8 @@ class ModuleAlsobought extends Controller {
 				'days_remaining'	=> $days_remaining,
 				'average_rating'	=> $averageRating,
 				'alt_rating'		=> $alt_rating,
-				'vendor_name'		=> $vendor_name
+				'vendor_name'		=> $vendor_name,
+				'status'		=> $result['status']
 			);
 		}
 

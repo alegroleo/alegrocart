@@ -1,0 +1,127 @@
+.warning_bought_single {
+	padding: 10px;
+	font-size: 26px;
+	color: #FF0000;
+}
+.warning_bought_multiple {
+	padding: 10px;
+	font-size: 22px;
+	color: #FF0000;
+	text-align: center;
+}
+.bought_filter{
+	left: 0px;
+	width: 950px;
+	min-height: 40px;
+	font-size: 11px;
+	margin: 0px 0px 0px 5px;
+	padding: 0px;
+}
+.bought_filter .top_entry{
+	left: 0px;
+	min-height: 40px;
+	display: inline;
+	width: 580px;
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+}
+.bought_filter .entry{
+	position: relative;
+	width: 50px;
+	float: left;
+	margin-right: 20px;
+	top: 10px;
+}
+.bought_filter .left{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	vertical-align: middle;
+	display: inline;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px;
+}
+.bought_filter .left .data{
+	position: absolute;
+	left: 58px;
+	top: 0px;
+	min-height: 40px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 0px;
+}
+.bought_filter .floatleft{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	vertical-align: middle;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px 0px 0px 3px;
+}
+.bought_filter .floatleft .data{
+	position: absolute;
+	left: 54px;
+	min-height: 40px;
+	top: 0px;
+	font-weight: normal;
+	margin: 0px;
+	padding: 0px;
+}
+.bought_filter .right, .bought_filter .man_filter{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 0px;
+	text-align: left;
+	margin: 5px;
+	padding: 0px;
+	font-weight: bold;
+}
+.bought_filter .right .data{
+
+}
+.bought_filter .man_select{
+	width: 180px;
+}
+.bought_filter .lowerright{
+	position: relative;
+	width: 220px;
+	float: right;
+	padding-left: 5px;
+	font-weight: bold;
+}
+.bought_filter .lowerright .data{
+	position: absolute;
+	left: 130px;
+	min-height: 30px;
+	top: 0px;
+}
+.bought_filter .lowerleft{
+	position: relative;
+	width: 220px;
+	min-height: 40px;
+	float: left;
+	top: 3px;
+	font-weight: bold;
+	margin: 5px;
+	padding: 0px;
+}
+.bought_filter .lowerleft .data{
+	position: absolute;
+	left: 120px;
+	top: 0px;
+}
+.bought_filter .man_filter > .divider, #model select + .divider{
+	display: none;
+}
+#model select{
+	width: 180px;
+}

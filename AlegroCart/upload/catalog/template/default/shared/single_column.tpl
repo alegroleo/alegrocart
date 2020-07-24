@@ -8,7 +8,9 @@
 <div class="productcat_top"></div>
  <div class="productcat">
   <div class="pimage">
-	<?php 
+  <?php if (!$product['status']) { ?>
+	<img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>">
+  <?php } else { 
 	  if(!isset($image_display)){$image_display = 'image_link';}
 	  switch ($image_display){
 		case 'fancybox':
@@ -25,9 +27,14 @@
 			break;
 		case 'no_image':
 			break;
-	  }?> 
+	  }
+  }?> 
   </div>
-    <div class="ptext"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></b><br>
+	<?php if ($product['status']) { ?>
+		<div class="ptext"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></b><br>
+	<?php } else { ?>
+		<div class="ptext"><b><?php echo $product['name']; ?></b><br>
+	<?php } ?>
 	<?php if (isset($product['average_rating'])) { ?>
     <div><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112" height="20" data-src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
 	<?php } ?>
@@ -51,7 +58,7 @@
     </div>
   <?php }?>
 <br><?php echo $product['description']; ?>
- <?php if ($product['product_discounts']){?>
+ <?php if ($product['product_discounts'] && $product['status']){?>
     <?php if($discount_options && $product['product_options']){?>
 	  <script language="JavaScript">
 		$(document).ready(function(){
@@ -66,7 +73,7 @@
 	}
 	echo "</div>";
     }?>
-    <?php if($show_stock || $show_stock_icon){?>
+    <?php if(($show_stock || $show_stock_icon) && $product['status']){?>
       <div class="onhand2"><?php echo $onhand; ?>
 	    <span <?php if(!$show_stock){echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
 	    <?php if($show_stock_icon){?>
@@ -96,8 +103,10 @@
 	  <input type="hidden" id="<?php echo $this_controller . '_stock_level_' . $product_option['product_option'];?>" value="<?php echo $product_option['quantity'];?>">
 	  <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product_option['product_option'];?>" name="<?php echo $this_controller . '_cart_level_' . $product_option['product_option'];?>" value="<?php echo ($product_option['cart_level'] ? $product_option['cart_level'] : 0); ?>">
 	<?php }?>
-  <?php }?>  
+  <?php }?>
+  <?php if ($product['status']) { ?>
    <?php include $shared_path . 'product_price.tpl' ;?>
+  <?php }?>
    <?php if ($addtocart) { ?>
   <?php if ($product['options']){
    if(isset($product_options_select) && $product_options_select == 'radio'){
@@ -107,6 +116,11 @@
   }} ?>
    <?php include $shared_path . 'add_to_cart.tpl';?>
    <?php } ?>
+  <?php if (!$product['status']) { ?>
+    <div class="warning_bought_single">
+	  <?php echo $product['popup'] ? $text_sold_out : $text_discontinued;?>
+    </div>
+  <?php }?>
   </div>
  </div>
 <div class="productcat_bottom"></div>

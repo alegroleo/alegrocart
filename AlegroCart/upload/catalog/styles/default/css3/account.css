@@ -17,3 +17,7 @@
 #account a:hover {
 	text-decoration: underline;
 }
+
+#account li {
+	padding: 2px;
+}

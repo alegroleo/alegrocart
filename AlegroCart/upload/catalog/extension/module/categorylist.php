@@ -65,7 +65,31 @@ class ModuleCategoryList extends Controller {
 			$categories_data = array();
 			foreach ($categories as $category){
 
-				$results = $this->modelProducts->get_categorylist($category['category_id'], $categorylist_total);
+				$categories_results = $this->modelProducts->get_categorylist($category['category_id'], $categorylist_total);
+
+				$maxrow = count($categories_results)-1;
+				if ($categories_results) {
+					if ($maxrow < $limit){
+						$results = $categories_results;
+					} else {
+						$i = 0;
+						while ($i < $limit){
+							$rand->uRand(0,$maxrow);
+							$i ++;
+						}
+						$i = 0;
+						$product_rand = array();
+						foreach ($rand->RandomNumbers as $mykey){
+							$product_rand[$i] = $categories_results[$mykey];
+							$i ++;
+						}
+						$results = $product_rand;
+					}
+				} else {
+					$results = array();
+				}
+				$rand->clearrand();
+
 				$product_data = array();
 
 				foreach ($results as $result) {
@@ -135,40 +159,17 @@ class ModuleCategoryList extends Controller {
 						'days_remaining'	=> $days_remaining,
 						'average_rating'	=> $averageRating,
 						'alt_rating'		=> $alt_rating,
-						'vendor_name'		=> $vendor_name
+						'vendor_name'		=> $vendor_name,
+						'status'		=> $result['status']
 					);
 				}
-
-				$maxrow = count($product_data)-1;
 				if ($product_data) {
-					if ($maxrow < $limit){
-						$categories_data[$category['name']] = array(
-							'id'		=> $category['category_id'],
-							'name'		=> $category['name'],
-							'products'	=> $product_data
-						);
-					} else {
-						$I = 0;
-						while ($I < $limit){
-							$rand->uRand(0,$maxrow);
-							$I ++;
-						}
-						$I = 0;
-						$product_rand = array();
-						foreach ($rand->RandomNumbers as $mykey){
-							$product_rand[$I] = $product_data[$mykey];
-							$I ++;
-						}
-						$categories_data[$category['name']] = array(
-							'id'		=> $category['category_id'],
-							'name'		=> $category['name'],
-							'products'	=> $product_rand
-						);
-					}
-				} else {
-
+					$categories_data[$category['name']] = array(
+						'id'		=> $category['category_id'],
+						'name'		=> $category['name'],
+						'products'	=> $product_data
+					);
 				}
-				$rand->clearrand();
 			}
 
 			$view->set('lists', $categories_data);

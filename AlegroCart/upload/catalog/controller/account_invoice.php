@@ -24,18 +24,18 @@ class ControllerAccountInvoice extends Controller {
 	}
 
 	function index() {
-	if (!$this->customer->isLogged()) {
-			if ($this->request->has('order_id')) {
-				$this->session->set('redirect', $this->url->ssl('account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id'))));
-			} else {
-				$this->session->set('redirect', $this->url->ssl('account_invoice', FALSE, array('reference' => $this->request->gethtml('reference'))));
-			}
+		if (!$this->customer->isLogged()) {
+				if ($this->request->has('order_id')) {
+					$this->session->set('redirect', $this->url->ssl('account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id'))));
+				} else {
+					$this->session->set('redirect', $this->url->ssl('account_invoice', FALSE, array('reference' => $this->request->gethtml('reference'))));
+				}
 
-			$this->response->redirect($this->url->ssl('account_login'));
-	}
+				$this->response->redirect($this->url->ssl('account_login'));
+		}
 
-	$this->language->load('controller/account_invoice.php');
-	$this->template->set('title', $this->language->get('heading_title'));
+		$this->language->load('controller/account_invoice.php');
+		$this->template->set('title', $this->language->get('heading_title'));
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('head_def',$this->head_def);    // New Header
@@ -45,7 +45,7 @@ class ControllerAccountInvoice extends Controller {
 
 		if ($this->request->has('order_id')) {
 			$order_info = $this->modelAccountInvoice->get_order($this->request->gethtml('order_id'));
-	} else {
+		} else {
 			$order_info = $this->modelAccountInvoice->get_order_ref($this->request->gethtml('reference'));
 		}
 
@@ -98,44 +98,44 @@ class ControllerAccountInvoice extends Controller {
 			$view->set('discount_sort_order', $order_info['discount_sort_order']);
 			$view->set('columns', $this->tpl_columns);
 
-		$shipping_address = array(
-			'firstname' => $order_info['shipping_firstname'],
-			'lastname'  => $order_info['shipping_lastname'],
-			'company'   => $order_info['shipping_company'],
-			'address_1' => $order_info['shipping_address_1'],
-			'address_2' => $order_info['shipping_address_2'],
-			'city'      => $order_info['shipping_city'],
-			'postcode'  => $order_info['shipping_postcode'],
-			'zone'      => $order_info['shipping_zone'],
-			'country'   => $order_info['shipping_country']
+			$shipping_address = array(
+				'firstname' => $order_info['shipping_firstname'],
+				'lastname'  => $order_info['shipping_lastname'],
+				'company'   => $order_info['shipping_company'],
+				'address_1' => $order_info['shipping_address_1'],
+				'address_2' => $order_info['shipping_address_2'],
+				'city'      => $order_info['shipping_city'],
+				'postcode'  => $order_info['shipping_postcode'],
+				'zone'      => $order_info['shipping_zone'],
+				'country'   => $order_info['shipping_country']
 			);
 
-		if (array_filter($shipping_address)) {
-		$view->set('shipping_address', $this->address->format($shipping_address, $order_info['shipping_address_format'], '<br />'));
+			if (array_filter($shipping_address)) {
+			$view->set('shipping_address', $this->address->format($shipping_address, $order_info['shipping_address_format'], '<br />'));
 
-		} else {
+			} else {
 
-		$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
+			$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
 
-		$view->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
-		}
+			$view->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
+			}
 
-		$view->set('shipping_method', $order_info['shipping_method']);
+			$view->set('shipping_method', $order_info['shipping_method']);
 
-		$payment_address = array(
-			'firstname' => $order_info['payment_firstname'],
-			'lastname'  => $order_info['payment_lastname'],
-			'company'   => $order_info['payment_company'],
-			'address_1' => $order_info['payment_address_1'],
-			'address_2' => $order_info['payment_address_2'],
-			'city'      => $order_info['payment_city'],
-			'postcode'  => $order_info['payment_postcode'],
-			'zone'      => $order_info['payment_zone'],
-			'country'   => $order_info['payment_country']
-		);
+			$payment_address = array(
+				'firstname' => $order_info['payment_firstname'],
+				'lastname'  => $order_info['payment_lastname'],
+				'company'   => $order_info['payment_company'],
+				'address_1' => $order_info['payment_address_1'],
+				'address_2' => $order_info['payment_address_2'],
+				'city'      => $order_info['payment_city'],
+				'postcode'  => $order_info['payment_postcode'],
+				'zone'      => $order_info['payment_zone'],
+				'country'   => $order_info['payment_country']
+			);
 
-		$view->set('payment_address', $this->address->format($payment_address, $order_info['payment_address_format'], '<br />'));
-		$view->set('payment_method', $order_info['payment_method']);
+			$view->set('payment_address', $this->address->format($payment_address, $order_info['payment_address_format'], '<br />'));
+			$view->set('payment_method', $order_info['payment_method']);
 
 			$products = $this->modelAccountInvoice->get_order_products($order_info['order_id']);
 
@@ -190,6 +190,7 @@ class ControllerAccountInvoice extends Controller {
 				$cart_totals_total = $order_info['taxed'] ? $cart_net_total + ($shipping_tax - $freeshipping_tax): $cart_net_total + $cart_tax_total;
 
 				$product_data[] = array(
+					'product_id'		=> $product['product_id'],
 					'name'			=> $product['name'],
 					'model_number'		=> $product['model_number'],
 					'vendor_name'		=> $product['vendor_id'] !='0' && $this->config->get('config_registered') ? $product['vendor_name'] : NULL,
@@ -206,13 +207,15 @@ class ControllerAccountInvoice extends Controller {
 					'total'			=> $this->currency->format($product['total'],$order_info['currency'], $order_info['value']),
 					'net'			=> $this->currency->format(($net), $order_info['currency'], $order_info['value']),
 					'product_tax'		=> $this->currency->format($producttax, $order_info['currency'], $order_info['value']),
-					'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value'])
+					'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value']),
+					'status'		=> $product['status'],
+					'href'			=> $this->url->href('product', FALSE, array('product_id' => $product['product_id']))
 				);
 			}
 
 			$view->set('taxed', $order_info['taxed']);
-		$view->set('tax_included', $this->config->get('config_tax'));
-		$view->set('products', $product_data);
+			$view->set('tax_included', $this->config->get('config_tax'));
+			$view->set('products', $product_data);
 			$view->set('totals',$this->modelAccountInvoice->get_totals($order_info['order_id']));
 			$view->set('tax_total', $this->currency->format($tax_total, $order_info['currency'], $order_info['value']));
 			$view->set('coupon_total', $coupon_total ? '-' . $this->currency->format($coupon_total, $order_info['currency'], $order_info['value']) : NULL);
@@ -228,17 +231,17 @@ class ControllerAccountInvoice extends Controller {
 			$view->set('freeshipping_total', $freeshipping_total ? '-' . $this->currency->format($freeshipping_total, $order_info['currency'], $order_info['value']) : NULL);
 			$view->set('cart_totals_total', $this->currency->format($cart_totals_total, $order_info['currency'], $order_info['value']));
 
-		$history_data = array();
+			$history_data = array();
 			$results = $this->modelAccountInvoice->get_order_history($order_info['order_id']);
-		foreach ($results as $result) {
-			$history_data[] = array(
-				'date_added' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
-				'status'     => $result['status'],
-				'comment'    => $result['comment']
-			);
-		}
+			foreach ($results as $result) {
+				$history_data[] = array(
+					'date_added' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
+					'status'     => $result['status'],
+					'comment'    => $result['comment']
+				);
+			}
 
-		$view->set('historys', $history_data);
+			$view->set('historys', $history_data);
 			$view->set('order_print', $this->request->gethtml('order_print'));
 			if($this->request->gethtml('order_print')){
 				$this->template->set('continue', $this->url->ssl('account_history'));
@@ -247,11 +250,11 @@ class ControllerAccountInvoice extends Controller {
 				$this->template->set('store_logo', $this->image->href('logo/'.$this->config->get('config_store_logo')));
 			}
 			$this->template->set('content', $view->fetch('content/account_invoice.tpl'));
-	} else {
-		$view->set('text_error', $this->language->get('text_error'));
-		$view->set('this_controller', 'account_invoice');
-		$this->template->set('content', $view->fetch('content/error.tpl'));
-	}
+		} else {
+			$view->set('text_error', $this->language->get('text_error'));
+			$view->set('this_controller', 'account_invoice');
+			$this->template->set('content', $view->fetch('content/error.tpl'));
+		}
 
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
@@ -274,6 +277,7 @@ class ControllerAccountInvoice extends Controller {
 			}
 		}
 	}
+
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();

@@ -112,8 +112,8 @@ class Order {
 				$order_product_id = $this->database->getLastId();
 
 				foreach ($product['option'] as $option) {
-					$sql = "insert into order_option set order_id = '?', order_product_id = '?', name = '?', `value` = '?', price = '?', prefix = '?'";
-					$this->database->query($this->database->parse($sql, $order_id, $order_product_id, $option['name'], $option['value'], $product['price'], $option['prefix']));
+					$sql = "insert into order_option set order_id = '?', order_product_id = '?', option_id ='?', name = '?', option_value_id ='?', `value` = '?', price = '?', prefix = '?'";
+					$this->database->query($this->database->parse($sql, $order_id, $order_product_id, $option['option_id'], $option['name'], $option['option_value_id'], $option['value'], $product['price'], $option['prefix']));
 				}
 
 				foreach ($product['download'] as $download) {

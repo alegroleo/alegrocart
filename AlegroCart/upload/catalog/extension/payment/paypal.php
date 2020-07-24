@@ -138,7 +138,7 @@ class PaymentPayPal extends Payment {
         $fields['cancel_return']=$this->url->rawssl('checkout_process', 'index', array('method' => 'cancel'));
         $fields['paymentaction']=$this->config->get('paypal_auth_type');
         $fields['bn']='Alegrocart_Cart';
-        $fields['custom']=session_id();
+#        $fields['custom']=session_id();
       
         $output=array();
         foreach ($fields as $key => $value) {

@@ -27,7 +27,10 @@
    <div class="module_content" style="width: <?php echo $column_width; ?>%;">
 	<div class="a" >
 	 <div class="img">
-	  <?php 
+  <?php if (!$product['status']) { ?>
+	<img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>">
+	<div class="enlarge"><br></div>
+  <?php } else { 
 	  if(!isset($image_display)){$image_display = 'image_link';}
 	  switch ($image_display){
 		case 'fancybox':
@@ -44,10 +47,15 @@
 			break;
 		case 'no_image':
 			break;
-	  }?> 
+	  }
+	}?> 
 	 </div>
 	</div>
-    <div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
+	<?php if ($product['status']) { ?>
+		<div class="description"><b><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a><br></b>
+	<?php } else { ?>
+		<div class="description"><b><?php echo $product['name']; ?><br></b>
+	<?php } ?>
 	<?php if (isset($product['average_rating'])) { ?>
     <div><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112px" height="20px" data-src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
 	<?php } ?>
@@ -57,7 +65,9 @@
 	</div>
 	<?php } ?>
     </div>
-	<?php include $shared_path . 'product_price.tpl';?>
+	<?php if ($product['status']) { ?>
+	  <?php include $shared_path . 'product_price.tpl';?>
+	<?php }?>
 	<?php if ($addtocart) { ?>
 	 <?php $option = $product['options'];
 	 if ($option == TRUE) {?>
@@ -70,7 +80,8 @@
 	<?php if ($product['vendor_name']) { ?>
 		<div class="vendor"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
 	<?php } ?>
-	<?php if(($show_stock  || $show_stock_icon )&& !$product['options']){?>
+	<?php if ($product['status']) { ?>
+	  <?php if(($show_stock || $show_stock_icon ) && !$product['options']){?>
 		<div class="onhand"><?php echo $onhand; ?>
 	    <span <?php if(!$show_stock){echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
 		  <?php if($show_stock_icon){?>
@@ -84,10 +95,18 @@
 	        <img id="stock_icon_<?php echo $this_controller. '_' . $product['product_id'];?>" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="<?php echo $icon;?>" width="11px" height="11px" alt="<?php echo $text_stock_icon;?>" title="<?php echo $text_stock_icon;?>">
 		  <?php }?>
 		</div>
-	<?php } else if($show_stock && $product['options']){?>
-	  <br>
+	  <?php } else if($show_stock && $product['options']){?>
+		<br>
+	  <?php }?>
 	<?php }?>
 	<input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" name="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" value="<?php echo ($product['cart_level'] ? $product['cart_level'] : 0); ?>">
+
+  <?php if (!$product['status']) { ?>
+    <div class="warning_bought_multiple">
+	  <?php echo $product['popup'] ? $text_sold_out : $text_discontinued;?>
+    </div>
+  <?php }?>
+
    </div>
    <?php if($column_count == $columns){
 	echo "</div>";

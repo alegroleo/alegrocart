@@ -268,12 +268,12 @@ a:hover {
 .module_content .options{
 	left: 0px;
 	font-size: 9px;	
-	padding-bottom: 10px;	
+	padding-bottom: 10px;
 }
 .module_content .button{
 	font-size: 9px;
 	font-weight: 500;
-}       
+}
 .products, .images, .categories {
 	float: left;
 	width: 32%; 
@@ -332,7 +332,7 @@ a:hover {
 .results .right select{
 	vertical-align: middle;
 	padding-bottom: 1px;
-	padding-top: 0px;	
+	padding-top: 0px;
 } 
 .admin_button {
 	margin: 0px 0px 0px 15px;
@@ -366,6 +366,9 @@ a:hover {
 .box {
 	padding: 5px 2px 5px 2px;
 	margin-bottom: 10px;
+}
+.c a {
+	text-decoration: none;
 }
 /*  language */
 .language {
@@ -425,4 +428,5 @@ a:hover {
 }
 @media print {
 	#header .c {display: none;}
+	.c a {text-decoration: none;}
 }

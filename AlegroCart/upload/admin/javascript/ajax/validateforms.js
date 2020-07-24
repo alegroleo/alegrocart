@@ -39,6 +39,12 @@ function RegisterValidation(){ //register functions on document ready
 	 $('.validate_int_n').on("copy paste", function(){  
 	   ValidateIntNeg(this.id);
      });
+	 $('.validate_zone').keyup (function(){  //class="validate_alpha_num"
+	   ValidateZone(this.id);
+	 });
+	 $('.validate_zone').on("copy paste", function(){  
+	   ValidateZone(this.id);
+     });
 	 $('.validate_alpha_num').keyup (function(){  //class="validate_alpha_num"
 	   ValidateAlphaNumeric(this.id);
 	 });
@@ -257,6 +263,16 @@ function ValidateInt(form_id){  //returns integer, positive only
 		}
 	} 
 	return;
+}
+function ValidateZone(form_id){  //returns alpha numeric string
+	var Input_value = $('#' + form_id).val();
+	var Not_alpha_num = /[\\\|\+\$\[\]\^\(\)\*\?";&%#@~`,={}!<>:§¶€ŧÍ„”÷×]/g;
+	var str = Input_value.replace(Not_alpha_num, '');
+	if(str != undefined){
+		$('#'+form_id).val(str);
+	} else {
+		$('#'+form_id).val("");
+	}
 }
 function ValidateAlphaNumeric(form_id){  //returns alpha numeric string
 	var Input_value = $('#' + form_id).val();

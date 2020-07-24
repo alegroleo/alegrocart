@@ -1,6 +1,6 @@
 <?php // Repor Purchased AlegroCart
 class ControllerReportPurchased extends Controller {
-	function __construct(&$locator){
+	public function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 			=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
@@ -17,7 +17,7 @@ class ControllerReportPurchased extends Controller {
 
 		$this->language->load('controller/report_purchased.php');
 		}
-	function index() {  
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		$view = $this->locator->create('template');
@@ -47,10 +47,12 @@ class ControllerReportPurchased extends Controller {
 		$results = $this->modelReportPurchsed->get_purchases();
 		foreach ($results as $result) {
 			$product_data[] = array(
-				'name'         => $result['name'],
-				'model_number' => $result['model_number'],
-				'quantity'     => $result['quantity'],
-				'total'        => $this->currency->format($result['total'], $this->config->get('config_currency'))
+				'name'		=> $result['name'],
+				'model_number'	=> $result['model_number'],
+				'quantity'	=> $result['quantity'],
+				'total'		=> $this->currency->format($result['total'], $this->config->get('config_currency')),
+				'href'		=> $this->url->href('product', 'update', array('product_id' => $result['product_id'])),
+				'product_id'	=> $result['product_id']
 			);
 		}
 		
@@ -61,7 +63,7 @@ class ControllerReportPurchased extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function help(){
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {

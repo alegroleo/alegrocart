@@ -33,6 +33,9 @@
 	    case 'category':
 	      include $shared_path . 'category_manufacturer.tpl';
 	      break;
+	    case 'bought':
+	      include $shared_path . 'bought_manufacturer.tpl';
+	      break;
 	  } 
 	}?>
 	<?php if($options_model){?>

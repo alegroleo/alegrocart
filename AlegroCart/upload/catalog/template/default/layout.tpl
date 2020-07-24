@@ -89,6 +89,7 @@
 		if ($pageColumns == 1.2){
 			if (isset($searchoptions)){ echo $searchoptions;}
 			if (isset($categoryoptions)){ echo $categoryoptions;}
+			if (isset($boughtoptions)){ echo $boughtoptions;}
 		}
 		if (isset($cart)) {echo $cart;}
 		if (isset($category)) {echo $category;}
@@ -127,6 +128,7 @@
 		} else {
 			if (isset($searchoptions)){ echo $searchoptions;}
 			if (isset($categoryoptions)){ echo $categoryoptions;}
+			if (isset($boughtoptions)){ echo $boughtoptions;}
 			if ($pageColumns == 2.1){
 				if (isset($cart)) {echo $cart;}
 				if (isset($manufacturer)) { echo $manufacturer;}

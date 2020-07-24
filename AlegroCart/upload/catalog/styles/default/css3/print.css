@@ -90,7 +90,7 @@ a:hover {
 	max-width: 950px;
 	margin: 5px 0px 0px 5px;
 	height: 22px;
-	padding-top: 8px;	
+	padding-top: 8px;
 }
 .contentBody {
     width: 950px;
@@ -239,7 +239,7 @@ a:hover {
 .column_row{
     width: 790px;
 	margin-bottom: 2px;
-	clear: both;	
+	clear: both;
 }
 .divider{
 	height: 2px;
@@ -269,12 +269,12 @@ a:hover {
 .module_content .options{
 	left: 0px;
 	font-size: 9px;	
-	padding-bottom: 10px;	
+	padding-bottom: 10px;
 }
 .module_content .button{
 	font-size: 9px;
 	font-weight: 500;
-}       
+}
 .products, .images, .categories {
 	float: left;
 	width: 32%; 
@@ -317,7 +317,7 @@ a:hover {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-left: 5px;
-	margin-right: 5px;	
+	margin-right: 5px;
 	height: 20px;
 }
 .results .left {
@@ -333,7 +333,7 @@ a:hover {
 .results .right select{
 	vertical-align: middle;
 	padding-bottom: 1px;
-	padding-top: 0px;	
+	padding-top: 0px;
 } 
 .admin_button {
 	margin: 0px 0px 0px 15px;
@@ -367,6 +367,9 @@ a:hover {
 .box {
 	padding: 5px 2px 5px 2px;
 	margin-bottom: 10px;
+}
+.c a {
+	text-decoration: none;
 }
 /*  language */
 .language {
@@ -426,4 +429,5 @@ a:hover {
 }
 @media print {
 	#header .c {display: none;}
+	.c a {text-decoration: none;}
 }

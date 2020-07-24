@@ -1,6 +1,6 @@
 <?php // Report Viewed AlegroCart
 class ControllerReportViewed extends Controller {
-	function __construct(&$locator){
+	public function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 			=& $locator->get('model');
 		$this->language 	=& $locator->get('language');
@@ -16,7 +16,7 @@ class ControllerReportViewed extends Controller {
 
 		$this->language->load('controller/report_viewed.php');
 		}
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
  
 		$view = $this->locator->create('template');
@@ -63,10 +63,11 @@ class ControllerReportViewed extends Controller {
 			$percent= $total ? roundDigits(($result['viewed'] / $total) * 100, 2):0;
 
 			$product_data[] = array(
-				'name'    => $result['name'],
-				'viewed'  => $result['viewed'],
-				'percent' => $percent.'%',
-				'graph'   => $max ? number_format((100/$max)*$percent, 2,'.','') . '%' : number_format(0, 2,'.','') .'%'
+				'name'		=> $result['name'],
+				'viewed'	=> $result['viewed'],
+				'percent'	=> $percent.'%',
+				'graph'		=> $max ? number_format((100/$max)*$percent, 2,'.','') . '%' : number_format(0, 2,'.','') .'%',
+				'href'		=> $this->url->href('product', 'update', array('product_id' => $result['product_id']))
 			);
 		}
 		
@@ -77,7 +78,7 @@ class ControllerReportViewed extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function help(){
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {

@@ -1,0 +1,11 @@
+.warning_bought_single {
+	padding: 10px;
+	font-size: 26px;
+	color: #FF0000;
+}
+.warning_bought_multiple {
+	padding: 10px;
+	font-size: 22px;
+	color: #FF0000;
+	text-align: center;
+}

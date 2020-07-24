@@ -744,13 +744,15 @@ form {
 	transform: translate(-50%, -50%);
 }
 }
-@media print {  
-     body {
-	  color: black; 
-	  background-color: white;
-     }
-     #header, #myMenuID, .task, .description, .help, #footer, #list .a .e, #list .a .d, .list .action, #prev, #search, #encrypt, #reset  {
-          display:none;
-     }
-     #list .a .f select {border: none;}
-}  
+@media print {
+	body {
+		color: black; 
+		background-color: white;
+	}
+	#header, #myMenuID, .task, .description, .help, #footer, #list .a .e, #list .a .d, .list .action, #prev, #search, #encrypt, #reset  {
+		display:none;
+	}
+	#list .a .f select {border: none;}
+	#list .list a {text-decoration: none;}
+	#invoice .c a {text-decoration: none;}
+}

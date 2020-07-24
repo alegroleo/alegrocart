@@ -128,7 +128,7 @@ function UpdateAddToCart(product_id, controller){
 			Min_qty ? from = Min_qty : from = 1;
 		}
 	}
-	if($('#'+Controller+'_quantity_'+Product_id)[0].tagName == "INPUT"){
+	if($('#'+Controller+'_quantity_'+Product_id)[0]!=undefined && $('#'+Controller+'_quantity_'+Product_id)[0].tagName == "INPUT"){
 		$('#'+Controller+'_quantity_'+Product_id).val(from);
 		if (Max_qty != 0) {
 			var diff = Max_qty-Cart_level;

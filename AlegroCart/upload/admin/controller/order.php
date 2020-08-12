@@ -1,5 +1,6 @@
 <?php //Order AlegroCart
 class ControllerOrder extends Controller {
+
 	public $error = array();
 
 	public function __construct(&$locator){
@@ -97,112 +98,112 @@ class ControllerOrder extends Controller {
 	private function getList() {
 		$this->session->set('order_validation', md5(time()));
 
-    	$cols = array();
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_order_id'),
-      		'sort'  => 'o.order_id',
-      		'align' => 'left'
-    	);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_reference'),
-      		'sort'  => 'o.reference',
-      		'align' => 'left'
-    	);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_invoice_number'),
-      		'sort'  => 'o.invoice_number',
-      		'align' => 'left'
-    	);
-	$cols[] = array(
-      		'name'  => $this->language->get('column_name'),
-      		'sort'  => 'o.firstname',
-      		'align' => 'left'
-    	);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_status'),
-      		'sort'  => 'os.name',
-      		'align' => 'left'
-    	);
+		$cols = array();
+		$cols[] = array(
+			'name'  => $this->language->get('column_order_id'),
+			'sort'  => 'o.order_id',
+			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_reference'),
+			'sort'  => 'o.reference',
+			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_invoice_number'),
+			'sort'  => 'o.invoice_number',
+			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_name'),
+			'sort'  => 'o.firstname',
+			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_status'),
+			'sort'  => 'os.name',
+			'align' => 'left'
+		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_update_status'),
 			'align' => 'center'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_date_added'),
-      		'sort'  => 'o.date_added',
-      		'align' => 'left'
-    	);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_total'),
-      		'sort'  => 'o.total',
-      		'align' => 'right'
-    	);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+		$cols[] = array(
+			'name'  => $this->language->get('column_date_added'),
+			'sort'  => 'o.date_added',
+			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_total'),
+			'sort'  => 'o.total',
+			'align' => 'right'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+
 		$results = $this->modelOrder->get_page();
-    	$rows = array();
-    	foreach ($results as $result) {
-		$last = $result['order_id'] == $this->session->get('last_order_id') ? 'last_visited': '';
-      		$cell = array();
-      		$cell[] = array(
-        		'value' => $result['order_id'],
-        		'align' => 'left',
-			'last' => $last
-      		);
-      		$cell[] = array(
-        		'value' => $result['reference'],
-        		'align' => 'left',
-			'last' => $last
-      		);
-      		$cell[] = array(
-        		'value' => $result['invoice_number'],
-        		'align' => 'left',
-			'last' => $last
-      		);
+		$rows = array();
+		foreach ($results as $result) {
+			$last = $result['order_id'] == $this->session->get('last_order_id') ? 'last_visited': '';
+			$cell = array();
 			$cell[] = array(
-        		'value' => $result['firstname'] . ' ' . $result['lastname'],
-        		'align' => 'left',
-			'last' => $last
-      		);
-      		$cell[] = array(
-        		'status_name' => $result['status'],
-				'status_name_id' => 'status_name_' . $result['order_id'],
-        		'align' => 'left',
-			'last' => $last
-      		);
-		$cell[] = array(
-			'update_status' => TRUE,
-			'order_id' =>$result['order_id'],
-			'align' => 'center'
+				'value' => $result['order_id'],
+				'align' => 'left',
+				'last' => $last
 			);
-      		$cell[] = array(
-        		'value' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
-        		'align' => 'left',
-			'last' => $last
-      		);
-      		$cell[] = array(
-        		'value' => $this->currency->format($result['total'], $result['currency'], $result['value']),
-        		'align' => 'right',
-			'last' => $last
-      		);
-			
+			$cell[] = array(
+				'value' => $result['reference'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['invoice_number'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['firstname'] . ' ' . $result['lastname'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'status_name' => $result['status'],
+				'status_name_id' => 'status_name_' . $result['order_id'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'update_status' => TRUE,
+				'order_id' =>$result['order_id'],
+				'align' => 'center'
+			);
+			$cell[] = array(
+				'value' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $this->currency->format($result['total'], $result['currency'], $result['value']),
+				'align' => 'right',
+				'last' => $last
+			);
+
 			$action = array();
-			
+
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('order', 'update', array('order_id' => $result['order_id']))
-      		);
-			
+			);
+
 			$action[] = array(
-        		'icon' => 'order_edit.png',
+				'icon' => 'order_edit.png',
 				'text' => $this->language->get('button_edit'),
 				'href' => $this->url->ssl('order_edit', 'index', array('order_id' => $result['order_id']))
-      		);
-			
+			);
+
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -210,57 +211,57 @@ class ControllerOrder extends Controller {
 					'href' => $this->url->ssl('order', 'delete', array('order_id' => $result['order_id'],'order_validation' => $this->session->get('order_validation')))
 				);
 			}
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);	
-      		$rows[] = array('cell' => $cell);
-    	}
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
+			$rows[] = array('cell' => $cell);
+		}
 
-    	$view = $this->locator->create('template');
+		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def); 
-    	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 
-   		$view->set('text_results', $this->modelOrder->get_text_results());
+		$view->set('text_results', $this->modelOrder->get_text_results());
 
-    	$view->set('entry_page', $this->language->get('entry_page'));
-    	$view->set('entry_search', $this->language->get('entry_search'));
+		$view->set('entry_page', $this->language->get('entry_page'));
+		$view->set('entry_search', $this->language->get('entry_search'));
 
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-    	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
 		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
-	$view->set('controller', 'order');
-	$view->set('order_statuses', $this->modelOrder->get_order_statuses());
-	$view->set('default_status', $this->session->get('default_order_status'));
-	$view->set('text_select_status', $this->language->get('text_select_status'));
-	$view->set('text_status_error', $this->language->get('text_status_error'));
-	
+		$view->set('controller', 'order');
+		$view->set('order_statuses', $this->modelOrder->get_order_statuses());
+		$view->set('default_status', $this->session->get('default_order_status'));
+		$view->set('text_select_status', $this->language->get('text_select_status'));
+		$view->set('text_status_error', $this->language->get('text_status_error'));
+
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
-    	$view->set('error', @$this->error['message']);
+		$view->set('error', @$this->error['message']);
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 
-    	$view->set('action', $this->url->ssl('order', 'page'));
+		$view->set('action', $this->url->ssl('order', 'page'));
 		$view->set('action_delete', $this->url->ssl('order', 'enableDelete'));
 		$view->set('last', $this->url->getLast('order'));
 
-    	$view->set('search', $this->session->get('order.search'));
-    	$view->set('sort', $this->session->get('order.sort'));
-    	$view->set('order', $this->session->get('order.order'));
-    	$view->set('page', $this->session->get('order.page'));
+		$view->set('search', $this->session->get('order.search'));
+		$view->set('sort', $this->session->get('order.sort'));
+		$view->set('order', $this->session->get('order.order'));
+		$view->set('page', $this->session->get('order.page'));
 
-    	$view->set('cols', $cols);
-    	$view->set('rows', $rows);
+		$view->set('cols', $cols);
+		$view->set('rows', $rows);
 
 		$view->set('pages', $this->modelOrder->get_pagination());
 
@@ -279,27 +280,27 @@ class ControllerOrder extends Controller {
 		$view->set('text_telephone', $this->language->get('text_telephone'));
 		$view->set('text_fax', $this->language->get('text_fax'));
 		$view->set('text_shipping_address', $this->language->get('text_shipping_address'));
-    	$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
-    	$view->set('text_payment_address', $this->language->get('text_payment_address'));
-    	$view->set('text_payment_method', $this->language->get('text_payment_method'));
-    	$view->set('text_currency', $this->language->get('text_currency'));
+		$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
+		$view->set('text_payment_address', $this->language->get('text_payment_address'));
+		$view->set('text_payment_method', $this->language->get('text_payment_method'));
+		$view->set('text_currency', $this->language->get('text_currency'));
 		$view->set('text_order_history', $this->language->get('text_order_history'));
-    	$view->set('text_order_download', $this->language->get('text_order_download'));
-    	$view->set('text_order_update', $this->language->get('text_order_update'));
-    	$view->set('text_product', $this->language->get('text_product'));
-    	$view->set('text_model_number', $this->language->get('text_model_number'));
-	$view->set('text_soldby', $this->language->get('text_soldby'));
-    	$view->set('text_quantity', $this->language->get('text_quantity'));
-    	$view->set('text_price', $this->language->get('text_price'));
-    	$view->set('text_total', $this->language->get('text_total'));
+		$view->set('text_order_download', $this->language->get('text_order_download'));
+		$view->set('text_order_update', $this->language->get('text_order_update'));
+		$view->set('text_product', $this->language->get('text_product'));
+		$view->set('text_model_number', $this->language->get('text_model_number'));
+		$view->set('text_soldby', $this->language->get('text_soldby'));
+		$view->set('text_quantity', $this->language->get('text_quantity'));
+		$view->set('text_price', $this->language->get('text_price'));
+		$view->set('text_total', $this->language->get('text_total'));
 		$view->set('text_special', $this->language->get('text_special'));
-      	$view->set('text_extended', $this->language->get('text_extended'));
-      	$view->set('text_coupon_value', $this->language->get('text_coupon_value'));
-      	$view->set('text_discount_value', $this->language->get('text_discount_value'));
-      	$view->set('text_net', $this->language->get('text_net'));
-      	$view->set('text_tax_rate', $this->language->get('text_tax_rate'));
-      	$view->set('text_tax', $this->language->get('text_tax'));
-      	$view->set('text_tax_amount', $this->language->get('text_tax_amount'));
+		$view->set('text_extended', $this->language->get('text_extended'));
+		$view->set('text_coupon_value', $this->language->get('text_coupon_value'));
+		$view->set('text_discount_value', $this->language->get('text_discount_value'));
+		$view->set('text_net', $this->language->get('text_net'));
+		$view->set('text_tax_rate', $this->language->get('text_tax_rate'));
+		$view->set('text_tax', $this->language->get('text_tax'));
+		$view->set('text_tax_amount', $this->language->get('text_tax_amount'));
 		$view->set('text_product_totals', $this->language->get('text_product_totals'));
 		$view->set('text_shipping_cost', $this->language->get('text_shipping_cost'));
 		$view->set('text_free_shipping', $this->language->get('text_free_shipping'));
@@ -310,40 +311,40 @@ class ControllerOrder extends Controller {
 		$view->set('text_downloadable', $this->language->get('text_downloadable'));
 
 		$view->set('column_date_added', $this->language->get('column_date_added'));
-    	$view->set('column_status', $this->language->get('column_status'));
-    	$view->set('column_download', $this->language->get('column_download'));
-    	$view->set('column_filename', $this->language->get('column_filename'));
-    	$view->set('column_remaining', $this->language->get('column_remaining'));
-    	$view->set('column_notify', $this->language->get('column_notify'));
-    	$view->set('column_comment', $this->language->get('column_comment'));
+		$view->set('column_status', $this->language->get('column_status'));
+		$view->set('column_download', $this->language->get('column_download'));
+		$view->set('column_filename', $this->language->get('column_filename'));
+		$view->set('column_remaining', $this->language->get('column_remaining'));
+		$view->set('column_notify', $this->language->get('column_notify'));
+		$view->set('column_comment', $this->language->get('column_comment'));
 
-    	$view->set('entry_status', $this->language->get('entry_status'));
-    	$view->set('entry_comment', $this->language->get('entry_comment'));
-    	$view->set('entry_notify', $this->language->get('entry_notify'));
+		$view->set('entry_status', $this->language->get('entry_status'));
+		$view->set('entry_comment', $this->language->get('entry_comment'));
+		$view->set('entry_notify', $this->language->get('entry_notify'));
 		$view->set('cancelled_status',$this->language->get('cancelled_status'));
 
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-    	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
 		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
-    	$view->set('tab_general', $this->language->get('tab_general'));
-	
+		$view->set('tab_general', $this->language->get('tab_general'));
+
 		$view->set('error', @$this->error['message']);
 
-    	$view->set('action', $this->url->ssl('order', 'update', array('order_id' => $this->request->gethtml('order_id'))));
+		$view->set('action', $this->url->ssl('order', 'update', array('order_id' => $this->request->gethtml('order_id'))));
 		$view->set('last', $this->url->getLast('order'));
 		$view->set('cancel', $this->url->ssl('order'));
 
 		if ($this->request->gethtml('order_id')) {
-      		$view->set('update', 'update');
-	  		$view->set('delete', $this->url->ssl('order', 'delete', array('order_id' => $this->request->gethtml('order_id'),'order_validation' => $this->session->get('order_validation'))));
-    	}
+			$view->set('update', 'update');
+			$view->set('delete', $this->url->ssl('order', 'delete', array('order_id' => $this->request->gethtml('order_id'),'order_validation' => $this->session->get('order_validation'))));
+		}
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
@@ -382,16 +383,16 @@ class ControllerOrder extends Controller {
 		//$view->set('columns', $this->tpl_columns);
 
 		$shipping_address = array(
-      		'firstname' => $order_info['shipping_firstname'],
-      		'lastname'  => $order_info['shipping_lastname'],
-      		'company'   => $order_info['shipping_company'],
-      		'address_1' => $order_info['shipping_address_1'],
-      		'address_2' => $order_info['shipping_address_2'],
-      		'city'      => $order_info['shipping_city'],
-      		'postcode'  => $order_info['shipping_postcode'],
-      		'zone'      => $order_info['shipping_zone'],
-      		'country'   => $order_info['shipping_country']
-    	);
+			'firstname' => $order_info['shipping_firstname'],
+			'lastname'  => $order_info['shipping_lastname'],
+			'company'   => $order_info['shipping_company'],
+			'address_1' => $order_info['shipping_address_1'],
+			'address_2' => $order_info['shipping_address_2'],
+			'city'      => $order_info['shipping_city'],
+			'postcode'  => $order_info['shipping_postcode'],
+			'zone'      => $order_info['shipping_zone'],
+			'country'   => $order_info['shipping_country']
+		);
 
 		if (array_filter($shipping_address)) {
 			$view->set('shipping_address', $this->address->format($shipping_address, $order_info['shipping_address_format'], '<br />'));
@@ -402,23 +403,23 @@ class ControllerOrder extends Controller {
 
 		$view->set('shipping_method', $order_info['shipping_method']);
 
-    	$payment_address = array(
-      		'firstname' => $order_info['payment_firstname'],
-      		'lastname'  => $order_info['payment_lastname'],
-      		'company'   => $order_info['payment_company'],
-      		'address_1' => $order_info['payment_address_1'],
-      		'address_2' => $order_info['payment_address_2'],
-      		'city'      => $order_info['payment_city'],
-      		'postcode'  => $order_info['payment_postcode'],
-      		'zone'      => $order_info['payment_zone'],
-      		'country'   => $order_info['payment_country']
-    	);
-    	$view->set('payment_address', nl2br($this->address->format($payment_address, $order_info['payment_address_format'])));
-    	$view->set('payment_method', $order_info['payment_method']);
+		$payment_address = array(
+			'firstname' => $order_info['payment_firstname'],
+			'lastname'  => $order_info['payment_lastname'],
+			'company'   => $order_info['payment_company'],
+			'address_1' => $order_info['payment_address_1'],
+			'address_2' => $order_info['payment_address_2'],
+			'city'      => $order_info['payment_city'],
+			'postcode'  => $order_info['payment_postcode'],
+			'zone'      => $order_info['payment_zone'],
+			'country'   => $order_info['payment_country']
+		);
+		$view->set('payment_address', nl2br($this->address->format($payment_address, $order_info['payment_address_format'])));
+		$view->set('payment_method', $order_info['payment_method']);
 
-    	$products = $this->modelOrder->get_products();
+		$products = $this->modelOrder->get_products();
 
-    	$product_data = array();
+		$product_data = array();
 
 		$tax_total = 0;	
 		$coupon_total = 0;
@@ -499,7 +500,7 @@ class ControllerOrder extends Controller {
 		}
 
 		$view->set('taxed', $order_info['taxed']);
-      		$view->set('products', $product_data);
+		$view->set('products', $product_data);
 		$view->set('totals',$this->modelOrder->get_totals($order_info['order_id']));
 		$view->set('tax_total', $this->currency->format($tax_total, $order_info['currency'], $order_info['value']));
 		$view->set('coupon_total', $coupon_total ? $this->currency->format(($coupon_total * -1), $order_info['currency'], $order_info['value']) : NULL);
@@ -515,30 +516,30 @@ class ControllerOrder extends Controller {
 		$view->set('freeshipping_total', $freeshipping_total ? $this->currency->format(($freeshipping_total * -1), $order_info['currency'], $order_info['value']) : NULL);
 		$view->set('cart_totals_total', $this->currency->format($cart_totals_total, $order_info['currency'], $order_info['value']));
 
-    	$history_data = array();
-    	$results = $this->modelOrder->get_history();
-    	foreach ($results as $result) {
-      		$history_data[] = array(
-        		'date_added' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
-        		'status'     => $result['status'],
-        		'comment'    => $result['comment'],
-        		'notify'     => $result['notify']
-      		);
-    	}
-    	$view->set('historys', $history_data);
+		$history_data = array();
+		$results = $this->modelOrder->get_history();
+		foreach ($results as $result) {
+			$history_data[] = array(
+				'date_added' => $this->language->formatDate($this->language->get('date_format_short').' ('.$this->language->get('time_format').')', strtotime($result['date_added'])),
+				'status'     => $result['status'],
+				'comment'    => $result['comment'],
+				'notify'     => $result['notify']
+			);
+		}
+		$view->set('historys', $history_data);
 
-    	$download_data = array();
-    	$results = $this->modelOrder->get_downloads();
-    	foreach ($results as $result) {
-      		$download_data[] = array(
-        		'name'      => $result['name'],
-        		'filename'  => $result['filename'],
-        		'remaining' => $result['remaining']
-      		);
-    	}
-    	$view->set('downloads', $download_data);
-    	$view->set('order_status_id', $order_info['order_status_id']);
-    	$view->set('order_statuses', $this->modelOrder->get_order_statuses());
+		$download_data = array();
+		$results = $this->modelOrder->get_downloads();
+		foreach ($results as $result) {
+			$download_data[] = array(
+				'name'      => $result['name'],
+				'filename'  => $result['filename'],
+				'remaining' => $result['remaining']
+			);
+		}
+		$view->set('downloads', $download_data);
+		$view->set('order_status_id', $order_info['order_status_id']);
+		$view->set('order_statuses', $this->modelOrder->get_order_statuses());
 
 		return $view->fetch('content/order.tpl');
 	}
@@ -615,8 +616,8 @@ class ControllerOrder extends Controller {
 		}
 		$this->session->delete('order_validation');
 		if (!$this->user->hasPermission('modify', 'order')) {
-      		$this->error['message'] = $this->language->get('error_permission'); 
-    	}
+			$this->error['message'] = $this->language->get('error_permission'); 
+		}
 
 		if (!$this->error) {
 			return TRUE;

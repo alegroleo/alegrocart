@@ -1,27 +1,30 @@
 <?php // Review AlegroCart
 class ControllerReview extends Controller {
-	var $error = array();
-	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->config   	=& $locator->get('config');
-		$this->image    	=& $locator->get('image');   
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->validate 	=& $locator->get('validate');
-		$this->modelReview = $model->get('model_admin_review');
+
+	public $error = array();
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->config		=& $locator->get('config');
+		$this->image		=& $locator->get('image');   
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->validate		=& $locator->get('validate');
+		$this->modelReview	= $model->get('model_admin_review');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('review');
+		$this->adminController	= $this->template->set_controller('review');
 
 		$this->language->load('controller/review.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -30,7 +33,7 @@ class ControllerReview extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	} 
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('author', 'post') && $this->validateForm()) {
@@ -60,10 +63,10 @@ class ControllerReview extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('author', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('author', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelReview->update_review();
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -81,7 +84,7 @@ class ControllerReview extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() { 
+	protected function delete() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('review_id')) && ($this->validateDelete())) {
@@ -97,13 +100,14 @@ class ControllerReview extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function changeStatus() { 
-		
+
+	protected function changeStatus() { 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelReview->change_review_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
 	}
-	function getList() {
+
+	private function getList() {
 		$this->session->set('review_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
@@ -141,11 +145,11 @@ class ControllerReview extends Controller {
 			'sort'  => 'r.status',
 			'align' => 'center'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+
 		$results = $this->modelReview->get_page();
 		$rows = array();
 		foreach ($results as $result) {
@@ -183,30 +187,26 @@ class ControllerReview extends Controller {
 			);
 
 			if ($this->validateChangeStatus()) {
-			$cell[] = array(
-				'status'  => $result['status'],
-				'text' => $this->language->get('button_status'),
-				'align' => 'center',
-				'status_id' => $result['review_id'],
-				'status_controller' => 'review'
-			);
-
+				$cell[] = array(
+					'status'  => $result['status'],
+					'text' => $this->language->get('button_status'),
+					'align' => 'center',
+					'status_id' => $result['review_id'],
+					'status_controller' => 'review'
+				);
 			} else {
-
-			$cell[] = array(
-				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-				'align' => 'center'
-			);
+				$cell[] = array(
+					'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+					'align' => 'center'
+				);
 			}
-
-			
 
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('review', 'update', array('review_id' => $result['review_id']))
-      		);
+			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -215,11 +215,11 @@ class ControllerReview extends Controller {
 				);
 			}
 
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
-			
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
+
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -271,7 +271,7 @@ class ControllerReview extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -307,6 +307,12 @@ class ControllerReview extends Controller {
 		$view->set('error', @$this->error['message']);
 		$view->set('error_author', @$this->error['author']);
 		$view->set('error_text', @$this->error['text']);
+		$view->set('error_product', @$this->error['product']);
+		$view->set('error_rating1', @$this->error['rating1']);
+		$view->set('error_rating2', @$this->error['rating2']);
+		$view->set('error_rating3', @$this->error['rating3']);
+		$view->set('error_rating4', @$this->error['rating4']);
+		$view->set('error_status', @$this->error['status']);
 
 		$view->set('action', $this->url->ssl('review', $this->request->gethtml('action'), array('review_id' => $this->request->gethtml('review_id'))));
 
@@ -330,11 +336,12 @@ class ControllerReview extends Controller {
 
 		if (($this->request->gethtml('review_id')) && (!$this->request->isPost())) {
 			$review_info = $this->modelReview->get_review();
+			$this->session->set('review_date_modified', $review_info['date_modified']);
 		}
 
 		if ($this->request->has('author', 'post')) {
 			if ($this->request->gethtml('author', 'post') != NULL) {
-				$name_last = $this->request->has('author', 'post');
+				$name_last = $this->request->get('author', 'post');
 			} else {
 				$name_last = $this->session->get('name_last_review');
 			}
@@ -358,12 +365,12 @@ class ControllerReview extends Controller {
 		$results=$this->modelReview->get_products();
 		foreach ($results as $result) {
 		$product_data[] = array(
-        		'product_id' => $result['product_id'],
+			'product_id' => $result['product_id'],
 			'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-        		'name'        => $result['name']
+			'name'        => $result['name']
 			);
 		}
-    		$view->set('products', $product_data);
+		$view->set('products', $product_data);
 
 		if ($this->request->has('author', 'post')) {
 			$view->set('author', $this->request->gethtml('author', 'post'));
@@ -410,7 +417,7 @@ class ControllerReview extends Controller {
 		return $view->fetch('content/review.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -420,11 +427,11 @@ class ControllerReview extends Controller {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
 
-        if (!$this->validate->strlen($this->request->gethtml('author', 'post'),1,64)) {
+		if (!$this->validate->strlen($this->request->gethtml('author', 'post'),1,64)) {
 			$this->error['author'] = $this->language->get('error_author');
 		}
 
-        if (!$this->validate->strlen($this->request->gethtml('text', 'post'),1,1000)) {
+		if (!$this->validate->strlen($this->request->gethtml('text', 'post'),1,1000)) {
 			$this->error['text'] = $this->language->get('error_text');
 		}
 
@@ -434,8 +441,62 @@ class ControllerReview extends Controller {
 			return FALSE;
 		}
 	}
-	
-	function enableDelete(){
+
+	private function validateModification() {
+		if ($review_data = $this->modelReview->get_review()) {
+			if ($review_data['date_modified'] != $this->session->get('review_date_modified')) {
+				$review_data_log = $this->modelReview->get_modified_log($review_data['date_modified']);
+
+				if ($review_data_log['author'] != $this->request->gethtml('author', 'post')) {
+					$this->error['author'] = $this->language->get('error_modified', $review_data_log['author']);
+				}
+
+				if ($review_data_log['product_id'] != $this->request->gethtml('product_id', 'post')) {
+					$this->error['product'] = $this->language->get('error_modified', $review_data_log['name']);
+				}
+
+				if ($review_data_log['text'] != $this->request->gethtml('text', 'post')) {
+					$this->error['text'] = $this->language->get('error_modified', $review_data_log['text']);
+				}
+
+				if ($review_data_log['rating1'] != $this->request->gethtml('rating1', 'post')) {
+					$this->error['rating1'] = $this->language->get('error_modified', $review_data_log['rating1']);
+				}
+
+				if ($review_data_log['rating2'] != $this->request->gethtml('rating2', 'post')) {
+					$this->error['rating2'] = $this->language->get('error_modified', $review_data_log['rating2']);
+				}
+
+				if ($review_data_log['rating3'] != $this->request->gethtml('rating3', 'post')) {
+					$this->error['rating3'] = $this->language->get('error_modified', $review_data_log['rating3']);
+				}
+
+				if ($review_data_log['rating4'] != $this->request->gethtml('rating4', 'post')) {
+					$this->error['rating4'] = $this->language->get('error_modified', $review_data_log['rating4']);
+				}
+
+				if ($review_data_log['status'] != $this->request->gethtml('status', 'post')) {
+					$this->error['status'] = $this->language->get('error_modified', $review_data_log['status'] ? $this->language->get('text_enabled'): $this->language->get('text_disabled'));
+				}
+
+				$this->session->set('review_date_modified', $review_data_log['date_modified']);
+			}
+		} else {
+			$review_data_log = $this->modelReview->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $review_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('review'));
+		}
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', $review_data_log['modifier']);
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -449,18 +510,19 @@ class ControllerReview extends Controller {
 			$this->response->redirect($this->url->ssl('review'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'review')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+		$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 
-	function validateDelete() {
+	private function validateDelete() {
 		if(($this->session->get('review_validation') != $this->request->sanitize('review_validation')) || (strlen($this->session->get('review_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -476,21 +538,23 @@ class ControllerReview extends Controller {
 		}
 	}
 
-	function validateChangeStatus(){
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'review')) {
-	      		return FALSE;
-	    	}  else {
+			return FALSE;
+		}  else {
 			return TRUE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('review.search', $this->request->gethtml('search', 'post'));
 		}
@@ -505,6 +569,6 @@ class ControllerReview extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('review'));
-	}	
+	}
 }
 ?>

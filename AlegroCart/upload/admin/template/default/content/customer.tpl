@@ -93,7 +93,10 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_fax; ?></td>
-              <td><input class="validate_phone" id="fax" type="text" name="fax" value="<?php echo $fax; ?>"></td>
+              <td><input class="validate_phone" id="fax" type="text" name="fax" value="<?php echo $fax; ?>">
+                <?php if ($error_fax) { ?>
+                <span class="error"><?php echo $error_fax; ?></span>
+                <?php  } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_newsletter; ?></td>
@@ -105,7 +108,10 @@
                   <option value="1"><?php echo $text_enabled; ?></option>
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_newsletter) { ?>
+                <span class="error"><?php echo $error_newsletter; ?></span>
+                <?php  } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_status; ?></td>
@@ -117,7 +123,10 @@
                   <option value="1"><?php echo $text_enabled; ?></option>
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_status) { ?>
+                <span class="error"><?php echo $error_status; ?></span>
+                <?php  } ?></td>
             </tr>
           </table>
         </div>
@@ -127,7 +136,11 @@
           <table>
 		    <tr>
             <td class="set"><?php echo $entry_company; ?></td>
-            <td><input class="validate_alpha_num" id="company" type="text" name="company" value="<?php echo $company; ?>"></td>
+            <td><input class="validate_alpha_num" id="company" type="text" name="company" value="<?php echo $company; ?>">
+                <?php if ($error_company) { ?>
+                  <span class="error"><?php echo $error_company; ?></span>
+                <?php  } ?>
+	    </td>
             </tr>
 			<tr>
 			  <td class="set"><span class="required">*</span> <?php echo $entry_address_1; ?></td>
@@ -139,11 +152,14 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_address_2; ?></td>
-			  <td><input class="validate_alpha_num" id="address_2" type="text" name="address_2" value="<?php echo $address_2; ?>"></td>
+			  <td><input class="validate_alpha_num" id="address_2" type="text" name="address_2" value="<?php echo $address_2; ?>">
+	                  <?php if ($error_address_2) { ?>
+	                  <span class="error"><?php echo $error_address_2; ?></span>
+	                  <?php  } ?></td>
 			</tr>
 			<tr>
 			  <td class="set"><span class="required">*</span><?php echo $entry_postcode; ?></td>
-			  <td><input class="validate_alpha_num" id="postcode" type="text" class="validate_alpha_num" id="postcode" name="postcode" value="<?php echo $postcode; ?>">
+			  <td><input class="validate_alpha_num" id="postcode" type="text" class="validate_alpha_num" name="postcode" value="<?php echo $postcode; ?>">
 			  <?php if ($error_postcode) { ?>
 				<span class="error"><?php echo $error_postcode; ?></span>
 			  <?php } ?></td>
@@ -152,9 +168,9 @@
 			<tr>
 			  <td class="set"><span class="required">*</span> <?php echo $entry_city; ?></td>
 			  <td><input class="validate_alpha" id="city" type="text" name="city" value="<?php echo $city; ?>">
-              <?php if ($error_city) { ?>
+                		<?php if ($error_city) { ?>
 				<span class="error"><?php echo $error_city; ?></span>
-              <?php } ?>
+                		<?php } ?>
 			  </td>
 			</tr>
 			<tr>
@@ -167,14 +183,25 @@
 				  <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
 				<?php } ?>
               <?php } ?>
-              </select>
-              </td>
+	              </select>
+	                <?php if ($error_country) { ?>
+	                  <span class="error"><?php echo $error_country; ?></span>
+	                <?php  } ?>
+	              </td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_zone; ?></td>
 			  <td id="zone"><select name="zone_id">
 			  </select></td>
 			</tr>
+		          <?php if ($error_zone) { ?>
+			<tr>
+			  <td></td>
+			  <td>
+				<span class="error"><?php echo $error_zone; ?></span>
+			  </td>
+			</tr>
+	                <?php  } ?>
 		  </table>
 		</div>
 	  </div>
@@ -191,16 +218,16 @@
 $('#zone').load('index.php?controller=customer&action=zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
 //--></script>
   <script type="text/javascript"><!--
-    $('input[name="firstname"]').change(function () {
+    $('#firstname').change(function () {
       var first = $(this).val();
-      var last = $('input[name="lastname"]').val();
+      var last = $('#lastname').val();
       $(".heading em").text(first+' '+last);
     }).change();
   //--></script>
   <script type="text/javascript"><!--
-    $('input[name="lastname"]').change(function () {
+    $('#lastname').change(function () {
       var last2 = $(this).val();
-      var first2 = $('input[name="firstname"]').val();
+      var first2 = $('#firstname').val();
       $(".heading em").text(first2+' '+last2);
     }).change();
   //--></script>

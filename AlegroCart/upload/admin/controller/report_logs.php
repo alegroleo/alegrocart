@@ -1,24 +1,26 @@
 <?php // Report Logs AlegroCart
 class ControllerReportLogs extends Controller {
- 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
 		$this->ccvalidation	=& $locator->get('ccvalidation');
-		$this->config  		=& $locator->get('config');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->modelReportLogs = $model->get('model_admin_report_logs');
+		$this->config		=& $locator->get('config');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->modelReportLogs	= $model->get('model_admin_report_logs');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('report_logs');
+		$this->adminController	= $this->template->set_controller('report_logs');
 
 		$this->language->load('controller/report_logs.php');
 	}
-	function index() { 
+
+	protected function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 		
 		$view = $this->locator->create('template');
@@ -74,8 +76,8 @@ class ControllerReportLogs extends Controller {
 		
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
-	function get_file(){
+
+	private function get_file(){
 		$file = '';
 		$log_path = DIR_BASE . 'logs'; // Root path to Logs directory
 		if($this->request->gethtml('file_path', 'post')){
@@ -96,8 +98,8 @@ class ControllerReportLogs extends Controller {
 		}
 		return $file;
 	}
-	
-	function get_files(){
+
+	protected function get_files(){
 		if($this->request->gethtml('directory')){
 			$output = $this->get_logs($this->request->gethtml('directory'));
 		} else {
@@ -105,8 +107,8 @@ class ControllerReportLogs extends Controller {
 		}
 		$this->response->set($output);
 	}
-	
-	function get_logs($directory){
+
+	private function get_logs($directory){
 		$path = DIR_LOGS.$directory.D_S;
 		$files = glob($path . '*.txt');
 		if (!$files) { return; }
@@ -130,7 +132,8 @@ class ControllerReportLogs extends Controller {
 		$output .= '</select></td></tr>' . "\n";
 		return $output;
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {

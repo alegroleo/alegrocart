@@ -45,4 +45,5 @@ $_['error_disable_address']		= 'Warning: This Country cannot be disabled as it i
 $_['error_disable_addresses']		= 'Warning: This Country cannot be disabled as it is currently assigned to %s address book entries:';
 $_['error_disable_zone_to_geo_zone']	= 'Warning: This Country cannot be disabled as it is currently assigned to 1 zones to geo zone:';
 $_['error_disable_zone_to_geo_zones']	= 'Warning: This Country cannot be disabled as it is currently assigned to %s zones to geo zones:';
+$_['error_deleted']		= '* Meanwhile the country has been deleted by %s.';
 ?>

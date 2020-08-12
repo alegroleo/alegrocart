@@ -74,7 +74,10 @@
                   <option title="<?php echo $product['previewimage']; ?>" value="<?php echo $product['product_id']; ?>"><?php echo $product['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_product) { ?>
+                <span class="error"><?php echo $error_product; ?></span>
+                <?php } ?></td>
             </tr>
             <tr>
               <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_text; ?></td>
@@ -83,7 +86,7 @@
                 <span class="error"><?php echo $error_text; ?></span>
                 <?php } ?></td>
             </tr>
-            <?php for ($i=1; $i<5; $i++) { ?>          
+            <?php for ($i=1; $i<5; $i++) { ?>
             <tr>
               <td class="set"><?php echo ${'entry_rating'.$i}; ?></td>
               <td><b class="rating"><?php echo $entry_bad; ?></b>&nbsp;
@@ -116,7 +119,11 @@
                 <?php } else { ?>
                 <input type="radio" name="rating<?php echo $i; ?>" value="5">
                 <?php } ?>
-                &nbsp; <b class="rating"><?php echo $entry_good; ?></b></td>
+                &nbsp; <b class="rating"><?php echo $entry_good; ?></b>
+                <?php if (${'error_rating'.$i}) { ?>
+                <span class="error"><?php echo ${'error_rating'.$i}; ?></span>
+                <?php } ?>
+              </td>
             </tr>
             <?php } ?>
             <tr>
@@ -131,6 +138,9 @@
                 <label for="enabled"><?php echo $text_enabled; ?></label>
                 <input type="radio" name="status" value="0" id="disabled" checked>
                 <label for="disabled"><?php echo $text_disabled; ?></label>
+                <?php } ?>
+                <?php if ($error_status) { ?>
+                <span class="error"><?php echo $error_status; ?></span>
                 <?php } ?></td>
             </tr>
           </table>

@@ -1,29 +1,32 @@
 <?php // Admin Download AlegroCart
 class ControllerDownload extends Controller {
-	var $error = array();
-	var $prohibited_types = array('php');
-	function __construct(&$locator){
+
+	public $error = array();
+	private $prohibited_types = array('php');
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$this->config		=& $locator->get('config');
 		$this->download		=& $locator->get('download');
 		$model			=& $locator->get('model');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request 	 	=& $locator->get('request');
-		$this->response	 	=& $locator->get('response');
-		$this->session 	 	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->upload   	=& $locator->get('upload');
-		$this->url     		=& $locator->get('url');
-		$this->user    	 	=& $locator->get('user');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelDownload = $model->get('model_admin_download');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session 		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->upload		=& $locator->get('upload');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user');
+		$this->validate		=& $locator->get('validate');
+		$this->modelDownload	= $model->get('model_admin_download');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('download');
+		$this->adminController	= $this->template->set_controller('download');
 
 		$this->language->load('controller/download.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -32,7 +35,7 @@ class ControllerDownload extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function checkFiles() {
+	protected function checkFiles() {
 		$files=glob(DIR_DOWNLOAD.'*.*');
 		if (!$files) { return; }
 		foreach ($files as $file) {
@@ -45,7 +48,7 @@ class ControllerDownload extends Controller {
 		}
 	}
 
-	function init($filename) {
+	private function init($filename) {
 		$mask = $this->getMask($filename);
 		$this->modelDownload->insert_downloads($filename, $mask);
 		$insert_id = $this->modelDownload->get_insert_id();
@@ -60,7 +63,7 @@ class ControllerDownload extends Controller {
 			
 	}
 
-	function getDownloadName($file) {
+	private function getDownloadName($file) {
 		$str=$file;
 		$str=pathinfo_filename($file);
 		$str=str_replace(array('_','-'),' ',$str);
@@ -68,7 +71,7 @@ class ControllerDownload extends Controller {
 		return $str;
 	}
 
-	function getMask($file) {
+	private function getMask($file) {
 		$seed=pathinfo_filename($file);
 		$ext=pathinfo_extension($file);
 		$filecount = strlen($seed);
@@ -81,7 +84,7 @@ class ControllerDownload extends Controller {
 		return $mask.'.'.$ext;
 	}
 
-	function uniord($char) {
+	private function uniord($char) {
 		$h = ord($char{0});
 		if (!isset($char{1})) $char{1}='';
 		if (!isset($char{2})) $char{2}='';
@@ -101,7 +104,7 @@ class ControllerDownload extends Controller {
 		}
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->validateForm() && $this->upload->has('download')) {
@@ -133,7 +136,7 @@ class ControllerDownload extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('download_id') && $this->validateForm()) {
@@ -157,7 +160,7 @@ class ControllerDownload extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('download_id')) && ($this->validateDelete())) {
@@ -181,67 +184,67 @@ class ControllerDownload extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function getList() {
-	$this->session->set('download_validation', md5(time()));
-	$this->checkFiles();
-	$cols = array();
-	$cols[] = array(
-		'name'  => $this->language->get('column_name'),
-		'sort'  => 'dd.name',
-		'align' => 'left'
-	);
-	$cols[] = array(
-		'name'  => $this->language->get('column_filename'),
-		'sort'  => 'd.filename',
-		'align' => 'left'
-	);
-	$cols[] = array(
-		'name'  => $this->language->get('column_mask'),
-		'sort'  => 'd.mask',
-		'align' => 'left'
-	);
-	$cols[] = array(
-		'name'  => $this->language->get('column_remaining'),
-		'sort'  => 'd.remaining',
-		'align' => 'right'
-	);
-	$cols[] = array(
-		'name'  => $this->language->get('column_action'),
-		'align' => 'action'
-	);
-		$results = $this->modelDownload->get_page();
+	private function getList() {
+		$this->session->set('download_validation', md5(time()));
+		$this->checkFiles();
+		$cols = array();
+		$cols[] = array(
+			'name'  => $this->language->get('column_name'),
+			'sort'  => 'dd.name',
+			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_filename'),
+			'sort'  => 'd.filename',
+			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_mask'),
+			'sort'  => 'd.mask',
+			'align' => 'left'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_remaining'),
+			'sort'  => 'd.remaining',
+			'align' => 'right'
+		);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+			$results = $this->modelDownload->get_page();
 
-	$rows = array();
-	foreach ($results as $result) {
-		$last = $result['download_id'] == $this->session->get('last_download_id') ? 'last_visited': '';
-      		$cell = array();
-      		$cell[] = array(
-        		'value' => $result['name'],
-        		'align' => 'left',
-			'last' => $last
-      		);
-     		$cell[] = array(
-        		'value' => $result['filename'],
-        		'align' => 'left',
-			'last' => $last
-      		);
-     		$cell[] = array(
-        		'value' => $result['mask'],
-        		'align' => 'left',
-			'last' => $last
-      		);
-      		$cell[] = array(
-        		'value' => $result['remaining'],
-       			'align' => 'right',
-			'last' => $last
-      		);
+		$rows = array();
+		foreach ($results as $result) {
+			$last = $result['download_id'] == $this->session->get('last_download_id') ? 'last_visited': '';
+			$cell = array();
+			$cell[] = array(
+				'value' => $result['name'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['filename'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['mask'],
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['remaining'],
+				'align' => 'right',
+				'last' => $last
+			);
 			$action = array();
 
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('download', 'update', array('download_id' => $result['download_id']))
-		);
+				);
 
 			if($this->session->get('enable_delete')){
 				$action[] = array(
@@ -251,58 +254,58 @@ class ControllerDownload extends Controller {
 				);
 			}
 
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 
-		$rows[] = array('cell' => $cell);
-	}
+			$rows[] = array('cell' => $cell);
+		}
 
-	$view = $this->locator->create('template');
+		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
-	$view->set('heading_title', $this->language->get('heading_title'));
-	$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
+		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 
-	$view->set('text_results',$this->modelDownload->get_text_results());
+		$view->set('text_results',$this->modelDownload->get_text_results());
 
-	$view->set('entry_page', $this->language->get('entry_page'));
-	$view->set('entry_search', $this->language->get('entry_search'));
+		$view->set('entry_page', $this->language->get('entry_page'));
+		$view->set('entry_search', $this->language->get('entry_search'));
 
-	$view->set('button_insert', $this->language->get('button_insert'));
-	$view->set('button_update', $this->language->get('button_update'));
-	$view->set('button_delete', $this->language->get('button_delete'));
-	$view->set('button_save', $this->language->get('button_save'));
-	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
 		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'download');
-	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
-	$view->set('error', @$this->error['message']);
+		$view->set('error', @$this->error['message']);
 
 		$view->set('message', $this->session->get('message'));
 		
 		$this->session->delete('message');
 
-	$view->set('action', $this->url->ssl('download', 'page'));
+		$view->set('action', $this->url->ssl('download', 'page'));
 		$view->set('action_delete', $this->url->ssl('download', 'enableDelete'));
 
-	$view->set('search', $this->session->get('download.search'));
-	$view->set('sort', $this->session->get('download.sort'));
-	$view->set('order', $this->session->get('download.order'));
-	$view->set('page', $this->session->get('download.page'));
-	$view->set('cols', $cols);
-	$view->set('rows', $rows);
+		$view->set('search', $this->session->get('download.search'));
+		$view->set('sort', $this->session->get('download.sort'));
+		$view->set('order', $this->session->get('download.order'));
+		$view->set('page', $this->session->get('download.page'));
+		$view->set('cols', $cols);
+		$view->set('rows', $rows);
 
-	$view->set('insert', $this->url->ssl('download', 'insert'));
+		$view->set('insert', $this->url->ssl('download', 'insert'));
 		$view->set('last', $this->url->getLast('download'));
 
-	$view->set('pages', $this->modelDownload->get_pagination());
+		$view->set('pages', $this->modelDownload->get_pagination());
 
 		return $view->fetch('content/list.tpl');
 	}
@@ -315,22 +318,22 @@ class ControllerDownload extends Controller {
 
 		$view->set('entry_name', $this->language->get('entry_name'));
 		$view->set('entry_filename', $this->language->get('entry_filename'));
-			$view->set('entry_mask', $this->language->get('entry_mask'));
+		$view->set('entry_mask', $this->language->get('entry_mask'));
 		$view->set('entry_remaining', $this->language->get('entry_remaining'));
 		$view->set('text_browse', $this->language->get('text_browse'));
 
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
-	    	$view->set('button_save', $this->language->get('button_save'));
-	    	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
 		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
-    		$view->set('tab_general', $this->language->get('tab_general'));
-    		$view->set('tab_data', $this->language->get('tab_data'));
+		$view->set('tab_general', $this->language->get('tab_general'));
+		$view->set('tab_data', $this->language->get('tab_data'));
 
 		$view->set('explanation_name', $this->language->get('explanation_name'));
 		$view->set('explanation_mask', $this->language->get('explanation_mask'));
@@ -352,10 +355,10 @@ class ControllerDownload extends Controller {
 		$view->set('cancel', $this->url->ssl('download'));
 		$view->set('last', $this->url->getLast('download'));
 
-    		if ($this->request->gethtml('download_id')) {
-      			$view->set('update', 'enable');
-	  		$view->set('delete', $this->url->ssl('download', 'delete', array('download_id' => $this->request->gethtml('download_id'),'download_validation' =>$this->session->get('download_validation'))));
-    		}
+		if ($this->request->gethtml('download_id')) {
+			$view->set('update', 'enable');
+			$view->set('delete', $this->url->ssl('download', 'delete', array('download_id' => $this->request->gethtml('download_id'),'download_validation' =>$this->session->get('download_validation'))));
+		}
 
 		$view->set('tab', $this->session->has('download_tab') && $this->session->get('download_id') == $this->request->gethtml('download_id') ? $this->session->get('download_tab') : 0);
 		$view->set('tabmini', $this->session->has('download_tabmini') && $this->session->get('download_id') == $this->request->gethtml('download_id') ? $this->session->get('download_tabmini') : 0);
@@ -371,68 +374,68 @@ class ControllerDownload extends Controller {
 
 		$download_data = array();
 		$results = $this->modelDownload->get_languages();
-	foreach ($results as $result) {
-		if($result['language_status'] =='1'){
-		 	if (($this->request->gethtml('download_id')) && (!$this->request->isPost())) {
-			$download_description_info = $this->modelDownload->get_descriptions($this->request->gethtml('download_id'), $result['language_id']);
-			} else {
-				$download_description_info = $this->request->gethtml('language', 'post');
-			}
-			$name = $this->request->gethtml('name', 'post');
-			$download_data[] = array(
-			'language_id' => $result['language_id'],
-			'language'    => $result['name'],
-			'name'        => (isset($download_description_info[$result['language_id']]) ? $download_description_info[$result['language_id']]['name'] : @$download_description_info['name']),
-			);
-
-				if ($result['language_id'] == $this->language->getId()) {
-					if (isset($download_description_info[$result['language_id']])) {
-						if ($download_description_info[$result['language_id']]['name'] != NULL) {
-							$name_last = $download_description_info[$result['language_id']]['name'];
-						} else {
-							$name_last = $this->session->get('name_last_download');
-						}
-					} else {
-						$name_last = @$download_description_info['name'];
-					}
-
-					if (strlen($name_last) > 26) {
-						$name_last = substr($name_last , 0, 23) . '...';
-					}
-					$this->session->set('name_last_download', $name_last);
-					$this->session->set('last_download', $this->url->ssl('download', 'update', array('download_id' => $this->request->gethtml('download_id'))));
+		foreach ($results as $result) {
+			if($result['language_status'] =='1'){
+			 	if (($this->request->gethtml('download_id')) && (!$this->request->isPost())) {
+				$download_description_info = $this->modelDownload->get_descriptions($this->request->gethtml('download_id'), $result['language_id']);
+				} else {
+					$download_description_info = $this->request->gethtml('language', 'post');
 				}
+				$name = $this->request->gethtml('name', 'post');
+				$download_data[] = array(
+				'language_id' => $result['language_id'],
+				'language'    => $result['name'],
+				'name'        => (isset($download_description_info[$result['language_id']]) ? $download_description_info[$result['language_id']]['name'] : @$download_description_info['name']),
+				);
+
+					if ($result['language_id'] == $this->language->getId()) {
+						if (isset($download_description_info[$result['language_id']])) {
+							if ($download_description_info[$result['language_id']]['name'] != NULL) {
+								$name_last = $download_description_info[$result['language_id']]['name'];
+							} else {
+								$name_last = $this->session->get('name_last_download');
+							}
+						} else {
+							$name_last = @$download_description_info['name'];
+						}
+
+						if (strlen($name_last) > 26) {
+							$name_last = substr($name_last , 0, 23) . '...';
+						}
+						$this->session->set('name_last_download', $name_last);
+						$this->session->set('last_download', $this->url->ssl('download', 'update', array('download_id' => $this->request->gethtml('download_id'))));
+					}
+			}
 		}
-	}
 
-	$view->set('downloads', $download_data);
+		$view->set('downloads', $download_data);
 
-	$this->session->set('last_download_id', $this->request->gethtml('download_id'));
+		$this->session->set('last_download_id', $this->request->gethtml('download_id'));
 
-	if (($this->request->gethtml('download_id')) && (!$this->request->isPost())) {
+		if (($this->request->gethtml('download_id')) && (!$this->request->isPost())) {
 			$download_info = $this->modelDownload->getRow_download_info();
-	}
+		}
 
-	if ($this->request->has('mask', 'post')) {
-		$view->set('mask', $this->request->gethtml('mask', 'post'));
-	} else {
-		$view->set('mask', @$download_info['mask']);
-	}
+		if ($this->request->has('mask', 'post')) {
+			$view->set('mask', $this->request->gethtml('mask', 'post'));
+		} else {
+			$view->set('mask', @$download_info['mask']);
+		}
 
 		$view->set('filename', @$download_info['filename']);
 		
 		if ($this->request->has('remaining', 'post')) {
-      		$view->set('remaining', $this->request->gethtml('remaining', 'post'));
-    	} elseif (@$download_info['remaining']) {
-		$view->set('remaining', $download_info['remaining']);
-	} else {
-		$view->set('remaining', 1);
-	}
+			$view->set('remaining', $this->request->gethtml('remaining', 'post'));
+		} elseif (@$download_info['remaining']) {
+			$view->set('remaining', $download_info['remaining']);
+		} else {
+			$view->set('remaining', 1);
+		}
 
 		return $view->fetch('content/download.tpl');
 	}
 
-	function validateForm() { 
+	private function validateForm() { 
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -474,7 +477,8 @@ class ControllerDownload extends Controller {
 			return FALSE;
 		}
 	}
-	function enableDelete(){
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -488,17 +492,19 @@ class ControllerDownload extends Controller {
 			$this->response->redirect($this->url->ssl('download'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'download')) {
 		$this->error['message'] = $this->language->get('error_permission');  
-	}
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('download_validation') != $this->request->sanitize('download_validation')) || (strlen($this->session->get('download_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -521,20 +527,23 @@ class ControllerDownload extends Controller {
 			return FALSE;
 		} 
 	}
-	function get_uploadable(){
+
+	private function get_uploadable(){
 		$upload_max = convert_bytes(ini_get('upload_max_filesize'));
 		$post_max = convert_bytes(ini_get('post_max_size'));
 		$memory_limit = convert_bytes(ini_get('memory_limit'));
 		return $uploadable = floor(min($upload_max, $post_max, $memory_limit)/1048576).'MB';
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('download.search', $this->request->gethtml('search', 'post'));
 		}
@@ -549,7 +558,8 @@ class ControllerDownload extends Controller {
 		}
 		$this->response->redirect($this->url->ssl('download'));
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('download_tab', $this->request->sanitize('activeTab', 'post'));

@@ -63,7 +63,10 @@
                   <option value="<?php echo $geo_zone['geo_zone_id']; ?>"><?php echo $geo_zone['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_geo_zone) { ?>
+                <span class="error"><?php echo $error_geo_zone; ?></span>
+                <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>

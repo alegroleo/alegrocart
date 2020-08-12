@@ -1,28 +1,30 @@
 <?php //DimensionClass AlegroCart
 class ControllerDimensionClass extends Controller {
-	var $error = array();
-	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->validate 	=& $locator->get('validate');
-		$this->modelDimensions = $model->get('model_admin_dimension_class');
+
+	public $error = array();
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->validate		=& $locator->get('validate');
+		$this->modelDimensions	= $model->get('model_admin_dimension_class');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('dimension_class');
+		$this->adminController	= $this->template->set_controller('dimension_class');
 
 		$this->language->load('controller/dimension_class.php');
 	}
 
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -31,7 +33,7 @@ class ControllerDimensionClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
@@ -57,7 +59,8 @@ class ControllerDimensionClass extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function update() {
+
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
@@ -85,7 +88,7 @@ class ControllerDimensionClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
  
 		if (($this->request->gethtml('dimension_id')) && ($this->validateDelete())) {
@@ -103,7 +106,7 @@ class ControllerDimensionClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('dimension_class_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
@@ -122,9 +125,9 @@ class ControllerDimensionClass extends Controller {
 			'align' => 'left'
 		);
 		$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 		
 		$results = $this->modelDimensions->get_page();
 		$rows = array();
@@ -151,10 +154,10 @@ class ControllerDimensionClass extends Controller {
 			$action = array();
 
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('dimension_class', 'update', array('dimension_id' => $result['dimension_id'], 'type_id' => $result['type_id']))
-      			);
+			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -164,9 +167,9 @@ class ControllerDimensionClass extends Controller {
 			}
 
 			$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      			);
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -218,16 +221,16 @@ class ControllerDimensionClass extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
-		
+
 		$view->set('entry_title', $this->language->get('entry_title'));
 		$view->set('entry_unit', $this->language->get('entry_unit'));
 		$view->set('entry_type', $this->language->get('entry_type'));
-		
+
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
@@ -347,7 +350,8 @@ class ControllerDimensionClass extends Controller {
 		}
 		return $view->fetch('content/dimension_class.tpl');
 	}
-	function dimensionClasses(){
+
+	protected function dimensionClasses(){
 		$type_id = $this->request->gethtml('type_id');
 		$output = '';
 		$results = $this->modelDimensions->get_dimension_classes($type_id);
@@ -359,7 +363,8 @@ class ControllerDimensionClass extends Controller {
 		}
 			$this->response->set($output);
 	}
-	function validateForm() {
+
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -387,7 +392,8 @@ class ControllerDimensionClass extends Controller {
 			return FALSE;
 		}
 	}
-	function enableDelete(){
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -401,7 +407,8 @@ class ControllerDimensionClass extends Controller {
 			$this->response->redirect($this->url->ssl('dimension_class'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'dimension_class')) {
 			$this->error['message'] = $this->language->get('error_permission');  
 		}
@@ -411,7 +418,8 @@ class ControllerDimensionClass extends Controller {
 			return FALSE;
 		}
 	}
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('dimension_class_validation') != $this->request->sanitize('dimension_class_validation')) || (strlen($this->session->get('dimension_class_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -444,14 +452,16 @@ class ControllerDimensionClass extends Controller {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('dimension.search', $this->request->gethtml('search', 'post'));
 		}
@@ -466,8 +476,9 @@ class ControllerDimensionClass extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('dimension_class'));
-	}	
-	function tab() {
+	}
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('dimension_class_tab', $this->request->sanitize('activeTab', 'post'));

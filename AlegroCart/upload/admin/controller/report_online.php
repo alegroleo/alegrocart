@@ -1,21 +1,23 @@
 <?php // Report Online AlegroCart
 class ControllerReportOnline extends Controller {
- 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->response 	=& $locator->get('response');
-		$this->session  	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
 		$this->modelReportOnline = $model->get('model_admin_report_online');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('report_online');
+		$this->adminController	= $this->template->set_controller('report_online');
 
 		$this->language->load('controller/report_online.php');
 		}
-	function index() { 
+
+	protected function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		$results = $this->modelReportOnline->get_sessions();
@@ -95,7 +97,8 @@ class ControllerReportOnline extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function remove_duplicates($array, $row_element) {   
+
+	private function remove_duplicates($array, $row_element) {
 		$new_array[0] = $array[0];
 		foreach ($array as $current) {
 			$add_flag = 1;
@@ -108,7 +111,8 @@ class ControllerReportOnline extends Controller {
 		}
 		return $new_array;
 	}
-	function is_serialized( $data ) {
+
+	private function is_serialized( $data ) {
 	// if it isn't a string, it isn't serialized
 		if ( !is_string( $data ) )
 			return false;
@@ -133,7 +137,8 @@ class ControllerReportOnline extends Controller {
 		}
 		return false;
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {

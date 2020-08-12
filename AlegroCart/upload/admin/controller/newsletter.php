@@ -1,6 +1,8 @@
 <?php // Newsletter AlegroCart
 class ControllerNewsletter extends Controller {
+
 	public $error = array();
+
 	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
@@ -20,6 +22,7 @@ class ControllerNewsletter extends Controller {
 
 		$this->language->load('controller/newsletter.php');
 	}
+
 	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
@@ -321,7 +324,7 @@ class ControllerNewsletter extends Controller {
 
 		if ($this->request->has('subject', 'post')) {
 			if ($this->request->gethtml('subject', 'post') != NULL) {
-				$name_last = $this->request->has('subject', 'post');
+				$name_last = $this->request->get('subject', 'post');
 			} else {
 				$name_last = $this->session->get('name_last_newsletter');
 			}

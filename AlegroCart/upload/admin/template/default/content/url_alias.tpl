@@ -50,7 +50,7 @@
         <div class="pad">
           <table>
             <tr>
-              <td width="185" class="set"><?php echo $entry_query; ?></td>
+              <td width="185" class="set"><span class="required">*</span> <?php echo $entry_query; ?></td>
               <td><input type="text" name="query" value="<?php echo $query; ?>" size="50">
                 <?php if ($error_query) { ?>
                 <span class="error"><?php echo $error_query; ?></span>
@@ -58,7 +58,10 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_alias; ?></td>
-              <td><input type="text" name="alias" value="<?php echo $alias; ?>" size="50"></td>
+              <td><input type="text" name="alias" value="<?php echo $alias; ?>" size="50">
+                <?php if ($error_alias) { ?>
+                <span class="error"><?php echo $error_alias; ?></span>
+                <?php } ?></td>
             </tr>
           </table>
         </div>

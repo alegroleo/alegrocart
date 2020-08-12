@@ -1,8 +1,10 @@
 <?php //Admin ImageDisplay AlegroCart
 class ControllerImageDisplay extends Controller {
-	var $error = array();
-	var $types=array('swf','FXG','as','mxml','flv');
-	function __construct(&$locator){
+
+	public $error = array();
+	private $types=array('swf','FXG','as','mxml','flv');
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->cache		=& $locator->get('cache');
@@ -20,19 +22,21 @@ class ControllerImageDisplay extends Controller {
 		$this->validate		=& $locator->get('validate');
 		$this->modelImageDisplay = $model->get('model_admin_image_display');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('image_display');
+		$this->adminController	= $this->template->set_controller('image_display');
 
 		$this->language->load('controller/image_display.php');
 		$this->language->load('controller/layout_locations.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function insert() {
+
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->isPost()) && ($this->validateForm())) {
 			$this->modelImageDisplay->insert_image_display();
@@ -58,7 +62,8 @@ class ControllerImageDisplay extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function update() {
+
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->isPost()) && ($this->validateForm())) {
 			$this->modelImageDisplay->update_image_display();
@@ -79,7 +84,8 @@ class ControllerImageDisplay extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function delete() {
+
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->gethtml('image_display_id')) && ($this->validateDelete())) {
 			$this->modelImageDisplay->delete_image_display($this->request->gethtml('image_display_id'));
@@ -95,28 +101,30 @@ class ControllerImageDisplay extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function changeStatus() { 
+
+	protected function changeStatus() { 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelImageDisplay->change_imagedisplay_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
 	}
-	function getList() {
+
+	private function getList() {
 		$this->session->set('image_display_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
 			'name'  => $this->language->get('column_name'),
-      		'sort'  => 'id.name',
-      		'align' => 'left'
+			'sort'  => 'id.name',
+			'align' => 'left'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_location'),
-      		'sort'  => 'id.location_id',
-      		'align' => 'left'
+			'sort'  => 'id.location_id',
+			'align' => 'left'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_sort_order'),
-      		'sort'  => 'id.sort_order',
-      		'align' => 'center'
+			'sort'  => 'id.sort_order',
+			'align' => 'center'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_status'),
@@ -124,52 +132,52 @@ class ControllerImageDisplay extends Controller {
 			'align' => 'right'
 		);
 		$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 
 		$results = $this->modelImageDisplay->get_page();
 
 		$rows = array();
-    		foreach ($results as $result) {
+		foreach ($results as $result) {
 			$last = $result['image_display_id'] == $this->session->get('last_image_display_id') ? 'last_visited': '';
 			$cell = array();
-      			$cell[] = array(
-        		'value' => $result['name'],
-        		'align' => 'left',
-			'last' => $last
-		  	);
 			$cell[] = array(
-        		'value' => $this->language->get('text_location_' .$result['location']),
-        		'align' => 'left',
-			'last' => $last
-		  	);
+				'value' => $result['name'],
+				'align' => 'left',
+				'last' => $last
+			);
 			$cell[] = array(
-        		'value' => $result['sort_order'],
-        		'align' => 'center',
-			'last' => $last
-		  	);
+				'value' => $this->language->get('text_location_' .$result['location']),
+				'align' => 'left',
+				'last' => $last
+			);
+			$cell[] = array(
+				'value' => $result['sort_order'],
+				'align' => 'center',
+				'last' => $last
+			);
 			if ($this->validateChangeStatus()) {
-			$cell[] = array(
-				'status'  => $result['status'],
-				'text' => $this->language->get('button_status'),
-				'align' => 'right',
-				'status_id' => $result['image_display_id'],
-				'status_controller' => 'image_display'
-			);
+				$cell[] = array(
+					'status'  => $result['status'],
+					'text' => $this->language->get('button_status'),
+					'align' => 'right',
+					'status_id' => $result['image_display_id'],
+					'status_controller' => 'image_display'
+				);
 			} else {
-			$cell[] = array(
-				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-				'align' => 'right'
-			);
+				$cell[] = array(
+					'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
+					'align' => 'right'
+				);
 			}
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('image_display', 'update', array('image_display_id' => $result['image_display_id']))
-      		);
-			
+			);
+
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -177,27 +185,27 @@ class ControllerImageDisplay extends Controller {
 					'href' => $this->url->ssl('image_display', 'delete', array('image_display_id' => $result['image_display_id'],'image_display_validation' =>$this->session->get('image_display_validation')))
 				);
 			}
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
-		
+
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
-    		$view->set('heading_description', $this->language->get('heading_description'));
+		$view->set('heading_description', $this->language->get('heading_description'));
 		$view->set('text_results', $this->modelImageDisplay->get_text_results());
 
 		$view->set('entry_page', $this->language->get('entry_page'));
-	    	$view->set('entry_search', $this->language->get('entry_search'));
+		$view->set('entry_search', $this->language->get('entry_search'));
 
-	    	$view->set('button_insert', $this->language->get('button_insert'));
-	    	$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
 		$view->set('button_delete', $this->language->get('button_delete'));
-	    	$view->set('button_save', $this->language->get('button_save'));
-	    	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_status', $this->language->get('button_status'));
@@ -209,27 +217,28 @@ class ControllerImageDisplay extends Controller {
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
 		$view->set('error', @$this->error['message']);
- 		$view->set('message', $this->session->get('message'));
+		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
-		
+
 		$view->set('action', $this->url->ssl('image_display', 'page'));
 		$view->set('action_delete', $this->url->ssl('image_display', 'enableDelete'));
-		
+
 		$view->set('search', $this->session->get('imagedisplay.search'));
 		$view->set('sort', $this->session->get('imagedisplay.sort'));
-	    	$view->set('order', $this->session->get('imagedisplay.order'));
-	    	$view->set('page', $this->session->get('imagedisplay.page'));
-	    	$view->set('cols', $cols);
-	    	$view->set('rows', $rows);
+		$view->set('order', $this->session->get('imagedisplay.order'));
+		$view->set('page', $this->session->get('imagedisplay.page'));
+		$view->set('cols', $cols);
+		$view->set('rows', $rows);
 
-	    	$view->set('insert', $this->url->ssl('image_display', 'insert'));
+		$view->set('insert', $this->url->ssl('image_display', 'insert'));
 		$view->set('last', $this->url->getLast('image_display'));
 
 		$view->set('pages', $this->modelImageDisplay->get_pagination());
 
 		return $view->fetch('content/list.tpl');
 	}
-	function getForm() {
+
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -323,43 +332,43 @@ class ControllerImageDisplay extends Controller {
 		$view->set('languages', $results); 
 
 		foreach ($results as $result) {
-		if($result['language_status'] =='1'){
-			if(($this->request->gethtml('image_display_id')) && (!$this->request->isPost())) {
-				$image_description_info = $this->modelImageDisplay->get_descriptions($this->request->gethtml('image_display_id'),$result['language_id']);
-				$slides_info = $this->modelImageDisplay->get_slides($this->request->gethtml('image_display_id'),$result['language_id']);
-			}
-			$flash = $this->request->get('flash', 'post');
-			$flash_width = $this->request->gethtml('flash_width', 'post');
-			$flash_height = $this->request->gethtml('flash_height','post');
-			$flash_loop = $this->request->gethtml('flash_loop','post');
-			$image_id = $this->request->gethtml('image_id', 'post');
-			$image_width = $this->request->gethtml('image_width', 'post');
-			$image_height = $this->request->gethtml('image_height','post');
-			$sliderimage_id	= $this->request->gethtml('sliderimage_id', 'post');
-			$sort_order	= $this->request->gethtml('sort_order', 'post');
-
-			if (isset($sliderimage_id)){
-				$slides_data =array();
-				foreach ($sliderimage_id[$result['language_id']] as $k => $v) {
-					$slides_data[] = array(
-					'sliderimage_id'=> $sliderimage_id[$result['language_id']][$k],
-					'sort_order' => $sort_order[$result['language_id']][$k]
-					);
+			if($result['language_status'] =='1'){
+				if(($this->request->gethtml('image_display_id')) && (!$this->request->isPost())) {
+					$image_description_info = $this->modelImageDisplay->get_descriptions($this->request->gethtml('image_display_id'),$result['language_id']);
+					$slides_info = $this->modelImageDisplay->get_slides($this->request->gethtml('image_display_id'),$result['language_id']);
 				}
+				$flash = $this->request->get('flash', 'post');
+				$flash_width = $this->request->gethtml('flash_width', 'post');
+				$flash_height = $this->request->gethtml('flash_height','post');
+				$flash_loop = $this->request->gethtml('flash_loop','post');
+				$image_id = $this->request->gethtml('image_id', 'post');
+				$image_width = $this->request->gethtml('image_width', 'post');
+				$image_height = $this->request->gethtml('image_height','post');
+				$sliderimage_id	= $this->request->gethtml('sliderimage_id', 'post');
+				$sort_order	= $this->request->gethtml('sort_order', 'post');
+
+				if (isset($sliderimage_id)){
+					$slides_data =array();
+					foreach ($sliderimage_id[$result['language_id']] as $k => $v) {
+						$slides_data[] = array(
+						'sliderimage_id'=> $sliderimage_id[$result['language_id']][$k],
+						'sort_order' => $sort_order[$result['language_id']][$k]
+						);
+					}
+				}
+				$image_description_data[] = array(
+					'language_id'	=> $result['language_id'],
+					'language'	=> $result['name'],
+					'flash'		=> (isset($flash[$result['language_id']]) ? $flash[$result['language_id']] : @ $image_description_info['flash']),
+					'flash_width'	=> (isset($flash_width[$result['language_id']]) ? $flash_width[$result['language_id']] : @ $image_description_info['flash_width']),
+					'flash_height'	=> (isset($flash_height[$result['language_id']]) ? $flash_height[$result['language_id']] : @ $image_description_info['flash_height']),
+					'flash_loop'	=> (isset($flash_loop[$result['language_id']]) ? $flash_loop[$result['language_id']] : @ $image_description_info['flash_loop']),
+					'image_id'	=> (isset($image_id[$result['language_id']]) ? $image_id[$result['language_id']] : @ $image_description_info['image_id']),
+					'image_width'	=> (isset($image_width[$result['language_id']]) ? $image_width[$result['language_id']] : @ $image_description_info['image_width']),
+					'image_height'	=> (isset($image_height[$result['language_id']]) ? $image_height[$result['language_id']] : @ $image_description_info['image_height']),
+					'slides'	=> (isset($slides_data) ? $slides_data : @$slides_info)
+				);
 			}
-			$image_description_data[] = array(
-				'language_id'	=> $result['language_id'],
-	    			'language'	=> $result['name'],
-				'flash'		=> (isset($flash[$result['language_id']]) ? $flash[$result['language_id']] : @ $image_description_info['flash']),
-				'flash_width'	=> (isset($flash_width[$result['language_id']]) ? $flash_width[$result['language_id']] : @ $image_description_info['flash_width']),
-				'flash_height'	=> (isset($flash_height[$result['language_id']]) ? $flash_height[$result['language_id']] : @ $image_description_info['flash_height']),
-				'flash_loop'	=> (isset($flash_loop[$result['language_id']]) ? $flash_loop[$result['language_id']] : @ $image_description_info['flash_loop']),
-				'image_id'	=> (isset($image_id[$result['language_id']]) ? $image_id[$result['language_id']] : @ $image_description_info['image_id']),
-				'image_width'	=> (isset($image_width[$result['language_id']]) ? $image_width[$result['language_id']] : @ $image_description_info['image_width']),
-				'image_height'	=> (isset($image_height[$result['language_id']]) ? $image_height[$result['language_id']] : @ $image_description_info['image_height']),
-				'slides'	=> (isset($slides_data) ? $slides_data : @$slides_info)
-			);
-		}
 		}
 		$view->set('image_display_descriptions', $image_description_data);
 
@@ -369,7 +378,7 @@ class ControllerImageDisplay extends Controller {
 
 		if ($this->request->has('name', 'post')) {
 			if ($this->request->gethtml('name', 'post') != NULL) {
-				$name_last = $this->request->has('name', 'post');
+				$name_last = $this->request->get('name', 'post');
 			} else {
 				$name_last = $this->session->get('name_last_template_manager');
 			}
@@ -420,7 +429,8 @@ class ControllerImageDisplay extends Controller {
 		
 		return $view->fetch('content/image_display.tpl');
 	}
-	function getImages() {
+
+	private function getImages() {
 		$image_data = array();
 		$results = $this->modelImageDisplay->get_images();
 		foreach ($results as $result) {
@@ -433,7 +443,8 @@ class ControllerImageDisplay extends Controller {
 		}
 		return $image_data;
 	}
-	function checkFiles() {
+
+	private function checkFiles() {
 		$flash_data = array();
 		$files=glob(DIR_FLASH.'*.*');
 		if (!$files) { return; }
@@ -448,7 +459,8 @@ class ControllerImageDisplay extends Controller {
 		}
 		return $flash_data;
 	}
-	function viewFlash(){
+
+	protected function viewFlash(){
 		if($this->request->gethtml('flash')){
 			$flash = HTTP_FLASH . $this->request->gethtml('flash');
 			$output = '<object type="application/x=shockwave-flash"';
@@ -462,7 +474,8 @@ class ControllerImageDisplay extends Controller {
 		}
 		$this->response->set($output);
 	}
-	function validateForm() {
+
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -483,7 +496,8 @@ class ControllerImageDisplay extends Controller {
 			return FALSE;
 		}
 	}
-	function enableDelete(){
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -497,7 +511,8 @@ class ControllerImageDisplay extends Controller {
 			$this->response->redirect($this->url->ssl('image_display'));//**
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'image_display')) {
 			$this->error['message'] = $this->language->get('error_permission');  
 		}
@@ -507,13 +522,14 @@ class ControllerImageDisplay extends Controller {
 			return FALSE;
 		}
 	}
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('image_display_validation') != $this->request->sanitize('image_display_validation')) || (strlen($this->session->get('image_display_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('image_display_validation');
-	    	if (!$this->user->hasPermission('modify', 'image_display')) {
-	      		$this->error['message'] = $this->language->get('error_permission');  
+		if (!$this->user->hasPermission('modify', 'image_display')) {
+			$this->error['message'] = $this->language->get('error_permission');  
 		}
 		if (!$this->error) {
 			return TRUE;
@@ -521,7 +537,8 @@ class ControllerImageDisplay extends Controller {
 			return FALSE;
 		}
 	}
-	function flash_upload(){
+
+	protected function flash_upload(){
 		if ($this->user->hasPermission('modify', 'image_display')) {
 			if($this->upload->has('flashimage') && !$this->upload->hasError('flashimage') ){
 				$pattern='/\.('.implode('|',$this->types).')$/';
@@ -536,14 +553,16 @@ class ControllerImageDisplay extends Controller {
 		$this->response->redirect($this->url->ssl('image_display', 'insert'));	
 		}
 	}
-	function validateChangeStatus(){
+
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'image_display')) {
 			return FALSE;
 		} else {
 			return TRUE;
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('imagedisplay.search', $this->request->gethtml('search', 'post'));
 		}
@@ -558,7 +577,8 @@ class ControllerImageDisplay extends Controller {
 		}
 		$this->response->redirect($this->url->ssl('image_display'));
 	}
-	function slides(){
+
+	protected function slides(){
 		$view = $this->locator->create('template');
 
 		$view->set('entry_image', $this->language->get('entry_image'));
@@ -575,14 +595,16 @@ class ControllerImageDisplay extends Controller {
 		$view->set('slide_id', $this->request->gethtml('slide_id'));
 		$this->response->set($view->fetch('content/slider_module.tpl'));
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('image_display_tab', $this->request->sanitize('activeTab', 'post'));

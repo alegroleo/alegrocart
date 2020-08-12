@@ -38,4 +38,5 @@ $_['error_disable_address']		= 'Warning: This Zone cannot be disabled as it is c
 $_['error_disable_addresses']		= 'Warning: This Zone cannot be disabled as it is currently assigned to %s address book entries:';
 $_['error_disable_zone_to_geo_zone']	= 'Warning: This Zone cannot be disabled as it is currently assigned to 1 zones to geo zone:';
 $_['error_disable_zone_to_geo_zones']	= 'Warning: This Zone cannot be disabled as it is currently assigned to %s zones to geo zones:';
+$_['error_deleted']		= '* Meanwhile the zone has been deleted by %s.';
 ?>

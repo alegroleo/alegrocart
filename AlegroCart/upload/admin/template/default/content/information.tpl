@@ -67,17 +67,26 @@
                   <tr>
                     <td width="185" class="set"><span class="required">*</span> <?php echo $entry_title; ?></td>
                     <td><input name="language[<?php echo $information['language_id']; ?>][title]" value="<?php echo $information['title']; ?>">
-                      <?php if ($error_title) { ?>
-                      <span class="error"><?php echo $error_title; ?></span>
+                      <?php if (@$error_title[$information['language_id']]) { ?>
+                      <span class="error"><?php echo $error_title[$information['language_id']]; ?></span>
                       <?php } ?></td>
                   </tr>
                   <tr>
                     <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
                     <td><textarea name="language[<?php echo $information['language_id']; ?>][description]" id="description<?php echo $information['language_id']; ?>"><?php echo $information['description']; ?></textarea>
-                      <?php if ($error_description) { ?>
-                      <span class="error"><?php echo $error_description; ?></span>
-                      <?php } ?></td>
+		    </td>
                   </tr>
+                  <?php if (@$error_description[$information['language_id']]) { ?>
+                  <tr>
+                    <td></td>
+                    <td>
+                     <span class="error"><?php echo $error_description[$information['language_id']]; ?></span>
+                  <?php if (@$error_mod_description[$information['language_id']]) { ?>
+                     <textarea name="language[<?php echo $information['language_id']; ?>][mod_description]" id="mod_description<?php echo $information['language_id']; ?>"><?php echo $error_mod_description[$information['language_id']]; ?></textarea>
+                  <?php } ?>
+                    </td>
+                  </tr>
+                  <?php } ?>
                 </table>
               </div>
             </div>
@@ -100,12 +109,20 @@
                 <label for="ihyes"><?php echo $text_yes; ?></label>
                 <input type="radio" name="information_hide" value="0" id="ihno" checked>
                 <label for="ihno"><?php echo $text_no; ?></label>
-                <?php } ?></td>
+                <?php } ?>
+                <?php if ($error_hide) { ?>
+                  <span class="error"><?php echo $error_hide; ?></span>
+                <?php } ?>
+              </td>
 		<td class="expl"><?php echo $explanation_hide; ?></td>
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input class="validate_int" id="sort_order" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="sort_order" name="sort_order" value="<?php echo $sort_order; ?>" size="1">
+                <?php if ($error_sort_order) { ?>
+                  <span class="error"><?php echo $error_sort_order; ?></span>
+                <?php } ?>
+              </td>
 		<td class="expl"><?php echo $explanation_sort_order; ?></td>
             </tr>
           </table>
@@ -123,7 +140,12 @@
   <script type="text/javascript"><!--
   <?php foreach ($informations as $information) { ?>
     CKEDITOR.replace( 'description<?php echo $information['language_id']; ?>' );
-  <?php } ?>      
+  <?php } ?>
+  //--></script>
+  <script type="text/javascript"><!--
+  <?php foreach ($informations as $information) { ?>
+    CKEDITOR.replace( 'mod_description<?php echo $information['language_id']; ?>' );
+  <?php } ?>
   //--></script>
   <script type="text/javascript"><!--
     $('input[name="language[1][title]"]').change(function () {

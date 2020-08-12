@@ -1,28 +1,31 @@
 <?php // GeoZone AlegroCart
 class ControllerGeoZone extends Controller {
-	var $error = array();
- 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->validate 	=& $locator->get('validate');
-		$this->modelGeoZone = $model->get('model_admin_geozone');
+
+	public $error = array();
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->validate		=& $locator->get('validate');
+		$this->modelGeoZone	= $model->get('model_admin_geozone');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('geo_zone');
+		$this->adminController	= $this->template->set_controller('geo_zone');
 
 		$this->language->load('controller/geo_zone.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -31,7 +34,7 @@ class ControllerGeoZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
@@ -50,10 +53,10 @@ class ControllerGeoZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelGeoZone->update_geozone();
 			$this->cache->delete('geo_zone');
 			$this->session->set('message', $this->language->get('text_message'));
@@ -72,7 +75,7 @@ class ControllerGeoZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('geo_zone_id')) && ($this->validateDelete())) {
@@ -89,16 +92,15 @@ class ControllerGeoZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('geo_zone_validation', md5(time()));
 		$cols = array();
-		
+
 		$cols[] = array(
 			'name'  => $this->language->get('column_zones'),
 			'folder_help' => $this->language->get('text_folder_help'),
 			'align' => 'center'
 		);
-		
 		$cols[] = array(
 			'name'  => $this->language->get('column_name'),
 			'sort'  => 'name',
@@ -109,21 +111,21 @@ class ControllerGeoZone extends Controller {
 			'sort'  => 'description',
 			'align' => 'left'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+
 		$results = $this->modelGeoZone->get_page();
 		$rows = array();
 		foreach ($results as $result) {
 			$cell = array();
 			$last = $result['geo_zone_id'] == $this->session->get('last_geo_zone_id') ? 'last_visited': '';
-      			$cell[] = array(
-        			'icon'  => $this->modelGeoZone->check_children($result['geo_zone_id']) ? 'folderO.png' : 'folder.png',
-        			'align' => 'center',
+			$cell[] = array(
+				'icon'  => $this->modelGeoZone->check_children($result['geo_zone_id']) ? 'folderO.png' : 'folder.png',
+				'align' => 'center',
 				'path'  => $this->url->ssl('zone_to_geo_zone', FALSE, array('geo_zone_id' => $result['geo_zone_id']))
-		  	);
+			);
 			$cell[] = array(
 				'value' => $result['name'],
 				'align' => 'left',
@@ -136,10 +138,10 @@ class ControllerGeoZone extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('geo_zone', 'update', array('geo_zone_id' => $result['geo_zone_id']))
-      		);
+			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -147,10 +149,10 @@ class ControllerGeoZone extends Controller {
 					'href' => $this->url->ssl('geo_zone', 'delete', array('geo_zone_id' => $result['geo_zone_id'],'geo_zone_validation' =>$this->session->get('geo_zone_validation')))
 				);
 			}
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -202,7 +204,7 @@ class ControllerGeoZone extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -230,6 +232,10 @@ class ControllerGeoZone extends Controller {
 		$view->set('error_name', @$this->error['name']);
 		$view->set('error_description', @$this->error['description']);
 
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
+
 		$view->set('action', $this->url->ssl('geo_zone', $this->request->gethtml('action'), array('geo_zone_id' => $this->request->gethtml('geo_zone_id'))));
 
 		$view->set('insert', $this->url->ssl('geo_zone', 'insert'));
@@ -254,6 +260,7 @@ class ControllerGeoZone extends Controller {
 
 		if (($this->request->gethtml('geo_zone_id')) && (!$this->request->isPost())) {
 			$geo_zone_info = $this->modelGeoZone->get_geozone();
+			$this->session->set('geo_zone_date_modified', $geo_zone_info['date_modified']);
 		}
 
 		if ($this->request->has('name', 'post')) {
@@ -270,8 +277,8 @@ class ControllerGeoZone extends Controller {
 
 		return $view->fetch('content/geo_zone.tpl');
 	}
-	
-	function validateForm() {
+
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -280,11 +287,14 @@ class ControllerGeoZone extends Controller {
 		if (!$this->user->hasPermission('modify', 'geo_zone')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-        if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,32)) {
+		if (!$this->validate->strlen($this->request->gethtml('name', 'post'),1,32)) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
-        if (!$this->validate->strlen($this->request->gethtml('description', 'post'),1,255)) {
+		if (!$this->validate->strlen($this->request->gethtml('description', 'post'),1,255)) {
 			$this->error['description'] = $this->language->get('error_description');
+		}
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
 		}
 		if (!$this->error) {
 			return TRUE;
@@ -293,7 +303,37 @@ class ControllerGeoZone extends Controller {
 		}
 	}
 
-	function enableDelete(){
+	private function validateModification() {
+		if ($geo_zone_data = $this->modelGeoZone->get_geozone()) {
+			if ($geo_zone_data['date_modified'] != $this->session->get('geo_zone_date_modified')) {
+				$geo_zone_data_log = $this->modelGeoZone->get_modified_log($geo_zone_data['date_modified']);
+
+				if ($geo_zone_data_log['name'] != $this->request->gethtml('name', 'post')) {
+					$this->error['name'] = $this->language->get('error_modified', $geo_zone_data_log['name']);
+				}
+
+				if ($geo_zone_data_log['description'] != $this->request->gethtml('description', 'post')) {
+					$this->error['description'] = $this->language->get('error_modified', $geo_zone_data_log['description']);
+				}
+
+				$this->session->set('geo_zone_date_modified', $geo_zone_data_log['date_modified']);
+			}
+		} else {
+			$geo_zone_data_log = $this->modelGeoZone->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $geo_zone_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('geo_zone'));
+		}
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', $geo_zone_data_log['modifier']);
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -307,17 +347,19 @@ class ControllerGeoZone extends Controller {
 			$this->response->redirect($this->url->ssl('geo_zone'));//**
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'geo_zone')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('geo_zone_validation') != $this->request->sanitize('geo_zone_validation')) || (strlen($this->session->get('geo_zone_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -351,15 +393,17 @@ class ControllerGeoZone extends Controller {
 		} else {
 			return FALSE;
 		}
-	}	
-	function help(){
+	}
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('geo_zone.search', $this->request->gethtml('search', 'post'));
 		}
@@ -377,6 +421,6 @@ class ControllerGeoZone extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('geo_zone'));
-	}	
+	}
 }
 ?>

@@ -1,6 +1,7 @@
 <?php //Report Sale AlegroCart
 class ControllerReportSale extends Controller {
-	function __construct(&$locator){
+
+	public function __construct(&$locator){
 		$this->locator 		=& $locator;
 		$model 				=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
@@ -18,7 +19,8 @@ class ControllerReportSale extends Controller {
 
 		$this->language->load('controller/report_sale.php');
 		}
-	function index() { 
+
+	protected function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		$cols = array();
@@ -45,15 +47,15 @@ class ControllerReportSale extends Controller {
 
 		if (($this->session->has('report_sale.date_from')) && ($this->session->has('report_sale.date_to'))) {
 			$date_from = $this->session->get('report_sale.date_from');
-			
+
 			$from = date('Y-m-d', strtotime($date_from['year'] . '/' . $date_from['month'] . '/' . $date_from['day']));
-			
+
 			$date_to = $this->session->get('report_sale.date_to');
-			
+
 			$to = date('Y-m-d H:i:s', strtotime($date_to['year'] . '/' . $date_to['month'] . '/' . $date_to['day'] . '23:59:59'));
-			
+
 			$sql .= $this->modelReportSale->sql_parse_date($from, $to);
-			
+
 		} else {
 			$date = explode('/', date('d/m/Y', time()));
 
@@ -70,7 +72,6 @@ class ControllerReportSale extends Controller {
 			);
 
 			$sql .= $this->modelReportSale->sql_parse_start_date($date_from);
-			
 		}
 
 		if ($this->session->get('report_sale.order_status_id')) {
@@ -88,7 +89,6 @@ class ControllerReportSale extends Controller {
 			$sql .= " group by " . $this->session->get('report_sale.group') . "(date_added)";
 		} else {
 			$sql .= " group by week(date_added)";
-			
 			$this->session->set('report_sale.group', 'week');
 		}
 
@@ -288,39 +288,40 @@ class ControllerReportSale extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('sort', 'post')) {
 			$this->session->set('report_sale.sort', $this->request->gethtml('sort', 'post'));
 		}
-			
+
 		if ($this->request->has('sort', 'post')) {
 			$this->session->set('report_sale.order', (($this->session->get('report_sale.sort') == $this->request->gethtml('sort', 'post')) && ($this->session->get('report_sale.order') == 'asc') ? 'desc' : 'asc'));
 		}
-		
+
 		if ($this->request->has('page', 'post')) {
 			$this->session->set('report_sale.page', $this->request->gethtml('page', 'post'));
 		}
-		
+
 		if ($this->request->has('group', 'post')) {
 			$this->session->set('report_sale.group', $this->request->gethtml('group', 'post'));
 		}
-		
+
 		if ($this->request->has('order_status_id', 'post')) {
 			$this->session->set('report_sale.order_status_id', $this->request->gethtml('order_status_id', 'post'));
 		}
-		
+
 		if ($this->request->has('date_from', 'post')) {
 			$this->session->set('report_sale.date_from', $this->request->gethtml('date_from', 'post'));
 		}
-		
+
 		if ($this->request->has('date_to', 'post')) {
 			$this->session->set('report_sale.date_to', $this->request->gethtml('date_to', 'post'));
 		}
-		
+
 		$this->response->redirect($this->url->ssl('report_sale'));
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {

@@ -1,33 +1,35 @@
 <?php //AlegroCart Watermark
 class ControllerWatermark extends Controller {
-	var $error = array();
-	var $wm_types = array('png');
-	var $image_types = array('png','jpg','jpeg');
-	var $wm_method = 'manual';
 
- 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->image    	=& $locator->get('image');  
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user');
-		$this->watermark      	=& $locator->get('watermark');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelWatermark   = $model->get('model_admin_watermark');
+	public $error = array();
+	private $wm_types = array('png');
+	private $image_types = array('png','jpg','jpeg');
+	private $wm_method = 'manual';
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->image		=& $locator->get('image');  
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user');
+		$this->watermark	=& $locator->get('watermark');
+		$this->validate		=& $locator->get('validate');
+		$this->modelWatermark	= $model->get('model_admin_watermark');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('watermark');
+		$this->adminController	= $this->template->set_controller('watermark');
 
 		$this->language->load('controller/watermark.php');
-	}	
-	function index() { 
+	}
+
+	protected function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->validate_update()) {
@@ -44,7 +46,7 @@ class ControllerWatermark extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_none', $this->language->get('text_none'));
-				
+
 		$view->set('text_wm_with_text', $this->language->get('text_wm_with_text'));
 		$view->set('text_wm_with_image', $this->language->get('text_wm_with_image'));
 		$view->set('text_left', $this->language->get('text_left'));
@@ -205,9 +207,8 @@ class ControllerWatermark extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	
-	
-	function getImages(){
+
+	private function getImages(){
 		$images_data = array();
 		$files = glob(DIR_IMAGE.'watermark'.D_S.'*.*');
 		if (!$files) { return; }
@@ -224,7 +225,7 @@ class ControllerWatermark extends Controller {
 		return $images_data;
 	}
 
-	function getWmImages(){
+	private function getWmImages(){
 		$wm_images_data = array();
 		$files = $this->modelWatermark->get_originals();
 
@@ -234,16 +235,16 @@ class ControllerWatermark extends Controller {
 			$pattern='/\.('.implode('|',$this->image_types).')$/';
 			if (preg_match($pattern,$filename)) {
 				$wm_images_data[] = array(
-					'image'	=> $filename,
-					'previewimage'    => $this->image->resize($filename, $this->config->get('config_image_width'), $this->config->get('config_image_height'))
+					'image'		=> $filename,
+					'previewimage'	=> $this->image->resize($filename, $this->config->get('config_image_width'), $this->config->get('config_image_height'))
 				);
 			}
 		}
 		}
 		return $wm_images_data;
 	}
-	
-	function viewImage(){
+
+	protected function viewImage(){
 		if($this->request->gethtml('wm_image')){
 			$output = '<img src="' . HTTP_IMAGE . '/watermark/' . $this->request->gethtml('wm_image') . '"';
 			$output .= 'alt="' . $this->language->get('text_watermark'). '" title="'. $this->language->get('text_watermark') .'">';
@@ -253,7 +254,7 @@ class ControllerWatermark extends Controller {
 		$this->response->set($output);
 	}
 
-	function previewImage(){
+	protected function previewImage(){
 		$this->watermark->deleteTmp(DIR_WATERMARK);
 		$this->watermark->deleteTmp(DIR_IMAGE_CACHE);
 		if($this->request->gethtml('pre_view')){
@@ -265,7 +266,7 @@ class ControllerWatermark extends Controller {
 		$this->response->set($output);
 	}
 
-	function viewWmImage(){
+	protected function viewWmImage(){
 		if($this->request->gethtml('wm_wmimage')){
 			$image = $this->request->gethtml('wm_wmimage');
 			$output = '<img src="' . HTTP_IMAGE . $this->watermark->resize($image,300,300) .  '?' . time() . '"';
@@ -276,7 +277,7 @@ class ControllerWatermark extends Controller {
 		$this->response->set($output);
 	}
 
-	function previewSave(){
+	protected function previewSave(){
 		if ($this->request->isPost()) {
 			if ($this->user->hasPermission('modify', 'watermark')) {
 				$this->watermark->deleteTmp(DIR_IMAGE_CACHE);
@@ -289,14 +290,16 @@ class ControllerWatermark extends Controller {
 			}
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function validate_update() {
+
+	private function validate_update() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -305,33 +308,32 @@ class ControllerWatermark extends Controller {
 		if (!$this->user->hasPermission('modify', 'watermark')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-       
-	if ($this->request->gethtml('wm_text', 'post') !='') {
-		if (!$this->validate->strlen($this->request->gethtml('wm_text', 'post'),0,64)) {
-			$this->error['wm_text'] = $this->language->get('error_wm_text');
+
+		if ($this->request->gethtml('wm_text', 'post') !='') {
+			if (!$this->validate->strlen($this->request->gethtml('wm_text', 'post'),0,64)) {
+				$this->error['wm_text'] = $this->language->get('error_wm_text');
+			}
 		}
-	}
-	if ($this->request->gethtml('wm_fontcolor', 'post') !='') {
-		if (!$this->validate->strlen($this->request->gethtml('wm_fontcolor', 'post'),6,6) || !$this->validate->is_hexcolor($this->request->gethtml('wm_fontcolor', 'post'))) {
-			$this->error['wm_fontcolor'] = $this->language->get('error_wm_fontcolor');
+		if ($this->request->gethtml('wm_fontcolor', 'post') !='') {
+			if (!$this->validate->strlen($this->request->gethtml('wm_fontcolor', 'post'),6,6) || !$this->validate->is_hexcolor($this->request->gethtml('wm_fontcolor', 'post'))) {
+				$this->error['wm_fontcolor'] = $this->language->get('error_wm_fontcolor');
+			}
 		}
-	}
-	if ($this->request->gethtml('wm_transparency', 'post') !='') {
-		if ($this->request->gethtml('wm_transparency', 'post') < 0 || $this->request->gethtml('wm_transparency', 'post') > 100) {
-			$this->error['wm_trancparency'] = $this->language->get('error_wm_transparency');
+		if ($this->request->gethtml('wm_transparency', 'post') !='') {
+			if ($this->request->gethtml('wm_transparency', 'post') < 0 || $this->request->gethtml('wm_transparency', 'post') > 100) {
+				$this->error['wm_trancparency'] = $this->language->get('error_wm_transparency');
+			}
 		}
-	}
-	if ($this->request->gethtml('wm_scale', 'post') !='') {
-		if ($this->request->gethtml('wm_scale', 'post') < 0 || $this->request->gethtml('wm_scale', 'post') > 100) {
-			$this->error['wm_scale'] = $this->language->get('error_wm_scale');
+		if ($this->request->gethtml('wm_scale', 'post') !='') {
+			if ($this->request->gethtml('wm_scale', 'post') < 0 || $this->request->gethtml('wm_scale', 'post') > 100) {
+				$this->error['wm_scale'] = $this->language->get('error_wm_scale');
+			}
 		}
-	}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-			
 }
 ?>

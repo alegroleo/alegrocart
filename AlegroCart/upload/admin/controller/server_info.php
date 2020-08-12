@@ -1,24 +1,25 @@
 <?php 
 class ControllerServerInfo extends Controller {
-	function __construct(&$locator){
-		$this->locator	=& $locator;
-		$model	=& $locator->get('model');
-		$this->config	=& $locator->get('config');
-		$this->request  =& $locator->get('request');
-		$this->response =& $locator->get('response');
-		$this->session  =& $locator->get('session');
-		$this->language =& $locator->get('language');
-		$this->template =& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->module   =& $locator->get('module');
-		$this->modelServerInfo = $model->get('model_admin_server_info');
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->language		=& $locator->get('language');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->module		=& $locator->get('module');
+		$this->modelServerInfo	= $model->get('model_admin_server_info');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('server_info');
+		$this->adminController	= $this->template->set_controller('server_info');
 
 		$this->language->load('controller/server_info.php');
 	}
 
-	function index() { 
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		$view = $this->locator->create('template'); 
@@ -78,7 +79,7 @@ class ControllerServerInfo extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl')); 
 	}
 
-	function help(){
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {

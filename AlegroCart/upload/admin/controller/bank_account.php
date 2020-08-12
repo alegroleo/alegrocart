@@ -54,7 +54,7 @@ class ControllerBankAccount extends Controller {
 	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('currency', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('currency', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelBankAccount->update_bankaccount();
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -230,9 +230,18 @@ class ControllerBankAccount extends Controller {
 		$view->set('tab_general', $this->language->get('tab_general'));
 
 		$view->set('error', @$this->error['message']);
+		$view->set('error_currency', @$this->error['currency']);
 		$view->set('error_bank_name', @$this->error['bank_name']);
+		$view->set('error_bank_address', @$this->error['bank_address']);
 		$view->set('error_owner', @$this->error['owner']);
 		$view->set('error_ban', @$this->error['ban']);
+		$view->set('error_iban', @$this->error['iban']);
+		$view->set('error_swift', @$this->error['swift']);
+		$view->set('error_charge', @$this->error['charge']);
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
 		$view->set('action', $this->url->ssl('bank_account', $this->request->gethtml('action'), array('bank_account_id' => $this->request->gethtml('bank_account_id'))));
 		$view->set('last', $this->url->getLast('bank_account'));
@@ -255,6 +264,7 @@ class ControllerBankAccount extends Controller {
 
 		if (($this->request->gethtml('bank_account_id')) && (!$this->request->isPost())) {
 			$bank_account_info = $this->modelBankAccount->get_bankaccount();
+			$this->session->set('bank_account_date_modified',$bank_account_info['date_modified']);
 		}
 
 		$this->session->set('last_bank_account_id', $this->request->gethtml('bank_account_id'));
@@ -342,6 +352,59 @@ class ControllerBankAccount extends Controller {
 			$this->error['message'] = $this->language->get('error_currency');
 		}
 
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	private function validateModification() {
+		if ($bank_account_data = $this->modelBankAccount->get_bankaccount()) {
+			if ($bank_account_data['date_modified'] != $this->session->get('bank_account_date_modified')) {
+				$bank_account_data_log = $this->modelBankAccount->get_modified_log($bank_account_data['date_modified']);
+
+				if ($bank_account_data_log['currency'] != $this->request->gethtml('currency', 'post')) {
+					$this->error['currency'] = $this->language->get('error_modified', $bank_account_data_log['currency']);
+				}
+
+				if ($bank_account_data_log['bank_name'] != $this->request->gethtml('bank_name', 'post')) {
+					$this->error['bank_name'] = $this->language->get('error_modified', $bank_account_data_log['bank_name']);
+				}
+
+				if ($bank_account_data_log['bank_address'] != $this->request->gethtml('bank_address', 'post')) {
+					$this->error['bank_address'] = $this->language->get('error_modified', $bank_account_data_log['bank_address']);
+				}
+
+				if ($bank_account_data_log['owner'] != $this->request->gethtml('owner', 'post')) {
+					$this->error['owner'] = $this->language->get('error_modified', $bank_account_data_log['owner']);
+				}
+
+				if ($bank_account_data_log['ban'] != $this->request->gethtml('ban', 'post')) {
+					$this->error['ban'] = $this->language->get('error_modified', $bank_account_data_log['ban']);
+				}
+
+				if ($bank_account_data_log['iban'] != $this->request->gethtml('iban', 'post')) {
+					$this->error['iban'] = $this->language->get('error_modified', $bank_account_data_log['iban']);
+				}
+
+				if ($bank_account_data_log['swift'] != $this->request->gethtml('swift', 'post')) {
+					$this->error['swift'] = $this->language->get('error_modified', $bank_account_data_log['swift']);
+				}
+
+				if ($bank_account_data_log['charge'] != $this->request->gethtml('charge', 'post')) {
+					$this->error['charge'] = $this->language->get('error_modified', $bank_account_data_log['charge']);
+				}
+				$this->session->set('bank_account_date_modified', $bank_account_data_log['date_modified']);
+			}
+		} else {
+			$bank_account_data_log = $this->modelBankAccount->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $bank_account_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('bank_account'));
+		}
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', $bank_account_data_log['modifier']);
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {

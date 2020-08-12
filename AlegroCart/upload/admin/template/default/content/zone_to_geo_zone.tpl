@@ -60,13 +60,24 @@
                   <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_country) { ?>
+                <span class="error"><?php echo $error_country; ?></span>
+                <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_zone; ?></td>
               <td id="zone"><select name="zone_id">
                 </select></td>
             </tr>
+            <?php if ($error_zone) { ?>
+	      <tr>
+	        <td></td>
+	        <td>
+			<span class="error"><?php echo $error_zone; ?></span>
+	        </td>
+	      </tr>
+            <?php  } ?>
           </table>
         </div>
       </div>

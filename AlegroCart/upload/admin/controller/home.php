@@ -1,6 +1,8 @@
 <?php   //Home AlegroCart
-class ControllerHome extends Controller {  
+class ControllerHome extends Controller {
+
 	public $error = array();
+
 	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');

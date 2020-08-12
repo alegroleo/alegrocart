@@ -145,7 +145,7 @@ class Mail {
 			$params=ini_get('safe_mode')?false:'-f'.$this->from;
 			return ($params)?mail($to, $subject, $message, $headers, $params):mail($to, $subject, $message, $headers);
 		} else {
-			if (!@$smtpConnect  = fsockopen($this->config->get('config_email_host'), $this->config->get('config_email_port'), $errno, $errstr, $this->config->get('config_email_tout'))) {
+			if (!@$smtpConnect  = fsockopen($this->config->get('config_email_host'), $this->config->get('config_email_port'), $errno, $errstr, $this->config->get('config_email_tout') ? $this->config->get('config_email_tout') : 10)) {
 			$this->log .= "(EE)  unknown host " . $this->config->get('config_email_host') . ". Error number: " . $errno . ". Error: " . $errstr . $this->newLine;
 			} else {
 				foreach($recipients as $recipient){
@@ -245,7 +245,7 @@ class Mail {
 	function smtpSocket($from, $to, $subject, $message, $headers){
 
 		//Connect to the host on the specified port
-		$smtpConnect  = fsockopen($this->config->get('config_email_host'), $this->config->get('config_email_port'), $errno, $errstr, $this->config->get('config_email_tout'));
+		$smtpConnect  = fsockopen($this->config->get('config_email_host'), $this->config->get('config_email_port'), $errno, $errstr, $this->config->get('config_email_tout') ? $this->config->get('config_email_tout') : 10);
 		$smtpResponse = $this->get_return_value($smtpConnect, 'CONNECT');
 		if(empty($smtpConnect)){
 			$this->log .= "(EE) Failed to connect to " . $this->config->get('config_email_host').$this->newLine;

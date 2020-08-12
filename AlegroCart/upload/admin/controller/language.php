@@ -1,30 +1,33 @@
 <?php // Language AlegroCart
 class ControllerLanguage extends Controller {
-	var $error = array();
-	var $types = array('gif', 'jpg', 'png');
-	var $image_path;
-	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request 	 	=& $locator->get('request');
-		$this->response	 	=& $locator->get('response');
-		$this->session 	 	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url     		=& $locator->get('url');
-		$this->user    	 	=& $locator->get('user');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelLanguage = $model->get('model_admin_language');
+
+	public $error = array();
+	private $types = array('gif', 'jpg', 'png');
+	private $image_path;
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user');
+		$this->validate		=& $locator->get('validate');
+		$this->modelLanguage	= $model->get('model_admin_language');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('language');
+		$this->adminController	= $this->template->set_controller('language');
 
 		$this->language->load('controller/language.php');
 		$this->image_path = HTTP_ADMIN . 'template' . '/'  . $this->template->directory . '/' . 'image' . '/' . 'language' . '/';
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -33,7 +36,7 @@ class ControllerLanguage extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
@@ -46,14 +49,17 @@ class ControllerLanguage extends Controller {
 			$this->modelLanguage->duplicate_download_description();
 			$this->modelLanguage->duplicate_extension_description();
 			$this->modelLanguage->duplicate_home_description();
+			$this->modelLanguage->duplicate_home_slides();
 			$this->modelLanguage->duplicate_image_description();
 			$this->modelLanguage->duplicate_image_display_description();
+			$this->modelLanguage->duplicate_image_display_slides();
 			$this->modelLanguage->duplicate_information_description();
 			$this->modelLanguage->duplicate_option();
 			$this->modelLanguage->duplicate_option_value();
 			$this->modelLanguage->duplicate_order_status();
 			$this->modelLanguage->duplicate_product_description();
 			$this->modelLanguage->duplicate_weight_class();
+			$this->modelLanguage->duplicate_maintenance_description();
 
 			$this->session->set('last_language_id', $insert_id);
 			$this->cache->delete('language');
@@ -68,10 +74,10 @@ class ControllerLanguage extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelLanguage->update_language();
 			$this->cache->delete('language');
 			$this->session->set('message', $this->language->get('text_message'));
@@ -94,7 +100,7 @@ class ControllerLanguage extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('language_id')) && ($this->validateDelete())) {
@@ -109,7 +115,8 @@ class ControllerLanguage extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function changeStatus() { 
+
+	protected function changeStatus() { 
 		
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 
@@ -123,7 +130,8 @@ class ControllerLanguage extends Controller {
 		}
 	
 	}
-	function getList() {
+
+	private function getList() {
 		$this->session->set('language_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
@@ -146,11 +154,11 @@ class ControllerLanguage extends Controller {
 			'sort'  => 'sort_order',
 			'align' => 'right'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+
 		$results = $this->modelLanguage->get_page();
 		$catalog_language = $this->modelLanguage->get_catalog_language();
 		$rows = array();
@@ -192,10 +200,10 @@ class ControllerLanguage extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('language', 'update', array('language_id' => $result['language_id']))
-      		);
+			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -203,10 +211,10 @@ class ControllerLanguage extends Controller {
 					'href' => $this->url->ssl('language', 'delete', array('language_id' => $result['language_id'],'language_validation' =>$this->session->get('language_validation')))
 				);
 			}
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -261,7 +269,7 @@ class ControllerLanguage extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -296,6 +304,12 @@ class ControllerLanguage extends Controller {
 		$view->set('error_image', @$this->error['image']);
 		$view->set('error_directory', @$this->error['directory']);
 		$view->set('error_filename', @$this->error['filename']);
+		$view->set('error_status', @$this->error['status']);
+		$view->set('error_sort_order', @$this->error['sort_order']);
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
 		$view->set('action', $this->url->ssl('language', $this->request->gethtml('action'), array('language_id' => $this->request->gethtml('language_id'))));
 
@@ -321,6 +335,7 @@ class ControllerLanguage extends Controller {
 
 		if (($this->request->gethtml('language_id')) && (! $this->request->isPost())) {
 			$language_info = $this->modelLanguage->get_language();
+			$this->session->set('language_date_modified', $language_info['date_modified']);
 		}
 
 		if ($this->request->has('name', 'post')) {
@@ -379,7 +394,7 @@ class ControllerLanguage extends Controller {
 		return $view->fetch('content/language.tpl');
 	}
 
-	function view_image(){
+	protected function view_image(){
 		if($this->request->gethtml('flag_image')){
 			$output = '<img src="' . $this->image_path . $this->request->gethtml('flag_image') . '" ';
 			$output .= 'alt="" title="Flag" width="32" height="22">';
@@ -389,7 +404,7 @@ class ControllerLanguage extends Controller {
 		$this->response->set($output);
 	}
 
-	function checkFiles() {
+	private function checkFiles() {
 		$flag_data = array();
 		$path = DIR_ADMIN . 'template' . D_S  . 'default' . D_S . 'image' . D_S . 'language' . D_S . '*.*';
 		$files=glob($path);
@@ -409,7 +424,7 @@ class ControllerLanguage extends Controller {
 		return $flag_data;
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -446,7 +461,57 @@ class ControllerLanguage extends Controller {
 		}
 	}
 
-	function enableDelete(){
+	private function validateModification() {
+		if ($language_data = $this->modelLanguage->get_language()) {
+			if ($language_data['date_modified'] != $this->session->get('language_date_modified')) {
+				$language_data_log = $this->modelLanguage->get_modified_log($language_data['date_modified']);
+
+				if ($language_data_log['name'] != $this->request->gethtml('name', 'post')) {
+					$this->error['name'] = $this->language->get('error_modified', $language_data_log['name']);
+				}
+
+				if ($language_data_log['code'] != $this->request->gethtml('code', 'post')) {
+					$this->error['code'] = $this->language->get('error_modified', $language_data_log['code']);
+				}
+
+				if ($language_data_log['image'] != $this->request->gethtml('image', 'post')) {
+					$this->error['image'] = $this->language->get('error_modified', $language_data_log['image']);
+				}
+
+				if ($language_data_log['directory'] != $this->request->gethtml('directory', 'post')) {
+					$this->error['directory'] = $this->language->get('error_modified', $language_data_log['directory']);
+				}
+
+				if ($language_data_log['filename'] != $this->request->gethtml('filename', 'post')) {
+					$this->error['filename'] = $this->language->get('error_modified', $language_data_log['filename']);
+				}
+
+				if ($language_data_log['language_status'] != $this->request->gethtml('language_status', 'post')) {
+					$this->error['status'] = $this->language->get('error_modified', $language_data_log['language_status'] ? $this->language->get('text_enabled'): $this->language->get('text_disabled'));
+				}
+
+				if ($language_data_log['sort_order'] != $this->request->gethtml('sort_order', 'post')) {
+					$this->error['sort_order'] = $this->language->get('error_modified', $language_data_log['sort_order']);
+				}
+
+				$this->session->set('language_date_modified', $language_data_log['date_modified']);
+			}
+		} else {
+			$language_data_log = $this->modelLanguage->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $language_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('language'));
+		}
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', $language_data_log['modifier']);
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -460,24 +525,27 @@ class ControllerLanguage extends Controller {
 			$this->response->redirect($this->url->ssl('language'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'language')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	function validateChangeStatus(){
+
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'language')) {
 			return FALSE;
 		} else {
 			return TRUE;
 		}
 	}
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('language_validation') != $this->request->sanitize('language_validation')) || (strlen($this->session->get('language_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -502,14 +570,16 @@ class ControllerLanguage extends Controller {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('language.search', $this->request->gethtml('search', 'post'));
 		}

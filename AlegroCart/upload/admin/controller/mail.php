@@ -1,6 +1,8 @@
 <?php //Mail AlegroCart
 class ControllerMail extends Controller {
+
 	public $error = array();
+
 	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
@@ -20,9 +22,10 @@ class ControllerMail extends Controller {
 
 		$this->language->load('controller/mail.php');
 	}
+
 	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
-		
+
 		if ($this->request->isPost() && $this->request->has('to', 'post') && $this->validateForm()) {
 			$email = array();
 			
@@ -49,10 +52,10 @@ class ControllerMail extends Controller {
 				$this->mail->setTo($from);
 				$this->mail->setBcc($email);
 				$this->mail->setFrom($from);
-	    			$this->mail->setSender($this->config->get('config_store'));
-	    			$this->mail->setSubject($this->request->get('subject', 'post'));
+				$this->mail->setSender($this->config->get('config_store'));
+				$this->mail->setSubject($this->request->get('subject', 'post'));
 				$this->mail->setHtml($this->request->get('content', 'post'));
-	    			$this->mail->send();
+				$this->mail->send();
 			}
 
 			$this->session->set('message', $this->language->get('text_message'));
@@ -78,7 +81,7 @@ class ControllerMail extends Controller {
 
 		$view->set('text_newsletter', $this->language->get('text_newsletter'));
 		$view->set('text_customer', $this->language->get('text_customer'));
-		
+
 		$view->set('entry_to', $this->language->get('entry_to'));
 		$view->set('entry_subject', $this->language->get('entry_subject'));
 		$view->set('entry_content', $this->language->get('entry_content'));
@@ -87,7 +90,7 @@ class ControllerMail extends Controller {
 		$view->set('error_to', @$this->error['to']);
 		$view->set('error_subject', @$this->error['subject']);
 		$view->set('error_content', @$this->error['content']);
-		
+
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 		$view->set('action', $this->url->ssl('mail'));
@@ -97,7 +100,7 @@ class ControllerMail extends Controller {
 		$view->set('cdx', $this->session->get('cdx'));
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
-		
+
 		$customer_data = array();
 		$results = $this->modelMail->get_customers();
 		foreach ($results as $result) {
@@ -107,7 +110,7 @@ class ControllerMail extends Controller {
 			);
 		}	
 		$view->set('customers', $customer_data);
-		
+
 		$view->set('to', $this->request->gethtml('to', 'post'));
 		$view->set('subject', $this->request->gethtml('subject', 'post'));
 

@@ -1,7 +1,9 @@
 <?php // Maintenance AlegroCart
 class ControllerMaintenance extends Controller{
-	var $error = array();
-	function __construct(&$locator){
+
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->language		=& $locator->get('language');
@@ -17,10 +19,11 @@ class ControllerMaintenance extends Controller{
 		$this->head_def		=& $locator->get('HeaderDefinition');
 		$this->adminController	= $this->template->set_controller('maintenance');
 	}
-	function index(){
+
+	protected function index(){
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if (($this->request->isPost()) && ($this->validate())) {
+		if (($this->request->isPost()) && ($this->validateForm())) {
 			$this->modelMaintenance->delete_maintenance();
 			$this->modelMaintenance->update_maintenance();
 			$this->modelMaintenance->delete_description();
@@ -33,7 +36,7 @@ class ControllerMaintenance extends Controller{
 				$this->response->redirect($this->url->ssl('home'));
 			}
 		}
-	
+
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('heading_description', $this->language->get('heading_description'));
@@ -121,7 +124,7 @@ class ControllerMaintenance extends Controller{
 
 	}
 
-	function help(){
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
@@ -129,7 +132,7 @@ class ControllerMaintenance extends Controller{
 		}
 	}
 
-	function validate() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -156,7 +159,7 @@ class ControllerMaintenance extends Controller{
 		}
 	}
 
-	function tab() {
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('maintenance_tab', $this->request->sanitize('activeTab', 'post'));

@@ -1,27 +1,30 @@
 <?php //WeightClass AlegroCart
 class ControllerWeightClass extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->validate 	=& $locator->get('validate');
-		$this->modelWeightClass = $model->get('model_admin_weight_class');
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->validate		=& $locator->get('validate');
+		$this->modelWeightClass	= $model->get('model_admin_weight_class');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('weight_class');
+		$this->adminController	= $this->template->set_controller('weight_class');
 
 		$this->language->load('controller/weight_class.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -30,7 +33,7 @@ class ControllerWeightClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
@@ -54,7 +57,7 @@ class ControllerWeightClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
@@ -82,7 +85,7 @@ class ControllerWeightClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
  
 		if (($this->request->gethtml('weight_class_id')) && ($this->validateDelete())) {
@@ -100,7 +103,7 @@ class ControllerWeightClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('weight_class_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
@@ -113,11 +116,11 @@ class ControllerWeightClass extends Controller {
 			'sort'  => 'unit',
 			'align' => 'left'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+
 		$results = $this->modelWeightClass->get_page();
 
 		$rows = array();
@@ -137,12 +140,12 @@ class ControllerWeightClass extends Controller {
 			);
 
 			$action = array();
-      		
+
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('weight_class', 'update', array('weight_class_id' => $result['weight_class_id']))
-      		);
+			);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -151,10 +154,10 @@ class ControllerWeightClass extends Controller {
 				);
 			}
 
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -207,7 +210,7 @@ class ControllerWeightClass extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -271,12 +274,12 @@ class ControllerWeightClass extends Controller {
 			} else {
 				$weight_description_info = $this->request->gethtml('language', 'post');
 			}
-						
+
 			$weight_class_data[] = array(
 				'language_id' => $result['language_id'],
 				'language'    => $result['name'],
-	    		'title'       => (isset($weight_description_info[$result['language_id']]) ? $weight_description_info[$result['language_id']]['title'] : @$weight_description_info['title']),
-	    		'unit'        => (isset($weight_description_info[$result['language_id']]) ? $weight_description_info[$result['language_id']]['unit'] : @$weight_description_info['unit']),
+				'title'       => (isset($weight_description_info[$result['language_id']]) ? $weight_description_info[$result['language_id']]['title'] : @$weight_description_info['title']),
+				'unit'        => (isset($weight_description_info[$result['language_id']]) ? $weight_description_info[$result['language_id']]['unit'] : @$weight_description_info['unit']),
 			);
 			}
 		}
@@ -305,7 +308,7 @@ class ControllerWeightClass extends Controller {
 		return $view->fetch('content/weight_class.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -334,7 +337,7 @@ class ControllerWeightClass extends Controller {
 		}
 	}
 
-	function enableDelete(){
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -348,18 +351,19 @@ class ControllerWeightClass extends Controller {
 			$this->response->redirect($this->url->ssl('weight_class'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'weight_class')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 
-	function validateDelete() {
+	private function validateDelete() {
 		if(($this->session->get('weight_class_validation') != $this->request->sanitize('weight_class_validation')) || (strlen($this->session->get('weight_class_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -387,14 +391,16 @@ class ControllerWeightClass extends Controller {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('weight_class.search', $this->request->gethtml('search', 'post'));
 		}
@@ -410,7 +416,8 @@ class ControllerWeightClass extends Controller {
 
 		$this->response->redirect($this->url->ssl('weight_class'));
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('weight_class_tab', $this->request->sanitize('activeTab', 'post'));

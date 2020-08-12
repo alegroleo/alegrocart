@@ -16,7 +16,7 @@ class Model_Admin_Vendor extends Model {
 		return $result;
 	}
 	function insert_address($vendor_id){
-		$sql = "insert into address set vendor_id = '?', company = '?', firstname = '?', lastname = '?', address_1 = '?', address_2 = '?', postcode = '?', city = '?', zone_id = '?', country_id = '?'";
+		$sql = "insert into vendor_address set vendor_id = '?', company = '?', firstname = '?', lastname = '?', address_1 = '?', address_2 = '?', postcode = '?', city = '?', zone_id = '?', country_id = '?'";
 		$this->database->query($this->database->parse($sql, $vendor_id, $this->request->gethtml('company', 'post'), $this->request->gethtml('firstname', 'post'), $this->request->gethtml('lastname', 'post'), $this->request->gethtml('address_1', 'post'), $this->request->gethtml('address_2', 'post'), $this->request->gethtml('postcode', 'post'), $this->request->gethtml('city', 'post'), $this->request->gethtml('zone_id', 'post'), $this->request->gethtml('country_id', 'post')));
 	}
 	function insert_default_address($vendor_id){
@@ -27,19 +27,19 @@ class Model_Admin_Vendor extends Model {
 		$this->database->query($this->database->parse($sql, $this->request->gethtml('name', 'post'), $this->request->gethtml('image_id', 'post'), $this->request->gethtml('description', 'post'), $this->request->gethtml('discount', 'post'), $this->request->gethtml('status', 'post'), $this->request->gethtml('telephone', 'post'), $this->request->gethtml('fax', 'post'), $this->request->gethtml('email', 'post'), $this->request->gethtml('website', 'post'), $this->request->gethtml('trade', 'post'), (int)$this->request->gethtml('vendor_id')));
 	}
 	function update_address(){
-		$sql = "update address set company = '?', firstname = '?', lastname = '?', address_1 = '?', address_2 = '?', postcode = '?', city = '?', zone_id = '?', country_id = '?' where address_id  = '?' and vendor_id = '?'";
+		$sql = "update vendor_address set company = '?', firstname = '?', lastname = '?', address_1 = '?', address_2 = '?', postcode = '?', city = '?', zone_id = '?', country_id = '?' where address_id  = '?' and vendor_id = '?'";
 		$this->database->query($this->database->parse($sql, $this->request->gethtml('company', 'post'), $this->request->gethtml('firstname', 'post'), $this->request->gethtml('lastname', 'post'), $this->request->gethtml('address_1', 'post'), $this->request->gethtml('address_2', 'post'), $this->request->gethtml('postcode', 'post'), $this->request->gethtml('city', 'post'), $this->request->gethtml('zone_id', 'post'), $this->request->gethtml('country_id', 'post'), (int)$this->request->gethtml('address_id','post'), (int)$this->request->gethtml('vendor_id')));
 	}
 	function delete_vendor(){
 		$this->database->query("delete from vendor where vendor_id = '" . (int)$this->request->gethtml('vendor_id') . "'");
-		$this->database->query("delete from address where vendor_id = '" . (int)$this->request->gethtml('vendor_id') . "'"); 
+		$this->database->query("delete from vendor_address where vendor_id = '" . (int)$this->request->gethtml('vendor_id') . "'"); 
 	}
 	function get_vendor(){
 		$result = $this->database->getRow("select distinct * from vendor where vendor_id = '" . (int)$this->request->gethtml('vendor_id') . "'");
 		return $result;
 	}
 	function get_address($address_id){
-		$result = $this->database->getRow("select distinct * from address where address_id = '" . (int)$address_id . "' and vendor_id = '" . (int)$this->request->gethtml('vendor_id') . "'");
+		$result = $this->database->getRow("select distinct * from vendor_address where address_id = '" . (int)$address_id . "' and vendor_id = '" . (int)$this->request->gethtml('vendor_id') . "'");
 		return $result;
 	}
 	function get_countries(){

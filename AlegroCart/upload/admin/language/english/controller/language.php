@@ -1,14 +1,14 @@
 <?php
 // Heading
-$_['heading_title']       = 'Languages';
-$_['heading_form_title']  = 'Language:';
-$_['heading_description'] = 'You can add/delete as many languages as you want.<br>English is the sytem default, which cannot be deleted, unless another language is installed and specified as the default.<br>In the case that there is no entry for an item both in the default language and optional languages, this item will not be available for viewing or editing.';
+$_['heading_title']		= 'Languages';
+$_['heading_form_title']	= 'Language:';
+$_['heading_description']	= 'You can add/delete as many languages as you want.<br>English is the sytem default, which cannot be deleted, unless another language is installed and specified as the default.<br>In the case that there is no entry for an item both in the default language and optional languages, this item will not be available for viewing or editing.';
 
 // Text
-$_['text_message']        = 'Success: You have updated languages!';
-$_['text_default_development']= 'Default Development';
-$_['text_default_catalog']    = 'Default Catalog';
-$_['text_default_admin']      = 'Default Admin';
+$_['text_message']		= 'Success: You have updated languages!';
+$_['text_default_development']	= 'Default Development';
+$_['text_default_catalog']	= 'Default Catalog';
+$_['text_default_admin']	= 'Default Admin';
 
 // Column
 $_['column_name']		= 'Language Name';
@@ -18,24 +18,25 @@ $_['column_action']		= 'Action';
 $_['column_language_status']	= 'Language Status';
 
 // Entry
-$_['entry_name']          = 'Language Name:';
-$_['entry_code']          = 'Code (en,de,etc):';
-$_['entry_image']         = 'Flag Image (en.png,de.gif,etc):';
-$_['entry_directory']     = 'Directory (english,german,etc):';
-$_['entry_filename']      = 'Main Filename (english.php,german.php,etc):';
-$_['entry_sort_order']    = 'Sort Order:';
+$_['entry_name']		= 'Language Name:';
+$_['entry_code']		= 'Code (en,de,etc):';
+$_['entry_image']		= 'Flag Image (en.png,de.gif,etc):';
+$_['entry_directory']		= 'Directory (english,german,etc):';
+$_['entry_filename']		= 'Main Filename (english.php,german.php,etc):';
+$_['entry_sort_order']		= 'Sort Order:';
 $_['entry_language_status']	= 'Language Status:';
 
 // Error
-$_['error_permission']    = 'Warning: You do not have permission to modify languages';
-$_['error_name']          = '* Language Name must be between 1 and 32 characters!';
-$_['error_code']          = '* Language Code must be between 2 and 5 characters!';
-$_['error_image']         = '* Image Filename required!';
-$_['error_directory']     = '* Directory required!';
-$_['error_filename']      = '* Filename required!';
+$_['error_permission']		= 'Warning: You do not have permission to modify languages';
+$_['error_name']		= '* Language Name must be between 1 and 32 characters!';
+$_['error_code']		= '* Language Code must be between 2 and 5 characters!';
+$_['error_image']		= '* Image Filename required!';
+$_['error_directory']		= '* Directory required!';
+$_['error_filename']		= '* Filename required!';
 $_['error_default_development']	= 'Warning: This Language cannot be deleted as it is the default fallback language!';
 $_['error_default_catalog']	= 'Warning: This Language cannot be deleted as it is currently assigned as the default catalog language!';
 $_['error_default_admin']	= 'Warning: This Language cannot be deleted as it is currently assigned as the default admin language!';
+$_['error_deleted']		= '* Meanwhile the language has been deleted by %s.';
 // Countries
 
 $_['country_ad']          = 'Andorra';

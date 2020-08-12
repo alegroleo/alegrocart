@@ -1,5 +1,6 @@
 <?php //AdminModelBankAccount AlegroCart
 class Model_Admin_BankAccount extends Model {
+
 	function __construct(&$locator) {
 		$this->config   =& $locator->get('config');
 		$this->database =& $locator->get('database');
@@ -9,7 +10,7 @@ class Model_Admin_BankAccount extends Model {
 	}
 
 	function insert_bankaccount(){
-		$sql = "insert into bank_account set currency = '?', bank_name = '?', bank_address = '?', owner = '?', ban = '?', iban = '?', swift = '?', charge = '?'";
+		$sql = "insert into bank_account set currency = '?', bank_name = '?', bank_address = '?', owner = '?', ban = '?', iban = '?', swift = '?', charge = '?', date_added = now()";
 		$this->database->query($this->database->parse($sql, $this->request->gethtml('currency', 'post'), $this->request->gethtml('bank_name', 'post'), $this->request->gethtml('bank_address', 'post'), $this->request->gethtml('owner', 'post'), $this->request->gethtml('ban', 'post'), $this->request->gethtml('iban', 'post'), $this->request->gethtml('swift', 'post'), $this->request->gethtml('charge', 'post')));
 	}
 
@@ -25,6 +26,16 @@ class Model_Admin_BankAccount extends Model {
 
 	function delete_bankaccount(){
 		$this->database->query("delete from bank_account where bank_account_id = '" . (int)$this->request->gethtml('bank_account_id') . "'");
+	}
+
+	function get_modified_log($date_modified){
+		$result = $this->database->getRow("SELECT *, CONCAT(firstname, ' ', lastname) AS modifier FROM bank_account_log bal INNER JOIN user u ON (u.user_id = bal.trigger_modifier_id) WHERE bank_account_id = '" . (int)$this->request->gethtml('bank_account_id') . "' AND date_modified =  '" . $date_modified . "'");
+		return $result;
+	}
+
+	function get_deleted_log(){
+		$result = $this->database->getRow("SELECT CONCAT(firstname, ' ', lastname) AS modifier FROM bank_account_log bal INNER JOIN user u ON (u.user_id = bal.trigger_modifier_id) WHERE bank_account_id = '" . (int)$this->request->gethtml('bank_account_id') . "' AND trigger_action = 'DELETE'");
+		return $result;
 	}
 
 	function get_page(){

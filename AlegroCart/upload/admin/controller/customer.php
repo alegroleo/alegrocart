@@ -1,6 +1,8 @@
 <?php  //Customer AlegroCart
 class ControllerCustomer extends Controller {
+
 	public $error = array();
+
 	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
@@ -21,6 +23,7 @@ class ControllerCustomer extends Controller {
 
 		$this->language->load('controller/customer.php');
 	}
+
 	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
@@ -64,10 +67,14 @@ class ControllerCustomer extends Controller {
 	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('firstname', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('firstname', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelCustomer->update_customer();
 			$this->modelCustomer->update_address();
 			$this->session->set('message', $this->language->get('text_message'));
+
+			if ($this->request->has('status', 'post') && $this->request->get('status', 'post') === '0'){
+				$this->session->delete('customer_id');
+			}
 
 			if ($this->request->has('update_form', 'post')) {
 				$this->response->redirect($this->url->ssl('customer', 'update', array('customer_id' => $this->request->gethtml('customer_id', 'post'))));
@@ -104,6 +111,7 @@ class ControllerCustomer extends Controller {
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 
 			$this->modelCustomer->change_customer_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
+			$this->session->delete('customer_id');
 		}
 
 	}
@@ -307,6 +315,16 @@ class ControllerCustomer extends Controller {
 		$view->set('error_postcode', @$this->error['postcode']);
 		$view->set('error_email', @$this->error['email']);
 		$view->set('error_telephone', @$this->error['telephone']);
+		$view->set('error_fax', @$this->error['fax']);
+		$view->set('error_newsletter', @$this->error['newsletter']);
+		$view->set('error_status', @$this->error['status']);
+		$view->set('error_company', @$this->error['company']);
+		$view->set('error_address_1', @$this->error['address_1']);
+		$view->set('error_address_2', @$this->error['address_2']);
+		$view->set('error_postcode', @$this->error['postcode']);
+		$view->set('error_city', @$this->error['city']);
+		$view->set('error_country', @$this->error['country']);
+		$view->set('error_zone', @$this->error['zone']);
 		if(!@$this->error['message']){
 			$view->set('error', @$this->error['warning']);
 		}
@@ -338,10 +356,12 @@ class ControllerCustomer extends Controller {
 		if (($this->request->gethtml('customer_id')) && (!$this->request->isPost())) {
 			$customer_info = $this->modelCustomer->get_customer();
 			$address_info = $this->modelCustomer->get_address(@$customer_info['address_id']);
+			$this->session->set('customer_date_modified',$customer_info['date_modified']);
+			$this->session->set('address_date_modified',$address_info['date_modified']);
 		}
 		if ($this->request->has('firstname', 'post') && $this->request->has('lastname', 'post')) {
 			if ($this->request->gethtml('firstname', 'post') != NULL && $this->request->gethtml('lastname', 'post') != NULL) {
-				$name_last = $this->request->has('firstname', 'post') . ' ' . $this->request->has('lastname', 'post');
+				$name_last = $this->request->get('firstname', 'post') . ' ' . $this->request->has('lastname', 'post');
 			} else {
 				$name_last = $this->session->get('name_last_customer');
 			}
@@ -499,6 +519,94 @@ class ControllerCustomer extends Controller {
 		}
 	}
 
+	private function validateModification() {
+		if (($customer_data = $this->modelCustomer->get_customer()) && ($address_data = $this->modelCustomer->get_address(@$customer_data['address_id']))) {
+			if ($customer_data['date_modified'] != $this->session->get('customer_date_modified')) {
+				$customer_data_log = $this->modelCustomer->get_modified_customer_log($customer_data['date_modified']);
+
+				if ($customer_data_log['firstname'] != $this->request->gethtml('firstname', 'post')) {
+					$this->error['firstname'] = $this->language->get('error_modified', $customer_data_log['firstname']);
+				}
+
+				if ($customer_data_log['lastname'] != $this->request->gethtml('lastname', 'post')) {
+					$this->error['lastname'] = $this->language->get('error_modified', $customer_data_log['lastname']);
+				}
+
+				if ($customer_data_log['email'] != $this->request->gethtml('email', 'post')) {
+					$this->error['email'] = $this->language->get('error_modified', $customer_data_log['email']);
+				}
+
+				if ($customer_data_log['telephone'] != $this->request->gethtml('telephone', 'post')) {
+					$this->error['telephone'] = $this->language->get('error_modified', $customer_data_log['telephone']);
+				}
+
+				if ($customer_data_log['fax'] != $this->request->gethtml('fax', 'post')) {
+					$this->error['fax'] = $this->language->get('error_modified', $customer_data_log['fax']);
+				}
+
+				if ($customer_data_log['newsletter'] != $this->request->gethtml('newsletter', 'post')) {
+					$this->error['newsletter'] = $this->language->get('error_modified', $customer_data_log['newsletter'] ? $this->language->get('text_enabled'): $this->language->get('text_disabled'));
+				}
+
+				if ($customer_data_log['status'] != $this->request->gethtml('status', 'post')) {
+					$this->error['status'] = $this->language->get('error_modified', $customer_data_log['status'] ? $this->language->get('text_enabled'): $this->language->get('text_disabled'));
+				}
+				$this->session->set('customer_date_modified', $customer_data_log['date_modified']);
+
+				if (@$this->error){
+					$this->error['warning'] = $this->language->get('error_modifier', $customer_data_log['modifier']);
+				}
+			}
+
+			if ($address_data['date_modified'] != $this->session->get('address_date_modified')) {
+				$address_data_log = $this->modelCustomer->get_modified_address_log(@$customer_data['address_id'], $address_data['date_modified']);
+
+				if ($address_data_log['company'] != $this->request->gethtml('company', 'post')) {
+					$this->error['company'] = $this->language->get('error_modified', $address_data_log['company']);
+				}
+
+				if ($address_data_log['address_1'] != $this->request->gethtml('address_1', 'post')) {
+					$this->error['address_1'] = $this->language->get('error_modified', $address_data_log['address_1']);
+				}
+
+				if ($address_data_log['address_2'] != $this->request->gethtml('address_2', 'post')) {
+					$this->error['address_2'] = $this->language->get('error_modified', $address_data_log['address_2']);
+				}
+
+				if ($address_data_log['postcode'] != $this->request->gethtml('postcode', 'post')) {
+					$this->error['postcode'] = $this->language->get('error_modified', $address_data_log['postcode']);
+				}
+
+				if ($address_data_log['city'] != $this->request->gethtml('city', 'post')) {
+					$this->error['city'] = $this->language->get('error_modified', $address_data_log['city']);
+				}
+
+				if ($address_data_log['country_id'] != $this->request->gethtml('country_id', 'post')) {
+					$this->error['country'] = $this->language->get('error_modified', $this->modelCustomer->get_country_name($address_data_log['country_id']));
+				}
+				if ($address_data_log['zone_id'] != $this->request->gethtml('zone_id', 'post')) {
+					$this->error['zone'] = $this->language->get('error_modified', $this->modelCustomer->get_zone_name($address_data_log['zone_id']));
+				}
+
+				$this->session->set('address_date_modified', $address_data_log['date_modified']);
+
+				if (@$this->error){
+					$this->error['warning'] = $this->language->get('error_modifier', $address_data_log['modifier']);
+				}
+			}
+		} else {
+			$customer_data_log = $this->modelCustomer->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $customer_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('customer'));
+		}
+
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
 	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
@@ -542,21 +650,21 @@ class ControllerCustomer extends Controller {
 	}
 
 	protected function zone() {
-	$output = '<select name="zone_id">';
+		$output = '<select name="zone_id">';
 		$results = $this->modelCustomer->return_zones($this->request->gethtml('country_id'));
-	foreach ($results as $result) {
-		$output .= '<option value="' . $result['zone_id'] . '"';
-			if ($this->request->gethtml('zone_id') == $result['zone_id']) {
-			$output .= ' SELECTED';
-			}
+		foreach ($results as $result) {
+			$output .= '<option value="' . $result['zone_id'] . '"';
+				if ($this->request->gethtml('zone_id') == $result['zone_id']) {
+					$output .= ' SELECTED';
+				}
 			$output .= '>' . $result['name'] . '</option>';
-	}
+		}
 		if (!$results) {
-		$output .= '<option value="0">' . $this->language->get('text_none') . '</option>';
-	}
-	$output .= '</select>';
+			$output .= '<option value="0">' . $this->language->get('text_none') . '</option>';
+		}
+		$output .= '</select>';
 
-		$this->response->set($output);	
+		$this->response->set($output);
 	}
 
 	private function validateChangeStatus(){

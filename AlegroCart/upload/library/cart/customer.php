@@ -10,11 +10,16 @@ class Customer {
 		$this->session  =& $locator->get('session');
 
 		if ($this->session->has('customer_id')) { 
-			$this->data = $this->database->getRow("select * from customer where customer_id = '" . (int)$this->session->get('customer_id') . "'");
-		
+			$this->data = $this->database->getRow("select * from customer where status = '1' AND customer_id = '" . (int)$this->session->get('customer_id') . "'");
+
 			if ($this->data) {
-			$sql = "update customer set cart = '?', ip = '?' where customer_id = '?'";
-			$this->database->query($this->database->parse($sql, serialize($this->cart->getData('cart')), $_SERVER['REMOTE_ADDR'], $this->session->get('customer_id')));
+				$this->database->query("set @modifier_id='" . (int)$this->session->get('customer_id') . "'");
+				$this->database->query("set @modifier_title='customer'");
+
+				if ($this->getCart() != serialize($this->cart->getData('cart')) || $this->getIP() == NULL) {
+					$sql = "update customer set cart = '?', ip = '?' where customer_id = '?'";
+					$this->database->query($this->database->parse($sql, serialize($this->cart->getData('cart')), $_SERVER['REMOTE_ADDR'], $this->session->get('customer_id')));
+				}
 			} else {
 				$this->logout();
 			}
@@ -67,6 +72,12 @@ class Customer {
 	}
 	function getFax() {
 		return (isset($this->data['fax']) ? $this->data['fax'] : NULL);
+	}
+	function getCart() {
+		return (isset($this->data['cart']) ? $this->data['cart'] : NULL);
+	}
+	function getIP() {
+		return (isset($this->data['ip']) ? $this->data['ip'] : NULL);
 	}
 	function getAddressId() {
 		return (isset($this->data['address_id']) ? $this->data['address_id'] : NULL);	

@@ -29,6 +29,7 @@ $_['error_currency']		= 'Warning: This currency is already assigned to 1 bank ac
 $_['error_bank_name']		= '* Bank name must be between 2 and 64 characters!';
 $_['error_owner']		= '* Owner name must be between 2 and 32 characters!';
 $_['error_ban']			= '* Bank account number must be filled!';
+$_['error_deleted']		= '* Meanwhile the bank account has been deleted by %s.';
 
 //Explanation
 $_['explanation_currency']	= '';

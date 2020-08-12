@@ -1,26 +1,29 @@
 <?php // Extension AlegroCart
 class ControllerExtension extends Controller {
-	var $error = array();
-	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
-		$this->config 		=& $locator->get('config');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request 	 	=& $locator->get('request');
-		$this->response	 	=& $locator->get('response');
-		$this->session 	 	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url     		=& $locator->get('url');
-		$this->user    	 	=& $locator->get('user');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelExtension = $model->get('model_admin_extension');
+
+	public $error = array();
+	public function __construct(&$locator){
+
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user');
+		$this->validate		=& $locator->get('validate');
+		$this->modelExtension	= $model->get('model_admin_extension');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('extension');
+		$this->adminController	= $this->template->set_controller('extension');
 
 		$this->language->load('controller/extension.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -30,7 +33,7 @@ class ControllerExtension extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		$this->session->delete('extension_tab');
@@ -51,7 +54,7 @@ class ControllerExtension extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('code', 'post') && $this->validateForm()) {
@@ -79,7 +82,7 @@ class ControllerExtension extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('extension_id')) && ($this->validateDelete())) {
@@ -95,22 +98,24 @@ class ControllerExtension extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function changeStatus() { 
+
+	protected function changeStatus() { 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelExtension->change_extension_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
 	}
-	function getList() {
+
+	private function getList() {
 		$this->session->set('extension_validation', md5(time()));
-        if($this->session->get('extension_type') != $this->request->gethtml('type')){
-            $this->session->delete('extension.search');
-            $this->session->delete('extension.page');
-            $this->session->delete('extension.order');
-            $this->session->delete('extension.sort');
-        }
-        $this->session->set('extension_type', $this->request->gethtml('type'));
-        $extension_types = array('calculate','payment','shipping');
-        $sort_status = in_array($this->request->gethtml('type'),$extension_types) ? TRUE : FALSE;
+		if($this->session->get('extension_type') != $this->request->gethtml('type')){
+			$this->session->delete('extension.search');
+			$this->session->delete('extension.page');
+			$this->session->delete('extension.order');
+			$this->session->delete('extension.sort');
+		}
+		$this->session->set('extension_type', $this->request->gethtml('type'));
+		$extension_types = array('calculate','payment','shipping');
+		$sort_status = in_array($this->request->gethtml('type'),$extension_types) ? TRUE : FALSE;
 		if($sort_status == FALSE){
 			$this->modelExtension->get_module_statuses();
 		}
@@ -140,11 +145,11 @@ class ControllerExtension extends Controller {
 				'align' => 'right'
 			);
 		}
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+
 		$results = $this->modelExtension->get_page();
 
 		$rows = array();
@@ -171,22 +176,21 @@ class ControllerExtension extends Controller {
 				$module_sort = str_replace($this->request->gethtml('type') . '_','' ,$result['controller']);
 				$extension_status = $this->config->get($module_sort . '_status');
 			} else {
-			  $extension_status = $this->modelExtension->get_status($result['controller']);
+				$extension_status = $this->modelExtension->get_status($result['controller']);
 			}
 			if ($this->validateChangeStatus() && isset($extension_status)) {
-			$cell[] = array(
-				'status'  => $extension_status,
-				'text' => $this->language->get('button_status'),
-				'align' => 'center',
-				'status_id' => $result['extension_id'],
-				'status_controller' => 'extension'
-			);
-
+				$cell[] = array(
+					'status'  => $extension_status,
+					'text' => $this->language->get('button_status'),
+					'align' => 'center',
+					'status_id' => $result['extension_id'],
+					'status_controller' => 'extension'
+				);
 			} else {
-			$cell[] = array(
-				'icon'  => ($extension_status ? 'enabled.png' : 'disabled.png'),
-				'align' => 'center'
-			);
+				$cell[] = array(
+					'icon'  => ($extension_status ? 'enabled.png' : 'disabled.png'),
+					'align' => 'center'
+				);
 			}
 			if ($sort_status){
 				$cell[] = array(
@@ -201,10 +205,10 @@ class ControllerExtension extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('extension', 'update', $query)
-      		);
+			);
 			if($this->session->get('enable_delete')){
 				$query = array(
 					'type'         => $this->request->gethtml('type'),
@@ -219,29 +223,29 @@ class ControllerExtension extends Controller {
 			}
 			
 			$setting_info = $this->modelExtension->check_setting($result);
-			if ($setting_info) {	
+			if ($setting_info) {
 				$action[] = array(
-        			'icon' => 'uninstall.png',
+					'icon' => 'uninstall.png',
 					'text' => $this->language->get('button_uninstall'),
 					'href' => $this->url->ssl($result['controller'], 'uninstall')
-      			);
+				);
 				$action[] = array(
-        			'icon' => 'configure.png',
+					'icon' => 'configure.png',
 					'text' => $this->language->get('button_configure'),
 					'href' => $this->url->ssl($result['controller'])
-      			);	
+				);
 			} else {
 				$action[] = array(
-        			'icon' => 'install.png',
+					'icon' => 'install.png',
 					'text' => $this->language->get('button_install'),
 					'href' => $this->url->ssl($result['controller'], 'install')
-      			);			
+				);
 			}
 
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 
 			$rows[] = array('cell' => $cell);
 		}
@@ -296,7 +300,7 @@ class ControllerExtension extends Controller {
 		if ($this->session->has('error')) {
 			$view->set('error', $this->session->get('error'));
 			$this->session->delete('error');
- 		} else {
+		} else {
 			$view->set('error', @$this->error['message']);
 		}
 
@@ -321,8 +325,8 @@ class ControllerExtension extends Controller {
 
 		return $view->fetch('content/list.tpl');
 	}
-	
-	function getForm() {
+
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 
@@ -394,7 +398,7 @@ class ControllerExtension extends Controller {
 			'type'         => $this->request->gethtml('type'),
 			'extension_id' => $this->request->gethtml('extension_id')
 		);
-			
+
 		$view->set('action', $this->url->ssl('extension', $this->request->gethtml('action'), $query));
 		$view->set('last', $this->url->getLast('extension_' . $this->request->gethtml('type')));
 		$view->set('insert', $this->url->ssl('extension', 'insert'));
@@ -426,11 +430,11 @@ class ControllerExtension extends Controller {
 			} else {
 				$extension_description_info = $this->request->gethtml('extension_language', 'post');
 			}
-			
+
 			$extension_data[] = array(
 				'language_id' => $result['language_id'],
 				'language'    => $result['name'],
-	    		'name'        => (isset($extension_description_info[$result['language_id']]) ? $extension_description_info[$result['language_id']]['name'] : @$extension_description_info['name']),
+				'name'        => (isset($extension_description_info[$result['language_id']]) ? $extension_description_info[$result['language_id']]['name'] : @$extension_description_info['name']),
 				'description' => (isset($extension_description_info[$result['language_id']]) ? $extension_description_info[$result['language_id']]['description'] : @$extension_description_info['description'])
 			);
 		}
@@ -469,7 +473,7 @@ class ControllerExtension extends Controller {
 		return $view->fetch('content/extension.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -509,7 +513,8 @@ class ControllerExtension extends Controller {
 			return FALSE;
 		}
 	}
-	function enableDelete(){
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -523,17 +528,19 @@ class ControllerExtension extends Controller {
 			$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));//**
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'extension')) {//**
-		$this->error['message'] = $this->language->get('error_permission');  
-	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('extension_validation') != $this->request->sanitize('extension_validation')) || (strlen($this->session->get('extension_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -547,14 +554,16 @@ class ControllerExtension extends Controller {
 			return FALSE;
 		}
 	}
-	function validateChangeStatus(){
+
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'extension')) {
 			return FALSE;
 		} else {
 			return TRUE;
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('extension.search', $this->request->gethtml('search', 'post'));
 		}
@@ -570,14 +579,16 @@ class ControllerExtension extends Controller {
 
 		$this->response->redirect($this->url->ssl('extension', FALSE, array('type' => $this->request->gethtml('type'))));
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('extension_tab', $this->request->sanitize('activeTab', 'post'));

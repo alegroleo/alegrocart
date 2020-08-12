@@ -58,8 +58,8 @@
                 <?php if ($error_name) { ?>
                 <span class="error"><?php echo $error_name; ?></span>
                 <?php } ?></td>
-            </tr>			
-			<!--   Zone Enable   -->			
+            </tr>
+			<!--   Zone Enable   -->
 			<tr>
               <td class="set"><?php echo $entry_zone_status; ?></td>
               <td><select name="zone_status">
@@ -70,12 +70,18 @@
                   <option value="1"><?php echo $text_enabled; ?></option>
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
-                </select></td>
-            </tr>	
-			<!-- End Zone Enable -->		
+                </select>
+                <?php if ($error_status) { ?>
+                <span class="error"><?php echo $error_status; ?></span>
+                <?php } ?></td>
+            </tr>
+			<!-- End Zone Enable -->
             <tr>
               <td class="set"><?php echo $entry_code; ?></td>
-              <td><input class="validate_alpha" id="code" type="text" name="code" value="<?php echo $code; ?>"></td>
+              <td><input class="validate_alpha" id="code" type="text" name="code" value="<?php echo $code; ?>">
+                <?php if ($error_code) { ?>
+                <span class="error"><?php echo $error_code; ?></span>
+                <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_country; ?></td>
@@ -87,7 +93,10 @@
                   <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_country) { ?>
+                <span class="error"><?php echo $error_country; ?></span>
+                <?php } ?></td>
             </tr>
           </table>
         </div>

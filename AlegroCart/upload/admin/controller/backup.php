@@ -1,7 +1,9 @@
 <?php //AlegroCart Backup
 class ControllerBackup extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->language		=& $locator->get('language');
@@ -13,14 +15,14 @@ class ControllerBackup extends Controller {
 		$this->upload		=& $locator->get('upload');
 		$this->url		=& $locator->get('url');
 		$this->user		=& $locator->get('user');
-		$this->modelBackup = $model->get('model_admin_backup');
+		$this->modelBackup	= $model->get('model_admin_backup');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('backup');
+		$this->adminController	= $this->template->set_controller('backup');
 
 		$this->language->load('controller/backup.php');
 	}
 
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->upload->has('database') && $this->validate_upload() ) {
@@ -84,7 +86,7 @@ class ControllerBackup extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function download() {
+	protected function download() {
 		if ($this->validate_download()) {
 			$this->response->setheader('Pragma', 'public');
 			$this->response->setheader('Expires', '0');
@@ -101,7 +103,7 @@ class ControllerBackup extends Controller {
 		}
 	}
 
-	function help(){
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
@@ -109,7 +111,7 @@ class ControllerBackup extends Controller {
 		}
 	}
 
-	function validate_download(){
+	private function validate_download(){
 		if($this->session->get('validation') == $this->request->get('validation')){
 			if (!$this->user->hasPermission('modify', 'backup')) {
 			$this->error['message'] = $this->language->get('error_permission');
@@ -127,7 +129,7 @@ class ControllerBackup extends Controller {
 		}
 	}
 
-	function validate_upload() {
+	private function validate_upload() {
 		if(($this->session->get('validation') == $this->request->sanitize($this->session->get('cdx'),'post')) && (strlen($this->session->get('validation')) > 10)){
 			if (!$this->user->hasPermission('modify', 'backup')) {
 				$this->error['message'] = $this->language->get('error_permission');

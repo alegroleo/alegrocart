@@ -72,30 +72,48 @@
                   <tr>
                     <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td><input name="language[<?php echo $category['language_id']; ?>][name]" value="<?php echo $category['name']; ?>" >
-                      <?php if ($error_name) { ?>
-                      <span class="error"><?php echo $error_name; ?></span>
+                      <?php if (@$error_name[$category['language_id']]) { ?>
+                      <span class="error"><?php echo $error_name[$category['language_id']]; ?></span>
                       <?php } ?></td>
                   </tr>
 				  
                   <tr>  <!-- New Meta Tags -->
                     <td width="185" class="set"> <?php echo $entry_meta_title; ?></td>
-                    <td><input class="validate_meta" id="meta_title<?php echo $category['language_id']; ?>" size="60" maxlength="60" name="meta_title[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_title']; ?>"></td> 
+                    <td><input class="validate_meta" id="meta_title<?php echo $category['language_id']; ?>" size="60" maxlength="60" name="meta_title[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_title']; ?>">
+                      <?php if (@$error_meta_title[$category['language_id']]) { ?>
+                      <span class="error"><?php echo $error_meta_title[$category['language_id']]; ?></span>
+                      <?php } ?></td> 
                   </tr>
 				  <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_description; ?></td>
-                    <td><input class="validate_meta" id="meta_description<?php echo $category['language_id']; ?>" size="100" maxlength="120" name="meta_description[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_description']; ?>"></td>
+                    <td><input class="validate_meta" id="meta_description<?php echo $category['language_id']; ?>" size="100" maxlength="120" name="meta_description[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_description']; ?>">
+                      <?php if (@$error_meta_description[$category['language_id']]) { ?>
+                      <span class="error"><?php echo $error_meta_description[$category['language_id']]; ?></span>
+                      <?php } ?></td>
 				  </tr>
 				  <tr>
                     <td width="185" class="set"> <?php echo $entry_meta_keywords; ?></td>
-                    <td><input class="validate_meta" id="meta_keywords<?php echo $category['language_id']; ?>" size="100" maxlength="120" name="meta_keywords[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_keywords']; ?>"></td>
+                    <td><input class="validate_meta" id="meta_keywords<?php echo $category['language_id']; ?>" size="100" maxlength="120" name="meta_keywords[<?php echo $category['language_id']; ?>]" value="<?php echo $category['meta_keywords']; ?>">
+                      <?php if (@$error_meta_keywords[$category['language_id']]) { ?>
+                      <span class="error"><?php echo $error_meta_keywords[$category['language_id']]; ?></span>
+                      <?php } ?></td>
 				  </tr>	 <!-- End Meta Tags -->
                   <tr>
                     <td valign="top" class="set"><?php echo $entry_description; ?></td>
                     <td><textarea name="description[<?php echo $category['language_id']; ?>]" id="description<?php echo $category['language_id']; ?>"><?php echo $category['description']; ?></textarea>
-                      <?php if ($error_description) { ?>
-                      <span class="error"><?php echo $error_description; ?></span>
-                      <?php } ?></td>
+		    </td>
                   </tr>
+                  <?php if (@$error_description[$category['language_id']]) { ?>
+                  <tr>
+                    <td></td>
+                    <td>
+                     <span class="error"><?php echo $error_description[$category['language_id']]; ?></span>
+                     <?php if (@$error_mod_description[$category['language_id']]) { ?>
+                         <textarea name="language[<?php echo $category['language_id']; ?>][mod_description]" id="mod_description<?php echo $category['language_id']; ?>"><?php echo $error_mod_description[$category['language_id']]; ?></textarea>
+                     <?php } ?>
+                    </td>
+                  </tr>
+                  <?php } ?>
                 </table>
               </div>
             </div>
@@ -118,13 +136,22 @@
                 <label for="chyes"><?php echo $text_yes; ?></label>
                 <input type="radio" name="category_hide" value="0" id="chno" checked>
                 <label for="chno"><?php echo $text_no; ?></label>
-                <?php } ?></td>
+                <?php } ?>
+                <?php if ($error_hide) { ?>
+                  <span class="error"><?php echo $error_hide; ?></span>
+                <?php } ?>
+		</td>
 		<td class="expl"><?php echo $explanation_hide; ?></td>
             </tr>
             <tr>
               <td width="185" class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input class="validate_int" id="sort_order" name="sort_order" value="<?php echo $sort_order; ?>" size="1" ></td>
-		<td class="expl"><?php echo $explanation_sort_order; ?></td>
+              <td><input class="validate_int" id="sort_order" name="sort_order" value="<?php echo $sort_order; ?>" size="1" >
+                <?php if ($error_sort_order) { ?>
+                  <span class="error"><?php echo $error_sort_order; ?></span>
+                <?php } ?>
+		</td>
+		<td class="expl"><?php echo $explanation_sort_order; ?>
+		</td>
             </tr>
           </table>
         </div>
@@ -148,6 +175,13 @@
               <td></td>
               <td id="image"></td>
             </tr>
+            <tr>
+              <td></td>
+              <td>
+                <?php if ($error_image) { ?>
+                  <span class="error"><?php echo $error_image; ?></span>
+                <?php } ?></td>
+            </tr>
           </table>
         </div>
       </div>
@@ -165,6 +199,9 @@
           	<?php } ?>
           	<?php } ?>
         	</select>
+                <?php if ($error_assigned) { ?>
+                  <span class="error"><?php echo $error_assigned; ?></span>
+                <?php } ?>
 	    </td>
  	    <td class="expl"><?php echo $explanation_multiselect;?></td>
          </tr>
@@ -178,6 +215,11 @@
   <?php foreach ($categories as $category) { ?>
     CKEDITOR.replace( 'description<?php echo $category['language_id']; ?>' );
   <?php } ?>      
+  //--></script>
+  <script type="text/javascript"><!--
+  <?php foreach ($categories as $category) { ?>
+    CKEDITOR.replace( 'mod_description<?php echo $category['language_id']; ?>' );
+  <?php } ?>
   //--></script>
   <script type="text/javascript"><!--
   tabview_initialize('tab');

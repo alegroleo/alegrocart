@@ -1,5 +1,6 @@
 <?php  //Admin User AlegroCart
-class ControllerUser extends Controller { 
+class ControllerUser extends Controller {
+
 	public $error = array();
 	private $types=array('jpg','gif','jpeg','png');
 
@@ -19,7 +20,7 @@ class ControllerUser extends Controller {
 		$this->validate		=& $locator->get('validate');
 		$this->modelAdminUser	= $model->get('model_admin_user');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('user');
+		$this->adminController	= $this->template->set_controller('user');
 
 		$this->language->load('controller/user.php');
 	}

@@ -1,8 +1,10 @@
 <?php //Admin Product to Option AlegroCart
 class ControllerProductOption extends Controller {
-	var $error = array();
-	var $option_status = FALSE;
-	function __construct(&$locator){
+
+	public $error = array();
+	private $option_status = FALSE;
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->cache		=& $locator->get('cache');
@@ -26,14 +28,15 @@ class ControllerProductOption extends Controller {
 		$this->language->load('controller/product_option.php');
 	}
 
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function insert() {
+
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if ($this->request->isPost() && $this->request->has('product_id') && $this->validateForm()) {
 			$this->modelOption->insert_option();
@@ -59,7 +62,8 @@ class ControllerProductOption extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function update() {
+
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if ($this->request->isPost() && $this->request->has('product_id') && $this->validateForm()) {
 			$this->modelOption->update_option();
@@ -77,7 +81,8 @@ class ControllerProductOption extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function delete() {
+
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->gethtml('product_id')) && ($this->validateDelete())) {
 			$this->modelOption->delete_option();
@@ -93,6 +98,7 @@ class ControllerProductOption extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
+
 	private function getList() {
 		$this->session->set('product_option_validation', md5(time()));
 		$cols = array();
@@ -122,18 +128,18 @@ class ControllerProductOption extends Controller {
 			'align' => 'right'
 		);
 		$cols[] = array(
-             'name'  => $this->language->get('column_weight_class'),
-             'align' => 'right'
+			'name'  => $this->language->get('column_weight_class'),
+			'align' => 'right'
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_sort_order'),
 			'sort'  => 'p2o.sort_order',
 			'align' => 'right'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 		$results = $this->modelOption->get_page();
 
 		$rows = array();
@@ -166,10 +172,10 @@ class ControllerProductOption extends Controller {
 				'last' => $last
 			);
 			$cell[] = array(
-               			'value' => $this->modelProduct->get_weight_class($result['option_weightclass_id']),
-               			'align' => 'right',
+				'value' => $this->modelProduct->get_weight_class($result['option_weightclass_id']),
+				'align' => 'right',
 				'last' => $last
-            		);
+			);
 			$cell[] = array(
 				'value' => $result['sort_order'],
 				'align' => 'right',
@@ -181,10 +187,10 @@ class ControllerProductOption extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('product_option', 'update', $query)
-      		);
+			);
 
 			if($this->session->get('enable_delete')){
 				$query = array(
@@ -198,11 +204,11 @@ class ControllerProductOption extends Controller {
 					'href' => $this->url->ssl('product_option', 'delete', $query)
 				);
 			}
-			
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -254,7 +260,7 @@ class ControllerProductOption extends Controller {
 		$view->set('list', $this->url->ssl('product_option', FALSE, array('product_id' => $this->request->gethtml('product_id'))));
 		$view->set('insert', $this->url->ssl('product_option', 'insert', array('product_id' => $this->request->gethtml('product_id'))));
 
-    		$view->set('pages', $this->modelOption->get_pagination());
+ 		$view->set('pages', $this->modelOption->get_pagination());
 
 		return $view->fetch('content/list.tpl');
 	}
@@ -361,7 +367,7 @@ class ControllerProductOption extends Controller {
 
 		if ($this->request->has('option_name', 'post')) {
 			if ($this->request->gethtml('option_name', 'post') != NULL) {
-				$name_last = $this->request->has('option_name', 'post');
+				$name_last = $this->request->get('option_name', 'post');
 			} else {
 				$name_last = $this->session->get('name_last_product');
 			}
@@ -419,6 +425,7 @@ class ControllerProductOption extends Controller {
 			$this->modelOption->insert_product_options($product_option);
 		}
 	}
+
 	private function get_options(){
 		$results = $this->modelProduct->get_options($this->request->gethtml('product_id'));
 		$options = array();
@@ -430,6 +437,7 @@ class ControllerProductOption extends Controller {
 		$this->option_status = $options ? TRUE : FALSE;
 		return $options;
 	}
+
 	private function get_product_options(){
 		$results = $this->modelProduct->get_product_options();
 		$product_options = array();
@@ -447,6 +455,7 @@ class ControllerProductOption extends Controller {
 		}
 		return $product_options;
 	}
+
 	private function get_option_values(){
 		$product_id =$this->request->gethtml('product_id');
 		$results = $this->modelProduct->get_option_values();
@@ -454,10 +463,10 @@ class ControllerProductOption extends Controller {
 		$product_options = $this->get_product_options();
 		foreach($results as $result){
 			$option_values[$result['option_id']][$result['option_value_id']] = array(
-			    'product_to_option_id' => $result['product_to_option_id'],
+				'product_to_option_id' => $result['product_to_option_id'],
 				'option_value_id'	=> $result['option_value_id'],
-				'option_id'			=> $result['option_id'],
-				'name'				=> $result['name']
+				'option_id'		=> $result['option_id'],
+				'name'			=> $result['name']
 			);
 		}
 		$options = $this->get_options();
@@ -470,13 +479,13 @@ class ControllerProductOption extends Controller {
 					$option_key = $this->request->gethtml('product_id') . ':' . $first_level['product_to_option_id'];
 					$option_list[$option_key] = array(
 						'product_id'		=> $product_id,
-						'product_option' 	=> $option_key,	
-						'quantity'			=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['quantity'] : 0,
+						'product_option'	=> $option_key,	
+						'quantity'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['quantity'] : 0,
 						'barcode'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['barcode'] : '',
-						'image_id'			=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['image_id'] : 0,
+						'image_id'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['image_id'] : 0,
 						'dimension_id'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['dimension_id'] : 0,
 						'dimension_value'	=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['dimension_value'] : '0:0:0',
-						'model_number'   	=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['model_number'] : ''
+						'model_number'		=> array_key_exists($option_key, $product_options) ? $product_options[$option_key]['model_number'] : ''
 					);
 				} else {
 					foreach($option_values[$options[1]['option_id']] as $second_level){
@@ -485,13 +494,13 @@ class ControllerProductOption extends Controller {
 							$match = $this->compare_key($product_options, $option_key);
 							$option_list[$option_key] = array(
 								'product_id'		=> $product_id,
-								'product_option' 	=> $option_key,	
-								'quantity'			=> $match ? $product_options[$match]['quantity'] : 0,
+								'product_option'	=> $option_key,	
+								'quantity'		=> $match ? $product_options[$match]['quantity'] : 0,
 								'barcode'		=> $match ? $product_options[$match]['barcode'] : '',
-								'image_id'			=> $match ? $product_options[$match]['image_id'] : 0,
+								'image_id'		=> $match ? $product_options[$match]['image_id'] : 0,
 								'dimension_id'		=> $match ? $product_options[$match]['dimension_id'] : 0,
 								'dimension_value'	=> $match ? $product_options[$match]['dimension_value'] : '0:0:0',
-								'model_number'   	=> $match ? $product_options[$match]['model_number'] : ''
+								'model_number'		=> $match ? $product_options[$match]['model_number'] : ''
 							);
 							
 						} else {
@@ -500,13 +509,13 @@ class ControllerProductOption extends Controller {
 								$match = $this->compare_key($product_options, $option_key);
 								$option_list[$option_key] = array(
 									'product_id'		=> $product_id,
-									'product_option' 	=> $option_key,	
-									'quantity'			=> $match ? $product_options[$match]['quantity'] : 0,
+									'product_option'	=> $option_key,	
+									'quantity'		=> $match ? $product_options[$match]['quantity'] : 0,
 									'barcode'		=> $match ? $product_options[$match]['barcode'] : '',
-									'image_id'			=> $match ? $product_options[$match]['image_id'] : 0,
+									'image_id'		=> $match ? $product_options[$match]['image_id'] : 0,
 									'dimension_id'		=> $match ? $product_options[$match]['dimension_id'] : 0,
 									'dimension_value'	=> $match ? $product_options[$match]['dimension_value'] : '0:0:0',
-									'model_number'   	=> $match ? $product_options[$match]['model_number'] : ''
+									'model_number'		=> $match ? $product_options[$match]['model_number'] : ''
 								);
 							}
 						}
@@ -518,6 +527,7 @@ class ControllerProductOption extends Controller {
 		}
 		return $option_list;
 	}
+
 	private function compare_key($product_options, $option_key){
 		$options = explode('.', substr($option_key,strpos($option_key, ':' ) + 1));
 		foreach($product_options as $product_option){
@@ -536,6 +546,7 @@ class ControllerProductOption extends Controller {
 		}
 		return FALSE;
 	}
+
 	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -554,7 +565,8 @@ class ControllerProductOption extends Controller {
 			return FALSE;
 		}
 	}
-	function enableDelete(){
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -568,16 +580,18 @@ class ControllerProductOption extends Controller {
 			$this->response->redirect($this->url->ssl('product_option', FALSE, array('product_id' => $this->request->gethtml('product_id'))));
 		}
 	}
+
 	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'product_option')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
+
 	private function validateDelete() {
 		if(($this->session->get('product_option_validation') != $this->request->sanitize('product_option_validation')) || (strlen($this->session->get('product_option_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -592,14 +606,16 @@ class ControllerProductOption extends Controller {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('product_option.search', $this->request->gethtml('search', 'post'));
 		}

@@ -14,7 +14,7 @@ class Model_AccountAddress extends Model{
 	
 	}
 	function insert_address($customer_id){
-		$sql = "insert into address set customer_id = '?', company = '?', firstname = '?', lastname = '?', address_1 = '?', address_2 = '?', postcode = '?', city = '?', zone_id = '?', country_id = '?'";
+		$sql = "insert into address set customer_id = '?', company = '?', firstname = '?', lastname = '?', address_1 = '?', address_2 = '?', postcode = '?', city = '?', zone_id = '?', country_id = '?', date_added = now()";
 		$this->database->query($this->database->parse($sql, $customer_id, $this->request->sanitize('company', 'post'), $this->request->sanitize('firstname', 'post'), $this->request->sanitize('lastname', 'post'), $this->request->sanitize('address_1', 'post'), $this->request->sanitize('address_2', 'post'), $this->request->sanitize('postcode', 'post'), $this->request->sanitize('city', 'post'), $this->request->gethtml('zone_id', 'post'), $this->request->gethtml('country_id', 'post')));
 	}
 	function update_default_address($customer_id){ 

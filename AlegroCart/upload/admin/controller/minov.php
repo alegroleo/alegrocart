@@ -1,24 +1,27 @@
 <?php // Minimum Order Value AlegroCart
 class ControllerMinov extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
 		$this->request		=& $locator->get('request');
 		$this->response		=& $locator->get('response');
 		$this->session		=& $locator->get('session');
-		$this->user     	=& $locator->get('user'); 
-		$this->template 	=& $locator->get('template');
+		$this->user		=& $locator->get('user'); 
+		$this->template		=& $locator->get('template');
 		$this->url		=& $locator->get('url');
 		$this->modelMinov	= $model->get('model_admin_minov');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('minov');
+		$this->adminController	= $this->template->set_controller('minov');
 
 		$this->language->load('controller/minov.php');
 	}
-	function index() { 
+
+	protected function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->isPost()) && ($this->validate())) {
@@ -97,22 +100,23 @@ class ControllerMinov extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function validate() {
+	private  function validate() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-	    	if (!$this->user->hasPermission('modify', 'minov')) {
-	      		$this->error['message'] = $this->language->get('error_permission');
-	    	}
+		if (!$this->user->hasPermission('modify', 'minov')) {
+			$this->error['message'] = $this->language->get('error_permission');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {

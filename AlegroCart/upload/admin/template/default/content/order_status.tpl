@@ -62,8 +62,8 @@
                   <tr>
                     <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td><input name="language[<?php echo $order_status['language_id']; ?>][name]" value="<?php echo $order_status['name']; ?>">
-                      <?php if ($error_name) { ?>
-                      <span class="error"><?php echo $error_name; ?></span>
+                      <?php if (@$error_name[$order_status['language_id']]) { ?>
+                      <span class="error"><?php echo $error_name[$order_status['language_id']]; ?></span>
                       <?php } ?></td>
                   </tr>
                 </table>

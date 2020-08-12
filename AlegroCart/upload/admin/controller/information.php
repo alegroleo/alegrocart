@@ -1,26 +1,29 @@
 <?php // Information AlegroCart
 class ControllerInformation extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request 	 	=& $locator->get('request');
-		$this->response	 	=& $locator->get('response');
-		$this->session 	 	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url     		=& $locator->get('url');
-		$this->user    	 	=& $locator->get('user');
-		$this->validate 	=& $locator->get('validate');
+		$this->cache		=& $locator->get('cache');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user');
+		$this->validate		=& $locator->get('validate');
 		$this->modelInformation = $model->get('model_admin_information');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('information');
+		$this->adminController	= $this->template->set_controller('information');
 
 		$this->language->load('controller/information.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -29,9 +32,9 @@ class ControllerInformation extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
-				
+
 		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
 			$this->modelInformation->insert_information();
 			$insert_id = $this->modelInformation->get_insert_id();
@@ -63,10 +66,10 @@ class ControllerInformation extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('language', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelInformation->update_information();
 			$this->modelInformation->delete_description();
 			$this->modelInformation->insert_description((int)$this->request->gethtml('information_id'));
@@ -87,7 +90,7 @@ class ControllerInformation extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
  
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('information_id')) && ($this->validateDelete())) {
@@ -106,17 +109,15 @@ class ControllerInformation extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function changeStatus() {
-
+	protected function changeStatus() {
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeVisibility()) {
-
 			$this->modelInformation->change_information_visibility($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 			$this->cache->delete('information');
 		}
 	
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('information_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
@@ -134,11 +135,11 @@ class ControllerInformation extends Controller {
 			'sort'  => 'i.sort_order',
 			'align' => 'right'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+
 		$results = $this->modelInformation->get_page();
 
 		$rows = array();
@@ -159,14 +160,12 @@ class ControllerInformation extends Controller {
 				'status_id' => $result['information_id'],
 				'status_controller' => 'information'
 			);
-
-		} else {
-
-			$cell[] = array(
-				'icon'  => ($result['information_hide'] ? 'enabled.png' : 'disabled.png'),
-				'align' => 'center'
-		);
-		}
+			} else {
+				$cell[] = array(
+					'icon'  => ($result['information_hide'] ? 'enabled.png' : 'disabled.png'),
+					'align' => 'center'
+				);
+			}
 
 			$cell[] = array(
 				'value' => $result['sort_order'],
@@ -176,10 +175,10 @@ class ControllerInformation extends Controller {
 			
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('information', 'update', array('information_id' => $result['information_id']))
-      		);
+				);
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -188,10 +187,10 @@ class ControllerInformation extends Controller {
 				);
 			}
 
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -241,7 +240,7 @@ class ControllerInformation extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -275,6 +274,9 @@ class ControllerInformation extends Controller {
 		$view->set('error', @$this->error['message']);
 		$view->set('error_title', @$this->error['title']);
 		$view->set('error_description', @$this->error['description']);
+		$view->set('error_mod_description', @$this->error['mod_description']);
+		$view->set('error_hide', @$this->error['hide']);
+		$view->set('error_sort_order', @$this->error['sort_order']);
 
 		if(!@$this->error['message']){
 			$view->set('error', @$this->error['warning']);
@@ -311,6 +313,7 @@ class ControllerInformation extends Controller {
 			if($result['language_status'] =='1'){
 				if (($this->request->gethtml('information_id')) && (!$this->request->isPost())) {
 					$information_description_info = $this->modelInformation->get_description($result['language_id']);
+					$this->session->set('information_description_date_modified', $information_description_info['date_modified']);
 				} else {
 					$information_description_info = $this->request->gethtml('language', 'post');
 				}
@@ -319,7 +322,7 @@ class ControllerInformation extends Controller {
 					'language_id' => $result['language_id'],
 					'language'    => $result['name'],
 					'title'       => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['title'] : @$information_description_info['title']),
-		    		'description' => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['description'] : @$information_description_info['description'])
+		    			'description' => (isset($information_description_info[$result['language_id']]) ? $information_description_info[$result['language_id']]['description'] : @$information_description_info['description'])
 				);
 
 				if ($result['language_id'] == $this->language->getId()) {
@@ -346,6 +349,7 @@ class ControllerInformation extends Controller {
 
 		if (($this->request->gethtml('information_id')) && (!$this->request->isPost())) {
 			$information_info = $this->modelInformation->get_information();
+			$this->session->set('information_date_modified',$information_info['date_modified']);
 		}
 
 		if ($this->request->has('information_hide', 'post')) {
@@ -363,7 +367,7 @@ class ControllerInformation extends Controller {
 		return $view->fetch('content/information.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -373,13 +377,13 @@ class ControllerInformation extends Controller {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
 
-		foreach ($this->request->gethtml('language', 'post') as $value) {
-            if (!$this->validate->strlen($value['title'],1,32)) {
-				$this->error['title'] = $this->language->get('error_title');
+		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
+			if (!$this->validate->strlen($value['title'],1,32)) {
+				$this->error['title'][$key] = $this->language->get('error_title');
 			}
-            if (!$this->validate->strlen($value['description'],1)) {
-                $this->error['description'] = $this->language->get('error_description');
-            }
+			if (!$this->validate->strlen($value['description'],1)) {
+				$this->error['description'][$key] = $this->language->get('error_description');
+			}
 		}
 		if (@$this->error && !@$this->error['message']){
 			$this->error['warning'] = $this->language->get('error_warning');
@@ -391,7 +395,54 @@ class ControllerInformation extends Controller {
 		}
 	}
 
-	function enableDelete(){
+	private function validateModification() {
+
+		if ($information_info = $this->modelInformation->get_information()) {
+			if ($information_info['date_modified'] != $this->session->get('information_date_modified')) {
+				$information_info_log = $this->modelInformation->get_modified_log($information_info['date_modified']);
+
+				if ($information_info_log['information_hide'] != $this->request->gethtml('information_hide', 'post')) {
+					$this->error['hide'] = $this->language->get('error_modified', $information_info_log['information_hide'] ? $this->language->get('text_yes'): $this->language->get('text_no'));
+				}
+
+				if ($information_info_log['sort_order'] != $this->request->gethtml('sort_order', 'post')) {
+					$this->error['sort_order'] = $this->language->get('error_modified', $information_info_log['sort_order']);
+				}
+				$this->session->set('information_date_modified', $information_info_log['date_modified']);
+			}
+
+			foreach ($this->request->gethtml('language', 'post') as $key => $value) {
+				if ($information_data = $this->modelInformation->get_description($key)) {
+					if ($information_data['date_modified'] != $this->session->get('information_description_date_modified')) {
+						$information_data_log = $this->modelInformation->get_description_modified_log($key, $information_data['date_modified']);
+						if ($information_data_log['title'] != $value['title']) {
+							$this->error['title'][$key] = $this->language->get('error_modified', $information_data_log['title']);
+						}
+						if (htmlspecialchars($information_data_log['description']) != $value['description']) {
+							$this->error['description'][$key] = $this->language->get('error_modified', '');
+							$this->error['mod_description'][$key] = $information_data_log['description'];
+						}
+					}
+				}
+				$this->session->set('information_description_date_modified', $information_data['date_modified']);
+			}
+		} else {
+			$information_info_log = $this->modelInformation->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $information_info_log['modifier']));
+			$this->response->redirect($this->url->ssl('information'));
+		}
+
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', isset($information_info_log['modifier']) ? $information_info_log['modifier'] : $information_data_log['modifier']);
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -405,18 +456,19 @@ class ControllerInformation extends Controller {
 			$this->response->redirect($this->url->ssl('information'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'information')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 
-	function validateDelete() {
+	private function validateDelete() {
 		if(($this->session->get('information_validation') != $this->request->sanitize('information_validation')) || (strlen($this->session->get('information_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -432,21 +484,23 @@ class ControllerInformation extends Controller {
 		}
 	}
 
-	function validateChangeVisibility(){
+	private function validateChangeVisibility(){
 		if (!$this->user->hasPermission('modify', 'information')) {
 			return FALSE;
 		} else {
 			return TRUE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		$this->request  =& $this->locator->get('request');
 		$this->response =& $this->locator->get('response');
 		$this->url      =& $this->locator->get('url');
@@ -470,7 +524,8 @@ class ControllerInformation extends Controller {
 
 		$this->response->redirect($this->url->ssl('information'));
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('information_tab', $this->request->sanitize('activeTab', 'post'));

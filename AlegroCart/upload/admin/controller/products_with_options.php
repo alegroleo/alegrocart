@@ -1,30 +1,32 @@
 <?php //Admin ProductsWithOptions
 class ControllerProductsWithOptions extends Controller {
-	var $error = array();
-	var $option_values = array();
+
+	public $error = array();
+	private $option_values = array();
+
 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->config   	=& $locator->get('config');
-		$this->image    	=& $locator->get('image');   
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->validate 	=& $locator->get('validate');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
+		$this->image		=& $locator->get('image');   
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->validate		=& $locator->get('validate');
 		$this->modelProductOptions = $model->get('model_admin_productswithoptions');
-		$this->barcode     	=& $locator->get('barcode'); 
+		$this->barcode		=& $locator->get('barcode'); 
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('products_with_options');
+		$this->adminController	= $this->template->set_controller('products_with_options');
 
 		$this->language->load('controller/products_with_options.php');
 	}
 
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->session->get('productwo_id')){
 			$this->template->set('content', $this->getList());
@@ -35,7 +37,8 @@ class ControllerProductsWithOptions extends Controller {
 		$this->template->set($this->module->fetch());
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function update() {
+
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->isPost()) && ($this->validateForm())) {
@@ -55,7 +58,8 @@ class ControllerProductsWithOptions extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function getProduct(){
+
+	protected function getProduct(){
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		if($this->request->isPost()){
@@ -91,6 +95,7 @@ class ControllerProductsWithOptions extends Controller {
 
 		return $view->fetch('content/products_with_options.tpl');
 	}
+
 	private function getList(){
 		$cols = array();
 		$cols[] = array(
@@ -100,89 +105,89 @@ class ControllerProductsWithOptions extends Controller {
 		);
 		$cols[] = array(
 			'name'  => $this->language->get('column_name') . $this->get_option_names(),
-	                'align' => 'left'
+			'align' => 'left'
 		);
 		$cols[] = array(
-	                'name'  => $this->language->get('column_model_number'),
+			'name'  => $this->language->get('column_model_number'),
 			 'sort'	=> 'po.model_number',
-             		'align' => 'left'
+			'align' => 'left'
 		);
 		$cols[] = array(
-             		'name'  => $this->language->get('column_stock'),
-             		'align' => 'center'
+			'name'  => $this->language->get('column_stock'),
+			'align' => 'center'
 		);
 		$cols[] = array(
-             		'name'  => $this->language->get('column_image'),
-             		'align' => 'right'
+			'name'  => $this->language->get('column_image'),
+			'align' => 'right'
 		);
 		$cols[] = array(
-      			'name'  => $this->language->get('column_action'),
-      			'align' => 'action'
-    		);
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 
 		$results = $this->modelProductOptions->get_page();
 
 		$this->get_option_value_names();
 		$rows = array();
-	    	foreach ($results as $result) {
-		$last = $result['product_option'] == $this->session->get('last_product_option') ? 'last_visited': '';
-      		$cell = array();
+		foreach ($results as $result) {
+			$last = $result['product_option'] == $this->session->get('last_product_option') ? 'last_visited': '';
+			$cell = array();
 			$cell[] = array(
-        			'value' => $result['product_option'],
-        			'align' => 'left',
+				'value' => $result['product_option'],
+				'align' => 'left',
 				'last' => $last
-		  	);
+			);
 			$cell[] = array(
-        			'value' => $result['name'] . ':' . $this->option_value_names($result['product_option']),
-        			'align' => 'left',
+				'value' => $result['name'] . ':' . $this->option_value_names($result['product_option']),
+				'align' => 'left',
 				'last' => $last
-		  	);
+			);
 			$cell[] = array(
-               			'value' => $result['model_number'],
-               			'align' => 'left',
+				'value' => $result['model_number'],
+				'align' => 'left',
 				'last' => $last
-            		);
+			);
 			$cell[] = array(
-               			'value' => $result['quantity'],
-               			'align' => 'center',
+				'value' => $result['quantity'],
+				'align' => 'center',
 				'last' => $last
-            		);
+			);
 			$cell[] = array(
-               			'image' => $result['filename']?$this->image->resize($result['filename'], '26', '26'):$this->image->resize('no_image.png', '26', '26'),
-	       			'previewimage' => $result['filename']?$this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')):$this->image->resize('no_image.png', $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-               			'title' => $result['filename']?$result['filename']:$this->language->get('text_no_image'),
-               			'align' => 'right'
-            	);
+				'image' => $result['filename']?$this->image->resize($result['filename'], '26', '26'):$this->image->resize('no_image.png', '26', '26'),
+				'previewimage' => $result['filename']?$this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')):$this->image->resize('no_image.png', $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+				'title' => $result['filename']?$result['filename']:$this->language->get('text_no_image'),
+				'align' => 'right'
+			);
 			 $action = array();
 			 $action[] =array(
 				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('products_with_options', 'update', array('product_option' => $result['product_option']))
-      		);
+			);
 			
 			$cell[] = array(
-        			'action' => $action,
-        			'align'  => 'action'
-      		);
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 		
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title').'<em>'. (isset($result['name']) ? $result['name']  : '') .'</em>');
-		
-    		$view->set('heading_description', $this->language->get('heading_description'));
-		
-		$view->set('text_results', $this->modelProductOptions->get_text_results());
-		
-		$view->set('entry_page', $this->language->get('entry_page'));
-    		$view->set('entry_search', $this->language->get('entry_search'));
 
-    		$view->set('button_insert', $this->language->get('button_insert'));
-    		$view->set('button_update', $this->language->get('button_update'));
-   	 	$view->set('button_delete', $this->language->get('button_delete'));
-    		$view->set('button_save', $this->language->get('button_save'));
-    		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('heading_description', $this->language->get('heading_description'));
+
+		$view->set('text_results', $this->modelProductOptions->get_text_results());
+
+		$view->set('entry_page', $this->language->get('entry_page'));
+		$view->set('entry_search', $this->language->get('entry_search'));
+
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_refresh', $this->language->get('button_refresh'));
 		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
@@ -191,7 +196,7 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'products_with_options');
 		$view->set('error', @$this->error['message']);
- 		$view->set('message', $this->session->get('message'));
+		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 
 		$view->set('action', $this->url->ssl('products_with_options', 'page'));
@@ -199,9 +204,9 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('last', $this->url->getLast('products_with_options'));
 
 		$view->set('search', $this->session->get('productwoptions.search'));
-	    	$view->set('sort', $this->session->get('productwoptions.sort'));
-	    	$view->set('order', $this->session->get('productwoptions.order'));
-	    	$view->set('page', $this->session->get('productwoptions.page'));
+		$view->set('sort', $this->session->get('productwoptions.sort'));
+		$view->set('order', $this->session->get('productwoptions.order'));
+		$view->set('page', $this->session->get('productwoptions.page'));
 
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
@@ -209,6 +214,7 @@ class ControllerProductsWithOptions extends Controller {
 		$view->set('pages', $this->modelProductOptions->get_pagination());
 		return $view->fetch('content/list.tpl');
 	}
+
 	private function getForm() {
 
 		if(!$this->session->get('productwo_id')){
@@ -386,6 +392,7 @@ class ControllerProductsWithOptions extends Controller {
 
 		return $view->fetch('content/products_with_options.tpl');
 	}
+
 	private function option_value_names($product_option){
 		$options = explode('.', substr($product_option,strpos($product_option, ':' ) + 1));
 		$product_options = '';
@@ -395,6 +402,7 @@ class ControllerProductsWithOptions extends Controller {
 		}
 		return $product_options;
 	}
+
 	private function get_option_value_names(){
 		$results = $this->modelProductOptions->get_option_values();
 		foreach($results as $result){
@@ -404,6 +412,7 @@ class ControllerProductsWithOptions extends Controller {
 			);
 		}
 	}
+
 	private function get_options(){
 		$results = $this->modelProductOptions->get_options($this->session->get('productwo_id'));
 		$options = array();
@@ -415,6 +424,7 @@ class ControllerProductsWithOptions extends Controller {
 		$this->option_status = $options ? TRUE : FALSE;
 		return $options;
 	}
+
 	private function get_option_names(){
 		$results = $this->get_options();
 		$option_names = '';
@@ -427,9 +437,11 @@ class ControllerProductsWithOptions extends Controller {
 		}
 		return $option_names;
 	}
-	function dimensions(){
+
+	protected function dimensions(){
 		$this->response->set($this->getDimensions((int)$this->request->gethtml('type_id')));
 	}
+
 	private function getDimensions($type_id, $dimension_id = 0, $dimension_value = 0){
 		$output = '';
 		$dimension_data = array();
@@ -452,6 +464,7 @@ class ControllerProductsWithOptions extends Controller {
 		}
 		return $output;
 	}
+
 	private function dimension_value($type_id, $dimension_value){
 		$output = '';
 		$dimensions = explode(':', $dimension_value);
@@ -511,6 +524,7 @@ class ControllerProductsWithOptions extends Controller {
 		}
 		return $output;
 	}
+
 	private function dimension_select($results, $dimension_id){
 		$output = '<option value="0">' . $this->language->get('text_no_dim') . '</option>' . "\n";
 		foreach ($results as $result) {
@@ -522,7 +536,8 @@ class ControllerProductsWithOptions extends Controller {
 		}
 		return $output;
 	}
-	function validate_barcode(){
+
+	protected function validate_barcode(){
 		$barcode = $this->request->gethtml('barcode');
 		$encoding = $this->request->gethtml('encoding');
 		$product_id = $this->request->gethtml('product_id');
@@ -565,6 +580,7 @@ class ControllerProductsWithOptions extends Controller {
 		}
 		$this->response->set($output);
 	}
+
 	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -582,14 +598,16 @@ class ControllerProductsWithOptions extends Controller {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('productwoptions.search', $this->request->gethtml('search', 'post'));
 		}

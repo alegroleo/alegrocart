@@ -63,13 +63,19 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_iso_code_2; ?></td>
-              <td><input class="validate_alpha" id="iso_code_2" type="text" name="iso_code_2" value="<?php echo $iso_code_2; ?>"></td>
+              <td><input class="validate_alpha" id="iso_code_2" type="text" name="iso_code_2" value="<?php echo $iso_code_2; ?>">
+                <?php if ($error_code_2) { ?>
+                <span class="error"><?php echo $error_code_2; ?></span>
+                <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_iso_code_3; ?></td>
-              <td><input class="validate_alpha" id="iso_code_3" type="text" name="iso_code_3" value="<?php echo $iso_code_3; ?>"></td>
+              <td><input class="validate_alpha" id="iso_code_3" type="text" name="iso_code_3" value="<?php echo $iso_code_3; ?>">
+                <?php if ($error_code_3) { ?>
+                <span class="error"><?php echo $error_code_3; ?></span>
+                <?php } ?></td>
             </tr>
-			<!--   Country Enable   -->			
+			<!--   Country Enable   -->
 			<tr>
               <td class="set"><?php echo $entry_country_status; ?></td>
               <td><select name="country_status">
@@ -80,12 +86,18 @@
                   <option value="1"><?php echo $text_enabled; ?></option>
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_status) { ?>
+                <span class="error"><?php echo $error_status; ?></span>
+                <?php } ?></td>
             </tr>	
 			<!-- End Country Enable -->
 			<tr>
               <td valign="top" class="set"><?php echo $entry_address_format; ?></td>
-              <td><textarea name="address_format" cols="40" rows="7"><?php echo $address_format; ?></textarea></td>
+              <td><textarea name="address_format" cols="40" rows="7"><?php echo $address_format; ?></textarea>
+                <?php if ($error_address) { ?>
+                <span class="error"><?php echo $error_address; ?></span>
+                <?php } ?></td>
 	      <td class="expl"><?php echo $text_address_explantion ;?><td>
             </tr>
           </table>

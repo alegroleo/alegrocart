@@ -1,28 +1,31 @@
 <?php //TaxClass AlegroCart
 class ControllerTaxClass extends Controller {
-	var $error = array();
-	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->validate 	=& $locator->get('validate');
-		$this->modelTaxClass = $model->get('model_admin_tax_class');
+
+	public $error = array();
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->validate		=& $locator->get('validate');
+		$this->modelTaxClass	= $model->get('model_admin_tax_class');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('tax_class');
+		$this->adminController	= $this->template->set_controller('tax_class');
 
 		$this->language->load('controller/tax_class.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -31,7 +34,7 @@ class ControllerTaxClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl')); 
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('title', 'post') && $this->validateForm()) {
@@ -50,10 +53,10 @@ class ControllerTaxClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('title', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('title', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelTaxClass->update_tax_class();
 			$this->cache->delete('tax_class');
 			$this->session->set('message', $this->language->get('text_message'));
@@ -71,7 +74,7 @@ class ControllerTaxClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
  
 		if (($this->request->gethtml('tax_class_id')) && ($this->validateDelete())) {
@@ -88,10 +91,10 @@ class ControllerTaxClass extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('tax_class_validation', md5(time()));
 		$cols = array();
-		
+
 		$cols[] = array(
 			'name'  => $this->language->get('column_tax'),
 			'folder_help' => $this->language->get('text_folder_help'),
@@ -103,20 +106,20 @@ class ControllerTaxClass extends Controller {
 			'align' => 'left'
 		);
 		$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
 		);
-		
+
 		$results = $this->modelTaxClass->get_page();
 		$rows = array();
 		foreach ($results as $result) {
 			$last = $result['tax_class_id'] == $this->session->get('last_tax_class_id') ? 'last_visited': '';
 			$cell = array();
-	      		$cell[] = array(
-	        		'icon'  => $this->modelTaxClass->check_children($result['tax_class_id']) ? 'folderO.png' : 'folder.png',
-	        		'align' => 'center',
+			$cell[] = array(
+				'icon'  => $this->modelTaxClass->check_children($result['tax_class_id']) ? 'folderO.png' : 'folder.png',
+				'align' => 'center',
 				'path'  => $this->url->ssl('tax_rate', FALSE, array('tax_class_id' => $result['tax_class_id']))
-		  	);
+			);
 			$cell[] = array(
 				'value' => $result['title'],
 				'align' => 'left',
@@ -124,11 +127,11 @@ class ControllerTaxClass extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('tax_class', 'update', array('tax_class_id' => $result['tax_class_id']))
-      		);
-			
+			);
+
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -136,11 +139,11 @@ class ControllerTaxClass extends Controller {
 					'href' => $this->url->ssl('tax_class', 'delete', array('tax_class_id' => $result['tax_class_id'],'tax_class_validation' =>$this->session->get('tax_class_validation')))
 				);
 			}
-			
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -191,7 +194,7 @@ class ControllerTaxClass extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -215,6 +218,10 @@ class ControllerTaxClass extends Controller {
 		$view->set('error', @$this->error['message']);
 		$view->set('error_title', @$this->error['title']);
 		$view->set('error_description', @$this->error['description']);
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
 		$view->set('action', $this->url->ssl('tax_class', $this->request->gethtml('action'), array('tax_class_id' => $this->request->gethtml('tax_class_id'))));
 
@@ -240,6 +247,7 @@ class ControllerTaxClass extends Controller {
 
 		if (($this->request->gethtml('tax_class_id')) && (!$this->request->isPost())) {
 			$tax_class_info = $this->modelTaxClass->get_tax_class();
+			$this->session->set('tax_class_date_modified', $tax_class_info['date_modified']);
 		}
 
 		if ($this->request->has('title', 'post')) {
@@ -257,7 +265,7 @@ class ControllerTaxClass extends Controller {
 		return $view->fetch('content/tax_class.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -266,21 +274,54 @@ class ControllerTaxClass extends Controller {
 		if (!$this->user->hasPermission('modify', 'tax_class')) {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
-        if (!$this->validate->strlen($this->request->gethtml('title', 'post'),1,32)) {
+		if (!$this->validate->strlen($this->request->gethtml('title', 'post'),1,32)) {
 			$this->error['title'] = $this->language->get('error_title');
 		}
-        if (!$this->validate->strlen($this->request->gethtml('description', 'post'),1,255)) {
+		if (!$this->validate->strlen($this->request->gethtml('description', 'post'),1,255)) {
 			$this->error['description'] = $this->language->get('error_description');
 		}
 
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	
-	function enableDelete(){
+
+	private function validateModification() {
+		if ($tax_class_data = $this->modelTaxClass->get_tax_class()) {
+			if ($tax_class_data['date_modified'] != $this->session->get('tax_class_date_modified')) {
+				$tax_class_data_log = $this->modelTaxClass->get_modified_log($tax_class_data['date_modified']);
+
+				if ($tax_class_data_log['title'] != $this->request->gethtml('title', 'post')) {
+					$this->error['title'] = $this->language->get('error_modified', $tax_class_data_log['title']);
+				}
+
+				if ($tax_class_data_log['description'] != $this->request->gethtml('description', 'post')) {
+					$this->error['description'] = $this->language->get('error_modified', $tax_class_data_log['description']);
+				}
+
+				$this->session->set('tax_class_date_modified', $tax_class_data_log['date_modified']);
+			}
+		} else {
+			$tax_class_data_log = $this->modelTaxClass->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $tax_class_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('tax_class'));
+		}
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', $tax_class_data_log['modifier']);
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -294,18 +335,19 @@ class ControllerTaxClass extends Controller {
 			$this->response->redirect($this->url->ssl('tax_class'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'tax_class')) {
-      		$this->error['message'] = $this->language->get('error_permission');  
-    	}
+			$this->error['message'] = $this->language->get('error_permission');  
+		}
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
 	}
 
-	function validateDelete() {
+	private function validateDelete() {
 		if(($this->session->get('tax_class_validation') != $this->request->sanitize('tax_class_validation')) || (strlen($this->session->get('tax_class_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -330,14 +372,16 @@ class ControllerTaxClass extends Controller {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('tax_class.search', $this->request->gethtml('search', 'post'));
 		}
@@ -352,6 +396,6 @@ class ControllerTaxClass extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('tax_class'));
-	}	
+	}
 }
 ?>

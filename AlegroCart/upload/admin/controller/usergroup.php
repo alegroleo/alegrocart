@@ -1,35 +1,37 @@
 <?php //Admin Usergroup AlegroCart
 class ControllerUserGroup extends Controller {
-	var $error = array();
- 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->config   	=& $locator->get('config');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session  	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user    	 	=& $locator->get('user');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelAdminUsergroup = $model->get('model_admin_usergroup');
-		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('usergroup');
+
+	public $error = array();
+
+	public function __construct(&$locator){
+		$this->locator			=& $locator;
+		$model				=& $locator->get('model');
+		$this->config			=& $locator->get('config');
+		$this->language			=& $locator->get('language');
+		$this->module			=& $locator->get('module');
+		$this->request			=& $locator->get('request');
+		$this->response			=& $locator->get('response');
+		$this->session			=& $locator->get('session');
+		$this->template			=& $locator->get('template');
+		$this->url			=& $locator->get('url');
+		$this->user			=& $locator->get('user');
+		$this->validate			=& $locator->get('validate');
+		$this->modelAdminUsergroup	= $model->get('model_admin_usergroup');
+		$this->head_def			=& $locator->get('HeaderDefinition');
+		$this->adminController		= $this->template->set_controller('usergroup');
 
 		$this->language->load('controller/user_group.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
 		$this->template->set($this->module->fetch());
- 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
@@ -58,7 +60,7 @@ class ControllerUserGroup extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
@@ -90,7 +92,7 @@ class ControllerUserGroup extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() { 
+	protected function delete() { 
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('user_group_id')) && ($this->validateDelete())) {
@@ -105,9 +107,9 @@ class ControllerUserGroup extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('user_validation', md5(time()));
-		
+
 		$cols = array();
 
 		$cols[] = array(
@@ -116,11 +118,11 @@ class ControllerUserGroup extends Controller {
 			'align' => 'left'
 		);
 
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
-		
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
+
 		if (!$this->session->get('user_group.search')) {
 			$sql = "select user_group_id, name from user_group";
 		} else {
@@ -134,7 +136,6 @@ class ControllerUserGroup extends Controller {
 		}
 
 		$results = $this->modelAdminUsergroup->get_page($sql);
-		
 		$rows = array();
 
 		foreach ($results as $result) {
@@ -145,15 +146,15 @@ class ControllerUserGroup extends Controller {
 				'align' => 'left',
 				'last' => $last
 			);
-			
+
 			$action = array();
-      		
+
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('usergroup', 'update', array('user_group_id' => $result['user_group_id']))
-      		);
-			
+			);
+
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -162,11 +163,10 @@ class ControllerUserGroup extends Controller {
 				);
 			}
 
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
-			
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -218,7 +218,7 @@ class ControllerUserGroup extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -315,7 +315,8 @@ class ControllerUserGroup extends Controller {
 
 		return $view->fetch('content/user_group.tpl');
 	}
-	function validateForm() {
+
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -336,7 +337,8 @@ class ControllerUserGroup extends Controller {
 			return FALSE;
 		}
 	}
-	function enableDelete(){
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -350,7 +352,8 @@ class ControllerUserGroup extends Controller {
 			$this->response->redirect($this->url->ssl('usergroup'));//**
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'usergroup')) {//**
 			$this->error['message'] = $this->language->get('error_permission');  
 		}
@@ -360,7 +363,8 @@ class ControllerUserGroup extends Controller {
 			return FALSE;
 		}
 	}
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('user_validation') != $this->request->sanitize('user_validation')) || (strlen($this->session->get('user_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -380,14 +384,16 @@ class ControllerUserGroup extends Controller {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('user_group.search', $this->request->gethtml('search', 'post'));
 		}

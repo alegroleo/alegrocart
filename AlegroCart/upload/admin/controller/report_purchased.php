@@ -1,22 +1,24 @@
 <?php // Repor Purchased AlegroCart
 class ControllerReportPurchased extends Controller {
+
 	public function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->response 	=& $locator->get('response');
-		$this->session  	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
 		$this->modelReportPurchsed = $model->get('model_admin_report_purchased');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('report_purchased');
+		$this->adminController	= $this->template->set_controller('report_purchased');
 
 		$this->language->load('controller/report_purchased.php');
 		}
+
 	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -63,6 +65,7 @@ class ControllerReportPurchased extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
+
 	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');

@@ -1,39 +1,40 @@
 <?php // Admin Image AlegroCart
 class ControllerImage extends Controller {
-	var $html='<img src="%s" alt="%s" title="%s" width="%s" height="%s">';
-	var $size=100;
-	var $types=array('jpg','gif','jpeg','png');
-	var $error = array(); 
-	var $wm_method = 'auto';
-	var $wm_active = FALSE;
-	var $system_files=array('no_image.png');
 
- 	function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->image    	=& $locator->get('image');   
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->upload   	=& $locator->get('upload');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
+	private $html='<img src="%s" alt="%s" title="%s" width="%s" height="%s">';
+	private $size=100;
+	private $types=array('jpg','gif','jpeg','png');
+	public $error = array(); 
+	private $wm_method = 'auto';
+	private $wm_active = FALSE;
+	private $system_files=array('no_image.png');
+
+	public function __construct(&$locator){
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->image		=& $locator->get('image');   
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->upload		=& $locator->get('upload');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
 		$this->validate 	=& $locator->get('validate');
-		$this->modelImage = $model->get('model_admin_image');
-		$this->watermark  	=& $locator->get('watermark');
+		$this->modelImage	= $model->get('model_admin_image');
+		$this->watermark	=& $locator->get('watermark');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('image');
+		$this->adminController	= $this->template->set_controller('image');
 
 		$this->language->load('controller/image.php');
 	}
 
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -42,7 +43,7 @@ class ControllerImage extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function checkFiles() {
+	private function checkFiles() {
 		$files=glob(DIR_IMAGE.'*.*');
 		if (!$files) { return; }
 		foreach ($files as $file) {
@@ -56,7 +57,7 @@ class ControllerImage extends Controller {
 		$this->cache->delete('image');
 	}
 
-	function init($filename) {
+	private function init($filename) {
 		$this->modelImage->insert_image($filename);
 		$insert_id = $this->modelImage->get_insert_id();
 		$title = $this->getTitle($filename);
@@ -69,7 +70,7 @@ class ControllerImage extends Controller {
 			}
 		}
 
-	function getTitle($file) {
+	private function getTitle($file) {
 		$str=$file;
 		$str=pathinfo_filename($file);
 		$str=str_replace(array('_','-'),' ',$str);
@@ -77,7 +78,7 @@ class ControllerImage extends Controller {
 		return $str;
 	}
 
-	function insert() {
+	protected function insert() {
 
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -96,15 +97,15 @@ class ControllerImage extends Controller {
 						$this->session->set('name_last_image', $name_last);
 						$this->session->set('last_image', $this->url->ssl('image', 'update', array('image_id' => $insert_id)));
 					}
-      				}
+				}
 				if ($this->watermark->check_status($this->wm_method)) {
 					$this->watermark->merge( DIR_IMAGE . $this->upload->getName('image'), $this->wm_method);
 				}
-	  			$this->cache->delete('image');
+				$this->cache->delete('image');
 				$this->session->set('last_image_id', $insert_id);
 				$this->session->set('message', $this->language->get('text_message'));
 
-	 			$this->response->redirect($this->url->ssl('image'));
+				$this->response->redirect($this->url->ssl('image'));
 			}
 			$this->error['file'] = $this->language->get('error_upload');
 		}
@@ -119,7 +120,7 @@ class ControllerImage extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -147,7 +148,7 @@ class ControllerImage extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete () {
+	protected function delete () {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('image_id')) && ($this->validateDelete())) {
@@ -172,7 +173,7 @@ class ControllerImage extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('image_validation', md5(time()));
 		$this->checkFiles();
 		$cols = array();
@@ -198,7 +199,7 @@ class ControllerImage extends Controller {
 		$cols[] = array(
 			'name'  => $this->language->get('column_action'),
 			'align' => 'action'
-	);
+		);
 
 		$results = $this->modelImage->get_page();
 		$rows = array();
@@ -224,17 +225,17 @@ class ControllerImage extends Controller {
 				'last' => $last
 			);
 			$cell[] = array(
-			       'image' => $this->image->resize($result['filename'], '26', '26'),
-			       'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-			       'title' => $result['filename'],
-			       'align' => 'center'
+				'image' => $this->image->resize($result['filename'], '26', '26'),
+				'previewimage' => $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+				'title' => $result['filename'],
+				'align' => 'center'
 			);
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('image', 'update', array('image_id' => $result['image_id']))
-      		);
+			);
 
 			if($this->session->get('enable_delete')){
 				$action[] = array(
@@ -244,48 +245,48 @@ class ControllerImage extends Controller {
 				);
 			}
 
-	      		$cell[] = array(
+			$cell[] = array(
 				'action' => $action,
 				'align'  => 'action'
-	      		);
+			);
 			$rows[] = array(
 				'cell' => $cell
 			);
 			}
 		}
 
-    	$view = $this->locator->create('template');
+		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
-    	$view->set('heading_title', $this->language->get('heading_title'));
-    	$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
+		$view->set('heading_title', $this->language->get('heading_title'));
+		$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 
-    	$view->set('text_results', $this->modelImage->get_text_results());
-    	$view->set('entry_page', $this->language->get('entry_page'));
-    	$view->set('entry_search', $this->language->get('entry_search'));
+		$view->set('text_results', $this->modelImage->get_text_results());
+		$view->set('entry_page', $this->language->get('entry_page'));
+		$view->set('entry_search', $this->language->get('entry_search'));
 
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-    	$view->set('button_delete', $this->language->get('button_delete'));
-    	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
 		$view->set('button_enable_delete', $this->language->get('button_enable_delete'));
-	$view->set('button_print', $this->language->get('button_print'));
-	$view->set('button_status', $this->language->get('button_status'));
+		$view->set('button_print', $this->language->get('button_print'));
+		$view->set('button_status', $this->language->get('button_status'));
 		$view->set('button_help', $this->language->get('button_help'));
 		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'image');
-	$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
 
-    	$view->set('error', @$this->error['message']);
+		$view->set('error', @$this->error['message']);
 
 		$view->set('message', $this->session->get('message'));
 		$this->session->delete('message');
 
-    	$view->set('action', $this->url->ssl('image', 'page'));
+		$view->set('action', $this->url->ssl('image', 'page'));
 		$view->set('action_delete', $this->url->ssl('image', 'enableDelete'));
-		
+
 		$view->set('search', $this->session->get('image.search'));
 		$view->set('sort', $this->session->get('image.sort'));
 		$view->set('order', $this->session->get('image.order'));
@@ -294,60 +295,60 @@ class ControllerImage extends Controller {
 		$view->set('cols', $cols);
 		$view->set('rows', $rows);
 
-    	$view->set('insert', $this->url->ssl('image', 'insert'));
+		$view->set('insert', $this->url->ssl('image', 'insert'));
 		$view->set('last', $this->url->getLast('image'));
 
-    	$view->set('pages', $this->modelImage->get_pagination());
+		$view->set('pages', $this->modelImage->get_pagination());
 
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
-    	$view = $this->locator->create('template');
+	private function getForm() {
+		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
-    	$view->set('heading_title', $this->language->get('heading_form_title'));
-    	$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
+		$view->set('heading_title', $this->language->get('heading_form_title'));
+		$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 
-    	$view->set('text_image_filename', $this->language->get('text_image_filename'));
-	$view->set('text_browse', $this->language->get('text_browse'));
-	$view->set('text_autowm_warning', $this->language->get('text_autowm_warning'));
+		$view->set('text_image_filename', $this->language->get('text_image_filename'));
+		$view->set('text_browse', $this->language->get('text_browse'));
+		$view->set('text_autowm_warning', $this->language->get('text_autowm_warning'));
 
-	$view->set('entry_filename', $this->language->get('entry_filename'));
-    	$view->set('entry_title', $this->language->get('entry_title'));
-	
-    	$view->set('button_insert', $this->language->get('button_insert'));
-    	$view->set('button_update', $this->language->get('button_update'));
-	$view->set('button_delete', $this->language->get('button_delete'));
-	$view->set('button_save', $this->language->get('button_save'));
-    	$view->set('button_cancel', $this->language->get('button_cancel'));
-	$view->set('button_print', $this->language->get('button_print'));
+		$view->set('entry_filename', $this->language->get('entry_filename'));
+		$view->set('entry_title', $this->language->get('entry_title'));
+
+		$view->set('button_insert', $this->language->get('button_insert'));
+		$view->set('button_update', $this->language->get('button_update'));
+		$view->set('button_delete', $this->language->get('button_delete'));
+		$view->set('button_save', $this->language->get('button_save'));
+		$view->set('button_cancel', $this->language->get('button_cancel'));
+		$view->set('button_print', $this->language->get('button_print'));
 		$view->set('button_help', $this->language->get('button_help'));
 		$view->set('button_last', $this->language->get('button_last'));
 
 		$view->set('help', $this->session->get('help'));
 		$view->set('tab_general', $this->language->get('tab_general'));
-    	$view->set('tab_data', $this->language->get('tab_data'));
+		$view->set('tab_data', $this->language->get('tab_data'));
 
 		$view->set('error_update', $this->language->get('error_update'));
-    	$view->set('error', @$this->error['message']);
-    	$view->set('error_title', @$this->error['title']);
+		$view->set('error', @$this->error['message']);
+		$view->set('error_title', @$this->error['title']);
 		$view->set('error_file', @$this->error['file']);
-    	$view->set('error_delete', @$this->error['message']);
+		$view->set('error_delete', @$this->error['message']);
 
-	if(!@$this->error['message']){
-		$view->set('error', @$this->error['warning']);
-	}
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
-    	$view->set('action', $this->url->ssl('image', $this->request->gethtml('action'), array('image_id' => $this->request->gethtml('image_id'))));
-  
-    	$view->set('insert', $this->url->ssl('image', 'insert'));
+		$view->set('action', $this->url->ssl('image', $this->request->gethtml('action'), array('image_id' => $this->request->gethtml('image_id'))));
+
+		$view->set('insert', $this->url->ssl('image', 'insert'));
 		$view->set('cancel', $this->url->ssl('image'));
 		$view->set('last', $this->url->getLast('image'));
 
-    	if ($this->request->gethtml('image_id')) {
-      		$view->set('update', $this->url->ssl('image', 'update', array('image_id' => $this->request->gethtml('image_id'))));
-	  		$view->set('delete', $this->url->ssl('image', 'delete', array('image_id' => $this->request->gethtml('image_id'),'image_validation' =>$this->session->get('image_validation'))));
-    	}
+		if ($this->request->gethtml('image_id')) {
+			$view->set('update', $this->url->ssl('image', 'update', array('image_id' => $this->request->gethtml('image_id'))));
+			$view->set('delete', $this->url->ssl('image', 'delete', array('image_id' => $this->request->gethtml('image_id'),'image_validation' =>$this->session->get('image_validation'))));
+		}
 
 		$view->set('tab', $this->session->has('image_tab') && $this->session->get('image_id') == $this->request->gethtml('image_id') ? $this->session->get('image_tab') : 0);
 		$view->set('tabmini', $this->session->has('image_tabmini') && $this->session->get('image_id') == $this->request->gethtml('image_id') ? $this->session->get('image_tabmini') : 0);
@@ -369,18 +370,18 @@ class ControllerImage extends Controller {
 		$view->set('wm_active', $this->wm_active);
 
 		$image_data = array();
-	    	$results = $this->modelImage->get_languages();
-	    	foreach ($results as $result) {
+		$results = $this->modelImage->get_languages();
+		foreach ($results as $result) {
 			if($result['language_status'] =='1'){
 				if (($this->request->gethtml('image_id')) && (!$this->request->isPost())) {
-		  			$image_description_info = $this->modelImage->get_description($result['language_id']);
+					$image_description_info = $this->modelImage->get_description($result['language_id']);
 				} else {
 					$image_description_info = $this->request->gethtml('language', 'post');
 				}
-		  		$image_data[] = array(
-		    		'language_id' => $result['language_id'],
-		    		'language'    => $result['name'],
-		    		'title'       => (isset($image_description_info[$result['language_id']]) ? $image_description_info[$result['language_id']]['title'] : @$image_description_info['title']),
+				$image_data[] = array(
+					'language_id' => $result['language_id'],
+					'language'    => $result['name'],
+					'title'       => (isset($image_description_info[$result['language_id']]) ? $image_description_info[$result['language_id']]['title'] : @$image_description_info['title']),
 				);
 				if ($result['language_id'] == $this->language->getId()) {
 					if (isset($image_description_info[$result['language_id']])) {
@@ -400,8 +401,8 @@ class ControllerImage extends Controller {
 					$this->session->set('last_image', $this->url->ssl('image', 'update', array('image_id' => $this->request->gethtml('image_id'))));
 				}
 			}
-	    	}
-	    	$view->set('images', $image_data);
+		}
+		$view->set('images', $image_data);
 		if (($this->request->gethtml('image_id')) && (!$this->request->isPost())) {
 			$result = $this->modelImage->get_image();
 			$image_photo[] = array(
@@ -411,61 +412,61 @@ class ControllerImage extends Controller {
 			$view->set('image_data', $image_photo);
 		}
 
- 		return $view->fetch('content/image.tpl');
-  	}
+		return $view->fetch('content/image.tpl');
+	}
 
-  	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('cdx');
 		$this->session->delete('validation');
-	    	if (!$this->user->hasPermission('modify', 'image')) {
-	      		$this->error['message'] = $this->language->get('error_permission');
-	    	}
+		if (!$this->user->hasPermission('modify', 'image')) {
+			$this->error['message'] = $this->language->get('error_permission');
+		}
 		if ($this->upload->has('image')) {
-	  		if ($this->upload->hasError('image')) {
-	    			$this->error['file'] = $this->language->get('error_upload');
-	  		}
-	  		if (!$this->validate->strlen($this->upload->getName('image'),1,128)) {
-        			$this->error['file'] = $this->language->get('error_filename');
+			if ($this->upload->hasError('image')) {
+				$this->error['file'] = $this->language->get('error_upload');
 			}
-		    	$allowed = array(
-		      		'image/jpeg',
-		      		'image/pjpeg',
-		  		'image/gif', 
-		  		'image/png',
+			if (!$this->validate->strlen($this->upload->getName('image'),1,128)) {
+				$this->error['file'] = $this->language->get('error_filename');
+			}
+			$allowed = array(
+				'image/jpeg',
+				'image/pjpeg',
+				'image/gif', 
+				'image/png',
 				'image/x-png'
-	    		);
-		    	if (!in_array($this->upload->getType('image'), $allowed)) {
-        	  		$this->error['file'] = $this->language->get('error_filetype');
-        		}
+			);
+			if (!in_array($this->upload->getType('image'), $allowed)) {
+				$this->error['file'] = $this->language->get('error_filetype');
+			}
 			if ($this->upload->hasError('image')) {
 				$this->error['message'] = $this->upload->getError('image');
 			}
-    		} elseif ($this->request->get('action') == 'insert') {
-	    		$this->error['file'] = $this->language->get('error_filename');
+		} elseif ($this->request->get('action') == 'insert') {
+			$this->error['file'] = $this->language->get('error_filename');
 		}
 		foreach ($this->request->gethtml('language', 'post') as $value) {
 			if (empty($value['title'])) { 
 				$value['title']=$this->getTitle($this->upload->getName('image'));
 			}
-      			if (!$this->validate->strlen($value['title'],1,64)) {
-        			$this->error['title'] = $this->language->get('error_title');
-      			}
+			if (!$this->validate->strlen($value['title'],1,64)) {
+				$this->error['title'] = $this->language->get('error_title');
+			}
 		}
 		if (@$this->error && !@$this->error['message']){
 			$this->error['warning'] = $this->language->get('error_warning');
 		}
 
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
-  	}
+	}
 
-	function enableDelete(){
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -479,7 +480,8 @@ class ControllerImage extends Controller {
 			$this->response->redirect($this->url->ssl('image'));//**
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'image')) {//**
 			$this->error['message'] = $this->language->get('error_permission');  
 		}
@@ -489,15 +491,16 @@ class ControllerImage extends Controller {
 			return FALSE;
 		}
 	}
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('image_validation') != $this->request->sanitize('image_validation')) || (strlen($this->session->get('image_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
 		$this->session->delete('image_validation');
-    		if (!$this->user->hasPermission('modify', 'image')) {
-      			$this->error['message'] = $this->language->get('error_permission');
-    		}	
-  		$product_info = $this->modelImage->check_product();
+		if (!$this->user->hasPermission('modify', 'image')) {
+			$this->error['message'] = $this->language->get('error_permission');
+		}
+		$product_info = $this->modelImage->check_product();
 		if ($product_info['total']) {
 			$this->error['message'] = $product_info['total'] ==1 ? $this->language->get('error_product') : $this->language->get('error_products', $product_info['total']);
 			$product_list = $this-> modelImage->get_imageToProducts();
@@ -505,7 +508,7 @@ class ControllerImage extends Controller {
 				foreach ($product_list as $product) {
 					$this->error['message'] .= '<a href="' . $this->url->ssl('product', 'update', array('product_id' => $product['product_id'])) . '">' . $product['name'] . '</a>&nbsp;';
 				}
-		}	 	
+		}
 		$category_info = $this->modelImage->check_category();
 		if ($category_info['total']) {
 			$this->error['message'] = $category_info['total'] ==1 ? $this->language->get('error_category') : $this->language->get('error_categories', $category_info['total']);
@@ -573,20 +576,20 @@ class ControllerImage extends Controller {
 		}
 
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
-		} 
-  	}
+			return FALSE;
+		}
+	}
 
-	function get_uploadable(){
+	private function get_uploadable(){
 		$upload_max = convert_bytes(ini_get('upload_max_filesize'));
 		$post_max = convert_bytes(ini_get('post_max_size'));
 		$memory_limit = convert_bytes(ini_get('memory_limit'));
 		return $uploadable = floor(min($upload_max, $post_max, $memory_limit)/1048576).'MB';
 	}
 
-	function page() {
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('image.search', $this->request->gethtml('search', 'post'));
 		}
@@ -602,19 +605,22 @@ class ControllerImage extends Controller {
 
 		$this->response->redirect($this->url->ssl('image'));
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function view() {
+
+	protected function view() {
 		$image_info = $this->modelImage->get_image_data();
 
 		$this->response->set(sprintf($this->html,$this->image->resize($image_info['filename'], $this->config->get('config_image_width')?$this->config->get('config_image_width'):$this->size, $this->config->get('config_image_height')?$this->config->get('config_image_height'):$this->size), $image_info['title'], $image_info['title'], $this->config->get('config_image_width')?$this->config->get('config_image_width'):$this->size, $this->config->get('config_image_height')?$this->config->get('config_image_height'):$this->size));
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('image_tab', $this->request->sanitize('activeTab', 'post'));

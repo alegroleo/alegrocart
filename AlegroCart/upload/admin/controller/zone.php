@@ -1,7 +1,9 @@
 <?php // Zone AlegroCart
 class ControllerZone extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->cache		=& $locator->get('cache');
@@ -22,7 +24,8 @@ class ControllerZone extends Controller {
 
 		$this->language->load('controller/zone.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -31,7 +34,7 @@ class ControllerZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
@@ -50,10 +53,10 @@ class ControllerZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelZone->update_zone();
 			$this->cache->delete('zone');
 			$this->session->set('message', $this->language->get('text_message'));
@@ -71,7 +74,7 @@ class ControllerZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('zone_id')) && ($this->validateDelete())) {
@@ -88,14 +91,14 @@ class ControllerZone extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function changeStatus() { 
+	protected function changeStatus() { 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelZone->change_zone_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 			$this->cache->delete('zone');
 		}
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('zone_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
@@ -118,10 +121,10 @@ class ControllerZone extends Controller {
 			'sort'  => 'z.zone_status',
 			'align' => 'right'
 		);
-	$cols[] = array(
-		'name'  => $this->language->get('column_action'),
-		'align' => 'action'
-	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 
 		$results = $this->modelZone->get_page();
 		$vendors = $this->modelZone->get_vendorZones();
@@ -193,10 +196,10 @@ class ControllerZone extends Controller {
 				); 
 			}
 
-		$cell[] = array(
-			'action' => $action,
-			'align'  => 'action'
-			);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+				);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -252,7 +255,7 @@ class ControllerZone extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -277,6 +280,13 @@ class ControllerZone extends Controller {
 		$view->set('help', $this->session->get('help'));
 		$view->set('error', @$this->error['message']);
 		$view->set('error_name', @$this->error['name']);
+		$view->set('error_status', @$this->error['status']);
+		$view->set('error_code', @$this->error['code']);
+		$view->set('error_country', @$this->error['country']);
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
 		$view->set('tab_general', $this->language->get('tab_general'));
 
@@ -288,6 +298,7 @@ class ControllerZone extends Controller {
 
 		if (($this->request->gethtml('zone_id')) && (!$this->request->isPost())) {
 			$zone_info = $this->modelZone->get_zone();
+			$this->session->set('zone_date_modified', $zone_info['date_modified']);
 		}
 
 		if ($this->request->gethtml('zone_id')) {
@@ -335,7 +346,8 @@ class ControllerZone extends Controller {
 
 		return $view->fetch('content/zone.tpl');
 	}
-	function validateForm() { //insert or update
+
+	private function validateForm() { //insert or update
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -368,7 +380,46 @@ class ControllerZone extends Controller {
 			return FALSE;
 		}
 	}
-	function enableDelete(){
+
+	private function validateModification() {
+		if ($zone_data = $this->modelZone->get_zone()) {
+			if ($zone_data['date_modified'] != $this->session->get('zone_date_modified')) {
+				$zone_data_log = $this->modelZone->get_modified_log($zone_data['date_modified']);
+
+				if ($zone_data_log['name'] != $this->request->gethtml('name', 'post')) {
+					$this->error['name'] = $this->language->get('error_modified', $zone_data_log['name']);
+				}
+
+				if ($zone_data_log['zone_status'] != $this->request->gethtml('zone_status', 'post')) {
+					$this->error['status'] = $this->language->get('error_modified', $zone_data_log['zone_status'] ? $this->language->get('text_enabled'): $this->language->get('text_disabled'));
+				}
+
+				if ($zone_data_log['code'] != $this->request->gethtml('code', 'post')) {
+					$this->error['code'] = $this->language->get('error_modified', $zone_data_log['code']);
+				}
+
+				if ($zone_data_log['country_id'] != $this->request->gethtml('country_id', 'post')) {
+					$this->error['country'] = $this->language->get('error_modified', $this->modelZone->get_country_name($zone_data_log['country_id']));
+				}
+
+				$this->session->set('zone_date_modified', $zone_data_log['date_modified']);
+			}
+		} else {
+			$zone_data_log = $this->modelZone->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $zone_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('zone'));
+		}
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', $zone_data_log['modifier']);
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -382,17 +433,19 @@ class ControllerZone extends Controller {
 			$this->response->redirect($this->url->ssl('zone'));
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'zone')) {
 		$this->error['message'] = $this->language->get('error_permission');  
-	}
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	function validateDelete() { //deletion
+
+	private function validateDelete() { //deletion
 		if(($this->session->get('zone_validation') != $this->request->sanitize('zone_validation')) || (strlen($this->session->get('zone_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -429,21 +482,24 @@ class ControllerZone extends Controller {
 			return FALSE;
 		}
 	}
-	function validateChangeStatus(){
+
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'zone')) {
 			return FALSE;
-		}  else {
+		} else {
 			return TRUE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('zone.search', $this->request->gethtml('search', 'post'));
 		}
@@ -458,6 +514,6 @@ class ControllerZone extends Controller {
 		}
 
 		$this->response->redirect($this->url->ssl('zone'));
-	}	
+	}
 }
 ?>

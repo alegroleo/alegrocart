@@ -1,12 +1,13 @@
 <?php //AlegroCart Setting
 class ControllerSetting extends Controller {
-	var $error = array();
-	var $types=array('css');
-	var $logo_types = array('jpg','gif','jpeg','png');
-	var $wm_types = array('png');
-	var $wm_method = 'auto';
-	var $mr_status = NULL;
-	var $cgi = NULL;
+
+	public $error = array();
+	private $types=array('css');
+	private $logo_types = array('jpg','gif','jpeg','png');
+	private $wm_types = array('png');
+	private $wm_method = 'auto';
+	private $mr_status = NULL;
+	private $cgi = NULL;
 
 	public function __construct(&$locator){
 		$this->locator		=& $locator;
@@ -27,10 +28,11 @@ class ControllerSetting extends Controller {
 		$this->modelSetting	= $model->get('model_admin_setting');
 		$this->modelWatermark	= $model->get('model_admin_watermark');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('setting');
+		$this->adminController	= $this->template->set_controller('setting');
 
 		$this->language->load('controller/setting.php');
 	}
+
 	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
@@ -382,7 +384,7 @@ class ControllerSetting extends Controller {
 		$view->set('error_update', $this->language->get('error_update'));
 
 		if(!@$this->error['message']){
-		$view->set('error', @$this->error['warning']);
+			$view->set('error', @$this->error['warning']);
 		}
 
 		$view->set('tab', $this->session->has('setting_tab') ? $this->session->get('setting_tab') : 0);
@@ -1362,7 +1364,7 @@ class ControllerSetting extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function updateRates(){
+	private function updateRates(){
 		$this->modelSetting->set_default_currency();
 		set_time_limit(90);
 		$start_time = microtime(true);
@@ -1387,7 +1389,7 @@ class ControllerSetting extends Controller {
 
 	}
 
-	function getLogos(){
+	private function getLogos(){
 		$logos_data = array();
 		$files = glob(DIR_IMAGE.'logo'.D_S.'*.*');
 		if (!$files) { return; }
@@ -1403,7 +1405,7 @@ class ControllerSetting extends Controller {
 		return $logos_data;
 	}
 
-	function getImages(){
+	private function getImages(){
 		$images_data = array();
 		$files = glob(DIR_IMAGE.'watermark'.D_S.'*.*');
 		if (!$files) { return; }
@@ -1419,7 +1421,7 @@ class ControllerSetting extends Controller {
 		return $images_data;
 	}
 
-	function viewFooterLogo(){
+	protected function viewFooterLogo(){
 		if($this->request->gethtml('footer_logo')){
 			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('footer_logo') . '"';
 			$output .= 'alt="' . $this->language->get('text_flogo'). '" title="'. $this->language->get('text_flogo') .'">';
@@ -1429,7 +1431,7 @@ class ControllerSetting extends Controller {
 		$this->response->set($output);
 	}
 
-	function viewLogo(){
+	protected function viewLogo(){
 		if($this->request->gethtml('store_logo')){
 			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('store_logo') . '"';
 			$output .= 'alt="' . $this->language->get('text_slogo'). '" title="'. $this->language->get('text_slogo') .'">';
@@ -1439,7 +1441,7 @@ class ControllerSetting extends Controller {
 		$this->response->set($output);
 	}
 
-	function viewWmImage(){
+	protected function viewWmImage(){
 		if($this->request->gethtml('wm_image')){
 			$output = '<img src="' . HTTP_IMAGE . '/watermark/' . $this->request->gethtml('wm_image') . '"';
 			$output .= 'alt="' . $this->language->get('text_watermark'). '" title="'. $this->language->get('text_watermark') .'">';
@@ -1449,7 +1451,7 @@ class ControllerSetting extends Controller {
 		$this->response->set($output);
 	}
 
-	function checkFiles($style, $columns) {
+	private function checkFiles($style, $columns) {
 		$colors_data = array();
 		if (preg_match('/[1-2]\.[1-2]/',$columns)) {
 			$columns = 2;
@@ -1468,7 +1470,7 @@ class ControllerSetting extends Controller {
 		return $colors_data;
 	}
 
-	function validate_update() {
+	private function validate_update() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -1543,7 +1545,7 @@ class ControllerSetting extends Controller {
 		}
 	}
 
-	function getToken(){
+	protected function getToken(){
 		$token = $this->request->gethtml('token');
 		$output = '<input type="text" size="40"';
 		$output .= ' readonly="readonly" name="global_config_token"';
@@ -1555,7 +1557,7 @@ class ControllerSetting extends Controller {
 		$this->response->set($output);
 	}
 
-	function getColors(){
+	protected function getColors(){
 		$style = $this->request->gethtml('style');
 		$columns = $this->request->gethtml('columns');
 		if (preg_match('/[1-2]\.[1-2]/',$columns)) {
@@ -1574,6 +1576,7 @@ class ControllerSetting extends Controller {
 		}
 		$this->response->set($output);
 	}
+
 	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
@@ -1581,7 +1584,8 @@ class ControllerSetting extends Controller {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function zone() {
+
+	protected function zone() {
 		$output = '<select name="global_config_zone_id">';
 		$results = $this->modelSetting->get_country_zones();
 		foreach ($results as $result) {
@@ -1598,7 +1602,8 @@ class ControllerSetting extends Controller {
 
 		$this->response->set($output);
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('setting_tab', $this->request->sanitize('activeTab', 'post'));
@@ -1612,6 +1617,7 @@ class ControllerSetting extends Controller {
 			echo json_encode($output);
 		}
 	}
+
 	protected function viewStamp(){
 		if($this->request->gethtml('stamp')){
 			$output = '<img src="' . HTTP_IMAGE . '/stamp/' . $this->request->gethtml('stamp') . '"';
@@ -1621,6 +1627,7 @@ class ControllerSetting extends Controller {
 		}
 		$this->response->set($output);
 	}
+
 	private function getStamps(){
 		$stamps_data = array();
 		$files = glob(DIR_IMAGE.'stamp'.D_S.'*.*');

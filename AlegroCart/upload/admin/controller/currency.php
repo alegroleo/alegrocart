@@ -1,7 +1,9 @@
 <?php // Currency AlegroCart
 class ControllerCurrency extends Controller {
+
 	public $error = array();
- 	public function __construct(&$locator){
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->cache		=& $locator->get('cache');
@@ -22,6 +24,7 @@ class ControllerCurrency extends Controller {
 
 		$this->language->load('controller/currency.php');
 	}
+
 	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);

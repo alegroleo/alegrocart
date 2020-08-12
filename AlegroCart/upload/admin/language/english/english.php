@@ -98,25 +98,28 @@ $_['button_help']	= 'Help';
 $_['button_last']	= 'Last page';
 
 // Tab
-$_['tab_general']       = 'General';
-$_['tab_data']          = 'Data';
-$_['tab_image']         = 'Image';
-$_['tab_option']        = 'Option';
-$_['tab_download']      = 'Download';
-$_['tab_category']      = 'Category';
-$_['tab_shop']          = 'Shop';
-$_['tab_admin']         = 'Admin';
-$_['tab_local']         = 'Local';
-$_['tab_stock']         = 'Stock';
-$_['tab_mail']          = 'Mail';
-$_['tab_cache']         = 'Cache';
-$_['tab_customer']      = 'Customer';
-$_['tab_discount']      = 'Quantity Discount';
-$_['tab_validity']      = 'Validity';
+$_['tab_general']	= 'General';
+$_['tab_data']		= 'Data';
+$_['tab_image']		= 'Image';
+$_['tab_option']	= 'Option';
+$_['tab_download']	= 'Download';
+$_['tab_category']	= 'Category';
+$_['tab_shop']		= 'Shop';
+$_['tab_admin']		= 'Admin';
+$_['tab_local']		= 'Local';
+$_['tab_stock']		= 'Stock';
+$_['tab_mail']		= 'Mail';
+$_['tab_cache']		= 'Cache';
+$_['tab_customer']	= 'Customer';
+$_['tab_discount']	= 'Quantity Discount';
+$_['tab_validity']	= 'Validity';
 
 //Error Message
 $_['error_language']	= 'ERROR : %s does not exist in language file*';
 $_['error_referer']	= 'Invalid Request: Please try again';
 $_['error_warning']	= '* You have errors. Please check all tabs for error messages!';
 $_['error_update']	= 'Server Communication Error! Try to update your data again.';
+$_['error_modifier']	= '* Meanwhile the data has been modified by %s. Please check all tabs to see the differences!';
+$_['error_modified']	= '* Modified to: %s';
+$_['error_none']	= 'no one has been selected.';
 ?>

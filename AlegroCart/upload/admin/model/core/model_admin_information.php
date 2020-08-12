@@ -1,36 +1,59 @@
 <?php //AdminModelInformation AlegroCart
 class Model_Admin_Information extends Model {
+
 	function __construct(&$locator) {
-		$this->config   	=& $locator->get('config');
-		$this->database =& $locator->get('database');
-		$this->language =& $locator->get('language');
-		$this->request  	=& $locator->get('request');
-		$this->session 	=& $locator->get('session');
+		$this->config	=& $locator->get('config');
+		$this->database	=& $locator->get('database');
+		$this->language	=& $locator->get('language');
+		$this->request	=& $locator->get('request');
+		$this->session	=& $locator->get('session');
 	}
+
 	function insert_information(){
-		$sql = "insert into information set sort_order = '?', information_hide = '?'";
+		$sql = "insert into information set sort_order = '?', information_hide = '?', date_added = now()";
 		$this->database->query($this->database->parse($sql, (int)$this->request->gethtml('sort_order', 'post'), $this->request->gethtml('information_hide', 'post')));
 	}
+
 	function get_insert_id(){
 		$insert_id = $this->database->getLastId();
 		return $insert_id;
 	}
+
 	function insert_description($insert_id){
 		foreach ($this->request->get('language', 'post') as $key => $value) {
-			$sql = "insert into information_description set information_id = '?', language_id = '?', title = '?', description = '?'";
+			$sql = "insert into information_description set information_id = '?', language_id = '?', title = '?', description = '?', date_added = now()";
 			$this->database->query($this->database->parse($sql, $insert_id, $key, $value['title'], $value['description']));
 		}
 	}
+
 	function update_information(){
 		$sql = "update information set sort_order = '?', information_hide = '?' where information_id = '?'";
 		$this->database->query($this->database->parse($sql, (int)$this->request->gethtml('sort_order', 'post'), $this->request->gethtml('information_hide', 'post'), (int)$this->request->gethtml('information_id')));
 	}
+
 	function delete_information(){
 		$this->database->query("delete from information where information_id = '" . (int)$this->request->gethtml('information_id') . "'");
 	}
+
 	function delete_description(){
 		$this->database->query("delete from information_description where information_id = '" . (int)$this->request->gethtml('information_id') . "'");
 	}
+
+	function get_modified_log($date_modified){
+		$result = $this->database->getRow("SELECT information_hide, sort_order, date_modified, CONCAT(firstname, ' ', lastname) AS modifier FROM information_log il INNER JOIN user u ON (u.user_id = il.trigger_modifier_id) WHERE information_id = '" . (int)$this->request->gethtml('information_id') . "' AND date_modified =  '" . $date_modified . "'");
+		return $result;
+	}
+
+	function get_description_modified_log($language_id, $date_modified){
+		$result = $this->database->getRow("SELECT title, description, CONCAT(firstname, ' ', lastname) AS modifier FROM information_description_log idl INNER JOIN user u ON (u.user_id = idl.trigger_modifier_id) WHERE information_id = '" . (int)$this->request->gethtml('information_id') . "' AND date_modified =  '" . $date_modified . "' AND language_id ='" . $language_id . "'");
+		return $result;
+	}
+
+	function get_deleted_log(){
+		$result = $this->database->getRow("SELECT CONCAT(firstname, ' ', lastname) AS modifier FROM information_log il INNER JOIN user u ON (u.user_id = il.trigger_modifier_id) WHERE information_id = '" . (int)$this->request->gethtml('information_id') . "' AND trigger_action = 'DELETE'");
+		return $result;
+	}
+
 	function get_page(){
 		if (!$this->session->get('information.search')) {
 			$sql = "select i.information_id, id.title, i.information_hide, i.sort_order from information i left join information_description id on i.information_id = id.information_id where id.language_id = '" . (int)$this->language->getId() . "'";
@@ -46,36 +69,43 @@ class Model_Admin_Information extends Model {
 		$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('information.search') . '%'), $this->session->get('information.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}
+
 	function get_languages(){
 		$results = $this->database->cache('language', "select * from language order by sort_order");
 		return $results;
 	}
+
 	function get_information(){
 		$result = $this->database->getRow("select distinct * from information where information_id = '" . (int)$this->request->gethtml('information_id') . "'");
 		return $result;
 	}
+
 	function get_description($language_id){
-		$result = $this->database->getRow("select title, description from information_description where information_id = '" . (int)$this->request->gethtml('information_id') . "' and language_id = '" . (int)$language_id . "'");
+		$result = $this->database->getRow("select title, description, date_modified from information_description where information_id = '" . (int)$this->request->gethtml('information_id') . "' and language_id = '" . (int)$language_id . "'");
 		return $result;
 	}
+
 	function get_text_results(){
 		$text_results = $this->language->get('text_results', $this->database->getFrom(), $this->database->getTo(), $this->database->getTotal());
 		return $text_results;
 	}
+
 	function get_pagination(){
-    	$page_data = array();
-    	for ($i = 1; $i <= $this->get_pages(); $i++) {
-      		$page_data[] = array(
-        		'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
-        		'value' => $i
-      		);
-    	}
+		$page_data = array();
+		for ($i = 1; $i <= $this->get_pages(); $i++) {
+			$page_data[] = array(
+				'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
+				'value' => $i
+			);
+		}
 		return $page_data;
 	}
+
 	function get_pages(){
 		$pages = $this->database->getpages();
 		return $pages;
 	}
+
 	function change_information_visibility($status, $status_id){
 		$new_status = $status ? 0 : 1;
 		$sql = "update information set information_hide = '?' where information_id = '?'";

@@ -76,8 +76,18 @@
               <td id="image"></td>
             </tr>
             <tr>
+              <td></td>
+              <td>
+                <?php if ($error_image) { ?>
+                  <span class="error"><?php echo $error_image; ?></span>
+                <?php } ?></td>
+            </tr>
+            <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input class="validate_int" id="sort_order" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="sort_order" name="sort_order" value="<?php echo $sort_order; ?>" size="1">
+                <?php if ($error_sort_order) { ?>
+                  <span class="error"><?php echo $error_sort_order; ?></span>
+                <?php } ?></td>
             </tr>
           </table>
         </div>
@@ -96,6 +106,9 @@
           	<?php } ?>
           	<?php } ?>
         	</select>
+                <?php if ($error_assigned) { ?>
+                  <span class="error"><?php echo $error_assigned; ?></span>
+                <?php } ?>
 	    </td>
  	    <td class="expl"><?php echo $explanation_multiselect;?></td>
          </tr>		

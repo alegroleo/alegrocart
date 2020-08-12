@@ -1698,3 +1698,762 @@ ADD `option_value_id` int(11) NOT NULL DEFAULT '0' After `name`;
 #
 UPDATE `order_option` JOIN `option` ON `order_option`.`name` = `option`.`name` SET `order_option`.`option_id` = `option`.`option_id`;
 UPDATE `order_option` JOIN `option_value` ON `order_option`.`value` = `option_value`.`name` SET `order_option`.`option_value_id` = `option_value`.`option_value_id`;
+
+#
+# Log every change in order_data table
+#
+CREATE TABLE IF NOT EXISTS `order_data_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `reference` varchar(32) collate utf8_unicode_ci,
+  `data` text collate utf8_unicode_ci,
+  `expire` int(10) DEFAULT '0',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `order_data_insertTrigger`;
+CREATE TRIGGER `order_data_insertTrigger` AFTER INSERT ON `order_data` FOR EACH ROW INSERT delayed INTO order_data_log (trigger_action, trigger_modifier_id, trigger_modifier_title, reference, data, expire) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.reference, NEW.data, NEW.expire);
+
+DROP TRIGGER IF EXISTS `order_data_updateTrigger`;
+CREATE TRIGGER `order_data_updateTrigger` AFTER UPDATE ON `order_data` FOR EACH ROW INSERT delayed INTO order_data_log (trigger_action, trigger_modifier_id, trigger_modifier_title, reference, data, expire) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.reference, NEW.data, NEW.expire);
+
+DROP TRIGGER IF EXISTS `order_data_deleteTrigger`;
+CREATE TRIGGER `order_data_deleteTrigger` BEFORE DELETE ON `order_data` FOR EACH ROW INSERT delayed INTO order_data_log (trigger_action, trigger_modifier_id, trigger_modifier_title, reference, data, expire) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.reference, OLD.data, OLD.expire);
+
+#
+# Add date_modified to customer table
+#
+ALTER TABLE `customer` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in customer table
+#
+CREATE TABLE IF NOT EXISTS `customer_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `customer_id` int(11) DEFAULT '0',
+  `firstname` varchar(32) collate utf8_unicode_ci default '',
+  `lastname` varchar(32) collate utf8_unicode_ci default '',
+  `email` varchar(96) collate utf8_unicode_ci default '',
+  `telephone` varchar(32) collate utf8_unicode_ci default '',
+  `fax` varchar(32) collate utf8_unicode_ci default '',
+  `password` varchar(40) collate utf8_unicode_ci default '',
+  `newsletter` int(1) default '0',
+  `address_id` int(11) default '0',
+  `cart` text collate utf8_unicode_ci default NULL,
+  `status` int(1) default '0',
+  `guest` int(1) default '0',
+  `ip` varchar(39) collate utf8_unicode_ci default NULL,
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `customer_insertTrigger`;
+CREATE TRIGGER `customer_insertTrigger` AFTER INSERT ON `customer` FOR EACH ROW INSERT delayed INTO customer_log (trigger_action, trigger_modifier_id, trigger_modifier_title, customer_id, firstname, lastname, email, telephone, fax, password, newsletter, address_id, cart, status, guest, ip, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.customer_id, NEW.firstname, NEW.lastname, NEW.email, NEW.telephone, NEW.fax, NEW.password, NEW.newsletter, NEW.address_id, NEW.cart, NEW.status, NEW.guest, NEW.ip, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `customer_updateTrigger`;
+CREATE TRIGGER `customer_updateTrigger` AFTER UPDATE ON `customer` FOR EACH ROW INSERT delayed INTO customer_log (trigger_action, trigger_modifier_id, trigger_modifier_title, customer_id, firstname, lastname, email, telephone, fax, password, newsletter, address_id, cart, status, guest, ip, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.customer_id, NEW.firstname, NEW.lastname, NEW.email, NEW.telephone, NEW.fax, NEW.password, NEW.newsletter, NEW.address_id, NEW.cart, NEW.status, NEW.guest, NEW.ip, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `customer_deleteTrigger`;
+CREATE TRIGGER `customer_deleteTrigger` BEFORE DELETE ON `customer` FOR EACH ROW INSERT delayed INTO customer_log (trigger_action, trigger_modifier_id, trigger_modifier_title, customer_id, firstname, lastname, email, telephone, fax, password, newsletter, address_id, cart, status, guest, ip, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.customer_id, OLD.firstname, OLD.lastname, OLD.email, OLD.telephone, OLD.fax, OLD.password, OLD.newsletter, OLD.address_id, OLD.cart, OLD.status, OLD.guest, OLD.ip, OLD.date_added, OLD.date_modified);
+
+#
+# Move vendor related addresses into a separate table 
+#
+CREATE TABLE `vendor_address` LIKE `address`; 
+INSERT `vendor_address` SELECT * FROM `address`;
+DELETE FROM `vendor_address` WHERE `vendor_id` = "0";
+ALTER TABLE `vendor_address` DROP COLUMN `customer_id`;
+DELETE FROM `address` WHERE `address_id` = "0";
+ALTER TABLE `address` DROP COLUMN `vendor_id`;
+
+#
+# Add date_added and date_modified to address table
+#
+ALTER TABLE `address` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `address` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in address table
+#
+CREATE TABLE IF NOT EXISTS `address_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `address_id` int(11) DEFAULT '0',
+  `customer_id` int(11) default '0',
+  `company` varchar(32) collate utf8_unicode_ci default NULL,
+  `firstname` varchar(32) collate utf8_unicode_ci default '',
+  `lastname` varchar(32) collate utf8_unicode_ci default '',
+  `address_1` varchar(64) collate utf8_unicode_ci default '',
+  `address_2` varchar(64) collate utf8_unicode_ci default NULL,
+  `postcode` varchar(10) collate utf8_unicode_ci default '',
+  `city` varchar(32) collate utf8_unicode_ci default '',
+  `country_id` int(11) default '0',
+  `zone_id` int(11) default '0',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `address_insertTrigger`;
+CREATE TRIGGER `address_insertTrigger` AFTER INSERT ON `address` FOR EACH ROW INSERT delayed INTO address_log (trigger_action, trigger_modifier_id, trigger_modifier_title, address_id, customer_id, company, firstname, lastname, address_1, address_2, postcode, city, country_id, zone_id, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.address_id, NEW.customer_id, NEW.company, NEW.firstname, NEW.lastname, NEW.address_1, NEW.address_2, NEW.postcode, NEW.city, NEW.country_id, NEW.zone_id, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `address_updateTrigger`;
+CREATE TRIGGER `address_updateTrigger` AFTER UPDATE ON `address` FOR EACH ROW INSERT delayed INTO address_log (trigger_action, trigger_modifier_id, trigger_modifier_title, address_id, customer_id, company, firstname, lastname, address_1, address_2, postcode, city, country_id, zone_id, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.address_id, NEW.customer_id, NEW.company, NEW.firstname, NEW.lastname, NEW.address_1, NEW.address_2, NEW.postcode, NEW.city, NEW.country_id, NEW.zone_id, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `address_deleteTrigger`;
+CREATE TRIGGER `address_deleteTrigger` BEFORE DELETE ON `address` FOR EACH ROW INSERT delayed INTO address_log (trigger_action, trigger_modifier_id, trigger_modifier_title, address_id, customer_id, company, firstname, lastname, address_1, address_2, postcode, city, country_id, zone_id, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.address_id, OLD.customer_id, OLD.company, OLD.firstname, OLD.lastname, OLD.address_1, OLD.address_2, OLD.postcode, OLD.city, OLD.country_id, OLD.zone_id, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to bank_account table
+#
+ALTER TABLE `bank_account` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `bank_account` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in bank_account table
+#
+CREATE TABLE IF NOT EXISTS `bank_account_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `bank_account_id` int(11) DEFAULT '0',
+  `bank_name` varchar(64) collate utf8_unicode_ci default '',
+  `bank_address` varchar(64) collate utf8_unicode_ci default '',
+  `owner` varchar(32) collate utf8_unicode_ci default '',
+  `ban` varchar(64) collate utf8_unicode_ci default '',
+  `iban` varchar(64) collate utf8_unicode_ci default '',
+  `swift` varchar(16) collate utf8_unicode_ci default '',
+  `charge` varchar(3) collate utf8_unicode_ci default '',
+  `currency` varchar(3) collate utf8_unicode_ci default '',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `bank_account_insertTrigger`;
+CREATE TRIGGER `bank_account_insertTrigger` AFTER INSERT ON `bank_account` FOR EACH ROW INSERT delayed INTO bank_account_log (trigger_action, trigger_modifier_id, trigger_modifier_title, bank_account_id, bank_name, bank_address, owner, ban, iban, swift, charge, currency, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.bank_account_id, NEW.bank_name, NEW.bank_address, NEW.owner, NEW.ban, NEW.iban, NEW.swift, NEW.charge, NEW.currency, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `bank_account_updateTrigger`;
+CREATE TRIGGER `bank_account_updateTrigger` AFTER UPDATE ON `bank_account` FOR EACH ROW INSERT delayed INTO bank_account_log (trigger_action, trigger_modifier_id, trigger_modifier_title, bank_account_id, bank_name, bank_address, owner, ban, iban, swift, charge, currency, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.bank_account_id, NEW.bank_name, NEW.bank_address, NEW.owner, NEW.ban, NEW.iban, NEW.swift, NEW.charge, NEW.currency, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `bank_account_deleteTrigger`;
+CREATE TRIGGER `bank_account_deleteTrigger` BEFORE DELETE ON `bank_account` FOR EACH ROW INSERT delayed INTO bank_account_log (trigger_action, trigger_modifier_id, trigger_modifier_title, bank_account_id, bank_name, bank_address, owner, ban, iban, swift, charge, currency, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.bank_account_id, OLD.bank_name, OLD.bank_address, OLD.owner, OLD.ban, OLD.iban, OLD.swift, OLD.charge, OLD.currency, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to option value table
+#
+ALTER TABLE `option_value` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `option_value` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in option value table
+#
+CREATE TABLE IF NOT EXISTS `option_value_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `option_value_id` int(11) DEFAULT '0',
+  `language_id` int(11) DEFAULT '0',
+  `option_id` int(11) DEFAULT '0',
+  `name` varchar(64) collate utf8_unicode_ci default '',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `option_value_insertTrigger`;
+CREATE TRIGGER `option_value_insertTrigger` AFTER INSERT ON `option_value` FOR EACH ROW INSERT delayed INTO option_value_log (trigger_action, trigger_modifier_id, trigger_modifier_title, option_value_id, language_id, option_id, name, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.option_value_id, NEW.language_id, NEW.option_id, NEW.name, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `option_value_updateTrigger`;
+CREATE TRIGGER `option_value_updateTrigger` AFTER UPDATE ON `option_value` FOR EACH ROW INSERT delayed INTO option_value_log (trigger_action, trigger_modifier_id, trigger_modifier_title, option_value_id, language_id, option_id, name, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.option_value_id, NEW.language_id, NEW.option_id, NEW.name, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `option_value_deleteTrigger`;
+CREATE TRIGGER `option_value_deleteTrigger` BEFORE DELETE ON `option_value` FOR EACH ROW INSERT delayed INTO option_value_log (trigger_action, trigger_modifier_id, trigger_modifier_title, option_value_id, language_id, option_id, name, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.option_value_id, OLD.language_id, OLD.option_id, OLD.name, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to information table
+#
+ALTER TABLE `information` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `information` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in information table
+#
+CREATE TABLE IF NOT EXISTS `information_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `information_id` int(11) DEFAULT '0',
+  `sort_order` int(3) DEFAULT '0',
+  `information_hide` int(1) DEFAULT '0',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `information_insertTrigger`;
+CREATE TRIGGER `information_insertTrigger` AFTER INSERT ON `information` FOR EACH ROW INSERT delayed INTO information_log (trigger_action, trigger_modifier_id, trigger_modifier_title, information_id, sort_order, information_hide, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.information_id, NEW.sort_order, NEW.information_hide, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `information_updateTrigger`;
+CREATE TRIGGER `information_updateTrigger` AFTER UPDATE ON `information` FOR EACH ROW INSERT delayed INTO information_log (trigger_action, trigger_modifier_id, trigger_modifier_title, information_id, sort_order, information_hide, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.information_id, NEW.sort_order, NEW.information_hide, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `information_deleteTrigger`;
+CREATE TRIGGER `information_deleteTrigger` BEFORE DELETE ON `information` FOR EACH ROW INSERT delayed INTO information_log (trigger_action, trigger_modifier_id, trigger_modifier_title, information_id, sort_order, information_hide, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.information_id, OLD.sort_order, OLD.information_hide, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to information description table
+#
+ALTER TABLE `information_description` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `information_description` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in information description table
+#
+CREATE TABLE IF NOT EXISTS `information_description_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `information_id` int(11) DEFAULT '0',
+  `language_id` int(11) DEFAULT '0',
+  `title` varchar(64) collate utf8_unicode_ci default '',
+  `description` text collate utf8_unicode_ci,
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `information_description_insertTrigger`;
+CREATE TRIGGER `information_description_insertTrigger` AFTER INSERT ON `information_description` FOR EACH ROW INSERT delayed INTO information_description_log (trigger_action, trigger_modifier_id, trigger_modifier_title, information_id, language_id, title, description, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.information_id, NEW.language_id, NEW.title, NEW.description, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `information_description_updateTrigger`;
+CREATE TRIGGER `information_description_updateTrigger` AFTER UPDATE ON `information_description` FOR EACH ROW INSERT delayed INTO information_description_log (trigger_action, trigger_modifier_id, trigger_modifier_title, information_id, language_id, title, description, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.information_id, NEW.language_id, NEW.title, NEW.description, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `information_description_deleteTrigger`;
+CREATE TRIGGER `information_description_deleteTrigger` BEFORE DELETE ON `information_description` FOR EACH ROW INSERT delayed INTO information_description_log (trigger_action, trigger_modifier_id, trigger_modifier_title, information_id, language_id, title, description, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.information_id, OLD.language_id, OLD.title, OLD.description, OLD.date_added, OLD.date_modified);
+
+#
+# Alter category table
+#
+ALTER TABLE `category` CHANGE `date_added` `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `category` CHANGE `date_modified` `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+#
+# Log every change in category table
+#
+CREATE TABLE IF NOT EXISTS `category_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `category_id` int(11) DEFAULT '0',
+  `image_id` int(11) DEFAULT '0',
+  `parent_id` int(11) DEFAULT '0',
+  `path` varchar(64) collate utf8_unicode_ci default '',
+  `sort_order` int(3) DEFAULT '0',
+  `category_hide` int(1) DEFAULT '0',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `category_insertTrigger`;
+CREATE TRIGGER `category_insertTrigger` AFTER INSERT ON `category` FOR EACH ROW INSERT delayed INTO category_log (trigger_action, trigger_modifier_id, trigger_modifier_title, category_id, image_id, parent_id, path, sort_order, category_hide, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.category_id, NEW.image_id, NEW.parent_id, NEW.path, NEW.sort_order, NEW.category_hide, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `category_updateTrigger`;
+CREATE TRIGGER `category_updateTrigger` AFTER UPDATE ON `category` FOR EACH ROW INSERT delayed INTO category_log (trigger_action, trigger_modifier_id, trigger_modifier_title, category_id, image_id, parent_id, path, sort_order, category_hide, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.category_id, NEW.image_id, NEW.parent_id, NEW.path, NEW.sort_order, NEW.category_hide, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `category_deleteTrigger`;
+CREATE TRIGGER `category_deleteTrigger` BEFORE DELETE ON `category` FOR EACH ROW INSERT delayed INTO category_log (trigger_action, trigger_modifier_id, trigger_modifier_title, category_id, image_id, parent_id, path, sort_order, category_hide, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.category_id, OLD.image_id, OLD.parent_id, OLD.path, OLD.sort_order, OLD.category_hide, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to category description table
+#
+ALTER TABLE `category_description` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `category_description` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in category description table
+#
+CREATE TABLE IF NOT EXISTS `category_description_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `category_id` int(11) DEFAULT '0',
+  `language_id` int(11) DEFAULT '0',
+  `name` varchar(32) collate utf8_unicode_ci default '',
+  `description` text collate utf8_unicode_ci,
+  `meta_keywords` varchar(255) collate utf8_unicode_ci default NULL,
+  `meta_description` varchar(255) collate utf8_unicode_ci default NULL,
+  `meta_title` varchar(255) collate utf8_unicode_ci default NULL,
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `category_description_insertTrigger`;
+CREATE TRIGGER `category_description_insertTrigger` AFTER INSERT ON `category_description` FOR EACH ROW INSERT delayed INTO category_description_log (trigger_action, trigger_modifier_id, trigger_modifier_title, category_id, language_id, name, description, meta_keywords, meta_description, meta_title, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.category_id, NEW.language_id, NEW.name, NEW.description, NEW.meta_keywords, NEW.meta_description, NEW.meta_title, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `category_description_updateTrigger`;
+CREATE TRIGGER `category_description_updateTrigger` AFTER UPDATE ON `category_description` FOR EACH ROW INSERT delayed INTO category_description_log (trigger_action, trigger_modifier_id, trigger_modifier_title, category_id, language_id, name, description, meta_keywords, meta_description, meta_title, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.category_id, NEW.language_id, NEW.name, NEW.description, NEW.meta_keywords, NEW.meta_description, NEW.meta_title, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `category_description_deleteTrigger`;
+CREATE TRIGGER `category_description_deleteTrigger` BEFORE DELETE ON `category_description` FOR EACH ROW INSERT delayed INTO category_description_log (trigger_action, trigger_modifier_id, trigger_modifier_title, category_id, language_id, name, description, meta_keywords, meta_description, meta_title, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.category_id, OLD.language_id, OLD.name, OLD.description, OLD.meta_keywords, OLD.meta_description, OLD.meta_title, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to product_to_category table
+#
+ALTER TABLE `product_to_category` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `product_to_category` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in product_to_category table
+#
+CREATE TABLE IF NOT EXISTS `product_to_category_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `product_id` int(11) DEFAULT '0',
+  `category_id` int(11) DEFAULT '0',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `product_to_category_insertTrigger`;
+CREATE TRIGGER `product_to_category_insertTrigger` AFTER INSERT ON `product_to_category` FOR EACH ROW INSERT delayed INTO product_to_category_log (trigger_action, trigger_modifier_id, trigger_modifier_title, product_id, category_id, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.product_id, NEW.category_id, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `product_to_category_updateTrigger`;
+CREATE TRIGGER `product_to_category_updateTrigger` AFTER UPDATE ON `product_to_category` FOR EACH ROW INSERT delayed INTO product_to_category_log (trigger_action, trigger_modifier_id, trigger_modifier_title, product_id, category_id, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.product_id, NEW.category_id, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `product_to_category_deleteTrigger`;
+CREATE TRIGGER `product_to_category_deleteTrigger` BEFORE DELETE ON `product_to_category` FOR EACH ROW INSERT delayed INTO product_to_category_log (trigger_action, trigger_modifier_id, trigger_modifier_title, product_id, category_id, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.product_id, OLD.category_id, OLD.date_added, OLD.date_modified);
+
+#
+# Alter review table
+#
+ALTER TABLE `review` CHANGE `date_added` `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `review` CHANGE `date_modified` `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+#
+# Log every change in review table
+#
+CREATE TABLE IF NOT EXISTS `review_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `review_id` int(11) DEFAULT '0',
+  `product_id` int(11) DEFAULT '0',
+  `customer_id` int(11) DEFAULT '0',
+  `author` varchar(64) collate utf8_unicode_ci default '',
+  `text` text collate utf8_unicode_ci,
+  `rating1` int(1) DEFAULT '0',
+  `rating2` int(1) DEFAULT '0',
+  `rating3` int(1) DEFAULT '0',
+  `rating4` int(1) DEFAULT '0',
+  `status` int(1) DEFAULT '0',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `review_insertTrigger`;
+CREATE TRIGGER `review_insertTrigger` AFTER INSERT ON `review` FOR EACH ROW INSERT delayed INTO review_log (trigger_action, trigger_modifier_id, trigger_modifier_title, review_id, product_id, customer_id, author, text, rating1, rating2, rating3, rating4, status, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.review_id, NEW.product_id, NEW.customer_id, NEW.author, NEW.text, NEW.rating1, NEW.rating2, NEW.rating3, NEW.rating4, NEW.status, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `review_updateTrigger`;
+CREATE TRIGGER `review_updateTrigger` AFTER UPDATE ON `review` FOR EACH ROW INSERT delayed INTO review_log (trigger_action, trigger_modifier_id, trigger_modifier_title, review_id, product_id, customer_id, author, text, rating1, rating2, rating3, rating4, status, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.review_id, NEW.product_id, NEW.customer_id, NEW.author, NEW.text, NEW.rating1, NEW.rating2, NEW.rating3, NEW.rating4, NEW.status, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `review_deleteTrigger`;
+CREATE TRIGGER `review_deleteTrigger` BEFORE DELETE ON `review` FOR EACH ROW INSERT delayed INTO review_log (trigger_action, trigger_modifier_id, trigger_modifier_title, review_id, product_id, customer_id, author, text, rating1, rating2, rating3, rating4, status, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.review_id, OLD.product_id, OLD.customer_id, OLD.author, OLD.text, OLD.rating1, OLD.rating2, OLD.rating3, OLD.rating4, OLD.status, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to country table
+#
+ALTER TABLE `country` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `country` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in country table
+#
+CREATE TABLE IF NOT EXISTS `country_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `country_id` int(11) DEFAULT '0',
+  `name` varchar(64) collate utf8_unicode_ci default '',
+  `country_status` int(1) DEFAULT '0',
+  `iso_code_2` varchar(2) collate utf8_unicode_ci default '',
+  `iso_code_3` varchar(3) collate utf8_unicode_ci default '',
+  `address_format` text collate utf8_unicode_ci,
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `country_insertTrigger`;
+CREATE TRIGGER `country_insertTrigger` AFTER INSERT ON `country` FOR EACH ROW INSERT delayed INTO country_log (trigger_action, trigger_modifier_id, trigger_modifier_title, country_id, name, country_status, iso_code_2, iso_code_3, address_format, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.country_id, NEW.name, NEW.country_status, NEW.iso_code_2, NEW.iso_code_3, NEW.address_format, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `country_updateTrigger`;
+CREATE TRIGGER `country_updateTrigger` AFTER UPDATE ON `country` FOR EACH ROW INSERT delayed INTO country_log (trigger_action, trigger_modifier_id, trigger_modifier_title, country_id, name, country_status, iso_code_2, iso_code_3, address_format, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.country_id, NEW.name, NEW.country_status, NEW.iso_code_2, NEW.iso_code_3, NEW.address_format, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `country_deleteTrigger`;
+CREATE TRIGGER `country_deleteTrigger` BEFORE DELETE ON `country` FOR EACH ROW INSERT delayed INTO country_log (trigger_action, trigger_modifier_id, trigger_modifier_title, country_id, name, country_status, iso_code_2, iso_code_3, address_format, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.country_id, OLD.name, OLD.country_status, OLD.iso_code_2, OLD.iso_code_3, OLD.address_format, OLD.date_added, OLD.date_modified);
+
+#
+# Alter geo_zone table
+#
+ALTER TABLE `geo_zone` CHANGE `date_modified` `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in geo_zone table
+#
+CREATE TABLE IF NOT EXISTS `geo_zone_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `geo_zone_id` int(11) DEFAULT '0',
+  `name` varchar(32) collate utf8_unicode_ci default '',
+  `description` varchar(255) collate utf8_unicode_ci default '',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `geo_zone_insertTrigger`;
+CREATE TRIGGER `geo_zone_insertTrigger` AFTER INSERT ON `geo_zone` FOR EACH ROW INSERT delayed INTO geo_zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, geo_zone_id, name, description, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.geo_zone_id, NEW.name, NEW.description, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `geo_zone_updateTrigger`;
+CREATE TRIGGER `geo_zone_updateTrigger` AFTER UPDATE ON `geo_zone` FOR EACH ROW INSERT delayed INTO geo_zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, geo_zone_id, name, description, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.geo_zone_id, NEW.name, NEW.description, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `geo_zone_deleteTrigger`;
+CREATE TRIGGER `geo_zone_deleteTrigger` BEFORE DELETE ON `geo_zone` FOR EACH ROW INSERT delayed INTO geo_zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, geo_zone_id, name, description, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.geo_zone_id, OLD.name, OLD.description, OLD.date_added, OLD.date_modified);
+
+#
+# Alter tax_class table
+#
+ALTER TABLE `tax_class` CHANGE `date_modified` `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+#
+# Log every change in tax_class table
+#
+CREATE TABLE IF NOT EXISTS `tax_class_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `tax_class_id` int(11) DEFAULT '0',
+  `title` varchar(32) collate utf8_unicode_ci default '',
+  `description` varchar(255) collate utf8_unicode_ci default '',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `tax_class_insertTrigger`;
+CREATE TRIGGER `tax_class_insertTrigger` AFTER INSERT ON `tax_class` FOR EACH ROW INSERT delayed INTO tax_class_log (trigger_action, trigger_modifier_id, trigger_modifier_title, tax_class_id, title, description, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.tax_class_id, NEW.title, NEW.description, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `tax_class_updateTrigger`;
+CREATE TRIGGER `tax_class_updateTrigger` AFTER UPDATE ON `tax_class` FOR EACH ROW INSERT delayed INTO tax_class_log (trigger_action, trigger_modifier_id, trigger_modifier_title, tax_class_id, title, description, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.tax_class_id, NEW.title, NEW.description, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `tax_class_deleteTrigger`;
+CREATE TRIGGER `tax_class_deleteTrigger` BEFORE DELETE ON `tax_class` FOR EACH ROW INSERT delayed INTO tax_class_log (trigger_action, trigger_modifier_id, trigger_modifier_title, tax_class_id, title, description, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.tax_class_id, OLD.title, OLD.description, OLD.date_added, OLD.date_modified)
+
+#
+# Alter tax_rate table
+#
+ALTER TABLE `tax_rate` CHANGE `date_modified` `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in tax_rate table
+#
+CREATE TABLE IF NOT EXISTS `tax_rate_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `tax_rate_id` int(11) DEFAULT '0',
+  `geo_zone_id` int(11) DEFAULT '0',
+  `tax_class_id` int(11) DEFAULT '0',
+  `priority` int(5) DEFAULT '1',
+  `rate` decimal(7,4) DEFAULT '0.0000',
+  `description` varchar(255) collate utf8_unicode_ci DEFAULT '',
+  `date_added` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `tax_rate_insertTrigger`;
+CREATE TRIGGER `tax_rate_insertTrigger` AFTER INSERT ON `tax_rate` FOR EACH ROW INSERT delayed INTO tax_rate_log (trigger_action, trigger_modifier_id, trigger_modifier_title, tax_rate_id, geo_zone_id, tax_class_id, priority, rate, description, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.tax_rate_id, NEW.geo_zone_id, NEW.tax_class_id, NEW.priority, NEW.rate, NEW.description, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `tax_rate_updateTrigger`;
+CREATE TRIGGER `tax_rate_updateTrigger` AFTER UPDATE ON `tax_rate` FOR EACH ROW INSERT delayed INTO tax_rate_log (trigger_action, trigger_modifier_id, trigger_modifier_title, tax_rate_id, geo_zone_id, tax_class_id, priority, rate, description, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.tax_rate_id, NEW.geo_zone_id, NEW.tax_class_id, NEW.priority, NEW.rate, NEW.description, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `tax_rate_deleteTrigger`;
+CREATE TRIGGER `tax_rate_deleteTrigger` BEFORE DELETE ON `tax_rate` FOR EACH ROW INSERT delayed INTO tax_rate_log (trigger_action, trigger_modifier_id, trigger_modifier_title, tax_rate_id, geo_zone_id, tax_class_id, priority, rate, description, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.tax_rate_id, OLD.geo_zone_id, OLD.tax_class_id, OLD.priority, OLD.rate, OLD.description, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to zone table
+#
+ALTER TABLE `zone` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `zone` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in zone table
+#
+CREATE TABLE IF NOT EXISTS `zone_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `zone_id` int(11) DEFAULT '0',
+  `country_id` int(11) DEFAULT '0',
+  `code` varchar(32) collate utf8_unicode_ci default '',
+  `name` varchar(32) collate utf8_unicode_ci default '',
+  `zone_status` int(1) DEFAULT '1',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `zone_insertTrigger`;
+CREATE TRIGGER `zone_insertTrigger` AFTER INSERT ON `zone` FOR EACH ROW INSERT delayed INTO zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, zone_id, country_id, code, name, zone_status, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.zone_id, NEW.country_id, NEW.code, NEW.name, NEW.zone_status, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `zone_updateTrigger`;
+CREATE TRIGGER `zone_updateTrigger` AFTER UPDATE ON `zone` FOR EACH ROW INSERT delayed INTO zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, zone_id, country_id, code, name, zone_status, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.zone_id, NEW.country_id, NEW.code, NEW.name, NEW.zone_status, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `zone_deleteTrigger`;
+CREATE TRIGGER `zone_deleteTrigger` BEFORE DELETE ON `zone` FOR EACH ROW INSERT delayed INTO zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, zone_id, country_id, code, name, zone_status, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.zone_id, OLD.country_id, OLD.code, OLD.name, OLD.zone_status, OLD.date_added, OLD.date_modified);
+
+#
+# Alter zone_to_geo_zone table
+#
+ALTER TABLE `zone_to_geo_zone` CHANGE `date_modified` `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in zone_to_geo_zone table
+#
+CREATE TABLE IF NOT EXISTS `zone_to_geo_zone_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `zone_to_geo_zone_id` int(11) DEFAULT '0',
+  `country_id` int(11) DEFAULT '0',
+  `zone_id` int(11) DEFAULT '0',
+  `geo_zone_id` int(11) DEFAULT '0',
+  `date_added` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `zone_to_geo_zone_insertTrigger`;
+CREATE TRIGGER `zone_to_geo_zone_insertTrigger` AFTER INSERT ON `zone_to_geo_zone` FOR EACH ROW INSERT delayed INTO zone_to_geo_zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, zone_to_geo_zone_id, country_id, zone_id, geo_zone_id, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.zone_to_geo_zone_id, NEW.country_id, NEW.zone_id, NEW.geo_zone_id, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `zone_to_geo_zone_updateTrigger`;
+CREATE TRIGGER `zone_to_geo_zone_updateTrigger` AFTER UPDATE ON `zone_to_geo_zone` FOR EACH ROW INSERT delayed INTO zone_to_geo_zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, zone_to_geo_zone_id, country_id, zone_id, geo_zone_id, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.zone_to_geo_zone_id, NEW.country_id, NEW.zone_id, NEW.geo_zone_id, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `zone_to_geo_zone_deleteTrigger`;
+CREATE TRIGGER `zone_to_geo_zone_deleteTrigger` BEFORE DELETE ON `zone_to_geo_zone` FOR EACH ROW INSERT delayed INTO zone_to_geo_zone_log (trigger_action, trigger_modifier_id, trigger_modifier_title, zone_to_geo_zone_id, country_id, zone_id, geo_zone_id, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.zone_to_geo_zone_id, OLD.country_id, OLD.zone_id, OLD.geo_zone_id, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to url_alias table
+#
+ALTER TABLE `url_alias` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `url_alias` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in url_alias table
+#
+CREATE TABLE IF NOT EXISTS `url_alias_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `url_alias_id` int(11) DEFAULT '0',
+  `query` varchar(128) collate utf8_unicode_ci default '',
+  `alias` varchar(128) collate utf8_unicode_ci default '',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `url_alias_insertTrigger`;
+CREATE TRIGGER `url_alias_insertTrigger` AFTER INSERT ON `url_alias` FOR EACH ROW INSERT delayed INTO url_alias_log (trigger_action, trigger_modifier_id, trigger_modifier_title, url_alias_id, query, alias, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.url_alias_id, NEW.query, NEW.alias, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `url_alias_updateTrigger`;
+CREATE TRIGGER `url_alias_updateTrigger` AFTER UPDATE ON `url_alias` FOR EACH ROW INSERT delayed INTO url_alias_log (trigger_action, trigger_modifier_id, trigger_modifier_title, url_alias_id, query, alias, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.url_alias_id, NEW.query, NEW.alias, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `url_alias_deleteTrigger`;
+CREATE TRIGGER `url_alias_deleteTrigger` BEFORE DELETE ON `url_alias` FOR EACH ROW INSERT delayed INTO url_alias_log (trigger_action, trigger_modifier_id, trigger_modifier_title, url_alias_id, query, alias, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.url_alias_id, OLD.query, OLD.alias, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to order_status table
+#
+ALTER TABLE `order_status` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `order_status` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in order_status table
+#
+CREATE TABLE IF NOT EXISTS `order_status_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `order_status_id` int(11) DEFAULT '0',
+  `language_id` int(11) DEFAULT '0',
+  `name` varchar(32) collate utf8_unicode_ci default '',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `order_status_insertTrigger`;
+CREATE TRIGGER `order_status_insertTrigger` AFTER INSERT ON `order_status` FOR EACH ROW INSERT delayed INTO order_status_log (trigger_action, trigger_modifier_id, trigger_modifier_title, order_status_id, language_id, name, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.order_status_id, NEW.language_id, NEW.name, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `order_status_updateTrigger`;
+CREATE TRIGGER `order_status_updateTrigger` AFTER UPDATE ON `order_status` FOR EACH ROW INSERT delayed INTO order_status_log (trigger_action, trigger_modifier_id, trigger_modifier_title, order_status_id, language_id, name, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.order_status_id, NEW.language_id, NEW.name, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `order_status_deleteTrigger`;
+CREATE TRIGGER `order_status_deleteTrigger` BEFORE DELETE ON `order_status` FOR EACH ROW INSERT delayed INTO order_status_log (trigger_action, trigger_modifier_id, trigger_modifier_title, order_status_id, language_id, name, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.order_status_id, OLD.language_id, OLD.name, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to language table
+#
+ALTER TABLE `language` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `language` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in language table
+#
+CREATE TABLE IF NOT EXISTS `language_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `language_id` int(11) DEFAULT '0',
+  `language_status` int(1) DEFAULT '1',
+  `name` varchar(32) collate utf8_unicode_ci default '',
+  `code` varchar(5) collate utf8_unicode_ci default NULL,
+  `image` varchar(64) collate utf8_unicode_ci default NULL,
+  `directory` varchar(32) collate utf8_unicode_ci default '',
+  `filename` varchar(64) collate utf8_unicode_ci default '',
+  `sort_order` varchar(3) collate utf8_unicode_ci default NULL,
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `language_insertTrigger`;
+CREATE TRIGGER `language_insertTrigger` AFTER INSERT ON `language` FOR EACH ROW INSERT delayed INTO language_log (trigger_action, trigger_modifier_id, trigger_modifier_title, language_id, language_status, name, code, image, directory, filename, sort_order, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.language_id, NEW.language_status, NEW.name, NEW.code, NEW.image, NEW.directory, NEW.filename, NEW.sort_order, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `language_updateTrigger`;
+CREATE TRIGGER `language_updateTrigger` AFTER UPDATE ON `language` FOR EACH ROW INSERT delayed INTO language_log (trigger_action, trigger_modifier_id, trigger_modifier_title, language_id, language_status, name, code, image, directory, filename, sort_order, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.language_id, NEW.language_status, NEW.name, NEW.code, NEW.image, NEW.directory, NEW.filename, NEW.sort_order, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `language_deleteTrigger`;
+CREATE TRIGGER `language_deleteTrigger` BEFORE DELETE ON `language` FOR EACH ROW INSERT delayed INTO language_log (trigger_action, trigger_modifier_id, trigger_modifier_title, language_id, language_status, name, code, image, directory, filename, sort_order, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.language_id, OLD.language_status, OLD.name, OLD.code, OLD.image, OLD.directory, OLD.filename, OLD.sort_order, OLD.date_added, OLD.date_modified);
+
+#
+# Add date_added and date_modified to manufacturer table
+#
+ALTER TABLE `manufacturer` ADD `date_added` datetime NOT NULL default '1000-01-01 00:00:00';
+ALTER TABLE `manufacturer` ADD `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `date_added`;
+
+#
+# Log every change in manufacturer table
+#
+CREATE TABLE IF NOT EXISTS `manufacturer_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `trigger_modifier_id` int(11) DEFAULT '0',
+  `trigger_modifier_title` varchar(8) COLLATE utf8_unicode_ci DEFAULT '',
+  `manufacturer_id` int(11) DEFAULT '0',
+  `name` varchar(64) collate utf8_unicode_ci default '',
+  `image_id` int(11) DEFAULT '0',
+  `sort_order` varchar(3) collate utf8_unicode_ci default '0',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `manufacturer_insertTrigger`;
+CREATE TRIGGER `manufacturer_insertTrigger` AFTER INSERT ON `manufacturer` FOR EACH ROW INSERT delayed INTO manufacturer_log (trigger_action, trigger_modifier_id, trigger_modifier_title, manufacturer_id, name, image_id, sort_order, date_added, date_modified) VALUES ('INSERT', @modifier_id, @modifier_title, NEW.manufacturer_id, NEW.name, NEW.image_id, NEW.sort_order, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `manufacturer_updateTrigger`;
+CREATE TRIGGER `manufacturer_updateTrigger` AFTER UPDATE ON `manufacturer` FOR EACH ROW INSERT delayed INTO manufacturer_log (trigger_action, trigger_modifier_id, trigger_modifier_title, manufacturer_id, name, image_id, sort_order, date_added, date_modified) VALUES ('UPDATE', @modifier_id, @modifier_title, NEW.manufacturer_id, NEW.name, NEW.image_id, NEW.sort_order, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `manufacturer_deleteTrigger`;
+CREATE TRIGGER `manufacturer_deleteTrigger` BEFORE DELETE ON `manufacturer` FOR EACH ROW INSERT delayed INTO manufacturer_log (trigger_action, trigger_modifier_id, trigger_modifier_title, manufacturer_id, name, image_id, sort_order, date_added, date_modified) VALUES ('DELETE', @modifier_id, @modifier_title, OLD.manufacturer_id, OLD.name, OLD.image_id, OLD.sort_order, OLD.date_added, OLD.date_modified);
+
+#
+# TABLE STRUCTURE FOR: `login`
+#
+CREATE TABLE IF NOT EXISTS `login` (
+  `login_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `ip` varchar(39) collate utf8_unicode_ci NOT NULL,
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`login_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+# Log every change in login table
+#
+CREATE TABLE IF NOT EXISTS `login_log` (
+  `trigger_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `trigger_action` varchar(6) COLLATE utf8_unicode_ci DEFAULT '',
+  `login_id` int(11) DEFAULT '0',
+  `user_id` int(11) DEFAULT '0',
+  `ip` varchar(39) collate utf8_unicode_ci default '',
+  `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`trigger_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TRIGGER IF EXISTS `login_insertTrigger`;
+CREATE TRIGGER `login_insertTrigger` AFTER INSERT ON `login` FOR EACH ROW INSERT delayed INTO login_log (trigger_action, login_id, user_id, ip, date_added, date_modified) VALUES ('INSERT', NEW.login_id, NEW.user_id, NEW.ip, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `login_updateTrigger`;
+CREATE TRIGGER `login_updateTrigger` AFTER UPDATE ON `login` FOR EACH ROW INSERT delayed INTO login_log (trigger_action, login_id, user_id, ip, date_added, date_modified) VALUES ('UPDATE', NEW.login_id, NEW.user_id, NEW.ip, NEW.date_added, NEW.date_modified);
+
+DROP TRIGGER IF EXISTS `login_deleteTrigger`;
+CREATE TRIGGER `login_deleteTrigger` BEFORE DELETE ON `login` FOR EACH ROW INSERT delayed INTO login_log (trigger_action, login_id, user_id, ip, date_added, date_modified) VALUES ('DELETE', OLD.login_id, OLD.user_id, OLD.ip, OLD.date_added, OLD.date_modified);

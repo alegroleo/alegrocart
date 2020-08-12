@@ -1,21 +1,23 @@
 <?php // Report Viewed AlegroCart
 class ControllerReportViewed extends Controller {
+
 	public function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
 		$this->request		=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session  	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
 		$this->modelReportViewed = $model->get('model_admin_report_viewed');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('report_viewed');
+		$this->adminController	= $this->template->set_controller('report_viewed');
 
 		$this->language->load('controller/report_viewed.php');
 		}
+
 	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
  
@@ -78,6 +80,7 @@ class ControllerReportViewed extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
+
 	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');

@@ -1,39 +1,57 @@
 <?php //AdminModelSEO AlegroCart
 class Model_Admin_UrlAlias extends Model {
+
 	function __construct(&$locator) {
-		$this->config   =& $locator->get('config');
-		$this->database =& $locator->get('database');
-		$this->language =& $locator->get('language');
-		$this->request 	=& $locator->get('request');
-		$this->session  =& $locator->get('session');
+		$this->config	=& $locator->get('config');
+		$this->database	=& $locator->get('database');
+		$this->language	=& $locator->get('language');
+		$this->request	=& $locator->get('request');
+		$this->session	=& $locator->get('session');
 	}
+
 	function insert_url(){
-		$this->database->query("insert into url_alias set query = '" . $this->request->get('query', 'post') . "' , alias = '" . $this->request->get('alias', 'post') . "'");
+		$this->database->query("insert into url_alias set query = '" . $this->request->get('query', 'post') . "' , alias = '" . $this->request->get('alias', 'post') . "', date_added = now()");
 	}
+
 	function update_url(){
 		$this->database->query("update url_alias set query = '" . $this->request->get('query', 'post') . "' , alias = '" . $this->request->get('alias', 'post') . "' where url_alias_id = '" . (int)$this->request->get('url_alias_id') . "'");
 	}
+
 	function delete_url(){
 		$this->database->query("delete from url_alias where url_alias_id = '" . (int)$this->request->get('url_alias_id') . "'");
 	}
+
 	function get_url_alias(){
-		$result = $this->database->getRow("select distinct query, alias from url_alias where url_alias_id = '" . (int)$this->request->get('url_alias_id') . "'");
+		$result = $this->database->getRow("select distinct * from url_alias where url_alias_id = '" . (int)$this->request->get('url_alias_id') . "'");
 		return $result;
 	}
+
+	function get_deleted_log(){
+		$result = $this->database->getRow("SELECT CONCAT(firstname, ' ', lastname) AS modifier FROM url_alias_log ual INNER JOIN user u ON (u.user_id = aul.trigger_modifier_id) WHERE url_alias_id = '" . (int)$this->request->gethtml('url_alias_id') . "' AND trigger_action = 'DELETE'");
+		return $result;
+	}
+
+	function get_modified_log($date_modified){
+		$result = $this->database->getRow("SELECT ual.*, CONCAT(firstname, ' ', lastname) AS modifier FROM url_alias_log ual INNER JOIN user u ON (u.user_id = ual.trigger_modifier_id) WHERE url_alias_id = '" . (int)$this->request->gethtml('url_alias_id') . "' AND date_modified =  '" . $date_modified . "'");
+		return $result;
+	}
+
 	function get_pagination(){
-    	$page_data = array();
-    	for ($i = 1; $i <= $this->get_pages(); $i++) {
-      		$page_data[] = array(
-        		'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
-        		'value' => $i
-      		);
-    	}
+		$page_data = array();
+		for ($i = 1; $i <= $this->get_pages(); $i++) {
+			$page_data[] = array(
+				'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
+				'value' => $i
+			);
+		}
 		return $page_data;
 	}
+
 	function get_pages(){
 		$pages = $this->database->getpages();
 		return $pages;
 	}
+
 	function get_page(){
 		if (!$this->session->get('url_alias.search')) {
 			$sql = "select url_alias_id, query, alias from url_alias";
@@ -52,10 +70,12 @@ class Model_Admin_UrlAlias extends Model {
 		$results = $this->database->getRows($this->database->splitQuery($this->database->parse($sql, '%' . $this->session->get('url_alias.search') . '%','%' . $this->session->get('url_alias.search') . '%'), $this->session->get('url_alias.page'), $this->config->get('config_max_rows')));
 		return $results;
 	}
+
 	function get_text_results(){ 
 		$text_results = $this->language->get('text_results', $this->database->getFrom(), $this->database->getTo(), $this->database->getTotal());
 		return $text_results;
 	}
+
 	function get_last_id(){
 		$result = $this->database->getLastId();
 		return $result;

@@ -68,6 +68,9 @@
                   <?php } ?>
                   <?php } ?>
                 </select>
+                <?php if ($error_currency) { ?>
+                <span class="error"><?php echo $error_currency; ?></span>
+                <?php } ?>
 		</td>
 		<td class="expl"><?php echo $explanation_currency;?></td>
             </tr>
@@ -82,6 +85,9 @@
             <tr>
               <td class="set" valign="top"><?php echo $entry_bank_address; ?></td>
               <td><textarea rows="5" cols="30" name="bank_address"><?php echo $bank_address; ?></textarea>
+                <?php if ($error_bank_address) { ?>
+                <span class="error"><?php echo $error_bank_address; ?></span>
+                <?php } ?></td>
               <td class="expl" valign="top"><?php echo $explanation_bank_address; ?></td>
             </tr>
 	    <tr>
@@ -102,12 +108,18 @@
             </tr>
             <tr>
               <td class="set"><?php echo $entry_iban; ?></td>
-              <td><input class="validate_alpha_num" id="iban" type="text" size="30" name="iban" value="<?php echo $iban; ?>"></td>
+              <td><input class="validate_alpha_num" id="iban" type="text" size="30" name="iban" value="<?php echo $iban; ?>">
+                <?php if ($error_iban) { ?>
+                <span class="error"><?php echo $error_iban; ?></span>
+                <?php } ?></td>
               <td class="expl"><?php echo $explanation_iban; ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_swift; ?></td>
-              <td><input class="validate_alpha_num" id="swift" type="text" size="20" name="swift" value="<?php echo $swift; ?>"></td>
+              <td><input class="validate_alpha_num" id="swift" type="text" size="20" name="swift" value="<?php echo $swift; ?>">
+                <?php if ($error_swift) { ?>
+                <span class="error"><?php echo $error_swift; ?></span>
+                <?php } ?></td>
               <td class="expl"><?php echo $explanation_swift; ?></td>
             </tr>
 	    <tr>
@@ -120,7 +132,10 @@
                   <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
                   <?php } ?>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_charge) { ?>
+                <span class="error"><?php echo $error_charge; ?></span>
+                <?php } ?></td>
 	      <td class="expl"><?php echo $explanation_charges;?></td>
 	    </tr>
           </table>

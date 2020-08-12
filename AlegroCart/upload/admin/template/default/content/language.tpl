@@ -132,11 +132,17 @@
                   <option value="1"><?php echo $text_enabled; ?></option>
                   <option value="0" selected><?php echo $text_disabled; ?></option>
                   <?php } ?>
-                </select></td>
+                </select>
+                <?php if ($error_status) { ?>
+                <span class="error"><?php echo $error_status; ?></span>
+                <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_sort_order; ?></td>
-              <td><input class="validate_int" id="sort_order" type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1"></td>
+              <td><input class="validate_int" id="sort_order" type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1">
+                <?php if ($error_sort_order) { ?>
+                <span class="error"><?php echo $error_sort_order; ?></span>
+                <?php } ?></td>
             </tr>
           </table>
         </div>

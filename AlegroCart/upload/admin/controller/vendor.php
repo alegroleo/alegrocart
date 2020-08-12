@@ -1,7 +1,9 @@
 <?php   //Admin Vendor AlegroCart
 class ControllerVendor extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+
+	public  $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->cache		=& $locator->get('cache');
@@ -21,12 +23,12 @@ class ControllerVendor extends Controller {
 		$this->validate		=& $locator->get('validate');
 		$this->modelVendor	= $model->get('model_admin_vendor');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('vendor');
+		$this->adminController	= $this->template->set_controller('vendor');
 
 		$this->language->load('controller/vendor.php');
 	}
 
-	function index(){
+	protected function index(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -35,7 +37,7 @@ class ControllerVendor extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert(){
+	protected function insert(){
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
@@ -69,7 +71,7 @@ class ControllerVendor extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update(){
+	protected function update(){
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
@@ -96,7 +98,8 @@ class ControllerVendor extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function delete(){
+
+	protected function delete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->gethtml('vendor_id')) && ($this->validateDelete())) {
 			$this->modelVendor->delete_vendor();
@@ -111,12 +114,14 @@ class ControllerVendor extends Controller {
 
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
-	function changeStatus() { 
+
+	protected function changeStatus() { 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelVendor->change_vendor_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
 	}
-	function getList(){
+
+	private function getList(){
 		$this->session->set('vendor_validation', md5(time()));
 
 		$cols = array();
@@ -242,7 +247,7 @@ class ControllerVendor extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm(){
+	private function getForm(){
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -296,20 +301,20 @@ class ControllerVendor extends Controller {
 		$view->set('error_name', @$this->error['name']);
 		$view->set('error_email', @$this->error['email']);
 
-	if(!@$this->error['message']){
-	$view->set('error', @$this->error['warning']);
-	}
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
-	$view->set('action', $this->url->ssl('vendor', $this->request->gethtml('action'), array('vendor_id' => $this->request->gethtml('vendor_id'))));
+		$view->set('action', $this->url->ssl('vendor', $this->request->gethtml('action'), array('vendor_id' => $this->request->gethtml('vendor_id'))));
 
-	$view->set('insert', $this->url->ssl('vendor', 'insert'));
-	$view->set('cancel', $this->url->ssl('vendor'));
+		$view->set('insert', $this->url->ssl('vendor', 'insert'));
+		$view->set('cancel', $this->url->ssl('vendor'));
 		$view->set('last', $this->url->getLast('vendor'));
 
-	if ($this->request->gethtml('vendor_id')) {
-		$view->set('update', $this->url->ssl('vendor', 'update', array('vendor_id' => $this->request->gethtml('vendor_id'))));
-		$view->set('delete', $this->url->ssl('vendor', 'delete', array('vendor_id' => $this->request->gethtml('vendor_id'),'vendor_validation' =>$this->session->get('vendor_validation'))));
-	}
+		if ($this->request->gethtml('vendor_id')) {
+			$view->set('update', $this->url->ssl('vendor', 'update', array('vendor_id' => $this->request->gethtml('vendor_id'))));
+			$view->set('delete', $this->url->ssl('vendor', 'delete', array('vendor_id' => $this->request->gethtml('vendor_id'),'vendor_validation' =>$this->session->get('vendor_validation'))));
+		}
 
 		$view->set('tab', $this->session->has('vendor_tab') && $this->session->get('vendor_id') == $this->request->gethtml('vendor_id') ? $this->session->get('vendor_tab') : 0);
 
@@ -322,14 +327,14 @@ class ControllerVendor extends Controller {
 		$this->session->set('validation', md5(time()));
 		$view->set('validation', $this->session->get('validation'));
 
-	if (($this->request->gethtml('vendor_id')) && (!$this->request->isPost())) {
-		$vendor_info = $this->modelVendor->get_vendor();
-		$address_info = $this->modelVendor->get_address(@$vendor_info['address_id']);
-	}
+		if (($this->request->gethtml('vendor_id')) && (!$this->request->isPost())) {
+			$vendor_info = $this->modelVendor->get_vendor();
+			$address_info = $this->modelVendor->get_address(@$vendor_info['address_id']);
+		}
 
 		if ($this->request->has('name', 'post')) {
 			if ($this->request->gethtml('name', 'post') != NULL) {
-				$name_last = $this->request->has('name', 'post');
+				$name_last = $this->request->get('name', 'post');
 			} else {
 				$name_last = $this->session->get('name_last_vendor');
 			}
@@ -343,162 +348,162 @@ class ControllerVendor extends Controller {
 		$this->session->set('last_vendor', $this->url->ssl('vendor', 'update', array('vendor_id' => $this->request->gethtml('vendor_id'))));
 		$this->session->set('last_vendor_id', $this->request->gethtml('vendor_id'));
 
-	if ($this->request->has('name', 'post')) {
-		$view->set('name', $this->request->gethtml('name', 'post'));
-	} else {
-		$view->set('name', @$vendor_info['name']);
-	}
+		if ($this->request->has('name', 'post')) {
+			$view->set('name', $this->request->gethtml('name', 'post'));
+		} else {
+			$view->set('name', @$vendor_info['name']);
+		}
 
-	$image_data = array();
-	$results = $this->modelVendor->get_images();
-	foreach ($results as $result) {
-		$image_data[] = array(
-			'image_id'	=> $result['image_id'],
-			'previewimage'	=> $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-			'title'		=> $result['title']
-		);
-	}
-	$view->set('images', $image_data);
-
-	if ($this->request->has('image_id', 'post')) {
-		$view->set('image_id', $this->request->gethtml('image_id', 'post'));
-	} else {
-		$view->set('image_id', @$vendor_info['image_id']);
-	}
-
-	$product_data = array();
-	$results = $this->modelVendor->get_products();
-	foreach ($results as $result) {
-			if (($this->request->gethtml('vendor_id')) && (!$this->request->isPost())) {
-				$product_info = $this->modelVendor->get_vendorToProduct($result['product_id']);
-			}
-			$product_data[] = array(
-				'product_id'	=> $result['product_id'],
+		$image_data = array();
+		$results = $this->modelVendor->get_images();
+		foreach ($results as $result) {
+			$image_data[] = array(
+				'image_id'	=> $result['image_id'],
 				'previewimage'	=> $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-				'name'		=> $result['name'],
-			'productdata'		=> (isset($product_info) ? $product_info : in_array($result['product_id'], $this->request->gethtml('productdata', 'post', array()))));
+				'title'		=> $result['title']
+			);
+		}
+		$view->set('images', $image_data);
+
+		if ($this->request->has('image_id', 'post')) {
+			$view->set('image_id', $this->request->gethtml('image_id', 'post'));
+		} else {
+			$view->set('image_id', @$vendor_info['image_id']);
+		}
+
+		$product_data = array();
+		$results = $this->modelVendor->get_products();
+		foreach ($results as $result) {
+				if (($this->request->gethtml('vendor_id')) && (!$this->request->isPost())) {
+					$product_info = $this->modelVendor->get_vendorToProduct($result['product_id']);
+				}
+				$product_data[] = array(
+					'product_id'	=> $result['product_id'],
+					'previewimage'	=> $this->image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+					'name'		=> $result['name'],
+				'productdata'		=> (isset($product_info) ? $product_info : in_array($result['product_id'], $this->request->gethtml('productdata', 'post', array()))));
+		}
+		$view->set('productdata', $product_data);
+
+		if ($this->request->has('description', 'post')) {
+			$view->set('description', $this->request->gethtml('description', 'post'));
+		} else {
+			$view->set('description', @$vendor_info['description']);
+		}
+
+		if ($this->request->has('discount', 'post')) {
+			$view->set('discount', $this->request->gethtml('discount', 'post'));
+		} else {
+			$view->set('discount', @$vendor_info['discount']);
+		}
+
+		if ($this->request->has('website', 'post')) {
+			$view->set('website', $this->request->gethtml('website', 'post'));
+		} else {
+			$view->set('website', @$vendor_info['website']);
+		}
+
+		if ($this->request->has('trade', 'post')) {
+			$view->set('trade', $this->request->gethtml('trade', 'post'));
+		} else {
+			$view->set('trade', @$vendor_info['trade']);
+		}
+
+		if ($this->request->has('address_id', 'post')) {
+			$view->set('address_id', $this->request->gethtml('address_id', 'post'));
+		} else {
+			$view->set('address_id', @$vendor_info['address_id']);
+		}
+
+		if ($this->request->has('firstname', 'post')) {
+			$view->set('firstname', $this->request->gethtml('firstname', 'post'));
+		} else {
+			$view->set('firstname', @$address_info['firstname']);
+		}
+
+		if ($this->request->has('lastname', 'post')) {
+			$view->set('lastname', $this->request->gethtml('lastname', 'post'));
+		} else {
+			$view->set('lastname', @$address_info['lastname']);
+		}
+
+		if ($this->request->has('email', 'post')) {
+			$view->set('email', $this->request->gethtml('email', 'post'));
+		} else {
+			$view->set('email', @$vendor_info['email']);
+		}
+
+		if ($this->request->has('telephone', 'post')) {
+			$view->set('telephone', $this->request->gethtml('telephone', 'post'));
+		} else {
+			$view->set('telephone', @$vendor_info['telephone']);
+		}
+
+		if ($this->request->has('fax', 'post')) {
+			$view->set('fax', $this->request->gethtml('fax', 'post'));
+		} else {
+			$view->set('fax', @$vendor_info['fax']);
+		}
+
+		if ($this->request->has('status', 'post')) {
+			$view->set('status', $this->request->gethtml('status', 'post'));
+		} else {
+			$view->set('status', @$vendor_info['status']);
+		}
+
+		if ($this->request->has('company', 'post')) {
+			$view->set('company', $this->request->gethtml('company', 'post'));
+		} else {
+			$view->set('company', @$address_info['company']);
+		}
+
+			if ($this->request->has('address_1', 'post')) {
+			$view->set('address_1', $this->request->gethtml('address_1', 'post'));
+		} else {
+			$view->set('address_1', @$address_info['address_1']);
+		}
+
+		if ($this->request->has('address_2', 'post')) {
+			$view->set('address_2', $this->request->sanitize('address_2', 'post'));
+		} else {
+			$view->set('address_2', @$address_info['address_2']);
+		}
+
+		if ($this->request->has('postcode', 'post')) {
+			$view->set('postcode', $this->request->sanitize('postcode', 'post'));
+		} else {
+			$view->set('postcode', @$address_info['postcode']);
+		}
+
+		if ($this->request->has('city', 'post')) {
+			$view->set('city', $this->request->sanitize('city', 'post'));
+		} else {
+			$view->set('city', @$address_info['city']);
+		}
+
+		if ($this->request->has('country_id', 'post')) {
+			$view->set('country_id', $this->request->gethtml('country_id', 'post'));
+		} elseif (isset($address_info['country_id'])) {
+			$view->set('country_id', $address_info['country_id']);
+		} else {
+			$view->set('country_id', $this->config->get('config_country_id'));
+		}
+
+		if ($this->request->has('zone_id', 'post')) {
+			$view->set('zone_id', $this->request->gethtml('zone_id', 'post'));
+		} elseif (isset($address_info['zone_id'])) {
+			$view->set('zone_id', $address_info['zone_id']);
+		} else {
+			$view->set('zone_id', $this->config->get('config_zone_id'));
+		}
+
+		$view->set('countries',$this->modelVendor->get_countries());
+		$view->set('zones', $this->modelVendor->get_zones());
+
+		return $view->fetch('content/vendor.tpl');
 	}
-	$view->set('productdata', $product_data);
 
-	if ($this->request->has('description', 'post')) {
-		$view->set('description', $this->request->gethtml('description', 'post'));
-	} else {
-		$view->set('description', @$vendor_info['description']);
-	}
-
-	if ($this->request->has('discount', 'post')) {
-		$view->set('discount', $this->request->gethtml('discount', 'post'));
-	} else {
-		$view->set('discount', @$vendor_info['discount']);
-	}
-
-	if ($this->request->has('website', 'post')) {
-		$view->set('website', $this->request->gethtml('website', 'post'));
-	} else {
-		$view->set('website', @$vendor_info['website']);
-	}
-
-	if ($this->request->has('trade', 'post')) {
-		$view->set('trade', $this->request->gethtml('trade', 'post'));
-	} else {
-		$view->set('trade', @$vendor_info['trade']);
-	}
-
-	if ($this->request->has('address_id', 'post')) {
-		$view->set('address_id', $this->request->gethtml('address_id', 'post'));
-	} else {
-		$view->set('address_id', @$vendor_info['address_id']);
-	}
-
-	if ($this->request->has('firstname', 'post')) {
-		$view->set('firstname', $this->request->gethtml('firstname', 'post'));
-	} else {
-		$view->set('firstname', @$address_info['firstname']);
-	}
-
-	if ($this->request->has('lastname', 'post')) {
-		$view->set('lastname', $this->request->gethtml('lastname', 'post'));
-	} else {
-		$view->set('lastname', @$address_info['lastname']);
-	}
-
-	if ($this->request->has('email', 'post')) {
-		$view->set('email', $this->request->gethtml('email', 'post'));
-	} else {
-		$view->set('email', @$vendor_info['email']);
-	}
-
-	if ($this->request->has('telephone', 'post')) {
-		$view->set('telephone', $this->request->gethtml('telephone', 'post'));
-	} else {
-		$view->set('telephone', @$vendor_info['telephone']);
-	}
-
-	if ($this->request->has('fax', 'post')) {
-		$view->set('fax', $this->request->gethtml('fax', 'post'));
-	} else {
-		$view->set('fax', @$vendor_info['fax']);
-	}
-
-	if ($this->request->has('status', 'post')) {
-		$view->set('status', $this->request->gethtml('status', 'post'));
-	} else {
-		$view->set('status', @$vendor_info['status']);
-	}
-
-	if ($this->request->has('company', 'post')) {
-		$view->set('company', $this->request->gethtml('company', 'post'));
-	} else {
-		$view->set('company', @$address_info['company']);
-	}
-
-		if ($this->request->has('address_1', 'post')) {
-		$view->set('address_1', $this->request->gethtml('address_1', 'post'));
-	} else {
-		$view->set('address_1', @$address_info['address_1']);
-	}
-
-	if ($this->request->has('address_2', 'post')) {
-		$view->set('address_2', $this->request->sanitize('address_2', 'post'));
-	} else {
-		$view->set('address_2', @$address_info['address_2']);
-	}
-
-	if ($this->request->has('postcode', 'post')) {
-		$view->set('postcode', $this->request->sanitize('postcode', 'post'));
-	} else {
-		$view->set('postcode', @$address_info['postcode']);
-	}
-
-	if ($this->request->has('city', 'post')) {
-		$view->set('city', $this->request->sanitize('city', 'post'));
-	} else {
-		$view->set('city', @$address_info['city']);
-	}
-
-	if ($this->request->has('country_id', 'post')) {
-		$view->set('country_id', $this->request->gethtml('country_id', 'post'));
-	} elseif (isset($address_info['country_id'])) {
-		$view->set('country_id', $address_info['country_id']);
-	} else {
-		$view->set('country_id', $this->config->get('config_country_id'));
-	}
-
-	if ($this->request->has('zone_id', 'post')) {
-		$view->set('zone_id', $this->request->gethtml('zone_id', 'post'));
-	} elseif (isset($address_info['zone_id'])) {
-		$view->set('zone_id', $address_info['zone_id']);
-	} else {
-		$view->set('zone_id', $this->config->get('config_zone_id'));
-	}
-
-	$view->set('countries',$this->modelVendor->get_countries());
-	$view->set('zones', $this->modelVendor->get_zones());
-
-	return $view->fetch('content/vendor.tpl');
-	}
-
-	function validateForm(){
+	private function validateForm(){
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -528,7 +533,7 @@ class ControllerVendor extends Controller {
 		}
 	}
 
-	function enableDelete(){
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -543,7 +548,7 @@ class ControllerVendor extends Controller {
 		}
 	}
 
-	function validateEnableDelete(){
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'vendor')) {
 		$this->error['message'] = $this->language->get('error_permission');  
 	}
@@ -554,7 +559,7 @@ class ControllerVendor extends Controller {
 		}
 	}
 
-	function validateDelete(){
+	private function validateDelete(){
 		if(($this->session->get('vendor_validation') != $this->request->sanitize('vendor_validation')) || (strlen($this->session->get('vendor_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -578,7 +583,7 @@ class ControllerVendor extends Controller {
 		}
 	}
 
-	function validateChangeStatus(){
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'vendor')) {
 			return FALSE;
 		} else {
@@ -586,7 +591,7 @@ class ControllerVendor extends Controller {
 		}
 	}
 
-	function zone(){
+	protected function zone(){
 		$output = '<select name="zone_id">';
 		$results = $this->modelVendor->return_zones($this->request->gethtml('country_id'));
 		foreach ($results as $result) {
@@ -603,14 +608,16 @@ class ControllerVendor extends Controller {
 
 		$this->response->set($output);
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page(){
+
+	protected function page(){
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('vendor.search', $this->request->gethtml('search', 'post'));
 		}
@@ -625,7 +632,8 @@ class ControllerVendor extends Controller {
 		}
 		$this->response->redirect($this->url->ssl('vendor'));
 	}
-	function tab() {
+
+	protected function tab() {
 		if ($this->request->isPost()) {
 			if ($this->request->has('activeTab', 'post')) {
 				$this->session->set('vendor_tab', $this->request->sanitize('activeTab', 'post'));

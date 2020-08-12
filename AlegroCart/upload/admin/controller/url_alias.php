@@ -1,29 +1,31 @@
 <?php //Admin Url Alias AlegroCart
 class ControllerUrlAlias extends Controller {
-	var $error = array();
- 	function __construct(&$locator){
+
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->generate_seo =& $locator->get('generateseo');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request 	 	=& $locator->get('request');
-		$this->response	 	=& $locator->get('response');
-		$this->session	 	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->generate_seo	=& $locator->get('generateseo');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
 		$this->url		=& $locator->get('url');
-		$this->user	 	=& $locator->get('user');
-		$this->validate 	=& $locator->get('validate');
-		$this->modelAdminAlias = $model->get('model_admin_urlalias');
+		$this->user		=& $locator->get('user');
+		$this->validate		=& $locator->get('validate');
+		$this->modelAdminAlias	= $model->get('model_admin_urlalias');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('url_alias');
+		$this->adminController	= $this->template->set_controller('url_alias');
 
 		$this->language->load('controller/url_alias.php');
 	}
 
-	function index() {
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -32,7 +34,7 @@ class ControllerUrlAlias extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->language->load('controller/url_alias.php');
 		$this->template->set('title', $this->language->get('heading_title'));
 		if ($this->request->isPost() && $this->request->has('query', 'post') && $this->validateForm()) {
@@ -49,9 +51,9 @@ class ControllerUrlAlias extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
-		if ($this->request->isPost() && $this->request->has('query', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('query', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelAdminAlias->update_url();
 			$this->cache->delete('url');
 			$this->session->set('message', $this->language->get('text_message'));
@@ -68,7 +70,7 @@ class ControllerUrlAlias extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		if (($this->request->get('url_alias_id')) && ($this->validateDelete())) {
 			$this->modelAdminAlias->delete_url();
@@ -82,7 +84,7 @@ class ControllerUrlAlias extends Controller {
 		$this->response->set($template->fetch('layout.tpl'));
 	}
 
-	function getList() {
+	private function getList() {
 		$this->session->set('urlalias_validation', md5(time()));
 		$cols = array();
 		$cols[] = array(
@@ -95,10 +97,10 @@ class ControllerUrlAlias extends Controller {
 			'sort'  => 'alias',
 			'align' => 'left'
 		);
-    	$cols[] = array(
-      		'name'  => $this->language->get('column_action'),
-      		'align' => 'action'
-    	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 
 		$results = $this->modelAdminAlias->get_page();
 		$rows = array();
@@ -117,11 +119,11 @@ class ControllerUrlAlias extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-        		'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('url_alias', 'update', array('url_alias_id' => $result['url_alias_id']))
-      		);
-			
+			);
+
 			if($this->session->get('enable_delete')){
 				$action[] = array(
 					'icon' => 'delete.png',
@@ -129,10 +131,10 @@ class ControllerUrlAlias extends Controller {
 					'href' => $this->url->ssl('url_alias', 'delete', array('url_alias_id' => $result['url_alias_id'],'urlalias_validation' =>$this->session->get('urlalias_validation')))
 				);
 			}
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -184,7 +186,7 @@ class ControllerUrlAlias extends Controller {
 		return $view->fetch('content/list.tpl');
 	}
 
-	function getForm() {
+	private function getForm() {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_form_title'));
@@ -207,6 +209,11 @@ class ControllerUrlAlias extends Controller {
 
 		$view->set('error', @$this->error['message']);
 		$view->set('error_query', @$this->error['query']);
+		$view->set('error_alias', @$this->error['alias']);
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
 		$view->set('action', $this->url->ssl('url_alias', $this->request->get('action'), array('url_alias_id' => $this->request->get('url_alias_id'))));
 
@@ -232,6 +239,7 @@ class ControllerUrlAlias extends Controller {
 
 		if (($this->request->get('url_alias_id')) && (!$this->request->isPost())) {
 			$url_alias_info = $this->modelAdminAlias->get_url_alias();
+			$this->session->set('url_alias_date_modified', $url_alias_info['date_modified']);
 		}
 		if ($this->request->has('query', 'post')) {
 			$view->set('query', $this->request->get('query', 'post'));
@@ -247,7 +255,7 @@ class ControllerUrlAlias extends Controller {
 		return $view->fetch('content/url_alias.tpl');
 	}
 
-	function validateForm() {
+	private function validateForm() {
 		if(($this->session->get('validation') != $this->request->sanitize($this->session->get('cdx'),'post')) || (strlen($this->session->get('validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -259,6 +267,9 @@ class ControllerUrlAlias extends Controller {
 		if (!$this->validate->strlen($this->request->get('query', 'post'),1,128)) {
 			$this->error['query'] = $this->language->get('error_query');
 		}
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
@@ -266,7 +277,37 @@ class ControllerUrlAlias extends Controller {
 		}
 	}
 
-	function enableDelete(){
+	private function validateModification() {
+		if ($url_alias_data = $this->modelAdminAlias->get_url_alias()) {
+			if ($url_alias_data['date_modified'] != $this->session->get('url_alias_date_modified')) {
+				$url_alias_data_log = $this->modelAdminAlias->get_modified_log($url_alias_data['date_modified']);
+
+				if ($url_alias_data_log['query'] != $this->request->gethtml('query', 'post')) {
+					$this->error['query'] = $this->language->get('error_modified', $url_alias_data_log['query']);
+				}
+
+				if ($url_alias_data_log['alias'] != $this->request->gethtml('alias', 'post')) {
+					$this->error['alias'] = $this->language->get('error_modified', $url_alias_data_log['alias']);
+				}
+
+				$this->session->set('url_alias_date_modified', $url_alias_data_log['date_modified']);
+			}
+		} else {
+			$url_alias_data_log = $this->modelAdminAlias->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $url_alias_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('url_alias'));
+		}
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', $url_alias_data_log['modifier']);
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -280,7 +321,8 @@ class ControllerUrlAlias extends Controller {
 			$this->response->redirect($this->url->ssl('url_alias'));//**
 		}
 	}
-	function validateEnableDelete(){
+
+	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'url_alias')) {//**
 			$this->error['message'] = $this->language->get('error_permission');  
 		}
@@ -290,8 +332,8 @@ class ControllerUrlAlias extends Controller {
 			return FALSE;
 		}
 	}
-	
-	function validateDelete() {
+
+	private function validateDelete() {
 		if(($this->session->get('urlalias_validation') != $this->request->sanitize('urlalias_validation')) || (strlen($this->session->get('urlalias_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
 		}
@@ -305,14 +347,16 @@ class ControllerUrlAlias extends Controller {
 			return FALSE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('url_alias.search', $this->request->gethtml('search', 'post'));
 		}

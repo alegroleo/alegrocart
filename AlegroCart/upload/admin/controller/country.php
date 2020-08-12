@@ -1,28 +1,31 @@
 <?php  // Country AlegroCart
 class ControllerCountry extends Controller {
-	var $error = array();
-	function __construct(&$locator){
+
+	public $error = array();
+
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
-		$model 			=& $locator->get('model');
-		$this->cache    	=& $locator->get('cache');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session 		=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->user     	=& $locator->get('user'); 
-		$this->validate 	=& $locator->get('validate');
-		$this->modelCountry = $model->get('model_admin_country');
+		$model			=& $locator->get('model');
+		$this->cache		=& $locator->get('cache');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->user		=& $locator->get('user'); 
+		$this->validate		=& $locator->get('validate');
+		$this->modelCountry	= $model->get('model_admin_country');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('country');
+		$this->adminController	= $this->template->set_controller('country');
 
 		$this->language->load('controller/country.php');
 	}
-	function index() {
+
+	protected function index() {
 		$this->template->set('title', $this->language->get('heading_title'));
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getList());
@@ -31,7 +34,7 @@ class ControllerCountry extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function insert() {
+	protected function insert() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
@@ -51,10 +54,10 @@ class ControllerCountry extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function update() {
+	protected function update() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
-		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm()) {
+		if ($this->request->isPost() && $this->request->has('name', 'post') && $this->validateForm() && $this->validateModification()) {
 			$this->modelCountry->update_country();
 			// if status is updated, it automatically updates zones to matching status
 			$this->modelCountry->update_zones();
@@ -76,7 +79,7 @@ class ControllerCountry extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function enableDisable(){
+	protected function enableDisable(){
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if($this->validateEnable()){ //permission check
@@ -96,7 +99,7 @@ class ControllerCountry extends Controller {
 		$this->response->redirect($this->url->ssl('country'));
 	}
  
-	function delete() {
+	protected function delete() {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		if (($this->request->gethtml('country_id')) && ($this->validateDelete())) {
@@ -114,7 +117,7 @@ class ControllerCountry extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function changeStatus() { 
+	protected function changeStatus() { 
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelCountry->change_country_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 			$this->cache->delete('country');
@@ -145,10 +148,10 @@ class ControllerCountry extends Controller {
 			'sort'  => 'iso_code_3',
 			'align' => 'right'
 		);
-	    	$cols[] = array(
-	      		'name'  => $this->language->get('column_action'),
-	      		'align' => 'action'
-	    	);
+		$cols[] = array(
+			'name'  => $this->language->get('column_action'),
+			'align' => 'action'
+		);
 
 		$results = $this->modelCountry->get_page();
 		$vendors = $this->modelCountry->get_vendorCountries();
@@ -174,18 +177,18 @@ class ControllerCountry extends Controller {
 				'last'		=> $last
 			);
 			if ($this->validateChangeStatus() && !in_array($result['country_id'], $geozcountry) && $this->config->get('config_country_id') !== $result['country_id']) {
-			$cell[] = array(
-				'status'  => $result['country_status'],
-				'text' => $this->language->get('button_status'),
-				'align' => 'center',
-				'status_id' => $result['country_id'],
-				'status_controller' => 'country'
-			);
+				$cell[] = array(
+					'status'  => $result['country_status'],
+					'text' => $this->language->get('button_status'),
+					'align' => 'center',
+					'status_id' => $result['country_id'],
+					'status_controller' => 'country'
+				);
 
 			} else {
-			$cell[] = array(
-				'icon'  => ($result['country_status'] ? 'enabled.png' : 'disabled.png'),
-				'align' => 'center'
+				$cell[] = array(
+					'icon'  => ($result['country_status'] ? 'enabled.png' : 'disabled.png'),
+					'align' => 'center'
 			);
 			}
 			$cell[] = array(
@@ -200,10 +203,10 @@ class ControllerCountry extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-        			'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('country', 'update', array('country_id' => $result['country_id']))
-      		);
+		);
 
 			if($this->session->get('enable_delete')){
 				$action[] = array(
@@ -213,10 +216,10 @@ class ControllerCountry extends Controller {
 				);
 			}
 			
-      		$cell[] = array(
-        		'action' => $action,
-        		'align'  => 'action'
-      		);
+			$cell[] = array(
+				'action' => $action,
+				'align'  => 'action'
+			);
 			$rows[] = array('cell' => $cell);
 		}
 
@@ -305,6 +308,14 @@ class ControllerCountry extends Controller {
 
 		$view->set('error', @$this->error['message']);
 		$view->set('error_name', @$this->error['name']);
+		$view->set('error_code_2', @$this->error['code_2']);
+		$view->set('error_code_3', @$this->error['code_3']);
+		$view->set('error_status', @$this->error['status']);
+		$view->set('error_address', @$this->error['address']);
+
+		if(!@$this->error['message']){
+			$view->set('error', @$this->error['warning']);
+		}
 
 		$view->set('action', $this->url->ssl('country', $this->request->gethtml('action'), array('country_id' => $this->request->gethtml('country_id'))));
 
@@ -330,6 +341,7 @@ class ControllerCountry extends Controller {
 
 		if (($this->request->gethtml('country_id')) && (!$this->request->isPost())) {
 			$country_info = $this->modelCountry->get_country_info();
+			$this->session->set('country_date_modified', $country_info['date_modified']);
 		}
 
 		if ($this->request->has('name', 'post')) {
@@ -394,13 +406,58 @@ class ControllerCountry extends Controller {
 					}
 			}
 		}
-
+		if (@$this->error && !@$this->error['message']){
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
+
+	private function validateModification() {
+		if ($country_data = $this->modelCountry->get_country_info()) {
+			if ($country_data['date_modified'] != $this->session->get('country_date_modified')) {
+				$country_data_log = $this->modelCountry->get_modified_log($country_data['date_modified']);
+
+				if ($country_data_log['name'] != $this->request->gethtml('name', 'post')) {
+					$this->error['name'] = $this->language->get('error_modified', $country_data_log['name']);
+				}
+
+				if ($country_data_log['iso_code_2'] != $this->request->gethtml('iso_code_2', 'post')) {
+					$this->error['code_2'] = $this->language->get('error_modified', $country_data_log['iso_code_2']);
+				}
+
+				if ($country_data_log['iso_code_3'] != $this->request->gethtml('iso_code_3', 'post')) {
+					$this->error['code_3'] = $this->language->get('error_modified', $country_data_log['iso_code_3']);
+				}
+
+				if ($country_data_log['country_status'] != $this->request->gethtml('country_status', 'post')) {
+					$this->error['status'] = $this->language->get('error_modified', $country_data_log['country_status'] ? $this->language->get('text_enabled'): $this->language->get('text_disabled'));
+				}
+
+				if ($country_data_log['address_format'] != $this->request->gethtml('address_format', 'post')) {
+					$this->error['address'] = $this->language->get('error_modified', $country_data_log['address_format']);
+				}
+
+				$this->session->set('country_date_modified', $country_data_log['date_modified']);
+			}
+		} else {
+			$country_data_log = $this->modelCountry->get_deleted_log();
+			$this->session->set('message', $this->language->get('error_deleted', $country_data_log['modifier']));
+			$this->response->redirect($this->url->ssl('country'));
+		}
+		if (@$this->error){
+			$this->error['warning'] = $this->language->get('error_modifier', $country_data_log['modifier']);
+		}
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
 	private function validateEnable() {
 		if (!$this->user->hasPermission('modify', 'country')) {
 			$this->error['message'] = $this->language->get('error_permission');
@@ -411,7 +468,8 @@ class ControllerCountry extends Controller {
 			return FALSE;
 		}
 	}
-	function enableDelete(){
+
+	protected function enableDelete(){
 		$this->template->set('title', $this->language->get('heading_title'));
 		if($this->validateEnableDelete()){
 			if($this->session->get('enable_delete')){
@@ -425,6 +483,7 @@ class ControllerCountry extends Controller {
 			$this->response->redirect($this->url->ssl('country'));//**
 		}
 	}
+
 	private function validateEnableDelete(){
 		if (!$this->user->hasPermission('modify', 'country')) {//**
 			$this->error['message'] = $this->language->get('error_permission');  
@@ -435,6 +494,7 @@ class ControllerCountry extends Controller {
 			return FALSE;
 		}
 	}
+
 	private function validateDelete() { //deletion
 		if(($this->session->get('country_validation') != $this->request->sanitize('country_validation')) || (strlen($this->session->get('country_validation')) < 10)){
 			$this->error['message'] = $this->language->get('error_referer');
@@ -481,21 +541,24 @@ class ControllerCountry extends Controller {
 			return FALSE;
 		}
 	}
-	function validateChangeStatus(){
+
+	private function validateChangeStatus(){
 		if (!$this->user->hasPermission('modify', 'country')) {
 			return FALSE;
 		}  else {
 			return TRUE;
 		}
 	}
-	function help(){
+
+	protected function help(){
 		if($this->session->get('help')){
 			$this->session->delete('help');
 		} else {
 			$this->session->set('help', TRUE);
 		}
 	}
-	function page() {
+
+	protected function page() {
 		if ($this->request->has('search', 'post')) {
 			$this->session->set('country.search', $this->request->gethtml('search', 'post'));
 		}

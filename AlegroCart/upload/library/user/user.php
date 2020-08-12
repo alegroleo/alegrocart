@@ -1,9 +1,10 @@
 <?php
 class User {
-	var $data        = array();
-	var $permissions = array();
 
-	function __construct(&$locator) {
+	private $data		= array();
+	private $permissions	= array();
+
+	public function __construct(&$locator) {
 		$this->database =& $locator->get('database');
 		$this->request  =& $locator->get('request');
 		$this->session  =& $locator->get('session');
@@ -18,7 +19,10 @@ class User {
 				$user_group = $this->database->getRow("select distinct ug.permission from user u left join user_group ug on u.user_group_id = ug.user_group_id where u.user_id = '" . (int)$this->session->get('user_id') . "'");
 
 				foreach (unserialize($user_group['permission']) as $key => $value) {
-				$this->permissions[$key] = $value;
+					$this->permissions[$key] = $value;
+
+					$this->database->query("set @modifier_id='" . (int)$this->session->get('user_id') . "'");
+					$this->database->query("set @modifier_title='user'");
 				}
 			} else {
 				$this->logout();
@@ -26,9 +30,9 @@ class User {
 		}
 	}
 
-	function login($username, $password) {
-		$sql       = "select * from user where username = '?' and password = '?'";
-		$user_info = $this->database->getRow($this->database->parse($sql, $username, md5($password)));
+	public function login($username, $password) {
+		$sql		= "select * from user where username = '?' and password = '?'";
+		$user_info	= $this->database->getRow($this->database->parse($sql, $username, md5($password)));
 
 		if ($user_info) {
 			$this->session->set('user_id', $user_info['user_id']);
@@ -37,8 +41,11 @@ class User {
 			$user_group = $this->database->getRow("select distinct ug.permission from user u left join user_group ug on u.user_group_id = ug.user_group_id where u.user_id = '" . (int)$user_info['user_id'] . "'");
 
 			foreach (unserialize($user_group['permission']) as $key => $value) {
-			$this->permissions[$key] = $value;
+				$this->permissions[$key] = $value;
 			}
+
+			$sql2 = "INSERT INTO login SET user_id = '?', ip = '?', date_added = now()";
+			$this->database->query($this->database->parse($sql2, $user_info['user_id'] , isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:''));
 
 			return TRUE;
 		} else {
@@ -46,12 +53,12 @@ class User {
 		}
 	}
 
-	function logout() {
+	public function logout() {
 		$this->session->delete('user_id');
 		$this->data = array();
 	}
 
-	function hasPermission($key, $value) {
+	public function hasPermission($key, $value) {
 		if ($this->isSuperAdmin()) { return TRUE; }
 		if (isset($this->permissions[$key])) {
 			if (in_array('*', $this->permissions[$key])) { return TRUE; }
@@ -61,53 +68,53 @@ class User {
 		}
 	}
 
-	function isSuperAdmin($id=false) {
+	public function isSuperAdmin($id=false) {
 		if (!$id && $this->getId()) { $id=$this->getId(); }
 		if (defined('SUPER_ADMIN') && $id == SUPER_ADMIN) {
 			return TRUE;
 		}
 	}
 
-	function isLogged() {
+	public function isLogged() {
 		return !empty($this->data);
 	}
 
-	function getId() {
+	public function getId() {
 		return (isset($this->data['user_id']) ? $this->data['user_id'] : NULL);
 	}
 
-	function getUserName() {
+	public function getUserName() {
 		return (isset($this->data['username']) ? $this->data['username'] : NULL);
 	}
 
-	function getFullName($order = 'FL', $comma = false) {
+	public function getFullName($order = 'FL', $comma = false) {
 		$firstname = isset($this->data['firstname']) ? $this->data['firstname'] : NULL;
 		$lastname = isset($this->data['lastname']) ? $this->data['lastname'] : NULL;
 		$separator = !$comma ? ' ' : ', ';
 		return ($order = 'FL' ? $firstname.$separator.$lastname : $lastname.$separator.$firstname);
 	}
 
-	function getEmail() {
+	public function getEmail() {
 		return (isset($this->data['email']) ? $this->data['email'] : NULL);
 	}
 
-	function getTelephone() {
+	public function getTelephone() {
 		return (isset($this->data['telephone']) ? $this->data['telephone'] : NULL);
 	}
 
-	function getMobile() {
+	public function getMobile() {
 		return (isset($this->data['mobile']) ? $this->data['mobile'] : NULL);
 	}
 
-	function getFax() {
+	public function getFax() {
 		return (isset($this->data['fax']) ? $this->data['fax'] : NULL);
 	}
 
-	function getMonogram() {
+	public function getMonogram() {
 		return (isset($this->data['monogram']) ? $this->data['monogram'] : NULL);
 	}
 
-	function getPosition() {
+	public function getPosition() {
 		return (isset($this->data['position']) ? $this->data['position'] : NULL);
 	}
 }

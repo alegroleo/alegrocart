@@ -23,7 +23,7 @@ class ModuleSearch extends Controller {
 
     		$view->set('button_search', $language->get('button_search'));
 
-    		$view->set('action', $url->href('search', 'search_page'));
+    		$view->set('action', $url->ssl('search', 'search_page'));
 
 			if ($request->get('controller') == 'search') {
 				$view->set('search', $session->get('search.search'));
@@ -50,7 +50,7 @@ class ModuleSearch extends Controller {
 				$view->set('default_filter', $session->get('search.sort_filter'));
 			}
 
-    		$view->set('advanced', $url->href('search'));
+    		$view->set('advanced', $url->ssl('search'));
 			$view->set('location', $this->modelCore->module_location['search']); // Template Manager 
     		return $view->fetch('module/search.tpl');
 		}

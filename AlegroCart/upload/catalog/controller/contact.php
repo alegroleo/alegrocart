@@ -5,6 +5,7 @@ class ControllerContact extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->customer 	=& $locator->get('customer');
 		$this->head_def 	=& $locator->get('HeaderDefinition');
@@ -67,7 +68,7 @@ class ControllerContact extends Controller {
 		
     	$view->set('button_continue', $this->language->get('button_continue'));
     
-		$view->set('action', $this->url->href('contact'));
+		$view->set('action', $this->url->ssl('contact'));
     
 		$view->set('store', $this->config->get('config_store'));
 
@@ -114,7 +115,7 @@ class ControllerContact extends Controller {
 
     	$view->set('button_continue', $this->language->get('button_continue'));
 
-    	$view->set('continue', $this->url->href('home'));
+    	$view->set('continue', $this->url->ssl('home'));
 		$this->template->set('head_def',$this->head_def);    // New Header
 		$this->template->set('content', $view->fetch('content/success.tpl'));
 		$this->load_modules();  // Template Manager
@@ -185,6 +186,11 @@ class ControllerContact extends Controller {
 			return TRUE;
 		} else {
 		return FALSE;
+		}
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
 }

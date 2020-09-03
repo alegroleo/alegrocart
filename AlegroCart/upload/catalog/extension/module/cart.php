@@ -22,16 +22,16 @@ class ModuleCart extends Controller {
 			$view->set('text_products', $language->get('text_products'));
 			$view->set('text_items', $language->get('text_items'));
 
-			$view->set('view_cart', $url->href('cart'));
+			$view->set('view_cart', $url->ssl('cart'));
 
 			$view->set('text_checkout', $language->get('text_checkout'));
-			$view->set('checkout', $url->href('cart'));
+			$view->set('checkout', $url->ssl('cart'));
 
 			$product_data = array();
 
 			foreach ($cart->getProducts() as $result) {
 				$product_data[] = array(
-					'href'		=> $url->href('product', false, array('product_id' => $result['product_id'])),
+					'href'		=> $url->ssl('product', false, array('product_id' => $result['product_id'])),
 					'name'		=> $result['name'],
 					'quantity'	=> $result['quantity'],
 					'total'		=> $currency->format($tax->calculate($result['total'], $result['tax_class_id'], $config->get('config_tax')))

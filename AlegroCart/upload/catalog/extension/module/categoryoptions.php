@@ -55,24 +55,24 @@ class ModuleCategoryOptions extends Controller{
 			$manufacturer_sql = "";
 			$manufacturer_filter = "";
 		}
+
 		$results = $this->modelCategory->get_model($category,$manufacturer_sql,$manufacturer_filter);
+		$model_data = array();
 		if (count($results) > 1){
-			$model_data = array();
 			foreach($results as $result){
 				$model_data[] = array(
 					'model'			=> $result['model'],
 					'model_value'	=> $result['model']."_".$category
 				);
 			}
-		} else {
-			$model_data = "";
 		}
+
 		$view->set('models_data', $model_data);	
 		$view->set('model', $model);
 		$view->set('manufacturers_data', $manufacturers_data);
 		$view->set('category', $category);
 		$view->set('manufacturer_id', $session->get('category.manufacturer'));
-		$view->set('action', $url->href('category', FALSE, array('path' => $request->gethtml('path'))));	
+		$view->set('action', $url->ssl('category', FALSE, array('path' => $request->gethtml('path'))));	
 		$view->set('sort_filter', $this->sort_filter());
 		$view->set('sort_order', $this->sort_order());
 		$view->set('text_sort_by',$language->get('text_sort_by'));

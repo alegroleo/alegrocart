@@ -104,7 +104,7 @@ class ControllerReviewWrite extends controller {
 			);
 
 			$view->set('this_controller', 'review_write');
-			$view->set('back', $this->url->href('review', FALSE, $query));
+			$view->set('back', $this->url->ssl('review', FALSE, $query));
 			$view->set('head_def',$this->head_def);
 			$this->template->set('head_def',$this->head_def);
 			$this->template->set('content', $view->fetch('content/review_write.tpl'));
@@ -118,7 +118,7 @@ class ControllerReviewWrite extends controller {
 		$view->set('image_display', $this->config->get('content_image_display'));
 		$view->set('this_controller', 'review_write');
 		$view->set('button_continue', $this->language->get('button_continue'));
-		$view->set('continue', $this->url->href('home'));
+		$view->set('continue', $this->url->ssl('home'));
 		$view->set('head_def',$this->head_def);
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $view->fetch('content/error.tpl'));

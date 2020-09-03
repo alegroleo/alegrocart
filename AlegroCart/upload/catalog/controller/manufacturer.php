@@ -6,6 +6,7 @@ class ControllerManufacturer extends Controller {
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module		=& $locator->get('module');
 		$this->template		=& $locator->get('template');
@@ -40,7 +41,7 @@ class ControllerManufacturer extends Controller {
 		$view->set('heading_title', $language->get('heading_title'));
 		$view->set('text_error', $language->get('text_error'));
 		$view->set('button_continue', $language->get('button_continue'));
-		$view->set('continue', $url->href('home'));
+		$view->set('continue', $url->ssl('home'));
 		$view->set('location', 'content');
 
 		$view->set('tax_included', $this->config->get('config_tax'));
@@ -126,17 +127,16 @@ class ControllerManufacturer extends Controller {
 				$model = "all";
 			}
 			$results = $this->modelManufacturer->get_models($session->get('manufacturer.manufacturer_id'));
+			$model_data = array();
 			if (count($results) > 1){
-				$model_data = array();
 				foreach($results as $result){
 					$model_data[] = array(
 						'model'		=> $result['model'],
 						'model_value'	=> $result['model']."_".(int)$session->get('manufacturer.manufacturer_id')
 					);
 				}
-			} else{
-				$model_data = "";
 			}
+
 			$view->set('options_model', $this->config->get('options_model'));
 			$view->set('options_manufacturer', $this->config->get('options_manufacturer'));
 			$view->set('model', $model);
@@ -277,7 +277,7 @@ class ControllerManufacturer extends Controller {
 					'multiple'	=> $result['multiple'],
 					'cart_level'		=> $cart->hasProduct($result['product_id']),
 					'product_discounts' => $product_discounts,
-					'href'  => $url->href('product', FALSE, $query),
+					'href'  => $url->ssl('product', FALSE, $query),
 					'popup'     => $image->href($result['filename']),
 					'thumb' => $image->resize($result['filename'], $image_width, $image_height),
 					'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
@@ -306,7 +306,7 @@ class ControllerManufacturer extends Controller {
 				$view->set('next' , $language->get('next_page'));
 				$view->set('pages', $this->modelManufacturer->get_pagination());
 				$query=array('manufacturer_id' => $session->get('manufacturer.manufacturer_id'));
-			$view->set('action', $url->href('manufacturer', FALSE, $query));
+			$view->set('action', $url->ssl('manufacturer', FALSE, $query));
 				$view->set('sort_filter', $this->sort_filter());
 				$view->set('sort_order', $this->sort_order());
 				$view->set('first_page', $language->get('first_page'));
@@ -335,13 +335,13 @@ class ControllerManufacturer extends Controller {
 
 		$breadcrumb = array();
 		$breadcrumb[] = array(
-			'href'      => $url->href('home'),
+			'href'      => $url->ssl('home'),
 			'text'      => $language->get('text_home'),
 			'separator' => FALSE
 		);
 
 	$breadcrumb[] = array(
-		'href'      => $url->href('manufacturer', FALSE, array('manufacturer_id'  => (int)$request->gethtml('manufacturer_id'))),
+		'href'      => $url->ssl('manufacturer', FALSE, array('manufacturer_id'  => (int)$request->gethtml('manufacturer_id'))),
 		'text'      => $session->get('manufacturer.name'),
 		'separator' => $language->get('text_separator')
 	);
@@ -444,6 +444,11 @@ class ControllerManufacturer extends Controller {
 		$sort_order[0] = $language->get('entry_ascending');
 		$sort_order[1] = $language->get('entry_descending');
 		return $sort_order;
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

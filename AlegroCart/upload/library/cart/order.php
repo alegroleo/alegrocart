@@ -1,10 +1,11 @@
 <?php // AlegroCart
 class Order {
-	var $reference = NULL;
-	var $data      = array();
-	var $expire    = 3600;
 
-	function __construct(&$locator) {
+	private $reference = NULL;
+	private $data = array();
+	private $expire = 3600;
+
+	public function __construct(&$locator) {
 		$this->locator	=& $locator;
 		$this->config   =& $locator->get('config');
 		$this->coupon   =& $locator->get('coupon');
@@ -35,19 +36,19 @@ class Order {
 		}
 	}
 
-	function getReference() {
+	public function getReference() {
 		return $this->reference;
 	}
 
-	function set($key, $value) {
+	public function set($key, $value) {
 		$this->data[$key] = $value;
 	}
 
-	function get($key) {
+	public function get($key) {
 		return (isset($this->data[$key]) ? $this->data[$key] : NULL);
 	}
 
-	function load($reference) {
+	public function load($reference) {
 		$sql        = "select distinct * from order_data where reference = '?'";
 		$order_info = $this->database->getRow($this->database->parse($sql, $reference));
 
@@ -61,7 +62,7 @@ class Order {
 		}
 	}
 
-	function save($reference) {
+	public function save($reference) {
 		$sql   = "select * from order_data where reference = '?'";
 		$order = $this->database->getRow($this->database->parse($sql, $reference));
 
@@ -74,7 +75,7 @@ class Order {
 		}
 	}
 
-	function get_invoice_number(){
+	public function get_invoice_number(){
 		$result = $this->database->getRow("select value from setting where `key` = 'invoice_number'");
 		return $result['value'];
 	}
@@ -84,11 +85,11 @@ class Order {
 		$this->database->query("update `setting` set value='" . $next_invoice . "' where `key` = 'invoice_number'");
 	}
 
-	function process($order_status_id = NULL) {
+	public function process($order_status_id = NULL) {
 		if ($this->data) {
 			$invoice_number = $this->get_invoice_number();
 			$this->update_invoice_number($invoice_number);
-			$sql = "insert into `order` set customer_id = '?', reference = '?', invoice_number = '?', firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', taxed = '?', coupon_sort_order = '?', discount_sort_order = '?', order_status_id = '?', total = '?', currency = '?', value = '?', ip = '?', shipping_firstname = '?', shipping_lastname = '?', shipping_company = '?', shipping_address_1 = '?', shipping_address_2 = '?', shipping_city = '?', shipping_postcode = '?', shipping_zone = '?', shipping_country = '?', shipping_address_format = '?', shipping_method = '?', shipping_net = '?', shipping_tax_rate = '?', freeshipping_net = '?', payment_firstname = '?', payment_lastname = '?', payment_company = '?', payment_address_1 = '?', payment_address_2 = '?', payment_city = '?', payment_postcode = '?', payment_zone = '?', payment_country = '?', payment_address_format = '?', payment_method = '?', date_modified = now(), date_added = now()";
+			$sql = "insert into `order` set customer_id = '?', reference = '?', invoice_number = '?', firstname = '?', lastname = '?', email = '?', telephone = '?', fax = '?', taxed = '?', coupon_sort_order = '?', discount_sort_order = '?', order_status_id = '?', total = '?', currency = '?', value = '?', ip = '?', shipping_firstname = '?', shipping_lastname = '?', shipping_company = '?', shipping_address_1 = '?', shipping_address_2 = '?', shipping_city = '?', shipping_postcode = '?', shipping_zone = '?', shipping_country = '?', shipping_address_format = '?', shipping_method = '?', shipping_net = '?', shipping_tax_rate = '?', freeshipping_net = '?', payment_firstname = '?', payment_lastname = '?', payment_company = '?', payment_address_1 = '?', payment_address_2 = '?', payment_city = '?', payment_postcode = '?', payment_zone = '?', payment_country = '?', payment_address_format = '?', payment_method = '?', date_added = now()";
 			$this->database->query($this->database->parse($sql, $this->data['customer_id'], $this->reference, $invoice_number, $this->data['firstname'], $this->data['lastname'], $this->data['email'], $this->data['telephone'], $this->data['fax'], $this->data['taxed'], $this->data['coupon_sort_order'], $this->data['discount_sort_order'], ($order_status_id ? $order_status_id : $this->data['order_status_id']), $this->data['total'], $this->data['currency'], $this->data['value'], $this->data['ip'], $this->data['shipping_firstname'], $this->data['shipping_lastname'], $this->data['shipping_company'], $this->data['shipping_address_1'], $this->data['shipping_address_2'], $this->data['shipping_city'], $this->data['shipping_postcode'], $this->data['shipping_zone'], $this->data['shipping_country'], $this->data['shipping_address_format'], $this->data['shipping_method'], $this->data['shipping_net'], $this->data['shipping_tax_rate'], $this->data['freeshipping_net'], $this->data['payment_firstname'], $this->data['payment_lastname'], $this->data['payment_company'], $this->data['payment_address_1'], $this->data['payment_address_2'], $this->data['payment_city'], $this->data['payment_postcode'], $this->data['payment_zone'], $this->data['payment_country'], $this->data['payment_address_format'], $this->data['payment_method']));
 
 			$order_id = $this->database->getLastId();
@@ -106,18 +107,18 @@ class Order {
 				$this->session->set('last_order_id', $order_id);
 			}
 			foreach ($this->data['products'] as $product) {
-				$sql = "insert into order_product set order_id = '?', product_id = '?', name = '?', model_number = '?', vendor_name = '?', vendor_id = '?', price = '?', discount = '?', special_price = '?', coupon = '?', general_discount = '?', total = '?', tax = '?', quantity = '?', barcode = '?', shipping = '?'";
+				$sql = "insert into order_product set order_id = '?', product_id = '?', name = '?', model_number = '?', vendor_name = '?', vendor_id = '?', price = '?', discount = '?', special_price = '?', coupon = '?', general_discount = '?', total = '?', tax = '?', quantity = '?', barcode = '?', shipping = '?', date_added = now()";
 				$this->database->query($this->database->parse($sql, $order_id, $product['product_id'], $product['name'], $product['model_number'], $product['vendor_name'], $product['vendor_id'], $product['price'], $product['discount'], $product['special_price'], $product['coupon'], $product['general_discount'], $product['total'], $product['tax'], $product['quantity'], $product['barcode'], $product['shipping']));
  
 				$order_product_id = $this->database->getLastId();
 
 				foreach ($product['option'] as $option) {
-					$sql = "insert into order_option set order_id = '?', order_product_id = '?', option_id ='?', name = '?', option_value_id ='?', `value` = '?', price = '?', prefix = '?'";
+					$sql = "insert into order_option set order_id = '?', order_product_id = '?', option_id ='?', name = '?', option_value_id ='?', `value` = '?', price = '?', prefix = '?', date_added = now()";
 					$this->database->query($this->database->parse($sql, $order_id, $order_product_id, $option['option_id'], $option['name'], $option['option_value_id'], $option['value'], $product['price'], $option['prefix']));
 				}
 
 				foreach ($product['download'] as $download) {
-					$sql = "insert into order_download set order_id = '?', order_product_id = '?', name = '?', filename = '?', mask = '?', remaining = '?'";
+					$sql = "insert into order_download set order_id = '?', order_product_id = '?', name = '?', filename = '?', mask = '?', remaining = '?', date_added = now()";
 					$this->database->query($this->database->parse($sql, $order_id, $order_product_id, $download['name'], $download['filename'], $download['mask'], $download['remaining'] * $product['quantity']));
 				}
 				
@@ -130,11 +131,11 @@ class Order {
 				}
 			}
 
-			$sql = "insert into order_history set order_id = '?', order_status_id = '?', date_added = now(), notify = '?', comment = '?'";
+			$sql = "insert into order_history set order_id = '?', order_status_id = '?', notify = '?', comment = '?', date_added = now()";
 			$this->database->query($this->database->parse($sql, $order_id, ($order_status_id ? $order_status_id : $this->data['order_status_id']), $this->config->get('config_email_send') ,strip_tags($this->data['comment'])));
 
 			foreach ($this->data['totals'] as $total) {
-				$sql = "insert into order_total set order_id = '?', title = '?', text = '?', `value` = '?', sort_order = '?'";
+				$sql = "insert into order_total set order_id = '?', title = '?', text = '?', `value` = '?', sort_order = '?', date_added = now()";
 				$this->database->query($this->database->parse($sql, $order_id, $total['title'], $total['text'], $total['value'], $total['sort_order']));
 			}
 
@@ -166,5 +167,6 @@ class Order {
 			$this->database->query($this->database->parse($sql, $this->reference));
 		}
 	}
+
 }
 ?>

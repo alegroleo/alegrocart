@@ -10,7 +10,7 @@ require('../config.php');
 require('../common.php');
 
 // Page Time
-$time = (time() + microtime());
+$time = (time() + microtime(true)); //force microtime to return a float instead of a string
 
 // Locator
 require(DIR_LIBRARY . 'locator.php');
@@ -55,7 +55,9 @@ $template->set('code', $language->get('code'));
 
 // Request
 $request =& $locator->get('request');
-
+if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 // Base URL
 $template->set('base', $request->isSecure()?HTTPS_SERVER:HTTP_SERVER);
 
@@ -88,12 +90,12 @@ $response->output();
 
 // Parse Time
 if ($config->get('config_parse_time')){
-  echo($language->get('text_time', round((time() + microtime()) - $time, 4)));
-  if ($config->get('config_query_count')) {
+	echo($language->get('text_time', round((time() + microtime(true)) - $time, 4)));
+}
+if ($config->get('config_query_count')) {
 	echo($language->get('text_query_count', $database->countQueries()));
-  }
-  if ($config->get('config_query_log')) {
+}
+if ($config->get('config_query_log')) {
 	$database->log_queries();
-  } 
 }
 ?>

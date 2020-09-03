@@ -12,7 +12,7 @@ class ModuleLanguage extends Controller {
     		if (($request->isPost()) && ($request->has('module_language', 'post'))) {
 	  			$language->set($request->gethtml('module_language', 'post'));
 	  
-				$response->redirect($url->requested($url->href('home')));
+				$response->redirect($url->requested($url->ssl('home')));
     		}
 		
 			$language->load('extension/module/language.php');
@@ -21,7 +21,7 @@ class ModuleLanguage extends Controller {
 		 
     		$view->set('heading_title', $language->get('heading_title'));
 
-    		$view->set('action', $url->requested($url->href('home')));
+    		$view->set('action', $url->requested($url->ssl('home')));
    			$view->set('text_language', $language->get('text_language'));
     		$view->set('entry_language', $language->get('entry_language'));
 

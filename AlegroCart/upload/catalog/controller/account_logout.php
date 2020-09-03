@@ -36,7 +36,7 @@ class ControllerAccountLogout extends Controller {
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('text_success', $this->language->get('text_logout'));
 		$view->set('button_continue', $this->language->get('button_continue'));
-		$view->set('continue', $this->url->href('home'));
+		$view->set('continue', $this->url->ssl('home'));
 		$view->set('head_def',$this->head_def);
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $view->fetch('content/success.tpl'));

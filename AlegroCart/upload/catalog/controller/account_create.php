@@ -62,7 +62,7 @@ class ControllerAccountCreate extends Controller {
 					if ($this->cart->hasProducts()) {
 						$this->response->redirect($this->url->ssl('checkout_confirm'));
 					} else {
-						$this->response->redirect($this->url->href('home'));
+						$this->response->redirect($this->url->ssl('home'));
 					}
 				} else {
 					$this->response->redirect($this->url->ssl('account_success'));
@@ -182,8 +182,8 @@ class ControllerAccountCreate extends Controller {
 		if ($this->config->get('config_account_id')) {
 			$information_info = $this->modelAccountCreate->get_information();
 			$view->set('text_required', $this->language->get('text_required'));
-			$view->set('information', $this->url->href('information', FALSE, array('information_id' => $this->config->get('config_account_id'))));
-			$view->set('agree', $this->language->get('text_agree', $this->url->href('information', FALSE, array('information_id' => $this->config->get('config_account_id'))), $information_info['title']));
+			$view->set('information', $this->url->ssl('information', FALSE, array('information_id' => $this->config->get('config_account_id'))));
+			$view->set('agree', $this->language->get('text_agree', $this->url->ssl('information', FALSE, array('information_id' => $this->config->get('config_account_id'))), $information_info['title']));
 		}
 		
 		if ($this->config->get('captcha_reg')) {

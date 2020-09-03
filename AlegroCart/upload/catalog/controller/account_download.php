@@ -52,7 +52,7 @@ class ControllerAccountDownload extends Controller {
 			$view->set('next' , $this->language->get('next_page'));
 			$view->set('button_continue', $this->language->get('button_continue'));
 			
-			$view->set('action', $this->url->href('account_download'));
+			$view->set('action', $this->url->ssl('account_download'));
 
 			$download_data = array();
 			foreach ($results as $result) {

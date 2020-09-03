@@ -33,7 +33,7 @@ class ControllerAccountNewsletter extends Controller {
 			$this->modelAccountCreate->update_newsletter($this->customer->getId());
 			
 			$this->session->set('message', $this->language->get('text_message'));
-			$this->response->redirect($this->url->href('account'));
+			$this->response->redirect($this->url->ssl('account'));
 		}
 		
     	$view = $this->locator->create('template');

@@ -186,7 +186,7 @@ class Template {
 		return $js_path;
 	}
 	function condense_admin_js(){
-		$js = "var CKEDITOR_BASEPATH = \"" . (!HTTPS_ADMIN ? HTTP_ADMIN : HTTPS_ADMIN) . "javascript/ckeditor/\";";
+		$js = "var CKEDITOR_BASEPATH = \"" . (HTTPS_ADMIN ? HTTPS_ADMIN : HTTP_ADMIN) . "javascript/ckeditor/\";";
 		$created = 0;
 		$size = 0;
 		$pattern='/^('.implode('|',$this->extensions).')/';

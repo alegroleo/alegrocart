@@ -31,7 +31,7 @@ class ControllerReviewSuccess extends Controller {
     	$view->set('text_success', $language->get('text_success'));
 
     	$view->set('button_continue', $language->get('button_continue'));
-    	$view->set('continue', $url->href('home'));
+    	$view->set('continue', $url->ssl('home'));
 
 		$this->template->set('content', $view->fetch('content/success.tpl'));
 		$view->set('head_def',$head_def);

@@ -53,7 +53,7 @@ class ControllerReportPurchased extends Controller {
 				'model_number'	=> $result['model_number'],
 				'quantity'	=> $result['quantity'],
 				'total'		=> $this->currency->format($result['total'], $this->config->get('config_currency')),
-				'href'		=> $this->url->href('product', 'update', array('product_id' => $result['product_id'])),
+				'href'		=> $this->url->ssl('product', 'update', array('product_id' => $result['product_id'])),
 				'product_id'	=> $result['product_id']
 			);
 		}

@@ -31,7 +31,7 @@ class Model_Search extends Model{
 			if ($i >= 1) $query['page'] = $i;
         	$page_data[] = array(
           		'text'  => $this->language->get('text_pages', $i, $this->database->getPages()),
-				'href'	=> $alias ? (HTTP_SERVER . $alias['alias'] . '/page/' . $i) :$this->url->href('search', FALSE, $query),
+				'href'	=> $alias ? (HTTP_SERVER . $alias['alias'] . '/page/' . $i) :$this->url->ssl('search', FALSE, $query),
           		'value' => $i
         	);
         }

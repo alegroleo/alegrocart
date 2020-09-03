@@ -27,7 +27,7 @@ class ControllerAddToCart extends Controller {
 				$products = array();
 				foreach ($cart->getProducts() as $result) {
 					$products[] = array(
-						'href'		=> $url->href('product', false, array('product_id' => $result['product_id'])),
+						'href'		=> $url->ssl('product', false, array('product_id' => $result['product_id'])),
 						'name'		=> $result['name'],
 						'quantity'	=> $result['quantity'],
 						'total'		=> $currency->format($tax->calculate($result['total'], $result['tax_class_id'], $config->get('config_tax')))
@@ -53,7 +53,7 @@ class ControllerAddToCart extends Controller {
 					
 					$output .= '<div class="cc">' . count($products) .' '. $language->get('text_products') .' - ';
 					$output .= '<div class="dd">' . $cart->countProducts() .' '. $language->get('text_items') . '</div></div>' . "\n";
-					$output .= '<div class="bb" id="cart_button"><a href="' . $url->href('cart') . '">' . $language->get('text_view_cart') . '</a></div>'  . "\n";
+					$output .= '<div class="bb" id="cart_button"><a href="' . $url->ssl('cart') . '">' . $language->get('text_view_cart') . '</a></div>'  . "\n";
 				} else {
 					$output .= '<div class="bb">' . $language->get('text_empty') . '</div>' . "\n"; 
 				}

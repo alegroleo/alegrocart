@@ -123,7 +123,7 @@ class ControllerCheckoutConfirm extends Controller {
 
 		$view->set('entry_coupon', $this->language->get('entry_coupon'));
 		$view->set('couponproducts', $this->coupon->hasProducts());
-		$view->set('button_continue', $this->language->get('button_continue'));
+		$view->set('button_continue', $this->language->get('button_complete'));
 		$view->set('button_back', $this->language->get('button_back'));
 		$view->set('button_update', $this->language->get('button_update'));
 
@@ -226,7 +226,7 @@ class ControllerCheckoutConfirm extends Controller {
 				}
 			$product_data[] = array(
 					'product_id' => $product['product_id'],
-					'href'       => $this->url->href('product', FALSE, array('product_id' => $product['product_id'])),
+					'href'       => $this->url->ssl('product', FALSE, array('product_id' => $product['product_id'])),
 					'name'       => $product['name'],
 					'model_number'=> $product['model_number'],
 					'vendor_name'=> $vendor_name,
@@ -527,7 +527,7 @@ class ControllerCheckoutConfirm extends Controller {
 		if ($this->config->get('config_checkout_id')) {
 			$information_info = $this->modelCheckout->get_information($this->config->get('config_checkout_id'));
 
-			$view->set('agree', $this->language->get('text_agree', $this->url->href('information', FALSE, array('information_id' => $this->config->get('config_checkout_id'))), $information_info['title']));
+			$view->set('agree', $this->language->get('text_agree', $this->url->ssl('information', FALSE, array('information_id' => $this->config->get('config_checkout_id'))), $information_info['title']));
 		}
 
 		$this->order->save($this->order->getReference());

@@ -23,7 +23,7 @@ class ControllerError extends Controller {
 
 		$view->set('text_error', $language->get('text_error'));
 		$view->set('button_continue', $language->get('button_continue'));
-		$view->set('continue', $url->href('home'));
+		$view->set('continue', $url->ssl('home'));
 		$view->set('this_controller', 'error');
 		$this->template->set('content', $view->fetch('content/error.tpl'));
 		$this->load_modules();  // Template Manager

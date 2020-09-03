@@ -3,18 +3,18 @@
 define('E_DB_CONN','Error: Could not make a database connection. Error: %s<br />Error No: %s<br />');
 define('E_DB_QUERY','Error: %s<br />Error No: %s<br />%s');
 
-class Database {
-	var $mysqli;  //the object
-	var $result;
-	var $pages;
-	var $total;
-	var $from;
-	var $to;
-	var $queries = 0;
-	var $query_text;
-	var $log_message = NULL;
+final class Database {
+	private $mysqli;  //the object
+	private $result;
+	private $pages;
+	public $total;
+	private $from;
+	private $to;
+	private $queries = 0;
+	private $query_text;
+	private $log_message = NULL;
 
-	function __construct(&$locator) {
+	public function __construct(&$locator) {
 		$this->locator		=& $locator;
 		$this->config		=& $locator->get('config');
 		$this->cache		=& $locator->get('cache');
@@ -34,15 +34,15 @@ class Database {
 		$this->mysqli->query('set @@session.sql_mode="MYSQL40"');
 	}
 
-	function disconnect() {
+	public function disconnect() {
 		$this->mysqli->close();
 	}
 
-	function server_info() {
+	public function server_info() {
 		return $this->mysqli->server_info;
 	}
 
-	function query($sql) {
+	public function query($sql) {
 		$this->result = $this->mysqli->query($sql);
 		if ($this->result) {
 			++$this->queries;
@@ -52,24 +52,24 @@ class Database {
 		$this->SQL_handler(sprintf(E_DB_QUERY,$this->mysqli->error,$this->mysqli->errno,$sql));
 	}
 
-	function clearSql($sql) {
+	private function clearSql($sql) {
 		return $this->mysqli->real_escape_string($sql);
 	}
 
-	function parse() {
+	public function parse() {
 		$args = func_get_args();
 		$sql = array_shift($args);
 		return vsprintf(str_replace('?', '%s', $sql), array_map(array($this,'clearSql'), $args));
 	}
 
-	function getRow($sql) {
+	public function getRow($sql) {
 		$this->query($sql);
 		$row = $this->result->fetch_assoc();
 		$this->result->free();
 		return $row;
 	}
 
-	function getRows($sql) {
+	public function getRows($sql) {
 		if (func_num_args()) {
 			$this->query(implode(func_get_args(), ', '));
 		} else {
@@ -84,20 +84,20 @@ class Database {
 		return $rows;
 	}
 
-	function countRows() {
+	public function countRows() {
 		$this->query(implode(func_get_args(), ', '));
 		return $this->result->num_rows;
 	}
 
-	function countAffected() {
+	public function countAffected() {
 		return $this->mysqli->affected_rows;
 	}
 
-	function getLastId() {
+	public function getLastId() {
 		return $this->mysqli->insert_id;
 	}
 
-	function cache($key, $sql) {
+	public function cache($key, $sql) {
 		if ($this->config->get('config_cache_query')) {
 			if (!$result = $this->cache->get($key)) {
 				$result = $this->getRows($sql);
@@ -109,7 +109,7 @@ class Database {
 		return ($result);
 	}
 
-	function splitQuery($sql, $page = '1', $max_rows = '20' , $max_results = '0') {
+	public function splitQuery($sql, $page = '1', $max_rows = '20' , $max_results = '0') {
 		$count = $this->getRow(preg_replace(array('/select(.*)from /Asi', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql, 1));
 		if(($max_results != '0') && ($max_results < $count['total'])){
 			$count['total'] = $max_results;
@@ -137,7 +137,7 @@ class Database {
 		return $sql;
 	}
 
-	function splitQueries($sql1, $sql2, $page = '1', $max_rows = '20' , $max_results = '0') { //sql1 and sql2 are not empty
+	public function splitQueries($sql1, $sql2, $page = '1', $max_rows = '20' , $max_results = '0') { //sql1 and sql2 are not empty
 		$count1 = $this->getRow(preg_replace(array('/select(.*)from /Asi', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql1, 1));
 		$count2 = $this->getRow(preg_replace(array('/select(.*)from /Asi', '/order by (.*)/'), array('select count(*) as total from ', ''), $sql2, 1));
 
@@ -148,7 +148,7 @@ class Database {
 			$count['total'] = $max_results;
 		}
 
-		//max_rows is total number of products per page to be display
+		//max_rows is total number of products per page to be displayed
 		$pages = ceil($count['total'] / (int)$max_rows); //total number of pages needed
 
 		if (!$page) { $page = 1; } //the current page we are on
@@ -201,28 +201,28 @@ class Database {
 		return $limits;
 	}
 
-	function getPages() {
+	public function getPages() {
 		return $this->pages;
 	}
 
-	function getTotal() {
+	public function getTotal() {
 		return $this->total;
 	}
 
-	function getFrom() {
+	public function getFrom() {
 		return $this->from;
 	}
 
-	function getTo() {
+	public function getTo() {
 		return $this->to;
 	}
 
-	function import($file) {
+	public function import($file) {
 		$quotes = array("'","`");
 		if ($sql=file($file)) {
 			$query = '';
 			foreach($sql as $line) {
-				if ((substr(trim($line), 0, 2) == '--') || (substr(trim($line), 0, 1) == '#')) { 
+				if ((substr(trim($line), 0, 2) == '--') || (substr(trim($line), 0, 1) == '#')) { // get rid of comments
 					$line=''; 
 				}
 				if (!empty($line)) {
@@ -265,7 +265,7 @@ class Database {
 		}
 	}
 
-	function export() {
+	public function export() {
 		$this->query('set @@session.sql_mode=""');
 		$output = '';
 		$sql = "SHOW TABLES FROM `" . DB_NAME ."`";
@@ -296,11 +296,22 @@ class Database {
 				$output .= 'INSERT INTO `' . $row[0] . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n";
 			}
 			$output .= "\n\n";
+
+			if(!preg_match('/\_log$/',$row[0])) { //export triggers as well
+				$triggerSql = "SHOW TRIGGERS LIKE '" . $row[0] ."'";
+				$list_triggers = $this->query($triggerSql);
+				while ($trow = $list_triggers->fetch_row()) {
+					$output .= 'DROP TRIGGER IF EXISTS `' . $trow[0] . '`;' . "\n";
+					$output .= 'CREATE TRIGGER `' . $trow[0] . '` ' . $trow[4] . ' ' . $trow[1] . ' ON `' . $trow[2] . '` FOR EACH ROW ' . $trow[3] . ';' . "\n";
+				}
+				$output .= "\n\n";
+			}
+
 		}
 		return $output;
 	}
 
-	function SQL_handler($error){
+	private function SQL_handler($error){
 		$this->initailize_handler();
 		if($this->log_file){
 			$this->log_error_msg($error);
@@ -315,7 +326,7 @@ class Database {
 		}
 	}
 
-	function send_error_msg($error){
+	private function send_error_msg($error){
 		$pattern = '/(^Array|^\\(\n|^\\)\n|^\s*)/m';
 
 		$error = str_replace(array('<br />', '<br>'), "\r\n", $error);
@@ -325,18 +336,18 @@ class Database {
 		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\r\n" : "";
 		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\r\n";
 		$message .= "log: ".print_r( $this->log_message, true)."\r\n";
-		$message .= "##################################################\r\n\r\n";
+		$message .= "##############################\r\n\r\n";
 		$message .= "POST variables:\r\n".preg_replace($pattern, '', print_r($_POST, true))."\r\n";
-		$message .= "##################################################\r\n\r\n";
+		$message .= "##############################\r\n\r\n";
 		$message .= "GET variables:\r\n".preg_replace($pattern, '', print_r($_GET, true))."\r\n";
-		$message .= "##################################################\r\n\r\n";
+		$message .= "##############################\r\n\r\n";
 		$message .= "COOKIES:\r\n".preg_replace($pattern, '', print_r($_COOKIE, true))."\r\n";
 
 		$this->email_sent = false;
 
 		$this->mail->setTo($this->email);
 		$this->mail->setFrom($this->config->get('config_email'));
-		$this->mail->setSender(HTTP_BASE);
+		$this->mail->setSender(HTTPS_BASE ? HTTPS_BASE : HTTP_BASE);
 		$this->mail->setSubject('ERROR');
 		$this->mail->setText($message);
 		$this->mail->send();
@@ -344,7 +355,7 @@ class Database {
 		$this->email_sent = true;
 	}
 
-	function log_error_msg($error){
+	private function log_error_msg($error){
 		$error = str_replace(array('<br />', '<br>'), "\n", $error);
 		$message =  "time: ".date("j-m-d H:i:s (T)", time())."\n";
 		$message .= "MySQL ". $error . "\n" ;
@@ -352,7 +363,7 @@ class Database {
 		$message .= isset($_SERVER['QUERY_STRING']) ? 'Query String: ' . @$_SERVER['QUERY_STRING'] . "\n" : "";
 		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\n" : "";
 		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\n";
-		$message .= "##################################################\n\n";
+		$message .= "##############################\n\n";
 		if (!$fp = fopen($this->log_file, 'a+')){ 
 			$this->log_message = "Could not open/create file: $this->log_file to log error."; $log_error = true;
 		}
@@ -365,17 +376,17 @@ class Database {
 		fclose($fp); 
 	}
 
-	function sql_msg_developer($error){
+	private function sql_msg_developer($error){
 		$color='red';
 		$message = "<span style='color:$color;font-size: 12px'>";
 		$message .= "MySQL ". $error . "<br>\n" ;
 		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. $_SERVER['REQUEST_URI']."<br>\n" : "";
-		$message .= "---------------------------------------------------<br>\n";
+		$message .= "------------------------------<br>\n";
 		$message .= "</span>";
 		echo $message;
 	}
 
-	function initailize_handler(){
+	private function initailize_handler(){
 		$this->ip = $this->config->get('error_developer_ip') ? $this->config->get('error_developer_ip') : $_SERVER['REMOTE_ADDR'];
 		$this->show_developer = $this->config->get('error_show_developer') ? TRUE : FALSE;
 		$this->email = $this->config->get('config_error_email') ? $this->config->get('config_error_email') : $this->config->get('config_email');
@@ -389,16 +400,16 @@ class Database {
 		$this->email_sent = FALSE;
 	}
 
-	function nslookup($ip) {
+	private function nslookup($ip) {
 		$host_name = gethostbyaddr($ip);
 		return $host_name;
 	}
 
-	function countQueries() {
+	public function countQueries() {
 		return $this->queries;
 	}
 
-	function log_queries(){
+	public function log_queries(){
 		$request =&  $this->locator->get('request');
 		$controller =& $this->locator->get('controller');
 		$class = $controller->getClass($request);

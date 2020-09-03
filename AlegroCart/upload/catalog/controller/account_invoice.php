@@ -209,7 +209,7 @@ class ControllerAccountInvoice extends Controller {
 					'product_tax'		=> $this->currency->format($producttax, $order_info['currency'], $order_info['value']),
 					'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value']),
 					'status'		=> $product['status'],
-					'href'			=> $this->url->href('product', FALSE, array('product_id' => $product['product_id']))
+					'href'			=> $this->url->ssl('product', FALSE, array('product_id' => $product['product_id']))
 				);
 			}
 

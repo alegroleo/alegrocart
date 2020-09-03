@@ -230,7 +230,7 @@ class Watermark {
 
 		    $white = imagecolorallocate($wm_layer, 255, 255, 255);
 
-		    $color = imagecolorallocate($wm_layer, '0x' . substr($this->wm_fontcolor,0,2), '0x' . substr($this->wm_fontcolor,2,2), '0x' . substr($this->wm_fontcolor,4,2));
+		    $color = imagecolorallocate($wm_layer, hexdec(substr($this->wm_fontcolor,0,2)), hexdec(substr($this->wm_fontcolor,2,2)), hexdec(substr($this->wm_fontcolor,4,2)));
 		    
 		    $transparent_text = imagecolortransparent($wm_layer, $white);
 

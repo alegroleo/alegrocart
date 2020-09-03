@@ -59,16 +59,14 @@ class ModuleBoughtOptions extends Controller{
 		}
 
 		$results = $this->modelBought->get_model($customer_id,$manufacturer_sql,$manufacturer_filter);
+		$model_data = array();
 		if (count($results) > 1){
-			$model_data = array();
 			foreach($results as $result){
 				$model_data[] = array(
 					'model'		=> $result['model'],
 					'model_value'	=> $result['model']."_".$customer_id
 				);
 			}
-		} else {
-			$model_data = "";
 		}
 
 		$view->set('models_data', $model_data);	
@@ -77,7 +75,7 @@ class ModuleBoughtOptions extends Controller{
 		$view->set('customer_id', $customer_id);
 		$view->set('manufacturer_id', $session->get('bought.manufacturer'));
 
-		$view->set('action', $url->href('bought'));
+		$view->set('action', $url->ssl('bought'));
 
 		$view->set('sort_filter', $this->sort_filter());
 		$view->set('sort_order', $this->sort_order());

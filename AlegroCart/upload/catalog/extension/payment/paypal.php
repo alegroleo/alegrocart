@@ -60,6 +60,7 @@ class PaymentPayPal extends Payment {
       
     function get_ActionUrl() {
         if (!$this->config->get('paypal_test')) {
+			//return 'http://localhost/test/gateway/paypal_test.php';
             return 'https://www.paypal.com/cgi-bin/webscr';
         } else {
             return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
@@ -165,7 +166,11 @@ class PaymentPayPal extends Payment {
         } elseif ($this->request->gethtml('method') == 'return') {
             
             $this->order->load($this->order->getReference());
+			$order_total = $this->order->get('total');
+			$comment = $this->order->get('comment');
+			$this->order->set('comment', $comment . '  PDT');
             $this->order->process($this->getOrderStatusId('order_status_paid_unconfirmed'));
+			if ($this->config->get('paypal_ipn_debug')) { $this->pdt_debug($_SERVER['REQUEST_URI']); }
 
             /////////////////////////////////////////////
             // Use PDT if available and PDT Token is set
@@ -184,8 +189,11 @@ class PaymentPayPal extends Payment {
                 $req .= "&tx=$tx_token&at=$auth_token";
 
                 // post back to PayPal system to validate
-                $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
+				$header = '';
+                $header = "POST /cgi-bin/webscr HTTP/1.1\r\n";
                 $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+				$header .= "Connection: Close\r\n";
+				$header .= "Host: www.paypal.com\r\n";
                 $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
                 
                 $url=$this->config->get('paypal_test')?'ssl://www.sandbox.paypal.com':'ssl://www.paypal.com';
@@ -213,6 +221,7 @@ class PaymentPayPal extends Payment {
                     
                     // parse the data
                     $lines = explode("\n", $res);
+					if ($this->config->get('paypal_ipn_debug')) { $this->pdt_debug($res); }
                     $keyarray = array();
                     $error = '';
                     if (strcmp ($lines[0], "SUCCESS") == 0) {
@@ -222,7 +231,7 @@ class PaymentPayPal extends Payment {
                         }
                         
                         // Verify the payment_status isn't failed
-                        if (in_array($keyarray['payment_status'], $failed_status)) {
+                       if (in_array($keyarray['payment_status'], $failed_status)) {
                             $error = $this->language->get('error_failed_payment');
                         }
                         
@@ -233,14 +242,14 @@ class PaymentPayPal extends Payment {
                         } else {
                             $currency = $this->config->get('config_currency');
                         }
-                        if ($this->currency->format(($this->cart->getTotal() + $this->shipping->getCost($this->session->get('shipping_method'))) , $currency, FALSE, FALSE) != $keyarray['payment_gross']) {
-                            $error = $this->language->get('error_mismatched_amount'); 
+                        if ($this->currency->format($order_total , $currency, FALSE, FALSE) != $keyarray['mc_gross']) {
+                            $error .= $this->language->get('error_mismatched_amount'); 
                         }
 
                         // Verify the receiver_email matches your paypal email
-                        if ($this->config->get('paypal_email') != $keyarray['receiver_email']) {
-                            $error = $this->language->get('error_wrong_receiver'); 
-                        }
+                        if ($this->config->get('paypal_email') != urldecode($keyarray['receiver_email'])) {
+                            $error .= $this->language->get('error_wrong_receiver'); 
+                        }  
                         
                         // If there are no errors, update payment status.
                         // If there are errors, we still want to show success since the customer did pay
@@ -249,6 +258,8 @@ class PaymentPayPal extends Payment {
                         if (!$error) { 
 							$this->notification = 'PDT';
                             $this->orderUpdate();
+						} else {
+							if ($this->config->get('paypal_ipn_debug')) { $this->pdt_debug($error); }
                         }
 
                     } else {
@@ -281,7 +292,8 @@ class PaymentPayPal extends Payment {
         // if IPN callback is called
 		SLEEP(10);
         if ($this->request->gethtml('method') == 'ipn'){ 
-            
+			$Reference = $this->request->gethtml('ref');
+			if ($this->config->get('paypal_ipn_debug')) { $this->DoDebug($_SERVER['REQUEST_URI']); }            
             // read the post from PayPal system and add 'cmd'
             $req = 'cmd=_notify-validate';
             foreach ($_POST as $key => $value) {
@@ -290,18 +302,19 @@ class PaymentPayPal extends Payment {
             //Debug
             if ($this->config->get('paypal_ipn_debug')) { $this->DoDebug($req); }
             // post back to PayPal system to validate
-            $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
+			$header = '';
+            $header = "POST /cgi-bin/webscr HTTP/1.1\r\n";
             $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+			$header .= "Connection: Close\r\n";
+			$header .= "Host: www.paypal.com\r\n";
             $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-            
+            //Debug
+			 if ($this->config->get('paypal_ipn_debug')) { $this->DoDebug($header . $req); }
             $url=$this->config->get('paypal_test')?'ssl://www.sandbox.paypal.com':'ssl://www.paypal.com';
             //SSL version
             $fp = fsockopen($url, 443, $errno, $errstr, 30);
             //NON-SSL version
             //$fp = fsockopen ($url, 80, $errno, $errstr, 30);
-            
-            //Debug
-            if ($this->config->get('paypal_ipn_debug')) { $this->DoDebug($header . $req); }
             
             if ($fp) {
                 fputs($fp, $header . $req);            
@@ -320,6 +333,7 @@ class PaymentPayPal extends Payment {
                     $this->orderUpdate(); // Update order to pending or specify new value in language file
                 }
             }
+			//header("HTTP/1.1 200 OK");
         }
     }
 
@@ -345,7 +359,12 @@ class PaymentPayPal extends Payment {
         fwrite($f, $msg . "\r\n\r\n");
         fclose($f);
     }
-
+	function pdt_debug($msg=''){
+		$log_path = DIR_BASE . 'logs' . D_S . 'paypal_log' . D_S;
+        $f=fopen($log_path . "paypal_pdt_debug_" . date("Ymd") . ".txt","a");             
+        fwrite($f, $msg . "\r\n\r\n");
+        fclose($f);
+	}
     // Update order to "Pending" (default) or specify variable name of the status you'd like as listed in the language file.
     function orderUpdate($status = 'final_order_status', $override = 0) {
         //Find the paid_unconfirmed status id

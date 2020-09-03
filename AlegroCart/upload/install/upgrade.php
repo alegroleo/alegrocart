@@ -103,7 +103,7 @@ foreach ($files as $file) {
 	</div>
 		<div id="footer">
 		<ul>
-			<li><a target="_blank" href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
+			<li><a target="_blank" href="https://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
 			<li><a target="_blank" href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
 		</ul>
 		</div>

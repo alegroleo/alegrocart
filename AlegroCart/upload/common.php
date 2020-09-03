@@ -64,6 +64,7 @@ if (!defined('HTTPS_CATALOG')) define('HTTPS_CATALOG', HTTPS_BASE);
 if (!defined('HTTPS_ADMIN')) define('HTTPS_ADMIN', HTTPS_BASE?HTTPS_BASE.PATH_ADMIN.'/':'');
 if (!defined('HTTPS_SERVER')) define('HTTPS_SERVER', constant('HTTPS_'.APP));
 if (!defined('HTTPS_IMAGE')) define('HTTPS_IMAGE', HTTPS_BASE?HTTPS_BASE.PATH_IMAGE.'/':'');
+if (!defined('HTTPS_FLASH')) define('HTTPS_FLASH', HTTPS_BASE?HTTPS_BASE.PATH_IMAGE.'/'.PATH_FLASH.'/':'');
 
 // SUPER ADMIN
 if (!defined('SUPER_ADMIN')) define('SUPER_ADMIN',1);

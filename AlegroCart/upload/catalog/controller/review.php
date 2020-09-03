@@ -4,6 +4,7 @@ class ControllerReview extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module   	=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
@@ -52,7 +53,7 @@ class ControllerReview extends Controller {
       		
       		$view->set('entry_page', $language->get('entry_page'));
 
-      		$view->set('action', $url->href('review', FALSE, array('product_id' => $request->gethtml('product_id'))));
+      		$view->set('action', $url->ssl('review', FALSE, array('product_id' => $request->gethtml('product_id'))));
 
       		$review_data = array();
 
@@ -63,7 +64,7 @@ class ControllerReview extends Controller {
  			$avgrating2 = number_format($average,1);
 
         		$review_data[] = array(
-          			'href'       => $url->href('review_info', FALSE, array('product_id' => $result['product_id'], 'review_id' => $result['review_id'])),
+          			'href'       => $url->ssl('review_info', FALSE, array('product_id' => $result['product_id'], 'review_id' => $result['review_id'])),
           			'name'       => $result['name'],
           			'thumb'      => $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
           			'text'       => trim(substr(strip_tags($result['text']), 0, 150)) . '...',
@@ -94,7 +95,7 @@ class ControllerReview extends Controller {
 		$view->set('this_controller', 'review');
       		$view->set('text_error', $language->get('text_empty'));
       		$view->set('button_continue', $language->get('button_continue'));
-      		$view->set('continue', $url->href('home'));
+      		$view->set('continue', $url->ssl('home'));
 		$view->set('head_def',$head_def);
 		$this->template->set('head_def',$head_def);
 	  	$this->template->set('content', $view->fetch('content/error.tpl'));
@@ -141,6 +142,11 @@ class ControllerReview extends Controller {
 		}
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

@@ -246,7 +246,7 @@ class ControllerWatermark extends Controller {
 
 	protected function viewImage(){
 		if($this->request->gethtml('wm_image')){
-			$output = '<img src="' . HTTP_IMAGE . '/watermark/' . $this->request->gethtml('wm_image') . '"';
+			$output = '<img src="' . (HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . '/watermark/' . $this->request->gethtml('wm_image') . '"';
 			$output .= 'alt="' . $this->language->get('text_watermark'). '" title="'. $this->language->get('text_watermark') .'">';
 		} else {
 			$output = '';
@@ -258,7 +258,7 @@ class ControllerWatermark extends Controller {
 		$this->watermark->deleteTmp(DIR_WATERMARK);
 		$this->watermark->deleteTmp(DIR_IMAGE_CACHE);
 		if($this->request->gethtml('pre_view')){
-			$output = '<img src="' . HTTP_IMAGE . $this->watermark->resize_preview($this->watermark->preview(HTTP_IMAGE . $this->request->gethtml('pre_view'), $this->wm_method),300,300) . '"';
+			$output = '<img src="' . (HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . $this->watermark->resize_preview($this->watermark->preview((HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . $this->request->gethtml('pre_view'), $this->wm_method),300,300) . '"';
 			$output .= 'alt="' . $this->language->get('text_watermarked'). '" title="'. $this->language->get('text_watermarked') .'">';
 		} else {
 			$output = '';
@@ -269,7 +269,7 @@ class ControllerWatermark extends Controller {
 	protected function viewWmImage(){
 		if($this->request->gethtml('wm_wmimage')){
 			$image = $this->request->gethtml('wm_wmimage');
-			$output = '<img src="' . HTTP_IMAGE . $this->watermark->resize($image,300,300) .  '?' . time() . '"';
+			$output = '<img src="' . (HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . $this->watermark->resize($image,300,300) .  '?' . time() . '"';
 			$output .= 'alt="' . $this->language->get('text_original'). '" title="'. $this->language->get('text_original') .'">';
 		} else {
 			$output = '';

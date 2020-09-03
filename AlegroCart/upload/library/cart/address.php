@@ -1,8 +1,9 @@
 <?php 
 class Address {
-	var $data = array();
+
+	private $data = array();
 	
-	function Address(&$locator) {
+	public function __construct(&$locator){
 		$this->customer =& $locator->get('customer');
 		$this->database =& $locator->get('database');
 		$this->config   =& $locator->get('config');
@@ -32,110 +33,109 @@ class Address {
 		}
 	}
 	
-	function get($address_id) {
+	public function get($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id] : NULL); 
 	}
 
-	function has($address_id) {
+	public function has($address_id) {
 		return isset($this->data[$address_id]); 
 	}
-		
-	function format($address, $format = NULL, $new_line = "\n") {
-    	if (!$format) {
-			
-      		$format = $this->config->get('config_address_format') ? $this->config->get('config_address_format') : 'firstname lastname' . "\n" . 'company' . "\n" . 'address_1' . "\n" . 'address_2' . "\n" . 'city, zone' . "\n" . 'country, postcode';
-			
-    	}
-	  
-    	$find = array(
-	  		'firstname',
-	  		'lastname',
-	  		'company',
-      		'address_1',
-      		'address_2',
-     		'city',
-      		'postcode',
-      		'zone',
-      		'country'
-		);
-	
-		$replace = array(
-	  		'firstname' => $address['firstname'],
-	  		'lastname'  => $address['lastname'],
-	  		'company'   => $address['company'],
-      		'address_1' => $address['address_1'],
-      		'address_2' => $address['address_2'],
-      		'city'      => $address['city'],
-      		'postcode'  => $address['postcode'],
-      		'zone'      => $address['zone'],
-      		'country'   => $address['country']  
-		);
-	
-		return str_replace(array("\r\n", "\r", "\n"), $new_line, preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), $new_line, trim(str_replace($find, $replace, $format))));
-  	}
 
-	function getFirstName($address_id) {
+	public function format($address, $format = NULL, $new_line = "\n") {
+		if (!$format) {
+			$format = $this->config->get('config_address_format') ? $this->config->get('config_address_format') : 'firstname lastname' . "\n" . 'company' . "\n" . 'address_1' . "\n" . 'address_2' . "\n" . 'city, zone' . "\n" . 'country, postcode';
+		}
+
+		$find = array(
+			'firstname',
+			'lastname',
+			'company',
+			'address_1',
+			'address_2',
+			'city',
+			'postcode',
+			'zone',
+			'country'
+		);
+
+		$replace = array(
+			'firstname' => $address['firstname'],
+			'lastname'  => $address['lastname'],
+			'company'   => $address['company'],
+	      		'address_1' => $address['address_1'],
+	      		'address_2' => $address['address_2'],
+	      		'city'      => $address['city'],
+	      		'postcode'  => $address['postcode'],
+	      		'zone'      => $address['zone'],
+	      		'country'   => $address['country']  
+		);
+
+		return str_replace(array("\r\n", "\r", "\n"), $new_line, preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), $new_line, trim(str_replace($find, $replace, $format))));
+	}
+
+	public function getFirstName($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['firstname'] : NULL);
 	}
 	
-	function getLastName($address_id) {
+	public function getLastName($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['lastname'] : NULL);
 	}
 
-	function getCompany($address_id) {
+	public function getCompany($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['company'] : NULL);
 	}
-	
-	function getAddress1($address_id) {
+
+	public function getAddress1($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['address_1'] : NULL);
 	}
-	
-	function getAddress2($address_id) {
+
+	public function getAddress2($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['address_2'] : NULL);
 	}
-		
-	function getPostCode($address_id) {
+
+	public function getPostCode($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['postcode'] : NULL);
 	}
-	
-	function getCity($address_id) {
+
+	public function getCity($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['city'] : NULL);
-	}	
-	
-	function getCountryId($address_id) {
+	}
+
+	public function getCountryId($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['country_id'] : NULL);
-	}	
-	
-	function getZoneId($address_id) {
+	}
+
+	public function getZoneId($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['zone_id'] : NULL);
 	}
-	
-	function getIsoCode2($address_id) {
+
+	public function getIsoCode2($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['iso_code_2'] : NULL);
 	}
-	
-	function getIsoCode3($address_id) {
+
+	public function getIsoCode3($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['iso_code_3'] : NULL);
-	}	
-	
-	function getZoneCode($address_id) {
+	}
+
+	public function getZoneCode($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['code'] : NULL);
-	}	
-	
-	function getZone($address_id) {
+	}
+
+	public function getZone($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['zone'] : NULL);
 	}
-	
-	function getCountry($address_id) {
+
+	public function getCountry($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['country'] : NULL);
-	}	
-	
-	function getFormat($address_id) {
+	}
+
+	public function getFormat($address_id) {
 		return (isset($this->data[$address_id]) ? $this->data[$address_id]['address_format'] : NULL);
 	}
-	
-	function getFormatted($address_id, $new_line = "\n") {
+
+	public function getFormatted($address_id, $new_line = "\n") {
 		return (isset($this->data[$address_id]) ? $this->format($this->data[$address_id], $this->data[$address_id]['address_format'], $new_line) : NULL);
-	}													
+	}
+
 }
 ?>

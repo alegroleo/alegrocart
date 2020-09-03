@@ -5,7 +5,7 @@ define('CACHE_PREFIX','cache'.CACHE_SEP);
 
 class Cache {
 
-    var $expire = 3600;
+    var $expire = 604800;
 
 	function __construct() {
         $files = glob(DIR_CACHE.CACHE_PREFIX.'*');

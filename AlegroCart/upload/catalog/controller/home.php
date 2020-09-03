@@ -4,6 +4,7 @@ class ControllerHome extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module   	=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
@@ -83,6 +84,11 @@ class ControllerHome extends Controller {
 		}
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

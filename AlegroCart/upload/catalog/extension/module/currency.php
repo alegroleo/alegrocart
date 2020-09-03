@@ -13,7 +13,7 @@ class ModuleCurrency extends Controller {
 			if (($request->isPost()) && ($request->has('currency', 'post'))) {
       			$currency->set($request->gethtml('currency', 'post'));
 
-  				$response->redirect($url->requested($url->href('home')));
+  				$response->redirect($url->requested($url->ssl('home')));
    			}
     	
 			$language->load('extension/module/currency.php');
@@ -22,7 +22,7 @@ class ModuleCurrency extends Controller {
 		
    			$view->set('heading_title', $language->get('heading_title'));
 
-   			$view->set('action', $url->requested($url->href('home')));
+   			$view->set('action', $url->requested($url->ssl('home')));
    			$view->set('text_currency', $language->get('text_currency'));
    			$view->set('entry_currency', $language->get('entry_currency'));
 

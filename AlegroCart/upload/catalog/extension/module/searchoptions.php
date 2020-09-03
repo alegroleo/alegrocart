@@ -64,24 +64,24 @@ class ModuleSearchOptions extends Controller{
 			$manufacturer_sql = "";
 			$manufacturer_filter = "";
 		}
+
 		$results = $this->modelSearch->get_model($search,$description_sql,$search_description,$manufacturer_sql,$manufacturer_filter);
+		$model_data = array();
 		if (count($results) > 1){
-			$model_data = array();
 			foreach($results as $result){
 				$model_data[] = array(
 					'model'			=> $result['model'],
 					'model_value'	=> $result['model']."*_*".$session->get('search.search')
 				);
 			}
-		} else {
-			$model_data = "";
-		}		
+		}
+
 		$view->set('models_data', $model_data);	
 		$view->set('model', $model);
 		$view->set('manufacturers_data', $manufacturers_data);
 		$view->set('manufacturer_id', $session->get('search.manufacturer'));
 		$view->set('search', $session->get('search.search'));
-		$view->set('action', $url->href('search', 'search_page'));
+		$view->set('action', $url->ssl('search', 'search_page'));
 		$view->set('sort_filter', $this->sort_filter());
 		$view->set('sort_order', $this->sort_order());
 		$view->set('text_sort_by',$language->get('text_sort_by'));

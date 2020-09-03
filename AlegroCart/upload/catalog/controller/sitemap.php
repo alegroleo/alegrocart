@@ -4,6 +4,7 @@ class ControllerSitemap extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->customer 	=& $locator->get('customer');
 		$this->module   	=& $locator->get('module');
@@ -46,7 +47,7 @@ class ControllerSitemap extends Controller {
       		$category_data[] = array(
         		'category_id' => $result['category_id'],
         		'name'        => $result['name'],
-        		'href'        => $url->href('category', FALSE, array('path' => $result['path'])),
+        		'href'        => $url->ssl('category', FALSE, array('path' => $result['path'])),
         		'level'       => count(explode('_', $result['path'])) - 1
       		);
     	}
@@ -63,17 +64,17 @@ class ControllerSitemap extends Controller {
 			$view->set('download', $url->ssl('account_download'));
 		}
 		
-    	$view->set('cart', $url->href('cart'));
+    	$view->set('cart', $url->ssl('cart'));
     	$view->set('checkout', $url->ssl('checkout_shipping'));
-    	$view->set('search', $url->href('search'));
-    	$view->set('contact', $url->href('contact'));
+    	$view->set('search', $url->ssl('search'));
+    	$view->set('contact', $url->ssl('contact'));
 
     	$information_data = array();
 		$results = $this->modelSitemap->get_information();
     	foreach ($results as $result) {
       		$information_data[] = array(
         		'title' => $result['title'],
-        		'href'  => $url->href('information', FALSE, array('information_id' => $result['information_id']))
+        		'href'  => $url->ssl('information', FALSE, array('information_id' => $result['information_id']))
       		);
     	}
 
@@ -123,6 +124,11 @@ class ControllerSitemap extends Controller {
 		}
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
-	}	
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
+	}
 }
 ?>

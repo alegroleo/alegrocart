@@ -188,8 +188,8 @@ class ControllerBought extends Controller {
 
 		$customer_id = (int)$this->customer->getId();
 		$man_results = $this->modelBought->get_manufacturer($customer_id);
+		$manufacturers_data = array();
 		if (count($man_results) > 1){
-			$manufacturers_data = array();
 			foreach ($man_results as $man_result){
 				$result = $this->modelProducts->getRow_manufacturer($man_result['manufacturer_id']);
 				$manufacturers_data[] = array(
@@ -197,10 +197,8 @@ class ControllerBought extends Controller {
 					'name'		=> $result['name']
 				);
 			}
-		} else {
-			$manufacturers_data = "";
 		}
-		
+
 		if ($manufacturer_id > 0){
 			$manufacturer_sql = " and p.manufacturer_id = ";
 			$manufacturer_filter = "'".$manufacturer_id."'";
@@ -209,17 +207,16 @@ class ControllerBought extends Controller {
 			$manufacturer_filter = "";
 		}
 		$results = $this->modelBought->get_model($customer_id,$manufacturer_sql,$manufacturer_filter);
+		$model_data = array();
 		if (count($results) > 1){
-			$model_data = array();
 			foreach($results as $result){
 				$model_data[] = array(
 					'model'		=> $result['model'],
 					'model_value'	=> $result['model']."_".$customer_id
 				);
 			}
-		} else {
-			$model_data = "";
 		}
+
 		$view->set('models_data', $model_data);
 		$view->set('model', $model);
 		$view->set('manufacturers_data', $manufacturers_data);
@@ -354,7 +351,7 @@ class ControllerBought extends Controller {
 					'multiple'	=> isset($result['multiple']) ? $result['multiple'] : '',
 					'cart_level'		=> $this->cart->hasProduct($result['product_id']),
 					'product_discounts' => $product_discounts,
-					'href'  => $this->url->href('product', FALSE, $query),
+					'href'  => $this->url->ssl('product', FALSE, $query),
 					'popup'     => isset($result['filename']) ? $this->image->href($result['filename']) : '',
 					'thumb' => isset($result['filename']) ? $this->image->resize($result['filename'], $image_width, $image_height) : $this->image->resize('no_image.png', $image_width, $image_height),
 					'special_price' => isset($result['special_price']) ? $this->currency->format($this->tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))) : '',
@@ -386,7 +383,7 @@ class ControllerBought extends Controller {
 				$view->set('first_page', $this->language->get('first_page'));
 				$view->set('last_page', $this->language->get('last_page'));
 				$view->set('number_columns', $this->config->get('config_columns') != 3 ? array(1,2,3,4,5) : array(1,2,3,4));
-				$view->set('action', $this->url->href('bought', FALSE, array('path' => $this->request->gethtml('path'))));
+				$view->set('action', $this->url->ssl('bought', FALSE, array('path' => $this->request->gethtml('path'))));
 				$view->set('page', ($this->request->has('path') ? $this->session->get('bought.'.$this->request->gethtml('path').'.page') : $this->session->get('bought.page')));
 
 				$view->set('pages', $this->modelBought->get_pagination());

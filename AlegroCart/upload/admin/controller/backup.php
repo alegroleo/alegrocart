@@ -31,7 +31,7 @@ class ControllerBackup extends Controller {
 
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->href('home'));
+			$this->response->redirect($this->url->ssl('home'));
 		}
 
 		$view = $this->locator->create('template');

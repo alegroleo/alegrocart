@@ -23,7 +23,7 @@ class ModuleCategorySlider extends Controller {
 					'category_id'	=> $result['category_id'],
 					'name'		 => $result['name'],
 					'thumb'		 => $image->resize($result['filename'], $config->get('categoryslider_image_width'), $config->get('categoryslider_image_height')),
-					'href'		 => $url->href('category', FALSE, array('path' => $result['path']))
+					'href'		 => $url->ssl('category', FALSE, array('path' => $result['path']))
 				);
 			}
 			$view->set('categories', $categories_data);

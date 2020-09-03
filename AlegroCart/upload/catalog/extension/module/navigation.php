@@ -19,17 +19,17 @@ class ModuleNavigation extends Controller {
     		$view->set('text_cart', $language->get('text_cart')); 
     		$view->set('text_checkout', $language->get('text_checkout'));
     	
-			$view->set('home', $url->href('home'));
+			$view->set('home', $url->ssl('home'));
 
     		$view->set('account', $url->ssl('account'));
 
     		if (!$customer->isLogged()) {
       			$view->set('login', $url->ssl('account_login'));
     		} else {
-      			$view->set('logout', $url->href('account_logout'));
+      			$view->set('logout', $url->ssl('account_logout'));
     		}
 
-    		$view->set('cart', $url->href('cart'));
+    		$view->set('cart', $url->ssl('cart'));
 	
     		$view->set('checkout', $url->ssl('checkout_shipping'));
 			$view->set('location', $this->modelCore->module_location['navigation']); // Template Manager 

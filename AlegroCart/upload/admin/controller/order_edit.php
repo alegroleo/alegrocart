@@ -717,7 +717,7 @@ class ControllerOrderEdit extends Controller {
 				$product_data[] = array(
 					'product_key'		=> $product['product_id'],
 					'product_id' 		=> $product_id,
-					'href'       		=> $this->url->href('product', FALSE, array('product_id' => $product_id)),
+					'href'       		=> $this->url->ssl('product', FALSE, array('product_id' => $product_id)),
 					'name'       		=> $product_info['name'],
 					'model_number'  	=> (isset($product_option['model_number']) ? @$product_option['model_number'] : @$product_info['model_number']),
 					'vendor_id'		=> $vendor_data['vendor_id'],
@@ -742,7 +742,7 @@ class ControllerOrderEdit extends Controller {
 				$product_data[] = array(
 					'product_key'		=> $product['product_id'],
 					'product_id' 		=> $product_id,
-					'href'       		=> $this->url->href('product', FALSE, array('product_id' => $product_id)),
+					'href'       		=> $this->url->ssl('product', FALSE, array('product_id' => $product_id)),
 					'name'       		=> $product_info['name'],
 					'model_number'  	=> (isset($product_option['model_number']) ? @$product_option['model_number'] : @$product_info['model_number']),
 					'vendor_id'		=> NULL,

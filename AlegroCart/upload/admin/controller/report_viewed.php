@@ -69,7 +69,7 @@ class ControllerReportViewed extends Controller {
 				'viewed'	=> $result['viewed'],
 				'percent'	=> $percent.'%',
 				'graph'		=> $max ? number_format((100/$max)*$percent, 2,'.','') . '%' : number_format(0, 2,'.','') .'%',
-				'href'		=> $this->url->href('product', 'update', array('product_id' => $result['product_id']))
+				'href'		=> $this->url->ssl('product', 'update', array('product_id' => $result['product_id']))
 			);
 		}
 		

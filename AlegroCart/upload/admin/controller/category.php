@@ -114,6 +114,7 @@ class ControllerCategory extends Controller {
 				$this->response->redirect($this->url->ssl('category', FALSE, array('path' => $this->request->gethtml('path'))));
 			}
 		}
+		$this->cache->delete('category_product');
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $this->getForm());
 		$this->template->set($this->module->fetch());
@@ -155,6 +156,7 @@ class ControllerCategory extends Controller {
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeVisibility()) {
 			$this->modelCategory->change_category_visibility($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 		}
+		$this->cache->delete('category_product');
 	}
 
 	private function getList() {

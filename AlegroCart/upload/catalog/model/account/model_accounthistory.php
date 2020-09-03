@@ -24,7 +24,7 @@ class Model_AccountHistory extends Model{
 			if ($i > 1) $query['page'] = $i;
         	$page_data[] = array(
           		'text'  => $this->language->get('text_pages', $i, $this->database->getPages()),
-				'href'	=> $this->url->href('account_history', FALSE, $query),
+				'href'	=> $this->url->ssl('account_history', FALSE, $query),
           		'value' => $i
         	);
       	}

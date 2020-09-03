@@ -68,7 +68,7 @@ foreach ($results as $result) {
 	$manufacturer = $database->getRow("select * from manufacturer where manufacturer_id = '" . (int)$result['manufacturer_id'] . "'");
 	$products[]=array(
 	'name' => strip_tags($result['name']),
-	'url' => $url->href('product', FALSE, array('product_id' => $result['product_id'])),
+	'url' => $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
 	'add_date' => date("D, d M Y H:i:s T", strtotime($result['date_product_added'])),
 	'desc' => htmlentities(strip_tags(strippedstring($result['description'],256),'ENT_QUOTES')),
 	'quantity' => $result['quantity'],

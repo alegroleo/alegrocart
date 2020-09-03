@@ -126,7 +126,7 @@ class ControllerCheckoutShipping extends Controller {
 				'option'        => $option_data,
 				'quantity'      => $result['quantity'],
 				'stock'         => $result['stock'],
-				'href'          => $this->url->href('product', FALSE, array('product_id' => $result['product_id']))
+				'href'          => $this->url->ssl('product', FALSE, array('product_id' => $result['product_id']))
 			);
 			}
 		}
@@ -163,7 +163,7 @@ class ControllerCheckoutShipping extends Controller {
 
 		$view->set('comment', $this->session->get('comment'));
 
-		$view->set('back', $this->url->href('cart'));
+		$view->set('back', $this->url->ssl('cart'));
 		$view->set('head_def',$this->head_def);
 		$this->template->set('head_def',$this->head_def);
 		$this->template->set('content', $view->fetch('content/checkout_shipping.tpl'));

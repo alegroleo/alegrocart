@@ -32,9 +32,9 @@ class ModuleReview extends Controller {
 		
      			$view->set('image', $image->resize($review_info['filename'], $config->get('config_image_width'), $config->get('config_image_height')));
 
-      			$view->set('review', $url->href('review_info', false, array('product_id' =>$review_info['product_id'], 'review_id' => $review_info['review_id'])));
+      			$view->set('review', $url->ssl('review_info', false, array('product_id' =>$review_info['product_id'], 'review_id' => $review_info['review_id'])));
 
-   	   			$view->set('reviews', $url->href('review'));
+   	   			$view->set('reviews', $url->ssl('review'));
 				$template->set('head_def',$head_def);
 	  			$view->set('head_def',$head_def);
 				return $view->fetch('module/review.tpl');

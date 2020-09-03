@@ -4,6 +4,8 @@ class ControllerTools extends Controller {
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
+		$this->config  		=& $locator->get('config');
+		$this->check_ssl();
 		$this->currency  	=& $locator->get('currency');
 		$this->language 	=& $locator->get('language');
 		$this->response 	=& $locator->get('response');
@@ -26,6 +28,11 @@ class ControllerTools extends Controller {
 			$output = $this->language->get('text_no_conversion');
 		}
 		$this->response->set($output);
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

@@ -1,16 +1,10 @@
 <?php //AdminModelHome AlegroCart
 class Model_Admin_Home extends Model {
+
 	function __construct(&$locator) {
 		$this->database 	=& $locator->get('database');
 		$this->language 	=& $locator->get('language');
 		$this->config		=& $locator->get('config');
-	}
-
-	function get_people_online(){
-		$sql = "select count(distinct ip) as total from `session` where `expire` > '?'";
-		$parsed = $this->database->parse($sql, time());
-		$results = $this->database->getRow($parsed);
-		return $results;
 	}
 
 	function get_customers(){

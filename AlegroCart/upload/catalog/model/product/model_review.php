@@ -49,7 +49,7 @@ class Model_Review extends Model {
 			if ($i >1) $query['page'] = $i;
         	$page_data[] = array(
           		'text'  => $this->language->get('text_pages', $i, $this->get_pages()),
-				'href'	=> $alias ? (HTTP_SERVER . $alias['alias'] . '/page/' . $i) : $this->url->href('review', FALSE, $query),
+				'href'	=> $alias ? (HTTP_SERVER . $alias['alias'] . '/page/' . $i) : $this->url->ssl('review', FALSE, $query),
           		'value' => $i
         	);
       	}

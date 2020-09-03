@@ -104,7 +104,7 @@ class ErrorHandler{
 		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true);
 		$message .= " - message: ".print_r( $this->errstr, true)."<br>\n";
 		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '. $_SERVER['REQUEST_URI']."<br>\n" : "";
-		$message .= "---------------------------------------------------<br>\n";
+		$message .= "------------------------------<br>\n";
 		$message .= "</span>";
 		$message .= ($silent)?"-->\n":'';
 
@@ -123,20 +123,20 @@ class ErrorHandler{
 		$message .= isset($_SERVER['HTTP_REFERER']) ? 'HTTP Referer: ' . @$_SERVER['HTTP_REFERER'] . "\r\n" : "";
 		$message .= 'IP:' . $_SERVER['REMOTE_ADDR'] . ' Remote Host:' . (isset($_SERVER['REMOTE_HOST']) ? @$_SERVER['REMOTE_HOST'] : $this->nslookup($_SERVER['REMOTE_ADDR'])) . "\r\n";
 		$message .= "log: ".print_r( $this->log_message, true)."\r\n\r\n";
-		$message .= "##################################################\r\n\r\n";
+		$message .= "##############################\r\n\r\n";
 		$message .= "POST variables:\r\n".preg_replace($pattern, '', print_r($_POST, true))."\r\n";
-		$message .= "##################################################\r\n\r\n";
+		$message .= "##############################\r\n\r\n";
 		$message .= "GET variables:\r\n".preg_replace($pattern, '', print_r($_GET, true))."\r\n";
-		$message .= "##################################################\r\n\r\n";
+		$message .= "##############################\r\n\r\n";
 		$message .= "COOKIES:\r\n".preg_replace($pattern, '', print_r($_COOKIE, true))."\r\n";
-		$message .= "##################################################\r\n\r\n";
+		$message .= "##############################\r\n\r\n";
 		$message .= "SESSION variables:\r\n".preg_replace($pattern, '', print_r($this->session->getAll(), true))."\r\n";
 
 		$this->email_sent = false;
 		
 		$this->mail->setTo($this->email);
 		$this->mail->setFrom($this->config->get('config_email'));
-		$this->mail->setSender(HTTP_BASE);
+		$this->mail->setSender(HTTPS_BASE ? HTTPS_BASE : HTTP_BASE);
 		$this->mail->setSubject('ERROR');
 		$this->mail->setText($message);
 		$this->mail->send();
@@ -152,7 +152,7 @@ class ErrorHandler{
 		$message .= "code: ".print_r( $this->error_numbers[$this->errno], true)."\n";
 		$message .= "message: ".print_r( $this->errstr, true)."\n";
 		$message .= isset($_SERVER['REQUEST_URI']) ? 'Path: '.$_SERVER['REQUEST_URI']."\n" : "";
-		$message .= "##################################################\n\n";
+		$message .= "##############################\n\n";
 
 		if (!$fp = fopen($this->log_file, 'a+')){ 
 			$this->log_message = "Could not open/create file: $this->log_file to log error."; $log_error = true;

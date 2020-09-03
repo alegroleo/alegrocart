@@ -82,8 +82,7 @@ class ControllerHome extends Controller {
 		$view->set('column_avgrating', $this->language->get('column_avgrating'));
 
 		$view->set('online', $this->url->ssl('report_online'));
-		$user_info = $this->modelHome->get_people_online();
-		$view->set('users', $user_info['total']);
+		$view->set('users', $this->user->countUser());
 
 		$view->set('customer', $this->url->ssl('customer'));
 		$customer_info = $this->modelHome->get_customers();

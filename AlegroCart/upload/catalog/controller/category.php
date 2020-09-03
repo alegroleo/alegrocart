@@ -1,11 +1,13 @@
 <?php //Category AlegroCart
 class ControllerCategory extends Controller {
-		var $remaining = false;
-		var $discounted = false;
+	var $remaining = false;
+	var $discounted = false;
+
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module		=& $locator->get('module');
 		$this->template		=& $locator->get('template');
@@ -64,7 +66,7 @@ class ControllerCategory extends Controller {
 		$view = $this->locator->create('template');
 
 	$view->set('button_continue', $language->get('button_continue'));
-	$view->set('continue', $url->href('home'));
+	$view->set('continue', $url->ssl('home'));
 	$view->set('location', 'content');
 
 		if ($category_info) {
@@ -80,7 +82,7 @@ class ControllerCategory extends Controller {
 		$breadcrumb = array();
 
 		$breadcrumb[] = array(
-			'href'      => $url->href('home'),
+			'href'      => $url->ssl('home'),
 			'text'      => $language->get('text_home'),
 			'separator' => FALSE
 		);
@@ -89,7 +91,7 @@ class ControllerCategory extends Controller {
 			$result =$this->modelCategory->getRow_category_name($category_id);
 
 			$breadcrumb[] = array(
-				'href'      => $url->href('category', FALSE, array('path' => $result['path'])),
+				'href'      => $url->ssl('category', FALSE, array('path' => $result['path'])),
 				'text'      => $result['name'],
 				'separator' => $language->get('text_separator')
 			);
@@ -104,7 +106,7 @@ class ControllerCategory extends Controller {
 			foreach ($results as $result) {
 				$category_data[] = array(
 				'name'  => $result['name'],
-				'href'  => $url->href('category', FALSE, array('path' => ($request->gethtml('path')) ? $request->gethtml('path').'_'.$result['category_id'] : $result['category_id'])),
+				'href'  => $url->ssl('category', FALSE, array('path' => ($request->gethtml('path')) ? $request->gethtml('path').'_'.$result['category_id'] : $result['category_id'])),
 				'thumb' => (isset($result['filename']) && file_exists(DIR_IMAGE.$result['filename'])) ? $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')) : NULL,
 				'products_in_category' => $this->config->get('category_pcount') ? $this->modelCore->getPrInCat($result['category_id']) : 0
 				);
@@ -218,8 +220,8 @@ class ControllerCategory extends Controller {
 		$session->set('category.category', $category);
 
 		$man_results = $this->modelCategory->get_manufacturer($category);
+		$manufacturers_data = array();
 		if (count($man_results) > 1){
-			$manufacturers_data = array();
 			foreach ($man_results as $man_result){
 				$result = $this->modelProducts->getRow_manufacturer($man_result['manufacturer_id']);
 				$manufacturers_data[] = array(
@@ -227,10 +229,8 @@ class ControllerCategory extends Controller {
 					'name'				=> $result['name']
 				);
 			}
-		} else {
-			$manufacturers_data = "";
 		}
-		
+
 		if ($manufacturer_id > 0){
 			$manufacturer_sql = " and p.manufacturer_id = ";
 			$manufacturer_filter = "'".$manufacturer_id."'";
@@ -238,18 +238,18 @@ class ControllerCategory extends Controller {
 			$manufacturer_sql = "";
 			$manufacturer_filter = "";
 		}
+
 		$results = $this->modelCategory->get_model($category,$manufacturer_sql,$manufacturer_filter);
+		$model_data = array();
 		if (count($results) > 1){
-			$model_data = array();
 			foreach($results as $result){
 				$model_data[] = array(
 					'model'			=> $result['model'],
 					'model_value'	=> $result['model']."_".$category
 				);
 			}
-		} else {
-			$model_data = "";
 		}
+
 		$view->set('models_data', $model_data);	
 		$view->set('model', $model);
 		$view->set('manufacturers_data', $manufacturers_data);
@@ -354,7 +354,7 @@ class ControllerCategory extends Controller {
 					'multiple'	=> $result['multiple'],
 					'cart_level'		=> $cart->hasProduct($result['product_id']),
 					'product_discounts' => $product_discounts,
-					'href'  => $url->href('product', FALSE, $query),
+					'href'  => $url->ssl('product', FALSE, $query),
 					'popup'     => $image->href($result['filename']),
 					'thumb' => $image->resize($result['filename'], $image_width, $image_height),
 					'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
@@ -386,7 +386,7 @@ class ControllerCategory extends Controller {
 				$view->set('first_page', $language->get('first_page'));
 				$view->set('last_page', $language->get('last_page'));
 				$view->set('number_columns', $this->config->get('config_columns') != 3 ? array(1,2,3,4,5) : array(1,2,3,4));
-				$view->set('action', $url->href('category', FALSE, array('path' => $request->gethtml('path'))));
+				$view->set('action', $url->ssl('category', FALSE, array('path' => $request->gethtml('path'))));
 				$view->set('page', ($request->has('path') ? $session->get('category.'.$request->gethtml('path').'.page') : $session->get('category.page')));
 
 				$view->set('pages', $this->modelCategory->get_pagination());
@@ -581,6 +581,11 @@ class ControllerCategory extends Controller {
 		$sort_order[0] = $language->get('entry_ascending');
 		$sort_order[1] = $language->get('entry_descending');
 		return $sort_order;
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

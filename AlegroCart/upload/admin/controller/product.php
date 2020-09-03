@@ -86,7 +86,7 @@ class ControllerProduct extends Controller {
 			foreach ($this->request->gethtml('relateddata', 'post', array()) as $product_id) {
 				$this->modelProduct->write_related($insert_id, $product_id);
 			}
-
+			$this->cache->delete('category_product');
 			$this->session->set('last_product_id', $insert_id);
 			$this->cache->delete('product');
 			$this->session->set('message', $this->language->get('text_message'));
@@ -153,7 +153,7 @@ class ControllerProduct extends Controller {
 			}
 			$this->modelProduct->delete_options($this->request->gethtml('product_id'));
 			$this->modelProduct->insert_options();
-
+			$this->cache->delete('category_product');
 			$this->cache->delete('product');
 			$this->session->set('message', $this->language->get('text_message'));
 
@@ -198,7 +198,7 @@ class ControllerProduct extends Controller {
 			$this->modelProduct->delete_review();
 			$this->modelProduct->deleted_related();
 			$this->modelProduct->delete_options($this->request->gethtml('product_id'));
-
+			$this->cache->delete('category_product');
 			$this->cache->delete('product');
 			$this->session->set('message', $this->language->get('text_message'));
 			$this->session->delete('name_last_product');
@@ -267,6 +267,7 @@ class ControllerProduct extends Controller {
 
 			$this->session->set('last_product_id', $insert_id);
 			$this->cache->delete('product');
+			$this->cache->delete('category_product');
 			$this->session->set('message', $this->language->get('text_message'));
 
 			$this->response->redirect($this->url->ssl('product'));
@@ -281,6 +282,7 @@ class ControllerProduct extends Controller {
 		if (($this->request->has('stat_id')) && ($this->request->has('stat')) && $this->validateChangeStatus()) {
 			$this->modelProduct->change_product_status($this->request->gethtml('stat'), $this->request->gethtml('stat_id'));
 			$this->cache->delete('product');
+			$this->cache->delete('category_product');
 		}
 	}
 

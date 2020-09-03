@@ -6,6 +6,7 @@ class ControllerSearch extends Controller {
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module		=& $locator->get('module');
 		$this->template		=& $locator->get('template');
@@ -54,7 +55,7 @@ class ControllerSearch extends Controller {
 
 	$view->set('button_search', $language->get('button_search'));
 
-	$view->set('action', $url->href('search', 'search_page'));
+	$view->set('action', $url->ssl('search', 'search_page'));
 	$view->set('location', 'content');
 
 		// Set Session Variables for options
@@ -182,9 +183,9 @@ class ControllerSearch extends Controller {
 			$search_description = '';
 		}
 
-		$man_results = $this->modelSearch->get_manufacturer($search,$description_sql,$search_description);		
+		$man_results = $this->modelSearch->get_manufacturer($search,$description_sql,$search_description);
+		$manufacturers_data = array();
 		if (count($man_results) > 1){
-			$manufacturers_data = array();
 			foreach ($man_results as $man_result){
 				$result = $this->modelProducts->getRow_manufacturer($man_result['manufacturer_id']);
 				$manufacturers_data[] = array(
@@ -192,8 +193,6 @@ class ControllerSearch extends Controller {
 					'name'				=> $result['name']
 				);
 			}
-		} else {
-			$manufacturers_data = "";
 		}
 
 		if ($manufacturer_id > 0){
@@ -204,17 +203,16 @@ class ControllerSearch extends Controller {
 			$manufacturer_filter = "";
 		}
 		$results = $this->modelSearch->get_model($search,$description_sql,$search_description,$manufacturer_sql,$manufacturer_filter);
+		$model_data = array();
 		if (count($results) > 1){
-			$model_data = array();
 			foreach($results as $result){
 				$model_data[] = array(
 					'model'		=> $result['model'],
 					'model_value'	=> $result['model']."*_*".$session->get('search.search')
 				);
 			}
-		} else {
-			$model_data = "";
-		}		
+		}
+
 		$view->set('models_data', $model_data);	
 
 		if ($session->get('search.search')) {
@@ -315,7 +313,7 @@ class ControllerSearch extends Controller {
 					'multiple'	=> $result['multiple'],
 					'cart_level'		=> $cart->hasProduct($result['product_id']),
 					'product_discounts' => $product_discounts,
-					'href'  => $url->href('product', FALSE, array('product_id' => $result['product_id'])),
+					'href'  => $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
 					'popup'     => $image->href($result['filename']),
 					'thumb' => $image->resize($result['filename'], $image_width, $image_height),
 					'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
@@ -565,7 +563,12 @@ class ControllerSearch extends Controller {
 		} else {
 			$session->set('search.model',  "all*_* ");
 		}
-		$response->redirect($url->href('search', FALSE, $query));
+		$response->redirect($url->ssl('search', FALSE, $query));
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

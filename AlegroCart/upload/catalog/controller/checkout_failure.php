@@ -32,7 +32,7 @@ class ControllerCheckoutFailure extends Controller {
 
     	$view->set('heading_title', $language->get('heading_title'));
 
-    	$view->set('text_failure', $language->get(($session->get('checkout_failure') == 'declined' ? 'text_declined':'text_failure'), $url->href('contact')));
+    	$view->set('text_failure', $language->get(($session->get('checkout_failure') == 'declined' ? 'text_declined':'text_failure'), $url->ssl('contact')));
 		$session->delete('checkout_failure');
     	$view->set('button_continue', $language->get('button_continue'));
     	$view->set('continue', $url->ssl('checkout_shipping'));

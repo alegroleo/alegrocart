@@ -462,7 +462,7 @@ class ControllerImageDisplay extends Controller {
 
 	protected function viewFlash(){
 		if($this->request->gethtml('flash')){
-			$flash = HTTP_FLASH . $this->request->gethtml('flash');
+			$flash = (HTTPS_FLASH ? HTTPS_FLASH : HTTP_FLASH) . $this->request->gethtml('flash');
 			$output = '<object type="application/x=shockwave-flash"';
 			$output .= ' data="' . $flash . '" width="300" height="150">' . "\n";
 			$output .= '<param name="movie" value="' . $flash . '">' . "\n";

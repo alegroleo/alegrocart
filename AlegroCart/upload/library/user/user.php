@@ -58,6 +58,12 @@ class User {
 		$this->data = array();
 	}
 
+	public function countUser(){
+		$sql = "SELECT COUNT(DISTINCT ip) AS total FROM `session` WHERE `expire` > '?'";
+		$result = $this->database->getRow($this->database->parse($sql, time()));
+		return $result['total'];
+	}
+
 	public function hasPermission($key, $value) {
 		if ($this->isSuperAdmin()) { return TRUE; }
 		if (isset($this->permissions[$key])) {

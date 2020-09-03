@@ -27,7 +27,7 @@ class Model_AccountDownload extends Model{
 			if ($i >1) $query['page'] = $i;
 			$page_data[] = array(
 				'text'  => $this->language->get('text_pages', $i, $this->database->getPages()),
-				'href'	=> $this->url->href('account_download', FALSE, $query),
+				'href'	=> $this->url->ssl('account_download', FALSE, $query),
 				'value' => $i
 			);
 		}

@@ -1,11 +1,12 @@
 <?php
 class Coupon {
-	var $data    = array();
-	var $product = array();
-	var $status  = false;
-	var $affected= FALSE;
 
-	function Coupon(&$locator) {
+	private $data = array();
+	private $product = array();
+	private $status = false;
+	private $affected= FALSE;
+
+	public function __construct(&$locator){
 		$this->cart     =& $locator->get('cart');
 		$this->currency =& $locator->get('currency');
 		$this->customer =& $locator->get('customer');
@@ -66,8 +67,8 @@ class Coupon {
 			}
 		}
 	}
-	
-	function set($code) {
+
+	public function set($code) {
 		$sql = "select * from coupon c left join coupon_description cd on (c.coupon_id = cd.coupon_id) where cd.language_id = '?' and c.code = '?' and c.date_start < now() and c.date_end > now() and c.status = '1'";
 		$coupon_info = $this->database->getRow($this->database->parse($sql, $this->language->getId(), $code));
 
@@ -97,35 +98,34 @@ class Coupon {
 			return TRUE;
 		} else {
 			return FALSE;
-		}		
+		}
 	}
-			
-			
-	function redeem($coupon_id, $customer_id, $order_id) {
+
+	public function redeem($coupon_id, $customer_id, $order_id) {
 		$this->database->query("insert coupon_redeem set coupon_id = '" . (int)$coupon_id . "', customer_id = '" . (int)$customer_id . "', order_id = '" . (int)$order_id . "', date_added = now()");
 	}
 
-	function get_minimum() {
+	public function get_minimum() {
 		return(isset($this->data['minimum_order']) ? $this->data['minimum_order'] : NULL);
 	}
-	
-	function getId() {
+
+	public function getId() {
 		return (isset($this->data['coupon_id']) ? $this->data['coupon_id'] : NULL);
 	}
-		
-	function getName() {
+
+	public function getName() {
 		return (isset($this->data['name']) ? $this->data['name'] : NULL);
 	}
-	
-	function getDescription() {
+
+	public function getDescription() {
 		return (isset($this->data['description']) ? $this->data['description'] : NULL);
 	}
-		
-	function getCode() {
+
+	public function getCode() {
 		return (isset($this->data['code']) ? $this->data['code'] : NULL);
 	}
 
-	function getDiscount($value) {
+	public function getDiscount($value) {
 		if ($this->data) {
 			if ($this->data['prefix'] == '%') {
 				return roundDigits(($value * $this->data['discount'] / 100), $this->decimal_place);
@@ -134,12 +134,12 @@ class Coupon {
 			}
 		}
 	}
-		
-	function getShipping() {
+
+	public function getShipping() {
 		return (isset($this->data['shipping']) ? $this->data['shipping'] : NULL);
 	}
 
-	function hasProduct() {
+	public function hasProduct() {
 		if ($this->product) {
 			$data = array();
 
@@ -156,8 +156,10 @@ class Coupon {
 			return TRUE;
 		}
 	}
-	function hasProducts() {
+
+	public function hasProducts() {
 		return $this->affected;
 	}
+
 }
 ?>

@@ -1,5 +1,6 @@
 <?php //ModelProducts AlegroCart
 class Model_Products extends Model {
+
 	function __construct(&$locator) {
 		$this->database =& $locator->get('database');
 		$this->dimension=& $locator->get('dimension');
@@ -14,14 +15,17 @@ class Model_Products extends Model {
 		$this->url      =& $locator->get('url');
 		$this->cart     =& $locator->get('cart');
 	}
+
 	function get_bestseller($bestseller_total){
-		$results = $this->database->getRows("SELECT product.*, order_product.order_product_id, order_product.order_id, SUM(order_product.quantity) as TotalOrdered, product_description.*, image.* FROM product, order_product, order_history, product_description, image WHERE product.product_id = product_description.product_id AND product_description.name = order_product.name AND product.image_id = image.image_id AND product.status ='1' AND product_description.language_id = '" . (int)$this->language->getId() . "' GROUP BY order_product.name ORDER BY TotalOrdered DESC". $bestseller_total);
+		$results = $this->database->getRows("SELECT p.*, SUM(op.quantity) AS TotalOrdered, pd.*, i.* FROM order_product op LEFT JOIN product p ON(op.product_id = p.product_id) LEFT JOIN image i ON (p.image_id = i.image_id) LEFT JOIN product_description pd ON(pd.product_id = p.product_id) WHERE p.status ='1' AND p.date_available <= now() AND pd.language_id = '" . (int)$this->language->getId() . "' GROUP BY op.product_id ORDER BY TotalOrdered DESC". $bestseller_total);
 		return $results;
 	}
+
 	function get_trending($trending_total, $trending_days){
-		$results = $this->database->getRows("SELECT product.*, order_product.order_product_id, order_product.order_id, SUM(order_product.quantity) as TotalOrdered, product_description.*, image.*, order.date_added FROM product, order_product, order_history, product_description, image, `order` WHERE product.product_id = product_description.product_id AND product_description.name = order_product.name AND product.image_id = image.image_id AND order.order_id = order_product.order_id AND product.status ='1' AND product_description.language_id = '" . (int)$this->language->getId() . "' AND order.date_added >= now() - INTERVAL ".$trending_days." DAY GROUP BY order_product.name ORDER BY TotalOrdered DESC". $trending_total);
+		$results = $this->database->getRows("SELECT p.*, SUM(op.quantity) AS TotalOrdered, pd.*, i.* FROM order_product op LEFT JOIN product p ON (op.product_id = p.product_id) LEFT JOIN image i ON (p.image_id = i.image_id) LEFT JOIN product_description pd ON (pd.product_id = p.product_id) LEFT JOIN `order` o ON (o.order_id = op.order_id) WHERE p.status ='1' AND pd.language_id = '" . (int)$this->language->getId() . "' AND o.date_added >= now() - INTERVAL ".$trending_days." DAY GROUP BY op.product_id ORDER BY TotalOrdered DESC". $trending_total);
 		return $results;
 	}
+
 	function get_alsobought($alsobought_products){
 		$results = array();
 		foreach ($alsobought_products as $alsobought_product) {

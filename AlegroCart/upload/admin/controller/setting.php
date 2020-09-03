@@ -1304,7 +1304,7 @@ class ControllerSetting extends Controller {
 			$view->set('global_config_sitemap_status', @$setting_info['global']['config_sitemap_status']);
 		}
 
-		$sitemap_path = HTTP_BASE . 'sitemap.php';
+		$sitemap_path = (HTTPS_BASE ? HTTPS_BASE : HTTP_BASE). 'sitemap.php';
 		$view->set('sitemap_path', $sitemap_path);
 
 		$admin_favicon = DIR_BASE . 'admin/template/'. @$setting_info['admin']['config_template'] .'/image/favicon.ico';
@@ -1423,7 +1423,7 @@ class ControllerSetting extends Controller {
 
 	protected function viewFooterLogo(){
 		if($this->request->gethtml('footer_logo')){
-			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('footer_logo') . '"';
+			$output = '<img src="' . (HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . '/logo/' . $this->request->gethtml('footer_logo') . '"';
 			$output .= 'alt="' . $this->language->get('text_flogo'). '" title="'. $this->language->get('text_flogo') .'">';
 		} else {
 			$output = '';
@@ -1433,7 +1433,7 @@ class ControllerSetting extends Controller {
 
 	protected function viewLogo(){
 		if($this->request->gethtml('store_logo')){
-			$output = '<img src="' . HTTP_IMAGE . '/logo/' . $this->request->gethtml('store_logo') . '"';
+			$output = '<img src="' . (HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . '/logo/' . $this->request->gethtml('store_logo') . '"';
 			$output .= 'alt="' . $this->language->get('text_slogo'). '" title="'. $this->language->get('text_slogo') .'">';
 		} else {
 			$output = '';
@@ -1443,7 +1443,7 @@ class ControllerSetting extends Controller {
 
 	protected function viewWmImage(){
 		if($this->request->gethtml('wm_image')){
-			$output = '<img src="' . HTTP_IMAGE . '/watermark/' . $this->request->gethtml('wm_image') . '"';
+			$output = '<img src="' . (HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . '/watermark/' . $this->request->gethtml('wm_image') . '"';
 			$output .= 'alt="' . $this->language->get('text_watermark'). '" title="'. $this->language->get('text_watermark') .'">';
 		} else {
 			$output = '';
@@ -1620,7 +1620,7 @@ class ControllerSetting extends Controller {
 
 	protected function viewStamp(){
 		if($this->request->gethtml('stamp')){
-			$output = '<img src="' . HTTP_IMAGE . '/stamp/' . $this->request->gethtml('stamp') . '"';
+			$output = '<img src="' . (HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . '/stamp/' . $this->request->gethtml('stamp') . '"';
 			$output .= 'alt="' . $this->language->get('text_stamp'). '" title="'. $this->language->get('text_stamp') .'">';
 		} else {
 			$output = '';

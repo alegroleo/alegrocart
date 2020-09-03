@@ -30,9 +30,9 @@ class ControllerAccountSuccess extends Controller {
     	$view->set('button_continue', $language->get('button_continue'));
 		
 		if ($cart->hasProducts()) {
-			$view->set('continue', $url->href('cart'));
+			$view->set('continue', $url->ssl('cart'));
 		} else {
-			$view->set('continue', $url->href('account'));
+			$view->set('continue', $url->ssl('account'));
 		}
     	$view->set('head_def',$head_def);
 		$this->template->set('head_def',$head_def);

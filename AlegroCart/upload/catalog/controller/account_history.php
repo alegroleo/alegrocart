@@ -60,7 +60,7 @@ class ControllerAccountHistory extends Controller {
       		$view->set('button_view', $this->language->get('button_view'));
       		$view->set('button_continue', $this->language->get('button_continue'));
 
-			$view->set('action', $this->url->href('account_history', 'page'));
+			$view->set('action', $this->url->ssl('account_history', 'page'));
 
 			$order_data = array();
       		foreach ($results as $result) {

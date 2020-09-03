@@ -160,7 +160,7 @@ class ModuleRelated extends Controller {
 				'max_qty'		=> $result['max_qty'],
 				'multiple'		=> $result['multiple'],
 				'product_discounts'	=> $product_discounts,
-				'href'			=> $url->href('product', FALSE, array('product_id' => $result['product_id'])),
+				'href'			=> $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
 				'popup'			=> $image->href($result['filename']),
 				'thumb'			=> $image->resize($result['filename'], $image_width, $image_height),
 				'special_price'		=> $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),

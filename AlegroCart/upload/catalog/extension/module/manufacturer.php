@@ -16,7 +16,7 @@ class ModuleManufacturer extends Controller {
 			$view = $this->locator->create('template');
     		$view->set('heading_title', $language->get('heading_title'));
 			$view->set('text_empty', $language->get('text_empty'));
-    		$view->set('action', $url->href('manufacturer', 'page'));
+    		$view->set('action', $url->ssl('manufacturer', 'page'));
 			if ($request->get('controller') == 'manufacturer'){
 				if ($request->has('manufacturer_id')){
 					$view->set('manufacturer_id', (int)$request->gethtml('manufacturer_id'));
@@ -34,7 +34,7 @@ class ModuleManufacturer extends Controller {
 				$manufacturers_data[] = array(
 					'manufacturer_id'	=> $result['manufacturer_id'],
 					'name'				=> $result['name'],
-					'href'				=> $url->href('manufacturer', FALSE, array('manufacturer_id' => $result['manufacturer_id']))
+					'href'				=> $url->ssl('manufacturer', FALSE, array('manufacturer_id' => $result['manufacturer_id']))
 				);
 			}
 			$view->set('manufacturers', $manufacturers_data);			

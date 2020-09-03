@@ -4,6 +4,7 @@ class ControllerReviewInfo extends Controller {
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module		=& $locator->get('module');
 		$this->template		=& $locator->get('template');
@@ -54,7 +55,7 @@ class ControllerReviewInfo extends Controller {
 
 		$view->set('name', $review_info['name']);
 
-			$view->set('href', $url->href('product', FALSE, array('product_id' => $review_info['product_id'])));
+			$view->set('href', $url->ssl('product', FALSE, array('product_id' => $review_info['product_id'])));
 
 		$view->set('price', $currency->format($tax->calculate($review_info['price'], $review_info['tax_class_id'], $this->config->get('config_tax'))));
 		$view->set('special_price', $review_info['special_price']>0 ? $currency->format($tax->calculate($review_info['special_price'], $review_info['tax_class_id'], $this->config->get('config_tax'))):""); 
@@ -77,14 +78,14 @@ class ControllerReviewInfo extends Controller {
 				//'review_id'  => $request->gethtml('review_id')
 			);
 
-		$view->set('review', $url->href('review', FALSE, $query));
+		$view->set('review', $url->ssl('review', FALSE, $query));
 
 		$query = array(
 			'product_id' => $review_info['product_id']
 			//'review_id'  => $request->gethtml('review_id')
 		);
 
-		$view->set('write', $url->href('review_write', FALSE, $query));
+		$view->set('write', $url->ssl('review_write', FALSE, $query));
 			$view->set('this_controller', 'review_info');
 			$view->set('head_def',$head_def); 
 			$this->template->set('head_def',$head_def);
@@ -97,7 +98,7 @@ class ControllerReviewInfo extends Controller {
 		$view->set('heading_title', $language->get('text_error'));
 		$view->set('text_error', $language->get('text_error'));
 		$view->set('button_continue', $language->get('button_continue'));
-		$view->set('continue', $url->href('home'));
+		$view->set('continue', $url->ssl('home'));
 		$view->set('head_def',$head_def); 
 		$this->template->set('head_def',$head_def);
 		$this->template->set('content', $view->fetch('content/error.tpl'));
@@ -143,6 +144,11 @@ class ControllerReviewInfo extends Controller {
 		}
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

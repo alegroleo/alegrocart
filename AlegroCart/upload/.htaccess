@@ -26,16 +26,19 @@ RewriteRule ^(.*) index.php?$1 [L,QSA]
 # Try if you have problems with url alias
 # RewriteRule ^(.*) index.php [L,QSA]
 
-# Focus on one domain - Uncomment to use
-# RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]
-# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]
-
 # Hide Apache version normally seen at the bottom of 404 error pages, directory listing..etc.
 ServerSignature Off
+
+# Some servers run PHP in CGI mode (not as an Apache module), so "php_value" or "php_flag" cannot be used in .htaccess files
+# If you try to do so, you will get an "internal server error" message
+# In this case modify your php.ini file to get the same effect
 
 # Modify max uploadable file size if needed
 # php_value upload_max_filesize 128M
 # php_value post_max_size 128M
+
+# Increase the maximum number of input variables allowed for PHP scripts
+# php_value max_input_vars 6000
 
 # Enable compression for text files
 <IfModule mod_deflate.c>

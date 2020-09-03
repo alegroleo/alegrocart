@@ -30,21 +30,20 @@ class ModuleManufacturerOptions extends Controller{
 		$view->set('options_model', $config->get('options_model'));
 		
 		$results = $this->modelManufacturer->get_models($session->get('manufacturer.manufacturer_id'));
+		$model_data = array();
 		if (count($results) > 1){
-			$model_data = array();
 			foreach($results as $result){
 				$model_data[] = array(
 					'model'			=> $result['model'],
 					'model_value'	=> $result['model']."_".(int)$session->get('manufacturer.manufacturer_id')
 				);
 			}
-		} else {
-			$model_data = "";
 		}
+
 		$view->set('models_data', $model_data);
 		
 		$query=array('manufacturer_id' => $session->get('manufacturer.manufacturer_id'));				
-		$view->set('action', $url->href('manufacturer', FALSE, $query));		
+		$view->set('action', $url->ssl('manufacturer', FALSE, $query));		
 		$view->set('sort_filter', $this->sort_filter());
 		$view->set('sort_order', $this->sort_order());
 		$view->set('text_sort_by',$language->get('text_sort_by'));

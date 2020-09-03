@@ -60,7 +60,7 @@ class Model_Bought extends Model{
 			if ($i >= 1) $query['page'] = $i;
 				$page_data[] = array(
 					'text'  => $this->language->get('text_pages', $i, $this->database->getPages()),
-					'href'	=> $alias ? (HTTP_SERVER . $alias['alias'] . '/page/' . $i) :$this->url->href('bought', FALSE, $query),
+					'href'	=> $alias ? (HTTP_SERVER . $alias['alias'] . '/page/' . $i) :$this->url->ssl('bought', FALSE, $query),
 					'value' => $i
 			);
 		}

@@ -50,12 +50,6 @@ img {
 	border: none;
 }
 
-.png {
-	behavior: url('javascript/png/iepngfix.htc');
-}
-.status {
-	behavior: url('javascript/png/iepngfix.htc');
-}
 a:visited {
 	color: #000;
 }

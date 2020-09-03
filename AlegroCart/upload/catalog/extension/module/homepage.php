@@ -94,7 +94,7 @@ class ModuleHomePage extends Controller {
 		if(strlen($home_data['filename']) > 3 && $home_data['image_id'] != '0'){
 			$view->set('image', $image->href($home_data['filename']));
 		}
-		$view->set('close_homepage', $url->href('home'));
+		$view->set('close_homepage', $url->ssl('home'));
 		$view->set('skip_intro', $home_data['run_times'] === '0' ? '' : $language->get('text_skipintro'));
 		$view->set('head_def',$head_def); 
 		$template->set('head_def',$head_def);

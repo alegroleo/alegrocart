@@ -35,6 +35,7 @@ $_['text_warehouse_pickup']  = 'I understand Non-Shippable items are to be picke
 $_['text_coupon']            = 'Success: Your coupon discount has been applied!';
 $_['text_agree']             = 'I agree to <a class="pointer" onclick="location=\'%s\';"><u><b>%s</b></u></a>';
 $_['text_downloadable']      = 'Downloadable';
+$_['button_complete']        = 'Complete Order';
 
 // Entry
 $_['entry_coupon']           = 'Coupon:';

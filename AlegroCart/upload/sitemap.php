@@ -93,7 +93,7 @@ if ($config->get('config_url_alias')) {
 	foreach($results as $result) {
 	
 	echo '<url>' . "\n";
-	echo '<loc>' . str_replace('&', '&amp;', $url->href('product', NULL, array('product_id' => $result['product_id']))) . '</loc>' . "\n";
+	echo '<loc>' . str_replace('&', '&amp;', $url->ssl('product', NULL, array('product_id' => $result['product_id']))) . '</loc>' . "\n";
 	echo '<changefreq>weekly</changefreq>' . "\n";
 	echo '<priority>1.0</priority>' . "\n";
 	echo '</url>' . "\n";
@@ -106,7 +106,7 @@ if ($config->get('config_url_alias')) {
 	foreach($results as $result) {
 	$priority = '0.' . rand(6,9);
 	echo '<url>' . "\n";
-	echo '<loc>' . str_replace('&', '&amp;', $url->href('category', NULL, array('path' => $result['path']))) . '</loc>' . "\n";
+	echo '<loc>' . str_replace('&', '&amp;', $url->ssl('category', NULL, array('path' => $result['path']))) . '</loc>' . "\n";
 	echo '<changefreq>weekly</changefreq>' . "\n";
 	echo '<priority>' . $priority . '</priority>' . "\n";
 	echo '</url>' . "\n";
@@ -118,7 +118,7 @@ if ($config->get('config_url_alias')) {
 		foreach($products as $product) {
 		$priority = '0.' . rand(8,9);
 		echo '<url>' . "\n";
-		echo '<loc>' . str_replace('&', '&amp;', $url->href('product', NULL, array('path' => $result['path'],'product_id' => $product['product_id']))) . '</loc>' . "\n";
+		echo '<loc>' . str_replace('&', '&amp;', $url->ssl('product', NULL, array('path' => $result['path'],'product_id' => $product['product_id']))) . '</loc>' . "\n";
 		echo '<changefreq>weekly</changefreq>' . "\n";
 		echo '<priority>' . $priority . '</priority>' . "\n";
 		echo '</url>' . "\n";
@@ -132,7 +132,7 @@ if ($config->get('config_url_alias')) {
 	foreach($results as $result) {
 	$priority = '0.' . rand(6,9);
 	echo '<url>' . "\n";
-	echo '<loc>' . str_replace('&', '&amp;', $url->href('manufacturer', NULL, array('manufacturer_id' => $result['manufacturer_id']))) . '</loc>' . "\n";
+	echo '<loc>' . str_replace('&', '&amp;', $url->ssl('manufacturer', NULL, array('manufacturer_id' => $result['manufacturer_id']))) . '</loc>' . "\n";
 	echo '<changefreq>weekly</changefreq>' . "\n";
 	echo '<priority>' . $priority . '</priority>' . "\n";
 	echo '</url>' . "\n";
@@ -145,7 +145,7 @@ if ($config->get('config_url_alias')) {
 	foreach($results as $result) {
 	$priority = '0.' . rand(8,9);
 	echo '<url>' . "\n";
-	echo '<loc>' . str_replace('&', '&amp;', $url->href('product', NULL, array('manufacturer_id' => $result['manufacturer_id'],'product_id' => $result['product_id']))) . '</loc>' . "\n";
+	echo '<loc>' . str_replace('&', '&amp;', $url->ssl('product', NULL, array('manufacturer_id' => $result['manufacturer_id'],'product_id' => $result['product_id']))) . '</loc>' . "\n";
 	echo '<changefreq>weekly</changefreq>' . "\n";
 	echo '<priority>' . $priority . '</priority>' . "\n";
 	echo '</url>' . "\n";

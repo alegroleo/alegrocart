@@ -33,9 +33,6 @@
 
 <link rel="alternate" type="application/rss+xml" title="<?php echo $title; ?>" href="rss.php">
 <link rel="shortcut icon" type="image/x-icon" href="image/favicon.ico">
-<!--[if lte IE 6]>
-  <link rel="stylesheet" type="text/css" href="catalog/styles/<?php echo $this->style; ?>/css<?php echo $pageColumns;?>/ie6fix.css">
-<![endif]-->
 </head>
 <body>
 <div id="container">

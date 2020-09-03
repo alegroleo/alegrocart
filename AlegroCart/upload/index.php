@@ -11,7 +11,7 @@ require('config.php');
 require('common.php');
 
 // Page Time
-$time = (time() + microtime());
+$time = (time() + microtime(true));
 
 // Locator
 require(DIR_LIBRARY . 'locator.php');
@@ -91,7 +91,7 @@ $response->output();
 
 // Parse Time
 if ($config->get('config_parse_time')) {
-	echo($language->get('text_time', round((time() + microtime()) - $time, 4)));
+	echo($language->get('text_time', round((time() + microtime(true)) - $time, 4)));
 }
 if ($config->get('config_query_count')) {
 	echo($language->get('text_query_count', $database->countQueries()));

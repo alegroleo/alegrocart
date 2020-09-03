@@ -494,7 +494,7 @@ class ControllerOrder extends Controller {
 				'net'			=> $this->currency->format($net, $order_info['currency'], $order_info['value']),
 				'product_tax'		=> $this->currency->format($producttax, $order_info['currency'], $order_info['value']),
 				'total_discounted'	=> $this->currency->format($total_discounted, $order_info['currency'], $order_info['value']),
-				'href'			=> $this->url->href('product', 'update', array('product_id' => $product['product_id'])),
+				'href'			=> $this->url->ssl('product', 'update', array('product_id' => $product['product_id'])),
 				'product_id'		=> $product['product_id']
 			);
 		}

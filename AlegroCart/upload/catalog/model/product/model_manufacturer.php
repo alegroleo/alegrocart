@@ -32,7 +32,7 @@ class Model_Manufacturer extends Model{
 			if ($i >= 1) $query['page'] = $i;
         	$page_data[] = array(
           		'text'  => $this->language->get('text_pages', $i, $this->database->getPages()),
-				'href'	=> $alias ? (HTTP_SERVER . $alias['alias'] . '/page/' . $i) : $this->url->href('manufacturer', FALSE, $query),
+				'href'	=> $alias ? (HTTP_SERVER . $alias['alias'] . '/page/' . $i) : $this->url->ssl('manufacturer', FALSE, $query),
           		'value' => $i
         	);
         }

@@ -64,7 +64,7 @@ class ModuleCategoryMenu extends Controller {
 					$categorymenu_data[$result['category_id']] = array(
 						'state'			=> $state,
 						'name'			=> $result['name'],
-						'href'			=> $url->href('category', false, array('path' => $result['path'])),
+						'href'			=> $url->ssl('category', false, array('path' => $result['path'])),
 						'class'			=> $class,
 						'id'			=> $id,
 						'type'			=> $type,

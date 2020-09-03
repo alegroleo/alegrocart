@@ -4,6 +4,7 @@ class ControllerInformation extends Controller {
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module   	=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
@@ -30,7 +31,7 @@ class ControllerInformation extends Controller {
       			$view->set('heading_title', $information_info['title']);
       			$view->set('description', $information_info['description']);
       			$view->set('button_continue', $language->get('button_continue'));
-      			$view->set('continue', "location='" . ($session->get('current_page') ? $session->get('current_page') : $url->href('home')) . "'");
+      			$view->set('continue', "location='" . ($session->get('current_page') ? $session->get('current_page') : $url->ssl('home')) . "'");
 			$view->set('head_def',$head_def);    // New Header
 			$this->template->set('head_def',$head_def);    // New Header
       			$this->template->set('content', $view->fetch('content/information.tpl'));
@@ -41,7 +42,7 @@ class ControllerInformation extends Controller {
       			$view->set('text_error', $language->get('text_error'));
 			$view->set('this_controller', 'information');
       			$view->set('button_continue', $language->get('button_continue'));
-      			$view->set('continue', $url->href('home'));
+      			$view->set('continue', $url->ssl('home'));
 	  		$this->template->set('content', $view->fetch('content/error.tpl'));
     		}
 		$this->load_modules();  // Template Manager
@@ -85,6 +86,11 @@ class ControllerInformation extends Controller {
 		}
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

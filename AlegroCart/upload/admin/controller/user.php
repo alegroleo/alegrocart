@@ -420,6 +420,9 @@ class ControllerUser extends Controller {
 			if ($this->request->sanitize('password', 'post') != $this->request->sanitize('confirm', 'post')) {
 				$this->error['confirm'] = $this->language->get('error_confirm');
 			}
+		}
+
+		if ($this->request->gethtml('user_id')){ // on update
 			if (md5($this->request->sanitize('old', 'post')) != $this->modelAdminUser->get_password((int)$this->request->gethtml('user_id'))) {
 				$this->error['old'] = $this->language->get('error_old');
 			}
@@ -496,7 +499,7 @@ class ControllerUser extends Controller {
 
 	protected function viewSignature(){
 		if($this->request->gethtml('signature')){
-			$output = '<img src="' . HTTP_IMAGE . '/signatures/' . $this->request->gethtml('signature') . '"';
+			$output = '<img src="' . (HTTPS_IMAGE ? HTTPS_IMAGE : HTTP_IMAGE) . '/signatures/' . $this->request->gethtml('signature') . '"';
 			$output .= 'alt="' . $this->language->get('text_signature'). '" title="'. $this->language->get('text_signature') .'">';
 		} else {
 			$output = '';

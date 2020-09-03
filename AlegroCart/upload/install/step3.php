@@ -26,17 +26,17 @@ elseif (!preg_match('/^[a-z0-9_\-]+$/', $_POST['new_admin_name'])) {
 	if ($root_dirs[0]=='admin'){
 	//not renamed yet, let us rename it
 		if (!$renamed=rename(DIR_BASE.'admin', DIR_BASE.$_POST['new_admin_name'])) {
-		$errors[] = $language->get('error_rename'); 
+			$errors[] = $language->get('error_rename'); 
 		}
 		if (file_exists(DIR_BASE.UPLOADA)) {
-		$lines=array();
-		$lines = file(DIR_BASE.UPLOADA);
-		foreach ($lines as $line) {
-		$line=DIR_BASE.$_POST['new_admin_name'].(substr(trim($line),1));
-			if (!file_exists($line)) { $errors[]=$language->get('error_not_found',$line);}
-		}
+			$lines=array();
+			$lines = file(DIR_BASE.UPLOADA);
+			foreach ($lines as $line) {
+				$line=DIR_BASE.$_POST['new_admin_name'].(substr(trim($line),1));
+				if (!file_exists($line)) { $errors[]=$language->get('error_not_found',$line);}
+			}
 		} else {
-		$errors[]= DIR_BASE.UPLOADA.$language->get('error_not_found'); 
+			$errors[]= DIR_BASE.UPLOADA.$language->get('error_not_found'); 
 		}
 	} else {
 		//already renamed manually?
@@ -109,16 +109,19 @@ if (!$errors && !$ferrors) {
 				$content .= '# Try if you have problems with url alias'."\n";
 				$content .= '# RewriteRule ^(.*) index.php [L,QSA]'."\n";
 				$content .= "\n";
-				$content .= '# Focus on one domain - Uncomment to use'."\n";
-				$content .= '# RewriteCond %{HTTP_HOST} !^www\.example\.com$ [NC]'."\n";
-				$content .= '# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]'."\n";
-				$content .= "\n";
 				$content .= '# Hide Apache version normally seen at the bottom of 404 error pages, directory listing..etc.'."\n";
 				$content .= 'ServerSignature Off'."\n";
 				$content .= "\n";
-				$content .= '#Modify max uploadable file size if needed'."\n";
-				$content .= '#php_value upload_max_filesize 128M'."\n";
-				$content .= '#php_value post_max_size 128M'."\n";
+				$content .= '# Some servers run PHP in CGI mode (not as an Apache module), so "php_value" or "php_flag" cannot be used in .htaccess files'."\n";
+				$content .= '# If you try to do so, you will get an "internal server error" message'."\n";
+				$content .= '# In this case modify your php.ini file to get the same effect'."\n";
+				$content .= "\n";
+				$content .= '# Modify max uploadable file size if needed'."\n";
+				$content .= '# php_value upload_max_filesize 128M'."\n";
+				$content .= '# php_value post_max_size 128M'."\n";
+				$content .= "\n";
+				$content .= '# Increase the maximum number of input variables allowed for PHP scripts'."\n";
+				$content .= '# php_value max_input_vars 6000'."\n";
 				$content .= "\n";
 				$content .= '# Enable compression for text files'."\n";
 				$content .= '<IfModule mod_deflate.c>'."\n";

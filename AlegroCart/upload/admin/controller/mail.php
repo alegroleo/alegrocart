@@ -60,7 +60,7 @@ class ControllerMail extends Controller {
 
 			$this->session->set('message', $this->language->get('text_message'));
 
-			$this->response->redirect($this->url->href('mail'));
+			$this->response->redirect($this->url->ssl('mail'));
 		}
 
 		$view = $this->locator->create('template');

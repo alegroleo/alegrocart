@@ -9,6 +9,7 @@ class ControllerCart extends Controller {
 		$model			=& $locator->get('model');
 		$this->address		=& $locator->get('address');
 		$this->config		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->calculate	=& $locator->get('calculate');
 		$this->cart		=& $locator->get('cart');
@@ -125,7 +126,7 @@ class ControllerCart extends Controller {
 
 		$this->validate();
 
-		$this->response->redirect($this->url->href('cart'));
+		$this->response->redirect($this->url->ssl('cart'));
 	}
 
 	$this->template->set('title', $this->language->get('heading_title'));
@@ -241,7 +242,7 @@ class ControllerCart extends Controller {
 
 		$view->set('couponproducts', $this->coupon->hasProducts());
 		$view->set('coupon', $this->coupon->getCode());
-		$view->set('action', $this->url->href('cart'));
+		$view->set('action', $this->url->ssl('cart'));
 
 		$product_data = array();
 		$subtotal = 0;
@@ -339,7 +340,7 @@ class ControllerCart extends Controller {
 			'general_discount' => ($result['general_discount'] ? '-' . $this->currency->format($result['general_discount']) : NULL),
 			'total_discounted'  => $this->currency->format($result['total_discounted'] + ($this->config->get('config_tax') ? $result['product_tax'] : 0)),
 			'total'      => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
-			'href'          => $this->url->href('product', FALSE, array('product_id' => $result['product_id']))
+			'href'          => $this->url->ssl('product', FALSE, array('product_id' => $result['product_id']))
 		);
 
 			if ($min_qty_error == '1' || $this->session->get('min_qty_error['.$result['key'].']')) {
@@ -395,7 +396,7 @@ class ControllerCart extends Controller {
 		$view->set('minov_status', $this->config->get('minov_status'));
 		$view->set('text_cart_weight', $this->language->get('text_cart_weight'));
 		$referer_page = $this->url->get_controller($this->session->get('current_page'),array('category','product', 'manufacturer' , 'search'));
-		$view->set('continue', "location='" . ($referer_page && $this->session->get('current_page') ? $this->session->get('current_page') : $this->url->href('home')) . "'");
+		$view->set('continue', "location='" . ($referer_page && $this->session->get('current_page') ? $this->session->get('current_page') : $this->url->ssl('home')) . "'");
 
 		$view->set('checkout', $this->url->ssl('checkout_shipping'));
 
@@ -405,7 +406,7 @@ class ControllerCart extends Controller {
 		$view->set('this_controller', 'cart');
 		$view->set('tax_included', $this->config->get('config_tax'));
 		$view->set('button_continue', $this->language->get('button_continue'));
-		$view->set('continue', $this->url->href('home'));
+		$view->set('continue', $this->url->ssl('home'));
 		$this->template->set('content', $view->fetch('content/error.tpl'));
 	}
 
@@ -605,6 +606,11 @@ class ControllerCart extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
+		}
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
 }

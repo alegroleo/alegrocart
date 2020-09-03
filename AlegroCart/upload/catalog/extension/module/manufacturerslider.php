@@ -23,7 +23,7 @@ class ModuleManufacturerSlider extends Controller {
 					'manufacturer_id' => $result['manufacturer_id'],
 					'name'		 => $result['name'],
 					'thumb'		 => $image->resize($result['filename'], $config->get('manufacturerslider_image_width'), $config->get('manufacturerslider_image_height')),
-					'href'		 => $url->href('manufacturer', FALSE, array('manufacturer_id' => $result['manufacturer_id']))
+					'href'		 => $url->ssl('manufacturer', FALSE, array('manufacturer_id' => $result['manufacturer_id']))
 				);
 			}
 			$view->set('manufacturers', $manufacturers_data);

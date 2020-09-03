@@ -32,13 +32,13 @@ class ModuleInformation extends Controller {
 			foreach ($results as $result) {
 				$information_data[] = array(
 					'title' => $result['title'],
-					'href'  => $url->href('information', false, array('information_id' => $result['information_id']))
+					'href'  => $url->ssl('information', false, array('information_id' => $result['information_id']))
 				);
 			}
 
 			$view->set('information', $information_data);
-			$view->set('contact', $url->href('contact'));
-			$view->set('sitemap', $url->href('sitemap'));
+			$view->set('contact', $url->ssl('contact'));
+			$view->set('sitemap', $url->ssl('sitemap'));
 			$view->set('head_def',$head_def);
 			$view->set('location', $this->modelCore->module_location['information']); // Template Manager 
 

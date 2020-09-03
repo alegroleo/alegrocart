@@ -34,14 +34,14 @@ class ControllerCheckoutSuccess extends Controller {
     	$view->set('heading_title', $language->get('heading_title'));
 
     	if($session->get('checkout_success') == 'pending'){
-			$view->set('text_success', $language->get('text_pending', $url->ssl('account'), $url->ssl('account_history'), $url->href('contact')));
+			$view->set('text_success', $language->get('text_pending', $url->ssl('account'), $url->ssl('account_history'), $url->ssl('contact')));
 		} else {
-			$view->set('text_success', $language->get('text_success', $url->ssl('account'), $url->ssl('account_history'), $url->href('contact')));
+			$view->set('text_success', $language->get('text_success', $url->ssl('account'), $url->ssl('account_history'), $url->ssl('contact')));
 		}
 		$session->delete('checkout_success');
 		
     	$view->set('button_continue', $language->get('button_continue'));
-    	$view->set('continue', $url->href('home'));
+    	$view->set('continue', $url->ssl('home'));
 		$view->set('head_def',$this->head_def);
 		$this->template->set('head_def',$this->head_def);
     	$this->template->set('content', $view->fetch('content/success.tpl'));

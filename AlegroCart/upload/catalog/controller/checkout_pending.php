@@ -37,11 +37,11 @@ class ControllerCheckoutPending extends Controller {
 
     	$view->set('heading_title', $this->language->get('heading_title'));
 //
-    	$view->set('text_pending', $this->language->get('text_pending', $this->url->href('contact')));
+    	$view->set('text_pending', $this->language->get('text_pending', $this->url->ssl('contact')));
 
     	$view->set('button_click_to_complete', $this->language->get('button_click_to_complete'));
 
-    	$view->set('continue', $this->url->href('home'));
+    	$view->set('continue', $this->url->ssl('home'));
         
         $view->set('text_redirect', $this->language->get('text_redirect'));
 

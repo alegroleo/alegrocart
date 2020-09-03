@@ -4,6 +4,7 @@ class ControllerProduct extends Controller {
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
+		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
 		$this->module		=& $locator->get('module');
 		$this->template		=& $locator->get('template');
@@ -35,7 +36,7 @@ class ControllerProduct extends Controller {
 
 	if ($request->isPost() && $request->has('product_id', 'post')) {
 		$cart->add($request->gethtml('product_id', 'post'), ($request->gethtml('quantity', 'post') > 0) ? $request->gethtml('quantity', 'post') : 1, $request->gethtml('option', 'post'));
-		$response->redirect($url->href('cart'));
+		$response->redirect($url->ssl('cart'));
 	}
 
 	$language->load('controller/product.php');
@@ -46,7 +47,7 @@ class ControllerProduct extends Controller {
 			$this->modelProducts->update_viewed((int)$request->gethtml('product_id'));
 		$breadcrumb = array();
 		$breadcrumb[] = array(
-			'href'      => $url->href('home'),
+			'href'      => $url->ssl('home'),
 			'text'      => $language->get('text_home'),
 			'separator' => FALSE
 		);
@@ -54,7 +55,7 @@ class ControllerProduct extends Controller {
 			foreach (explode('_', $request->gethtml('path')) as $category_id) {
 					$category_info =$this->modelCategory->getRow_category_name($category_id);
 				$breadcrumb[] = array(
-					'href'      => $url->href('category', FALSE, array('path' => $category_info['path'])),
+					'href'      => $url->ssl('category', FALSE, array('path' => $category_info['path'])),
 					'text'      => $category_info['name'],
 					'separator' => $language->get('text_separator')
 				);
@@ -64,7 +65,7 @@ class ControllerProduct extends Controller {
 				$result = $this->modelProducts->getRow_manufacturer((int)$request->gethtml('manufacturer_id'));
 				if ($result){
 					$breadcrumb[] = array(
-						'href'      => $url->href('manufacturer', FALSE, array('manufacturer_id'  => $request->gethtml('manufacturer_id'))),
+						'href'      => $url->ssl('manufacturer', FALSE, array('manufacturer_id'  => $request->gethtml('manufacturer_id'))),
 						'text'      => $result['name'],
 						'separator' => $language->get('text_separator')
 					);
@@ -76,7 +77,7 @@ class ControllerProduct extends Controller {
 			'product_id' => $request->gethtml('product_id')
 		);
 		$breadcrumb[] = array(
-			'href'      => $url->href('product', FALSE, $query),
+			'href'      => $url->ssl('product', FALSE, $query),
 			'text'      => $product_info['name'],
 			'separator' => $language->get('text_separator')
 		);
@@ -142,7 +143,7 @@ class ControllerProduct extends Controller {
 			'path'       => $request->gethtml('path'),
 			'product_id' => $request->gethtml('product_id')
 		);
-		$view->set('action', $url->href('product', FALSE, $query));
+		$view->set('action', $url->ssl('product', FALSE, $query));
 
 			if (!$session->has('recently')) {
 				$session->set('recently', $recently = array((int)$request->gethtml('product_id')));
@@ -188,7 +189,7 @@ class ControllerProduct extends Controller {
 				if ($result){
 					$manufacturer = array(
 						'name'  => $result['name'],
-						'href'  => $url->href('manufacturer', FALSE, array('manufacturer_id'  => $result['manufacturer_id']))
+						'href'  => $url->ssl('manufacturer', FALSE, array('manufacturer_id'  => $result['manufacturer_id']))
 					);
 					$view->set('manufacturer', $manufacturer);
 				}
@@ -296,7 +297,7 @@ class ControllerProduct extends Controller {
 			  $view->set('review_status', true);
 			  $view->set('text_write', $language->get('text_write'));
 			  $view->set('text_write_short', $language->get('text_write_short'));
-			  $view->set('write', $url->href('review_write', false, array('product_id' => $request->gethtml('product_id'))));
+			  $view->set('write', $url->ssl('review_write', false, array('product_id' => $request->gethtml('product_id'))));
 			  $view->set('average_rating', $averageRating);
 			  $view->set('alt_rating', $language->get('text_out_of', $averageRating));
 			} else {
@@ -341,7 +342,7 @@ class ControllerProduct extends Controller {
 		$view->set('magnifier', $this->config->get('magnifier'));
 		$view->set('image_display', $this->config->get('product_image_display'));
 		$view->set('button_continue', $language->get('button_continue'));
-		$view->set('continue', $url->href('home'));
+		$view->set('continue', $url->ssl('home'));
 
 		$this->template->set('content', $view->fetch('content/error.tpl'));
 
@@ -419,7 +420,7 @@ class ControllerProduct extends Controller {
 		$review_data = array();
 		foreach ($results as $result) {
 			$review_data[] = array(
-				'href'       => $url->href('review_info', FALSE, array('review_id' => $result['review_id'])),
+				'href'       => $url->ssl('review_info', FALSE, array('review_id' => $result['review_id'])),
 				'name'       => $result['name'],
 				'text'       => trim(substr(strip_tags($result['text']), 0, 1000)),
 				'rating1'     => $result['rating1'],
@@ -447,6 +448,11 @@ class ControllerProduct extends Controller {
 			$this->download->setFilename($fdownload_info['mask']);
 			$this->download->output(); 
 		} 
+	}
+	function check_ssl(){
+		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		}
 	}
 }
 ?>

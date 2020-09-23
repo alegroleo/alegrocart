@@ -1,10 +1,11 @@
 <?php
-if (!$step) { header('Location: .'); die(); }
+if (!$step) {
+	header('Location: .'); die();
+}
 ?>
 
 <div id="content">
-<?php 
-	if (!empty($errors)) { ?>
+<?php if (!empty($errors)) { ?>
 		<p class="b"><?php echo $language->get('error')?></p>
 		<?php foreach ($errors as $error) { ?>
 			<div class="error"><?php echo $error;?></div>

@@ -254,7 +254,7 @@ class ControllerCategory extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-			'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('category', 'update', $query)
 			);
@@ -290,6 +290,9 @@ class ControllerCategory extends Controller {
 		}
 		$view->set('heading_description', $this->language->get('heading_description'));
 
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
+		$view->set('text_path', $this->language->get('text_path'));
 		$view->set('text_previous', $this->language->get('text_previous'));
 		$view->set('text_results',$this->modelCategory->get_text_results());
 

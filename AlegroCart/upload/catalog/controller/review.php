@@ -1,20 +1,22 @@
 <?php //Review AlegroCart
 class ControllerReview extends Controller {
-	function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
-		$this->config  		=& $locator->get('config');
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
 		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
-		$this->module   	=& $locator->get('module');
-		$this->template 	=& $locator->get('template');
+		$this->module		=& $locator->get('module');
+		$this->template		=& $locator->get('template');
 		$this->modelCore 	= $model->get('model_core');
-		$this->modelReview  = $model->get('model_review');
-		$this->tpl_manager = $this->modelCore->get_tpl_manager('review'); // Template Manager
-		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
-		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
+		$this->modelReview	= $model->get('model_review');
+		$this->tpl_manager	= $this->modelCore->get_tpl_manager('review'); // Template Manager
+		$this->locations	= $this->modelCore->get_tpl_locations();// Template Manager
+		$this->tpl_columns	= $this->modelCore->get_columns();// Template Manager
 	}
-	function index() {  
+
+	function index() {
 		$currency =& $this->locator->get('currency');
 		$language =& $this->locator->get('language');
 		$image    =& $this->locator->get('image');
@@ -24,62 +26,64 @@ class ControllerReview extends Controller {
 		$tax      =& $this->locator->get('tax');
 		$url      =& $this->locator->get('url');
 		$head_def =& $this->locator->get('HeaderDefinition');
-		
+
 		//pagination
-        $session->set('review.page', $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
+	        $session->set('review.page', $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
 
 		$language->load('controller/review.php');
 
 		$results = $this->modelReview->get_reviews($session->get('review.page'));
  
-    	if ($results) {
-      		$view = $this->locator->create('template');
-			
+	    	if ($results) {
+	      		$view = $this->locator->create('template');
+
 			$view->set('tax_included', $this->config->get('config_tax'));
 
-      		$product_info = $this->modelReview->get_product($request->gethtml('product_id'));
+	      		$product_info = $this->modelReview->get_product($request->gethtml('product_id'));
 	  
 	  		$this->template->set('title', $language->get('heading_title', $product_info['name']));
 
-      		$view->set('heading_title', $language->get('heading_title', $product_info['name']));
+	      		$view->set('heading_title', $language->get('heading_title', $product_info['name']));
 
-      		$view->set('price', $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))));
+	      		$view->set('price', $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))));
 			
 			$view->set('special_price', $product_info['special_price']>0 ? $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))): "");
-      		$view->set('text_results', $this->modelReview->get_text_results());
-      		$view->set('text_review_by', $language->get('text_review_by'));
-      		$view->set('text_date_added', $language->get('text_date_added'));
-      		$view->set('text_rating', $language->get('text_rating'));
-      		
-      		$view->set('entry_page', $language->get('entry_page'));
+	      		$view->set('text_results', $this->modelReview->get_text_results());
+	      		$view->set('text_review_by', $language->get('text_review_by'));
+	      		$view->set('text_date_added', $language->get('text_date_added'));
+	      		$view->set('text_rating', $language->get('text_rating'));
 
-      		$view->set('action', $url->ssl('review', FALSE, array('product_id' => $request->gethtml('product_id'))));
+	      		$view->set('entry_page', $language->get('entry_page'));
 
-      		$review_data = array();
+	      		$view->set('action', $url->ssl('review', FALSE, array('product_id' => $request->gethtml('product_id'))));
 
-      		foreach ($results as $result) {
+	      		$review_data = array();
 
-			$average = ($result['rating1'] + $result['rating2'] + $result['rating3'] + $result['rating4'])/4;
-			$avgrating = number_format($average,0);
- 			$avgrating2 = number_format($average,1);
+	      		foreach ($results as $result) {
 
-        		$review_data[] = array(
-          			'href'       => $url->ssl('review_info', FALSE, array('product_id' => $result['product_id'], 'review_id' => $result['review_id'])),
-          			'name'       => $result['name'],
-          			'thumb'      => $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
-          			'text'       => trim(substr(strip_tags($result['text']), 0, 150)) . '...',
-          			'avgrating'  => $avgrating,
-				'out_of'     => $language->get('text_out_of', $avgrating),
-				'avgrating2' => $avgrating2,
-          			'author'     => $result['author'],
-          			'date_added' => $language->formatDate($language->get('date_format_long'), strtotime($result['date_added']))
-        		);
-      		}
+				$average = ($result['rating1'] + $result['rating2'] + $result['rating3'] + $result['rating4'])/4;
+				$avgrating = number_format($average,0);
+	 			$avgrating2 = number_format($average,1);
 
-      		$view->set('reviews', $review_data);
+	        		$review_data[] = array(
+	          			'href'       => $url->ssl('review_info', FALSE, array('product_id' => $result['product_id'], 'review_id' => $result['review_id'])),
+	          			'name'       => $result['name'],
+	          			'thumb'      => $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')),
+					'width'		=> $this->config->get('config_image_width'),
+					'height'	=> $this->config->get('config_image_height'),
+	          			'text'       => trim(substr(strip_tags($result['text']), 0, 150)) . '...',
+	          			'avgrating'  => $avgrating,
+					'out_of'     => $language->get('text_out_of', $avgrating),
+					'avgrating2' => $avgrating2,
+	          			'author'     => $result['author'],
+	          			'date_added' => $language->formatDate($language->get('date_format_long'), strtotime($result['date_added']))
+	        		);
+	      		}
 
-      		$view->set('page', $session->get('review.page'));
-      		$view->set('pages', $this->modelReview->get_pagination());
+	      		$view->set('reviews', $review_data);
+
+	      		$view->set('page', $session->get('review.page'));
+	      		$view->set('pages', $this->modelReview->get_pagination());
 			$view->set('total_pages', $this->modelReview->get_pages());
 			$view->set('previous' , $language->get('previous_page'));
 			$view->set('next' , $language->get('next_page'));
@@ -117,6 +121,7 @@ class ControllerReview extends Controller {
 			}
 		}
 	}
+
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
@@ -143,10 +148,12 @@ class ControllerReview extends Controller {
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

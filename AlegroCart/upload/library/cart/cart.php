@@ -85,7 +85,7 @@ class Cart {
 				}
 
 				if($product['vendor_id']!='0' && $this->config->get('config_unregistered')){
-					$vendor_name = $this->database->getRow("select name from vendor where vendor_id = '" . (int)$product['vendor_id'] . "'");
+					$vendor_name = $this->database->getRow("SELECT name FROM vendor WHERE vendor_id = '" . (int)$product['vendor_id'] . "' AND status = 1");
 				} else {
 					$vendor_name = NULL;
 				}

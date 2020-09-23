@@ -1,16 +1,39 @@
 <?php
+
 define('VALID_ACCESS', TRUE);
 require('common.php');
 require('language.php');
 require('database.php');
+
+$host = getHost();
+
+if (!isset($_COOKIE['redirect'])) {
+	setcookie("redirect", 0, time()+3600);
+}
+
+if (!isSecure() && checkSSL()) {//first we check if user entered http://blabla.com or http://www.blabla.com, then we check if SSL is enabled on this server or not. If both are true we redirect him once to https://www.blabla.com to secure install process
+	header("Location: https://" . $host . $_SERVER['REQUEST_URI']);
+	die;
+} elseif (isSecure() && !checkWWW() && isset($_COOKIE['redirect']) && $_COOKIE['redirect'] != 1) { //if user entered https://blabla.com, we redirect him once to https://www.blabla.com if we are not on subdomain
+	setcookie("redirect", 1);
+	header("Location: https://".$host . $_SERVER['REQUEST_URI']);
+	die;
+} elseif (!isSecure() && isset($_COOKIE['redirect']) && $_COOKIE['redirect'] != 1) { //if no SSL, we redirect to http://www.blabla.com if we are not on subdomain
+	setcookie("redirect", 1);
+	header("Location: http://" . $host . $_SERVER['REQUEST_URI']);
+	die;
+}
+
+setcookie("redirect", "", time()-3600);
 
 define('DB_HOST', '');
 define('DB_USER', '');
 define('DB_PASSWORD', '');
 define('DB_NAME', '');
 define('DIR_BASE', getbasepath());
-define('HTTP_BASE', getbaseurl());
-define('HTTPS_BASE', '');
+$baseUrl = getbaseurl($host);
+define('HTTP_BASE', 'http://' . $baseUrl);
+define('HTTPS_BASE', isSecure() ? 'https://' . $baseUrl : '');
 define('UPLOADC', 'install/upload_common.txt');
 define('UPLOADA', 'install/upload_admin.txt');
 require('../common.php');
@@ -28,14 +51,16 @@ $language->check_default();
 $database = new Database;
 
 if ($language->error) {
-$errors[]=$language->error;
+	$errors[]=$language->error;
 }
 
 $language->load(isset($_POST['language']) ? $_POST['language'] : ($language->detect() ? $language->detect(): 'en'));
 $languages=$language->langs;
 
-$step=(isset($_REQUEST['step']))?$_REQUEST['step']:1;
-if (filesize('../config.php') > 0) { $step=3; }
+$step=(isset($_REQUEST['step'])) ? $_REQUEST['step'] : 1;
+if (filesize('../config.php') > 0) { //already installed, nothing to do
+	$step = 3;
+}
 
 if (file_exists(DIR_BASE.UPLOADC)) {
 	$lines=array();
@@ -62,13 +87,12 @@ if (count($root_dirs)!==1) {
 	$errors[] = $language->get('error_dir'); 
 }
 
-$files0755=array(
+$files0755=array( //dirs where we want to upload something, or the system wants to create files. These must be writable.
 		'image'.D_S,
+		'image'.D_S.'barcode'.D_S,
 		'image'.D_S.'cache'.D_S,
 		'image'.D_S.'flash'.D_S,
 		'image'.D_S.'mask'.D_S,
-		'image'.D_S.'barcode'.D_S,
-		'image'.D_S.'signatures'.D_S,
 		'image'.D_S.'watermark'.D_S,
 		'download'.D_S,
 		($root_dirs[0] !== 'admin' ? $root_dirs[0] : 'admin').D_S.'javascript'.D_S.'render'.D_S,
@@ -85,6 +109,7 @@ foreach ($files0755 as $file) {
 		}
 	}
 }
+
 $files0750=array(
 		'cache'.D_S,
 		'logs'.D_S,
@@ -117,7 +142,8 @@ foreach ($files0666 as $file) {
 		}
 	}
 }
-	if (phpversion() < '5.0'){
+
+	if (phpversion() < '5.4'){
 		$errors[] = $language->get('error_php');
 	}
 	if (ini_get('session.auto_start')){
@@ -142,22 +168,18 @@ foreach ($files0666 as $file) {
 	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	  <title><?php echo $language->get('heading_title')?></title>
 	  <link rel="stylesheet" type="text/css" href="../image/install/style.css">
-	  <!--[if !IE 7]>
-		  <style type="text/css">
-			  #wrap {display:table;height:100%}
-		  </style>
-	  <![endif]-->
+	  <link rel="shortcut icon" type="image/x-icon" href="..image/favicon.ico">
 	</head>
 	<body>
 	<div id="wrap">
 	<div id="header">
 	    <div class="header_content">
-	    <img src="../image/install/aclogo.png" alt="AlegroCart open source E-commerce"/>
+	    <img src="../image/install/aclogo.png" width=300 height=67 alt="AlegroCart open source E-commerce"/>
 	    <div class="language">
 	      <?php foreach ($languages as $value) { ?>
 		<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST" enctype="multipart/form-data">
 		<div>
-		<input type="image" src="../image/install/<?php echo $value; ?>.png" alt="<?php echo $value; ?>" title="<?php echo $value; ?>">
+		<input type="image" src="../image/install/<?php echo $value; ?>.png" alt="<?php echo $value; ?>" width=16 height=11 title="<?php echo $value; ?>">
 		<input type="hidden" name="language" value="<?php echo $value; ?>">
 		<input type="hidden" name="step" value="<?php echo $step; ?>">
 		<?php if (isset($_POST['db_host'])) { ?>
@@ -212,7 +234,7 @@ foreach ($files0666 as $file) {
 	</div>
 	<div id="footer">
 	    <ul>
-		<li><a target="_blank" href="http://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
+		<li><a target="_blank" href="https://www.alegrocart.com/"><?php echo $language->get('ac')?></a></li>
 		<li><a target="_blank" href="http://forum.alegrocart.com/"><?php echo $language->get('acforum')?></a></li>
 	    </ul>
 	</div>

@@ -4,19 +4,19 @@
 ?>
 <div class="task">
   <?php if (@$insert) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $insert; ?>'"><img src="template/<?php echo $this->directory?>/image/insert_enabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $insert; ?>'"><img src="template/<?php echo $this->directory?>/image/insert_enabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php } ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png"><?php echo $button_print; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png"><?php echo $button_print; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -26,7 +26,7 @@
 <div class="message"><?php echo $message; ?></div>
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="list">
@@ -119,9 +119,9 @@
           <?php echo $col['name']; ?>
           <?php if ($sort == $col['sort']) { ?>
           <?php if ($order == 'asc') { ?>
-          &nbsp;<img src="template/<?php echo $this->directory?>/image/asc.png" class="png" alt="">
+          &nbsp;<img src="template/<?php echo $this->directory?>/image/asc.png" alt="<?php echo $text_asc; ?>" width=9 height=10 class="png" >
           <?php } else { ?>
-          &nbsp;<img src="template/<?php echo $this->directory?>/image/desc.png" class="png" alt="">
+          &nbsp;<img src="template/<?php echo $this->directory?>/image/desc.png" alt="<?php echo $text_desc; ?>" width=9 height=10 class="png" >
           <?php } ?>
           <?php } ?>
           <input type="hidden" name="sort" value="<?php echo $col['sort']; ?>">
@@ -135,7 +135,7 @@
     <?php $j = 1; ?>
     <?php if (isset($previous)) { ?>
     <tr class="row1" id="prev" onmouseover="this.className='previous'" onmouseout="this.className='row1'" onclick="self.location.href='<?php echo $previous; ?>'">
-      <td colspan="2"><img src="template/<?php echo $this->directory?>/image/previous.png" class="png" alt="">&nbsp;<?php echo $text_previous; ?></td>
+      <td colspan="2"><img src="template/<?php echo $this->directory?>/image/previous.png" class="png" width=24 height=24 alt="<?php echo $text_previous; ?>" >&nbsp;<?php echo $text_previous; ?></td>
       <?php for ($i = 1; $i < sizeof($cols)-1; $i++) { ?>
       <td>&nbsp;</td>
       <?php $j = 0; ?>
@@ -143,13 +143,13 @@
     </tr>
     <?php } ?>
     <?php foreach ($rows as $row) { ?>
-    <?php  
+    <?php
     if ($j != 1) {
     	$j = 1;
     } else {
     	$j = 0;
     }
-    
+
     if ($j == 0) {
     	$class = 'row1';
     } elseif ($j == 1) {
@@ -183,17 +183,17 @@
         <b>(<?php echo $text_geo; ?>)</b>
         <?php } ?></td>
       <?php } elseif (isset($cell['image'])) { ?>
-      <td id="image_to_preview" class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>" rel="<?php echo $cell['previewimage']; ?>" alt="" title="<?php echo $cell['title']; ?>"></td>
+      <td id="image_to_preview" class="<?php echo $cell['align']; ?>"><img src="<?php echo $cell['image']; ?>" rel="<?php echo $cell['previewimage']; ?>" width=26 height=26 alt="<?php echo $cell['title']; ?>" title="<?php echo $cell['title']; ?>"></td>
       <?php } elseif (isset($cell['path'])) { ?>
-      <td width="30" class="<?php echo $cell['align']; ?>"><a href="<?php echo $cell['path']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png" alt=""></a></td>
+      <td width="30" class="<?php echo $cell['align']; ?>"><a href="<?php echo $cell['path']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" width=22 height=22 class="png" alt="<?php echo $text_path; ?>" ></a></td>
       <?php } elseif (isset($cell['status'])) { ?>
       <td class="<?php echo $cell['align']; ?>">
-      <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$('#'+this.id).load('index.php?controller=<?php echo ($cell['status_controller'])?>&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
+      <input type="image" name="<?php echo ($cell['status'])?>" src="template/<?php echo $this->directory?>/image/<?php echo ($cell['status'] ? 'enabled.png' : 'disabled.png'); ?>" id="<?php echo $cell['status_id']; ?>" width=24 height=24 alt="<?php echo $cell['text']; ?>" title="<?php echo $cell['text']; ?>" onclick="$('#'+this.id).load('index.php?controller=<?php echo ($cell['status_controller'])?>&action=changeStatus&stat='+this.name+'&stat_id='+this.id);" class="status" style="border:none" >
       </td>
 
 	  <?php } elseif (isset($cell['update_status'])) { ?>
 		<td class="<?php echo $cell['align']; ?>">
-		<input type="image" name="" src="template/<?php echo $this->directory?>/image/enable_update.png" style="border:none" onclick="update_status('<?php echo $cell['order_id'];?>')">
+		<input type="image" name="" src="template/<?php echo $this->directory?>/image/enable_update.png" style="border:none" width=24 height=24 alt="<?php echo $text_update_status; ?>" onclick="update_status('<?php echo $cell['order_id'];?>')">
 	  </td>
 	  <?php } elseif (isset($cell['status_name'])) { ?>
 	    <td class="<?php echo $cell['align']; ?>" id="<?php echo $cell['status_name_id'];?>"><?php echo $cell['status_name']; ?>
@@ -201,16 +201,16 @@
 
       <?php } elseif (isset($cell['icon'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php if (isset($cell['href'])) { ?>
-        <a href="<?php echo $cell['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png" alt=""></a>
+        <a href="<?php echo $cell['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png" width=24 height=24 alt="<?php echo $cell['text']; ?>" ></a>
         <?php } else { ?>
-        <img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" class="png" alt="">
+        <img src="template/<?php echo $this->directory?>/image/<?php echo $cell['icon']; ?>" width=24 height=24 class="png" alt="<?php echo $cell['text']; ?>">
         <?php } ?>
       </td>
       <?php } elseif (isset($cell['action'])) { ?>
       <td class="<?php echo $cell['align']; ?>"><?php foreach ($cell['action'] as $action) { 
 		if (preg_match('/action=delete/',$action['href'])) { $action['href'].='" onClick="return confirm(\''. $text_confirm_delete .'\')'; }
       ?>
-        <a href="<?php echo $action['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $action['icon']; ?>" alt="<?php echo $action['text']; ?>" title="<?php echo $action['text']; ?>" class="png"></a>
+        <a href="<?php echo $action['href']; ?>"><img src="template/<?php echo $this->directory?>/image/<?php echo $action['icon']; ?>" width=22 height=22 alt="<?php echo $action['text']; ?>" title="<?php echo $action['text']; ?>" class="png"></a>
         <?php } ?></td>
       <?php } ?>
       <?php } ?>
@@ -218,7 +218,7 @@
     <?php } ?>
   </table>
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 function update_status(order_id){
   var Order_id = order_id;
   var Default_Order_Status_id = $('#default_order_status').val();
@@ -244,9 +244,9 @@ function update_status(order_id){
 	}
   });
 }
-//--></script>
+</script>
 <?php if(isset($controller) && $controller == 'homepage') {?>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $("input").click(function (event) {
 	var imgstatus = $(this).attr('name');
 	var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png');
@@ -263,9 +263,9 @@ $("input").click(function (event) {
 		$(this).attr('name', imgstatus == '0' ? '1' : '0'); 
 	}
 });
-//--></script>
+</script>
 <?php } elseif(isset($controller) && $controller == 'currency') {?>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $("input").click(function (event) {
 	var imgstatus = $(this).attr('name');
 	var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png');
@@ -282,9 +282,9 @@ $("input").click(function (event) {
 			$(this).attr('name', imgstatus == '0' ? '1' : '0'); 
 	}
 });
-//--></script>
+</script>
 <?php } else { ?>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $("input").click(function (event) {
 	var imgstatus = $(this).attr('name');
 	var imgstatus2 = (imgstatus == '0' ? 'enabled.png' : 'disabled.png');
@@ -295,9 +295,9 @@ $("input").click(function (event) {
 		$(this).attr('name', imgstatus == '0' ? '1' : '0'); 
 	}
 });
-//--></script>
+</script>
 <?php } ?>
-<script type="text/javascript"><!--original idea by Alen Grakalic
+<script type="text/javascript">original idea by Alen Grakalic
 $(function() {
 
 	var xOffset = 50;
@@ -352,8 +352,8 @@ $("#image_to_preview img").mousemove(function(e){
 	$("#preview").css("top",(posy - scrolled < effectiveHeight/2 ? (posy - yOffset) : posy - yOffset - ($(this).attr('rel').substr(-7,3))) + "px").css("left",(posx - xOffset - 2*($(this).attr('rel').substr(-7,3))) + "px");
 });
 });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -372,4 +372,4 @@ $("#image_to_preview img").mousemove(function(e){
 		}
 	});
   }
-  //--></script>
+  </script>

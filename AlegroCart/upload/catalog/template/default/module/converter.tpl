@@ -38,7 +38,7 @@
   </div>
   <div class="columnBottom"></div>
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $(document).ready(function(){
 	$('#c_data').hide(0);
 });
@@ -46,10 +46,10 @@ function OpenConversion(){
 	$('#c_data').toggle('slow');
 }
 function ConversionData(){
-	var Amount = $('#amount').val();
-	var From = $('#from').val();
-	var To = $('#to').val();
-	Data = 'from='+From+'&to='+To+'&amount='+Amount;
+	const Amount = $('#amount').val();
+	const From = $('#from').val();
+	const To = $('#to').val();
+	const Data = 'from='+From+'&to='+To+'&amount='+Amount;
 	return Data;
 }
-//--></script>
+</script>

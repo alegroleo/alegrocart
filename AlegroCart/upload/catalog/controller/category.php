@@ -1,9 +1,10 @@
 <?php //Category AlegroCart
 class ControllerCategory extends Controller {
-	var $remaining = false;
-	var $discounted = false;
 
-	function __construct(&$locator){ // Template Manager
+	private $remaining = false;
+	private $discounted = false;
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
@@ -19,7 +20,7 @@ class ControllerCategory extends Controller {
 		$this->tpl_columns	= $this->modelCore->get_columns();// Template Manager
 	}
 
-	function index() {
+	protected function index() {
 		$cart     =& $this->locator->get('cart');
 		$currency =& $this->locator->get('currency');
 		$language =& $this->locator->get('language');
@@ -65,9 +66,9 @@ class ControllerCategory extends Controller {
 
 		$view = $this->locator->create('template');
 
-	$view->set('button_continue', $language->get('button_continue'));
-	$view->set('continue', $url->ssl('home'));
-	$view->set('location', 'content');
+		$view->set('button_continue', $language->get('button_continue'));
+		$view->set('continue', $url->ssl('home'));
+		$view->set('location', 'content');
 
 		if ($category_info) {
 			$this->template->set('title', $category_info['name']);
@@ -76,7 +77,7 @@ class ControllerCategory extends Controller {
 			$view->set('meta_title', $category_info['meta_title']);
 			$view->set('meta_description', $category_info['meta_description']);
 			$view->set('meta_keywords', $category_info['meta_keywords']);
-			
+
 			$view->set('tax_included', $this->config->get('config_tax'));
 
 		$breadcrumb = array();
@@ -105,10 +106,12 @@ class ControllerCategory extends Controller {
 
 			foreach ($results as $result) {
 				$category_data[] = array(
-				'name'  => $result['name'],
-				'href'  => $url->ssl('category', FALSE, array('path' => ($request->gethtml('path')) ? $request->gethtml('path').'_'.$result['category_id'] : $result['category_id'])),
-				'thumb' => (isset($result['filename']) && file_exists(DIR_IMAGE.$result['filename'])) ? $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')) : NULL,
-				'products_in_category' => $this->config->get('category_pcount') ? $this->modelCore->getPrInCat($result['category_id']) : 0
+				'name'			=> $result['name'],
+				'href'			=> $url->ssl('category', FALSE, array('path' => ($request->gethtml('path')) ? $request->gethtml('path').'_'.$result['category_id'] : $result['category_id'])),
+				'thumb'			=> (isset($result['filename']) && file_exists(DIR_IMAGE.$result['filename'])) ? $image->resize($result['filename'], $this->config->get('config_image_width'), $this->config->get('config_image_height')) : NULL,
+				'width'			=> $this->config->get('config_image_width'),
+				'height'		=> $this->config->get('config_image_height'),
+				'products_in_category'	=> $this->config->get('category_pcount') ? $this->modelCore->getPrInCat($result['category_id']) : 0
 				);
 			}
 
@@ -357,6 +360,8 @@ class ControllerCategory extends Controller {
 					'href'  => $url->ssl('product', FALSE, $query),
 					'popup'     => $image->href($result['filename']),
 					'thumb' => $image->resize($result['filename'], $image_width, $image_height),
+					'image_width' => $image_width, 
+					'image_height' => $image_height, 
 					'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'sale_start_date' => $result['sale_start_date'],
@@ -429,7 +434,6 @@ class ControllerCategory extends Controller {
 					$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
 				}
 				$view->set('text_stock_icon', $language->get('text_stock_icon'));
-							
 				$view->set('head_def',$head_def);
 				$this->template->set('head_def',$head_def);
 				$view->set('remaining', $this->remaining);
@@ -542,7 +546,7 @@ class ControllerCategory extends Controller {
 			$models_data = array();
 			foreach($results as $result){
 				$models_data[] = array(
-					'model'			=> $result['model'],
+					'model'		=> $result['model'],
 					'model_value'	=> $result['model']."_".$category
 				);
 			}
@@ -565,8 +569,9 @@ class ControllerCategory extends Controller {
 		}
 		$response->set($output);
 	}
+
 	function sort_filter(){
-		$language =& $this->locator->get('language');	
+		$language =& $this->locator->get('language');
 		$language->load('extension/module/categoryoptions.php');
 		$sort_filter = array();
 		$sort_filter[0] = $language->get('entry_number');
@@ -582,10 +587,12 @@ class ControllerCategory extends Controller {
 		$sort_order[1] = $language->get('entry_descending');
 		return $sort_order;
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

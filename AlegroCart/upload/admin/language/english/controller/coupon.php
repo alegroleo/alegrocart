@@ -5,9 +5,9 @@ $_['heading_form_title']   = 'Coupon:';
 $_['heading_description']  = 'You can edit your discount coupons here.';
 
 // Text
-$_['text_percent']         = '%';
-$_['text_minus']           = '-';
-$_['text_message']        = 'Success: You have updated coupons!';
+$_['text_percent']		= '%';
+$_['text_minus']		= '-';
+$_['text_message']		= 'Success: You have updated coupons!';
 
 // Column
 $_['column_name']          = 'Coupon Name';
@@ -35,15 +35,16 @@ $_['entry_product']        = 'Valid Products:';
 $_['entry_status']         = 'Status:';
 
 //Explanation
-$_['explanation_entry_product'] = 'Selecting no products applies the coupon to the whole cart.';
-$_['explanation_multiselect'] = 'To select/deselect multiple products press and hold &lt;Ctrl&gt; while you are clicking.';
+$_['explanation_entry_product']	= 'Selecting no products applies the coupon to the whole cart.';
+$_['explanation_multiselect']	= 'To select/deselect multiple products press and hold &lt;Ctrl&gt; while you are clicking.';
 
 // Error
-$_['error_discount']       = "* Discount cannot exceed 100 % !";
-$_['error_permission']     = 'Warning: You do not have permission to modify coupons';
-$_['error_name']           = '* Coupon Name must be between 1 and 64 characters!';
-$_['error_description']    = '* Coupon Description must be at least 1 character!';
-$_['error_code']           = '* Code must be between 1 and 10 characters!';
-$_['error_date_start']     = '* Date Start is not valid!';
-$_['error_date_end']       = '* Date End is not valid!';
+$_['error_discount']		= "* Discount cannot exceed 100 % !";
+$_['error_permission']		= 'Warning: You do not have permission to modify coupons';
+$_['error_name']		= '* Coupon Name must be between 1 and 64 characters!';
+$_['error_description']		= '* Coupon Description must be at least 1 character!';
+$_['error_code']		= '* Code must be between 1 and 10 characters!';
+$_['error_date_start']		= '* Date Start is not valid!';
+$_['error_date_end']		= '* Date End is not valid!';
+$_['error_date']		= '* Date start must be earlier than date end!';
 ?>

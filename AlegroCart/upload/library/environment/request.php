@@ -1,6 +1,7 @@
 <?php
-class Request {					        
-  	function get($key, $type = 'GET', $default = NULL) {
+final class Request {
+
+	public function get($key, $type = 'GET', $default = NULL) {
 		switch (strtoupper($type)) {
 			case 'GET':
 				return (isset($_GET[$key]) ? $_GET[$key] : $default);
@@ -14,21 +15,20 @@ class Request {
 		}
 	}
 
-  	function gethtml($key, $type = 'GET', $default = NULL) {
+	public function gethtml($key, $type = 'GET', $default = NULL) {
 		return htmlspecialchars_deep($this->get($key,$type,$default));
 	}
-    
-	function sanitize($key, $type = 'GET', $default = NULL){
+
+	public function sanitize($key, $type = 'GET', $default = NULL){
 		$str = $this->get($key,$type,$default);
 		return htmlspecialchars_deep($this->sanitizer($str));
-	
 	}
-	
-	function clean($key){
+
+	public function clean($key){
 		return htmlspecialchars_deep($this->sanitizer($key));
 	}
-	
-	function has($key, $type = 'GET') {
+
+	public function has($key, $type = 'GET') {
 		switch (strtoupper($type)) {
 			case 'GET':
 				return isset($_GET[$key]);
@@ -39,10 +39,10 @@ class Request {
 			case 'COOKIE':
 				return isset($_COOKIE[$key]); 
 				break;
-		}	
+		}
 	}
-	
-	function set($key, $value, $type = 'GET') {
+
+	public function set($key, $value, $type = 'GET') {
 		switch (strtoupper($type)) {
 			case 'GET':
 				return $_GET[$key] = $value;
@@ -50,17 +50,27 @@ class Request {
 			case 'POST':
 				return $_POST[$key] = $value;
 				break;
-		}	
+		}
 	}
-	
-	function isPost() {
+
+	public function isPost() {
 		return (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST');
 	}
 
-	function isSecure() {
-		return (isset($_SERVER['HTTPS']))?true:false;
+	public function isSecure() { //centralised check for SSL based on environment information; this will be used everywhere
+		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? TRUE : FALSE;
 	}
-	function sanitizer($searchstring){
+
+	public function checkSSL() { //check SSL based on real connection
+		if (!$SSL = @fsockopen('ssl://' . $_SERVER['HTTP_HOST'], 443, $errno, $errstr, 30)) {
+			return FALSE;
+		} else {
+			fclose($SSL);
+			return TRUE;
+		}
+	}
+
+	public function sanitizer($searchstring){
 		$searchstring = trim($searchstring);
 		$searchstring = str_replace("&", "&amp;", $searchstring);
 		$searchstring = preg_replace('/javascript/i', '', $searchstring );
@@ -68,7 +78,8 @@ class Request {
 		$str = preg_replace ( '/\s*=\s*/', '=', $searchstring );
 		$searchstring = stripslashes( preg_replace("/(onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup|onfocus|onblur|onabort|onerror|onload)/i" , 'forbidden' , $str ) );
 		$searchstring = strip_tags($searchstring);
-    return $searchstring;
-}
+		return $searchstring;
+	}
+
 }
 ?>

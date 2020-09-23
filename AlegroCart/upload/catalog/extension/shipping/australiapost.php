@@ -102,7 +102,7 @@ class ShippingAustraliaPost extends Shipping {
 				foreach($this->ap_quotes as $key => $ap_qoute){
 					$total_rate = 0;
 					foreach ($ap_qoute as $ap_key => $quote) {
-						$total_rate += $quote['charge'];
+						$total_rate += (float)$quote['charge'];
 					}
 					if ($total_rate != 0) {
 						$quote_data[] = array(

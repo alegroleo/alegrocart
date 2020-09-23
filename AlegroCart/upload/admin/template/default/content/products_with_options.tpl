@@ -11,9 +11,9 @@
   }
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <input type="hidden" name="update_form" value="1">
@@ -29,28 +29,28 @@
   <input type="hidden" name="no_image_id" value="<?php echo $no_image_id; ?>">
   </form>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
 <?php if (@$delete) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
   <?php if (@$productwo_id) {?>
-    <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+    <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <?php } else { ?>
-	<div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+	<div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
   <?php } ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
   <?php if (@$productwo_id) {?>
-    <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+    <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
   <?php } else { ?>
-    <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+    <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
   <?php } ?>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -61,7 +61,7 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
  <?php if($productwo_id){ ?> <em><?php echo $product_name;?></em><?php } ?>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <?php if(!$productwo_id){ ?>
@@ -149,7 +149,7 @@
   </form>
 <?php }?>
 <?php  if($productwo_id){ echo $rvalidation;} ?>
-<script type="text/javascript"><!--
+<script type="text/javascript">
   function validate_barcode(){
 	var Encoding = $('#encoding').val();
 	var Barcode = $('#barcode').val();
@@ -163,16 +163,16 @@
 			'index.php?controller=products_with_options&action=validate_barcode&encoding='+Encoding+'&barcode='+Barcode+'&product_id='+ProductID+'&option_id='+OptionID,
 			async:   false,
 			success: function(Barcode_data) {
-     		$('#barcodefield').html(Barcode_data);
+     				$('#barcodefield').html(Barcode_data);
 			}
 		});
 	}
   }
-  //--></script> 
-  <script type="text/javascript"><!--
+  </script> 
+  <script type="text/javascript">
   $('#image').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id').value);
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -191,8 +191,8 @@
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	function getValues() {
 		document.forms['update_form'].model_number.value=document.forms['form'].model_number.value;
 		document.forms['update_form'].quantity.value=document.forms['form'].quantity.value;
@@ -208,9 +208,9 @@
 	function getDimensionValues(formName,elementName,newFormName){ 
 		var html ='';
 		var len = $('[id^='+ elementName + ']').length;
-		for(j = 0; j < len; j++) { 
-				html +='<input type="hidden" name="' + elementName + '[' + j + ']" value="' + document.forms[formName].elements[elementName + '[' + j +']'].value + '">';
+		for(let j = 0; j < len; j++) { 
+			html +='<input type="hidden" name="' + elementName + '[' + j + ']" value="' + document.forms[formName].elements[elementName + '[' + j +']'].value + '">';
 		}
 		document.forms[newFormName].innerHTML += html;
 	}
-  //--></script>
+  </script>

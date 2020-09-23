@@ -1,8 +1,10 @@
 <?php  // Bestseller AlegroCart
 class ModuleBestseller extends Controller {
-		var $remaining = false;
-		var $discounted = false;
-	function fetch() {
+
+	var $remaining = false;
+	var $discounted = false;
+
+	public function fetch() {
 		$cart			=& $this->locator->get('cart');
 		$config			=& $this->locator->get('config');
 		$currency		=& $this->locator->get('currency');
@@ -18,10 +20,10 @@ class ModuleBestseller extends Controller {
 		$this->modelCore 	= $this->model->get('model_core');
 		require_once('library/application/string_modify.php');
 
-	if ($config->get('bestseller_status')) {
+		if ($config->get('bestseller_status')) {
 
-		$language->load('extension/module/bestseller.php');
-		$view = $this->locator->create('template');
+			$language->load('extension/module/bestseller.php');
+			$view = $this->locator->create('template');
 			$view->set('onhand', $language->get('onhand'));
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('tax_included', $config->get('config_tax'));
@@ -167,24 +169,26 @@ class ModuleBestseller extends Controller {
 					$product_options = FALSE;
 				}
 			$product_data[] = array(
-				'name'  => $result['name'],
-				'product_id'  => $result['product_id'],
-				'description'  => $desc,
-				'stock_level' => $result['quantity'],
+				'name'			=> $result['name'],
+				'product_id'		=> $result['product_id'],
+				'description'		=> $desc,
+				'stock_level'		=> $result['quantity'],
 				'cart_level'		=> $cart->hasProduct($result['product_id']),
-				'min_qty'	  => $result['min_qty'],
-				'max_qty'	  => $result['max_qty'],
-				'multiple'	  => $result['multiple'],
-				'product_discounts' => $product_discounts,
-				'href'  => $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
-				'popup'     => $image->href($result['filename']),
-				'thumb' => $image->resize($result['filename'], $image_width, $image_height),
-				'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
-				'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
-				'sale_start_date' => $result['sale_start_date'],
-				'sale_end_date'   => $result['sale_end_date'],
-				'show_days_remaining' => $result['remaining'],
-				'options'         => $options,
+				'min_qty'		=> $result['min_qty'],
+				'max_qty'		=> $result['max_qty'],
+				'multiple'		=> $result['multiple'],
+				'product_discounts'	=> $product_discounts,
+				'href'			=> $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
+				'popup'			=> $image->href($result['filename']),
+				'thumb' 		=> $image->resize($result['filename'], $image_width, $image_height),
+				'image_width'		=> $image_width,
+				'image_height'		=> $image_height,
+				'special_price'		=> $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
+				'price'			=> $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
+				'sale_start_date'	=> $result['sale_start_date'],
+				'sale_end_date'		=> $result['sale_end_date'],
+				'show_days_remaining'	=> $result['remaining'],
+				'options'		=> $options,
 				'model_number'		=> $result['model_number'],
 				'product_options'	=> $product_options,
 				'days_remaining'	=> $days_remaining,

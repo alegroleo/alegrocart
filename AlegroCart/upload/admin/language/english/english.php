@@ -26,6 +26,8 @@ $_['text_previous']     = 'Previous';
 $_['text_results']      = 'Results %s - %s of %s';
 $_['text_pages']        = '%s of %s';
 $_['text_confirm_delete'] = 'Are you sure you want to delete?';
+$_['text_asc']		= 'Ascending order';
+$_['text_desc']		= 'Descending order';
 
 //DateTime
 $_['text_january']	= 'January';

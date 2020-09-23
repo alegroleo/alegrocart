@@ -4,7 +4,7 @@ require_once('library/Tree/Factory/List.php');
 
 class ModuleCategoryMenu extends Controller {
 
-	function fetch() {
+	public function fetch() {
 
 		$config		=& $this->locator->get('config');
 		$image		=& $this->locator->get('image');
@@ -14,39 +14,33 @@ class ModuleCategoryMenu extends Controller {
 		$template	=& $this->locator->get('template');
 		$head_def	=& $this->locator->get('HeaderDefinition');
 		$this->modelCore= $this->model->get('model_core');
+
 		if ($config->get('categorymenu_status')) {
 
 			$view = $this->locator->create('template');
 
 			$categorymenu_data = array();
-
 			$list_data = array();
-			if (isset($_GET['path'])) {$pathlvl = $_GET['path'];} else {$pathlvl = 0;}
 
 			$results = $this->modelCore->get_menucategories();
 
-			$level = explode('_', $pathlvl);
-			$level_count = count($level);
-			$level_path = $level_count>1 ? array_slice($level,0,$level_count-1):$level;
-
 			foreach ($results as $result) {
-				$path_count = count(explode('_',$result['path']));
+				$path = explode('_',$result['path']);
+				$path_count = count($path);
 				$class = '';
+				$ulclass = '';
+				$liclass = '';
 				if ($result['parent_id'] == 0) { // the main menu
-					$class = 'menu_lvl_0'; // id of the <ul> tags and class of the <a> tags
-					$id = 'menu_level_0'; // id of the <li> tags
+					$class = 'menu_lvl_0'; // class of the <a> tags
+					$ulclass = 'ul_0'; // class of the <ul> tag in the main menu
+					$liclass = 'menu_level_0'; // class of the <li> tags
 					$type = "block"; // display:block or display:none
 					$status = "enabled";
 					$cat_image = $config->get('categorymenu_catimage') ? $image->resize($result['filename'], 16, 16) : '';
-				} else if (in_array($result['parent_id'],$level) && $path_count<3){ // subcategory if selected
+				} else { // subcategories
 					$class = 'menu_lvl_' . ($path_count-1);
-					$id = 'menu_level_' . ($path_count-1);
-					$type = "none";// by default. Onhover --> block --> <ul> visible
-					$status = "disabled";
-					$cat_image = $config->get('categorymenu_subcatimage') ? $image->resize($result['filename'], 16, 16) : '';
-				} else { // subcategory if not selected
-					$class = 'menu_lvl_' . ($path_count-1);
-					$id = 'menu_level_' . ($path_count-1);
+					$ulclass = 'ul_' . ($path_count-1);
+					$liclass = 'menu_level_' . ($path_count-1);
 					$type = "none";
 					$status = "disabled";
 					$cat_image = $config->get('categorymenu_subcatimage') ? $image->resize($result['filename'], 16, 16) : '';
@@ -66,7 +60,8 @@ class ModuleCategoryMenu extends Controller {
 						'name'			=> $result['name'],
 						'href'			=> $url->ssl('category', false, array('path' => $result['path'])),
 						'class'			=> $class,
-						'id'			=> $id,
+						'ulclass'		=> $ulclass,
+						'liclass'		=> $liclass,
 						'type'			=> $type,
 						'level'			=> ($path_count-1),
 						'status'		=> $status,

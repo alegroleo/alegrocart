@@ -1,7 +1,9 @@
 <?php // Checkout Confirm AlegroCart
 class ControllerCheckoutConfirm extends Controller {
+
 	var $error = array();
-	function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->address		=& $locator->get('address');
@@ -32,14 +34,14 @@ class ControllerCheckoutConfirm extends Controller {
 	}
 
 	function index() {
-	if (!$this->customer->isLogged()) {
-			$this->session->set('redirect', $this->url->ssl('checkout_shipping'));
-			$this->response->redirect($this->url->ssl('account_login'));
-	}
+		if (!$this->customer->isLogged()) {
+				$this->session->set('redirect', $this->url->ssl('checkout_shipping'));
+				$this->response->redirect($this->url->ssl('account_login'));
+		}
 
-	if ((!$this->cart->hasProducts()) || ((!$this->cart->hasStock()) && (!$this->config->get('config_stock_checkout')))) {
-		$this->response->redirect($this->url->ssl('cart'));
-	}
+		if ((!$this->cart->hasProducts()) || ((!$this->cart->hasStock()) && (!$this->config->get('config_stock_checkout')))) {
+			$this->response->redirect($this->url->ssl('cart'));
+		}
 
 	if ($this->cart->hasShipping()) {
 			if (!$this->session->get('shipping_method')) {
@@ -88,7 +90,6 @@ class ControllerCheckoutConfirm extends Controller {
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);
 		$view->set('heading_title', $this->language->get('heading_title'));
-
 		$view->set('text_shipping_address', $this->language->get('text_shipping_address'));
 		$view->set('text_shipping_method', $this->language->get('text_shipping_method'));
 		$view->set('text_payment_address', $this->language->get('text_payment_address'));
@@ -142,7 +143,7 @@ class ControllerCheckoutConfirm extends Controller {
 			$view->set('coupon', $this->coupon->getCode());
 		}
 
-	$view->set('message', $this->session->get('message'));
+		$view->set('message', $this->session->get('message'));
 
 		$this->session->delete('message');
 
@@ -158,9 +159,9 @@ class ControllerCheckoutConfirm extends Controller {
 		}
 
 		if ($this->session->get('shipping_method') != 'warehouse_warehouse') {
-		$view->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
+			$view->set('shipping_address', $this->address->getFormatted($this->session->get('shipping_address_id'), '<br />'));
 		} else {
-		$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
+			$store_address = str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('warehouse_location') ? $this->config->get('warehouse_location') : $this->config->get('config_address'));
 		$view->set('shipping_address', $this->config->get('config_store') . "<br />" . $store_address);
 		}
 
@@ -532,7 +533,7 @@ class ControllerCheckoutConfirm extends Controller {
 
 		$this->order->save($this->order->getReference());
 
-	$this->template->set('content', $view->fetch('content/checkout_confirm.tpl'));
+		$this->template->set('content', $view->fetch('content/checkout_confirm.tpl'));
 		$this->template->set('head_def',$this->head_def);
 
 		$this->load_modules();  // Template Manager

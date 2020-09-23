@@ -5,10 +5,10 @@ $_['heading_description'] = 'You can view your reports here.';
 
 // Text
 $_['text_guest']          = 'Guest';
-$_['text_admin']          = '%s (Admin)';
+$_['text_admin']          = '%s (%s)';
 
 // Column
-$_['column_name']         = 'Customer';
+$_['column_name']         = 'Visitor';
 $_['column_time']         = 'Last Click';
 $_['column_ip']           = 'IP Address';
 $_['column_url']          = 'Last URL';

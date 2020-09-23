@@ -174,7 +174,7 @@
 <?php if ($this->social && $request->get('controller') == 'product') { ?>
 	<?php echo $head_def->set_Fb(); ?>
 <?php } ?>
-<script>
+<script type="text/javascript">
 function init() {
 	var imgDefer = document.getElementsByTagName('img');
 	for (var i=0, len =imgDefer.length; i<len; i++) {

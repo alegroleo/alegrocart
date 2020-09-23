@@ -8,6 +8,7 @@ $_['heading_description']	= 'You can edit your product categories here.<br>The h
 // Text
 $_['text_message']		= 'Success: You have updated categories!';
 $_['text_folder_help']		= 'The <b>List Icons</b> below are the gateways to adding or updating sub-categories<br>Click the Icon to add, delete, or edit sub-categories.';
+$_['text_path']			= 'Set subcategories';
 
 // Column
 $_['column_category']		= "Sub Categories!";

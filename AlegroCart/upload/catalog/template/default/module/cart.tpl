@@ -27,12 +27,12 @@
   </div></div>
   <div class="bottom"></div>
 </div>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
 $(document).ready(function(){
 	$('#cart_products, #cart_button').hide(0);
 });
 	
-function ShowCart(){	
+function ShowCart(){
 	$('#cart_products, #cart_button').toggle('slow');
 }
-  //--></script>
+  </script>

@@ -6,8 +6,6 @@ class ControllerSetting extends Controller {
 	private $logo_types = array('jpg','gif','jpeg','png');
 	private $wm_types = array('png');
 	private $wm_method = 'auto';
-	private $mr_status = NULL;
-	private $cgi = NULL;
 
 	public function __construct(&$locator){
 		$this->locator		=& $locator;
@@ -173,6 +171,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_query_log', $this->language->get('entry_query_log'));
 		$view->set('entry_query_count', $this->language->get('entry_query_count'));
 		$view->set('entry_ssl', $this->language->get('entry_ssl'));
+		$view->set('entry_ssl_status', $this->language->get('entry_ssl_status'));
 		$view->set('entry_rows_per_page', $this->language->get('entry_rows_per_page'));
 		$view->set('entry_items_per_page', $this->language->get('entry_items_per_page'));
 		$view->set('entry_country', $this->language->get('entry_country'));
@@ -210,6 +209,7 @@ class ControllerSetting extends Controller {
 		$view->set('entry_email_localhost', $this->language->get('entry_email_localhost'));
 		$view->set('entry_email_port', $this->language->get('entry_email_port'));
 		$view->set('entry_email_timeout', $this->language->get('entry_email_timeout'));
+		$view->set('entry_static', $this->language->get('entry_static'));
 		$view->set('entry_cache_query', $this->language->get('entry_cache_query'));
 		$view->set('entry_compress_output', $this->language->get('entry_compress_output'));
 		$view->set('entry_compress_level', $this->language->get('entry_compress_level'));
@@ -329,6 +329,8 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_favicon',$this->language->get('explanation_favicon'));
 		$view->set('explanation_mr_loaded',$this->language->get('explanation_mr_loaded'));
 		$view->set('explanation_mr_not_loaded',$this->language->get('explanation_mr_not_loaded'));
+		$view->set('explanation_ssl_supported',$this->language->get('explanation_ssl_supported'));
+		$view->set('explanation_ssl_not_supported',$this->language->get('explanation_ssl_not_supported'));
 		$view->set('explanation_url_alias',$this->language->get('explanation_url_alias'));
 		$view->set('explanation_seo',$this->language->get('explanation_seo'));
 		$view->set('explanation_estimate',$this->language->get('explanation_estimate'));
@@ -341,6 +343,7 @@ class ControllerSetting extends Controller {
 		$view->set('explanation_stamp',$this->language->get('explanation_stamp'));
 		$view->set('explanation_owner',$this->language->get('explanation_owner'));
 		$view->set('explanation_logo',$this->language->get('explanation_logo'));
+		$view->set('explanation_static',$this->language->get('explanation_static'));
 
 		$view->set('button_insert', $this->language->get('button_insert'));
 		$view->set('button_update', $this->language->get('button_update'));
@@ -415,6 +418,13 @@ class ControllerSetting extends Controller {
 		}
 		$view->set('mr_status', $mr_status);
 		$view->set('cgi', $cgi);
+
+		if ($this->request->checkSSL()) {
+			$ssl_status = 1;
+		} else {
+			$ssl_status = 0;
+		}
+		$view->set('ssl_status', $ssl_status);
 
 		$results = $this->modelSetting->get_settings();
 		foreach ($results as $result) {
@@ -889,6 +899,12 @@ class ControllerSetting extends Controller {
 		}
 
 		$view->set('informations',$this->modelSetting->get_informations());
+
+		if ($this->request->has('global_config_static')) {
+			$view->set('global_config_static', $this->request->gethtml('global_config_static'));
+		} else {
+			$view->set('global_config_static', @$setting_info['global']['config_static']);
+		}
 
 		if ($this->request->has('global_config_cache_query')) {
 			$view->set('global_config_cache_query', $this->request->gethtml('global_config_cache_query'));

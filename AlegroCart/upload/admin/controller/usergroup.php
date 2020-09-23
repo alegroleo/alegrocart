@@ -176,6 +176,8 @@ class ControllerUserGroup extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_results', $this->modelAdminUsergroup->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));

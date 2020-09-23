@@ -1,10 +1,11 @@
 <?php // Cart AlegroCart
 class ControllerCart extends Controller {
+
 	var $error = array();
 	var $error_min = array();
 	var $error_max = array();
 
-	function __construct(&$locator){ // Template Manager
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->address		=& $locator->get('address');
@@ -34,6 +35,7 @@ class ControllerCart extends Controller {
 		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
 		$this->language->load('controller/cart.php');
 	}
+
 	function index() {
 
 	if ($this->request->isPost() && !$this->request->has('currency', 'post') && !$this->request->has('module_language', 'post')) { 
@@ -315,32 +317,35 @@ class ControllerCart extends Controller {
 			$discount_total += $result['general_discount'] ? $result['general_discount'] : NULL;
 			$net_total += $result['total_discounted'];
 			$subtotal += $result['total_discounted'] + ($this->config->get('config_tax') ? $result['product_tax'] : 0);
+
 		$product_data[] = array(
 			'key'           => $result['key'],
 			'name'          => $result['name'],
-			'model_number'  => $result['model_number'],
-			'shipping'   	=> $result['shipping'],
-			'download'      => $result['download'],
-			'thumb'         => $this->image->resize($result['image'], 40, 40),
+			'model_number'		=> $result['model_number'],
+			'shipping'		=> $result['shipping'],
+			'download'		=> $result['download'],
+			'thumb'			=> $this->image->resize($result['image'], 40, 40),
+			'width'			=> '40',
+			'height'		=> '40',
 			'option'        => $option_data,
 			'vendor_name'   => $result['vendor_name'],
 			'quantity'      => $result['quantity'],
 			'min_qty'       => $result['min_qty'],
 			'min_qty_error' => ($line_min_error || $this->session->get('line_min_error['.$result['key'].']') ? '1' : '0'),
 			'max_qty'       => $result['max_qty'],
-			'max_qty_error' => ($line_max_error || $this->session->get('line_max_error['.$result['key'].']') ? '1' : '0'),
+			'max_qty_error'		=> ($line_max_error || $this->session->get('line_max_error['.$result['key'].']') ? '1' : '0'),
 			'multiple'      => $result['multiple'],
 			'multiple_qty_error'=> ($line_multiple_error || $this->session->get('line_multiple_error['.$result['key'].']') ? '1' : '0'),
 			'stock'         => $result['stock'],
 			'stock'         => $result['stock'],
 			'price'         => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-			'special_price' => $special_price ? $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $this->config->get('config_tax'))) : NULL,
+			'special_price'	=> $special_price ? $this->currency->format($this->tax->calculate($special_price, $result['tax_class_id'], $this->config->get('config_tax'))) : NULL,
 			'discount'      => $discount,
-			'coupon'     =>  ($result['coupon'] ? '-' . $this->currency->format($result['coupon']) : NULL),
-			'general_discount' => ($result['general_discount'] ? '-' . $this->currency->format($result['general_discount']) : NULL),
-			'total_discounted'  => $this->currency->format($result['total_discounted'] + ($this->config->get('config_tax') ? $result['product_tax'] : 0)),
-			'total'      => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
-			'href'          => $this->url->ssl('product', FALSE, array('product_id' => $result['product_id']))
+			'coupon'		=>  ($result['coupon'] ? '-' . $this->currency->format($result['coupon']) : NULL),
+			'general_discount'	=> ($result['general_discount'] ? '-' . $this->currency->format($result['general_discount']) : NULL),
+			'total_discounted'	=> $this->currency->format($result['total_discounted'] + ($this->config->get('config_tax') ? $result['product_tax'] : 0)),
+			'total'			=> $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
+			'href'			=> $this->url->ssl('product', FALSE, array('product_id' => $result['product_id']))
 		);
 
 			if ($min_qty_error == '1' || $this->session->get('min_qty_error['.$result['key'].']')) {
@@ -478,7 +483,7 @@ class ControllerCart extends Controller {
 				$html .= '<td align="left" class="buttons"><input type="button" name="apply" id="apply" value="'.$this->language->get('button_apply').'" ></td>';
 				$html .= '</tr></table></div>';
 
-				$html .= '<script type="text/javascript"><!--';
+				$html .= '<script type="text/javascript">';
 				$html .= '$(document).ready(function(){';
 				$html .= '$("#apply").hide();';
 				$html .= '$(\'input[name="shipping"]\').on("click", function(){';
@@ -487,16 +492,16 @@ class ControllerCart extends Controller {
 				$html .= '}';
 				$html .= '});';
 				$html .= '});';
-				$html .= '//--></script>';
+				$html .= '</script>';
 
-				$html .= '<script type="text/javascript"><!--';
+				$html .= '<script type="text/javascript">';
 				$html .= '$(\'input[name="shipping"]\').on("click", function(){';
 				$html .= '$(\'input[name="shipping"]\').closest(\'table\').removeClass(\'default_method\').addClass(\'method\');';
 				$html .= '$(this).closest(\'table\').attr(\'class\', \'default_method\');';
 				$html .= '});';
-				$html .= '//--></script>';
+				$html .= '</script>';
 
-				$html .= '<script type="text/javascript"><!--';
+				$html .= '<script type="text/javascript">';
 				$html .= '$("#apply").on("click", function(){';
 				$html .= 'var shippingMethod = $(\'input[name=shipping]:checked\').val();';
 				$html .= 'var data_json = {\'shippingMethod\':shippingMethod};';
@@ -527,7 +532,7 @@ class ControllerCart extends Controller {
 				$html .= '}';
 				$html .= '});';
 				$html .= '});';
-				$html .= '//--></script>';
+				$html .= '</script>';
 
 			$output = array('status' => true, 'html' => $html);
 			} else {
@@ -587,6 +592,7 @@ class ControllerCart extends Controller {
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
+
 	function validate() {
 		if(!$this->request->gethtml('coupon', 'post')){
 			$this->session->delete('coupon_message');
@@ -608,10 +614,12 @@ class ControllerCart extends Controller {
 			return FALSE;
 		}
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

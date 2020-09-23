@@ -31,6 +31,7 @@ $_['text_barcode_enc_explanation'] = 'The Universal Product Code (UPC) consists 
 $_['text_upc']            = 'UPC';
 $_['text_ean']            = 'EAN-13/ISBN';
 $_['text_technical_name'] = 'Optional - Alternate name for Technical Tab.';
+$_['text_path']			= 'Set options';
 
 // Column
 $_['column_options']       = 'Options!';
@@ -135,6 +136,7 @@ $_['error_name']			= '* Product Name must be between 1 and 64 characters!';
 $_['error_date_available']		= '* Date Available is not valid!';
 $_['error_start_date']			= '* Start Date is not valid!'; // New
 $_['error_end_date']			= '* End Date is not valid!'; // New
+$_['error_date']			= '* Start date must be earlier than end date!';
 $_['error_already_exists']		= '* ERROR - This product name already EXISTS *';
 $_['error_duplicate_name']		= '*ERROR - You already have another product with this name*';
 $_['error_ean']				= 'EAN-13/ISBN barcode must be 12 or 13 digit!'; // New

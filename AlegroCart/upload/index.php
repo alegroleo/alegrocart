@@ -57,7 +57,12 @@ $template->set('noscript', $language->get('noscript'));
 $request =& $locator->get('request');
 
 // Base URL
-$template->set('base', $request->isSecure()?HTTPS_SERVER:HTTP_SERVER);
+if(SSL && $config->get('config_ssl')) {
+	$base = (HTTPS_STATIC && $config->get('config_static')) ? HTTPS_STATIC : HTTPS_BASE;
+} else {
+	$base = (HTTP_STATIC && $config->get('config_static')) ? HTTP_STATIC : HTTP_BASE;
+}
+$template->set('base', $base);
 
 // Response
 $response =& $locator->get('response');

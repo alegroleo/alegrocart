@@ -1,5 +1,6 @@
 <?php //Bought AlegroCart
 class ControllerBought extends Controller {
+
 	private $remaining = false;
 	private $discounted = false;
 
@@ -31,7 +32,11 @@ class ControllerBought extends Controller {
 		require_once('library/application/string_modify.php'); 
 	}
 
-	function index() {
+	protected function index() {
+
+		if(!$this->config->get('bought_status')){ 
+			$this->response->redirect($this->url->ssl('account')); 
+		}
 
 		if (!$this->customer->isLogged()) {
 			$this->session->set('redirect', $this->url->ssl('bought'));
@@ -354,6 +359,8 @@ class ControllerBought extends Controller {
 					'href'  => $this->url->ssl('product', FALSE, $query),
 					'popup'     => isset($result['filename']) ? $this->image->href($result['filename']) : '',
 					'thumb' => isset($result['filename']) ? $this->image->resize($result['filename'], $image_width, $image_height) : $this->image->resize('no_image.png', $image_width, $image_height),
+					'image_width' => $image_width, 
+					'image_height' => $image_height, 
 					'special_price' => isset($result['special_price']) ? $this->currency->format($this->tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))) : '',
 					'price' => isset($result['price']) ? $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) : '',
 					'sale_start_date' => isset($result['sale_start_date']) ? $result['sale_start_date'] : '',
@@ -427,7 +434,7 @@ class ControllerBought extends Controller {
 					$view->set('low_stock_warning',$this->config->get('config_low_stock_warning'));
 				}
 				$view->set('text_stock_icon', $this->language->get('text_stock_icon'));
-
+				$view->set('image_base', $this->url->getDomain());
 				$view->set('head_def',$this->head_def);
 				$this->template->set('head_def',$this->head_def);
 				$view->set('remaining', $this->remaining);
@@ -459,7 +466,7 @@ class ControllerBought extends Controller {
 		$this->response->set($this->template->fetch('layout.tpl')); 
 	}
 
-	function load_modules(){ // Template Manager
+	private function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){
 			if($modules[$location['location']]){
@@ -470,7 +477,7 @@ class ControllerBought extends Controller {
 		}
 	}
 
-	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
+	private function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
@@ -496,7 +503,7 @@ class ControllerBought extends Controller {
 		return $modules_extra;
 	}
 
-	function set_tpl_modules(){ // Template Manager
+	private function set_tpl_modules(){ // Template Manager
 		if($this->modelCore->tpl){
 			if(isset($this->modelCore->tpl['tpl_headers'])){$this->template->set('tpl_headers',$this->modelCore->tpl['tpl_headers']);}
 			if(isset($this->modelCore->tpl['tpl_extras'])){$this->template->set('tpl_extras',$this->modelCore->tpl['tpl_extras']);}
@@ -510,7 +517,7 @@ class ControllerBought extends Controller {
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 
-	function model(){
+	private function model(){
 		$language =& $this->locator->get('language');
 		$request  =& $this->locator->get('request');
 		$session  =& $this->locator->get('session');
@@ -558,7 +565,7 @@ class ControllerBought extends Controller {
 		$response->set($output);
 	}
 
-	function sort_filter(){
+	private function sort_filter(){
 		$language =& $this->locator->get('language');
 		$language->load('extension/module/boughtoptions.php');
 		$sort_filter = array();
@@ -567,7 +574,7 @@ class ControllerBought extends Controller {
 		return $sort_filter;
 	}
 
-	function sort_order(){
+	private function sort_order(){
 		$language =& $this->locator->get('language');
 		$language->load('extension/module/boughtoptions.php');
 		$sort_order = array();

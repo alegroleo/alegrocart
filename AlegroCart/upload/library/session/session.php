@@ -1,19 +1,20 @@
 <?php
-class Session {
-	var $expire = 1800;
+final class Session {
+
+	private $expire = 1800;
 	private $session_id = '';
 	private $user_agent = '';
 	private $session_data = array();
-	private $bots = array("Teoma", "alexa","froogle","inktomi","looksmart","URL_Spider_SQL","Firefly","NationalDirectory","Ask Jeeves","TECNOSEEK","InfoSeek","WebFindBot","girafabot","crawler","Googlebot","Scooter","Slurp","appie","FAST","WebBug","Spade","ZyBorg","Baiduspider","bingbot","Ezooms","YodaoBot","spider");
+	private $bots = array("AdsBot-Google", "AhrefsBot", "Teoma", "alexa", "Exabot", "Feedfetcher-Google", "froogle", "Gigabot", "Google Desktop", "inktomi", "looksmart", "Mediapartners-Google", "msnbot", "URL_Spider_SQL","Firefly", "NationalDirectory", "Ask Jeeves", "TECNOSEEK", "InfoSeek", "WebFindBot", "girafabot", "crawler", "Googlebot", "psbot", "Scooter", "Slurp", "appie", "FAST", "WebBug", "SemrushBot", "Spade", "ZyBorg", "Baiduspider", "bingbot", "Ezooms", "yacybot", "YahooSeeker", "Yahoo! Slurp", "Yahoo-MMCrawler", "YandexBot", "YodaoBot", "spider");
 
-  	function __construct($locator) {
-		$this->database = $locator->get('database');
-		$this->request  = $locator->get('request');
-		$this->config   = $locator->get('config');
+	public function __construct($locator) {
+		$this->database	= $locator->get('database');
+		$this->request	= $locator->get('request');
+		$this->config	= $locator->get('config');
 
 		register_shutdown_function(array($this, 'save_session'));
 		$this->expire = ($this->config->get('config_session_expire') > 1800) ? $this->config->get('config_session_expire') : 1800;
-		if (!$this->request->has('alegro', 'cookie') && $this->request->isPost()) {
+		if (!$this->request->has(strtolower(APP) . '_alegro', 'cookie') && $this->request->isPost()) {
 			$this->log_access();
 			if(strtolower(@$_SERVER['HTTP_CONNECTION']) == 'keep-alive'){
 				echo $this->close_connection();
@@ -25,11 +26,11 @@ class Session {
 			}
 		}
 
-		if (!$this->request->has('alegro', 'cookie')) {
-			setcookie('alegro', 'accept', time() + 60 * 60 * 24 * 30, '/', NULL, false);
+		if (!$this->request->has(strtolower(APP) . '_alegro', 'cookie')) {
+			setcookie(strtolower(APP) . '_alegro', 'accept', time() + 60 * 60 * 24 * 30, '/', NULL, false);
 		}
 
-		if ($this->request->has('alegro', 'cookie')) {
+		if ($this->request->has(strtolower(APP) . '_alegro', 'cookie')) {
 			$this->start_session();
 		}
 	}
@@ -40,15 +41,16 @@ class Session {
 		}
 		$this->clean();
 	}
+
 	private function start_session(){
 		$this->user_agent = @$_SERVER['HTTP_USER_AGENT'];
 
-		if (!$this->request->has('alegro_sid', 'cookie')) {
+		if (!$this->request->has(strtolower(APP) . '_alegro_sid', 'cookie')) {
 			$this->CreateSID();
-			setcookie('alegro_sid', $this->session_id . '_' . md5($this->user_agent), 0, '/', NULL, false);
+			setcookie(strtolower(APP) . '_alegro_sid', $this->session_id . '_' . md5($this->user_agent), 0, '/', NULL, false);
 		
 		} else {
-			$cookie = explode('_', $this->request->get('alegro_sid','cookie'));
+			$cookie = explode('_', $this->request->get(strtolower(APP) . '_alegro_sid','cookie'));
 			if(!isset($cookie[1]) || $cookie[1] != md5($this->user_agent)){
 				echo $this->close_connection();
 				exit;
@@ -57,6 +59,7 @@ class Session {
 			$this->read($this->session_id);
 		}
 	}
+
 	private function check_bots(){
 		foreach($this->bots as $bot){
 			if(stristr($this->user_agent,$bot)){
@@ -101,11 +104,10 @@ class Session {
 	}
 
 	private function close_connection(){
-		setcookie('alegro_sid','', time() - 86400 * 2,'/');
+		setcookie(strtolower(APP) . '_alegro_sid','', time() - 86400 * 2,'/');
 		setcookie('currency','', time() - 86400 * 2, '/');
-		setcookie('catalog_language','', time() - 86400 * 2,'/');
-		setcookie('admin_language','', time() - 86400 * 2,'/');
-		setcookie('alegro','',time() - 86400 * 2,'/');
+		setcookie(strtolower(APP) . '_language','', time() - 86400 * 2,'/');
+		setcookie(strtolower(APP) . '_alegro','',time() - 86400 * 2,'/');
 		header("Connection: close\r\n");
 		header("Content-Encoding: none\r\n");
 		$error_response = "Invalid Request!" . "\n";

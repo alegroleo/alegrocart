@@ -212,6 +212,8 @@ class ControllerZone extends Controller {
 		$view->set('text_vendor', $this->language->get('text_vendor'));
 		$view->set('text_geo', $this->language->get('text_geo'));
 		$view->set('text_results', $this->modelZone->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));

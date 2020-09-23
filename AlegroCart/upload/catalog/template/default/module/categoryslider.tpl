@@ -7,13 +7,13 @@
 	<?php foreach ($categories as $category) { ?>
 		<div>
 			<a href="<?php echo $category['href']; ?>">
-			<img src="<?php echo $category['thumb']; ?>" alt="<?php echo $category['name']; ?>">
+			<img src="<?php echo $category['thumb']; ?>" width="<?php echo $category['width']; ?>" height="<?php echo $category['height']; ?>" alt="<?php echo $category['name']; ?>">
 			</a><br>
 			<a class="cn" href="<?php echo $category['href']; ?>"><b><?php echo $category['name'] ?></b></a>
 		</div>
 	<?php } ?>
 </div>
-  <script>
+  <script type="text/javascript">
 	$(document).ready(function(){
 	  $('.categoryslider_module').slick({
 		dots: true,

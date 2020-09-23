@@ -100,6 +100,6 @@
   </form>
 </div></div>
 <div class="contentBodyBottom"></div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $('#zone').load('index.php?controller=account_address&action=zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
-//--></script>
+</script>

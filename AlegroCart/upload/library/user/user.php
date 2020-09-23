@@ -45,7 +45,7 @@ class User {
 			}
 
 			$sql2 = "INSERT INTO login SET user_id = '?', ip = '?', date_added = now()";
-			$this->database->query($this->database->parse($sql2, $user_info['user_id'] , isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'', isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:''));
+			$this->database->query($this->database->parse($sql2, $user_info['user_id'] , isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''));
 
 			return TRUE;
 		} else {
@@ -59,7 +59,7 @@ class User {
 	}
 
 	public function countUser(){
-		$sql = "SELECT COUNT(DISTINCT ip) AS total FROM `session` WHERE `expire` > '?'";
+		$sql = "SELECT COUNT(session_id) AS total FROM `session` WHERE `expire` > '?'";
 		$result = $this->database->getRow($this->database->parse($sql, time()));
 		return $result['total'];
 	}

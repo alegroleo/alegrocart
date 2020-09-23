@@ -1,21 +1,23 @@
 <?php  // HomePage AlegroCart
 class ModuleHomePage extends Controller {
-	function fetch() {
-		$config   =& $this->locator->get('config');
-		$language =& $this->locator->get('language');
-		$image    =& $this->locator->get('image');
-		$url      =& $this->locator->get('url');
-		$request  =& $this->locator->get('request');
-		$session  =& $this->locator->get('session');
-		$template =& $this->locator->get('template'); 
-		$head_def =& $this->locator->get('HeaderDefinition');
-		$this->modelCore = $this->model->get('model_core');
+
+	public function fetch() {
+		$config			=& $this->locator->get('config');
+		$language		=& $this->locator->get('language');
+		$image			=& $this->locator->get('image');
+		$url			=& $this->locator->get('url');
+		$request		=& $this->locator->get('request');
+		$session		=& $this->locator->get('session');
+		$template		=& $this->locator->get('template'); 
+		$head_def		=& $this->locator->get('HeaderDefinition');
+		$this->modelCore	= $this->model->get('model_core');
 
 		require_once('library/application/string_modify.php');
 
 		if (!$config->get('homepage_status')) {return;} //if disabled in extensions/module
 		$home_data = $this->modelCore->get_homepage();
 		$slides_data = $this->modelCore->get_homepage_slides($home_data['home_id']);
+
 		if (!$home_data['status']){return;} // if status disabled
 		if($home_data['run_times'] != -1){ // -1 disables home page module on settings tab
 			if($home_data['run_times'] > 0){ // if limited, as 0 means no limit
@@ -46,22 +48,24 @@ class ModuleHomePage extends Controller {
 						$head_def->set_javascript("slider/slick.min.js");
 					}
 				}
-			return;
+				return;
 			}
-
 		} else { // disabled, as it is set to -1
 			return;
 		}
+
 		$language->load('extension/module/homepage.php');
 		$view = $this->locator->create('template');
-
 		$view->set('heading_title', $home_data['title']);
 		$view->set('name', $home_data['name']);
+
 		if ($slides_data) {
 			$slides = array();
 			foreach ($slides_data as $slide_data){
 				$slides[] = array (
-				'filename' => $image->href($slide_data['filename'])
+					'filename' => $image->href($slide_data['filename']),
+					'width' => $image->getWidth($slide_data['filename']),
+					'height' => $image->getHeight($slide_data['filename'])
 				);
 			}
 			$view->set('slides', $slides);
@@ -93,11 +97,16 @@ class ModuleHomePage extends Controller {
 		}
 		if(strlen($home_data['filename']) > 3 && $home_data['image_id'] != '0'){
 			$view->set('image', $image->href($home_data['filename']));
+			$view->set('image_width', $image->getWidth($home_data['filename']));
+			$view->set('image_height', $image->getHeight($home_data['filename']));
+			$view->set('welcome_image', $language->get('text_welcome_image'));
 		}
+
 		$view->set('close_homepage', $url->ssl('home'));
 		$view->set('skip_intro', $home_data['run_times'] === '0' ? '' : $language->get('text_skipintro'));
 		$view->set('head_def',$head_def); 
 		$template->set('head_def',$head_def);
+
 		return $view->fetch('module/homepage.tpl');
 	}
 }

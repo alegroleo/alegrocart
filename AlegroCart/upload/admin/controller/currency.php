@@ -209,12 +209,14 @@ class ControllerCurrency extends Controller {
 			} else {
 			$cell[] = array(
 				'icon'  => ($result['status'] ? 'enabled.png' : 'disabled.png'),
-				'align' => 'center'
+				'align' => 'center',
+				'text'  => $this->language->get('button_status')
 			);
 			}
 			$cell[] = array(
 				'icon'  => ($result['lock_rate'] || ($result['code'] == $this->config->get('config_currency')) ? 'disable_update.png' : 'enable_update.png'),
-				'align'  => 'center'
+				'align'  => 'center',
+				'text'  => ($result['lock_rate'] || ($result['code'] == $this->config->get('config_currency')) ? $this->language->get('text_update_disabled') : $this->language->get('text_update_enabled'))
 			);
 			$cell[] = array(
 				'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_modified'])),
@@ -223,7 +225,7 @@ class ControllerCurrency extends Controller {
 			);
 			$action = array();
 			$action[] = array(
-			'icon' => 'update.png',
+				'icon' => 'update.png',
 				'text' => $this->language->get('button_update'),
 				'href' => $this->url->ssl('currency', 'update', array('currency_id' => $result['currency_id']))
 			);
@@ -255,6 +257,8 @@ class ControllerCurrency extends Controller {
 		$view->set('text_default', $this->language->get('text_default'));
 		$view->set('text_results', $this->modelCurrency->get_text_results());
 		$view->set('text_bank_account', $this->language->get('text_bank_account'));
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));

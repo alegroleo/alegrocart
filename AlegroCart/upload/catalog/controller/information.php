@@ -1,6 +1,7 @@
 <?php // Information AlegroCart
 class ControllerInformation extends Controller {
-	function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
@@ -13,6 +14,7 @@ class ControllerInformation extends Controller {
 		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
 		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
 	}
+
 	function index() {  
 		$language =& $this->locator->get('language');
 		$request  =& $this->locator->get('request');
@@ -61,6 +63,7 @@ class ControllerInformation extends Controller {
 			}
 		}
 	}
+
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
@@ -84,13 +87,17 @@ class ControllerInformation extends Controller {
 			if(isset($this->modelCore->tpl['tpl_footers'])){$this->template->set('tpl_footers',$this->modelCore->tpl['tpl_footers']);}
 			if(isset($this->modelCore->tpl['tpl_bottom'])){$this->template->set('tpl_bottom',$this->modelCore->tpl['tpl_bottom']);}
 		}
-		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
+		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){
+			$this->template->set('template_color',$this->tpl_manager['tpl_color']);
+		}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

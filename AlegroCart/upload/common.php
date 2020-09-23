@@ -52,18 +52,23 @@ if (!defined('DIR_COMMON')) define('DIR_COMMON', DIR_BASE.PATH_LIBRARY.D_S.PATH_
 if (!defined('DIR_FONTS')) define('DIR_FONTS', DIR_BASE.PATH_IMAGE.D_S.PATH_FONTS.D_S);
 
 // HTTP
+if (!defined('HTTP_STATIC')) define('HTTP_STATIC', '');
 if (!defined('HTTP_CATALOG')) define('HTTP_CATALOG', HTTP_BASE);
 if (!defined('HTTP_ADMIN')) define('HTTP_ADMIN', HTTP_BASE.PATH_ADMIN.'/');
 if (!defined('HTTP_SERVER')) define('HTTP_SERVER', constant('HTTP_'.APP));
 if (!defined('HTTP_IMAGE')) define('HTTP_IMAGE', HTTP_BASE.PATH_IMAGE.'/');
+if (!defined('HTTP_STATIC_IMAGE')) define('HTTP_STATIC_IMAGE', HTTP_STATIC ? HTTP_STATIC.PATH_IMAGE.'/' : '');
 if (!defined('HTTP_FLASH')) define('HTTP_FLASH', HTTP_BASE.PATH_IMAGE.'/'.PATH_FLASH.'/');  //New
+if (!defined('SSL')) define('SSL', (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') ? true : false);
 
 // HTTPS
 if (!defined('HTTPS_BASE')) define('HTTPS_BASE', '');
+if (!defined('HTTPS_STATIC')) define('HTTPS_STATIC', '');
 if (!defined('HTTPS_CATALOG')) define('HTTPS_CATALOG', HTTPS_BASE);
 if (!defined('HTTPS_ADMIN')) define('HTTPS_ADMIN', HTTPS_BASE?HTTPS_BASE.PATH_ADMIN.'/':'');
 if (!defined('HTTPS_SERVER')) define('HTTPS_SERVER', constant('HTTPS_'.APP));
-if (!defined('HTTPS_IMAGE')) define('HTTPS_IMAGE', HTTPS_BASE?HTTPS_BASE.PATH_IMAGE.'/':'');
+if (!defined('HTTPS_IMAGE')) define('HTTPS_IMAGE', HTTPS_BASE ? HTTPS_BASE.PATH_IMAGE.'/' : '');
+if (!defined('HTTPS_STATIC_IMAGE')) define('HTTPS_STATIC_IMAGE', HTTPS_STATIC ? HTTPS_STATIC.PATH_IMAGE.'/' : '');
 if (!defined('HTTPS_FLASH')) define('HTTPS_FLASH', HTTPS_BASE?HTTPS_BASE.PATH_IMAGE.'/'.PATH_FLASH.'/':'');
 
 // SUPER ADMIN

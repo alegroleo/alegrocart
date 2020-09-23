@@ -359,11 +359,11 @@ INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `des
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES ('50', '1', 'Catalog Navigation', 'Catalog Navigation Bar');
 INSERT INTO `extension_description` (`extension_id`, `language_id`, `name`, `description`) VALUES ('51', '1', 'Home Page', 'Home Page Module');
 
-INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('1', 'UK Tax Zone', 'UK VAT Zone', '2007-08-12 22:29:07', '0000-00-00 00:00:00');
-INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('2', 'Shipping Zone 1', 'Shipping Zone 1', '0000-00-00 00:00:00', '2007-08-28 23:24:40');
-INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('3', 'Canada ', 'Canada Shipping', '0000-00-00 00:00:00', '2009-02-01 10:47:24');
-INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('4', 'United States', 'Continental shipping', '0000-00-00 00:00:00', '2009-02-01 15:50:25');
-INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('5', 'Alberta Shipping Zone', 'Alberta Shipping Zone', '0000-00-00 00:00:00', '2009-06-06 06:16:10');
+INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('1', 'UK Tax Zone', 'UK VAT Zone', '2007-08-12 22:29:07', '2007-08-12 22:29:07');
+INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('2', 'Shipping Zone 1', 'Shipping Zone 1', '2007-08-28 23:24:40', '2007-08-28 23:24:40');
+INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('3', 'Canada ', 'Canada Shipping', '2009-02-01 10:47:24', '2009-02-01 10:47:24');
+INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('4', 'United States', 'Continental shipping', '2009-02-01 15:50:25', '2009-02-01 15:50:25');
+INSERT INTO `geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES ('5', 'Alberta Shipping Zone', 'Alberta Shipping Zone', '2009-06-06 06:16:10', '2009-06-06 06:16:10');
 
 INSERT INTO `home_description` (`home_id`, `language_id`, `title`, `description`, `welcome`, `flash`, `image_id`) VALUES ('1', '1', 'Home Page Welcome', '<p>This is unlimited test for HomePage Module. Title, short and long text files, flash file and image are all language dependent. You can have more than one home page entry, with only one being enabled at a time.</p>\r\n<p>When enabling a new entry, all existing entries are automatically disabled.</p>', '<p>This is a short text for the home page module.</p>', '', '47');
 
@@ -633,8 +633,8 @@ INSERT INTO `related_products` (`product_id`, `related_product_id`) VALUES ('11'
 INSERT INTO `related_products` (`product_id`, `related_product_id`) VALUES ('11', '18');
 INSERT INTO `related_products` (`product_id`, `related_product_id`) VALUES ('22', '10');
 
-INSERT INTO `review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating1`, `rating2`, `rating3`, `rating4`, `status`, `date_added`, `date_modified`) VALUES ('1', '1', '0', 'John Customer', 'This a sample Review.\r\nThis product was reviewed by a potential or previous customer.', '4', '5', '3', '5', '1', '2008-12-27 11:23:43', '0000-00-00 00:00:00');
-INSERT INTO `review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating1`, `rating2`, `rating3`, `rating4`, `status`, `date_added`, `date_modified`) VALUES ('2', '1', '2', 'Another Customer', 'This is a nice red motor cycle. It goes very fast and handles well at high speeds. \r\nIt is very comfortable to ride for long distances.', '5', '5', '4', '3', '1', '2009-04-08 19:48:49', '0000-00-00 00:00:00');
+INSERT INTO `review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating`, `status`, `date_added`, `date_modified`) VALUES ('1', '1', '0', 'John Customer', 'This a sample Review.\r\nThis product was reviewed by a potential or previous customer.', '4', '1', '2008-12-27 11:23:43', '2008-12-27 11:23:43');
+INSERT INTO `review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating`, `status`, `date_added`, `date_modified`) VALUES ('2', '1', '2', 'Another Customer', 'This is a nice red motor cycle. It goes very fast and handles well at high speeds. \r\nIt is very comfortable to ride for long distances.', '5', '1', '2009-04-08 19:48:49', '2009-04-08 19:48:49');
 
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (NULL, 'catalog', 'footer', 'footer_status', '1');
 INSERT INTO `setting` (`setting_id`, `type`, `group`, `key`, `value`) VALUES (NULL, 'global', 'cod', 'cod_sort_order', '1');
@@ -4525,7 +4525,7 @@ INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALU
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3716', '226', 'NG', 'Namangan', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3717', '226', 'NW', 'Navoiy', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3718', '226', 'QA', 'Qashqadaryo', '1');
-INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3719', '226', 'QR', 'Qoraqalpog&#039;iston Republikasi', '1');
+INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3719', '226', 'QR', 'Qoraqalpogiston Republikasi', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3720', '226', 'SA', 'Samarqand', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3721', '226', 'SI', 'Sirdaryo', '1');
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3722', '226', 'SU', 'Surxondaryo', '1');
@@ -4656,11 +4656,11 @@ INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALU
 INSERT INTO `zone` (`zone_id`, `country_id`, `code`, `name`, `zone_status`) VALUES ('3847', '239', 'MD', 'Midlands', '1');
 
 INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('1', '103', '0', '1', '2006-08-21 15:24:20', '2007-08-07 17:41:23');
-INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('2', '222', '0', '1', '2007-08-07 13:30:02', '0000-00-00 00:00:00');
-INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('3', '222', '0', '2', '2007-08-29 22:25:23', '0000-00-00 00:00:00');
-INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('4', '38', '602', '3', '2009-02-01 10:52:49', '0000-00-00 00:00:00');
-INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('5', '38', '603', '3', '2009-02-01 15:33:50', '0000-00-00 00:00:00');
-INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('6', '38', '613', '3', '2009-02-01 15:42:24', '0000-00-00 00:00:00');
-INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('7', '223', '3680', '4', '2009-02-01 15:50:47', '0000-00-00 00:00:00');
-INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('8', '38', '604', '3', '2009-02-01 17:26:43', '0000-00-00 00:00:00');
-INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('9', '38', '608', '3', '2009-06-06 06:56:12', '0000-00-00 00:00:00');
+INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('2', '222', '0', '1', '2007-08-07 13:30:02', '2007-08-07 13:30:02');
+INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('3', '222', '0', '2', '2007-08-29 22:25:23', '2007-08-29 22:25:23');
+INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('4', '38', '602', '3', '2009-02-01 10:52:49', '2009-02-01 10:52:49');
+INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('5', '38', '603', '3', '2009-02-01 15:33:50', '2009-02-01 15:33:50');
+INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('6', '38', '613', '3', '2009-02-01 15:42:24', '2009-02-01 15:42:24');
+INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('7', '223', '3680', '4', '2009-02-01 15:50:47', '2009-02-01 15:50:47');
+INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('8', '38', '604', '3', '2009-02-01 17:26:43', '2009-02-01 17:26:43');
+INSERT INTO `zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES ('9', '38', '608', '3', '2009-06-06 06:56:12', '2009-06-06 06:56:12');

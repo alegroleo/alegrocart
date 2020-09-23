@@ -1,5 +1,8 @@
 <?php
-if (!$step) { header('Location: .'); die(); }
+if (!$step) {
+	header('Location: .');
+	die();
+}
 
 $root_dirs = array();
 $existing = array('cache','library', 'logs','catalog','image','download','install');

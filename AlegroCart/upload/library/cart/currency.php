@@ -107,9 +107,9 @@ class Currency {
 		}
 
 		if ($value) {
-			$value = $number * $value;
+			$value = (float)$number * $value;
 		} else {
-			$value = $number;
+			$value = (float)$number;
 		}
 
 		$string = '';

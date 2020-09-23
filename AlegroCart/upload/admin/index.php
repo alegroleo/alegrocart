@@ -55,11 +55,17 @@ $template->set('code', $language->get('code'));
 
 // Request
 $request =& $locator->get('request');
-if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $config->get('config_ssl')){
-			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-		}
+if(!SSL && $config->get('config_ssl')){
+	header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+}
+
 // Base URL
-$template->set('base', $request->isSecure()?HTTPS_SERVER:HTTP_SERVER);
+if(SSL && $config->get('config_ssl')) {
+	$base = (HTTPS_STATIC && $config->get('config_static')) ? HTTPS_STATIC.PATH_ADMIN.'/' : HTTPS_BASE.PATH_ADMIN.'/';
+} else {
+	$base = (HTTP_STATIC && $config->get('config_static')) ? HTTP_STATIC.PATH_ADMIN.'/' : HTTP_BASE.PATH_ADMIN.'/';
+}
+$template->set('base', $base);
 
 // Response
 $response =& $locator->get('response');

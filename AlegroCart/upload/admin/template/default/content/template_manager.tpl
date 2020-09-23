@@ -5,10 +5,10 @@
   $head_def->set_admin_javascript("javascript/ajax/validateforms.js");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
-   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="getValues();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+   <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="getValues();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
    <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
    <input type="hidden" name="update_form" value="1">
    <input type="hidden" name="tpl_controller" value="">
@@ -20,20 +20,20 @@
   <input type="hidden" name="tpl_manager_id" id="tpl_manager_id" value="<?php echo $tpl_manager_id; ?>">
   </form>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
 <?php if (@$delete) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -44,7 +44,7 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
  <em></em>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
@@ -382,10 +382,10 @@
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
 </form> 
 
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
   tabview_initialize('tab');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -404,8 +404,8 @@
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 $(document).ready(function(){
 	set_columns();
 }); 
@@ -462,28 +462,28 @@ function addModule(Location,Location_id) {
 function removeModule(row) {
   	$('#'+row).remove();
 }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $('input[name="text_tpl_controller"]').change(function () {
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
-  //--></script>
-<script type="text/javascript"><!--
+  </script>
+<script type="text/javascript">
     $(document).ready(function() {
 	  RegisterValidation();
     });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	function copyModules(module) {
 		var ids = [];
 		var modules = document.querySelectorAll("[id^='" + module + "_']");
 		var modulesLenght = modules.length;
-		for (j =0; j < modulesLenght; j++) {
+		for (let j =0; j < modulesLenght; j++) {
 			ids[j] = modules[j].getAttribute("id").split("_").pop();
 		}
 		var html ='';
-		for (i =0; i < modulesLenght; i++) {
+		for (let i =0; i < modulesLenght; i++) {
 			if (document.forms['form'].elements[module+'['+ids[i]+'][module_code]'] !=undefined){
 				html +='<input type="hidden" name="' + module + '[' + [i] + '][module_code]" value="' + document.forms['form'].elements[module+'['+ids[i]+'][module_code]'].value + '">';
 				html +='<input type="hidden" name="' + module + '[' + [i] + '][sort_order]" value="' + document.forms['form'].elements[module+'['+ids[i]+'][sort_order]'].value + '">';
@@ -508,8 +508,8 @@ function removeModule(row) {
 		copyModules('pagebottom');
 		document.getElementById('update_form').submit();
 	}
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	$('.tabs a').on('click', function() {
 	var activeTab = $(this).index()+1;
 	var id = $('#tpl_manager_id').val();
@@ -521,11 +521,11 @@ function removeModule(row) {
 		dataType:'json'
 	});
 	});
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
 		tabview_switch('tab', <?php echo $tab; ?>);
 	}
    });
-  //--></script>
+  </script>

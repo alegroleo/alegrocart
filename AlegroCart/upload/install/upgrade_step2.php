@@ -1,5 +1,9 @@
 <?php
-if (!$step) { header('Location: .'); die(); }
+
+if (!$step) {
+	header('Location: .');
+	die();
+}
 
 $length = function_exists('mb_strlen')?mb_strlen($_POST['new_admin_name'],'UTF-8'):strlen($_POST['new_admin_name']);
 $restricted = array('admin','administration');
@@ -43,11 +47,13 @@ if (!$errors && !$ferrors) {
 		$reps=array(
 			'DIR_BASE' => addslashes(DIR_BASE),
 			'HTTP_BASE' => HTTP_BASE,
+			'HTTPS_BASE' => HTTPS_SERVER,
+			'HTTP_STATIC' => HTTP_STATIC,
+			'HTTPS_STATIC' => HTTPS_STATIC,
 			'DB_HOST' => DB_HOST,
 			'DB_USER' => DB_USER,
 			'DB_PASSWORD' => DB_PASSWORD,
 			'DB_NAME' => DB_NAME,
-			'HTTPS_BASE' => HTTPS_SERVER,
 			'PATH_ADMIN' => isset($_POST['new_admin_name'])?$_POST['new_admin_name']:''
 		);
 
@@ -58,10 +64,12 @@ if (!$errors && !$ferrors) {
 		if(fwrite($handle, $str)) {
 			echo "<p class=\"b\">".$language->get('success',$file)."</p>\n";
 			fclose($handle);
+		} else {
+			$errors[]=$language->get('error_write',$file);
 		}
-		else { $errors[]=$language->get('error_write',$file); }
-	} 
-	else { $errors[]=$language->get('error_open',$file); }
+	} else {
+		$errors[]=$language->get('error_open',$file);
+	}
 	unset($str);
 
 	$database->runQuery('set @@session.sql_mode="MYSQL40"');
@@ -82,28 +90,29 @@ if (!$errors && !$ferrors) {
 if (($errors || $ferrors) && $step == 2) {
 	require('upgrade_step1.php');
 } else {
-		$file = DIR_BASE.'config.php';
-		@chmod($file, 0644);
-	?>
-		<?php if(is_writable($file)) { ?>
-			<div class="warning"><?php echo $language->get('config')?></div>
-		<?php }?>
-		<p class="b"><?php echo $language->get('congrat_upg')?></p>
+	$file = DIR_BASE.'config.php';
+	@chmod($file, 0644);
+?>
 
-		<div id="buttons">
-		<div class="left">
-		<a onclick="location='<?php echo HTTP_CATALOG; ?>';" >
-		<img src="../image/install/Shopping_Cart.png" alt="<?php echo $language->get('shop')?>" title="<?php echo $language->get('shop')?>">
-		</a>
-		<p class="b"><?php echo HTTP_CATALOG; ?></p>
-		</div>
-		<div class="right">
-		<a onclick="location='<?php echo HTTP_BASE.$_POST['new_admin_name']; ?>';">
-		<img src="../image/install/Admin.png" alt="<?php echo $language->get('admin')?>" title="<?php echo $language->get('admin')?>">
-		</a>
-		<p class="b"><?php echo HTTP_BASE.$_POST['new_admin_name']; ?></p>
-		</div>
-		</div>
+<?php if(is_writable($file)) { ?>
+	<div class="warning"><?php echo $language->get('config')?></div>
+<?php }?>
+<p class="b"><?php echo $language->get('congrat_upg')?></p>
+
+<div id="buttons">
+<div class="left">
+<a onclick="location='<?php echo HTTPS_BASE ? HTTPS_BASE : HTTP_BASE; ?>';" >
+<img src="../image/install/Shopping_Cart.png" alt="<?php echo $language->get('shop')?>" width=260 height=123 title="<?php echo $language->get('shop')?>">
+</a>
+<p class="b"><?php echo HTTPS_BASE ? HTTPS_BASE : HTTP_BASE; ?></p>
+</div>
+<div class="right">
+<a onclick="location='<?php echo (HTTPS_BASE ? HTTPS_BASE : HTTP_BASE) . $_POST['new_admin_name']; ?>';">
+<img src="../image/install/Admin.png" alt="<?php echo $language->get('admin')?>" width=260 height=123 title="<?php echo $language->get('admin')?>">
+</a>
+<p class="b"><?php echo (HTTPS_BASE ? HTTPS_BASE : HTTP_BASE) . $_POST['new_admin_name']; ?></p>
+</div>
+</div>
 
 <?php
 	$dir = '..' . DIRECTORY_SEPARATOR. 'install';
@@ -128,10 +137,10 @@ function getFiles($dir){
 	foreach($sdir as $key => $value){
 		if (!in_array($value,array(".",".."))){
 			if (is_dir($dir . DIRECTORY_SEPARATOR . $value)){
-			$directories[] = $dir . DIRECTORY_SEPARATOR . $value;
-			getFiles($dir . DIRECTORY_SEPARATOR . $value);
+				$directories[] = $dir . DIRECTORY_SEPARATOR . $value;
+				getFiles($dir . DIRECTORY_SEPARATOR . $value);
 			} else {
-			$installfiles[] = $dir . DIRECTORY_SEPARATOR . $value;
+				$installfiles[] = $dir . DIRECTORY_SEPARATOR . $value;
 			}
 		}
 	}

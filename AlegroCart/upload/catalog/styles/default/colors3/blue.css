@@ -608,23 +608,23 @@ h1 {
 	font-weight: bold;
 }
 /*Horizontal menu begin*/
-#menu_level_1:hover {
+.menu_level_1:hover {
 	background-color: #B2B2FF;
 }
-#menu_level_1:hover > a{
+.menu_level_1:hover > a{
 	color: #FFFFFF;
 }
 #myMenuID .menu_lvl_0:hover{
 	color: #FFFFFF;
 	background-color: #B2B2FF;
 }
-#menu_level_1.active {
+.menu_level_1.active {
 	background-color: #7F7FFF;
 }
-#menu_level_1.active > a{
+.menu_level_1.active > a{
 	color: #FFFFFF;
 }
-#menu_level_0.active > a{ 
+.menu_level_0.active > a{ 
 	background-color: #7F7FFF;
 	color: #FFFFFF;
 }

@@ -1,8 +1,10 @@
 <?php //Manufacturer AlegroCart
 class ControllerManufacturer extends Controller {
-		var $remaining = false;
-		var $discounted = false;
-	function __construct(&$locator){ // Template Manager
+
+	private $remaining = false;
+	private $discounted = false;
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
@@ -18,7 +20,9 @@ class ControllerManufacturer extends Controller {
 		$this->locations	= $this->modelCore->get_tpl_locations();// Template Manager
 		$this->tpl_columns	= $this->modelCore->get_columns();// Template Manager
 	}
-	function index() {
+
+	protected function index() {
+
 		$cart     =& $this->locator->get('cart');
 		$currency =& $this->locator->get('currency');
 		$customer =& $this->locator->get('customer');
@@ -31,10 +35,11 @@ class ControllerManufacturer extends Controller {
 		$url      =& $this->locator->get('url');
 		$head_def =& $this->locator->get('HeaderDefinition');
 		require_once('library/application/string_modify.php');
+
 		//pagination
 		if(!$this->config->get('manufacturer_status')){ RETURN;}
-	$session->set('manufacturer.page', $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
-	$language->load('controller/manufacturer.php');
+		$session->set('manufacturer.page', $request->has('page') && ($request->gethtml('page') > 0) ? abs((int)$request->gethtml('page')) : 1);
+		$language->load('controller/manufacturer.php');
 
 		$view = $this->locator->create('template');
 		$this->template->set('title', $language->get('heading_title'));
@@ -45,7 +50,7 @@ class ControllerManufacturer extends Controller {
 		$view->set('location', 'content');
 
 		$view->set('tax_included', $this->config->get('config_tax'));
-		
+
 		if ($request->has('manufacturer_id')){
 			$result = $this->modelProducts->getRow_manufacturer($request->gethtml('manufacturer_id'));
 			if ($result){
@@ -268,70 +273,72 @@ class ControllerManufacturer extends Controller {
 			}
 
 				$product_data[] = array(
-					'name'  => $result['name'],
-					'product_id'	=> $result['product_id'],
-					'description'	=> $desc,
-					'stock_level'	=> $result['quantity'],
-					'min_qty'	=> $result['min_qty'],
-					'max_qty'	=> $result['max_qty'],
-					'multiple'	=> $result['multiple'],
+					'name'			=> $result['name'],
+					'product_id'		=> $result['product_id'],
+					'description'		=> $desc,
+					'stock_level'		=> $result['quantity'],
+					'min_qty'		=> $result['min_qty'],
+					'max_qty'		=> $result['max_qty'],
+					'multiple'		=> $result['multiple'],
 					'cart_level'		=> $cart->hasProduct($result['product_id']),
-					'product_discounts' => $product_discounts,
-					'href'  => $url->ssl('product', FALSE, $query),
-					'popup'     => $image->href($result['filename']),
-					'thumb' => $image->resize($result['filename'], $image_width, $image_height),
-					'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'sale_start_date' => $result['sale_start_date'],
-					'sale_end_date'   => $result['sale_end_date'],
-					'show_days_remaining' => $result['remaining'],
-					'options'         => $options,
-					'model_number'    => $result['model_number'],
-					'product_options' => $product_options,
-					'days_remaining'  => $days_remaining,
+					'product_discounts'	=> $product_discounts,
+					'href'			=> $url->ssl('product', FALSE, $query),
+					'popup'			=> $image->href($result['filename']),
+					'thumb'			=> $image->resize($result['filename'], $image_width, $image_height),
+					'image_width'		=> $image_width,
+					'image_height'		=> $image_height,
+					'special_price'		=> $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
+					'price'			=> $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
+					'sale_start_date'	=> $result['sale_start_date'],
+					'sale_end_date'		=> $result['sale_end_date'],
+					'show_days_remaining'	=> $result['remaining'],
+					'options'		=> $options,
+					'model_number'		=> $result['model_number'],
+					'product_options'	=> $product_options,
+					'days_remaining' 	=> $days_remaining,
 					'average_rating'	=> $averageRating,
 					'alt_rating'		=> $alt_rating,
-					'vendor_name'     => $vendor_name,
-					'status'     => $result['status']
+					'vendor_name'		=> $vendor_name,
+					'status'		=> $result['status']
 				);
 			}
 			$view->set('products', $product_data);
 
-				$view->set('number_columns', $this->config->get('config_columns') != 3 ? array(1,2,3,4,5) : array(1,2,3,4));
-				$view->set('entry_page', $language->get('entry_page'));
- 				$view->set('page', $session->get('manufacturer.page'));
-				$view->set('onhand', $language->get('onhand'));
-				$view->set('text_model_number', $language->get('text_model_number'));
+			$view->set('number_columns', $this->config->get('config_columns') != 3 ? array(1,2,3,4,5) : array(1,2,3,4));
+			$view->set('entry_page', $language->get('entry_page'));
+ 			$view->set('page', $session->get('manufacturer.page'));
+			$view->set('onhand', $language->get('onhand'));
+			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('previous' , $language->get('previous_page'));
-				$view->set('next' , $language->get('next_page'));
-				$view->set('pages', $this->modelManufacturer->get_pagination());
-				$query=array('manufacturer_id' => $session->get('manufacturer.manufacturer_id'));
+			$view->set('next' , $language->get('next_page'));
+			$view->set('pages', $this->modelManufacturer->get_pagination());
+			$query=array('manufacturer_id' => $session->get('manufacturer.manufacturer_id'));
 			$view->set('action', $url->ssl('manufacturer', FALSE, $query));
-				$view->set('sort_filter', $this->sort_filter());
-				$view->set('sort_order', $this->sort_order());
-				$view->set('first_page', $language->get('first_page'));
-				$view->set('last_page', $language->get('last_page'));
-				$view->set('total_pages', $this->modelManufacturer->get_pages());
-				$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));
-				$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
-				$view->set('text_options', $language->get('text_options'));
-				$view->set('text_quantity_discount', $language->get('text_quantity_discount'));
-				$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
-				$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
-				$view->set('regular_price', $language->get('regular_price'));
-				$view->set('sale_price', $language->get('sale_price'));	
-				$view->set('text_sort_by',$language->get('text_sort_by'));
-				$view->set('text_order', $language->get('text_order'));
-				$view->set('text_max_rows', $language->get('text_max_rows'));
-				$view->set('text_page_rows', $language->get('text_page_rows'));
-				$view->set('text_columns', $language->get('text_columns'));
-				$view->set('text_model', $language->get('text_model'));
-				$view->set('text_soldby', $language->get('text_soldby'));
-				$view->set('text_all', $language->get('text_all'));
-				$view->set('entry_submit', $language->get('entry_submit'));
-				$view->set('display_options', $this->config->get('manufacturer_options_status'));	
-				$view->set('product_options_select', $this->config->get('manufacturer_options_select'));
-			}
+			$view->set('sort_filter', $this->sort_filter());
+			$view->set('sort_order', $this->sort_order());
+			$view->set('first_page', $language->get('first_page'));
+			$view->set('last_page', $language->get('last_page'));
+			$view->set('total_pages', $this->modelManufacturer->get_pages());
+			$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));
+			$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
+			$view->set('text_options', $language->get('text_options'));
+			$view->set('text_quantity_discount', $language->get('text_quantity_discount'));
+			$view->set('Add_to_Cart', $language->get('button_add_to_cart'));
+			$view->set('Added_to_Cart', $language->get('button_added_to_cart'));
+			$view->set('regular_price', $language->get('regular_price'));
+			$view->set('sale_price', $language->get('sale_price'));	
+			$view->set('text_sort_by',$language->get('text_sort_by'));
+			$view->set('text_order', $language->get('text_order'));
+			$view->set('text_max_rows', $language->get('text_max_rows'));
+			$view->set('text_page_rows', $language->get('text_page_rows'));
+			$view->set('text_columns', $language->get('text_columns'));
+			$view->set('text_model', $language->get('text_model'));
+			$view->set('text_soldby', $language->get('text_soldby'));
+			$view->set('text_all', $language->get('text_all'));
+			$view->set('entry_submit', $language->get('entry_submit'));
+			$view->set('display_options', $this->config->get('manufacturer_options_status'));	
+			$view->set('product_options_select', $this->config->get('manufacturer_options_select'));
+		}
 
 		$breadcrumb = array();
 		$breadcrumb[] = array(
@@ -340,11 +347,11 @@ class ControllerManufacturer extends Controller {
 			'separator' => FALSE
 		);
 
-	$breadcrumb[] = array(
-		'href'      => $url->ssl('manufacturer', FALSE, array('manufacturer_id'  => (int)$request->gethtml('manufacturer_id'))),
-		'text'      => $session->get('manufacturer.name'),
-		'separator' => $language->get('text_separator')
-	);
+		$breadcrumb[] = array(
+			'href'      => $url->ssl('manufacturer', FALSE, array('manufacturer_id'  => (int)$request->gethtml('manufacturer_id'))),
+			'text'      => $session->get('manufacturer.name'),
+			'separator' => $language->get('text_separator')
+		);
 		$view->set('breadcrumbs', $breadcrumb);
 
 		$view->set('head_def',$head_def);
@@ -381,7 +388,7 @@ class ControllerManufacturer extends Controller {
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());	
-	$response->set($this->template->fetch('layout.tpl'));
+		$response->set($this->template->fetch('layout.tpl'));
 
 	}
 
@@ -425,7 +432,9 @@ class ControllerManufacturer extends Controller {
 			if(isset($this->modelCore->tpl['tpl_footers'])){$this->template->set('tpl_footers',$this->modelCore->tpl['tpl_footers']);}
 			if(isset($this->modelCore->tpl['tpl_bottom'])){$this->template->set('tpl_bottom',$this->modelCore->tpl['tpl_bottom']);}
 		}
-		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
+		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){
+			$this->template->set('template_color',$this->tpl_manager['tpl_color']);
+		}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 
@@ -437,6 +446,7 @@ class ControllerManufacturer extends Controller {
 		$sort_filter[1] = $language->get('entry_price');
 		return $sort_filter;
 	}
+
 	function sort_order(){
 		$language =& $this->locator->get('language');
 	$language->load('controller/manufacturer.php');
@@ -445,10 +455,12 @@ class ControllerManufacturer extends Controller {
 		$sort_order[1] = $language->get('entry_descending');
 		return $sort_order;
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

@@ -69,7 +69,7 @@
 </form>
 </div>
 <div class="contentBodyBottom"></div>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
 $("#back, #change_address").on("click", function(){
 	var Comment = $('#comment').val();
 	var paymentMethod = $('input[name=payment]:checked').val();
@@ -90,15 +90,15 @@ $("#back, #change_address").on("click", function(){
 			}
 	});
 });
-//--></script>
+</script>
   <script type="text/javascript">
 	$(document).ready(function(){
 		$('input[name="payment"][checked="checked"]').closest('table').attr('class', 'default_method');
 	});
-//--></script>
+</script>
   <script type="text/javascript">
 	$('input[name="payment"]').on("click", function(){
 		$('input[name="payment"]').closest('table').removeClass('default_method').addClass('method');
 		$(this).closest('table').attr('class', 'default_method');
 });
-//--></script>
+</script>

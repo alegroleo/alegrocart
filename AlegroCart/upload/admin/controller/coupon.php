@@ -1,7 +1,7 @@
 <?php //Coupon AlegroCart
 class ControllerCoupon extends Controller {
 
-	public var $error = array();
+	public $error = array();
 
 	public function __construct(&$locator){
 		$this->locator		=& $locator;
@@ -233,6 +233,8 @@ class ControllerCoupon extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_results', $this->modelCoupon->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
@@ -326,6 +328,7 @@ class ControllerCoupon extends Controller {
 		$view->set('error_code', @$this->error['code']);
 		$view->set('error_date_start', @$this->error['date_start']);
 		$view->set('error_date_end', @$this->error['date_end']);
+		$view->set('error_date', @$this->error['date']);
 		$view->set('error_discount',$this->language->get('error_discount'));
 
 		if(!@$this->error['message']){
@@ -596,15 +599,15 @@ class ControllerCoupon extends Controller {
 			$this->error['message'] = $this->language->get('error_permission');
 		}
 
-		foreach ($this->request->gethtml('language', 'post') as $value) {
+		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 			if (!$this->validate->strlen($value['name'],1,64)) {
-				$this->error['name'] = $this->language->get('error_name');
+				$this->error['name'][$key] = $this->language->get('error_name');
 			}
 		}
 
-		foreach ($this->request->gethtml('language', 'post') as $value) {
+		foreach ($this->request->gethtml('language', 'post') as $key => $value) {
 			if (!$this->validate->strlen($value['description'],1)) {
-				$this->error['description'] = $this->language->get('error_description');
+				$this->error['description'][$key] = $this->language->get('error_description');
 			}
 		}
 
@@ -619,6 +622,14 @@ class ControllerCoupon extends Controller {
 		if (!checkdate($this->request->gethtml('date_end_month', 'post'), $this->request->gethtml('date_end_day', 'post'), $this->request->gethtml('date_end_year', 'post'))) {
 			$this->error['date_end'] = $this->language->get('error_date_end');
 		}
+
+		$start = array($this->request->gethtml('date_start_year', 'post'), $this->request->gethtml('date_start_month', 'post'), $this->request->gethtml('date_start_day', 'post'));
+		$end = array($this->request->gethtml('date_end_year', 'post'), $this->request->gethtml('date_end_month', 'post'), $this->request->gethtml('date_end_day', 'post'));
+
+		if (implode('-', $start) > implode('-', $end)) {
+			$this->error['date'] = $this->language->get('error_date');
+		}
+
 		if (@$this->error && !@$this->error['message']){
 			$this->error['warning'] = $this->language->get('error_warning');
 		}

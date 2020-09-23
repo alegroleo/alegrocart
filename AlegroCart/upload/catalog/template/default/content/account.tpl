@@ -22,7 +22,9 @@
       <?php if ($enable_download) { ?>
       	<li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
       <?php } ?>
+      <?php if ($enable_bought) { ?>
       <li><a href="<?php echo $bought; ?>"><?php echo $text_bought; ?></a></li>
+      <?php } ?>
     </ul>
   </div>
   <div class="c"><?php echo $text_my_newsletter; ?></div>

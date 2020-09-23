@@ -1,8 +1,11 @@
 <?php  // Category List AlegroCart
 class ModuleCategoryList extends Controller {
-		var $remaining = false;
-		var $discounted = false;
-	function fetch() {
+
+	private $remaining = false;
+	private $discounted = false;
+
+	public function fetch() {
+
 		$cart			=& $this->locator->get('cart');
 		$config			=& $this->locator->get('config');
 		$currency		=& $this->locator->get('currency');
@@ -148,6 +151,8 @@ class ModuleCategoryList extends Controller {
 						'href'			=> $url->ssl('product', FALSE, array('category_id' => $category['category_id'], 'product_id' => $result['product_id'])),
 						'popup'			=> $image->href($result['filename']),
 						'thumb'			=> $image->resize($result['filename'], $image_width, $image_height),
+						'image_width'		=> $image_width,
+						'image_height'		=> $image_height,
 						'special_price'		=> $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
 						'price'			=> $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
 						'sale_start_date'	=> $result['sale_start_date'],

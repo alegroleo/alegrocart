@@ -1,6 +1,7 @@
 <?php //Account Invoice AlegroCart
 class ControllerAccountInvoice extends Controller {
-	function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->address		=& $locator->get('address');
@@ -25,13 +26,13 @@ class ControllerAccountInvoice extends Controller {
 
 	function index() {
 		if (!$this->customer->isLogged()) {
-				if ($this->request->has('order_id')) {
-					$this->session->set('redirect', $this->url->ssl('account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id'))));
-				} else {
-					$this->session->set('redirect', $this->url->ssl('account_invoice', FALSE, array('reference' => $this->request->gethtml('reference'))));
-				}
+			if ($this->request->has('order_id')) {
+				$this->session->set('redirect', $this->url->ssl('account_invoice', FALSE, array('order_id' => $this->request->gethtml('order_id'))));
+			} else {
+				$this->session->set('redirect', $this->url->ssl('account_invoice', FALSE, array('reference' => $this->request->gethtml('reference'))));
+			}
 
-				$this->response->redirect($this->url->ssl('account_login'));
+			$this->response->redirect($this->url->ssl('account_login'));
 		}
 
 		$this->language->load('controller/account_invoice.php');
@@ -39,7 +40,7 @@ class ControllerAccountInvoice extends Controller {
 		$view = $this->locator->create('template');
 		$view->set('heading_title', $this->language->get('heading_title'));
 		$view->set('head_def',$this->head_def);    // New Header
-		$this->template->set('head_def',$this->head_def);    // New Header	
+		$this->template->set('head_def',$this->head_def);    // New Header
 		$view->set('button_continue', $this->language->get('button_continue'));
 		$view->set('continue', $this->url->ssl('account_history'));
 
@@ -248,6 +249,11 @@ class ControllerAccountInvoice extends Controller {
 				$this->template->set('config_owner', $this->config->get('config_owner'));
 				$this->template->set('config_address', str_replace(array("\r\n", "\r", "\n"), '<br>', $this->config->get('config_address')));
 				$this->template->set('store_logo', $this->image->href('logo/'.$this->config->get('config_store_logo')));
+				$this->template->set('logo_width', $this->config->get('config_logo_width'));
+				$this->template->set('logo_height', $this->config->get('config_logo_height'));
+				$this->template->set('store', $this->config->get('config_store'));
+				$this->template->set('back', $this->language->get('text_back'));
+				$this->template->set('print', $this->language->get('text_print'));
 			}
 			$this->template->set('content', $view->fetch('content/account_invoice.tpl'));
 		} else {

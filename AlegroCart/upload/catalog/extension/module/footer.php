@@ -1,15 +1,17 @@
 <?php // AlegroCart 
 class ModuleFooter extends Controller {
-	function fetch() {
-		$config   =& $this->locator->get('config');
-		$image    =& $this->locator->get('image');
-		$language =& $this->locator->get('language');	
-		$session  =& $this->locator->get('session');
-		$request  =& $this->locator->get('request');
-		$dateformat =& $this->locator->get('dates');
-		$this->modelCore 	= $this->model->get('model_core');
-		
-		if ($config->get('footer_status')) {	
+
+	public function fetch() {
+		$config		=& $this->locator->get('config');
+		$image		=& $this->locator->get('image');
+		$language	=& $this->locator->get('language');
+		$session	=& $this->locator->get('session');
+		$request	=& $this->locator->get('request');
+		$url		=& $this->locator->get('url');
+		$dateformat	=& $this->locator->get('dates');
+		$this->modelCore= $this->model->get('model_core');
+
+		if ($config->get('footer_status')) {
 			$language->load('extension/module/footer.php');
 
 			$view = $this->locator->create('template');
@@ -25,7 +27,6 @@ class ModuleFooter extends Controller {
 			$view->set('show_version',$config->get('show_version'));
 			$view->set('version', $config->get('version'));
 			$view->set('text_version', $language->get('text_version'));
-			
 			$view->set('text_footer_logo', $language->get('text_footer_logo'));
 			$view->set('text_papal', $language->get('text_papal'));
 			$view->set('text_visa', $language->get('text_visa'));

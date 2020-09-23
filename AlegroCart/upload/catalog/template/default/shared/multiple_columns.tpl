@@ -28,7 +28,7 @@
 	<div class="a" >
 	 <div class="img">
   <?php if (!$product['status']) { ?>
-	<img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>">
+	<img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" width="<?php echo $product['image_width']; ?>" height="<?php echo $product['image_height']; ?>" alt="<?php echo $product['name']; ?>">
 	<div class="enlarge"><br></div>
   <?php } else { 
 	  if(!isset($image_display)){$image_display = 'image_link';}
@@ -77,7 +77,7 @@
 	  <?php include $shared_path . 'add_to_cart.tpl';?>
 	 <?php } ?>
 	<?php } ?>
-	<?php if ($product['vendor_name']) { ?>
+	<?php if (isset($product['vendor_name'])) { ?>
 		<div class="vendor"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
 	<?php } ?>
 	<?php if ($product['status']) { ?>
@@ -106,7 +106,6 @@
 	  <?php echo $product['popup'] ? $text_sold_out : $text_discontinued;?>
     </div>
   <?php }?>
-
    </div>
    <?php if($column_count == $columns){
 	echo "</div>";

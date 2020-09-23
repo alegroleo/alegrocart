@@ -17,7 +17,7 @@
 <?php if(isset($slides)){?>
   <div id="homeslider">
     <?php foreach ($slides as $slide) { ?>
-    <div><img src="<?php echo $slide['filename'];?>" alt="<?php echo $slide['filename'];?>"></div>
+    <div><img src="<?php echo $slide['filename'];?>" width="<?php echo $slide['width'];?>" height="<?php echo $slide['height'];?>" alt="<?php echo $slide['filename'];?>"></div>
     <?php } ?>
   </div>
   <?php echo $sliderjs;?>
@@ -34,7 +34,7 @@
  <?php echo '<div class="divider"></div>';}?>
 <?php if(isset($image)){?>
   <div class="home_image">
-    <img src="<?php echo $image;?>" alt="Welcome Image">
+    <img src="<?php echo $image;?>" width="<?php echo $image_width;?>" height="<?php echo $image_height;?>" alt="<?php $welcome_image;?>">
   </div>
 <?php }?>
 <?php if(isset($welcome) || isset($description)){?>

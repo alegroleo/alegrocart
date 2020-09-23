@@ -2,7 +2,7 @@
   $head_def->setcss($this->style . "/css/paging.css");
   $head_def->setcss($this->style . "/css/product_cat.css");
   if($tpl_columns != 1){
-	$this->head_def->setcss($this->style . "/css/display_options.css");
+	$head_def->setcss($this->style . "/css/display_options.css");
   }
   $head_def->set_javascript("ajax/jquery.js");
   $head_def->set_javascript("ajax/jqueryadd2cart.js");
@@ -16,7 +16,7 @@
     $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 	$head_def->set_javascript("lightbox/lightbox.js");
   ?>
-  <script>
+  <script type="text/javascript">
 	$(document).ready(function(){
 		$(".lightbox").lightbox({
 			fitToScreen: true,
@@ -67,7 +67,7 @@
     <div class="categories">
   <?php if ($category['thumb'] != NULL) { ?>
 	  <a href="<?php echo $category['href']; ?>">
-	  <img src="<?php echo $category['thumb']; ?>" title="<?php echo $category['name']; ?>" alt="<?php echo $category['name']; ?>">
+	  <img src="<?php echo $category['thumb']; ?>" title="<?php echo $category['name']; ?>" width="<?php echo $category['width']; ?>" height="<?php echo $category['height']; ?>" alt="<?php echo $category['name']; ?>">
 	  </a><br>
   <?php } ?> 
 	  <b><a href="<?php echo $category['href']; ?>"><?php echo $category['name'] . ($category['products_in_category'] != 0 ? ' (' . $category['products_in_category'] . ')':''); ?></a></b>

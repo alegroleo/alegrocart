@@ -19,6 +19,7 @@ $_['text_payment_method']	= 'Payment Method';
 $_['text_order_history']	= 'Order History';
 $_['text_order_download']	= 'Order Downloads';
 $_['text_order_update']		= 'Order Update';
+$_['text_update_status']	= 'Update Status';
 $_['text_product']		= 'Product';
 $_['text_model_number']		= 'Model Number';
 $_['text_soldby']		= 'Dispatched from:';

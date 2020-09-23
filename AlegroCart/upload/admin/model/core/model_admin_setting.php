@@ -80,6 +80,7 @@ class Model_Admin_Setting extends Model {
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_newsletter', `value` = '" . $this->request->gethtml('global_config_email_newsletter', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_mail', `value` = '" . $this->request->gethtml('global_config_email_mail', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_email_contact', `value` = '" . $this->request->gethtml('global_config_email_contact', 'post')  . "'");
+		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_static', `value` = '" . $this->request->gethtml('global_config_static', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_cache_query', `value` = '" . $this->request->gethtml('global_config_cache_query', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_compress_output', `value` = '" . $this->request->gethtml('global_config_compress_output', 'post')  . "'");
 		$this->database->query("insert into setting set type = 'global', `group` = 'config', `key` = 'config_compress_level', `value` = '" . $this->request->gethtml('global_config_compress_level', 'post')  . "'");

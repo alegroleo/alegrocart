@@ -3,7 +3,7 @@
   $head_def->setcss($this->style . "/css/product_cat.css");
   $head_def->setcss($this->style . "/css/bought.css");
   if($tpl_columns != 1){
-	$this->head_def->setcss($this->style . "/css/display_options.css");
+	$head_def->setcss($this->style . "/css/display_options.css");
   }
   $head_def->set_javascript("ajax/jquery.js");
   $head_def->set_javascript("ajax/jqueryadd2cart.js");
@@ -17,7 +17,7 @@
     $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 	$head_def->set_javascript("lightbox/lightbox.js");
   ?>
-  <script>
+  <script type="text/javascript">
 	$(document).ready(function(){
 		$(".lightbox").lightbox({
 			fitToScreen: true,

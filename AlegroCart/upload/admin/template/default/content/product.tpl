@@ -10,9 +10,9 @@
   $head_def->set_admin_javascript("javascript/datepicker/datepicker.js");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <input type="hidden" name="update_form" value="1">
@@ -84,20 +84,20 @@
   <input type="hidden" name="product_id" id="product_id" value="<?php echo $product_id; ?>">
   </form>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
 <?php if (@$delete) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs;document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png"><?php echo $button_print; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs;document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png"><?php echo $button_print; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -108,7 +108,7 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
  <em></em>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
@@ -635,7 +635,9 @@
 				</select>
 				<input class="validate_int" id="start_date_year" name="start_date_year" value="<?php echo $start_date_year; ?>" size="4" maxlength="4">
 				<?php if ($error_start_date) { ?>
-				<span class="error"><?php echo $error_start_date; ?></span>
+				  <span class="error"><?php echo $error_start_date; ?></span>
+				<?php } elseif ($error_date) { ?>
+				  <span class="error"><?php echo $error_date; ?></span>
 				<?php } ?>
 			  </td>
 		    </tr>
@@ -658,7 +660,7 @@
 				</select>
 				<input class="validate_int" id="end_date_year" name="end_date_year" value="<?php echo $end_date_year; ?>" size="4" maxlength="4">
 				<?php if ($error_end_date) { ?>
-				<span class="error"><?php echo $error_end_date; ?></span>
+				  <span class="error"><?php echo $error_end_date; ?></span>
 				<?php } ?>
 			  </td>
 		      </tr>	  
@@ -680,7 +682,7 @@
 	    </div>
 	  </div>
 	  <!-- E: Dated Specials -->
-	  <!-- S: Alt Description Meta Tags -->
+	  <!-- S: alt Description Meta Tags -->
       <div class="page">
         <div id="tabmini2">
           <div class="tabs">
@@ -729,29 +731,29 @@
           </div>
         </div>
 	  </div>
-	  <!-- E: Alt Description Meta Tags -->
+	  <!-- E: alt Description Meta Tags -->
     </div>
   </div>
   <input type="hidden" id="product_id" name="product_id" value="<?php echo $product_id;?>">
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
 
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
   <?php foreach ($products as $product) { ?>
     CKEDITOR.replace( 'description<?php echo $product['language_id']; ?>' );
-  <?php } ?>      
-  //--></script>
-  <script type="text/javascript"><!--
+  <?php } ?>
+  </script>
+  <script type="text/javascript">
   <?php foreach ($products as $product) { ?>
     CKEDITOR.replace( 'alt_description<?php echo $product['language_id']; ?>' );
-  <?php } ?>      
-  //--></script>
-  <script type="text/javascript"><!--
+  <?php } ?>
+  </script>
+  <script type="text/javascript">
   <?php foreach ($products as $product) { ?>
     CKEDITOR.replace( 'technical<?php echo $product['language_id']; ?>' );
-  <?php } ?>      
-  //--></script>
+  <?php } ?>
+  </script>
 
-  <script type="text/javascript"><!-- 
+  <script type="text/javascript"> 
   function quantity_percent(row){
   var Decimal = $('#decimal_place').val();
   var RegularPrice = $('#price').val();
@@ -760,7 +762,7 @@
   if(RegularPrice > 0 && DiscountPercent >0){
     DiscountAmount = (((RegularPrice * (DiscountPercent/100))*100)/100).toFixed([Decimal]);
 	$('#discount_amount'+row).val(DiscountAmount);
-    $('#discount_percent'+row).val(((DiscountPercent*10000)/10000).toFixed([4]));
+	$('#discount_percent'+row).val(((DiscountPercent*10000)/10000).toFixed([4]));
   }
   return;
   }
@@ -792,7 +794,7 @@
   }
   if($('#discounts tr').size() >0){
     QtyDiscount_Update(Price,RegularPrice);
-  }  
+  }
 	$('#regular_price').val(((RegularPrice*100)/100).toFixed([Decimal])); 
     $('#price').val($('#regular_price').val());
 	$('#discount_regular_price').val($('#regular_price').val());
@@ -825,7 +827,7 @@
   function QtyDiscount_Update(OldPrice,NewPrice){
   var Decimal = $('#decimal_place').val();
   var count = $('#discounts tr').size();
-  for (i=0; i < count; i++){
+  for (let i=0; i < count; i++){
     var DiscountPercent = $('#discount_percent'+i).val();
     var NewDiscountPrice = (((NewPrice * (DiscountPercent/100))*100)/100).toFixed([Decimal]);
 	$('#discount_amount'+i).val(NewDiscountPrice); 
@@ -870,9 +872,9 @@
   }
   return;
 }
-//--></script>
+</script>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 function validate_barcode(optionRow){
 	var Encoding = $('#encoding_'+optionRow).val();
 	var Barcode = $('#barcode_'+ optionRow).val();
@@ -894,9 +896,9 @@ function validate_barcode(optionRow){
 		});
 	}
 }
-  //--></script> 
+  </script> 
   
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
 function addDiscount() {
 	var Last = $('#discounts tr:last');
 	var nextId = Last.size() == 0 ? 1 : + Last.attr('id').split("_").pop() + 1;
@@ -914,59 +916,59 @@ function removeDiscount(row) {
   	$('#'+row).remove();
 }
 
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
   $('#image').load('index.php?controller=image&action=view&image_id='+document.getElementById('image_id').value);
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   tabview_initialize('tab');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   tabview_initialize('tabmini');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   tabview_initialize('tabmini2');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $('input[name="name[1]"]').change(function () {
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $('#syes').on("click", function() {
 		$('#shipping_time_from').attr("disabled", false);
 		$('#shipping_time_to').attr("disabled", false);
   });
-    //--></script>
-  <script type="text/javascript"><!--
+    </script>
+  <script type="text/javascript">
   $('#sno').on("click", function() {
 		$('#shipping_time_from').attr("disabled", true);
 		$('#shipping_time_to').attr("disabled", true);
 });
-    //--></script>
-  <script type="text/javascript"><!--
+    </script>
+  <script type="text/javascript">
     datePickerController.createDatePicker({
     formElements:{"date_available_year":"%Y","date_available_month":"%n", "date_available_day":"%d"},
     showWeeks:true,
     statusFormat:"%l, %d %F %Y"
     });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     datePickerController.createDatePicker({
     formElements:{"start_date_year":"%Y","start_date_month":"%n", "start_date_day":"%d"},
     showWeeks:true,
     statusFormat:"%l, %d %F %Y"
     });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     datePickerController.createDatePicker({
     formElements:{"end_date_year":"%Y","end_date_month":"%n", "end_date_day":"%d"},
     showWeeks:true,
     statusFormat:"%l, %d %F %Y"
     });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -985,8 +987,8 @@ function removeDiscount(row) {
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	function saveTabs() {
 	var activeTab = $('#tab > .tabs > a.active').index()+1;
 	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
@@ -1026,10 +1028,10 @@ function removeDiscount(row) {
 		var html ='';
 		var boxes = document.querySelectorAll("[name^='qty_discount_']");
 		var boxesLenght = boxes.length;
-		for (j =0; j < boxesLenght; j++) {
+		for (let j =0; j < boxesLenght; j++) {
 			ids[j] = boxes[j].getAttribute("name").split("_").pop();
 		}
-		for (i =0; i < boxesLenght; i++) {
+		for (let i =0; i < boxesLenght; i++) {
 			if (document.forms['form'].elements['product_discount['+ids[i]+'][quantity]'] !=undefined){
 			html +='<input type="hidden" name="product_discount[' + [i] + '][quantity]" value="' + document.forms['form'].elements['product_discount['+ids[i]+'][quantity]'].value + '">';
 			html +='<input type="hidden" name="product_discount[' + [i] + '][discount]" value="' + document.forms['form'].elements['product_discount['+ids[i]+'][discount]'].value + '">';
@@ -1119,7 +1121,8 @@ function removeDiscount(row) {
 	function getMultipleSelection(formName,elementName,newFormName){ 
 		var html ='';
 		var mySelect = document.forms[formName].elements[elementName];
-		for(j = 0; j < mySelect.options.length; j++) { 
+		var mySelectLength = mySelect.options.length;
+		for(let j = 0; j < mySelectLength; j++) { 
 			if(mySelect.options[j].selected) { 
 				html +='<input type="hidden" name="' + elementName + '" value="' + mySelect.options[j].value + '">';
 			}
@@ -1129,13 +1132,13 @@ function removeDiscount(row) {
 	function getDimensionValues(formName,elementName,newFormName){ 
 		var html ='';
 		var len = $('[id^='+ elementName + ']').length;
-		for(j = 0; j < len; j++) { 
+		for(let j = 0; j < len; j++) { 
 				html +='<input type="hidden" name="' + elementName + '[' + j + ']" value="' + document.forms[formName].elements[elementName + '[' + j +']'].value + '">';
 		}
 		document.forms[newFormName].innerHTML += html;
 	}
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
 		tabview_switch('tab', <?php echo $tab; ?>);
@@ -1147,18 +1150,18 @@ function removeDiscount(row) {
 		}
 	}
    });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
     $('#syes:checked').each(function() {
 		$('#shipping_time_from').attr("disabled", false);
 		$('#shipping_time_to').attr("disabled", false);
     });
 });
-    //--></script>
-<script type="text/javascript"><!--
+    </script>
+<script type="text/javascript">
   $(document).ready(function() {
 	RegisterValidation();
   });
-//--></script>
+</script>
 </form>

@@ -169,6 +169,9 @@ class ControllerTaxClass extends Controller {
 		$view->set('help', $this->session->get('help'));
 		$view->set('controller', 'tax_class');
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('text_path', $this->language->get('text_path'));
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('error', @$this->error['message']);
 

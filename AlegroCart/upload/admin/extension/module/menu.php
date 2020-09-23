@@ -1,12 +1,15 @@
 <?php
 class ModuleMenu extends Controller {
+
 	var $menu_info = array();
-	function fetch() {
-		$config   =& $this->locator->get('config');
-		$language =& $this->locator->get('language');
-		$session  =& $this->locator->get('session');
-		$url      =& $this->locator->get('url');
-		$user     =& $this->locator->get('user');
+
+	public function fetch() {
+
+		$config		=& $this->locator->get('config');
+		$language	=& $this->locator->get('language');
+		$session	=& $this->locator->get('session');
+		$url		=& $this->locator->get('url');
+		$user		=& $this->locator->get('user');
 
 		if (($user->isLogged()) && ($config->get('menu_status'))) {
 			$language->load('extension/module/menu.php');
@@ -69,11 +72,12 @@ class ModuleMenu extends Controller {
 					}
 				}
 			}
-
+			$view->set('subcategory', $language->get('text_subcategory'));
 			$view->set('menus', $this->menu_info);
-		return $view->fetch('module/menu.tpl');
+			return $view->fetch('module/menu.tpl');
 		}
 	}
+
 	function create_menu($parent, $menu_key, $name, $href, $level, $new_tab, $last){
 		if($level == 0){
 			$type = "block";
@@ -100,5 +104,6 @@ class ModuleMenu extends Controller {
 			'last'		=> $last
 		);
 	}
+
 }
 ?>

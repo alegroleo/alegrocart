@@ -1,6 +1,7 @@
 <?php  // Product ALegroCart 
 class ControllerProduct extends Controller {
-	function __construct(&$locator){ 
+
+	public function __construct(&$locator){ 
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
@@ -16,6 +17,7 @@ class ControllerProduct extends Controller {
 		$this->tpl_columns	= $this->modelCore->get_columns();
 		$this->download		=& $locator->get('download');
 	}
+
 	function index() { 
 		$cart     =& $this->locator->get('cart');
 		$currency =& $this->locator->get('currency');
@@ -30,16 +32,16 @@ class ControllerProduct extends Controller {
 		$shipping =& $this->locator->get('shipping');
 		$tax      =& $this->locator->get('tax');
 		$weight   =& $this->locator->get('weight');
-		$url      =& $this->locator->get('url');
-		$head_def =& $this->locator->get('HeaderDefinition');
+		$url		=& $this->locator->get('url');
+		$head_def	=& $this->locator->get('HeaderDefinition');
 		require_once('library/application/string_modify.php');
 
-	if ($request->isPost() && $request->has('product_id', 'post')) {
-		$cart->add($request->gethtml('product_id', 'post'), ($request->gethtml('quantity', 'post') > 0) ? $request->gethtml('quantity', 'post') : 1, $request->gethtml('option', 'post'));
-		$response->redirect($url->ssl('cart'));
-	}
+		if ($request->isPost() && $request->has('product_id', 'post')) {
+			$cart->add($request->gethtml('product_id', 'post'), ($request->gethtml('quantity', 'post') > 0) ? $request->gethtml('quantity', 'post') : 1, $request->gethtml('option', 'post'));
+			$response->redirect($url->ssl('cart'));
+		}
 
-	$language->load('controller/product.php');
+		$language->load('controller/product.php');
 
 		$product_info = $this->modelProducts->getRow_product((int)$request->gethtml('product_id'));
 
@@ -83,14 +85,14 @@ class ControllerProduct extends Controller {
 		);
 
 			$this->template->set('title', $product_info['name']);
-		$view = $this->locator->create('template');
-		$view->set('heading_title', $product_info['name']);
+			$view = $this->locator->create('template');
+			$view->set('heading_title', $product_info['name']);
 			$view->set('breadcrumbs', $breadcrumb);
-	$view->set('text_enlarge', $language->get('text_enlarge'));
-	$view->set('text_images', $language->get('text_images'));
+			$view->set('text_enlarge', $language->get('text_enlarge'));
+			$view->set('text_images', $language->get('text_images'));
 			$view->set('text_shippable', $language->get('text_shippable'));
 			$view->set('text_non_shippable', $language->get('text_non_shippable'));
-	$view->set('text_options', $language->get('text_options'));
+			$view->set('text_options', $language->get('text_options'));
 			$view->set('text_min_qty', $language->get('text_min_qty'));
 			$view->set('text_max_qty', $language->get('text_max_qty'));
 			$view->set('text_multiple', $language->get('text_multiple'));
@@ -107,13 +109,13 @@ class ControllerProduct extends Controller {
 			$view->set('text_review', $language->get('text_review'));
 			$view->set('text_reviews', $language->get('text_reviews'));
 			$view->set('text_weight', $language->get('text_weight'));
-		$view->set('text_date_added', $language->get('text_date_added'));
-		$view->set('text_rating1', $language->get('text_rating1'));
-		$view->set('text_rating2', $language->get('text_rating2'));
-		$view->set('text_rating3', $language->get('text_rating3'));
-		$view->set('text_rating4', $language->get('text_rating4'));
-		$view->set('text_rateit', $language->get('text_rateit'));
-		$view->set('text_error', $language->get('text_empty'));	
+			$view->set('text_date_added', $language->get('text_date_added'));
+			$view->set('text_rating1', $language->get('text_rating1'));
+			$view->set('text_rating2', $language->get('text_rating2'));
+			$view->set('text_rating3', $language->get('text_rating3'));
+			$view->set('text_rating4', $language->get('text_rating4'));
+			$view->set('text_rateit', $language->get('text_rateit'));
+			$view->set('text_error', $language->get('text_empty'));	
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('text_soldby', $language->get('text_soldby'));
 			$view->set('text_downloadable', $language->get('text_downloadable'));
@@ -235,16 +237,19 @@ class ControllerProduct extends Controller {
 				$view->set('product_discounts',$product_discounts);
 			}
 
-		$image_data = array(); // Additional Images
+			$image_data = array(); // Additional Images
 			$results = $this->modelProducts->get_additional_images((int)$request->gethtml('product_id'));
-		foreach ($results as $result) {
-			$image_data[] = array(
+			foreach ($results as $result) {
+				$image_data[] = array(
 					'image_id' => $result['image_id'],
-				'title' => $result['title'],
-				'popup' => $this->image->href($result['filename']),
-				'thumb' => $this->image->resize($result['filename'], $this->config->get('additional_image_width'), $this->config->get('additional_image_height')),
-			);
-		}
+					'title'	=> $result['title'],
+					'popup'	=> $this->image->href($result['filename']),
+					'thumb'	=> $this->image->resize($result['filename'], $this->config->get('additional_image_width'), $this->config->get('additional_image_height')),
+					'width'	=> $this->config->get('additional_image_width'),
+					'height'=> $this->config->get('additional_image_height')
+				);
+			}
+
 			$downloads = $this->modelProducts->get_downloads($request->gethtml('product_id'));
 			$view->set('downloads', $downloads);
 
@@ -270,20 +275,23 @@ class ControllerProduct extends Controller {
 			}
 
 			$product_data = array(
-				'product_id'=> $request->gethtml('product_id'),
-				'thumb'     => $this->image->resize($product_info['filename'], $this->config->get('product_image_width'), $this->config->get('product_image_height')),
-				'name'      => $product_info['name'],
-				'model_number' => $product_info['model_number'],
-				'vendor_name'  => $vendor_name,
-				'barcode'   => $product_info['barcode'],
+				'product_id'	=> $request->gethtml('product_id'),
+				'thumb'		=> $this->image->resize($product_info['filename'], $this->config->get('product_image_width'), $this->config->get('product_image_height')),
+				'image_width'	=> $this->config->get('product_image_width'),
+				'image_height'	=> $this->config->get('product_image_height'),
+				'name'		=> $product_info['name'],
+				'model_number'	=> $product_info['model_number'],
+				'vendor_name'	=> $vendor_name,
+				'barcode'	=> $product_info['barcode'],
 				'barcode_url'	=> $product_info['barcode'] ? $this->barcode->show($product_info['barcode']) : NULL,
-				'popup'     => $this->image->href($product_info['filename']),
-				'min_qty'   => isset($product_info['min_qty'])?$product_info['min_qty']:1,
-				'max_qty'   => isset($product_info['max_qty'])?$product_info['max_qty']:0,
-				'multiple'  => isset($product_info['multiple'])?$product_info['multiple']:0,
-				'cart_level'=> $cart->hasProduct($request->gethtml('product_id')),
-				'special_price' => $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
-
+				'barcode_width'	=> $product_info['barcode'] ? (strlen(trim($product_info['barcode'])) == 12 ? '116': '108') : NULL,
+				'barcode_height'=> $product_info['barcode'] ? '60' : NULL,
+				'popup'		=> $this->image->href($product_info['filename']),
+				'min_qty'	=> isset($product_info['min_qty'])?$product_info['min_qty']:1,
+				'max_qty'	=> isset($product_info['max_qty'])?$product_info['max_qty']:0,
+				'multiple'	=> isset($product_info['multiple'])?$product_info['multiple']:0,
+				'cart_level'	=> $cart->hasProduct($request->gethtml('product_id')),
+				'special_price'	=> $currency->format($tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
 				'price' => $currency->format($tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
 				'sale_start_date' => $product_info['sale_start_date'],
 				'sale_end_date'   => $product_info['sale_end_date'],
@@ -291,6 +299,7 @@ class ControllerProduct extends Controller {
 				'options'         => $this->modelProducts->get_options($product_info['product_id'],$product_info['tax_class_id']),
 				'days_remaining'  => $days_remaining
 			);
+
 			$view->set('product',$product_data);
 
 			if ($this->config->get('review_status')) {
@@ -314,7 +323,7 @@ class ControllerProduct extends Controller {
 			$view->set('addtocart_quantity_box', $this->config->get('addtocart_quantity_box'));
 			$view->set('addtocart_quantity_max', $this->config->get('addtocart_quantity_max'));
 			$view->set('maxrow', count($this->review()));
-		$view->set('images', $image_data);
+			$view->set('images', $image_data);
 			$view->set('image_display', $this->config->get('product_image_display'));
 			$view->set('magnifier', $this->config->get('magnifier'));
 			$view->set('magnifier_width', $this->config->get('magnifier_width'));
@@ -406,7 +415,9 @@ class ControllerProduct extends Controller {
 			if(isset($this->modelCore->tpl['tpl_footers'])){$this->template->set('tpl_footers',$this->modelCore->tpl['tpl_footers']);}
 			if(isset($this->modelCore->tpl['tpl_bottom'])){$this->template->set('tpl_bottom',$this->modelCore->tpl['tpl_bottom']);}
 		}
-		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
+		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){
+			$this->template->set('template_color',$this->tpl_manager['tpl_color']);
+		}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 
@@ -449,10 +460,12 @@ class ControllerProduct extends Controller {
 			$this->download->output(); 
 		} 
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

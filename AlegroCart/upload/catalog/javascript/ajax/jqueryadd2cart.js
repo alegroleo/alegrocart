@@ -241,10 +241,14 @@ function UpdateBarcode(product_id,controller){
 	var Controller = controller;
 	var ProductWithOptions = ProductOptions(product_id,controller);
 	var BarCode = $('#'+Controller+'_barcode_'+ProductWithOptions).val();
+	var Width = BarCode.length == 12 ? 116 : 108;
+	var Height = 60;
 	if(BarCode!=undefined && BarCode > 0){
 		var ImagPath = $('#'+Controller+'_barcode_url_'+ProductWithOptions).val();
 		$('#'+Controller+'_barcode_'+Product_id).text(BarCode);
 		document.getElementById('barcode_'+Controller+'_'+Product_id).src = ImagPath;
+		document.getElementById('barcode_'+Controller+'_'+Product_id).width = Width;
+		document.getElementById('barcode_'+Controller+'_'+Product_id).height = Height;
 		$('#'+Controller+'_barcode_text_'+Product_id).attr('style','visibility:visible');
 		$('#'+Controller+'_barcode_'+Product_id).attr('style','visibility:visible');
 		$('#barcode_'+Controller+'_'+Product_id).attr('style','visibility:visible');
@@ -444,7 +448,7 @@ $(document).ready(function(){
 		$('.active').parent().prev().css({'background-color': hbg_color, 'color':htext_color});
 	}, function() {
 		$(this).find('ul:first').each(function(i,selected){
-			if ($(selected).attr('class') == "menu"){
+			if ($(selected).hasClass("menu")){
 				$(selected).parent('li').children('a').each(function(i,li_children){
 					$(li_children).removeAttr('style','background-color');
 				});

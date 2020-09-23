@@ -7,12 +7,12 @@
 	<?php foreach ($manufacturers as $manufacturer) { ?>
 		<div>
 			<a href="<?php echo $manufacturer['href']; ?>">
-			<img src="<?php echo $manufacturer['thumb']; ?>" alt="<?php echo $manufacturer['name']; ?>">
+			<img src="<?php echo $manufacturer['thumb']; ?>" width="<?php echo $manufacturer['width']; ?>" height="<?php echo $manufacturer['height']; ?>" alt="<?php echo $manufacturer['name']; ?>">
 			</a>
 		</div>
 	<?php } ?>
 </div>
-  <script>
+  <script type="text/javascript">
 	$(document).ready(function(){
 	  $('.manufacturerslider_module').slick({
 		slidesToScroll: 1,

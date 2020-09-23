@@ -40,8 +40,8 @@ $limit = $config->get('config_rss_limit') ? $config->get('config_rss_limit') : 2
 $rss_source = $config->get('config_rss_source') ? $config->get('config_rss_source') : 'rss_latest';
 
 // Base URL
-$catalog_url = $request->isSecure()?HTTPS_SERVER:HTTP_SERVER;
-$image_url = $request->isSecure()?HTTPS_IMAGE:HTTP_IMAGE;
+$catalog_url = SSL ? HTTPS_SERVER : HTTP_SERVER;
+$image_url = SSL ? HTTPS_IMAGE : HTTP_IMAGE;
 
 // Product Data
 $product_data = array();

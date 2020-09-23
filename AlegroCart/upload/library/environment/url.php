@@ -1,41 +1,51 @@
 <?php 
-class Url { 
-	var $data = array();
+final class Url {
+ 
+	private $data = array();
 
-	function __construct(&$locator) {
-		$this->config   =& $locator->get('config');
-		$this->database =& $locator->get('database');
-		$this->session   =& $locator->get('session');
+	public function __construct(&$locator) {
+
+		$this->config	=& $locator->get('config');
+		$this->database	=& $locator->get('database');
+		$this->request	=& $locator->get('request');
+		$this->session	=& $locator->get('session');
+
 		if ($this->config->get('config_url_alias') && (!preg_match('#/' . PATH_ADMIN . '/#i',$_SERVER['PHP_SELF']))) {
 			$results = $this->database->cache('url', "select * from url_alias");
-
 			foreach ($results as $result) {
-			$this->data[htmlspecialchars_decode($result['query'])] = htmlspecialchars_decode($result['alias']);
+				$this->data[htmlspecialchars_decode($result['query'])] = htmlspecialchars_decode($result['alias']);
 			}
+		}
+
+	}
+
+	public function requested($url) {
+		if (isset($_SERVER['REQUEST_URI'])) { 
+			return htmlspecialchars($_SERVER['REQUEST_URI']);
+		} else {
+			return $url;
 		}
 	}
 
-	function requested($url) {
-		if (isset($_SERVER['REQUEST_URI'])) { return htmlspecialchars($_SERVER['REQUEST_URI']); }
-		else { return $url; }
-	}
-
-	function validate_referer(){
-		if(strstr($this->referer(''),$this->get_server())){
+	public function validate_referer(){
+		if(strstr($this->referer(''), $this->get_server())){
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
 
-	function referer($url) {
-		if (isset($_SERVER['HTTP_REFERER'])) { return htmlspecialchars($_SERVER['HTTP_REFERER']); }
-		else { return $url; }
+	public function referer($url) {
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			return htmlspecialchars($_SERVER['HTTP_REFERER']);
+		} else {
+			return $url;
+		}
 	}
 
-	function current_page(){
+	public function current_page(){
 		if(isset($_SERVER['HTTP_HOST'])){
-		  if((@$_SERVER['HTTPS']) && (defined('HTTPS_SERVER')) && (HTTPS_SERVER)) {
+			if (SSL) {
 				return htmlspecialchars("https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 			} else {
 				return htmlspecialchars("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -43,26 +53,26 @@ class Url {
 		}
 	}
 
-	function raw($controller, $action = NULL, $query = array()) {
+	public function raw($controller, $action = NULL, $query = array()) {
 		return $this->create(HTTP_SERVER, $controller, $action, $query);
 	}
 
-	function href($controller, $action = NULL, $query = array()) {
+	public function href($controller, $action = NULL, $query = array()) {
 		return htmlspecialchars($this->create(HTTP_SERVER, $controller, $action, $query));
 	}
 
-	function ssl($controller, $action = NULL, $query = array()) {
+	public function ssl($controller, $action = NULL, $query = array()) {
 		$server=$this->get_server();
 		return htmlspecialchars($this->create($server, $controller, $action, $query));
 	}
 
-	function rawssl($controller, $action = NULL, $query = array()) {
+	public function rawssl($controller, $action = NULL, $query = array()) {
 		$server=$this->get_server();
 		return $this->create($server, $controller, $action, $query);
 	}
 
-	function get_server() {
-		if (($this->config->get('config_ssl')) && (defined('HTTPS_SERVER')) && (HTTPS_SERVER)) {
+	public function get_server() {
+		if(SSL && $this->config->get('config_ssl')) {
 			$server = HTTPS_SERVER;
 		} else {
 			$server = HTTP_SERVER;
@@ -70,10 +80,12 @@ class Url {
 		return $server;
 	}
 
-	function create($server, $controller, $action = NULL, $query = array()) {
+	public function create($server, $controller, $action = NULL, $query = array()) {
 		$qs = 'controller=' . $controller;
 
-		if ($action) { $query['action']=$action; }
+		if ($action) {
+			 $query['action'] = $action;
+		}
 
 		foreach ($query as $key => $value) {
 			if ($value) { $qs .= '&' . $key . '=' . $value; }
@@ -90,7 +102,7 @@ class Url {
 		return $server.$link;
 	}
 
-	function Remaster($link) {
+	public function Remaster($link) {
 		if ((!preg_match('#/' . PATH_ADMIN . '/#i',$_SERVER['PHP_SELF'])) && ($this->config->get('config_url_alias'))) {
 			$query_string=parse_url($link,PHP_URL_QUERY); //get query string
 			$link=str_replace('?'.$query_string,'',$link); //strip query string
@@ -102,7 +114,7 @@ class Url {
 		return $link;
 	}
 
-	function get_controller($referer, $controllers){
+	public function get_controller($referer, $controllers){
 		if(stristr($referer,'https')){
 			$path = substr($referer,strlen(HTTPS_BASE));
 		} else {
@@ -112,7 +124,6 @@ class Url {
 			$alias = $this->getAlias($path);
 			if($alias){
 				return $this->check_controller($alias, $controllers);
-
 			} else {
 				$alias = $this->Rework($path);
 				return $this->check_controller($alias, $controllers);
@@ -123,7 +134,7 @@ class Url {
 		return FALSE;
 	}
 
-	function check_controller($path, $controllers){
+	public function check_controller($path, $controllers){
 		foreach($controllers as $controller){
 			if(strstr($path, $controller)){
 				return TRUE;
@@ -132,9 +143,9 @@ class Url {
 		return FALSE;
 	}
 
-	function Rework($path) {
-		$query=(strstr($path,'/'))?explode('/', $path):$path;
-		$path='controller=';
+	public function Rework($path) {
+		$query = (strstr($path,'/')) ? explode('/', $path) : $path;
+		$path = 'controller=';
 		if (is_array($query)) {
 			$path.=array_shift($query);
 			$node='&';
@@ -149,7 +160,7 @@ class Url {
 		return $path;
 	}
 
-	function getAlias($path){
+	public function getAlias($path){
 		$page = strpos($path,'/page') ? substr($path,strpos($path,'/page/')) : '';
 		$page = $page ? '&page=' . (int)str_replace('/page/','',$page): '' ;
 		$sql  = "select * from url_alias where alias = '?'";
@@ -158,10 +169,12 @@ class Url {
 		} else {
 			$result = $this->database->getRow($this->database->parse($sql,$path));
 		}
-		if ($result) return htmlspecialchars_decode($result['query']).$page;
+		if ($result) {
+			return htmlspecialchars_decode($result['query']).$page;
+		}
 	}
 
-	function getLast($controller) {
+	public function getLast($controller) {
 		if ($controller == $this->session->get('prev_controller')) {
 			$this->session->set('prev_path', $this->current_page());
 		} else {

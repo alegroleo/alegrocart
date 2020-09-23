@@ -1,8 +1,10 @@
 <?php  // Also Bought Products AlegroCart
 class ModuleAlsobought extends Controller {
-		var $remaining = false;
-		var $discounted = false;
-	function fetch() {
+
+	var $remaining = false;
+	var $discounted = false;
+
+	public function fetch() {
 		$cart			=& $this->locator->get('cart');
 		$config			=& $this->locator->get('config');
 		$currency		=& $this->locator->get('currency');
@@ -21,9 +23,9 @@ class ModuleAlsobought extends Controller {
 
 		if ($config->get('alsobought_status')) {
 
-		$language->load('extension/module/alsobought.php');
-		$view = $this->locator->create('template');
-		$view->set('heading_title', $language->get('heading_title'));
+			$language->load('extension/module/alsobought.php');
+			$view = $this->locator->create('template');
+			$view->set('heading_title', $language->get('heading_title'));
 			$view->set('onhand', $language->get('onhand'));
 			$view->set('text_model_number', $language->get('text_model_number'));
 			$view->set('tax_included', $config->get('config_tax'));
@@ -117,7 +119,7 @@ class ModuleAlsobought extends Controller {
 
 			$product_data = array();
 
-		foreach ($results as $result) {
+			foreach ($results as $result) {
 				if ($config->get('alsobought_ratings')) {
 					$averageRating = number_format($this->modelProducts->getAverageRating($result['product_id']), 0);
 					$alt_rating = $language->get('text_out_of', $averageRating);
@@ -193,6 +195,8 @@ class ModuleAlsobought extends Controller {
 				'href'			=> $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
 				'popup'			=> $image->href($result['filename']),
 				'thumb'			=> $image->resize($result['filename'], $image_width, $image_height),
+				'image_width'		=> $image_width,
+				'image_height'		=> $image_height,
 				'special_price'		=> $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
 				'price'			=> $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
 				'sale_start_date'	=> $result['sale_start_date'],
@@ -207,7 +211,7 @@ class ModuleAlsobought extends Controller {
 				'vendor_name'		=> $vendor_name,
 				'status'		=> $result['status']
 			);
-		}
+			}
 
 			$view->set('products', $product_data);
 			$view->set('show_stock', $config->get('config_show_stock'));

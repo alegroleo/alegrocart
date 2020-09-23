@@ -191,7 +191,7 @@
   <input type="hidden" name="account_validation" value="<?php echo $account_validation;?>">
 </form></div>
 <div class="contentBodyBottom"></div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $('#zone').load('index.php?controller=account_create&action=zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
 
 function enable_input(agreed){
@@ -234,4 +234,4 @@ $(document).ready(function(){
 		$('#infolink'). removeAttr("href");
 	}
 });
-//--></script>
+</script>

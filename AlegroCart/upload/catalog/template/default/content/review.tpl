@@ -21,7 +21,7 @@ $head_def->setcss($this->style . "/css/paging.css");
     <div class="c"><b><?php echo $text_date_added; ?></b> <?php echo $review['date_added']; ?></div>
     <table>
       <tr>
-        <td rowspan="3"><a href="<?php echo $review['href']; ?>"><img src="<?php echo $review['thumb']; ?>" alt="<?php echo $review['name']; ?>" class="d"></a></td>
+        <td rowspan="3"><a href="<?php echo $review['href']; ?>"><img src="<?php echo $review['thumb']; ?>" width="<?php echo $review['width']; ?>" height="<?php echo $review['height']; ?>" alt="<?php echo $review['name']; ?>" class="d"></a></td>
         <td><?php echo $review['text']; ?></td>
       </tr>
       <tr>

@@ -1,8 +1,10 @@
 <?php  // Manufacturer List AlegroCart
 class ModuleManufacturerList extends Controller {
-		var $remaining = false;
-		var $discounted = false;
-	function fetch() {
+
+	var $remaining = false;
+	var $discounted = false;
+
+	public function fetch() {
 		$cart			=& $this->locator->get('cart');
 		$config			=& $this->locator->get('config');
 		$currency		=& $this->locator->get('currency');
@@ -147,6 +149,8 @@ class ModuleManufacturerList extends Controller {
 						'href'			=> $url->ssl('product', FALSE, array('manufacturer_id' => $manufacturer['manufacturer_id'], 'product_id' => $result['product_id'])),
 						'popup'			=> $image->href($result['filename']),
 						'thumb'			=> $image->resize($result['filename'], $image_width, $image_height),
+						'image_width'		=> $image_width,
+						'image_height'		=> $image_height,
 						'special_price'		=> $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
 						'price'			=> $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
 						'sale_start_date'	=> $result['sale_start_date'],

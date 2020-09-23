@@ -1,17 +1,19 @@
 <?php
-class Template {
-	var $data = array();
-	var $directory;
-	var $controller;
-	var $action;
-	var $admin_controller;
-	var $cssColumns;
-	var $style;
-	var $color;
-	var $page_columns;
-	var $social = FALSE;
-	var $getlist = FALSE;
-	var $index = array(
+
+final class Template {
+
+	public $data = array();
+	public $directory;
+	public $controller;
+	public $action;
+	public $admin_controller;
+	public $cssColumns;
+	public $style;
+	public $color;
+	public $page_columns;
+	public $social = FALSE;
+	private $getlist = FALSE;
+	private $index = array( // pages without getList and getForm
 				'backup',
 				'home',
 				'login',
@@ -28,9 +30,9 @@ class Template {
 				'setting',
 				'watermark'
 			);
-	var $extensions = array('calculate', 'module', 'shipping', 'payment');
+	private $extensions = array('calculate', 'module', 'shipping', 'payment');
 
-	function __construct(&$locator, $directory, $styles, $color, $columns) {
+	public function __construct(&$locator, $directory, $styles, $color, $columns) {
 		$this->config		=& $locator->get('config');
 		$this->locator		=& $locator;
 		$this->directory	= $directory;
@@ -40,19 +42,21 @@ class Template {
 		$this->page_columns	= $columns;
 		$this->cssColums	= 3;
 		$this->head_def		=& $locator->get('HeaderDefinition');
+		$this->url		=& $locator->get('url');
 		$this->social		= $this->config->get('config_social');
 		$this->condense		= $this->config->get('config_page_load');
 		$this->admin_condense	= $this->config->get('config_admin_page_load');
 	}
 
-	function set($key, $value = NULL) {
+	public function set($key, $value = NULL) {
 		if (!is_array($key)) {
 			$this->data[$key] = $value;
 		} else {
 			$this->data = array_merge($this->data, $key);
 		}
 	}
-	function condense_css($add_default = true, $add_color = true){
+
+	public function condense_css($add_default = true, $add_color = true){
 		$css = "";
 		$created = 0;
 		$size = 0;
@@ -98,7 +102,8 @@ class Template {
 		$css_path = "<link rel=\"stylesheet\" type=\"text/css\" href=\"catalog/styles/" . $this->style . "/render/" . $this->controller . '_' . $created . '_' . $size . '.css' . "\">";
 		return $css_path;
 	}
-	function condense_admin_css($add_default = true){
+
+	public function condense_admin_css($add_default = true){
 		$css = "";
 		$created = 0;
 		$size = 0;
@@ -156,7 +161,8 @@ class Template {
 		}
 		return $css_path;
 	}
-	function condense_js(){
+
+	public function condense_js(){
 		$js = "";
 		$created = 0;
 		$size = 0;
@@ -185,7 +191,8 @@ class Template {
 		$js_path = "<script type=\"text/javascript\" src=\"catalog/javascript/render/" . $this->controller . '_' . $created . '_' . $size . ".js\"></script>";
 		return $js_path;
 	}
-	function condense_admin_js(){
+
+	public function condense_admin_js(){
 		$js = "var CKEDITOR_BASEPATH = \"" . (HTTPS_ADMIN ? HTTPS_ADMIN : HTTP_ADMIN) . "javascript/ckeditor/\";";
 		$created = 0;
 		$size = 0;
@@ -235,7 +242,8 @@ class Template {
 		}
 		return $js_path;
 	}
-	function minify_css($string){
+
+	private function minify_css($string){
 		$string = preg_replace('/\/\*[\s\S]*?\*\//','', $string); // remove /**/ like comments
 		$string = preg_replace('/^\s*\n/m','', $string); // delete blank lines
 		$string = str_replace("\r\n", "\n", $string);
@@ -243,7 +251,8 @@ class Template {
 		$string = preg_replace('/;?\s*}\s*/', '}', $string); // delete whitespace around } and delete the last semicolon as well
 		return $string;
 	}
-	function minify_js($string){
+
+	private function minify_js($string){
 		$string = preg_replace("/(\*\/\s*)\/\/(?!(\*\/|[^\r\n]*?[\\\\n\\\\r]+\s*\"\s*\+|[^\r\n]*?[\\\\n\\\\r]+\s*\'\s*\+))[^\n\r\;]*?[^\;]\s*[\n\r]/", "$1\n", $string);
 		do {
 			$string = preg_replace("/(http(s)?\:)([^\r\n]*?)(\/\/)/", "$1$3qDdXX", $string, 1, $count);
@@ -479,8 +488,9 @@ class Template {
 		//END Remove all whitespaces
 		return $string;
 	}
-	function fetch($filename, $directory = DIR_TEMPLATE) {
-	$file = $directory . $this->directory . '/' . $filename;
+
+	public function fetch($filename, $directory = DIR_TEMPLATE) {
+		$file = $directory . $this->directory . '/' . $filename;
 
 		if (file_exists($file)) {
 			extract($this->data);
@@ -498,8 +508,10 @@ class Template {
 			exit('Error: Template ' . $file . ' not found!');
 		}
 	}
-	function set_controller($controller){
+
+	public function set_controller($controller){
 		$this->admin_controller = $controller;
 	}
+
 }
 ?>

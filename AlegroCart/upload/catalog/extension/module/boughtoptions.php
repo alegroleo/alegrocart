@@ -1,6 +1,8 @@
 <?php  //Bought Products Options AlegroCart
 class ModuleBoughtOptions extends Controller{
-	function fetch(){
+
+	public function fetch(){
+
 		$config			=& $this->locator->get('config');
 		$customer		=& $this->locator->get('customer');
 		$language		=& $this->locator->get('language');
@@ -37,8 +39,8 @@ class ModuleBoughtOptions extends Controller{
 		$customer_id = (int)$customer->getId();
 
 		$man_results = $this->modelBought->get_manufacturer($customer_id); //check
+		$manufacturers_data = array();
 		if (count($man_results) > 1){
-			$manufacturers_data = array();
 			foreach ($man_results as $man_result){
 				$result = $this->modelProducts->getRow_manufacturer($man_result['manufacturer_id']);
 				$manufacturers_data[] = array(
@@ -46,8 +48,6 @@ class ModuleBoughtOptions extends Controller{
 					'name'		=> $result['name']
 				);
 			}
-		} else {
-			$manufacturers_data = "";
 		}
 
 		if ($manufacturer_id > 0){
@@ -98,7 +98,7 @@ class ModuleBoughtOptions extends Controller{
 	
 	}
 
-	function sort_filter(){
+	private function sort_filter(){
 		$language =& $this->locator->get('language');
 		$language->load('extension/module/boughtoptions.php');
 		$sort_filter = array();
@@ -107,7 +107,7 @@ class ModuleBoughtOptions extends Controller{
 		return $sort_filter;
 	}
 
-	function sort_order(){
+	private function sort_order(){
 		$language =& $this->locator->get('language');
 		$language->load('extension/module/boughtoptions.php');
 		$sort_order = array();

@@ -11,7 +11,7 @@
     $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 	$head_def->set_javascript("lightbox/lightbox.js");
 ?>
-  <script>
+  <script type="text/javascript">
 	$(document).ready(function(){
 		$(".lightbox").lightbox({
 			fitToScreen: true,
@@ -38,14 +38,14 @@
   <div id="review_write">
 	<div class="a">
 		<?php if($image_display == 'thickbox'){?>
-		<a href="<?php echo $popup; ?>" title="<?php echo $product; ?>" class="thickbox"><img src="<?php echo $thumb; ?>" title="<?php echo $product; ?>" alt="<?php echo $product; ?>"></a>
+		<a href="<?php echo $popup; ?>" title="<?php echo $product; ?>" class="thickbox"><img src="<?php echo $thumb; ?>" title="<?php echo $product; ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" alt="<?php echo $product; ?>"></a>
 		<div class="enlarge"><a class="thickbox" href="<?php echo $popup; ?>"><?php echo $text_enlarge; ?></a></div>
 		<?php } elseif ($image_display == 'fancybox') {?>
 		<script type="text/javascript">$(document).ready(function(){$("a#<?php echo $this_controller.$id; ?>").fancybox({openEffect : 'elastic', closeEffect : 'elastic'}); });</script>
-		<a href="<?php echo $popup; ?>" id="<?php echo $this_controller.$id; ?>"><img src="<?php echo $thumb;?>" title="<?php echo $product; ?>" alt="<?php echo $product; ?>"></a>
+		<a href="<?php echo $popup; ?>" id="<?php echo $this_controller.$id; ?>"><img src="<?php echo $thumb;?>" title="<?php echo $product; ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" alt="<?php echo $product; ?>"></a>
 		<div class="enlarge"> <a id="<?php echo $this_controller.$id; ?>" href="<?php echo $popup; ?>"> <?php echo $text_enlarge; ?></a></div>
 		<?php } elseif ($image_display == 'lightbox') { ?>
-		<a href="<?php echo $popup; ?>" class="lightbox" id="<?php echo $this_controller.$id; ?>"><img src="<?php echo $thumb;?>" title="<?php echo $product; ?>" alt="<?php echo $product; ?>"></a>
+		<a href="<?php echo $popup; ?>" class="lightbox" id="<?php echo $this_controller.$id; ?>"><img src="<?php echo $thumb;?>" title="<?php echo $product; ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" alt="<?php echo $product; ?>"></a>
 		<div class="enlarge"> <a class="lightbox" id="<?php echo $this_controller.$id; ?>" href="<?php echo $popup; ?>"><?php echo $text_enlarge; ?></a></div>
 		<?php } ?>
 	</div>

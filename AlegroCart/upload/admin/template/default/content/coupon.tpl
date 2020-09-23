@@ -8,9 +8,9 @@
   $head_def->set_admin_javascript("javascript/datepicker/datepicker.js");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <input type="hidden" name="update_form" value="1">
@@ -35,20 +35,20 @@
   <input type="hidden" name="coupon_id" id="coupon_id" value="<?php echo $coupon_id; ?>">
   </form>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
   <?php if (@$delete) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs();document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs();document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -59,7 +59,7 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
  <em></em>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
@@ -81,15 +81,15 @@
                   <tr>
                     <td width="185" class="set"><span class="required">*</span> <?php echo $entry_name; ?></td>
                     <td><input name="language[<?php echo $coupon['language_id']; ?>][name]" value="<?php echo $coupon['name']; ?>">
-                      <?php if ($error_name) { ?>
-                      <span class="error"><?php echo $error_name; ?></span>
+                      <?php if (@$error_name[$coupon['language_id']]) { ?>
+                      <span class="error"><?php echo $error_name[$coupon['language_id']]; ?></span>
                       <?php } ?></td>
                   </tr>
                   <tr>
                     <td valign="top" class="set"><span class="required">*</span> <?php echo $entry_description; ?></td>
                     <td><textarea name="language[<?php echo $coupon['language_id']; ?>][description]" cols="40" rows="5" id="description<?php echo $coupon['language_id']; ?>"><?php echo $coupon['description']; ?></textarea>
-                      <?php if ($error_description) { ?>
-                      <span class="error"><?php echo $error_description; ?></span>
+                      <?php if (@$error_description[$coupon['language_id']]) { ?>
+                      <span class="error"><?php echo $error_description[$coupon['language_id']]; ?></span>
                       <?php } ?></td>
                   </tr>
                 </table>
@@ -136,7 +136,9 @@
                 <input class="validate_int" id="date_start_year" name="date_start_year" value="<?php echo $date_start_year; ?>" size="4" maxlength="4">
                 <?php if ($error_date_start) { ?>
                 <span class="error"><?php echo $error_date_start; ?></span>
-                <?php } ?></td>
+                <?php } elseif ($error_date) { ?>
+                <span class="error"><?php echo $error_date; ?></span>
+                  <?php } ?></td>
             </tr>
             <tr>
               <td class="set"><?php echo $entry_date_end; ?></td>
@@ -229,47 +231,47 @@
     </div>
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
   tabview_initialize('tab');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   tabview_initialize('tabmini');
-  //--></script>
-  <script type="text/javascript"><!-- 
+  </script>
+  <script type="text/javascript"> 
   function check_discount(){
-	var Discount = $('#discount').val();
-	var Prefix = $('#prefix').val();
+	let Discount = $('#discount').val();
+	let Prefix = $('#prefix').val();
 	if (Prefix == "%" && Discount > 100){
 	  $('#discount').val(100);
 	  $('#error_discount').text('<?php echo $error_discount;?>');
 	} else
 	  $('#error_discount').text('');
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $('input[name="language[1][name]"]').change(function () {
-      var value = $(this).val();
+      let value = $(this).val();
       $(".heading em").text(value);
     }).change();
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     datePickerController.createDatePicker({
     formElements:{"date_start_year":"%Y","date_start_month":"%n", "date_start_day":"%d"},
     showWeeks:true,
     statusFormat:"%l, %d %F %Y"
     });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     datePickerController.createDatePicker({
     formElements:{"date_end_year":"%Y","date_end_month":"%n", "date_end_day":"%d"},
     showWeeks:true,
     statusFormat:"%l, %d %F %Y"
     });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
-	$('.task .disabled').hide();
+		$('.task .disabled').hide();
 	});
 	<?php if (!$help) { ?>
 		$('.description').hide(0);
@@ -285,13 +287,13 @@
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	function saveTabs() {
-	var activeTab = $('#tab > .tabs > a.active').index()+1;
-	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
-	var id = $('#coupon_id').val();
-	var data_json = {'activeTab':activeTab, 'activeTabmini':activeTabmini, 'id':id};
+	let activeTab = $('#tab > .tabs > a.active').index()+1;
+	let activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
+	let id = $('#coupon_id').val();
+	let data_json = {'activeTab':activeTab, 'activeTabmini':activeTabmini, 'id':id};
 	$.ajax({
 		type:	'POST',
 		url:	'index.php?controller=coupon&action=tab',
@@ -300,10 +302,10 @@
 	});
 	}
 	function getTabs() {
-	var activeTab = $('#tab > .tabs > a.active').index()+1;
-	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
-	var id = $('#coupon_id').val();
-	var data_json = {'activeTab':activeTab, 'activeTabmini':activeTabmini, 'id':id};
+	let activeTab = $('#tab > .tabs > a.active').index()+1;
+	let activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
+	let id = $('#coupon_id').val();
+	let data_json = {'activeTab':activeTab, 'activeTabmini':activeTabmini, 'id':id};
 	$.ajax({
 		type:	'POST',
 		url:	'index.php?controller=coupon&action=tab',
@@ -344,29 +346,30 @@
 
 	}
 	function getMultipleSelection(formName,elementName,newFormName){ 
-		var html ='';
-		var mySelect = document.forms[formName].elements[elementName];
-		for(j = 0; j < mySelect.options.length; j++) { 
+		let html ='';
+		let mySelect = document.forms[formName].elements[elementName];
+		let mySelectLength = mySelect.options.length;
+		for(let j = 0; j < mySelectLength; j++) { 
 			if(mySelect.options[j].selected) { 
 				html +='<input type="hidden" name="' + elementName + '" value="' + mySelect.options[j].value + '">';
 			}
 		}
 		document.forms[newFormName].innerHTML += html;
 	}
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
 		tabview_switch('tab', <?php echo $tab; ?>);
-	if (<?php echo $tabmini; ?>!=undefined && <?php echo $tabmini; ?> > 0) {
+		if (<?php echo $tabmini; ?>!=undefined && <?php echo $tabmini; ?> > 0) {
 			tabview_switch('tabmini', <?php echo $tabmini; ?>);
 		}
 	}
    });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $(document).ready(function() {
 	  RegisterValidation();
     });
-  //--></script>
+  </script>
 </form>

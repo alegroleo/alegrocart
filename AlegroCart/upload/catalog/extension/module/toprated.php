@@ -1,7 +1,9 @@
 <?php  // TopRated AlegroCart
 class ModuleToprated extends Controller {
+
 		var $remaining = false;
 		var $discounted = false;
+
 	function fetch() {
 		$cart			=& $this->locator->get('cart');
 		$config			=& $this->locator->get('config');
@@ -158,30 +160,32 @@ class ModuleToprated extends Controller {
 					$product_options = FALSE;
 				}
 			$product_data[] = array(
-				'name'  => $result['name'],
-				'product_id'  => $result['product_id'],
-				'description'  => $desc,
-				'stock_level' => $result['quantity'],
+				'name'			=> $result['name'],
+				'product_id'		=> $result['product_id'],
+				'description'		=> $desc,
+				'stock_level'		=> $result['quantity'],
 				'cart_level'		=> $cart->hasProduct($result['product_id']),
-				'min_qty'	  => $result['min_qty'],
-				'max_qty'	  => $result['max_qty'],
-				'multiple'	  => $result['multiple'],
-				'product_discounts' => $product_discounts,
-				'href'  => $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
-				'popup'     => $image->href($result['filename']),
-				'thumb' => $image->resize($result['filename'], $image_width, $image_height),
-				'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
-				'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
-				'sale_start_date' => $result['sale_start_date'],
-				'sale_end_date'   => $result['sale_end_date'],
-				'show_days_remaining' => $result['remaining'],
-				'options'         => $options,
-				'model_number'    => $result['model_number'],
-				'product_options' => $product_options,
-				'days_remaining'  => $days_remaining,
+				'min_qty'		=> $result['min_qty'],
+				'max_qty'		=> $result['max_qty'],
+				'multiple'		=> $result['multiple'],
+				'product_discounts'	=> $product_discounts,
+				'href'			=> $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
+				'popup'			=> $image->href($result['filename']),
+				'thumb'			=> $image->resize($result['filename'], $image_width, $image_height),
+				'image_width'		=> $image_width,
+				'image_height'		=> $image_height,
+				'special_price'		=> $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $config->get('config_tax'))),
+				'price'			=> $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $config->get('config_tax'))),
+				'sale_start_date'	=> $result['sale_start_date'],
+				'sale_end_date'		=> $result['sale_end_date'],
+				'show_days_remaining'	=> $result['remaining'],
+				'options'		=> $options,
+				'model_number'		=> $result['model_number'],
+				'product_options'	=> $product_options,
+				'days_remaining'	=> $days_remaining,
 				'average_rating'	=> $averageRating,
 				'alt_rating'		=> $alt_rating,
-				'vendor_name'     => $vendor_name,
+				'vendor_name'		=> $vendor_name,
 				'status'		=> $result['status']
 			);
 		}

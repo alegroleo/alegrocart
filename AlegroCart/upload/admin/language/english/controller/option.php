@@ -5,8 +5,10 @@ $_['heading_form_title']  = 'Option:';
 $_['heading_description'] = 'You can edit product options here.';
 
 // Text
-$_['text_message']        = 'Success: You have updated product options!';
-$_['text_folder_help']    = 'The <b>List Icons</b> below are the gateways to Option Values.<br>You can add or delete option values for each Option here.<br>Click the Icon to enter and edit your option values.';
+$_['text_message']		= 'Success: You have updated product options!';
+$_['text_folder_help']		= 'The <b>List Icons</b> below are the gateways to Option Values.<br>You can add or delete option values for each Option here.<br>Click the Icon to enter and edit your option values.';
+$_['text_path']			= 'Set option values';
+
 // Column
 $_['column_values']       = 'Option Values!';
 $_['column_name']         = 'Option Name';

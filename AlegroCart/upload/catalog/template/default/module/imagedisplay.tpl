@@ -13,7 +13,7 @@
     <?php if($image_display['slides']){?>
       <div id="id_slider_<?php echo $image_display['id_id'] ;?>">
         <?php foreach ($image_display['slides'] as $slide) { ?>
-        <div><img src="<?php echo $slide['filename'];?>" alt="<?php echo $slide['filename'];?>"></div>
+        <div><img src="<?php echo $slide['filename'];?>" width="<?php echo $slide['width'];?>" height="<?php echo $slide['height'];?>" alt="<?php echo $slide['filename'];?>"></div>
         <?php } ?>
       </div>
       <?php echo $image_display['sliderjs'] ;?>
@@ -30,7 +30,7 @@
     <?php } ?>
 	<?php if($image_display['image']){?>
 	  <div class="image_display_img">
-		<img src="<?php echo $image_display['image'];?>" alt="Extra">
+		<img src="<?php echo $image_display['image'];?>" width="<?php echo $image_display['image_width'];?>" height="<?php echo $image_display['image_height'];?>" alt="<?php echo $extra_image;?>">
 	  </div>
 	<?php } ?>
   <?php } ?>

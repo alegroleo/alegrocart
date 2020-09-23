@@ -1,6 +1,7 @@
 <?php  // AlegroCart Manufacturer Slider
 class ModuleManufacturerSlider extends Controller {
-	function fetch() {
+
+	public function fetch() {
 		$config			=& $this->locator->get('config');
 		$database		=& $this->locator->get('database');
 		$image			=& $this->locator->get('image');
@@ -21,9 +22,11 @@ class ModuleManufacturerSlider extends Controller {
 			foreach ($results as $result){
 				$manufacturers_data[] = array(
 					'manufacturer_id' => $result['manufacturer_id'],
-					'name'		 => $result['name'],
-					'thumb'		 => $image->resize($result['filename'], $config->get('manufacturerslider_image_width'), $config->get('manufacturerslider_image_height')),
-					'href'		 => $url->ssl('manufacturer', FALSE, array('manufacturer_id' => $result['manufacturer_id']))
+					'name'		=> $result['name'],
+					'thumb'		=> $image->resize($result['filename'], $config->get('manufacturerslider_image_width'), $config->get('manufacturerslider_image_height')),
+					'href'		=> $url->ssl('manufacturer', FALSE, array('manufacturer_id' => $result['manufacturer_id'])),
+					'width'		=> $config->get('manufacturerslider_image_width'),
+					'height'	=> $config->get('manufacturerslider_image_height')
 				);
 			}
 			$view->set('manufacturers', $manufacturers_data);

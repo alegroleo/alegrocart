@@ -1,24 +1,26 @@
 <?php //Report Sale AlegroCart
 class ControllerReportSale extends Controller {
 
+	public $error = array();
+
 	public function __construct(&$locator){
-		$this->locator 		=& $locator;
-		$model 				=& $locator->get('model');
-		$this->config   	=& $locator->get('config');
-		$this->currency 	=& $locator->get('currency');
-		$this->language 	=& $locator->get('language');
-		$this->module   	=& $locator->get('module');
-		$this->request  	=& $locator->get('request');
-		$this->response 	=& $locator->get('response');
-		$this->session  	=& $locator->get('session');
-		$this->template 	=& $locator->get('template');
-		$this->url      	=& $locator->get('url');
-		$this->modelReportSale = $model->get('model_admin_report_sale');
+		$this->locator		=& $locator;
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
+		$this->currency		=& $locator->get('currency');
+		$this->language		=& $locator->get('language');
+		$this->module		=& $locator->get('module');
+		$this->request		=& $locator->get('request');
+		$this->response		=& $locator->get('response');
+		$this->session		=& $locator->get('session');
+		$this->template		=& $locator->get('template');
+		$this->url		=& $locator->get('url');
+		$this->modelReportSale	= $model->get('model_admin_report_sale');
 		$this->head_def		=& $locator->get('HeaderDefinition');
-		$this->adminController = $this->template->set_controller('report_sale');
+		$this->adminController	= $this->template->set_controller('report_sale');
 
 		$this->language->load('controller/report_sale.php');
-		}
+	}
 
 	protected function index() { 
 		$this->template->set('title', $this->language->get('heading_title'));
@@ -60,8 +62,8 @@ class ControllerReportSale extends Controller {
 			$date = explode('/', date('d/m/Y', time()));
 
 			$date_from = array(
-				'day'   => $date[0],
-				'month' => ($date[1] != '01') ? $date[1] - 1 : $date[1],
+				'day'   => '01',
+				'month' => $date[1],
 				'year'  => $date[2]
 			);
 
@@ -104,30 +106,32 @@ class ControllerReportSale extends Controller {
 			$sql .= " order by date_added asc";
 		}
 
-		$results = $this->modelReportSale->get_page($sql);
-
 		$rows = array();
-		foreach ($results as $result) {
-			$cell = array();
- 
-			$cell[] = array(
-				'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_from'])) . ' - ' . $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_to'])),
-				'align' => 'left'
-			);
 
-			$cell[] = array(
-				'value' => $result['orders'],
-				'align' => 'right'
-			);
+		if ($this->validateForm()) {
+			$results = $this->modelReportSale->get_page($sql);
 
-			$cell[] = array(
-				'value' => $this->currency->format($result['amount'], $this->config->get('config_currency')),
-				'align' => 'right'
-			);
+			foreach ($results as $result) {
+				$cell = array();
+	 
+				$cell[] = array(
+					'value' => $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_from'])) . ' - ' . $this->language->formatDate($this->language->get('date_format_short'), strtotime($result['date_to'])),
+					'align' => 'left'
+				);
 
-			$rows[] = array('cell' => $cell);
+				$cell[] = array(
+					'value' => $result['orders'],
+					'align' => 'right'
+				);
+
+				$cell[] = array(
+					'value' => $this->currency->format($result['amount'], $this->config->get('config_currency')),
+					'align' => 'right'
+				);
+
+				$rows[] = array('cell' => $cell);
+			}
 		}
-
 		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def); 
 		$view->set('heading_title', $this->language->get('heading_title'));
@@ -145,6 +149,8 @@ class ControllerReportSale extends Controller {
 		$view->set('help', $this->session->get('help'));
 
 		$view->set('text_results', $this->modelReportSale->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('entry_status', $this->language->get('entry_status'));
 		$view->set('entry_date', $this->language->get('entry_date'));
@@ -163,6 +169,10 @@ class ControllerReportSale extends Controller {
 
 		$view->set('action', $this->url->ssl('report_sale', 'page'));
 		$view->set('last', $this->url->getLast('report_sale'));
+
+		$view->set('error_date_from', @$this->error['date_from']);
+		$view->set('error_date_to', @$this->error['date_to']);
+		$view->set('error_date', @$this->error['date']);
 
 		$group_data = array();
 
@@ -287,6 +297,33 @@ class ControllerReportSale extends Controller {
 		$this->template->set($this->module->fetch());
 
 		$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
+	private function validateForm() {
+
+		if ($this->session->has('report_sale.date_from') && $this->session->has('report_sale.date_to')) {
+
+			$date_from = $this->session->get('report_sale.date_from');
+			$date_to = $this->session->get('report_sale.date_to');
+
+			if (!checkdate($date_from['month'], $date_from['day'], $date_from['year'])) {
+				$this->error['date_from'] = $this->language->get('error_date_from');
+			}
+
+			if (!checkdate($date_to['month'], $date_to['day'], $date_to['year'])) {
+				$this->error['date_to'] = $this->language->get('error_date_to');
+			}
+
+			if (date('Y-m-d',strtotime(implode('-', $date_from))) > date('Y-m-d',strtotime(implode('-', $date_to)))) {
+				$this->error['date'] = $this->language->get('error_date');
+			}
+		}
+
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 	protected function page() {

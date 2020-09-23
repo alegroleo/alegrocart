@@ -5,20 +5,20 @@
   $head_def->set_admin_javascript("javascript/datepicker/datepicker.js");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/cancel_disabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <div class="heading"><?php echo $heading_title; ?>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=32 height=32 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div id="list">
@@ -81,6 +81,13 @@
             <?php } ?>
           </select>
           <input class="validate_int" id="date_to_year" name="date_to[year]" value="<?php echo $date_to_year; ?>" size="4" maxlength="4">
+                <?php if ($error_date_from) { ?>
+                <span class="error"><?php echo $error_date_from; ?></span>
+                <?php } elseif ($error_date_to) { ?>
+                <span class="error"><?php echo $error_date_to; ?></span>
+                <?php } elseif ($error_date) { ?>
+                <span class="error"><?php echo $error_date; ?></span>
+                <?php } ?>
         </td>
       </tr>
     </table>
@@ -88,17 +95,21 @@
   <table class="list">
     <tr>
       <?php foreach ($cols as $col) { ?>
-      <th class="<?php echo $col['align']; ?>"><form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" onclick="this.submit();">
-          <?php echo $col['name']; ?></a>
-          <?php if (@$sort == $col['sort']) { ?>
-          <?php if ($order == 'asc') { ?>
-          &nbsp;<img src="template/<?php echo $this->directory?>/image/asc.png" class="png">
-          <?php } else { ?>
-          &nbsp;<img src="template/<?php echo $this->directory?>/image/desc.png" class="png">
-          <?php } ?>
-          <?php } ?>
-          <input type="hidden" name="sort" value="<?php echo $col['sort']; ?>">
-        </form></th>
+      <th class="<?php echo $col['align']; ?>">
+	 <span style="color: #0099FF;">
+	  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" onclick="this.submit();">
+            <?php echo $col['name']; ?></a>
+            <?php if (@$sort == $col['sort']) { ?>
+            <?php if ($order == 'asc') { ?>
+            &nbsp;<img src="template/<?php echo $this->directory?>/image/asc.png" alt="<?php echo $text_asc; ?>" width=9 height=10 class="png">
+            <?php } else { ?>
+            &nbsp;<img src="template/<?php echo $this->directory?>/image/desc.png" alt="<?php echo $text_desc; ?>" width=9 height=10 class="png">
+            <?php } ?>
+            <?php } ?>
+            <input type="hidden" name="sort" value="<?php echo $col['sort']; ?>">
+	  </form>
+	 </span>
+	</th>
       <?php } ?>
     </tr>
     <?php $j = 1; ?>
@@ -124,7 +135,7 @@
     <?php } ?>
   </table>
 </div>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -143,8 +154,8 @@
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $(document).ready(function() {
     datePickerController.createDatePicker({
     formElements:{"date_from_year":"%Y","date_from[month]":"%n", "date_from_day":"%d"},
@@ -152,8 +163,8 @@
     statusFormat:"%l, %d %F %Y"
     });
     });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $(document).ready(function() {
     datePickerController.createDatePicker({
     formElements:{"date_to_year":"%Y","date_to[month]":"%n", "date_to_day":"%d"},
@@ -161,9 +172,9 @@
     statusFormat:"%l, %d %F %Y"
     });
     });
-  //--></script>
-<script type="text/javascript"><!--
+  </script>
+<script type="text/javascript">
     $(document).ready(function() {
 	  RegisterValidation();
     });
-  //--></script>
+  </script>

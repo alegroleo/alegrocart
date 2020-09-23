@@ -9,6 +9,8 @@ $_['text_message']        = 'Success: You have updated currencies!';
 $_['text_lock_rate']      = 'This will disable Automatic Update!';
 $_['text_default_rate']   = 'Set your default currency to 1.0000'; 
 $_['text_bank_account']		= 'Bank Account';
+$_['text_update_enabled']	= 'Update Enabled';
+$_['text_update_disabled']	= 'Update Disabled';
 
 // Buttons
 $_['button_rate']         = 'Update Rates';

@@ -101,6 +101,12 @@ class ControllerUser extends Controller {
 		);
 
 		$cols[] = array(
+			'name'  => $this->language->get('column_usergroup'),
+			'sort'  => 'usergroup',
+			'align' => 'left'
+		);
+
+		$cols[] = array(
 			'name'  => $this->language->get('column_email'),
 			'sort'  => 'email',
 			'align' => 'left'
@@ -118,13 +124,14 @@ class ControllerUser extends Controller {
 		);
 
 		if (!$this->session->get('user.search')) {
-			$sql = "select user_id, username, email, telephone from user";
+			$sql = "SELECT user_id, username, CONCAT(firstname, ' ', lastname) AS uname, email, telephone, ug.name AS usergroup FROM user u LEFT JOIN user_group ug ON (u.user_group_id = ug.user_group_id)";
 		} else {
-			$sql = "select user_id, username, email, telephone from user where username like '?'";
+			$sql = "SELECT user_id, username, CONCAT(firstname, ' ', lastname) AS uname, email, telephone, ug.name AS usergroup FROM user u LEFT JOIN user_group ug ON (u.user_group_id = ug.user_group_id) WHERE username LIKE '?'";
 		}
 
 		$sort = array(
-			'username', 
+			'username',
+			'usergroup',
 			'email',
 			'telephone'
 		);
@@ -144,7 +151,13 @@ class ControllerUser extends Controller {
 
 			$cell = array();
 			$cell[] = array(
-				'value' => $result['username'],
+				'value' => trim($result['uname']) ? $result['uname'] : $result['username'],
+				'align' => 'left',
+				'last' => $last
+			);
+
+			$cell[] = array(
+				'value' => $result['usergroup'],
 				'align' => 'left',
 				'last' => $last
 			);
@@ -190,6 +203,8 @@ class ControllerUser extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_results', $this->modelAdminUser->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
@@ -414,7 +429,7 @@ class ControllerUser extends Controller {
 		}
 
 		if (($this->request->sanitize('password', 'post')) || ($this->request->gethtml('action') == 'insert')) {
-			if (!$this->validate->strlen($this->request->sanitize('password', 'post'),1,20)) {
+			if (!$this->validate->strlen($this->request->sanitize('password', 'post'),6,20)) {
 				$this->error['password'] = $this->language->get('error_password');
 			}
 			if ($this->request->sanitize('password', 'post') != $this->request->sanitize('confirm', 'post')) {
@@ -422,7 +437,7 @@ class ControllerUser extends Controller {
 			}
 		}
 
-		if ($this->request->gethtml('user_id')){ // on update
+		if ($this->request->gethtml('user_id') && $this->request->sanitize('password', 'post')){ // on update
 			if (md5($this->request->sanitize('old', 'post')) != $this->modelAdminUser->get_password((int)$this->request->gethtml('user_id'))) {
 				$this->error['old'] = $this->language->get('error_old');
 			}
@@ -510,7 +525,9 @@ class ControllerUser extends Controller {
 	private function getSignatures(){
 		$signatures_data = array();
 		$files = glob(DIR_IMAGE.'signatures'.D_S.'*.*');
-		if (!$files) { return; }
+		if (!$files) {
+			return;
+		}
 		foreach ($files as $file) {
 			$pattern='/\.('.implode('|',$this->types).')$/';
 			if (preg_match($pattern,$file)) {

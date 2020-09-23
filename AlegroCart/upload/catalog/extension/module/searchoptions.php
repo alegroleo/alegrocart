@@ -44,8 +44,8 @@ class ModuleSearchOptions extends Controller{
 			$search_description = '';
 		}
 		$man_results = $this->modelSearch->get_manufacturer($search,$description_sql,$search_description);		
+		$manufacturers_data = array();
 		if (count($man_results) > 1){
-			$manufacturers_data = array();
 			foreach ($man_results as $man_result){
 				$result = $this->modelProducts->getRow_manufacturer($man_result['manufacturer_id']);
 				$manufacturers_data[] = array(
@@ -53,10 +53,8 @@ class ModuleSearchOptions extends Controller{
 					'name'				=> $result['name']
 				);
 			}
-		} else {
-			$manufacturers_data = "";
 		}
-		
+
 		if ($manufacturer_id > 0){
 			$manufacturer_sql = " and p.manufacturer_id = ";
 			$manufacturer_filter = "'".$manufacturer_id."'";

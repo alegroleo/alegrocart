@@ -2,9 +2,9 @@
   $head_def->set_admin_css("template/".$this->directory."/css/order.css");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getValues();document.getElementById('update_form').submit();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <input type="hidden" name="update_form" value="1">
@@ -13,20 +13,20 @@
   <input type="hidden" name="order_id" id="order_id" value="<?php echo $order_id; ?>">
   </form>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
   <?php if (@$delete) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
-  <div class="<?php if($order_status_id == '12'){echo "disabled";} else { echo "enabled";}?>" <?php if($order_status_id != '12'){?>onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><?php }?><img src="template/<?php echo $this->directory?><?php if($order_status_id == '12'){echo '/image/save_enabled.png"';} else {echo '/image/save_disabled.png"';}?> alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="<?php if($order_status_id == '12'){echo "disabled";} else { echo "enabled";}?>" <?php if($order_status_id != '12'){?>onmouseover="className='hover'" onmouseout="className='enabled'" onclick="document.getElementById('form').submit();"><?php }?><img src="template/<?php echo $this->directory?><?php if($order_status_id == '12'){echo '/image/save_enabled.png"';} else {echo '/image/save_disabled.png"';}?> width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="window.print();"><img src="template/<?php echo $this->directory?>/image/print_enabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -37,7 +37,7 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
  <em>#<?php echo $order_id; ?></em>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
@@ -158,15 +158,15 @@
 		  <td class="right"><?php echo $product['tax'] . '%';?></td>
 		  <td class="right"><?php echo $product['product_tax'];?></td>
 		  <td class="right">
-		  <?php if ($product['download']) {?><img src="template/<?php echo $this->directory?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
-		  <?php }else if ($product['shipping']) { ?><img src="template/<?php echo $this->directory?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="template/<?php echo $this->directory?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+		  <?php if ($product['download']) {?><img src="template/<?php echo $this->directory?>/image/downloadable.png" width=32 height=32 alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+		  <?php }else if ($product['shipping']) { ?><img src="template/<?php echo $this->directory?>/image/shippable.png" width=32 height=32 alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="template/<?php echo $this->directory?>/image/non_shippable.png" width=32 height=32 alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
 		</td>
 		  <td class="right"><?php echo '<span class="tax">*</span>' . $product['total_discounted']; ?></td>
 	  </tr>
 	  <?php if($product['barcode_url']){?>
 	    <tr>
 		  <td >
-		    <img src="<?php echo $product['barcode_url']; ?>" title="<?php echo $product['barcode']; ?>" alt="<?php echo $product['barcode']; ?>">
+		    <img src="<?php echo $product['barcode_url']; ?>" title="<?php echo $product['barcode']; ?>" width="<?php echo $product['barcode_width'];?>" height="<?php echo $product['barcode_height'];?>" alt="<?php echo $product['barcode']; ?>">
 		  </td>
 	    </tr>
 	  <?php } ?>
@@ -263,9 +263,9 @@
           <td class="left"><?php echo $history['status']; ?></td>
           <td class="right"><?php echo $history['comment']; ?></td>
           <td class="center"><?php if ($history['notify']) { ?>
-            <img src="template/<?php echo $this->directory?>/image/enabled.png" alt="">
+            <img src="template/<?php echo $this->directory?>/image/enabled.png" width=24 height=24 alt="<?php echo $text_enabled; ?>">
             <?php } else { ?>
-            <img src="template/<?php echo $this->directory?>/image/disabled.png" alt="">
+            <img src="template/<?php echo $this->directory?>/image/disabled.png" width=24 height=24 alt="<?php echo $text_disabled; ?>">
             <?php } ?></td>
         </tr>
         <?php } ?>
@@ -328,7 +328,7 @@
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
 </form>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -347,8 +347,8 @@
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	function getValues() {
 		document.forms['update_form'].order_status_id.value=document.forms['form'].order_status_id.value;
 		document.forms['update_form'].comment.value=document.forms['form'].comment.value;
@@ -358,11 +358,11 @@
 	function getCheckedBoxes(formName,elementName,newFormName) {
 		var html=''
 		var checkboxes = document.getElementsByName(elementName);
-		for (i = 0; i < checkboxes.length; i++) {
+		for (let i = 0; i < checkboxes.length; i++) {
 			if (checkboxes[i].checked) {
 				html +='<input type="hidden" name="' + elementName + '" value="' + checkboxes[i].value + '">';
 			}
 		}
 		document.forms[newFormName].innerHTML += html;
 	}
-  //--></script>
+  </script>

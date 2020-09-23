@@ -1,20 +1,22 @@
 <?php // Home AlegroCart
 class ControllerHome extends Controller {
+
 	function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
-		$this->config  		=& $locator->get('config');
+		$model			=& $locator->get('model');
+		$this->config		=& $locator->get('config');
 		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
-		$this->module   	=& $locator->get('module');
+		$this->module		=& $locator->get('module');
 		$this->template 	=& $locator->get('template');
 		$this->modelCore 	= $model->get('model_core');
-		$this->tpl_manager = $this->modelCore->get_tpl_manager('home'); // Template Manager
-		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
-		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
+		$this->tpl_manager	= $this->modelCore->get_tpl_manager('home'); // Template Manager
+		$this->locations	= $this->modelCore->get_tpl_locations();// Template Manager
+		$this->tpl_columns	= $this->modelCore->get_columns();// Template Manager
 	}
+
 	function index() {
-		
+
 		$customer =& $this->locator->get('customer');
 		$language =& $this->locator->get('language');
 		$response =& $this->locator->get('response');
@@ -56,6 +58,7 @@ class ControllerHome extends Controller {
 			}
 		}
 	}
+
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
@@ -85,10 +88,12 @@ class ControllerHome extends Controller {
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

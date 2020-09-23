@@ -4,6 +4,8 @@ $_['heading_title']       = 'Menu';
 $_['heading_description'] = 'Administration Menu';
 
 // Text
+$_['text_subcategory']	= 'Subcategory';
+
 $_['text_system']         = 'System';
 	$_['text_home']           = 'Home';
 //$_['text_catalog']        = 'Online Shop'; error

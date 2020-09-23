@@ -18,14 +18,14 @@
 				$this->head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 				$this->head_def->set_javascript("lightbox/lightbox.js");
 			?>
-				<script>
-					$(document).ready(function(){
-						$(".lightbox").lightbox({
-							fitToScreen: true,
-							imageClickClose: true
-						});
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$(".lightbox").lightbox({
+						fitToScreen: true,
+						imageClickClose: true
 					});
-				</script>
+				});
+			</script>
 			<?php }
 			break;
 		case 'review' :
@@ -35,6 +35,35 @@
 		case 'account_invoice' :
 			$this->head_def->setcss($this->style . "/css/account_invoice.css");
 			$this->head_def->set_javascript("ajax/jquery.js");
+			break;
+		case 'bought' :
+			$this->head_def->setcss($this->style . "/css/paging.css");
+			$this->head_def->setcss($this->style . "/css/product_cat.css");
+			$this->head_def->setcss($this->style . "/css/bought.css");
+			if($tpl_columns != 1){
+				$this->head_def->setcss($this->style . "/css/display_options.css");
+			}
+			$this->head_def->set_javascript("ajax/jquery.js");
+			$this->head_def->set_javascript("ajax/jqueryadd2cart.js");
+			if($image_display == 'thickbox'){
+				$this->head_def->setcss($this->style . "/css/thickbox.css");  
+				$this->head_def->set_javascript("thickbox/thickbox-compressed.js");
+			} else if ($image_display == 'fancybox'){
+				$this->head_def->setcss($this->style . "/css/jquery.fancybox.css\" media=\"screen" ); 
+				$this->head_def->set_javascript("fancybox/jquery.fancybox.js");
+			} else if ($image_display == 'lightbox'){
+				$this->head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
+				$this->head_def->set_javascript("lightbox/lightbox.js");
+			?>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$(".lightbox").lightbox({
+						fitToScreen: true,
+						imageClickClose: true
+					});
+				});
+			</script>
+			<?php }
 			break;
 		case 'information' :
 			$this->head_def->setcss($this->style . "/css/information.css");
@@ -57,7 +86,7 @@
 				$this->head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" );
 				$this->head_def->set_javascript("lightbox/lightbox.js");
 			?>
-			<script>
+			<script type="text/javascript">
 				$(document).ready(function(){
 					$(".lightbox").lightbox({
 						fitToScreen: true,
@@ -86,7 +115,7 @@
 				$this->head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 				$this->head_def->set_javascript("lightbox/lightbox.js");
 			?>
-			<script>
+			<script type="text/javascript">
 				$(document).ready(function(){
 					$(".lightbox").lightbox({
 						fitToScreen: true,
@@ -124,7 +153,7 @@
 				$this->head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 				$this->head_def->set_javascript("lightbox/lightbox.js");
 			?>
-			<script>
+			<script type="text/javascript">
 				$(document).ready(function(){
 					$(".lightbox").lightbox({
 						fitToScreen: true,
@@ -147,7 +176,7 @@
 				$this->head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 				$this->head_def->set_javascript("lightbox/lightbox.js");
 			?>
-			<script>
+			<script type="text/javascript">
 				$(document).ready(function(){
 					$(".lightbox").lightbox({
 						fitToScreen: true,

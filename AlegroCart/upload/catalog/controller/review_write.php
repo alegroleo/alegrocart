@@ -1,7 +1,9 @@
 <?php //ReviewWrite AlegroCart
 class ControllerReviewWrite extends controller {
+
 	var $error = array();
-		function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
@@ -30,23 +32,23 @@ class ControllerReviewWrite extends controller {
 
 	function index() {
 
-	if (!$this->customer->isLogged()) {
-			$query = array(
-			'product_id' => $this->request->gethtml('product_id'),
-				'review_id'  => $this->request->gethtml('review_id')
-			);
+		if (!$this->customer->isLogged()) {
+				$query = array(
+				'product_id' => $this->request->gethtml('product_id'),
+					'review_id'  => $this->request->gethtml('review_id')
+				);
 
-		$this->session->set('redirect', $this->url->ssl('review_write', FALSE, $query));
+			$this->session->set('redirect', $this->url->ssl('review_write', FALSE, $query));
 
-		$this->response->redirect($this->url->ssl('account_login'));
-	}
+			$this->response->redirect($this->url->ssl('account_login'));
+		}
 
-	$this->language->load('controller/review_write.php');
+		$this->language->load('controller/review_write.php');
 
-		if ($this->request->isPost() && $this->request->has('product_id') && $this->validate()) {
-		$this->modelReview->insert_review($this->request->gethtml('product_id'));
-			$this->response->redirect($this->url->ssl('review_success'));
-	}
+			if ($this->request->isPost() && $this->request->has('product_id') && $this->validate()) {
+			$this->modelReview->insert_review($this->request->gethtml('product_id'));
+				$this->response->redirect($this->url->ssl('review_success'));
+		}
 
 		$product_info = $this->modelReview->get_product($this->request->gethtml('product_id'));
 
@@ -90,6 +92,8 @@ class ControllerReviewWrite extends controller {
 			$view->set('special_price', $product_info['special_price']>0 ? $this->currency->format($this->tax->calculate($product_info['special_price'], $product_info['tax_class_id'], $this->config->get('config_tax'))): ""); // New
 			$view->set('popup', $this->image->href($product_info['filename']));
 			$view->set('thumb', $this->image->resize($product_info['filename'], 160,160));
+			$view->set('width', '160');
+			$view->set('height', '160');
 			$view->set('author', $this->customer->getFirstName() . ' ' . $this->customer->getLastName());
 			$view->set('text', $this->request->sanitize('text', 'post'));
 			$view->set('rating1', $this->request->gethtml('rating1', 'post'));

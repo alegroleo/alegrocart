@@ -1,6 +1,7 @@
 <?php //Account AlegroCart
 class ControllerAccount extends Controller { 
-	function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
@@ -12,7 +13,7 @@ class ControllerAccount extends Controller {
 		$this->tpl_columns	= $this->modelCore->get_columns();// Template Manager
 	}
 
-	function index() {
+	protected function index() {
 		$customer =& $this->locator->get('customer');
 		$language =& $this->locator->get('language');
 		$response =& $this->locator->get('response');
@@ -45,6 +46,7 @@ class ControllerAccount extends Controller {
 		$view->set('message', $session->get('message'));
 		$session->delete('message');
 		$view->set('enable_download', $this->config->get('config_download'));
+		$view->set('enable_bought', $this->config->get('bought_status'));
 		$view->set('information', $url->ssl('account_edit'));
 		$view->set('password', $url->ssl('account_password'));
 		$view->set('address', $url->ssl('account_address'));
@@ -63,7 +65,7 @@ class ControllerAccount extends Controller {
 		$response->set($this->template->fetch('layout.tpl'));
 	}
 
-	function load_modules(){ // Template Manager
+	private function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){
 			if($modules[$location['location']]){
@@ -74,7 +76,7 @@ class ControllerAccount extends Controller {
 		}
 	}
 
-	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
+	private function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
 		}
@@ -87,7 +89,7 @@ class ControllerAccount extends Controller {
 		return $modules_extra;
 	}
 
-	function set_tpl_modules(){ // Template Manager
+	private function set_tpl_modules(){ // Template Manager
 		if($this->modelCore->tpl){
 			if(isset($this->modelCore->tpl['tpl_headers'])){$this->template->set('tpl_headers',$this->modelCore->tpl['tpl_headers']);}
 			if(isset($this->modelCore->tpl['tpl_extras'])){$this->template->set('tpl_extras',$this->modelCore->tpl['tpl_extras']);}

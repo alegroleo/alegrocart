@@ -24,4 +24,9 @@ $_['entry_group']         = 'Show';
 
 // Button
 $_['button_search']       = 'Search';
+
+// Error
+$_['error_date_from']		= '* Date Start is not valid!';
+$_['error_date_to']		= '* Date End is not valid!';
+$_['error_date']		= '* Date start must be earlier than date end!';
 ?>

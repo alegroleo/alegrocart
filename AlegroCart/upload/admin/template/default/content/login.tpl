@@ -9,7 +9,7 @@
 <?php } ?>
 <table cellspacing="5" cellpadding="6" id="login">
   <tr>
-    <td><img src="template/<?php echo $this->directory?>/image/login.png" alt="<?php echo $button_login; ?>"></td>
+    <td><img src="template/<?php echo $this->directory?>/image/login.png" width=128 height=128 alt="<?php echo $button_login; ?>"></td>
     <td id="login_form"><form id="form_login" name="form_login" action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
         <table cellpadding="1">
           <tr>

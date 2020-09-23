@@ -296,6 +296,8 @@ class ControllerExtension extends Controller {
 		$view->set('controller', 'extension');
 
 		$view->set('text_confirm_delete', $this->language->get('text_confirm_delete'));
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		if ($this->session->has('error')) {
 			$view->set('error', $this->session->get('error'));

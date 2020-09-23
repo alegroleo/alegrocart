@@ -12,7 +12,7 @@
     $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 	$head_def->set_javascript("lightbox/lightbox.js");
   ?>
-  <script>
+  <script type="text/javascript">
 	$(document).ready(function(){
 		$(".lightbox").lightbox({
 			fitToScreen: true,
@@ -65,7 +65,7 @@
 	<?php include $shared_path . 'add_to_cart.tpl';?>
    <?php }?>
   <?php }?>
-  <?php if ($product['vendor_name']) { ?>
+  <?php if (isset($product['vendor_name'])) { ?>
 	<div class="vendor"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
   <?php } ?>
   <?php if(($show_stock  || $show_stock_icon ) && !$product['options']){?>

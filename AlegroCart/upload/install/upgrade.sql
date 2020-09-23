@@ -1751,7 +1751,7 @@ CREATE TABLE IF NOT EXISTS `customer_log` (
   `guest` int(1) default '0',
   `ip` varchar(39) collate utf8_unicode_ci default NULL,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1801,7 +1801,7 @@ CREATE TABLE IF NOT EXISTS `address_log` (
   `country_id` int(11) default '0',
   `zone_id` int(11) default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1839,7 +1839,7 @@ CREATE TABLE IF NOT EXISTS `bank_account_log` (
   `charge` varchar(3) collate utf8_unicode_ci default '',
   `currency` varchar(3) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1872,7 +1872,7 @@ CREATE TABLE IF NOT EXISTS `option_value_log` (
   `option_id` int(11) DEFAULT '0',
   `name` varchar(64) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1904,7 +1904,7 @@ CREATE TABLE IF NOT EXISTS `information_log` (
   `sort_order` int(3) DEFAULT '0',
   `information_hide` int(1) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1937,7 +1937,7 @@ CREATE TABLE IF NOT EXISTS `information_description_log` (
   `title` varchar(64) collate utf8_unicode_ci default '',
   `description` text collate utf8_unicode_ci,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1972,7 +1972,7 @@ CREATE TABLE IF NOT EXISTS `category_log` (
   `sort_order` int(3) DEFAULT '0',
   `category_hide` int(1) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2008,7 +2008,7 @@ CREATE TABLE IF NOT EXISTS `category_description_log` (
   `meta_description` varchar(255) collate utf8_unicode_ci default NULL,
   `meta_title` varchar(255) collate utf8_unicode_ci default NULL,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2039,7 +2039,7 @@ CREATE TABLE IF NOT EXISTS `product_to_category_log` (
   `product_id` int(11) DEFAULT '0',
   `category_id` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2078,7 +2078,7 @@ CREATE TABLE IF NOT EXISTS `review_log` (
   `rating4` int(1) DEFAULT '0',
   `status` int(1) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2113,7 +2113,7 @@ CREATE TABLE IF NOT EXISTS `country_log` (
   `iso_code_3` varchar(3) collate utf8_unicode_ci default '',
   `address_format` text collate utf8_unicode_ci,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2144,7 +2144,7 @@ CREATE TABLE IF NOT EXISTS `geo_zone_log` (
   `name` varchar(32) collate utf8_unicode_ci default '',
   `description` varchar(255) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2175,7 +2175,7 @@ CREATE TABLE IF NOT EXISTS `tax_class_log` (
   `title` varchar(32) collate utf8_unicode_ci default '',
   `description` varchar(255) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2209,7 +2209,7 @@ CREATE TABLE IF NOT EXISTS `tax_rate_log` (
   `rate` decimal(7,4) DEFAULT '0.0000',
   `description` varchar(255) collate utf8_unicode_ci DEFAULT '',
   `date_added` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2243,7 +2243,7 @@ CREATE TABLE IF NOT EXISTS `zone_log` (
   `name` varchar(32) collate utf8_unicode_ci default '',
   `zone_status` int(1) DEFAULT '1',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2275,7 +2275,7 @@ CREATE TABLE IF NOT EXISTS `zone_to_geo_zone_log` (
   `zone_id` int(11) DEFAULT '0',
   `geo_zone_id` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2307,7 +2307,7 @@ CREATE TABLE IF NOT EXISTS `url_alias_log` (
   `query` varchar(128) collate utf8_unicode_ci default '',
   `alias` varchar(128) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2339,7 +2339,7 @@ CREATE TABLE IF NOT EXISTS `order_status_log` (
   `language_id` int(11) DEFAULT '0',
   `name` varchar(32) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2376,7 +2376,7 @@ CREATE TABLE IF NOT EXISTS `language_log` (
   `filename` varchar(64) collate utf8_unicode_ci default '',
   `sort_order` varchar(3) collate utf8_unicode_ci default NULL,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2409,7 +2409,7 @@ CREATE TABLE IF NOT EXISTS `manufacturer_log` (
   `image_id` int(11) DEFAULT '0',
   `sort_order` varchar(3) collate utf8_unicode_ci default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2445,7 +2445,7 @@ CREATE TABLE IF NOT EXISTS `login_log` (
   `user_id` int(11) DEFAULT '0',
   `ip` varchar(39) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2495,7 +2495,7 @@ CREATE TABLE IF NOT EXISTS `currency_log` (
   `value` double(13,8) default NULL,
   `date_value_updated` datetime NOT NULL default '1000-01-01 00:00:00',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2533,7 +2533,7 @@ CREATE TABLE IF NOT EXISTS `newsletter_log` (
   `content` text collate utf8_unicode_ci,
   `date_sent` datetime NOT NULL default '1000-01-01 00:00:00',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2580,7 +2580,7 @@ CREATE TABLE IF NOT EXISTS `user_log` (
   `signature` varchar(64) collate utf8_unicode_ci DEFAULT '',
   `position` varchar(32) collate utf8_unicode_ci DEFAULT '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2612,7 +2612,7 @@ CREATE TABLE IF NOT EXISTS `user_group_log` (
   `name` varchar(64) collate utf8_unicode_ci DEFAULT NULL,
   `permission` text collate utf8_unicode_ci,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2657,7 +2657,7 @@ CREATE TABLE IF NOT EXISTS `watermark_log` (
   `wm_ivmargin` int(11) DEFAULT '0',
   `wm_scale` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2686,7 +2686,7 @@ CREATE TABLE IF NOT EXISTS `tpl_location_log` (
   `location_id` int(11) DEFAULT '0',
   `location` varchar(64) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2720,7 +2720,7 @@ CREATE TABLE IF NOT EXISTS `tpl_manager_log` (
   `tpl_status` int(3) DEFAULT '1',
   `tpl_color` varchar(64) collate utf8_unicode_ci DEFAULT NULL,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2754,7 +2754,7 @@ CREATE TABLE IF NOT EXISTS `tpl_module_log` (
   `module_code` varchar(32) collate utf8_unicode_ci default '',
   `sort_order` int(3) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2786,7 +2786,7 @@ CREATE TABLE IF NOT EXISTS `option_log` (
   `language_id` int(11) DEFAULT '0',
   `name` varchar(32) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2827,7 +2827,7 @@ CREATE TABLE IF NOT EXISTS `vendor_log` (
   `trade` varchar(96) collate utf8_unicode_ci default '',
   `address_id` int(11) default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2867,7 +2867,7 @@ CREATE TABLE IF NOT EXISTS `vendor_address_log` (
   `country_id` int(11) default '0',
   `zone_id` int(11) default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2913,7 +2913,7 @@ CREATE TABLE IF NOT EXISTS `order_product_log` (
   `barcode` varchar(20) collate utf8_unicode_ci default '',
   `shipping` tinyint(1) default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2985,7 +2985,7 @@ CREATE TABLE IF NOT EXISTS `order_log` (
   `shipping_net` decimal(15,4) DEFAULT '0.0000',
   `taxed` tinyint(1) default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3020,7 +3020,7 @@ CREATE TABLE IF NOT EXISTS `order_total_log` (
   `value` decimal(15,4) DEFAULT '0.0000',
   `sort_order` int(11) default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3058,7 +3058,7 @@ CREATE TABLE IF NOT EXISTS `order_option_log` (
   `price` decimal(15,4) DEFAULT '0.0000',
   `prefix` char(1) default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3094,7 +3094,7 @@ CREATE TABLE IF NOT EXISTS `order_download_log` (
   `mask` varchar(128) collate utf8_unicode_ci default '',
   `remaining` int(3) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3126,7 +3126,7 @@ CREATE TABLE IF NOT EXISTS `order_google_log` (
   `order_number` varchar(30) collate utf8_unicode_ci DEFAULT '',
   `total` decimal(14,6),
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3164,7 +3164,7 @@ CREATE TABLE IF NOT EXISTS `order_history_log` (
   `notify` int(1) DEFAULT '0',
   `comment` text collate utf8_unicode_ci,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3197,7 +3197,7 @@ CREATE TABLE IF NOT EXISTS `maintenance_description_log` (
   `header` varchar(64) collate utf8_unicode_ci default '',
   `description` text collate utf8_unicode_ci,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3231,7 +3231,7 @@ CREATE TABLE IF NOT EXISTS `setting_log` (
   `key` varchar(64) collate utf8_unicode_ci default '',
   `value` varchar(768) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3275,7 +3275,7 @@ CREATE TABLE IF NOT EXISTS `coupon_log` (
   `uses_customer` varchar(11) collate utf8_unicode_ci DEFAULT '',
   `status` int(1) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3308,7 +3308,7 @@ CREATE TABLE IF NOT EXISTS `coupon_description_log` (
   `name` varchar(128) collate utf8_unicode_ci default '',
   `description` text collate utf8_unicode_ci,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3339,7 +3339,7 @@ CREATE TABLE IF NOT EXISTS `coupon_product_log` (
   `coupon_id` int(11) DEFAULT '0',
   `product_id` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3376,7 +3376,7 @@ CREATE TABLE IF NOT EXISTS `coupon_redeem_log` (
   `order_id` int(11) DEFAULT '0',
   `coupon_id` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3407,7 +3407,7 @@ CREATE TABLE IF NOT EXISTS `related_products_log` (
   `product_id` int(11) DEFAULT '0',
   `related_product_id` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3438,7 +3438,7 @@ CREATE TABLE IF NOT EXISTS `product_to_image_log` (
   `product_id` int(11) DEFAULT '0',
   `image_id` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3470,7 +3470,7 @@ CREATE TABLE IF NOT EXISTS `product_to_download_log` (
   `download_id` int(11) DEFAULT '0',
   `free` int(1) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3500,7 +3500,7 @@ CREATE TABLE IF NOT EXISTS `image_log` (
   `image_id` int(11) DEFAULT '0',
   `filename` varchar(128) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3532,7 +3532,7 @@ CREATE TABLE IF NOT EXISTS `image_description_log` (
   `language_id` int(11) DEFAULT '0',
   `title` varchar(64) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3565,7 +3565,7 @@ CREATE TABLE IF NOT EXISTS `weight_class_log` (
   `language_id` int(11) DEFAULT '0',
   `title` varchar(32) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3603,7 +3603,7 @@ CREATE TABLE IF NOT EXISTS `weight_rule_log` (
   `to_id` int(11) DEFAULT '0',
   `rule` decimal(15,4),
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3637,7 +3637,7 @@ CREATE TABLE IF NOT EXISTS `dimension_log` (
   `language_id` int(11) DEFAULT '0',
   `title` varchar(32) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3671,7 +3671,7 @@ CREATE TABLE IF NOT EXISTS `dimension_rule_log` (
   `to_id` int(11) DEFAULT '0',
   `rule` decimal(17,6),
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3702,7 +3702,7 @@ CREATE TABLE IF NOT EXISTS `dimension_type_log` (
   `type_id` int(11) DEFAULT '0',
   `type_name` varchar(32) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3734,7 +3734,7 @@ CREATE TABLE IF NOT EXISTS `download_log` (
   `mask` varchar(128) collate utf8_unicode_ci default '',
   `remaining` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3766,7 +3766,7 @@ CREATE TABLE IF NOT EXISTS `download_description_log` (
   `language_id` int(11) DEFAULT '0',
   `name` varchar(64) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3801,7 +3801,7 @@ CREATE TABLE IF NOT EXISTS `extension_log` (
   `filename` varchar(128) collate utf8_unicode_ci default '',
   `controller` varchar(128) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3834,7 +3834,7 @@ CREATE TABLE IF NOT EXISTS `extension_description_log` (
   `name` varchar(128) collate utf8_unicode_ci default '',
   `description` varchar(255) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3867,7 +3867,7 @@ CREATE TABLE IF NOT EXISTS `product_discount_log` (
   `quantity` int(4) DEFAULT '0',
   `discount` decimal(15,4),
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3899,7 +3899,7 @@ CREATE TABLE IF NOT EXISTS `home_page_log` (
   `name` varchar(64) collate utf8_unicode_ci default '',
   `status` int(1) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3933,7 +3933,7 @@ CREATE TABLE IF NOT EXISTS `home_slides_log` (
   `image_id` int(11) DEFAULT '0',
   `sort_order` int(3) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -3976,7 +3976,7 @@ CREATE TABLE IF NOT EXISTS `home_description_log` (
   `image_id` int(11) DEFAULT NULL,
   `run_times` int(11) DEFAULT '1',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -4010,7 +4010,7 @@ CREATE TABLE IF NOT EXISTS `image_display_log` (
   `status` int(1) DEFAULT '0',
   `sort_order` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -4044,7 +4044,7 @@ CREATE TABLE IF NOT EXISTS `image_display_slides_log` (
   `image_id` int(11) DEFAULT NULL,
   `sort_order` int(3) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -4082,7 +4082,7 @@ CREATE TABLE IF NOT EXISTS `image_display_description_log` (
   `image_width` int(11) DEFAULT '0',
   `image_height` int(11) DEFAULT '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -4120,7 +4120,7 @@ CREATE TABLE IF NOT EXISTS `product_to_option_log` (
   `option_weightclass_id` int(11) default '0',
   `sort_order` int(3) default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -4157,7 +4157,7 @@ CREATE TABLE IF NOT EXISTS `product_options_log` (
   `dimension_value` varchar(64) collate utf8_unicode_ci default '0:0:0',
   `model_number` varchar(32) collate utf8_unicode_ci default '',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -4198,7 +4198,7 @@ CREATE TABLE IF NOT EXISTS `product_description_log` (
   `meta_title` varchar(255) collate utf8_unicode_ci default NULL,
   `alt_description` varchar(255) collate utf8_unicode_ci default NULL,
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -4256,7 +4256,7 @@ CREATE TABLE IF NOT EXISTS `product_log` (
   `tax_class_id` int(11) default '0',
   `viewed` int(5) default '0',
   `date_added` datetime NOT NULL default '1000-01-01 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT '2000-01-01 00:00:00',
   PRIMARY KEY (`trigger_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

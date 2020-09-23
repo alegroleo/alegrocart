@@ -11,7 +11,7 @@
     $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 	$head_def->set_javascript("lightbox/lightbox.js");
   ?>
-  <script>
+  <script type="text/javascript">
 	$(document).ready(function(){
 		$(".lightbox").lightbox({
 			fitToScreen: true,

@@ -6,8 +6,8 @@
   $head_def->set_admin_javascript("javascript/ajax/tooltip.js");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
-  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <input type="hidden" name="update_form" value="1">
@@ -113,6 +113,7 @@
   <input type="hidden" name="global_config_email_mail" value="">
   <input type="hidden" name="global_config_email_contact" value="">
   <input type="hidden" name="global_config_newsletter" value="">
+  <input type="hidden" name="global_config_static" value="">
   <input type="hidden" name="global_config_cache_query" value="">
   <input type="hidden" name="global_config_compress_output" value="">
   <input type="hidden" name="global_config_compress_level" value="">
@@ -168,14 +169,14 @@
   <input type="hidden" name="catalog_config_download_status" value="">
   <input type="hidden" name="catalog_config_freedownload" value="">
   </form>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs();document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs();document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -185,7 +186,7 @@
 <div class="message"><?php echo $message; ?></div>
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" name="form">
@@ -398,17 +399,23 @@
 		<td class="expl"><?php echo $explanation_seo;?></td>
 		<?php } ?>
 		</tr>
+		<?php if (isset($ssl_status)) { ?>
+		  <tr>
+			<td class="set"><?php echo $entry_ssl_status; ?></td>
+			<td class="expl"><?php echo $ssl_status ? $explanation_ssl_supported : '<b style="color:#FF0000">'.$explanation_ssl_not_supported.'</b>' ;?></td>
+		  </tr>
+		<?php } ?>
             <tr>
               <td class="set"><?php echo $entry_ssl; ?></td>
               <td><?php if ($catalog_config_ssl) { ?>
-                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes" checked>
+                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes" checked <?php echo $ssl_status ? '' : 'disabled';?> >
                 <label for="ccsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno">
+                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno" <?php echo $ssl_status ? '' : 'disabled';?> >
                 <label for="ccsno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes">
+                <input type="radio" name="catalog_config_ssl" value="1" id="ccsyes"  <?php echo $ssl_status ? '' : 'disabled';?> >
                 <label for="ccsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno" checked>
+                <input type="radio" name="catalog_config_ssl" value="0" id="ccsno" checked <?php echo $ssl_status ? '' : 'disabled';?> >
                 <label for="ccsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
@@ -517,17 +524,23 @@
                 <label for="acptno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
+		<?php if (isset($ssl_status)) { ?>
+		  <tr>
+			<td class="set"><?php echo $entry_ssl_status; ?></td>
+			<td class="expl"><?php echo $ssl_status ? $explanation_ssl_supported : '<b style="color:#FF0000">'.$explanation_ssl_not_supported.'</b>' ;?></td>
+		  </tr>
+		<?php } ?>
             <tr>
               <td class="set"><?php echo $entry_ssl; ?></td>
               <td><?php if ($admin_config_ssl) { ?>
-                <input type="radio" name="admin_config_ssl" value="1" id="acsyes" checked>
+                <input type="radio" name="admin_config_ssl" value="1" id="acsyes" checked <?php echo $ssl_status ? '' : 'disabled';?> >
                 <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="admin_config_ssl" value="0" id="acsno">
+                <input type="radio" name="admin_config_ssl" value="0" id="acsno" <?php echo $ssl_status ? '' : 'disabled';?> >
                 <label for="acsno"><?php echo $text_no; ?></label>
                 <?php } else { ?>
-                <input type="radio" name="admin_config_ssl" value="1" id="acsyes">
+                <input type="radio" name="admin_config_ssl" value="1" id="acsyes" <?php echo $ssl_status ? '' : 'disabled';?> >
                 <label for="acsyes"><?php echo $text_yes; ?></label>
-                <input type="radio" name="admin_config_ssl" value="0" id="acsno" checked>
+                <input type="radio" name="admin_config_ssl" value="0" id="acsno" checked <?php echo $ssl_status ? '' : 'disabled';?> >
                 <label for="acsno"><?php echo $text_no; ?></label>
                 <?php } ?></td>
             </tr>
@@ -1192,12 +1205,12 @@
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_admin_favicon;?></td>
-			  <td id="favicon"><img src="template/<?php echo $this->directory; ?>/image/favicon.ico"></td>
+			  <td id="favicon"><img src="template/<?php echo $this->directory; ?>/image/favicon.ico" width=16 height=16 alt="favicon"></td>
 			  <td class="expl"><?php echo $explanation_favicon.'<br>'.$admin_favicon;?></td>
 			</tr>
 			<tr>
 			  <td class="set"><?php echo $entry_catalog_favicon;?></td>
-			  <td id="favicon"><img src="../image/favicon.ico"></td>
+			  <td id="favicon"><img src="../image/favicon.ico" width=16 height=16 alt="favicon"></td>
 			  <td class="expl"><?php echo $explanation_favicon.'<br>'.$catalog_favicon;?></td>
 			</tr>
 		  <tr><td colspan="2"><hr></td></tr>
@@ -1423,6 +1436,23 @@
       <div class="page">
         <div class="pad">
           <table>
+            <tr>
+              <td class="set"><?php echo $entry_static; ?></td>
+              <td><?php if ($global_config_static) { ?>
+                <input type="radio" name="global_config_static" value="1" id="gcstyes" checked>
+                <label for="gcstyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_static" value="0" id="gcstno">
+                <label for="gcstno"><?php echo $text_no; ?></label>
+                <?php } else { ?>
+                <input type="radio" name="global_config_static" value="1" id="gcstyes">
+                <label for="gcstyes"><?php echo $text_yes; ?></label>
+                <input type="radio" name="global_config_static" value="0" id="gcstno" checked>
+                <label for="gcstno"><?php echo $text_no; ?></label>
+                <?php } ?></td>
+	      <td class="expl">
+		  <?php echo $explanation_static; ?>
+	      </td>
+            </tr>
             <tr>
               <td class="set"><?php echo $entry_cache_query; ?></td>
               <td><?php if ($global_config_cache_query) { ?>
@@ -1949,7 +1979,7 @@
     </div>
   </div>
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
     function change_columns(column){
       var Style = $('#catalog_config_styles').val();
       var Column = column;
@@ -1962,31 +1992,31 @@
 	  var Query = String("style=" + Style + "&columns=" + Column);
 	  return Query;
     }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	function removeSpaces(string) {
-	return string.split(' ').join('');
+		return string.split(' ').join('');
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   tabview_initialize('tab');
-  //--></script>
- <script type="text/javascript"><!--
+  </script>
+ <script type="text/javascript">
   tabview_initialize('tabmini');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $('#zone').load('index.php?controller=setting&action=zone&country_id=<?php echo $global_config_country_id; ?>&zone_id=<?php echo $global_config_zone_id; ?>');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $('#logo_image').load('index.php?controller=setting&action=viewLogo&store_logo='+document.getElementById('logo_id').value);
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $('#footer_logo_image').load('index.php?controller=setting&action=viewFooterLogo&footer_logo='+document.getElementById('footer_logo_id').value);
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
       $('#wm_image').load('index.php?controller=setting&action=viewWmImage&wm_image='+document.getElementById('wm_image_id').value);
-    //--></script>
-  <script type="text/javascript"><!--
+    </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -2005,8 +2035,8 @@
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
     $('#gceayes:checked').each(function() {
 		$('#global_config_email_user').attr("disabled", false);
@@ -2017,8 +2047,8 @@
 		$('#global_config_email_tout').attr("disabled", false);
     });
   });
-    //--></script>
-  <script type="text/javascript"><!--
+    </script>
+  <script type="text/javascript">
   $('#gceayes').on("click", function() {
 		$('#global_config_email_user').attr("disabled", false);
 		$('#global_config_email_passw').attr("disabled", false);
@@ -2027,8 +2057,8 @@
 		$('#global_config_email_port').attr("disabled", false);
 		$('#global_config_email_tout').attr("disabled", false);
   });
-    //--></script>
-  <script type="text/javascript"><!--
+    </script>
+  <script type="text/javascript">
   $('#gceano').on("click", function() {
 		$('#global_config_email_user').attr("disabled", true);
 		$('#global_config_email_passw').attr("disabled", true);
@@ -2037,8 +2067,8 @@
 		$('#global_config_email_port').attr("disabled", true);
 		$('#global_config_email_tout').attr("disabled", true);
   });
-    //--></script>
-  <script type="text/javascript"><!--
+    </script>
+  <script type="text/javascript">
 	function saveTabs() {
 	var activeTab = $('#tab > .tabs > a.active').index()+1;
 	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
@@ -2173,6 +2203,7 @@
 		document.forms['update_form'].global_config_email_mail.value=document.forms['form'].global_config_email_mail.value;
 		document.forms['update_form'].global_config_email_contact.value=document.forms['form'].global_config_email_contact.value;
 		document.forms['update_form'].global_config_newsletter.value=document.forms['form'].global_config_newsletter.value;
+		document.forms['update_form'].global_config_static.value=document.forms['form'].global_config_static.value;
 		document.forms['update_form'].global_config_cache_query.value=document.forms['form'].global_config_cache_query.value;
 		document.forms['update_form'].global_config_compress_output.value=document.forms['form'].global_config_compress_output.value;
 		document.forms['update_form'].global_config_compress_level.value=document.forms['form'].global_config_compress_level.value;
@@ -2228,8 +2259,8 @@
 		document.forms['update_form'].catalog_config_download_status.value=document.forms['form'].catalog_config_download_status.value;
 		document.forms['update_form'].catalog_config_freedownload.value=document.forms['form'].catalog_config_freedownload.value;
 	}
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
 		tabview_switch('tab', <?php echo $tab; ?>);
@@ -2238,13 +2269,13 @@
 		}
 	}
    });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $('#stamp_image').load('index.php?controller=setting&action=viewStamp&stamp='+document.getElementById('stamp_id').value);
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $(document).ready(function() {
 	  RegisterValidation();
     });
-  //--></script>
+  </script>
 </form>

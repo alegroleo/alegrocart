@@ -9,7 +9,7 @@
  <div class="productcat">
   <div class="pimage">
   <?php if (!$product['status']) { ?>
-	<img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>">
+	<img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" width="<?php echo $product['image_width']; ?>" height="<?php echo $product['image_height']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>">
   <?php } else { 
 	  if(!isset($image_display)){$image_display = 'image_link';}
 	  switch ($image_display){
@@ -38,7 +38,7 @@
 	<?php if (isset($product['average_rating'])) { ?>
     <div><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="112" height="20" data-src="catalog/styles/<?php echo $this->style;?>/image/stars_<?php echo $product['average_rating'] . '.png'; ?>" alt="<?php echo $product['alt_rating']; ?>"></div>
 	<?php } ?>
-<?php if ($product['vendor_name']) { ?>
+<?php if (isset($product['vendor_name'])) { ?>
 	<div class="vendor"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
 <?php } ?>
   <?php if($product['model_number'] || $product['product_options']){?>
@@ -46,7 +46,7 @@
 	  <?php echo $text_model_number;?>
 	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>"><?php echo $product['model_number'];?></span>
 		<?php if($product['product_options']){?>
-		  <script language="JavaScript">
+		  <script type="text/javascript">
 			$(document).ready(function(){
 			  UpdateModel(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 			});
@@ -60,7 +60,7 @@
 <br><?php echo $product['description']; ?>
  <?php if ($product['product_discounts'] && $product['status']){?>
     <?php if($discount_options && $product['product_options']){?>
-	  <script language="JavaScript">
+	  <script type="text/javascript">
 		$(document).ready(function(){
 		  UpdateDiscounts(<?php echo "'" . $this_controller . "'," . $product['product_id'] . ",". $decimal_place . ",'" . $decimal_point . "'";?>,0);
 		});
@@ -78,7 +78,7 @@
 	    <span <?php if(!$show_stock){echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $product['stock_level']; ?></span>
 	    <?php if($show_stock_icon){?>
 		  <?php if($product['stock_level'] > 0 && $product['stock_level'] > $low_stock_warning){
-		    $icon ='catalog/styles/'.$this->style.'/image/stock_status_g.png';
+		    $icon = 'catalog/styles/'.$this->style.'/image/stock_status_g.png';
 		  }else if($product['stock_level'] > 0 && $product['stock_level'] <= $low_stock_warning){
 	        $icon = 'catalog/styles/'.$this->style.'/image/stock_status_o.png';
 	      } else {
@@ -92,7 +92,7 @@
    <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" name="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" value="<?php echo ($product['cart_level'] ? $product['cart_level'] : 0); ?>">
    <?php } ?>
    <?php if($product['product_options']){?>
-    <script language="JavaScript">
+    <script type="javascript">
 	  $(document).ready(function(){
 	    UpdateQuantity(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 	    UpdateAddToCartButton(<?php echo $product['product_id'] . ',"' . $this_controller . '","' . $Added_to_Cart . '","' . $Add_to_Cart . '"';?>);

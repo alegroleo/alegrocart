@@ -1,8 +1,10 @@
 <?php //Search AlegroCart
 class ControllerSearch extends Controller {
-		var $remaining = false;
-		var $discounted = false;
-	function __construct(&$locator){ // Template Manager
+
+	var $remaining = false;
+	var $discounted = false;
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->config		=& $locator->get('config');
@@ -306,16 +308,18 @@ class ControllerSearch extends Controller {
 				$product_data[] = array(
 					'name'  => $result['name'],
 					'product_id'  => $result['product_id'],
-					'description' => $desc,
-					'stock_level' => $result['quantity'],
-					'min_qty'	=> $result['min_qty'],
-					'max_qty'	=> $result['max_qty'],
-					'multiple'	=> $result['multiple'],
+					'description'		=> $desc,
+					'stock_level'		=> $result['quantity'],
+					'min_qty'		=> $result['min_qty'],
+					'max_qty'		=> $result['max_qty'],
+					'multiple'		=> $result['multiple'],
 					'cart_level'		=> $cart->hasProduct($result['product_id']),
-					'product_discounts' => $product_discounts,
+					'product_discounts'	=> $product_discounts,
 					'href'  => $url->ssl('product', FALSE, array('product_id' => $result['product_id'])),
 					'popup'     => $image->href($result['filename']),
 					'thumb' => $image->resize($result['filename'], $image_width, $image_height),
+					'image_width'		=> $image_width, 
+					'image_height'		=> $image_height, 
 					'special_price' => $currency->format($tax->calculate($result['special_price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'price' => $currency->format($tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'sale_start_date' => $result['sale_start_date'],
@@ -506,6 +510,7 @@ class ControllerSearch extends Controller {
 		}
 		$response->set($output);
 	}
+
 	function sort_filter(){
 		$language =& $this->locator->get('language');	
 	$language->load('extension/module/searchoptions.php');
@@ -523,6 +528,7 @@ class ControllerSearch extends Controller {
 		$sort_order[1] = $language->get('entry_descending');
 		return $sort_order;
 	}
+
 	function search_page() {
 		$request  =& $this->locator->get('request');
 		$response =& $this->locator->get('response');
@@ -565,10 +571,12 @@ class ControllerSearch extends Controller {
 		}
 		$response->redirect($url->ssl('search', FALSE, $query));
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

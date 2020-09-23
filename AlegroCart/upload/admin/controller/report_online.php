@@ -21,7 +21,7 @@ class ControllerReportOnline extends Controller {
 		$this->template->set('title', $this->language->get('heading_title'));
 
 		$results = $this->modelReportOnline->get_sessions();
-		$results = $this->remove_duplicates($results, 'ip');
+//		$results = $this->remove_duplicates($results, 'ip');
 		$rows = array();
 
 		foreach ($results as $result) {
@@ -37,7 +37,7 @@ class ControllerReportOnline extends Controller {
 			}
 			if (isset($value['user_id'])) {
 				$user_info = $this->modelReportOnline->get_user($value['user_id']);
-				$name = $this->language->get('text_admin', $user_info['username']);
+				$name = $this->language->get('text_admin', trim($user_info['uname']) ? $user_info['uname'] : $user_info['username'], $user_info['usergroup']);
 			} elseif (isset($value['customer_id'])) {
 				$customer_info = $this->modelReportOnline->get_customer($value['customer_id']);
 				$name = $customer_info['name'];

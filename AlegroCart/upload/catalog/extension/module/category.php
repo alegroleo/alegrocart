@@ -4,22 +4,22 @@ require_once('library/Tree/Factory/List.php');
 
 class ModuleCategory extends Controller{
 
-	function __construct(&$locator){
+	public function __construct(&$locator){
 		$this->locator		=& $locator;
 		$model			=& $locator->get('model');
 		$this->modelCore	= $model->get('model_core');
 		$this->cache		=& $locator->get('cache');
 	}
 
-	function fetch() {
+	public function fetch() {
 
 		$config   =& $this->locator->get('config');
 		$language =& $this->locator->get('language');
 		$url      =& $this->locator->get('url');
 		$request  =& $this->locator->get('request');
-		$template =& $this->locator->get('template');       
+		$template =& $this->locator->get('template');
 		$head_def =& $this->locator->get('HeaderDefinition'); 
-		
+
 		if ($config->get('category_status')) {
 
 			$language->load('extension/module/category.php');
@@ -27,6 +27,7 @@ class ModuleCategory extends Controller{
 			$view = $this->locator->create('template');
 
 			$view->set('heading_title', $language->get('heading_title'));
+			$view->set('subcategory', $language->get('text_subcategory'));
 
 			$category_data = array();
 

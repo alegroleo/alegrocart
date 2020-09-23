@@ -1,5 +1,7 @@
 <?php
-if (!$step) { header('Location: .'); die(); }
+if (!$step) {
+	header('Location: .'); die();
+}
 
 if (empty($_POST['db_host'])) { $ferrors['host'] = $language->get('error_dbhost'); }
 if (empty($_POST['db_user'])) { $ferrors['user'] = $language->get('error_dbuser'); }
@@ -91,6 +93,9 @@ if (($errors || $ferrors) && $step == 2) {
         <td><input type="text" name="password" value="<?php echo @$_POST['password']; ?>">
 		<?php if (isset($ferrors['admin_passw'])) { ?>
                       <span class="error"><?php echo $ferrors['admin_passw']; ?></span>
+		<?php } ?>
+		<?php if (isset($ferrors['admin_passw_lenght'])) { ?>
+                      <span class="error"><?php echo $ferrors['admin_passw_lenght']; ?></span>
 		<?php } ?>
 	</td>
       </tr>

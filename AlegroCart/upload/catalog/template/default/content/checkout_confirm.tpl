@@ -75,7 +75,7 @@
           &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
           <?php } ?>
           <br>
-		<?php if ($product['vendor_name']) { ?>
+		<?php if (isset($product['vendor_name'])) { ?>
 			<span class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></span>
 		<?php } ?>
         </td>
@@ -103,14 +103,14 @@
 		  <td class="right"><?php echo $product['tax'] . '%';?></td>
 		  <td class="right"><?php echo $product['product_tax'];?></td>
 		  <td class="right">
-		  <?php if ($product['download']) {?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
-		<?php }else if ($product['shipping']) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+		  <?php if ($product['download']) {?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" width="32" height="32" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+		<?php }else if ($product['shipping']) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" width="32" height="32" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" width="32" height="32" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
 		</td>
 		  <td class="right"><?php echo '<span class="tax">*</span>' . $product['total_discounted']; ?></td>
 		<?php } else {?>
 		<td class="right">
-		  <?php if ($product['download']) {?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
-		<?php }else if ($product['shipping']) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+		  <?php if ($product['download']) {?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" width="32" height="32" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+		<?php }else if ($product['shipping']) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" width="32" height="32" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" width="32" height="32" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
 		</td>
         <td class="right"><?php echo ($tax_included ? '<span class="tax">* </span>' : '') . $product['total']; ?></td>
 		<?php }?>
@@ -230,7 +230,7 @@
 	<td class="rtext"><?php echo $agree; ?></td>
 	<td width="5"><input type="checkbox" id="agree" name="agreed" value="1" class="agreement"></td>
 	<td width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled">
-	<img width="128" id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE">
+	<img width="128" height=128 id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE">
 	</td>
       </tr>
     </table>
@@ -244,10 +244,10 @@
 	<td align="right"><?php echo $text_warehouse_pickup; ?></td>
 	<td align="right" width="5"><input type="checkbox" id="pickup" name="pickup" value="1" class="agreement"></td>
         <td align="right" width="5"><input type="submit" value="<?php echo $button_continue; ?>" id="submit" disabled="disabled">
-		<img width="128" id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE"></td>
+		<img width="128" height=128 id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE"></td>
 	 <?php } else { ?>
         <td align="right"><input type="submit" value="<?php echo $button_continue; ?>">
-		<img width="128" id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE">
+		<img width="128" height=128 id="working" src="catalog/styles/<?php echo $this->style;?>/image/working.gif" hidden="TRUE">
 		</td>
 	 <?php }?>
       </tr>
@@ -256,13 +256,13 @@
   <?php } ?>
 </form></div>
 <div class="contentBodyBottom"></div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $("#submit").on("click", function(){
 	$('#working').show();
 	$('#submit').attr("hidden","hidden");
 });
-//--></script>
-<script type="text/javascript"><!--
+</script>
+<script type="text/javascript">
 $(".agreement").on("change", function(){
 	if ($('.agreement:checked').length == $('.agreement').length) {
 		$('#submit').attr('disabled', false);
@@ -270,8 +270,8 @@ $(".agreement").on("change", function(){
 		$('#submit').attr('disabled', true);
 	}
 });
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 $("#comment").on("change", function(){
 	var Comment = $('#comment').val();
 	var data_json = {'Comment':Comment};
@@ -282,4 +282,4 @@ $("#comment").on("change", function(){
 		dataType:'json',
 	});
 });
-//--></script>
+</script>

@@ -1,16 +1,48 @@
 <?php
 
 // Installed?
-if (filesize('../config.php') == 0) { header('Location: index.php'); exit; }
+if (filesize('../config.php') == 0) {
+	header('Location: index.php'); exit;
+}
 
 define('VALID_ACCESS', TRUE);
 require('common.php');
 require('language.php');
 require('database.php');
+
+$host = getHost();
+
+if (!isset($_COOKIE['redirect'])) {
+	setcookie("redirect", 0, time()+3600);
+}
+
+if (!isSecure() && checkSSL()) {//first we check if user entered http://blabla.com or http://www.blabla.com, then we check if SSL is enabled on this server or not. If both are true we redirect him once to https://www.blabla.com to secure install process
+	header("Location: https://" . $host . $_SERVER['REQUEST_URI']);
+	die;
+} elseif (isSecure() && !checkWWW() && isset($_COOKIE['redirect']) && $_COOKIE['redirect'] != 1) { //if user entered https://blabla.com, we redirect him once to https://www.blabla.com if we are not on subdomain
+	setcookie("redirect", 1);
+	header("Location: https://" . $host . $_SERVER['REQUEST_URI']);
+	die;
+} elseif (!isSecure() && isset($_COOKIE['redirect']) && $_COOKIE['redirect'] != 1) { //if no SSL, we redirect to http://www.blabla.com if we are not on subdomain
+	setcookie("redirect", 1);
+	header("Location: http://" . $host . $_SERVER['REQUEST_URI']);
+	die;
+}
+
+setcookie("redirect", "", time()-3600);
+
 // Include Config and Common
 require('../config.php');
-if (!defined('DIR_BASE')) { define('DIR_BASE', getbasepath()); }
-if (!defined('HTTP_BASE')) { define('HTTP_BASE', getbaseurl()); }
+
+if (!defined('DIR_BASE')) {
+	define('DIR_BASE', getbasepath());
+}
+if (!defined('HTTP_BASE')) {
+	define('HTTP_BASE', 'http://' . getbaseurl($host));
+}
+if (!defined('HTTPS_BASE')) {
+	define('HTTPS_BASE', isSecure() ? 'https://' . getbaseurl($host) : '');
+}
 require('../common.php');
 
 $errors = array(); //common errors
@@ -50,22 +82,18 @@ foreach ($files as $file) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title><?php echo $language->get('heading_title')?></title>
 	<link rel="stylesheet" type="text/css" href="../image/install/style.css">
-	<!--[if !IE 7]>
-		  <style type="text/css">
-			  #wrap {display:table;height:100%}
-		  </style>
-	  <![endif]-->
+	<link rel="shortcut icon" type="image/x-icon" href="..image/favicon.ico">
 	</head>
 	<body>
 	<div id="wrap">
 	<div id="header">
 	    <div class="header_content">
-	    <img src="../image/install/aclogo.png" alt="AlegroCart open source E-commerce"/> 
+	    <img src="../image/install/aclogo.png" width=300 height=67 alt="AlegroCart open source E-commerce"/> 
 	    <div class="language">
 	    <?php foreach ($languages as $value) { ?>
 	    <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST" enctype="multipart/form-data">
 	    <div>
-	    <input type="image" src="../image/install/<?php echo $value; ?>.png" alt="<?php echo $value; ?>">
+	    <input type="image" src="../image/install/<?php echo $value; ?>.png"  width=16 height=11 alt="<?php echo $value; ?>">
 	    <input type="hidden" name="language" value="<?php echo $value; ?>">
 		<input type="hidden" name="step" value="<?php echo $step; ?>">
 		<?php if (isset($_POST['root_dirs'])) { ?>

@@ -24,7 +24,7 @@
       </tr>
       <?php foreach ($products as $product) { ?>
       <tr>
-	  <td class="l"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>"></a></td>
+	  <td class="l"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" width="<?php echo $product['width']; ?>" height="<?php echo $product['height']; ?>" alt="<?php echo $product['name']; ?>"></a></td>
 	  <td class="left"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
           <?php foreach ($product['option'] as $option) { ?>
           <br>
@@ -34,9 +34,9 @@
           <td class="center"><?php echo $product['quantity']; ?></td>
 	  <td class="center">
 	  <?php if ($product['download']) {?>
-	  <img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+	  <img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" width="32" height="32" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
 	  <?php } else {?>
-	  <img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>">
+	  <img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" width="32" height="32" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>">
 	  <?php }?>
 	  </td>
       </tr>
@@ -117,7 +117,7 @@
   </div>
 </form>
 </div>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
 $("#back, #change_address").on("click", function(){
 	var Comment = $('#comment').val();
 	var shippingMethod = $('input[name=shipping]:checked').val();
@@ -138,15 +138,15 @@ $("#back, #change_address").on("click", function(){
 			}
 	});
 });
-//--></script>
+</script>
   <script type="text/javascript">
 	$(document).ready(function(){
 		$('input[name="shipping"][checked="checked"]').closest('table').attr('class', 'default_method');
 	});
-//--></script>
+</script>
   <script type="text/javascript">
 	$('input[name="shipping"]').on("click", function(){
 		$('input[name="shipping"]').closest('table').removeClass('default_method').addClass('method');
 		$(this).closest('table').attr('class', 'default_method');
 });
-//--></script>
+</script>

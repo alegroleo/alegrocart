@@ -6,20 +6,20 @@
   $head_def->set_admin_javascript("javascript/ajax/validateforms.js");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/save_disabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -27,7 +27,7 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
  <em><?php echo $order_id; ?></em>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 
@@ -468,15 +468,15 @@
 				  <td class="right"><?php echo $product['tax'] . '%';?></td>
 				  <td class="right"><?php echo $product['product_tax'];?></td>
 				  <td class="right">
-				    <?php if ($product['download']) {?><img src="template/<?php echo $this->directory?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
-				    <?php }else if ($product['shipping']) { ?><img src="template/<?php echo $this->directory?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="template/<?php echo $this->directory?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+				    <?php if ($product['download']) {?><img src="template/<?php echo $this->directory?>/image/downloadable.png" width=32 height=32 alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+				    <?php }else if ($product['shipping']) { ?><img src="template/<?php echo $this->directory?>/image/shippable.png" width=32 height=32 alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="template/<?php echo $this->directory?>/image/non_shippable.png" width=32 height=32 alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
 				  </td>
 				  <td class="right"><?php echo '<span class="tax">*</span>' . $product['total_discounted']; ?></td>
 				</tr>
 				<?php if($product['barcode_url']){?>
 				  <tr>
 					<td>
-					  <img src="<?php echo $product['barcode_url']; ?>" title="<?php echo $product['barcode']; ?>" alt="<?php echo $product['barcode']; ?>">
+					  <img src="<?php echo $product['barcode_url']; ?>" title="<?php echo $product['barcode']; ?>" width="<?php echo $product['barcode_width'];?>" height="<?php echo $product['barcode_height'];?>" alt="<?php echo $product['barcode']; ?>">
 					</td>
 				  </tr>
 				<?php } ?>
@@ -581,23 +581,23 @@
 	  </div>
 	<?php } ?>  
 </div>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
   tabview_initialize('tab');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $(document).ready(function() {
       $('#invoice_products').hide();
 	  open_body();
    });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function open_body(){
 	if($('#shipping_method').val()!="" && $('#payment_method').val()!=""){
 	  $('#invoice_products').show();
 	}
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function submit_form(){
 	var customer_id = $('#customer_id').val();
 	if(!customer_id > 0){
@@ -606,8 +606,8 @@
 	}
 	$('#form').submit();
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function add_product(product_id){
 	var Product_id = product_id;
 	var item = String(Product_id);
@@ -635,8 +635,8 @@
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function update_row(row){
 	var quantity = $('#quantity_'+row).val();
 	var price = $('#price_'+row).val();
@@ -655,8 +655,8 @@
 	update_totals();
 	
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function get_shipping_weight(){
 	var rows = $('#products tr').size();
 	var total_weight = parseFloat(0);
@@ -671,8 +671,8 @@
 	}
 	return total_weight;
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function update_totals(){
 	var tax = update_tax();
 	var subtotal = update_subtotal();
@@ -685,8 +685,8 @@
 	var weight = get_shipping_weight();
 	$('#shipping_weight').val(weight);
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function update_subtotal(){
 	var rows = $('#products tr').size();
 	var subtotal = parseFloat(0);
@@ -703,8 +703,8 @@
 	$('#subtotal').val(subtotal);
 	return subtotal;
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function update_tax(){
 	var rows = $('#products tr').size();
 	var total_tax = parseFloat(0);
@@ -734,15 +734,15 @@
 	$('#total_tax').val(total_tax);
 	return total_tax;
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   function get_customer_info(customer_id){
 	$('#shipping_address').load('index.php?controller=order_edit&action=get_shipping_addresses&customer_id='+customer_id);
 	$('#email').load('index.php?controller=order_edit&action=get_email&customer_id='+customer_id);
 	$('#phonefax').load('index.php?controller=order_edit&action=get_phone&customer_id='+customer_id);
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -761,9 +761,9 @@
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	RegisterValidation();
   });
-//--></script>
+</script>

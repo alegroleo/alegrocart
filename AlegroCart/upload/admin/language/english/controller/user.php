@@ -9,7 +9,8 @@ $_['text_message']		= 'Success: You have updated users!';
 $_['text_signature']		= 'Signature';
 
 // Column
-$_['column_username']		= 'Username';
+$_['column_username']		= 'User';
+$_['column_usergroup']		= 'User Group';
 $_['column_email']		= 'E-Mail';
 $_['column_telephone']		= 'Telephone';
 $_['column_action']		= 'Action';
@@ -33,7 +34,7 @@ $_['entry_user_group']		= 'User Group:';
 // Error
 $_['error_permission']		= 'Warning: You do not have permission to modify users';
 $_['error_username']		= '* Username must be between 1 and 20 characters!';
-$_['error_password']		= '* Password must be between 1 and 20 characters!';
+$_['error_password']		= '* Password must be between 6 and 20 characters!';
 $_['error_confirm']		= '* Password and password confirmation do not match!';
 $_['error_old']			= '* Old password is incorrect!';
 $_['error_firstname']		= '* First Name must be between 1 and 32 characters!';

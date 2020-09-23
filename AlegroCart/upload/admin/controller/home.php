@@ -71,6 +71,8 @@ class ControllerHome extends Controller {
 		$view->set('text_country', $this->language->get('text_country'));
 		$view->set('text_latest_orders', $this->language->get('text_latest_orders'));
 		$view->set('text_latest_reviews', $this->language->get('text_latest_reviews'));
+		$view->set('text_enabled', $this->language->get('text_enabled'));
+		$view->set('text_disabled', $this->language->get('text_disabled'));
 
 		$view->set('column_order_id', $this->language->get('column_order_id'));
 		$view->set('column_customer', $this->language->get('column_customer'));

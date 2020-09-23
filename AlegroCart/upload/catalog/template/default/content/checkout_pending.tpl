@@ -28,10 +28,10 @@
 </div></div>
 <div class="contentBodyBottom"></div>
 
-<script type="text/javascript"><!--
-document.getElementById('pending').appendChild(document.createTextNode("<?php echo $text_redirect; ?>"));
-document.getElementById('loadingbar').style.display = 'block';
---></script> 
-<script type="text/javascript"><!--
-window.onload=document.forms['payform'].submit();
---></script> 
+<script type="text/javascript">
+  document.getElementById('pending').appendChild(document.createTextNode("<?php echo $text_redirect; ?>"));
+  document.getElementById('loadingbar').style.display = 'block';
+</script> 
+<script type="text/javascript">
+  window.onload=document.forms['payform'].submit();
+</script>

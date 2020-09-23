@@ -20,7 +20,7 @@
     $head_def->setcss($this->style . "/css/lightbox.css\"  media=\"screen" ); 
 	$head_def->set_javascript("lightbox/lightbox.js");
   ?>
-  <script>
+  <script type="text/javascript">
 	$(document).ready(function(){
 		$(".lightbox").lightbox({
 			fitToScreen: true,
@@ -56,7 +56,7 @@
 	  <?php echo $text_model_number;?>
 	    <span id="<?php echo $this_controller . '_model_' . $product['product_id'];?>"><?php echo $product['model_number'];?></span>
 		<?php if($product_options){?>
-		  <script language="JavaScript">
+		  <script type="text/javascript">
 			$(document).ready(function(){
 			  UpdateModel(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 			});
@@ -72,11 +72,11 @@
       <span <?php if(!$show_stock){echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_stock_level_' . $product['product_id'];?>"><?php echo $stock_level; ?></span>
 	<?php if($show_stock_icon){?>
 	  <?php if($stock_level > 0 && $stock_level > $low_stock_warning){
-		$icon = 'catalog/styles/'.$this->style.'/image/stock_status_g.png';
+		$icon = $image_base . 'catalog/styles/'.$this->style.'/image/stock_status_g.png';
 	  }else if($stock_level > 0 && $stock_level <= $low_stock_warning){
-	    $icon = 'catalog/styles/'.$this->style.'/image/stock_status_o.png';
+	    $icon = $image_base . 'catalog/styles/'.$this->style.'/image/stock_status_o.png';
 	  } else {
-		$icon = 'catalog/styles/'.$this->style.'/image/stock_status_r.png';
+		$icon = $image_base . 'catalog/styles/'.$this->style.'/image/stock_status_r.png';
 	  }?>
 	  <?php if($show_stock_icon && $product_options){?>
 		<input type="hidden" id="stock_status_g" value="catalog/styles/<?php echo $this->style?>/image/stock_status_g.png">
@@ -92,8 +92,8 @@
 	<div class="adesc"><?php echo $alt_description; ?></div>
    <?php }?>
   <div class="shipping">
-    <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } elseif(!$downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
-	<?php if ($downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+    <?php if ($shipping) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" width="32" height="32" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } elseif(!$downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" width="32" height="32" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+	<?php if ($downloads) { ?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" width="32" height="32" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
 	<span><?php echo $text_downloadable;?></span>
 	<?php }?>
 <?php if ($shipping_time) { ?><div><?php echo $text_shipping_time;?></div><?php }?>
@@ -102,7 +102,7 @@
   <input type="hidden" id="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" name="<?php echo $this_controller . '_cart_level_' . $product['product_id'];?>" value="<?php echo ($product['cart_level'] ? $product['cart_level'] : 0); ?>">
    <?php } ?>
   <?php if($product_options){?>
-    <script language="JavaScript">
+    <script type="text/javascript">
 	  $(document).ready(function(){
 	    UpdateQuantity(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 	    UpdateAddToCartButton(<?php echo $product['product_id'] . ',"' . $this_controller . '","' . $Added_to_Cart . '","' . $Add_to_Cart . '"';?>);
@@ -121,7 +121,7 @@
    } else {
 	 include $shared_path . 'product_options.tpl';
   }} ?>
-	<?php if ($product['vendor_name']) { ?>
+	<?php if (isset($product['vendor_name'])) { ?>
 		<div class="vendor"><?php echo $text_soldby; ?><?php echo $product['vendor_name']; ?></div>
 	<?php } ?>
    <?php if ($product_addtocart) { ?>
@@ -138,7 +138,7 @@
 	<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
 	<script type="IN/Share" data-url="<?php echo $current_product ?>" data-counter="right"></script>
 	<a class="twitter-share-button" href="https://twitter.com/intent/tweet" data-url="<?php echo $current_product ?>" data-size="default">Tweet</a> 
-	<script> window.twttr = (function(d, s, id) {
+	<script type="text/javascript"> window.twttr = (function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0], t = window.twttr || {};
 	if (d.getElementById(id)) return t;
 	js = d.createElement(s); js.id = id;
@@ -215,7 +215,7 @@
 		<?php if (isset($product_discounts)){ ?><br>
 		  <?php echo "<b>".$text_quantity_discount."</b><br>"; ?>
 		  <?php if($discount_options && $product_options){?>
-		    <script language="JavaScript">
+		    <script type="type/javascript">
 			  $(document).ready(function(){
 				UpdateDiscounts(<?php echo "'" . $this_controller . "'," . $product['product_id'] . ",". $decimal_place . ",'" . $decimal_point . "'";?>,0);
 			  });
@@ -226,7 +226,7 @@
 		    <?php echo "&nbsp;&nbsp;".$text_qty_discount.$product_discount['discount_quantity']."&nbsp;&nbsp;".$text_discount.$symbol_left.'<span id="'. $this_controller.'_discount_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_amount']."</span>" .$symbol_right."&nbsp;&nbsp; (".'<span id="'. $this_controller.'_percent_'.$product['product_id'].'_'.$key.'">'.$product_discount['discount_percent']."</span>%)"; ?><br>
 		  <?php } ?>
 		<?php } ?>
-		<?php if (($product['special_price'] > '$0.00' ) && date('Y-m-d') >= $product['sale_start_date'] && date('Y-m-d') <= $product['sale_end_date']) { ?><br>	
+		<?php if (($product['special_price'] > '$0.00' ) && date('Y-m-d') >= $product['sale_start_date'] && date('Y-m-d') <= $product['sale_end_date']) { ?><br>
 		  <?php echo "<b>".$text_date."</b><br>"; ?>
 		  <?php echo "&nbsp;&nbsp;".$text_sale_start.$sale_start; ?><br>
           <?php echo "&nbsp;&nbsp;".$text_sale_end.$sale_end; ?><br>
@@ -253,7 +253,7 @@
 		  <?php echo ' ' . $weight_unit;?>
 		  <?php if($option_weights){?>
 		    <input type="hidden" id="weight_<?php echo $product['product_id'];?>" value="<?php echo number_format((float)str_replace($decimal_point,'.',$weight),4,'.','');?>">
-			<script language="JavaScript">
+			<script type="text/javascript">
 			  $(document).ready(function(){
 			    UpdateWeight(<?php echo $weight_decimal . ",'" . $decimal_point . "',". $product['product_id'] . ",'" . $this_controller . "'";?>);
 			  });
@@ -267,7 +267,7 @@
 		  <span id="<?php echo $this_controller . '_dimensions_' . $product['product_id'];?>"><?php echo $dimensions ? @$dimensions : ''; ?></span><br>
 		  <?php if($product_options){?>
 		    <input type="hidden" id="dimension_<?php echo $product['product_id'];?>" value="<?php echo $dimensions;?>">
-		    <script language="JavaScript">
+		    <script type="text/javascript">
 			  $(document).ready(function(){
 			    UpdateDimensions(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 			  });
@@ -281,9 +281,9 @@
 		  <div class="barcode">
 		    <span <?php if(!$product['barcode']){ echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_barcode_text_' . $product['product_id'];?>"><?php echo $text_barcode; ?></span>
 		    <span <?php if(!$product['barcode']){ echo 'class="hidden" ';}?>id="<?php echo $this_controller . '_barcode_' . $product['product_id'];?>"><?php echo $product['barcode']; ?></span>
-			<img <?php if(!$product['barcode']){ echo 'classs="hidden" ';}?>id="barcode_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $product['barcode_url'];?>" alt="<?php echo $text_barcode_img;?>" title="<?php echo $text_barcode_img;?>">
+			<img <?php if(!$product['barcode']){ echo 'class="hidden" ';}?>id="barcode_<?php echo $this_controller. '_' . $product['product_id'];?>" src="<?php echo $product['barcode_url'];?>" width="<?php echo $product['barcode_width'];?>" height="<?php echo $product['barcode_height'];?>" alt="<?php echo $text_barcode_img;?>" title="<?php echo $text_barcode_img;?>">
 		    <?php if($product_options){?>
-			  <script language="JavaScript">
+			  <script type="text/javascript">
 			    $(document).ready(function(){
 			      UpdateBarcode(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 			    });
@@ -323,7 +323,7 @@
 				      </tr>
 				      <?php for ($i=1; $i<5; $i++) { ?>
 				      <tr>
-				        <td><br><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $review['rating'.$i] . '.png'; ?>" alt="<?php echo $review['out_of'.$i]; ?>" class="png">&nbsp;(<?php echo $review['out_of'.$i]; ?>)</td>
+				        <td><br><b><?php echo ${'text_rating'.$i}; ?></b></td><td><img src="catalog/styles/<?php echo $this->style?>/image/stars_<?php echo $review['rating'.$i] . '.png'; ?>" width="112" height="20" alt="<?php echo $review['out_of'.$i]; ?>" class="png">&nbsp;(<?php echo $review['out_of'.$i]; ?>)</td>
 				      </tr>
 				      <?php } ?>
 			        </table>
@@ -335,7 +335,7 @@
 		  </div>
 	    </div>
 	    <?php if($review_status){?>
-		<div class="review_write"><br><a href="<?php echo $write; ?>"><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="catalog/styles/<?php echo $this->style?>/image/write.png" alt="<?php echo $text_write_short; ?>"></a><br><br>
+		<div class="review_write"><br><a href="<?php echo $write; ?>"><img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="catalog/styles/<?php echo $this->style?>/image/write.png" width="50" height="50" alt="<?php echo $text_write_short; ?>"></a><br><br>
 		<a href="<?php echo $write; ?>"><?php echo $text_write; ?></a></div>
 	    <?php } ?>
 	  </div>
@@ -351,9 +351,9 @@
       <?php } ?>
 </div>
 </div>
-	<script type="text/javascript"><!--
+	<script type="text/javascript">
       tabview_initialize('tab')
-    //--></script>
-	  <script type="text/javascript"><!--
+    </script>
+	  <script type="text/javascript">
 	  rtabview_initialize('rtab');
-    //--></script>
+    </script>

@@ -62,6 +62,10 @@ ExpiresByType text/html "access plus 0 seconds"
 
 # BEGIN Cache-Control Headers. This will override Expires Caching set above
 <IfModule mod_headers.c>
+
+ # unset ETag
+ Header unset ETag
+
  <filesMatch ".+\.(ico|jpe?g|png|gif|swf)$">
   Header set Cache-Control "max-age=604800, public"
  </filesMatch>
@@ -75,7 +79,4 @@ ExpiresByType text/html "access plus 0 seconds"
 # END Cache-Control Headers
 
 # Disable ETags as we have own process
-<IfModule mod_headers.c>
-Header unset ETag
-</IfModule>
 FileETag None

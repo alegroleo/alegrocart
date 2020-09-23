@@ -2,7 +2,7 @@
 class Coupon {
 
 	private $data = array();
-	private $product = array();
+	public $product = array();
 	private $status = false;
 	private $affected= FALSE;
 

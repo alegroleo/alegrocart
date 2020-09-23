@@ -1,9 +1,11 @@
 <?php //Contact AlegroCart
 class ControllerContact extends Controller {
+
 	var $error = array(); 
-	function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
+		$model			=& $locator->get('model');
 		$this->config  		=& $locator->get('config');
 		$this->check_ssl();
 		$this->config->set('config_tax', $this->config->get('config_tax_store'));
@@ -29,102 +31,102 @@ class ControllerContact extends Controller {
 	}
 
 	function index() {
-	$this->template->set('title', $this->language->get('heading_title'));
+		$this->template->set('title', $this->language->get('heading_title'));
 
-	if ($this->request->isPost() && $this->request->has('email', 'post') && $this->validate() && !$this->customer->isLogged()) {
-		$this->mail->setTo($this->config->get('config_email_contact') ? $this->config->get('config_email_contact') : $this->config->get('config_email'));
-		$this->mail->setFrom($this->request->sanitize('email', 'post'));
-		$this->mail->setSender($this->request->sanitize('name', 'post'));
-		$this->mail->setSubject($this->language->get('email_subject', $this->request->sanitize('name', 'post')));
-		$this->mail->setText($this->request->sanitize('enquiry', 'post'));
-		$this->mail->send();
-		$this->response->redirect($this->url->ssl('contact', 'success'));
-	} elseif ($this->request->isPost() && $this->request->has('enquiry', 'post') && $this->validate() && $this->customer->isLogged()) {
-		$this->mail->setTo($this->config->get('config_email_contact') ? $this->config->get('config_email_contact') : $this->config->get('config_email'));
-		$this->mail->setFrom($this->customer->getEmail());
-		$this->mail->setSender($this->customer->getFirstName());
-		$this->mail->setSubject($this->language->get('email_subject', $this->customer->getFirstName()));
-		$this->mail->setText($this->request->sanitize('enquiry', 'post'));
-		$this->mail->send();
-		$this->response->redirect($this->url->ssl('contact', 'success'));
-	}
+		if ($this->request->isPost() && $this->request->has('email', 'post') && $this->validate() && !$this->customer->isLogged()) {
+			$this->mail->setTo($this->config->get('config_email_contact') ? $this->config->get('config_email_contact') : $this->config->get('config_email'));
+			$this->mail->setFrom($this->request->sanitize('email', 'post'));
+			$this->mail->setSender($this->request->sanitize('name', 'post'));
+			$this->mail->setSubject($this->language->get('email_subject', $this->request->sanitize('name', 'post')));
+			$this->mail->setText($this->request->sanitize('enquiry', 'post'));
+			$this->mail->send();
+			$this->response->redirect($this->url->ssl('contact', 'success'));
+		} elseif ($this->request->isPost() && $this->request->has('enquiry', 'post') && $this->validate() && $this->customer->isLogged()) {
+			$this->mail->setTo($this->config->get('config_email_contact') ? $this->config->get('config_email_contact') : $this->config->get('config_email'));
+			$this->mail->setFrom($this->customer->getEmail());
+			$this->mail->setSender($this->customer->getFirstName());
+			$this->mail->setSubject($this->language->get('email_subject', $this->customer->getFirstName()));
+			$this->mail->setText($this->request->sanitize('enquiry', 'post'));
+			$this->mail->send();
+			$this->response->redirect($this->url->ssl('contact', 'success'));
+		}
 
-	$view = $this->locator->create('template');
+		$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);    // New Header
 
-    	$view->set('heading_title', $this->language->get('heading_title'));
+	    	$view->set('heading_title', $this->language->get('heading_title'));
 
-    	$view->set('text_address', $this->language->get('text_address'));
-    	$view->set('text_telephone', $this->language->get('text_telephone'));
-    	$view->set('text_fax', $this->language->get('text_fax'));
+	    	$view->set('text_address', $this->language->get('text_address'));
+	    	$view->set('text_telephone', $this->language->get('text_telephone'));
+	    	$view->set('text_fax', $this->language->get('text_fax'));
 
-    	$view->set('entry_name', $this->language->get('entry_name'));
-    	$view->set('entry_email', $this->language->get('entry_email'));
-    	$view->set('entry_enquiry', $this->language->get('entry_enquiry'));
+	    	$view->set('entry_name', $this->language->get('entry_name'));
+	    	$view->set('entry_email', $this->language->get('entry_email'));
+	    	$view->set('entry_enquiry', $this->language->get('entry_enquiry'));
 
-    	$view->set('error_name', @$this->error['name']);
-    	$view->set('error_email', @$this->error['email']);
-    	$view->set('error_enquiry', @$this->error['enquiry']);
-		
-    	$view->set('button_continue', $this->language->get('button_continue'));
-    
+	    	$view->set('error_name', @$this->error['name']);
+	    	$view->set('error_email', @$this->error['email']);
+	    	$view->set('error_enquiry', @$this->error['enquiry']);
+
+	    	$view->set('button_continue', $this->language->get('button_continue'));
+
 		$view->set('action', $this->url->ssl('contact'));
-    
+
 		$view->set('store', $this->config->get('config_store'));
 
-    	$view->set('address', nl2br($this->config->get('config_address')));
+	    	$view->set('address', nl2br($this->config->get('config_address')));
 
-    	$view->set('telephone', $this->config->get('config_telephone'));
+	    	$view->set('telephone', $this->config->get('config_telephone'));
 
-    	$view->set('fax', $this->config->get('config_fax'));
+	    	$view->set('fax', $this->config->get('config_fax'));
 
-    	$view->set('name', $this->request->sanitize('name', 'post'));
+	    	$view->set('name', $this->request->sanitize('name', 'post'));
 
-    	$view->set('email', $this->request->sanitize('email', 'post'));
+	    	$view->set('email', $this->request->sanitize('email', 'post'));
 
-    	$view->set('enquiry', $this->request->sanitize('enquiry', 'post'));
-		
-	if (!$this->customer->isLogged() && $this->config->get('captcha_contactus')) {
-		$view->set('text_captcha', $this->language->get('text_captcha'));
-		$view->set('exp_captcha', $this->language->get('exp_captcha'));
-		$view->set('error_captcha', @$this->error['captcha']);
-		$view->set('captcha', $this->mask->captcha($this->config->get('captcha_length')));
-		$this->session->set('contact_mask', $this->mask->mask);
-		$this->session->set('contact_img_name', $this->mask->img_name);
-	}
+	    	$view->set('enquiry', $this->request->sanitize('enquiry', 'post'));
 
-	$view->set('islogged', $this->customer->isLogged());
+		if (!$this->customer->isLogged() && $this->config->get('captcha_contactus')) {
+			$view->set('text_captcha', $this->language->get('text_captcha'));
+			$view->set('exp_captcha', $this->language->get('exp_captcha'));
+			$view->set('error_captcha', @$this->error['captcha']);
+			$view->set('captcha', $this->mask->captcha($this->config->get('captcha_length')));
+			$this->session->set('contact_mask', $this->mask->mask);
+			$this->session->set('contact_img_name', $this->mask->img_name);
+		}
+
+		$view->set('islogged', $this->customer->isLogged());
 
 		$this->template->set('head_def',$this->head_def);    // New Header
 		$this->template->set('content', $view->fetch('content/contact.tpl'));
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
+
+	    	$this->response->set($this->template->fetch('layout.tpl'));
   	}
 
   	function success() {
-    	$this->template->set('title', $this->language->get('heading_title'));  
-		
-    	$view = $this->locator->create('template');
+	    	$this->template->set('title', $this->language->get('heading_title'));  
+
+	    	$view = $this->locator->create('template');
 		$view->set('head_def',$this->head_def);    // New Header
-    	$view->set('heading_title', $this->language->get('heading_title'));
+	    	$view->set('heading_title', $this->language->get('heading_title'));
 
-    	$view->set('text_success', $this->language->get('text_success'));
+	    	$view->set('text_success', $this->language->get('text_success'));
 
-    	$view->set('button_continue', $this->language->get('button_continue'));
+	    	$view->set('button_continue', $this->language->get('button_continue'));
 
-    	$view->set('continue', $this->url->ssl('home'));
+	    	$view->set('continue', $this->url->ssl('home'));
 		$this->template->set('head_def',$this->head_def);    // New Header
 		$this->template->set('content', $view->fetch('content/success.tpl'));
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager
 		$this->template->set($this->module->fetch());
-	
-    	$this->response->set($this->template->fetch('layout.tpl'));
-  }
-  
+
+	    	$this->response->set($this->template->fetch('layout.tpl'));
+	}
+
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){
@@ -135,6 +137,7 @@ class ControllerContact extends Controller {
 			}
 		}
 	}
+
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
@@ -188,10 +191,12 @@ class ControllerContact extends Controller {
 		return FALSE;
 		}
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

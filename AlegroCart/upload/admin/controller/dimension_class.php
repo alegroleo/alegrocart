@@ -180,7 +180,9 @@ class ControllerDimensionClass extends Controller {
 
 		$view->set('text_default', $this->language->get('text_default'));
 		$view->set('text_results', $this->modelDimensions->get_text_results());
-		
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
+
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 

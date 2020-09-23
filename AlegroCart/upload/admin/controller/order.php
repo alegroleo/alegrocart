@@ -224,6 +224,8 @@ class ControllerOrder extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_results', $this->modelOrder->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
@@ -242,6 +244,7 @@ class ControllerOrder extends Controller {
 		$view->set('controller', 'order');
 		$view->set('order_statuses', $this->modelOrder->get_order_statuses());
 		$view->set('default_status', $this->session->get('default_order_status'));
+		$view->set('text_update_status', $this->language->get('text_update_status'));
 		$view->set('text_select_status', $this->language->get('text_select_status'));
 		$view->set('text_status_error', $this->language->get('text_status_error'));
 
@@ -309,6 +312,8 @@ class ControllerOrder extends Controller {
 		$view->set('text_shippable', $this->language->get('text_shippable'));
 		$view->set('text_non_shippable', $this->language->get('text_non_shippable'));
 		$view->set('text_downloadable', $this->language->get('text_downloadable'));
+		$view->set('text_enabled', $this->language->get('text_enabled'));
+		$view->set('text_disabled', $this->language->get('text_disabled'));
 
 		$view->set('column_date_added', $this->language->get('column_date_added'));
 		$view->set('column_status', $this->language->get('column_status'));
@@ -483,6 +488,8 @@ class ControllerOrder extends Controller {
 				'quantity'		=> $product['quantity'],
 				'barcode' 		=> $product['barcode'],
 				'barcode_url'		=> $product['barcode'] ? $this->barcode->show($product['barcode']) : NULL,
+				'barcode_width'		=> $product['barcode'] ? (strlen(trim($product['barcode'])) == 12 ? '116': '108') : NULL,
+				'barcode_height'	=> $product['barcode'] ? '60' : NULL,
 				'special_price'	=> $special_pr != 0 ? $this->currency->format($special_pr, $order_info['currency'], $order_info['value']) : "$0.00",
 				'price'			=> $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
 				'discount'		=> (ceil($product['discount']) ? $this->currency->format($product['discount'], $order_info['currency'], $order_info['value']) : NULL),

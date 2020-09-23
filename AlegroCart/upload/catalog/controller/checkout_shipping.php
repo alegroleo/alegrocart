@@ -1,9 +1,11 @@
 <?php //Checkout Shipping AlegroCart
 class ControllerCheckoutShipping extends Controller {
+
 	var $error = array(); 
-	function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
-		$model				=& $locator->get('model');
+		$model			=& $locator->get('model');
 		$this->address		=& $locator->get('address');
 		$this->calculate	=& $locator->get('calculate');
 		$this->cart		=& $locator->get('cart');
@@ -32,7 +34,6 @@ class ControllerCheckoutShipping extends Controller {
 
 		if (!$this->customer->isLogged()) {
 			$this->session->set('redirect', $this->url->ssl('checkout_shipping'));
-
 			$this->response->redirect($this->url->ssl('account_login'));
 		}
 		if ($this->customer->hadProducts() && $this->url->get_controller($this->session->get('current_page'),array('account_login'))) {
@@ -107,27 +108,29 @@ class ControllerCheckoutShipping extends Controller {
 
 			if (!$result['shipping'] && !$result['download']) {
 
-			$option_data = array();
+				$option_data = array();
 
-			foreach ($result['option'] as $option) {
-				$option_data[] = array(
-	 			'name'  => $option['name'],
-				'value' => $option['value'],
+				foreach ($result['option'] as $option) {
+					$option_data[] = array(
+		 			'name'  => $option['name'],
+					'value' => $option['value'],
+					);
+				}
+
+				$product_data[] = array(
+					'key'           => $result['key'],
+					'name'          => $result['name'],
+					'model_number'  => $result['model_number'],
+					'shipping'   	=> $result['shipping'],
+					'download'      => $result['download'],
+					'thumb'         => $this->image->resize($result['image'], 40, 40),
+					'width'		=> '40',
+					'height'	=> '40',
+					'option'        => $option_data,
+					'quantity'      => $result['quantity'],
+					'stock'         => $result['stock'],
+					'href'          => $this->url->ssl('product', FALSE, array('product_id' => $result['product_id']))
 				);
-			}
-
-			$product_data[] = array(
-				'key'           => $result['key'],
-				'name'          => $result['name'],
-				'model_number'  => $result['model_number'],
-				'shipping'   	=> $result['shipping'],
-				'download'      => $result['download'],
-				'thumb'         => $this->image->resize($result['image'], 40, 40),
-				'option'        => $option_data,
-				'quantity'      => $result['quantity'],
-				'stock'         => $result['stock'],
-				'href'          => $this->url->ssl('product', FALSE, array('product_id' => $result['product_id']))
-			);
 			}
 		}
 
@@ -162,7 +165,6 @@ class ControllerCheckoutShipping extends Controller {
 		$view->set('default', $this->session->get('shipping_method'));
 
 		$view->set('comment', $this->session->get('comment'));
-
 		$view->set('back', $this->url->ssl('cart'));
 		$view->set('head_def',$this->head_def);
 		$this->template->set('head_def',$this->head_def);
@@ -208,7 +210,9 @@ class ControllerCheckoutShipping extends Controller {
 			if(isset($this->modelCore->tpl['tpl_footers'])){$this->template->set('tpl_footers',$this->modelCore->tpl['tpl_footers']);}
 			if(isset($this->modelCore->tpl['tpl_bottom'])){$this->template->set('tpl_bottom',$this->modelCore->tpl['tpl_bottom']);}
 		}
-		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
+		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){
+			$this->template->set('template_color',$this->tpl_manager['tpl_color']);
+		}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
 

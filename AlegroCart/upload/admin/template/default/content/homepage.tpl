@@ -7,9 +7,9 @@
   $head_def->set_admin_javascript("javascript/ckeditor/ckeditor.js");
 ?>
 <div class="task">
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/insert_disabled.png" width=32 height=32 alt="<?php echo $button_insert; ?>" class="png"><?php echo $button_insert; ?></div>
   <?php if (@$update) { ?>
-  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="enabled store" onmouseover="className='hover store'" onmouseout="className='enabled store'" onclick="getTabs();"><img src="template/<?php echo $this->directory?>/image/update_enabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="update_form" name="update_form" >
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
   <input type="hidden" name="update_form" value="1">
@@ -33,20 +33,20 @@
   <input type="hidden" name="home_id" id="home_id" value="<?php echo $home_id; ?>">
   </form>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/update_disabled.png" width=32 height=32 alt="<?php echo $button_update; ?>" class="png"><?php echo $button_update; ?></div>
   <?php } ?>
 <?php if (@$delete) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="if (confirm('Are you sure you want to delete?')) { location='<?php echo $delete; ?>'; } else { return; }"><img src="template/<?php echo $this->directory?>/image/delete_enabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/delete_disabled.png" width=32 height=32 alt="<?php echo $button_delete; ?>" class="png"><?php echo $button_delete; ?></div>
   <?php } ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs;document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="saveTabs;document.getElementById('form').submit();"><img src="template/<?php echo $this->directory?>/image/save_enabled.png" width=32 height=32 alt="<?php echo $button_save; ?>" class="png"><?php echo $button_save; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/print_disabled.png" width=32 height=32 alt="<?php echo $button_print; ?>" class="png" /><?php echo $button_print; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $cancel; ?>'"><img src="template/<?php echo $this->directory?>/image/cancel_enabled.png" width=32 height=32 alt="<?php echo $button_cancel; ?>" class="png"><?php echo $button_cancel; ?></div>
 <?php if (@$last) { ?>
-  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="enabled" onmouseover="className='hover'" onmouseout="className='enabled'" onclick="location='<?php echo $last; ?>'"><img src="template/<?php echo $this->directory?>/image/last_enabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } else { ?>
-  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
+  <div class="disabled"><img src="template/<?php echo $this->directory?>/image/last_disabled.png" width=32 height=32 alt="<?php echo $button_last; ?>" class="png"><?php echo $button_last; ?></div>
   <?php } ?>
 </div>
 <?php if ($error) { ?>
@@ -57,7 +57,7 @@
 <?php } ?>
 <div class="heading"><?php echo $heading_title; ?>
  <em></em>
- <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
+ <div class="help" onclick="ShowDesc()"><img src="template/<?php echo $this->directory?>/image/help.png" width=31 height=30 alt="<?php echo $button_help; ?>" title="<?php echo $button_help; ?>" class="png"></div>
 </div>
 <div class="description"><?php echo $heading_description; ?></div>
 <div class="file_input_div center">
@@ -295,18 +295,18 @@
   <input type="hidden" name="no_image_id" value="<?php echo $no_image_id;?>">
   <input type="hidden" name="<?php echo $cdx;?>" value="<?php echo $validation;?>">
  </form> 
-  <script type="text/javascript">//<!--
+  <script type="text/javascript">
     <?php foreach ($home_descriptions as $home_description) { ?>
       CKEDITOR.replace( 'description<?php echo $home_description['language_id']; ?>' );
-  <?php } ?>      
-  //--></script>
-  <script type="text/javascript">//<!--
+  <?php } ?>
+  </script>
+  <script type="text/javascript">
     <?php foreach ($home_descriptions as $home_description) { ?>
       CKEDITOR.replace( 'welcome<?php echo $home_description['language_id']; ?>' );
-  <?php } ?>      
-  //--></script>
+  <?php } ?>
+  </script>
   <?php foreach($languages as $language){?>
-   <script type="text/javascript"><!--
+   <script type="text/javascript">
 	var flash = document.getElementById('flash<?php echo $language['language_id'];?>');
 	if(typeof flash !== 'undefined' && flash !== null) {
 		if(flash.value){
@@ -327,8 +327,8 @@
 			}
 			}
 	}
-    //--></script>
-  <script type="text/javascript">//<!--
+    </script>
+  <script type="text/javascript">
 function addSlides(Language_id) {
 	var Last = $('#slidertable' + Language_id + ' tr:last');
 	var nextId = Last.size() == 0 ? 1 : + Last.attr('id').split("_").pop() + 1;
@@ -344,24 +344,24 @@ function addSlides(Language_id) {
 function removeModule(row) {
 	$('#'+row).remove();
 }
-  //--></script>
+  </script>
   <?php } ?>
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
   tabview_initialize('tab');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   tabview_initialize('tabmini');
-  //--></script>  
-	<script type="text/javascript"><!--
+  </script>  
+	<script type="text/javascript">
   tabview_initialize('tabmini2');
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $('input[name="name"]').change(function () {
       var value = $(this).val();
       $(".heading em").text(value);
     }).change();
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	$('.task').each(function(){
 	$('.task .disabled').hide();
@@ -380,8 +380,8 @@ function removeModule(row) {
 		}
 	});
   }
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	function saveTabs() {
 	var activeTab = $('#tab > .tabs > a.active').index()+1;
 	var activeTabmini = $('#tabmini > .tabs > a:visible.active').index()+1;
@@ -420,10 +420,10 @@ function removeModule(row) {
 			var ids = [];
 			var slides = document.querySelectorAll("[id^='slider<?php echo $home_description['language_id']; ?>_']");
 			var slidesLenght = slides.length;
-			for (j =0; j < slidesLenght; j++) {
+			for (let j =0; j < slidesLenght; j++) {
 				ids[j] = slides[j].getAttribute("id").split("_").pop();
 			}
-			for (i =0; i < slidesLenght; i++) {
+			for (let i =0; i < slidesLenght; i++) {
 				if (document.forms['form'].elements['sliderimage_id[<?php echo $home_description['language_id']; ?>]['+ids[i]+']'] !=undefined){
 				html +='<input type="hidden" name="sliderimage_id[<?php echo $home_description['language_id']; ?>]' + '[' + [i] + ']" value="' + document.forms['form'].elements['sliderimage_id[<?php echo $home_description['language_id']; ?>]['+ids[i]+']'].value + '">';
 				html +='<input type="hidden" name="sort_order[<?php echo $home_description['language_id']; ?>]' + '[' + [i] + ']" value="' + document.forms['form'].elements['sort_order[<?php echo $home_description['language_id']; ?>]['+ids[i]+']'].value + '">';
@@ -452,8 +452,8 @@ function removeModule(row) {
 
 		copySlides();
 	}
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
   $(document).ready(function() {
 	if (<?php echo $tab; ?>!=undefined && <?php echo $tab; ?> > 0) {
 		tabview_switch('tab', <?php echo $tab; ?>);
@@ -462,13 +462,13 @@ function removeModule(row) {
 		}
 	}
    });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
     $(document).ready(function() {
 	  RegisterValidation();
     });
-  //--></script>
-  <script type="text/javascript"><!--
+  </script>
+  <script type="text/javascript">
 	( function ( document, window, index ) {
 		var inputs = document.querySelectorAll( '.file_input_hidden' );
 		Array.prototype.forEach.call( inputs, function( input ) {
@@ -477,4 +477,4 @@ function removeModule(row) {
 			input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
 		});
 	}( document, window, 0 ));
-  //--></script>
+  </script>

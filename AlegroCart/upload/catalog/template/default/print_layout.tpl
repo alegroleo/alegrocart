@@ -40,14 +40,14 @@
 }
 ?>
 
-  <script type="text/javascript"><!--
+  <script type="text/javascript">
     $(document).ready(function() {
 	  $('#printMe').on("click", function() {
 		window.print();
 		return false;
 	  });
 	});
-  //--></script>
+  </script>
 
 <link rel="alternate" type="application/rss+xml" title="<?php echo $title; ?>" href="rss.php">
 <link rel="shortcut icon" type="image/x-icon" href="image/favicon.ico">
@@ -56,13 +56,13 @@
 <noscript><div class="noscript"><?php echo $noscript; ?></div></noscript>
 <div id="container">
   <div id="header">
-	  <div class="c"><a href="<?php echo $continue;?>"><img class="back_button" src="catalog/styles/<?php echo $this->style;?>/image/button_back.png" alt="back" title="back"></a>
-	  <img class="print_button" id="printMe" src="catalog/styles/<?php echo $this->style;?>/image/print32.png" alt="print" title="print">
-	  </div>	
+	  <div class="c"><a href="<?php echo $continue;?>"><img class="back_button" src="catalog/styles/<?php echo $this->style;?>/image/button_back.png" width=32 height=32 alt="<?php echo $back;?>" title="<?php echo $back;?>"></a>
+	  <img class="print_button" id="printMe" src="catalog/styles/<?php echo $this->style;?>/image/print32.png" width=32 height=32 alt="<?php echo $print;?>" title="<?php echo $print;?>">
+	  </div>
 	  <div class="b"><?php echo $config_owner . '<br>' . $config_address;?></div>
 	  <?php if(isset($store_logo)){?>
-	  <div class="a"><img src="<?php echo $store_logo;?>"></div>
-	  <?php }?>	  
+	  <div class="a"><img src="<?php echo $store_logo;?>" width="<?php echo $logo_width;?>" height="<?php echo $logo_height;?>" alt="<?php echo $store;?>" ></div>
+	  <?php }?>
 	  <div class="clearfix"></div>
   </div>
 

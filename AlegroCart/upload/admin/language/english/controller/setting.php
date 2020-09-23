@@ -1,7 +1,7 @@
 <?php
 // Heading
-$_['heading_title']         = 'Settings';
-$_['heading_description']   = 'You can edit your shop information and settings here.';
+$_['heading_title']		= 'Settings';
+$_['heading_description']	= 'You can edit your shop information and settings here.<br>SERVE CONTENT FROM COOKIE-FREE DOMAIN: It is not enough to simply allow its use here. Before you do that, first of all, check that you don\'t use naked domain, i.e. your domain is like www.yourdomain.com, instead of yourdomain.com. Secondly, you must create a new CNAME record aliasing your static domain to your main domain. This is the easiest way (so in your cPanel/Zone Editor enter e.g. static.yourdomain.com into the name/alias, and your A record value into the value). You can serve your static content from a subdomain (static.yourdomain.com), or you can serve it from a separate domain (www.static-yourdomain.com) as well. It is your decision. Thirdly, you must open your config.php file and manually fill in the HTTP_STATIC (with http://static.yourdomain.com, for example), and if you use SSL then HTTPS_STATIC as well (with https://static.yourdomain.com, for example).<br>SSL: It is not enough to simply allow its use here. Before you do that, you must open your config.php file and manually fill in the HTTPS_BASE. This is the same as HTTP_BASE, except for https:// instead of http:// in the URL.';
 
 // Text
 $_['text_message']          = 'Success: You have successfully saved your settings!';
@@ -118,7 +118,8 @@ $_['entry_parse_time']      = 'Display Parse Time:';
 $_['entry_query_log']       = 'Create Query Log File:';
 $_['entry_query_count']     = 'Display Number of Queries:';
 $_['entry_session_expire']  = 'Session Expire:';
-$_['entry_ssl']             = 'Use SSL:';
+$_['entry_ssl']			= 'Use SSL:';
+$_['entry_ssl_status']		= 'SSL Status:';
 $_['entry_rows_per_page']   = 'Rows Per Page:';
 $_['entry_items_per_page']  = 'Items Per Page:';
 $_['entry_country']         = 'Default Country:';
@@ -159,6 +160,7 @@ $_['entry_email_timeout']	= 'Timeout:';
 $_['entry_cache_query']     = 'Database Caching:';
 $_['entry_compress_output'] = 'Use Compression:';
 $_['entry_compress_level']  = 'Compression Level:';
+$_['entry_static']		= 'Serve Content from Cookie-free Domain:';
 $_['entry_image_resize']    = 'Resize Images:';
 $_['entry_image_width']     = 'Default Image Width:';
 $_['entry_image_height']    = 'Default Image Height:';
@@ -259,6 +261,8 @@ $_['explanation_sitemap']         = 'The URL of your sitemap (e.g. for Google We
 $_['explanation_favicon']	  = 'To change the current favicon, create your own keeping the original name "favicon.ico", then overwrite the original one: ';
 $_['explanation_mr_loaded']       = 'The module mod_rewrite is loaded on this server.';
 $_['explanation_mr_not_loaded']   = 'The module mod_rewrite is not loaded on this server. URL alias cannot work.';
+$_['explanation_ssl_supported']		= 'SSL is supported on this server.';
+$_['explanation_ssl_not_supported']	= 'SSL is not supported on this server.';
 $_['explanation_unregistered']		= 'This will display vendor name in cart, on product page and in every single and multiple column layout.';
 $_['explanation_registered']		= 'This will display vendor name on invoice, on invoice sent to the customer and on checkout confirmation page as well.';
 $_['explanation_email_log']		= 'This will log E-Mail related error messages. Use only for debugging! Not recommended in production installations.';
@@ -281,6 +285,7 @@ $_['explanation_admin_page_load']	= 'This will compress css and javascript files
 $_['explanation_owner']			= 'Your name or your official campany name that is displayed on the invoices.';
 $_['explanation_stamp']			= 'Upload your stamp to: ';
 $_['explanation_logo']			= 'Upload your logo to: ';
+$_['explanation_static']		= 'Enable it to avoid unnecessary cookie traffic when images, css and javascript files are requested from the server. Check lifebelt for details.';
 
 // Tab
 $_['tab_shop']          = 'Shop<br>Setup';
@@ -288,7 +293,7 @@ $_['tab_admin']         = 'Admin Settings<br>Error Handling';
 $_['tab_local']         = 'Store<br>Localization';
 $_['tab_stock']         = 'Stock<br>Checkout';
 $_['tab_mail']          = 'E-Mail<br>Accounts';
-$_['tab_cache']         = 'Cache<br>Compression';
+$_['tab_cache']         = 'Cookies, Cache<br>Compression';
 $_['tab_image']         = 'Display Settings<br>Image, AddToCart';
 $_['tab_option']        = 'Options: Tax<br>RSS, Logos';
 $_['tab_download']      = 'Product<br>Download';

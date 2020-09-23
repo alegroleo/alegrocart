@@ -16,7 +16,7 @@
       <tr>
         <td width="40%"><?php echo $text_name; ?> <?php echo $download['name']; ?></td>
         <td width="50%"><?php echo $text_remaining; ?> <?php echo $download['remaining']; ?></td>
-        <td rowspan="2"><a href="<?php echo $download['href']; ?>"><img src="catalog/styles/<?php echo $this->style?>/image/download.png" class="png"></a></td>
+        <td rowspan="2"><a href="<?php echo $download['href']; ?>"><img src="catalog/styles/<?php echo $this->style?>/image/download.png" width=20 height=20 alt="<?php echo $text_download; ?>" class="png"></a></td>
       </tr>
       <tr>
         <td><?php echo $text_date_added; ?> <?php echo $download['date_added']; ?></td>

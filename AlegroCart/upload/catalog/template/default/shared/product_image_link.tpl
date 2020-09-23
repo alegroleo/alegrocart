@@ -1,7 +1,7 @@
-<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>"></a>
+<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb'];?>" id="<?php echo $this_controller.'_image'.$product['product_id']; ?>" title="<?php echo $product['name']; ?>" width="<?php echo $product['image_width']; ?>" height="<?php echo $product['image_height']; ?> "alt="<?php echo $product['name']; ?>"></a>
 
 <?php if(isset($product['product_options']) && $product['product_options']){?>
-  <script language="JavaScript">
+  <script type="text/javascript">
 	$(document).ready(function(){
 	  UpdateImage(<?php echo $product['product_id'] . ',"' . $this_controller . '"';?>);
 	});

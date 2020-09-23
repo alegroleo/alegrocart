@@ -481,6 +481,9 @@ class ControllerProduct extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description'));
 
 		$view->set('text_results', $this->modelProduct->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
+		$view->set('text_path', $this->language->get('text_path'));
 
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
@@ -663,7 +666,8 @@ class ControllerProduct extends Controller {
 		$view->set('error_model', @$this->error['model']);
 		$view->set('error_date_available', @$this->error['date_available']);
 		$view->set('error_start_date', @$this->error['start_date']); 
-		$view->set('error_end_date', @$this->error['end_date']); 
+		$view->set('error_end_date', @$this->error['end_date']);
+		$view->set('error_date', @$this->error['date']);
 		$view->set('error_barcode', @$this->error['barcode']);
 		$view->set('error_max_qty', @$this->error['max_qty']);
 		$view->set('error_multiple', @$this->error['multiple']);
@@ -1575,6 +1579,13 @@ class ControllerProduct extends Controller {
 
 		if (!($this->request->gethtml('end_date_month', 'post') === '00' && $this->request->gethtml('end_date_day', 'post') === '00' && $this->request->gethtml('end_date_year', 'post') === '0000') && (!checkdate($this->request->gethtml('end_date_month', 'post'), $this->request->gethtml('end_date_day', 'post'), $this->request->gethtml('end_date_year', 'post')))){
 			$this->error['end_date'] = $this->language->get('error_end_date');
+		}
+
+		$start = array($this->request->gethtml('start_date_year', 'post'), $this->request->gethtml('start_date_month', 'post'), $this->request->gethtml('start_date_day', 'post'));
+		$end = array($this->request->gethtml('end_date_year', 'post'), $this->request->gethtml('end_date_month', 'post'), $this->request->gethtml('end_date_day', 'post'));
+
+		if (implode('-', $start) > implode('-', $end)) {
+			$this->error['date'] = $this->language->get('error_date');
 		}
 
 		if ($this->request->gethtml('max_qty', 'post') > 0 && $this->request->gethtml('max_qty', 'post') < $this->request->gethtml('min_qty', 'post')) {

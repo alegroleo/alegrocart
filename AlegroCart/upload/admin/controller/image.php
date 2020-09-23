@@ -261,6 +261,9 @@ class ControllerImage extends Controller {
 		$view->set('heading_description', $this->language->get('heading_description', $this->get_uploadable()));
 
 		$view->set('text_results', $this->modelImage->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
+
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
 
@@ -406,8 +409,10 @@ class ControllerImage extends Controller {
 		if (($this->request->gethtml('image_id')) && (!$this->request->isPost())) {
 			$result = $this->modelImage->get_image();
 			$image_photo[] = array(
-				'filename' => $result[0]['filename'],
-				'thumb'    => $this->image->resize($result[0]['filename'], $this->config->get('config_image_width')?$this->config->get('config_image_width'):$this->size, $this->config->get('config_image_height')?$this->config->get('config_image_height'):$this->size)
+				'filename'	=> $result[0]['filename'],
+				'thumb'		=> $this->image->resize($result[0]['filename'], $this->config->get('config_image_width') ? $this->config->get('config_image_width') : $this->size, $this->config->get('config_image_height') ? $this->config->get('config_image_height') : $this->size),
+				'width'		=> $this->config->get('config_image_width') ? $this->config->get('config_image_width') : $this->size,
+				'height'	=> $this->config->get('config_image_height') ? $this->config->get('config_image_height') : $this->size
 			);
 			$view->set('image_data', $image_photo);
 		}

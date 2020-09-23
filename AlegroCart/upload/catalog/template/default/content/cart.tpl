@@ -52,7 +52,7 @@
       <?php foreach ($products as $product) { ?>
       <tr>
         <td class="h"><input type="checkbox" name="remove[<?php echo $product['key']; ?>]"></td>
-        <td class="i"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>"></a></td>
+        <td class="i"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" width="<?php echo $product['width']; ?>" height="<?php echo $product['height']; ?>" alt="<?php echo $product['name']; ?>"></a></td>
         <td class="j"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
           <?php if (!$product['stock'] && $stock_check) { ?>
           <span><?php echo $text_stock_ind ?></span>
@@ -70,7 +70,7 @@
             <?php foreach ($product['option'] as $option) { ?>
             - <small><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br>
             <?php } ?>
-		<?php if ($product['vendor_name']) { ?>
+		<?php if (isset($product['vendor_name'])) { ?>
 			<div class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></div>
 		<?php } ?>
           </div></td>
@@ -102,8 +102,8 @@
 		  <?php }?>
 		<?php } ?>
 		<td class="l">
-		<?php if ($product['download']) {?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
-		<?php }else if ($product['shipping']) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
+		<?php if ($product['download']) {?><img src="catalog/styles/<?php echo $this->style?>/image/downloadable.png" width="32" height="32" alt="<?php echo $text_downloadable; ?>" title="<?php echo $text_downloadable; ?>" >
+		<?php }else if ($product['shipping']) { ?><img src="catalog/styles/<?php echo $this->style?>/image/shippable.png" width="32" height="32" alt="<?php echo $text_shippable; ?>" title="<?php echo $text_shippable; ?>" ><?php } else { ?><img src="catalog/styles/<?php echo $this->style?>/image/non_shippable.png" width="32" height="32" alt="<?php echo $text_non_shippable; ?>" title="<?php echo $text_non_shippable; ?>"><?php  } ?>
 		</td>
         <td class="m"><?php echo ($tax_included ? '<span class="tax">*</span>' : '') . $product['total_discounted']; ?></td>
       </tr>
@@ -239,10 +239,10 @@
   <div class="contentBodyBottom"></div>
   <input type="hidden" name="task" value="update">
 </form>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $('#zone').load('index.php?controller=cart&action=zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
-//--></script>
-  <script type="text/javascript"><!--
+</script>
+  <script type="text/javascript">
 $("#calculate").on("click", function(){
 	var Country_id = $('select[name=country_id] option:selected').val();
 	var Zone_id = $('select[name=zone_id] option:selected').val();
@@ -256,7 +256,7 @@ $("#calculate").on("click", function(){
 		beforeSend: function (data) {
 			$(".calc_error").remove();
 			$("#calculate").prop('disabled',true);
-			$('#calculate').after('<img src="catalog/styles/<?php echo $this->style; ?>/image/working.gif" alt="" id="working">');
+			$('#calculate').after('<img src="catalog/styles/<?php echo $this->style; ?>/image/working.gif" width=128 height=128 alt="" id="working">');
 		},
 		success: function (data) {
 			if (data.status === true) {
@@ -275,4 +275,4 @@ $("#calculate").on("click", function(){
 		}
 	});
 });
-//--></script>
+</script>

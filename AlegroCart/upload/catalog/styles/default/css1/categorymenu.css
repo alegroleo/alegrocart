@@ -10,7 +10,7 @@
 	position:relative;
 	top:110px;
 }
-#menu_lvl_0 {
+#ul_0 {
 	left: 0px;
 	margin: 0px;
 	padding: 0px;
@@ -22,14 +22,14 @@
 	overflow: visible;
 	white-space: nowrap;
 }
-#menu_lvl_0 > li{
+#ul_0 > li{
 	border-right: 1px solid #DDDDDD;
 	margin: 5px 0px;
 	padding: 5px 5px;
 	position: relative;
 	display: inline;
 }
-#menu_lvl_1 {
+.ul_1 {
 	display: block;
 	position: absolute;
 	left: 5px;
@@ -47,28 +47,28 @@
 	white-space: nowrap;
 	z-index: 85;
 }
-#menu_level_1 {
+.menu_level_1 {
 	padding-left: 5px;
 	background-color: #FFFFFF;
 	border-bottom: 1px dotted #DDDDDD;
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
 }
-#menu_level_0 img.icon {
+.menu_level_0 img.icon {
 	position: relative;
 	width: 16px;
 	height: 16px;
 	padding: 0px 5px 0px 0px;
 	vertical-align: text-bottom;
 }
-#menu_level_1 img.icon{
+.menu_level_1 img.icon{
 	position: relative;
 	width: 16px;
 	height: 16px;
 	padding: 0px 5px 0px 0px;
 	vertical-align: text-bottom;
 }
-#menu_level_1 span, #menu_level_0 span{
+.menu_level_1 span, .menu_level_0 span{
 }
 #myMenuID .menu_lvl_1 {
 	background: none repeat scroll 0 0 transparent;

@@ -1,6 +1,7 @@
 <?php  // Sitemap AlegroCart
 class ControllerSitemap extends Controller {
-	function __construct(&$locator){ // Template Manager
+
+	public function __construct(&$locator){ // Template Manager
 		$this->locator		=& $locator;
 		$model				=& $locator->get('model');
 		$this->config   	=& $locator->get('config');
@@ -15,47 +16,48 @@ class ControllerSitemap extends Controller {
 		$this->locations = $this->modelCore->get_tpl_locations();// Template Manager
 		$this->tpl_columns = $this->modelCore->get_columns();// Template Manager
 	}
+
 	function index() {
 		$language =& $this->locator->get('language');
 		$response =& $this->locator->get('response');
 		$url      =& $this->locator->get('url');
 		$head_def =& $this->locator->get('HeaderDefinition'); 
 		
-    	$language->load('controller/sitemap.php');
- 
-    	$this->template->set('title', $language->get('heading_title'));
+	    	$language->load('controller/sitemap.php');
 
-    	$view = $this->locator->create('template');
+	    	$this->template->set('title', $language->get('heading_title'));
 
-    	$view->set('heading_title', $language->get('heading_title'));
+	    	$view = $this->locator->create('template');
 
-    	$view->set('text_account', $language->get('text_account'));
-    	$view->set('text_edit', $language->get('text_edit'));
-    	$view->set('text_password', $language->get('text_password'));
-    	$view->set('text_address', $language->get('text_address'));
-    	$view->set('text_history', $language->get('text_history'));
-    	$view->set('text_download', $language->get('text_download'));
-    	$view->set('text_cart', $language->get('text_cart'));
-    	$view->set('text_checkout', $language->get('text_checkout'));
-    	$view->set('text_search', $language->get('text_search'));
-    	$view->set('text_information', $language->get('text_information'));
-    	$view->set('text_contact', $language->get('text_contact'));
+	    	$view->set('heading_title', $language->get('heading_title'));
 
-    	$category_data = array();
+	    	$view->set('text_account', $language->get('text_account'));
+	    	$view->set('text_edit', $language->get('text_edit'));
+	    	$view->set('text_password', $language->get('text_password'));
+	    	$view->set('text_address', $language->get('text_address'));
+	    	$view->set('text_history', $language->get('text_history'));
+	    	$view->set('text_download', $language->get('text_download'));
+	    	$view->set('text_cart', $language->get('text_cart'));
+	    	$view->set('text_checkout', $language->get('text_checkout'));
+	    	$view->set('text_search', $language->get('text_search'));
+	    	$view->set('text_information', $language->get('text_information'));
+	    	$view->set('text_contact', $language->get('text_contact'));
+
+	    	$category_data = array();
 		$results = $this->modelSitemap->get_categories();
-    	foreach ($results as $result) {
-      		$category_data[] = array(
-        		'category_id' => $result['category_id'],
-        		'name'        => $result['name'],
-        		'href'        => $url->ssl('category', FALSE, array('path' => $result['path'])),
-        		'level'       => count(explode('_', $result['path'])) - 1
-      		);
-    	}
+	    	foreach ($results as $result) {
+	      		$category_data[] = array(
+	        		'category_id' => $result['category_id'],
+	        		'name'        => $result['name'],
+	        		'href'        => $url->ssl('category', FALSE, array('path' => $result['path'])),
+	        		'level'       => count(explode('_', $result['path'])) - 1
+	      		);
+	    	}
 
-    	$view->set('categories', $category_data);
-    	
-    	$view->set('account', $url->ssl('account'));
-    	
+	    	$view->set('categories', $category_data);
+
+	    	$view->set('account', $url->ssl('account'));
+
 		if ($this->customer->isLogged()) {
 			$view->set('password', $url->ssl('account_password'));
 			$view->set('edit', $url->ssl('account_edit'));
@@ -63,32 +65,32 @@ class ControllerSitemap extends Controller {
 			$view->set('history', $url->ssl('account_history'));
 			$view->set('download', $url->ssl('account_download'));
 		}
-		
-    	$view->set('cart', $url->ssl('cart'));
-    	$view->set('checkout', $url->ssl('checkout_shipping'));
-    	$view->set('search', $url->ssl('search'));
-    	$view->set('contact', $url->ssl('contact'));
 
-    	$information_data = array();
+	    	$view->set('cart', $url->ssl('cart'));
+	    	$view->set('checkout', $url->ssl('checkout_shipping'));
+	    	$view->set('search', $url->ssl('search'));
+	    	$view->set('contact', $url->ssl('contact'));
+
+	    	$information_data = array();
 		$results = $this->modelSitemap->get_information();
-    	foreach ($results as $result) {
-      		$information_data[] = array(
-        		'title' => $result['title'],
-        		'href'  => $url->ssl('information', FALSE, array('information_id' => $result['information_id']))
-      		);
-    	}
+	    	foreach ($results as $result) {
+	      		$information_data[] = array(
+	        		'title' => $result['title'],
+	        		'href'  => $url->ssl('information', FALSE, array('information_id' => $result['information_id']))
+	      		);
+	    	}
 
-    	$view->set('informations', $information_data);
+	    	$view->set('informations', $information_data);
 		$view->set('head_def',$head_def); 
 		$this->template->set('head_def',$head_def); 
 		$this->template->set('content', $view->fetch('content/sitemap.tpl'));
 		$this->load_modules();  // Template Manager
 		$this->set_tpl_modules(); // Template Manager  
 		$this->template->set($this->module->fetch());
-	
-    	$response->set($this->template->fetch('layout.tpl'));	
+
+	    	$response->set($this->template->fetch('layout.tpl'));	
   	}
-	
+
 	function load_modules(){ // Template Manager
 		$modules = $this->modelCore->merge_modules($this->get_modules_extra());
 		foreach ($this->locations as $location){
@@ -99,6 +101,7 @@ class ControllerSitemap extends Controller {
 			}
 		}
 	}
+
 	function get_modules_extra(){// Template Manager (Default Modules specific to current controller)
 		foreach($this->locations as $location){
 			$modules_extra[$location['location']] = array();
@@ -125,10 +128,12 @@ class ControllerSitemap extends Controller {
 		if(isset($this->tpl_manager['tpl_color']) && $this->tpl_manager['tpl_color']){$this->template->set('template_color',$this->tpl_manager['tpl_color']);}
 		$this->template->set('tpl_columns', $this->modelCore->tpl_columns);
 	}
+
 	function check_ssl(){
-		if((!isset($_SERVER["HTTPS"])  || $_SERVER["HTTPS"] != "on") && $this->config->get('config_ssl')){
+		if(!((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) && $this->config->get('config_ssl')){
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 		}
 	}
+
 }
 ?>

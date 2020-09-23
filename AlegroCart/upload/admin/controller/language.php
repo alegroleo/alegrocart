@@ -24,7 +24,7 @@ class ControllerLanguage extends Controller {
 		$this->adminController	= $this->template->set_controller('language');
 
 		$this->language->load('controller/language.php');
-		$this->image_path = HTTP_ADMIN . 'template' . '/'  . $this->template->directory . '/' . 'image' . '/' . 'language' . '/';
+		$this->image_path = 'template' . '/'  . $this->template->directory . '/' . 'image' . '/' . 'language' . '/';
 	}
 
 	protected function index() {
@@ -185,7 +185,8 @@ class ControllerLanguage extends Controller {
 			} else {
 			$cell[] = array(
 				'icon'  => ($result['language_status'] ? 'enabled.png' : 'disabled.png'),
-				'align' => 'center'
+				'align' => 'center',
+				'text' => $this->language->get('button_status')
 			);
 			}
 			$cell[] = array(
@@ -227,6 +228,8 @@ class ControllerLanguage extends Controller {
 		$view->set('text_default_catalog', $this->language->get('text_default_catalog'));
 		$view->set('text_default_admin', $this->language->get('text_default_admin'));
 		$view->set('text_results', $this->modelLanguage->get_text_results());
+		$view->set('text_asc', $this->language->get('text_asc'));
+		$view->set('text_desc', $this->language->get('text_desc'));
 
 		$view->set('entry_page', $this->language->get('entry_page'));
 		$view->set('entry_search', $this->language->get('entry_search'));
@@ -353,9 +356,11 @@ class ControllerLanguage extends Controller {
 		if ($this->request->has('image', 'post')) {
 			$view->set('image', $this->request->gethtml('image', 'post'));
 			$view->set('image_thumb', $this->image_path . $this->request->gethtml('image', 'post'));
+			$view->set('image_thumb_alt', $this->request->gethtml('image', 'post'));
 		} else {
 			$view->set('image', @$language_info['image']);
 			$view->set('image_thumb', $this->image_path . @$language_info['image']);
+			$view->set('image_thumb_alt', @$language_info['image']);
 		}
 
 		if ($this->request->has('directory', 'post')) {
@@ -397,7 +402,7 @@ class ControllerLanguage extends Controller {
 	protected function view_image(){
 		if($this->request->gethtml('flag_image')){
 			$output = '<img src="' . $this->image_path . $this->request->gethtml('flag_image') . '" ';
-			$output .= 'alt="" title="Flag" width="32" height="22">';
+			$output .= 'alt="'. $this->request->gethtml('flag_image') .'" width="16" height="11">';
 		} else {
 			$output = '';
 		}

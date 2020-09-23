@@ -1,6 +1,7 @@
 <?php  // AlegroCart Category Slider
 class ModuleCategorySlider extends Controller {
-	function fetch() {
+
+	public function fetch() {
 		$config			=& $this->locator->get('config');
 		$database		=& $this->locator->get('database');
 		$image			=& $this->locator->get('image');
@@ -11,7 +12,7 @@ class ModuleCategorySlider extends Controller {
 		$template		=& $this->locator->get('template');
 		$head_def		=& $this->locator->get('HeaderDefinition');
 		$this->modelCore	= $this->model->get('model_core');
-		$this->modelCategory= $this->model->get('model_category');
+		$this->modelCategory	= $this->model->get('model_category');
 
 		if ($config->get('categoryslider_status')) {
 			$view = $this->locator->create('template');
@@ -23,7 +24,9 @@ class ModuleCategorySlider extends Controller {
 					'category_id'	=> $result['category_id'],
 					'name'		 => $result['name'],
 					'thumb'		 => $image->resize($result['filename'], $config->get('categoryslider_image_width'), $config->get('categoryslider_image_height')),
-					'href'		 => $url->ssl('category', FALSE, array('path' => $result['path']))
+					'href'		 => $url->ssl('category', FALSE, array('path' => $result['path'])),
+					'width'		=> $config->get('categoryslider_image_width'),
+					'height'	=> $config->get('categoryslider_image_height')
 				);
 			}
 			$view->set('categories', $categories_data);

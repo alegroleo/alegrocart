@@ -377,6 +377,8 @@ class ControllerOrderEdit extends Controller {
 				'quantity' 		=> $product['quantity'],
 				'barcode' 		=> $product['barcode'],
 				'barcode_url' 		=> $product['barcode'] ? $this->barcode->show($product['barcode']) : NULL,
+				'barcode_width'		=> $product['barcode'] ? (strlen(trim($product['barcode'])) == 12 ? '116': '108') : NULL,
+				'barcode_height'	=> $product['barcode'] ? '60' : NULL,
 				'special_price'		=> $special_pr > 0 ? $this->currency->format($special_pr, $order_info['currency'], $order_info['value']) : NULL,
 				'price'    		=> $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
 				
@@ -1034,7 +1036,7 @@ class ControllerOrderEdit extends Controller {
 		return $methods;
 	}
 
-	protected function get_product(){
+	public function get_product(){
 		$array = explode(':', $this->request->gethtml('product_id'));
 		$product_id = $array[0];
 		if (isset($array[1])){

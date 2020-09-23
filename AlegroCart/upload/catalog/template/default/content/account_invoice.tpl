@@ -90,7 +90,7 @@
           &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
           <?php } ?>
           <br>
-		<?php if ($product['vendor_name']) { ?>
+		<?php if (isset($product['vendor_name'])) { ?>
 			<span class="vendor"><?php echo $text_soldby; ?><br><?php echo $product['vendor_name']; ?></span>
 		<?php } ?>
         </td>
